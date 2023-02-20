@@ -11,11 +11,11 @@ class Domes extends Model
     use HasFactory;
     public function dome_image()
     {
-        return $this->hasOne('App\Models\DomeImages', 'dome_id', 'id')->select('*', DB::raw("CONCAT('" . url('storage/app/public/new_admin/images/domes') . "/', images) AS image"));
+        return $this->hasOne('App\Models\DomeImages', 'dome_id', 'id')->select('*', DB::raw("CONCAT('" . url('storage/app/public/admin/images/domes') . "/', images) AS image"));
     }
     public function dome_images()
     {
-        return $this->hasMany('App\Models\DomeImages', 'dome_id','id')->select('id','dome_id', DB::raw("CONCAT('" . url('storage/app/public/new_admin/images/domes') . "/', images) AS image"));
+        return $this->hasMany('App\Models\DomeImages', 'dome_id','id')->select('id','dome_id', DB::raw("CONCAT('" . url('storage/app/public/admin/images/domes') . "/', images) AS image"));
     }
     public function dome_owner()
     {

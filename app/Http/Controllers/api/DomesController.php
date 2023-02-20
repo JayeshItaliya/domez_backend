@@ -45,7 +45,7 @@ class DomesController extends Controller
                                 "is_fav" => !empty(@$is_fav) ? true : false,
                                 "booking_date" => $booking->booking_date,
                                 "total_fields" => Field::where('dome_id', $dome->id)->where('is_deleted', 2)->count(),
-                                "sports_list" => Sports::select('id', 'name', DB::raw("CONCAT('" . url('storage/app/public/new_admin/images/sports') . "/', image) AS image"))->whereIn('id', explode('|', $dome->sport_id))->where('is_available', 1)->where('is_deleted', 2)->get(),
+                                "sports_list" => Sports::select('id', 'name', DB::raw("CONCAT('" . url('storage/app/public/admin/images/sports') . "/', image) AS image"))->whereIn('id', explode('|', $dome->sport_id))->where('is_available', 1)->where('is_deleted', 2)->get(),
                             ];
                         }
                     }
@@ -69,7 +69,7 @@ class DomesController extends Controller
                                 "is_fav" => !empty(@$is_fav) ? true : false,
                                 "booking_date" => "",
                                 "total_fields" => Field::where('dome_id', $dome->id)->where('is_deleted', 2)->count(),
-                                "sports_list" => Sports::select('id', 'name', DB::raw("CONCAT('" . url('storage/app/public/new_admin/images/sports') . "/', image) AS image"))->whereIn('id', explode('|', $dome->sport_id))->where('is_available', 1)->where('is_deleted', 2)->get(),
+                                "sports_list" => Sports::select('id', 'name', DB::raw("CONCAT('" . url('storage/app/public/admin/images/sports') . "/', image) AS image"))->whereIn('id', explode('|', $dome->sport_id))->where('is_available', 1)->where('is_deleted', 2)->get(),
                             ];
                         }
                     }
@@ -117,7 +117,7 @@ class DomesController extends Controller
                             "is_fav" => !empty(@$is_fav) ? true : false,
                             "booking_date" => "",
                             "total_fields" => Field::where('dome_id', $dome->id)->where('is_deleted', 2)->count(),
-                            "sports_list" => Sports::select('id', 'name', DB::raw("CONCAT('" . url('storage/app/public/new_admin/images/sports') . "/', image) AS image"))->whereIn('id', explode('|', $dome->sport_id))->where('is_available', 1)->where('is_deleted', 2)->get(),
+                            "sports_list" => Sports::select('id', 'name', DB::raw("CONCAT('" . url('storage/app/public/admin/images/sports') . "/', image) AS image"))->whereIn('id', explode('|', $dome->sport_id))->where('is_available', 1)->where('is_deleted', 2)->get(),
                         ];
                     }
                 }
@@ -146,7 +146,7 @@ class DomesController extends Controller
         }
         $categories = explode('|', $dome->sport_id);
 
-        $categoriess = Sports::select('id', 'name', DB::raw("CONCAT('" . url('storage/app/public/new_admin/images/sports') . "/', image) AS image"))->whereIn('id', explode('|', $dome->sport_id))->where('is_available', 1)->where('is_deleted', 2)->get();
+        $categoriess = Sports::select('id', 'name', DB::raw("CONCAT('" . url('storage/app/public/admin/images/sports') . "/', image) AS image"))->whereIn('id', explode('|', $dome->sport_id))->where('is_available', 1)->where('is_deleted', 2)->get();
         foreach ($categoriess as $cat) {
             $fields = Field::where('dome_id', $id)->whereIn('sport_id', $categories)->where('is_available', 1)->where('is_deleted', 2)->get();
             $field_data = [];
@@ -178,7 +178,7 @@ class DomesController extends Controller
         $images = Review::where('reviews.dome_id', $dome->id)
             ->join('users AS users_table', function ($query) {
                 $query->on('reviews.user_id', '=', 'users_table.id')->where('users_table.type', 3);
-            })->select(DB::raw("CONCAT('" . url('storage/app/public/new_admin/images/profiles') . "/', users_table.image) AS image"))->get()->take(5)->pluck('image');
+            })->select(DB::raw("CONCAT('" . url('storage/app/public/admin/images/profiles') . "/', users_table.image) AS image"))->get()->take(5)->pluck('image');
         $total_reviews = Review::where('dome_id', $dome->id)->get();
         $ratting_data = [
             'avg_rating' => ($review) ? $review : "0",

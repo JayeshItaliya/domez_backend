@@ -120,7 +120,7 @@ class BookingController extends Controller
         if ($request->players == "") {
             return response()->json(["status" => 0, "message" => 'Please Enter Number Of Players'], 200);
         }
-        $available_fields = Field::select('id', 'vendor_id', 'dome_id', 'sport_id', 'name', 'area', 'min_person', 'max_person', DB::raw("CONCAT('" . url('storage/app/public/new_admin/images/fields') . "/', image) AS image"))->where('dome_id', $request->dome_id)->whereRaw("find_in_set('" . $request->sport_id . "',sport_id)")->whereRaw('? between min_person and max_person', [$request->players])->where('is_available', 1)->where('is_deleted', 2);
+        $available_fields = Field::select('id', 'vendor_id', 'dome_id', 'sport_id', 'name', 'area', 'min_person', 'max_person', DB::raw("CONCAT('" . url('storage/app/public/admin/images/fields') . "/', image) AS image"))->where('dome_id', $request->dome_id)->whereRaw("find_in_set('" . $request->sport_id . "',sport_id)")->whereRaw('? between min_person and max_person', [$request->players])->where('is_available', 1)->where('is_deleted', 2);
 
         $bookedfield = Booking::where('dome_id', $request->dome_id)->where('sport_id', $request->sport_id)->where('booking_date', $request->date)->where('slots', $request->slots)->where('booking_status', 1)->select('field_id')->get()->pluck('field_id')->toArray();
         if (!empty($bookedfield)) {
