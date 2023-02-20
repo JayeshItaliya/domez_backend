@@ -91,4 +91,7 @@ return [
     'optional' => '(Optinal)',
     'amenities' => 'Amenities',
     'amenities_description' => 'Amenities Description',
+    // Sports
+    'image' => 'Image',
+    'sport_name' => 'Sport Name',
 ];

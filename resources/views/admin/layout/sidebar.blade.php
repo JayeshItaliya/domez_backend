@@ -70,7 +70,7 @@
                     <span class="mx-3">{{ trans('labels.users') }}</span>
                 </a>
 
-                <a href="{{ URL::to('admin/sports*') }}" class="nav-item">
+                <a href="{{ URL::to('admin/sports') }}" class="nav-item {{ request()->is('admin/sports*') ? 'active' : '' }}">
                     <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-list-check"
                         width="25" height="25" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50"
                         fill="none" stroke-linecap="round" stroke-linejoin="round">
@@ -85,12 +85,12 @@
                     <span class="mx-3">{{ trans('labels.sports') }}</span>
                 </a>
 
-                <a href="{{ URL::to('admin/leagues') }}" class="nav-item">
+                <a href="{{ URL::to('admin/leagues') }}" class="nav-item {{ request()->is('admin/leagues*') ? 'active' : '' }}">
                     <i class="fa-light fa-list-dropdown"></i>
                     <span class="mx-3">{{ trans('labels.leagues') }}</span>
                 </a>
 
-                <a href="{{ URL::to('admin/bookings') }}" class="nav-item">
+                <a href="{{ URL::to('admin/bookings') }}" class="nav-item {{ request()->is('admin/bookings*') ? 'active' : '' }}">
                     <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-event"
                         width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50"
                         fill="none" stroke-linecap="round" stroke-linejoin="round">
@@ -104,16 +104,16 @@
                     <span class="mx-3">{{ trans('labels.bookings') }}</span>
                 </a>
 
-                <a href="{{ URL::to('admin/transactions') }}" class="nav-item">
+                <a href="{{ URL::to('admin/transactions') }}" class="nav-item {{ request()->is('admin/transactions*') ? 'active' : '' }}">
                     <i class="fa-light fa-file-invoice-dollar"></i>
                     <span class="mx-3">{{ trans('labels.transactions') }}</span>
                 </a>
-                <a href="{{ URL::to('admin/reviews') }}" class="nav-item">
+                <a href="{{ URL::to('admin/reviews') }}" class="nav-item {{ request()->is('admin/reviews*') ? 'active' : '' }}">
                     <i class="fa-light fa-message-smile"></i>
                     <span class="mx-3">{{ trans('labels.reviews') }}</span>
                 </a>
 
-                <a href="{{ URL::to('admin/calendar') }}" class="nav-item">
+                <a href="{{ URL::to('admin/calendar') }}" class="nav-item {{ request()->is('admin/calendar*') ? 'active' : '' }}">
                     <i class="fa-light fa-calendar-range"></i>
                     <span class="mx-3">{{ trans('labels.calendar') }}</span>
                 </a>
@@ -185,7 +185,7 @@
                     </ul>
                 </div>
 
-                <a href="{{ URL::to('admin/support*') }}" class="nav-item">
+                <a href="{{ URL::to('admin/support*') }}" class="nav-item {{ request()->is('admin/support*') ? 'active' : '' }}">
                     <i class="fa-light fa-circle-question"></i>
                     <span class="mx-3">{{ trans('labels.supports') }}</span>
                 </a>

@@ -56,7 +56,7 @@ class SportsController extends Controller
         $user = Sports::find($request->id);
         $user->is_deleted = $request->status;
         $user->save();
-
+        
         return 1;
     }
 

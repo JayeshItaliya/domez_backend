@@ -16,7 +16,7 @@
                 <div class="mb-4 col-sm-6">
                     <label class="form-label">Select Sport</label>
                     <div class="row">
-                        @php $cat_id = explode('|', $dome->sport_id) @endphp
+                        @php $cat_id = explode(',', $dome->sport_id) @endphp
                         @foreach ($getsportslist as $data)
                             <div class="col-auto">
                                 <div class="form-check mb-3">
@@ -157,12 +157,14 @@
                 </div>
                 <div class="row mb-4">
                     @foreach ($dome['dome_images'] as $demoimages)
-                        <div class="avatar w-auto avatar-xl position-relative">
-                            <img src="{{ Helper::image_path($demoimages->images) }}" alt="..." class="avatar-img">
-                            <div class="img-overlay">
-                                <a onclick="dome_delete('{{ $demoimages->id }}','{{ URL::to('admin/domes/image_delete') }}')"
-                                    class="text-bg-danger-soft fs-3 rounded-circle py-2 px-3"><i
-                                        class="fa-light fa-trash-can"></i></a>
+                        <div class="avatar avatar-xl">
+                            <div class="position-relative">
+                                <img src="{{ $demoimages->image }}" alt="..." class="mb-3 rounded" style="width:120px; height:70px;">
+                                <div class="img-overlay">
+                                    <a onclick="dome_delete('{{ $demoimages->id }}','{{ URL::to('admin/domes/image_delete') }}')"
+                                        class="text-bg-danger-soft fs-3 rounded-circle py-2 px-3"><i
+                                            class="fa-light fa-trash-can"></i></a>
+                                </div>
                             </div>
                         </div>
                     @endforeach
