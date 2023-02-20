@@ -13,6 +13,7 @@ use App\Http\Controllers\admin\SportsController;
 use App\Http\Controllers\admin\DomesController;
 use App\Http\Controllers\admin\FieldController;
 use App\Http\Controllers\admin\LeagueController;
+use App\Http\Controllers\admin\ReviewController;
 
 /*
 |--------------------------------------------------------------------------
@@ -131,7 +132,12 @@ Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function () {
     //  Bookings
     Route::group(['prefix' => 'bookings'], function () {
         Route::get('/', [BookingController::class, 'index']);
-        Route::get('/details-{booking_id}', [BookingController::class, 'details']);
+        Route::get('details-{booking_id}', [BookingController::class, 'details']);
+    });
+
+    //  Reviews
+    Route::group(['prefix' => 'reviews'], function () {
+        Route::get('/', [ReviewController::class, 'index']);
     });
 
     //Settings
