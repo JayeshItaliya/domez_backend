@@ -108,11 +108,11 @@ class VendorController extends Controller
                     'profile.max' => 'The image must not be greater than 500KB.',
                 ]
             );
-            if (file_exists('storage/app/public/adminges/profiles/' . $vendor->image)) {
-                unlink('storage/app/public/adminges/profiles/' . $vendor->image);
+            if (file_exists('storage/app/public/admin/images/profiles/' . $vendor->image)) {
+                unlink('storage/app/public/admin/images/profiles/' . $vendor->image);
             }
             $new_name = 'vendor-' . rand(0000, 9999) . '.' . $request->profile->getClientOriginalExtension();
-            $path = storage_path('app\public\adminges\profiles');
+            $path = storage_path('app\public\admin/images\profiles');
             $request->profile->move($path, $new_name);
         }
 

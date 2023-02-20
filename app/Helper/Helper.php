@@ -16,7 +16,7 @@ class Helper
         if(Str::contains($image , 'favicon')){
             $path = url('storage/app/public/admin/images/favicon/' . $image);
         }
-        if(Str::contains($image , 'vendor') || Str::contains($image , 'default')){
+        if(Str::contains($image , 'vendor') || Str::contains($image , 'default') || Str::contains($image , 'user')){
             $path = url('storage/app/public/admin/images/profiles/' . $image);
         }
         if(Str::contains($image , 'login') || Str::contains($image , 'register') ||

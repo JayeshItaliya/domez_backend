@@ -80,7 +80,7 @@
                                 <td>{{ $dome->end_time }}</td>
                                 <td>
                                     <a class="cursor-pointer me-2"
-                                        href="{{ URL::to('admin/domes/dome-details-' . $dome->id) }}">
+                                        href="{{ URL::to('admin/domes/details-' . $dome->id) }}">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-eye"
                                             width="24" height="24" viewBox="0 0 24 24" stroke-width="1"
                                             stroke="var(--bs-info)" fill="none" stroke-linecap="round"

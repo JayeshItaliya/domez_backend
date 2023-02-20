@@ -110,7 +110,7 @@ Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function () {
         Route::get('/', [DomesController::class, 'index']);
         Route::get('add', [DomesController::class, 'add']);
         Route::post('store', [DomesController::class, 'store']);
-        Route::get('dome-details-{id}', [DomesController::class, 'dome_details']);
+        Route::get('details-{id}', [DomesController::class, 'dome_details']);
         Route::get('edit-{id}', [DomesController::class, 'edit']);
         Route::get('image_delete', [DomesController::class, 'image_delete']);
         Route::post('update-{id}', [DomesController::class, 'update']);

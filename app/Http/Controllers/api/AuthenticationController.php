@@ -291,7 +291,7 @@ class AuthenticationController extends Controller
                 'name' => 'required',
                 'email' => 'required|email|unique:users,email,' . $checkuser->id,
                 'phone' => 'required|unique:users,phone,' . $checkuser->id,
-                'image' => 'image|mimes:jpg,jpeg,png',
+                'image' => 'image|max:500|mimes:jpg,jpeg,png',
             ], [
                 'name.required' => 'Please Enter Name',
                 'email.required' => 'Please Enter Email',
@@ -301,6 +301,7 @@ class AuthenticationController extends Controller
                 'phone.unique' => 'This Phone is Already Taken',
                 'image.image' => 'Please select only image type of file',
                 'image.mimes' => 'Please select only jpeg, jpg, png type of image file',
+                'image.max' => 'The image must not be greater than 500KB.',
             ]);
             if ($validator->fails()) {
                 foreach ($validator->errors()->toArray() as $key => $error) {
@@ -311,6 +312,17 @@ class AuthenticationController extends Controller
             $checkuser->email = $request->email;
             $checkuser->countrycode = $request->countrycode;
             $checkuser->phone = $request->phone;
+            if ($request->has('image')) {
+                if (Str::contains($checkuser->image,'user')) {
+                    if (file_exists('storage/app/public/admin/images/profiles/' . $checkuser->image)) {
+                        unlink('storage/app/public/admin/images/profiles/' . $checkuser->image);
+                    }
+                }
+                $new_name = 'user-' . uniqId() . '.' . $request->image->getClientOriginalExtension();
+                $path = storage_path('app\public\admin\images\profiles');
+                $request->image->move($path, $new_name);
+                $checkuser->image = $new_name;
+            }
             $checkuser->save();
             $userdata = $this->getuserprofileobject($checkuser->id);
             return response()->json(["status" => 1, "message" => "Successfull", 'userdata' => $userdata], 200);
