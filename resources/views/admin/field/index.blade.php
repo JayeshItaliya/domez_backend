@@ -31,7 +31,69 @@
     </div>
     <div class="card">
         <div class="card-body">
-            <div class="table-responsive">
+            <table id="bootstrapTable">
+                <thead>
+                    <tr>
+                        <th data-field="{{ trans('labels.srno') }}">{{ trans('labels.srno') }}</th>
+                        <th data-field="{{ trans('labels.image') }}">{{ trans('labels.image') }}</th>
+                        @if (Auth::user()->type == 1)
+                        <th data-field="{{ trans('labels.dome_owner') }}">{{ trans('labels.dome_owner') }}</th>
+                        <th data-field="{{ trans('labels.dome_name') }}">{{ trans('labels.dome_name') }}</th>
+                        @endif
+                        <th data-field="{{ trans('labels.field_name') }}">{{ trans('labels.field_name') }}</th>
+                        <th data-field="{{ trans('labels.min_person') }}">{{ trans('labels.min_person') }}</th>
+                        <th data-field="{{ trans('labels.max_person') }}">{{ trans('labels.max_person') }}</th>
+                        <th data-field="{{ trans('labels.action') }}">{{ trans('labels.start_time') }}</th>
+                        {{-- <th data-field="{{ trans('labels.end_time') }}">{{ trans('labels.end_time') }}</th>
+                        <th data-field="{{ trans('labels.action') }}" class="text-center">{{ trans('labels.action') }} --}}
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @php $i = 1; @endphp
+                    @foreach ($fields as $data)
+                        <tr>
+                            <td>{{ $i++ }}</td>
+                            <td>
+                                <div class="avatar avatar-lg">
+                                    <img src="{{ Helper::image_path($data->image) }}" alt="..." class="avatar-img"
+                                        style="width: 100px">
+                                </div>
+                            </td>
+                            @if (Auth::user()->type == 1)
+                                <td>{{ $data->vendor_name->name }}</td>
+                                <td>{{ $data->dome_name->name }}</td>
+                            @endif
+                            <td>{{ $data->name }}</td>
+                            <td>{{ $data->category_name->name }}</td>
+                            <td>{{ $data->min_person }}</td>
+                            <td>{{ $data->max_person }}</td>
+                            @if (Auth::user()->type == 2)
+                                <td class="text-center">
+                                    <a href="{{ URL::to('admin/field/edit-') . $data->id }}"
+                                        class="text-secondary me-2 fs-3" data-bs-toggle="tooltip"
+                                        data-bs-placement="bottom" data-bs-title="Edit"><i
+                                            class="fa-duotone fa-pen-to-square"></i></a>
+                                    <a onclick="field_delete('{{ $data->id }}','{{ $data->is_deleted == 2 ? 1 : 2 }}','{{ URL::to('admin/field/delete') }}')"
+                                        class="text-danger me-2 fs-3" data-bs-toggle="tooltip"
+                                        data-bs-placement="bottom" data-bs-title="Delete"><i
+                                            class="fa-duotone fa-trash-can"></i></a>
+                                </td>
+                            @endif
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+
+
+
+
+
+
+
+
+
+            {{-- <div class="table-responsive">
                 <input class="form-control list-search mw-300px float-end mb-5" type="search" placeholder="Search">
                 <table class="table table-nowrap mb-0" data-list='{"valueNames": ["id", "name", "manager", "status"]}'>
                     <thead class="thead-light">
@@ -86,8 +148,8 @@
                                     </div>
                                 </td>
                                 @if (Auth::user()->type == 1)
-                                    {{-- <td>{{ $data->vendor_name->name }}</td> --}}
-                                    {{-- <td>{{ $data->dome_name->name }}</td> --}}
+                                    <td>{{ $data->vendor_name->name }}</td>
+                                    <td>{{ $data->dome_name->name }}</td>
                                 @endif
                                 <td>{{ $data->name }}</td>
                                 <td>{{ $data->category_name->name }}</td>
@@ -110,7 +172,7 @@
                     </tbody>
 
                 </table>
-            </div>
+            </div> --}}
         </div>
     </div>
 @endsection

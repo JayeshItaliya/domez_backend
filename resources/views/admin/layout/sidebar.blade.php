@@ -27,9 +27,9 @@
                     <span class="mx-3">{{ trans('labels.dome_owners') }}</span>
                 </a>
 
-                <a href="#domesmanagement" class="nav-item {{ request()->is('admin/domes*') ? 'active' : '' }}"
+                <a href="#domesmanagement" class="nav-item {{ request()->is('admin/domes*') || request()->is('admin/field*') || request()->is('admin/set-prices*') ? 'active' : '' }}"
                     data-bs-toggle="collapse" role="button"
-                    aria-expanded="{{ request()->is('admin/domes*') ? 'true' : 'false' }}"
+                    aria-expanded="{{ request()->is('admin/domes*') || request()->is('admin/field*') || request()->is('admin/set-prices*') ? 'true' : 'false' }}"
                     aria-controls="domesmanagement">
                     <i class="fa-regular fa-list-tree"></i>
                     <div class="ms-3 d-flex align-items-center justify-content-between w-100">
@@ -42,7 +42,7 @@
                         </svg>
                     </div>
                 </a>
-                <div class="collapse {{ request()->is('admin/domes*') || request()->is('admin/field*') || request()->is('admin/set-prices*') ? 'show active' : '' }}" id="domesmanagement">
+                <div class="collapse {{ request()->is('admin/domes*') || request()->is('admin/field*') || request()->is('admin/set-prices*') ? 'show' : '' }}" id="domesmanagement">
                     <ul class="nav d-grid">
                         <a href="{{ URL::to('admin/domes') }}" class="nav-item">
                             <span class="nav-link {{ request()->is('admin/domes*') ? 'active' : '' }}">{{ trans('labels.domes') }}</span>

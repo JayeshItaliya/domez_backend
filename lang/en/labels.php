@@ -94,4 +94,8 @@ return [
     // Sports
     'image' => 'Image',
     'sport_name' => 'Sport Name',
+    // Fields
+    'field_name' => 'Field Name',
+    'min_person' => 'Min Person',
+    'max_person' => 'Max Person',
 ];
