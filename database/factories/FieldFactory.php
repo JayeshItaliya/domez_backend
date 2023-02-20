@@ -17,14 +17,14 @@ class FieldFactory extends Factory
     public function definition()
     {
         return [
-            "vendor_id" => $this->faker->numberBetween(2,6),
-            "dome_id" => $this->faker->numberBetween(1,4),
-            "category_id" => $this->faker->numberBetween(1,5),
+            "vendor_id" => 2,
+            "dome_id" => $this->faker->numberBetween(35,39),
+            "sport_id" => $this->faker->numberBetween(6,10),
             "name" => $this->faker->name(),
             "area" => $this->faker->numberBetween(100,500),
             "min_person" => $this->faker->numberBetween(4,10),
             "max_person" => $this->faker->numberBetween(18,30),
-            "image" => 'field-9600.jpg',
+            "image" => 'field-1135.jpg',
         ];
     }
 }
