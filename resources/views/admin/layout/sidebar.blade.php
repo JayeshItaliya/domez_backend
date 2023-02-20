@@ -135,13 +135,13 @@
                 <div class="collapse {{ request()->is('admin/enquiry*') ? 'show' : '' }}" id="enquiry">
                     <ul class="nav d-grid">
                         <a href="javascript:void(0)" class="nav-item">
-                            <span class="nav-link {{ request()->is('admin/enquiry/privacy-policy') ? 'active' : '' }}">{{ trans('labels.domes_requests') }}</span>
+                            <span class="nav-link {{ request()->is('admin/enquiries/dome-requests') ? 'active' : '' }}">{{ trans('labels.domes_requests') }}</span>
                         </a>
                         <a href="javascript:void(0)" class="nav-item">
-                            <span class="nav-link {{ request()->is('admin/enquiry/privacy-policy') ? 'active' : '' }}">{{ trans('labels.general_enquiry') }}</span>
+                            <span class="nav-link {{ request()->is('admin/enquiries/general-enquiry') ? 'active' : '' }}">{{ trans('labels.general_enquiry') }}</span>
                         </a>
                         <a href="javascript:void(0)" class="nav-item">
-                            <span class="nav-link {{ request()->is('admin/enquiry/privacy-policy') ? 'active' : '' }}">{{ trans('labels.help_support') }}</span>
+                            <span class="nav-link {{ request()->is('admin/enquiries/help-support') ? 'active' : '' }}">{{ trans('labels.help_support') }}</span>
                         </a>
                     </ul>
                 </div>

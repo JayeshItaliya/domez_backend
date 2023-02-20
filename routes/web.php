@@ -11,6 +11,7 @@ use App\Http\Controllers\admin\PaymentGatewayController;
 use App\Http\Controllers\admin\TransactionController;
 use App\Http\Controllers\admin\SportsController;
 use App\Http\Controllers\admin\DomesController;
+use App\Http\Controllers\admin\EnquiryController;
 use App\Http\Controllers\admin\FieldController;
 use App\Http\Controllers\admin\LeagueController;
 use App\Http\Controllers\admin\ReviewController;
@@ -140,9 +141,16 @@ Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function () {
         Route::get('/', [ReviewController::class, 'index']);
     });
 
-    //Settings
+    // Settings
     Route::group(['prefix' => 'settings'], function (){
         Route::get('/', [AdminController::class, 'settings']);
+    });
+
+    // Enquiry
+    Route::group(['prefix' => 'enquiries'], function (){
+        Route::get('dome-requests', [EnquiryController::class, 'dome_requests']);
+        Route::get('general-enquiry', [EnquiryController::class, 'dome_requests']);
+        Route::get('help-support', [EnquiryController::class, 'dome_requests']);
     });
 });
 
