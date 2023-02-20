@@ -13,7 +13,7 @@ class EnquiryController extends Controller
     }
     public function general_enquiry(Request $request)
     {
-        return view('admin.enquiry.general_ebquiry');
+        return view('admin.enquiry.general_enquiry');
     }
     public function help_support(Request $request)
     {

@@ -42,7 +42,7 @@
                         </svg>
                     </div>
                 </a>
-                <div class="collapse {{ request()->is('admin/domes*') ? 'show' : '' }}" id="domesmanagement">
+                <div class="collapse {{ request()->is('admin/domes*') || request()->is('admin/field*') || request()->is('admin/set-prices*') ? 'show active' : '' }}" id="domesmanagement">
                     <ul class="nav d-grid">
                         <a href="{{ URL::to('admin/domes') }}" class="nav-item">
                             <span class="nav-link {{ request()->is('admin/domes*') ? 'active' : '' }}">{{ trans('labels.domes') }}</span>
