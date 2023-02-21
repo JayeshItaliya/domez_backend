@@ -31,7 +31,7 @@ return new class extends Migration
             $table->integer('max_player');
             $table->integer('team_limit');
             $table->integer('price');
-            $table->string('image')->default('default.png');
+            $table->string('image')->default('default_league.png');
             $table->tinyInteger('is_deleted')->default(2)->comment('1=yes,2=no');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent();

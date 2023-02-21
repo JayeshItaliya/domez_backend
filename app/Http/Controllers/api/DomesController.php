@@ -22,13 +22,13 @@ class DomesController extends Controller
                 $domes_list = [];
                 //Type = 1 (Recent Bookings Dome Data)
                 if ($request->type == 1) {
-                    if ($request->user_id != "") {
+                    if ($request->user_id == "") {
                         return response()->json(["status" => 0, "message" => 'Enter Login User ID'], 200);
                     }
                     if (empty(User::find($request->user_id))) {
                         return response()->json(["status" => 0, "message" => 'Invalid User ID'], 200);
                     }
-                    $recentbookings = Booking::where('user_id', $request->user_id)->where('type',2)->get();
+                    $recentbookings = Booking::where('user_id', $request->user_id)->where('type',1)->get();
                     foreach ($recentbookings as $booking) {
                         $dome = Domes::where('id', $booking->dome_id)->where('is_deleted', 2)->first();
                         if (!empty($dome)) {
@@ -43,7 +43,7 @@ class DomesController extends Controller
                                 "city" => $dome->city,
                                 "state" => $dome->state,
                                 "is_fav" => !empty(@$is_fav) ? true : false,
-                                "booking_date" => $booking->booking_date,
+                                "booking_date" => date('D',strtotime($booking->booking_date)).', '.date('d M',strtotime($booking->booking_date)),
                                 "total_fields" => Field::where('dome_id', $dome->id)->where('is_deleted', 2)->count(),
                                 "sports_list" => Sports::select('id', 'name', DB::raw("CONCAT('" . url('storage/app/public/admin/images/sports') . "/', image) AS image"))->whereIn('id', explode('|', $dome->sport_id))->where('is_available', 1)->where('is_deleted', 2)->get(),
                             ];
@@ -52,7 +52,7 @@ class DomesController extends Controller
                 }
                 //Type = 2 (Most Popular Dome Data)
                 if ($request->type == 2) {
-                    $popular_domes = Booking::select('dome_id', DB::raw('count(bookings.dome_id)as dome'))->groupBy('dome_id')->orderBy('dome', 'desc')->get();
+                    $popular_domes = Booking::select('dome_id', DB::raw('count(bookings.dome_id)as dome'))->where('type',1)->groupBy('dome_id')->orderBy('dome', 'desc')->get();
                     foreach ($popular_domes as $pdome) {
                         $dome = Domes::where('id', $pdome->dome_id)->where('is_deleted', 2)->first();
                         if (!empty($dome)) {
@@ -97,6 +97,7 @@ class DomesController extends Controller
 
                     if ($request->sport_id != "") {
                         $getarounddomes = $getarounddomes->whereRaw("find_in_set('" . $request->sport_id . "',sport_id)");
+                        // dd($getarounddomes);
                     }
                     if ($request->max_price > 0) {
                         $getarounddomes = $getarounddomes->whereBetween('price', [$request->min_price, $request->max_price]);

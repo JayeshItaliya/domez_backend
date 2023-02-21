@@ -29,6 +29,9 @@ class Helper
         if(Str::contains($image , 'dome')){
             $path = url('storage/app/public/admin/images/domes/' . $image);
         }
+        if(Str::contains($image , 'default_league') || Str::contains($image , 'league')){
+            $path = url('storage/app/public/admin/images/leagues/' . $image);
+        }
         if(Str::contains($image , 'field')){
             $path = url('storage/app/public/admin/images/fields/' . $image);
         }
