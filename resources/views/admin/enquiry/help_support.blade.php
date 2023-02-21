@@ -75,7 +75,6 @@
                             </th>
                         </tr>
                     </thead>
-
                     <tbody class="list">
                         <tr>
                             <td>01</td>
