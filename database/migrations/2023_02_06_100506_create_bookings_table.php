@@ -16,7 +16,8 @@ return new class extends Migration
         Schema::create('bookings', function (Blueprint $table) {
             $table->id();
             $table->integer('vendor_id');
-            $table->integer('dome_id');
+            $table->integer('dome_id')->nullable();
+            $table->integer('league_id')->nullable();
             $table->integer('user_id');
             $table->integer('field_id');
             $table->integer('booking_id');

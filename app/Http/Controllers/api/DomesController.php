@@ -28,7 +28,7 @@ class DomesController extends Controller
                     if (empty(User::find($request->user_id))) {
                         return response()->json(["status" => 0, "message" => 'Invalid User ID'], 200);
                     }
-                    $recentbookings = Booking::where('user_id', $request->user_id)->get();
+                    $recentbookings = Booking::where('user_id', $request->user_id)->where('type',2)->get();
                     foreach ($recentbookings as $booking) {
                         $dome = Domes::where('id', $booking->dome_id)->where('is_deleted', 2)->first();
                         if (!empty($dome)) {

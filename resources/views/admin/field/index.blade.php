@@ -37,16 +37,16 @@
                         <th data-field="{{ trans('labels.srno') }}">{{ trans('labels.srno') }}</th>
                         <th data-field="{{ trans('labels.image') }}">{{ trans('labels.image') }}</th>
                         @if (Auth::user()->type == 1)
-                        <th data-field="{{ trans('labels.dome_owner') }}">{{ trans('labels.dome_owner') }}</th>
-                        <th data-field="{{ trans('labels.dome_name') }}">{{ trans('labels.dome_name') }}</th>
+                            <th data-field="{{ trans('labels.dome_owner') }}">{{ trans('labels.dome_owner') }}</th>
+                            <th data-field="{{ trans('labels.dome_name') }}">{{ trans('labels.dome_name') }}</th>
                         @endif
                         <th data-field="{{ trans('labels.field_name') }}">{{ trans('labels.field_name') }}</th>
+                        <th data-field="{{ trans('labels.sports') }}">{{ trans('labels.sports') }}</th>
                         <th data-field="{{ trans('labels.min_person') }}">{{ trans('labels.min_person') }}</th>
                         <th data-field="{{ trans('labels.max_person') }}">{{ trans('labels.max_person') }}</th>
-                        <th data-field="{{ trans('labels.action') }}">{{ trans('labels.start_time') }}</th>
-                        {{-- <th data-field="{{ trans('labels.end_time') }}">{{ trans('labels.end_time') }}</th>
-                        <th data-field="{{ trans('labels.action') }}" class="text-center">{{ trans('labels.action') }} --}}
-                        </th>
+                        @if (Auth::user()->type == 2)
+                            <th data-field="{{ trans('labels.action') }}">{{ trans('labels.action') }}</th>
+                        @endif
                     </tr>
                 </thead>
                 <tbody>
@@ -71,13 +71,11 @@
                             @if (Auth::user()->type == 2)
                                 <td class="text-center">
                                     <a href="{{ URL::to('admin/field/edit-') . $data->id }}"
-                                        class="text-secondary me-2 fs-3" data-bs-toggle="tooltip"
-                                        data-bs-placement="bottom" data-bs-title="Edit"><i
-                                            class="fa-duotone fa-pen-to-square"></i></a>
+                                        class="text-secondary me-2 fs-3" data-bs-toggle="tooltip" data-bs-placement="bottom"
+                                        data-bs-title="Edit"><i class="fa-duotone fa-pen-to-square"></i></a>
                                     <a onclick="field_delete('{{ $data->id }}','{{ $data->is_deleted == 2 ? 1 : 2 }}','{{ URL::to('admin/field/delete') }}')"
-                                        class="text-danger me-2 fs-3" data-bs-toggle="tooltip"
-                                        data-bs-placement="bottom" data-bs-title="Delete"><i
-                                            class="fa-duotone fa-trash-can"></i></a>
+                                        class="text-danger me-2 fs-3" data-bs-toggle="tooltip" data-bs-placement="bottom"
+                                        data-bs-title="Delete"><i class="fa-duotone fa-trash-can"></i></a>
                                 </td>
                             @endif
                         </tr>

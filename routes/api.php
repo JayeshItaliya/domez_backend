@@ -1,6 +1,7 @@
 <?php
 
-use App\Http\Controllers\admin\BookingController;
+use App\Http\Controllers\api\BookingController;
+use App\Http\Controllers\api\LeagueController;
 use App\Http\Controllers\api\AdminController;
 use App\Http\Controllers\api\DomesController;
 use App\Http\Controllers\api\AuthenticationController;
@@ -8,7 +9,6 @@ use App\Http\Controllers\api\FavouriteController;
 use App\Http\Controllers\api\HomeController;
 use App\Http\Controllers\api\PaymentController;
 use App\Http\Controllers\api\ReviewController;
-use App\Http\Controllers\api\BookingController as ApiBookingController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -51,6 +51,9 @@ Route::post('payment', [PaymentController::class, 'payment']);
 Route::post('domes-list', [DomesController::class, 'domes_list']);
 Route::get('dome-details-{id}', [DomesController::class, 'domes_details']);
 
+Route::post('leagues-list', [LeagueController::class, 'leagues_list']);
+Route::get('league-details-{id}', [LeagueController::class, 'league_details']);
+
 
 Route::post('favourite', [FavouriteController::class, 'favourite']);
 Route::get('favourite-list-{id}', [FavouriteController::class, 'favourite_list']);
@@ -62,8 +65,8 @@ Route::post('review', [ReviewController::class, 'review']);
 Route::get('avg-ratting-{id}', [ReviewController::class, 'avg_rating']);
 Route::get('rattinglist-{dome_id}', [ReviewController::class, 'rattinglist']);
 
-Route::post('timeslots', [ApiBookingController::class, 'timeslots']);
-Route::post('available-fields', [ApiBookingController::class, 'avl_fields']);
+Route::post('timeslots', [BookingController::class, 'timeslots']);
+Route::post('available-fields', [BookingController::class, 'avl_fields']);
 
 
 // Route::post('requestdomes', [AuthenticationController::class, 'requestdomes']);

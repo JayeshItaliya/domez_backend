@@ -48,7 +48,7 @@
                             <span class="nav-link {{ request()->is('admin/domes*') ? 'active' : '' }}">{{ trans('labels.domes') }}</span>
                         </a>
                         <a href="{{ URL::to('admin/field') }}" class="nav-item">
-                            <span class="nav-link {{ request()->is('admin/field*') ? 'active' : '' }}">{{ trans('labels.field') }}</span>
+                            <span class="nav-link {{ request()->is('admin/field*') ? 'active' : '' }}">{{ trans('labels.fields') }}</span>
                         </a>
                         <a href="{{ URL::to('admin/set-prices') }}" class="nav-item">
                             <span class="nav-link {{ request()->is('admin/set-prices*') ? 'active' : '' }}">{{ trans('labels.set_prices') }}</span>

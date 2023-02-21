@@ -29,7 +29,7 @@ return [
     'dome_owners' => 'Dome Owners',
     'domes_management' => 'Domes Management',
     'domes' => 'Domes',
-    'field' => 'Field',
+    'fields' => 'Fields',
     'set_prices' => 'Set Prices',
     'sports' => 'Sports',
     'leagues' => 'Leagues',
@@ -95,6 +95,7 @@ return [
     'image' => 'Image',
     'sport_name' => 'Sport Name',
     // Fields
+    'add_field' => 'Add Field',
     'field_name' => 'Field Name',
     'min_person' => 'Min Person',
     'max_person' => 'Max Person',
