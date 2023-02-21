@@ -185,7 +185,7 @@
                     </ul>
                 </div>
 
-                <a href="{{ URL::to('admin/support') }}" class="nav-item {{ request()->is('admin/support*') ? 'active' : '' }}">
+                <a href="{{ URL::to('admin/supports') }}" class="nav-item {{ request()->is('admin/supports*') ? 'active' : '' }}">
                     <i class="fa-light fa-circle-question"></i>
                     <span class="mx-3">{{ trans('labels.supports') }}</span>
                 </a>
