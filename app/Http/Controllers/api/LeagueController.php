@@ -62,18 +62,20 @@ class LeagueController extends Controller
                     }
                     $lat = $request->lat;
                     $lng = $request->lng;
-                    $getarounddomes = League::with('dome_image')->select('domes.*',
+                    $getarounddomes = Domes::with('dome_image')->select(
+                        'domes.*',
                         DB::raw("6371 * acos(cos(radians(" . $lat . "))
-                        * cos(radians(lat))
-                        * cos(radians(lng) - radians(" . $lng . "))
-                        + sin(radians(" . $lat . "))
-                        * sin(radians(lat))) AS distance")
-                        );
+                    * cos(radians(lat))
+                    * cos(radians(lng) - radians(" . $lng . "))
+                    + sin(radians(" . $lat . "))
+                    * sin(radians(lat))) AS distance")
+                    );
                     // The Distance Will Be in Kilometers
                     $getarounddomes = $getarounddomes->having('distance', '<=', $request->kilometer > 0 ? $request->kilometer : 1000);
 
                     if ($request->sport_id != "") {
                         $getarounddomes = $getarounddomes->whereRaw("find_in_set('" . $request->sport_id . "',sport_id)");
+                        // dd($getarounddomes);
                     }
                     if ($request->max_price > 0) {
                         $getarounddomes = $getarounddomes->whereBetween('price', [$request->min_price, $request->max_price]);
@@ -94,7 +96,7 @@ class LeagueController extends Controller
                             "is_fav" => !empty(@$is_fav) ? true : false,
                             "booking_date" => "",
                             "total_fields" => Field::where('dome_id', $dome->id)->where('is_deleted', 2)->count(),
-                            "sports_list" => Sports::select('id', 'name', DB::raw("CONCAT('" . url('storage/app/public/admin/images/leagues') . "/', image) AS image"))->whereIn('id', explode('|', $dome->sport_id))->where('is_available', 1)->where('is_deleted', 2)->get(),
+                            "sports_list" => Sports::select('id', 'name', DB::raw("CONCAT('" . url('storage/app/public/admin/images/sports') . "/', image) AS image"))->whereIn('id', explode('|', $dome->sport_id))->where('is_available', 1)->where('is_deleted', 2)->get(),
                         ];
                     }
                 }

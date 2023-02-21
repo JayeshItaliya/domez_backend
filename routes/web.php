@@ -15,6 +15,7 @@ use App\Http\Controllers\admin\EnquiryController;
 use App\Http\Controllers\admin\FieldController;
 use App\Http\Controllers\admin\LeagueController;
 use App\Http\Controllers\admin\ReviewController;
+use App\Http\Controllers\admin\SettingsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -149,6 +150,10 @@ Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function () {
     // Supports
     Route::group(['prefix' => 'supports'], function (){
         Route::get('/', [AdminController::class, 'supports']);
+        Route::get('edit-profile-{id}', [SettingsController::class, 'edit_profile']);
+        Route::get('email-setting', [SettingsController::class, 'email_setting']);
+        Route::get('twilio-setting', [SettingsController::class, 'twilio_setting']);
+        Route::get('stripe-setting', [SettingsController::class, 'stripe_setting']);
     });
 
     // Enquiry
