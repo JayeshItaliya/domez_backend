@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\api;
 
+use App\Helper\Helper;
 use App\Http\Controllers\Controller;
 use App\Models\Booking;
+use App\Models\Domes;
 use App\Models\Favourite;
 use App\Models\Field;
 use App\Models\League;
@@ -18,10 +20,10 @@ class LeagueController extends Controller
     {
         if ($request->type != "") {
             if (in_array($request->type, [1, 2, 3])) {
-                $domes_list = [];
-                //Type = 1 (Recent Bookings Dome Data)
-                if ($request->type == 1) {
-                    if ($request->user_id != "") {
+                $leagues_list = [];
+                //Type = 2 (Most Popular Leagues Data)
+                if ($request->type == 2) {
+                    if ($request->user_id == "") {
                         return response()->json(["status" => 0, "message" => 'Enter Login User ID'], 200);
                     }
                     if (empty(User::find($request->user_id))) {
@@ -29,6 +31,7 @@ class LeagueController extends Controller
                     }
                     $recentbookings = Booking::where('user_id', $request->user_id)->where('type',2)->get();
                     foreach ($recentbookings as $booking) {
+                        $dome = Domes::find($booking->dome_id);
                         $league = League::where('id', $booking->league_id)->where('is_deleted', 2)->first();
                         if (!empty($league)) {
                             if ($request->user_id != "") {
@@ -36,44 +39,20 @@ class LeagueController extends Controller
                             }
                             $leagues_list[] = [
                                 "id" => $league->id,
-                                "name" => $league->name,
-                                "image" => $league->dome_image == "" ? "" : $league->dome_image->image,
+                                "league_name" => $league->name,
+                                "dome_name" => $dome->name,
+                                "image" => $league->image == "" ? "" : Helper::image_path($league->image),
                                 "price" => $league->price,
-                                "city" => $league->city,
-                                "state" => $league->state,
-                                "is_fav" => !empty(@$is_fav) ? true : false,
-                                "booking_date" => $booking->booking_date,
-                                "total_fields" => Field::where('dome_id', $league->id)->where('is_deleted', 2)->count(),
-                                "sports_list" => Sports::select('id', 'name', DB::raw("CONCAT('" . url('storage/app/public/admin/images/leagues') . "/', image) AS image"))->whereIn('id', explode('|', $league->sport_id))->where('is_available', 1)->where('is_deleted', 2)->get(),
-                            ];
-                        }
-                    }
-                }
-                //Type = 2 (Most Popular Dome Data)
-                if ($request->type == 2) {
-                    $popular_domes = Booking::select('dome_id', DB::raw('count(bookings.dome_id)as dome'))->groupBy('dome_id')->orderBy('dome', 'desc')->get();
-                    foreach ($popular_domes as $pdome) {
-                        $dome = League::where('id', $pdome->dome_id)->where('is_deleted', 2)->first();
-                        if (!empty($dome)) {
-                            if ($request->user_id != "") {
-                                $is_fav = Favourite::where('dome_id', $dome->id)->where('user_id', $request->user_id)->first();
-                            }
-                            $leagues_list[] = [
-                                "id" => $dome->id,
-                                "name" => $dome->name,
-                                "image" => $dome->dome_image == "" ? "" : $dome->dome_image->image,
-                                "price" => $dome->price,
                                 "city" => $dome->city,
                                 "state" => $dome->state,
                                 "is_fav" => !empty(@$is_fav) ? true : false,
-                                "booking_date" => "",
-                                "total_fields" => Field::where('dome_id', $dome->id)->where('is_deleted', 2)->count(),
-                                "sports_list" => Sports::select('id', 'name', DB::raw("CONCAT('" . url('storage/app/public/admin/images/leagues') . "/', image) AS image"))->whereIn('id', explode('|', $dome->sport_id))->where('is_available', 1)->where('is_deleted', 2)->get(),
+                                "date" => date('d F', strtotime($league->start_date)).' - '.date('d F', strtotime($league->end_date)),
+                                "sport_data" => Sports::select('id', 'name', DB::raw("CONCAT('" . url('storage/app/public/admin/images/sports') . "/', image) AS image"))->whereIn('id', explode('|', $league->sport_id))->where('is_available', 1)->where('is_deleted', 2)->get(),
                             ];
                         }
                     }
                 }
-                //Type = 3 (Domes Around You)
+                //Type = 3 (Leagues Around You)
                 if ($request->type == 3) {
                     if ($request->lat == "") {
                         return response()->json(["status" => 0, "message" => 'Enter Latitude'], 200);
@@ -83,14 +62,13 @@ class LeagueController extends Controller
                     }
                     $lat = $request->lat;
                     $lng = $request->lng;
-                    $getarounddomes = League::with('dome_image')->select(
-                        'domes.*',
+                    $getarounddomes = League::with('dome_image')->select('domes.*',
                         DB::raw("6371 * acos(cos(radians(" . $lat . "))
-                    * cos(radians(lat))
-                    * cos(radians(lng) - radians(" . $lng . "))
-                    + sin(radians(" . $lat . "))
-                    * sin(radians(lat))) AS distance")
-                    );
+                        * cos(radians(lat))
+                        * cos(radians(lng) - radians(" . $lng . "))
+                        + sin(radians(" . $lat . "))
+                        * sin(radians(lat))) AS distance")
+                        );
                     // The Distance Will Be in Kilometers
                     $getarounddomes = $getarounddomes->having('distance', '<=', $request->kilometer > 0 ? $request->kilometer : 1000);
 
@@ -120,7 +98,7 @@ class LeagueController extends Controller
                         ];
                     }
                 }
-                return response()->json(["status" => 1, "message" => "Successful", 'domes_list' => $domes_list], 200);
+                return response()->json(["status" => 1, "message" => "Successful", 'leagues_list' => $leagues_list], 200);
             } else {
                 return response()->json(["status" => 0, "message" => 'Invalid Type'], 200);
             }
