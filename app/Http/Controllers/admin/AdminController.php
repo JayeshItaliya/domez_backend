@@ -113,4 +113,9 @@ class AdminController extends Controller
         $user = User::find(Auth::user()->id);
         return view('admin.settings.index', compact('user'));
     }
+
+    public function supports(Request $request)
+    {
+        return view('admin.supports.index');
+    }
 }

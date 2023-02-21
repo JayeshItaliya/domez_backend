@@ -146,6 +146,11 @@ Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function () {
         Route::get('/', [AdminController::class, 'settings']);
     });
 
+    // Supports
+    Route::group(['prefix' => 'supports'], function (){
+        Route::get('/', [AdminController::class, 'supports']);
+    });
+
     // Enquiry
     Route::group(['prefix' => 'enquiries'], function (){
         Route::get('dome-requests', [EnquiryController::class, 'dome_requests']);
