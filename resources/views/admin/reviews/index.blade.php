@@ -78,7 +78,7 @@
                                 <i class="fa-sharp fa-regular fa-star text-muted fs-4 me-1"></i>
                             </td>
                             <td>Lorem Ipsum is simply dummy text..</td>
-                            <td><span class="badge rounded-pill cursor-pointer text-bg-info fa-solid fa-reply" onclick="change_status('2','2','http://localhost/domez/admin/Transactions/change_status')">Reply</span>
+                            <td><span class="badge rounded-pill cursor-pointer text-bg-info fa-solid fa-reply" data-bs-target="#mymodal" data-bs-toggle="modal">Reply</span>
                             </td>
                         </tr>
                         <tr>
@@ -92,7 +92,7 @@
                                 <i class="fa-sharp fa-regular fa-star text-muted fs-4 me-1"></i>
                             </td>
                             <td>Lorem Ipsum is simply dummy text..</td>
-                            <td><span class="badge rounded-pill cursor-pointer text-bg-info fa-solid fa-reply" onclick="change_status('2','2','http://localhost/domez/admin/Transactions/change_status')">Reply</span>
+                            <td><span class="badge rounded-pill cursor-pointer text-bg-info fa-solid fa-reply" data-bs-target="#mymodal" data-bs-toggle="modal">Reply</span>
                             </td>
                         </tr>
                         <tr>
@@ -106,7 +106,7 @@
                                 <i class="fa-sharp fa-regular fa-star text-muted fs-4 me-1"></i>
                             </td>
                             <td>Lorem Ipsum is simply dummy text..</td>
-                            <td><span class="badge rounded-pill cursor-pointer text-bg-info fa-solid fa-reply" onclick="change_status('2','2','http://localhost/domez/admin/Transactions/change_status')">Reply</span>
+                            <td><span class="badge rounded-pill cursor-pointer text-bg-info fa-solid fa-reply" data-bs-target="#mymodal" data-bs-toggle="modal">Reply</span>
                             </td>
                         </tr>
                         <tr>
@@ -120,10 +120,36 @@
                                 <i class="fa-sharp fa-regular fa-star text-muted fs-4 me-1"></i>
                             </td>
                             <td>Lorem Ipsum is simply dummy text..</td>
-                            <td><span class="badge rounded-pill cursor-pointer text-bg-info fa-solid fa-reply" onclick="change_status('2','2','http://localhost/domez/admin/Transactions/change_status')">Reply</span>
+                            <td><span class="badge rounded-pill cursor-pointer text-bg-info fa-solid fa-reply" data-bs-target="#mymodal" data-bs-toggle="modal" >Reply</span>
                             </td>
                         </tr>
                     </tbody>
+                        <div class="modal" id="mymodal">
+                             <div class="modal-dialog modal-dialog-centered">
+                                  <div class="modal-content">
+                                      <div class="d-block p-3">
+                                         <h6 class="mb-2">User Name</h6>
+                                         <p class="mb-3">Kelly Doyle</p>
+                                         <h6>Subject</h6>
+                                            <i class="fa-sharp fa-regular fa-star text-warning fs-4 me-1"></i>
+                                            <i class="fa-sharp fa-regular fa-star text-warning fs-4 me-1"></i>
+                                            <i class="fa-sharp fa-regular fa-star text-warning fs-4 me-1"></i>
+                                            <i class="fa-sharp fa-regular fa-star text-warning fs-4 me-1"></i>
+                                            <i class="fa-sharp fa-regular fa-star text-muted fs-4 me-1"></i>
+                                         <h6 class="mt-3">Review</h6>
+                                         <p class="my-2">Lorem Ipsum is simply dummy text..</p>
+                                         <div class="modal-body p-0">
+                                            <h6 class="mt-3 mb-2">Replay</h6>
+                                            <textarea  rows="5" class="form-control" placeholder="Lorem Ipsum is simply dummy text.."></textarea>
+                                         </div>
+                                         <div class="d-flex justify-content-end mt-3">
+                                            <button type="button" class="btn btn-primary">Submit</button>
+                                         </div>
+                                      </div>
+
+                                  </div>
+                             </div>
+                        </div>
                 </table>
             </div>
         </div>

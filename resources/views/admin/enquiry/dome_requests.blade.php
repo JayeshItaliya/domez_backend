@@ -69,7 +69,7 @@ Dome Enquiry
                                 </a>
                             </th>
                             <th>
-                                <a href="javascript: void(0);" class="text-muted list-sort" data-sort="Actions">
+                                <a href="javascript: void(0);" class="text-muted list-sort mx-5" data-sort="Actions">
                                     Actions
                                 </a>
                             </th>
@@ -84,7 +84,7 @@ Dome Enquiry
                             <td>991 125 462 21</td>
                             <td>Dome A</td>
                             <td>USA</td>
-                            <td><span class="badge rounded-pill cursor-pointer text-bg-info fa-solid fa-reply me-4" onclick="change_status('2','2','http://localhost/domez/admin/Transactions/change_status')">Reply</span>
+                            <td><span class="badge rounded-pill cursor-pointer text-bg-info fa-solid fa-reply me-4" data-bs-target="#mymodal" data-bs-toggle="modal">Reply</span>
                                 <i class="fa-regular fa-circle-check text-success mx-2 fs-4"></i>
                                 <i class="fa-regular fa-circle-xmark text-danger mx-2 fs-4"></i>
                             </td>
@@ -97,7 +97,7 @@ Dome Enquiry
                             <td>991 125 462 21</td>
                             <td>Dome B</td>
                             <td>USA</td>
-                            <td><span class="badge rounded-pill cursor-pointer text-bg-info fa-solid fa-reply me-4" onclick="change_status('2','2','http://localhost/domez/admin/Transactions/change_status')">Reply</span>
+                            <td><span class="badge rounded-pill cursor-pointer text-bg-info fa-solid fa-reply me-4" data-bs-target="#mymodal" data-bs-toggle="modal">Reply</span>
                                 <i class="fa-regular fa-circle-check text-success mx-2 fs-4"></i>
                                 <i class="fa-regular fa-circle-xmark text-danger  mx-2 fs-4"></i>
                             </td>
@@ -109,7 +109,7 @@ Dome Enquiry
                             <td>991 125 462 21</td>
                             <td>Dome C</td>
                             <td>USA</td>
-                            <td><span class="badge rounded-pill cursor-pointer text-bg-info fa-solid fa-reply me-4" onclick="change_status('2','2','http://localhost/domez/admin/Transactions/change_status')">Reply</span>
+                            <td><span class="badge rounded-pill cursor-pointer text-bg-info fa-solid fa-reply me-4" data-bs-target="#mymodal" data-bs-toggle="modal">Reply</span>
                                 <i class="fa-regular fa-circle-check text-success mx-2 fs-4"></i>
                                 <i class="fa-regular fa-circle-xmark text-danger  mx-2 fs-4"></i>
                             </td>
@@ -121,12 +121,36 @@ Dome Enquiry
                             <td>991 125 462 21</td>
                             <td>Dome D</td>
                             <td>USA</td>
-                            <td><span class="badge rounded-pill cursor-pointer text-bg-info fa-solid fa-reply me-4" onclick="change_status('2','2','http://localhost/domez/admin/Transactions/change_status')">Reply</span>
+                            <td><span class="badge rounded-pill cursor-pointer text-bg-info fa-solid fa-reply me-4" data-bs-target="#mymodal" data-bs-toggle="modal">Reply</span>
                                 <i class="fa-regular fa-circle-check text-success mx-2 fs-4"></i>
                                 <i class="fa-regular fa-circle-xmark text-danger mx-2 fs-4"></i>
                             </td>
                         </tr>
                     </tbody>
+                    <div class="modal" id="mymodal">
+                        <div class="modal-dialog modal-dialog-centered">
+                             <div class="modal-content">
+                                 <div class="d-block p-3">
+                                    <h6 class="mb-5">New Message</h6>
+                                    <form>
+                                        <div class="mb-3">
+                                          <input type="text" class="form-control" id="recipient-name" placeholder="Wiegend@hotmail.com">
+                                        </div>
+                                        <div class="mb-3">
+                                            <input type="text" class="form-control" id="recipient-name" placeholder="Subject">
+                                        </div>
+                                      </form>
+                                    <div class="modal-body p-0">
+                                       <textarea  rows="5" class="form-control" placeholder="Lorem Ipsum is simply dummy text.." ></textarea>
+                                    </div>
+                                    <div class="d-flex justify-content-end mt-3">
+                                       <button type="button" class="btn btn-primary">Replay</button>
+                                    </div>
+                                 </div>
+
+                             </div>
+                        </div>
+                   </div>
                 </table>
             </div>
         </div>
