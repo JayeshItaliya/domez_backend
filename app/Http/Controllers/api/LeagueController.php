@@ -108,4 +108,82 @@ class LeagueController extends Controller
             return response()->json(["status" => 0, "message" => "Enter League Data Type"]);
         }
     }
+    public function league_details(Request $request)
+    {
+        $league_data = $this->getleaguedataobject($request->id);
+        if ($league_data != 1) {
+            return response()->json(["status" => 1, "message" => "Successful", 'league_details' => $league_data], 200);
+        } else {
+            return response()->json(["status" => 0, "message" => 'Dome Not Found'], 200);
+        }
+    }
+    public function getleaguedataobject($id)
+    {
+        $league = League::find($id);
+        if (empty($league)) {
+            return $league_data = 1;
+        }
+        $categories = explode('|', $league->sport_id);
+
+        $categoriess = Sports::select('id', 'name', DB::raw("CONCAT('" . url('storage/app/public/admin/images/leagues') . "/', image) AS image"))->whereIn('id', explode('|', $league->sport_id))->where('is_available', 1)->where('is_deleted', 2)->get();
+        foreach ($categoriess as $cat) {
+            $fields = Field::where('dome_id', $id)->whereIn('sport_id', $categories)->where('is_available', 1)->where('is_deleted', 2)->get();
+            $field_data = [];
+            foreach ($fields as $field) {
+                $field_data[] = [
+                    'field_id' => $field->id,
+                    'field_name' => $field->name,
+                    'field_area' => $field->area . ' ' . 'Sqr Ft',
+                    'field_person' => $field->min_person . '-' . $field->max_person . ' ' . 'People',
+                ];
+            }
+            $sports_list[] = [
+                'sport_id' => $cat->id,
+                'sport_name' => $cat->name,
+                'sport_image' => $cat->image,
+                // 'field_data' => $field_data,
+            ];
+        }
+
+        $benefits = [];
+        foreach (explode('|', $dome->benefits) as $benefit) {
+            $benefits[] = [
+                'benefit' => $benefit,
+                'benefit_image' => 'https://via.placeholder.com/150',
+            ];
+        }
+
+        $review = Review::where('dome_id', $dome->id)->selectRaw('SUM(ratting)/COUNT(user_id) AS avg_rating')->first()->avg_rating;
+        $images = Review::where('reviews.dome_id', $dome->id)
+            ->join('users AS users_table', function ($query) {
+                $query->on('reviews.user_id', '=', 'users_table.id')->where('users_table.type', 3);
+            })->select(DB::raw("CONCAT('" . url('storage/app/public/admin/images/profiles') . "/', users_table.image) AS image"))->get()->take(5)->pluck('image');
+        $total_reviews = Review::where('dome_id', $dome->id)->get();
+        $ratting_data = [
+            'avg_rating' => ($review) ? $review : "0",
+            'total_review' => $total_reviews->count() > 100 ? '100+' : $total_reviews->count(),
+            'images' => $images,
+        ];
+        if (!empty($dome)) {
+            $dome_data = array(
+                'id' => $dome->id,
+                'total_fields' => $fields->count(),
+                'name' => $dome->name,
+                'price' => $dome->price,
+                'city' => $dome->city,
+                'state' => $dome->state,
+                'start_time' => $dome->start_time,
+                'end_time' => $dome->end_time,
+                'description' => $dome->description,
+                'lat' => $dome->lat,
+                'lng' => $dome->lng,
+                'benefits_description' => $dome->benefits_description,
+                'ratting_data' => $ratting_data,
+                'benefits' => $benefits,
+                'sports_list' => $sports_list,
+                'dome_images' => $dome->dome_images,
+            );
+        }
+        return $dome_data;
+    }
 }

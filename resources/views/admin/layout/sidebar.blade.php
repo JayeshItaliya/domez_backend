@@ -170,17 +170,17 @@
                         <a href="javascript:void(0)" class="nav-item">
                             <span class="nav-link {{ request()->is('admin/settings/privacy-policy') ? 'active' : '' }}">{{ trans('labels.terms_conditions') }}</span>
                         </a>
-                        <a href="javascript:void(0)" class="nav-item">
-                            <span class="nav-link {{ request()->is('admin/settings/privacy-policy') ? 'active' : '' }}">{{ trans('labels.edit_profile') }}</span>
+                        <a href="{{URL::to('admin/settings/edit-profile-{id}')}}" class="nav-item">
+                            <span class="nav-link {{ request()->is('admin/settings/edit-profile-{id}') ? 'active' : '' }}">{{ trans('labels.edit_profile') }}</span>
                         </a>
-                        <a href="javascript:void(0)" class="nav-item">
-                            <span class="nav-link {{ request()->is('admin/settings/privacy-policy') ? 'active' : '' }}">{{ trans('labels.email_settings') }}</span>
+                        <a href="{{URL::to('admin/settings/email-setting')}}" class="nav-item">
+                            <span class="nav-link {{ request()->is('admin/settings/email-setting') ? 'active' : '' }}">{{ trans('labels.email_settings') }}</span>
                         </a>
-                        <a href="javascript:void(0)" class="nav-item">
-                            <span class="nav-link {{ request()->is('admin/settings/privacy-policy') ? 'active' : '' }}">{{ trans('labels.twillio_settings') }}</span>
+                        <a href="{{URL::to('admin/settings/twilio-setting')}}" class="nav-item">
+                            <span class="nav-link {{ request()->is('admin/settings/twilio-setting') ? 'active' : '' }}">{{ trans('labels.twillio_settings') }}</span>
                         </a>
-                        <a href="javascript:void(0)" class="nav-item">
-                            <span class="nav-link {{ request()->is('admin/settings/privacy-policy') ? 'active' : '' }}">{{ trans('labels.stripe_settings') }}</span>
+                        <a href="{{URL::to('admin/settings/stripe-setting')}}" class="nav-item">
+                            <span class="nav-link {{ request()->is('admin/settings/stripe-setting') ? 'active' : '' }}">{{ trans('labels.stripe_settings') }}</span>
                         </a>
                     </ul>
                 </div>
