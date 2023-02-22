@@ -21,7 +21,7 @@
                             <div class="col-auto">
                                 <div class="form-check mb-3">
                                     <input type="checkbox" id="{{ $data->name }}" name="sport_id[]"
-                                        class="form-check-input" value="{{ $data->id }}"
+                                        class="form-check-input" value="{{ $data->id }}"  data-sport-name="{{ $data->name }}"
                                         {{ in_array($data->id, $cat_id) ? 'checked' : '' }}>
                                     <label class="form-check-label" for="{{ $data->name }}">{{ $data->name }}</label>
                                 </div>
@@ -40,29 +40,35 @@
                         <span class="text-danger">{{ $message }}</span>
                     @enderror
                 </div>
+            </div>
+            <div class="row">
                 <div class="mb-4 col-sm-6">
-                    <label class="form-label" for="dome_price">Dome Price</label>
-                    <input type="text" id="dome_price" name="dome_price" value="{{ $dome->price }}"
-                        class="form-control" placeholder="Please Enter Dome Price">
-                    @error('dome_price')
-                        <span class="text-danger">{{ $message }}</span>
-                    @enderror
+                    <div class="row row-cols-lg-5 row-cols-md-4" id="sport_prices_input"></div>
                 </div>
                 <div class="mb-4 col-sm-6">
                     <div class="row">
-                        <div class="col-sm-6">
+                        <div class="col-sm-2">
+                            <div class="col">
+                                <label class="form-label" for="dome_hst">HST</label>
+                                <div class="input-group">
+                                    <input type="text" id="dome_hst" name="dome_hst" value="{{$dome->hst}}" class="form-control" placeholder="0">
+                                    <span class="input-group-text" id="basic-addon1">%</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-5">
                             <label for="start_time" class="form-label">Start Time</label>
                             <input type="text" class="form-control time_picker" name="start_time"
-                                value="{{ $dome->start_time }}" id="start_time" placeholder="Select Start Time"
+                            value="{{ $dome->start_time }}" id="start_time" placeholder="Select Start Time"
                                 autocomplete="off">
                             @error('start_time')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
                         </div>
-                        <div class="col-sm-6">
+                        <div class="col-sm-5">
                             <label for="end_time" class="form-label">End Time</label>
                             <input type="text" class="form-control time_picker" name="end_time"
-                                value="{{ $dome->end_time }}" id="end_time" placeholder="Select End Time"
+                            value="{{ $dome->end_time }}" id="end_time" placeholder="Select End Time"
                                 autocomplete="off">
                             @error('end_time')
                                 <span class="text-danger">{{ $message }}</span>
@@ -70,6 +76,8 @@
                         </div>
                     </div>
                 </div>
+            </div>
+            <div class="row">
                 <div class="mb-4 col-sm-6">
                     <label class="form-label" for="address">Dome Address</label>
                     <input type="text" class="form-control" name="address" value="{{ $dome->address }}" id="address"
@@ -108,6 +116,8 @@
                         <span class="text-danger">{{ $message }}</span>
                     @enderror
                 </div>
+            </div>
+            <div class="row">
                 <div class="col-sm-6">
                     @php $benefit = explode('|', $dome->benefits) @endphp
                     <div class="form-group mb-4">
@@ -155,31 +165,33 @@
                         <span class="text-danger">{{ $message }}</span>
                     @enderror
                 </div>
-                <div class="row mb-4">
-                    @foreach ($dome['dome_images'] as $demoimages)
-                        <div class="avatar avatar-xl">
-                            <div class="position-relative">
-                                <img src="{{ $demoimages->image }}" alt="..." class="mb-3 rounded" style="width:120px; height:70px;">
-                                <div class="img-overlay">
-                                    <a onclick="dome_delete('{{ $demoimages->id }}','{{ URL::to('admin/domes/image_delete') }}')"
-                                        class="text-bg-danger-soft fs-3 rounded-circle py-2 px-3"><i
-                                            class="fa-light fa-trash-can"></i></a>
-                                </div>
+            </div>
+            <div class="row mb-4">
+                @foreach ($dome['dome_images'] as $demoimages)
+                    <div class="avatar avatar-xl">
+                        <div class="position-relative">
+                            <img src="{{ $demoimages->image }}" alt="..." class="mb-3 rounded"
+                                style="width:120px; height:70px;">
+                            <div class="img-overlay">
+                                <a onclick="dome_delete('{{ $demoimages->id }}','{{ URL::to('admin/domes/image_delete') }}')"
+                                    class="text-bg-danger-soft fs-3 rounded-circle py-2 px-3"><i
+                                        class="fa-light fa-trash-can"></i></a>
                             </div>
                         </div>
-                    @endforeach
-                </div>
-                <div class="mb-4">
-                    <label class="form-label" for="location">Dome Location</label>
-                    <input type="text" name="lat" id="textLat"value="{{ $dome->lat }}" hidden>
-                    <input type="text" name="lng" id="textLng"value="{{ $dome->lng }}" hidden>
-                    <div id="map_canvas" class="w-auto" style="height: 500px;"></div>
-                    @error('lat')
-                        <span class="text-danger">{{ $message }}</span>
-                    @enderror
-                </div>
+                    </div>
+                @endforeach
             </div>
-            <button type="submit" class="btn btn-primary mt-2 float-end">Update</button>
+            <div class="mb-4">
+                <label class="form-label" for="location">Dome Location</label>
+                <input type="text" name="lat" id="textLat"value="{{ $dome->lat }}" hidden>
+                <input type="text" name="lng" id="textLng"value="{{ $dome->lng }}" hidden>
+                <div id="map_canvas" class="w-auto" style="height: 500px;"></div>
+                @error('lat')
+                    <span class="text-danger">{{ $message }}</span>
+                @enderror
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary mt-2 float-end">Update</button>
         </div>
     </form>
 @endsection
@@ -195,6 +207,16 @@
         $(document).ready(function() {
             "use strict";
             $(".time_picker").timepicker();
+        });
+        // Sport Price
+        $('input[data-sport-name]').click(function(){
+            if(this.checked){
+                // var = $(this).attr("data-sport-name");
+                let html = '<div class="col mb-2" id="'+$(this).attr("data-sport-name")+''+$(this).val()+'"><label class="form-label" for="dome_price">'+$(this).attr("data-sport-name")+' Price</label><div class="input-group"><input type="text" class="form-control" id="dome_price" name="dome_price" placeholder="0"><span class="input-group-text" id="basic-addon1">$</span></div></div>';
+                $('#sport_prices_input').append(html);
+            }else{
+                $('#'+$(this).attr("data-sport-name")+''+$(this).val()).remove();
+            }
         });
         // Dome Image Delete
         function dome_delete(id, url) {

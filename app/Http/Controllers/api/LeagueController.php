@@ -9,6 +9,7 @@ use App\Models\Domes;
 use App\Models\Favourite;
 use App\Models\Field;
 use App\Models\League;
+use App\Models\Review;
 use App\Models\Sports;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -123,11 +124,10 @@ class LeagueController extends Controller
         if (empty($league)) {
             return $league_data = 1;
         }
-        $categories = explode('|', $league->sport_id);
-
-        $categoriess = Sports::select('id', 'name', DB::raw("CONCAT('" . url('storage/app/public/admin/images/leagues') . "/', image) AS image"))->whereIn('id', explode('|', $league->sport_id))->where('is_available', 1)->where('is_deleted', 2)->get();
-        foreach ($categoriess as $cat) {
-            $fields = Field::where('dome_id', $id)->whereIn('sport_id', $categories)->where('is_available', 1)->where('is_deleted', 2)->get();
+        $sports = Sports::select('id', 'name', DB::raw("CONCAT('" . url('storage/app/public/admin/images/leagues') . "/', image) AS image"))->whereIn('id', explode('|', $league->sport_id))->where('is_available', 1)->where('is_deleted', 2)->get();
+        foreach ($sports as $sport) {
+            $fields = Field::whereIn('id', explode('|', $league->field_id))->where('dome_id', $league->dome_id)->where('sport_id', $league->sport_id)->where('is_available', 1)->where('is_deleted', 2)->get();
+            dd(Field::whereIn('id', explode('|', $league->field_id))->where('dome_id', $league->dome_id)->where('sport_id', $league->sport_id)->get());
             $field_data = [];
             foreach ($fields as $field) {
                 $field_data[] = [
@@ -138,52 +138,44 @@ class LeagueController extends Controller
                 ];
             }
             $sports_list[] = [
-                'sport_id' => $cat->id,
-                'sport_name' => $cat->name,
-                'sport_image' => $cat->image,
+                'sport_id' => $sport->id,
+                'sport_name' => $sport->name,
+                'sport_image' => $sport->image,
                 // 'field_data' => $field_data,
             ];
         }
 
-        $benefits = [];
-        foreach (explode('|', $dome->benefits) as $benefit) {
-            $benefits[] = [
-                'benefit' => $benefit,
-                'benefit_image' => 'https://via.placeholder.com/150',
-            ];
-        }
-
-        $review = Review::where('dome_id', $dome->id)->selectRaw('SUM(ratting)/COUNT(user_id) AS avg_rating')->first()->avg_rating;
-        $images = Review::where('reviews.dome_id', $dome->id)
+        $review = Review::where('dome_id', $league->id)->selectRaw('SUM(ratting)/COUNT(user_id) AS avg_rating')->first()->avg_rating;
+        $images = Review::where('reviews.dome_id', $league->id)
             ->join('users AS users_table', function ($query) {
                 $query->on('reviews.user_id', '=', 'users_table.id')->where('users_table.type', 3);
             })->select(DB::raw("CONCAT('" . url('storage/app/public/admin/images/profiles') . "/', users_table.image) AS image"))->get()->take(5)->pluck('image');
-        $total_reviews = Review::where('dome_id', $dome->id)->get();
+        $total_reviews = Review::where('dome_id', $league->id)->get();
         $ratting_data = [
             'avg_rating' => ($review) ? $review : "0",
             'total_review' => $total_reviews->count() > 100 ? '100+' : $total_reviews->count(),
             'images' => $images,
         ];
-        if (!empty($dome)) {
-            $dome_data = array(
-                'id' => $dome->id,
-                'total_fields' => $fields->count(),
-                'name' => $dome->name,
-                'price' => $dome->price,
+        $dome = Domes::where('id',$league->dome_id)->first();
+        if (!empty($league)) {
+            $league_data = array(
+                'id' => $league->id,
+                'league_name' => $league->name,
+                'dome_name' => $dome->name,
+                'price' => $league->price,
                 'city' => $dome->city,
                 'state' => $dome->state,
-                'start_time' => $dome->start_time,
-                'end_time' => $dome->end_time,
-                'description' => $dome->description,
+                'start_time' => $league->start_time,
+                'end_time' => $league->end_time,
+                'description' => $league->description,
                 'lat' => $dome->lat,
                 'lng' => $dome->lng,
-                'benefits_description' => $dome->benefits_description,
+                'benefits_description' => $league->benefits_description,
                 'ratting_data' => $ratting_data,
-                'benefits' => $benefits,
                 'sports_list' => $sports_list,
-                'dome_images' => $dome->dome_images,
+                'dome_images' => $league->dome_images,
             );
         }
-        return $dome_data;
+        return $league_data;
     }
 }

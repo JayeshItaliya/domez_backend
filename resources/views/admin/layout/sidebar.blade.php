@@ -118,9 +118,9 @@
                     <span class="mx-3">{{ trans('labels.calendar') }}</span>
                 </a>
 
-                <a href="#enquiry" class="nav-item {{ request()->is('admin/enquiry*') ? 'active' : '' }}"
+                <a href="#enquiry" class="nav-item {{ request()->is('admin/enquiries*') ? 'active' : '' }}"
                     data-bs-toggle="collapse" role="button"
-                    aria-expanded="{{ request()->is('admin/enquiry*') ? 'true' : 'false' }}" aria-controls="enquiry">
+                    aria-expanded="{{ request()->is('admin/enquiries*') ? 'true' : 'false' }}" aria-controls="enquiry">
                     <i class="fa-light fa-message-smile"></i>
                     <div class="ms-3 d-flex align-items-center justify-content-between w-100">
                         <span>{{ trans('labels.enquiry') }}</span>
@@ -132,7 +132,7 @@
                         </svg>
                     </div>
                 </a>
-                <div class="collapse {{ request()->is('admin/enquiry*') ? 'show' : '' }}" id="enquiry">
+                <div class="collapse {{ request()->is('admin/enquiries*') ? 'show' : '' }}" id="enquiry">
                     <ul class="nav d-grid">
                         <a href="{{URL::to('admin/enquiries/dome-requests')}}" class="nav-item">
                             <span class="nav-link {{ request()->is('admin/enquiries/dome-requests') ? 'active' : '' }}">{{ trans('labels.domes_requests') }}</span>
@@ -161,7 +161,7 @@
                         </svg>
                     </div>
                 </a>
-                <div class="collapse {{ request()->is('admin/generalsettings*') ? 'show' : '' }}"
+                <div class="collapse {{ request()->is('admin/settings*') ? 'show' : '' }}"
                     id="generalsettings">
                     <ul class="nav d-grid">
                         <a href="javascript:void(0)" class="nav-item">

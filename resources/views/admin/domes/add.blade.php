@@ -43,10 +43,10 @@
                     <label class="form-label">{{ trans('labels.select_sports') }}</label>
                     <div class="row">
                         @foreach ($getsportslist as $data)
-                            <div class="col-auto">
-                                <div class="form-check mb-3">
+                            <div class="col-auto mb-2">
+                                <div class="form-check">
                                     <input type="checkbox" id="{{ $data->name }}" name="sport_id[]"
-                                        class="form-check-input" value="{{ $data->id }}">
+                                        class="form-check-input" value="{{ $data->id }}" data-sport-name="{{ $data->name }}">
                                     <label class="form-check-label" for="{{ $data->name }}">{{ $data->name }}</label>
                                 </div>
                             </div>
@@ -67,44 +67,15 @@
             </div>
             <div class="row">
                 <div class="mb-4 col-sm-6">
-                    <div class="row row-cols-lg-4">
-                        <div class="col">
-                            <label class="form-label" for="dome_price">Dome Price</label>
-                            <div class="input-group">
-                                <input type="text" class="form-control" placeholder="0">
-                                <span class="input-group-text" id="basic-addon1">$</span>
-                            </div>
-                        </div>
-                        <div class="col">
-                            <label class="form-label" for="dome_price">Dome Price</label>
-                            <div class="input-group">
-                                <input type="text" class="form-control" placeholder="0">
-                                <span class="input-group-text" id="basic-addon1">$</span>
-                            </div>
-                        </div>
-                        <div class="col">
-                            <label class="form-label" for="dome_price">Dome Price</label>
-                            <div class="input-group">
-                                <input type="text" class="form-control" placeholder="0">
-                                <span class="input-group-text" id="basic-addon1">$</span>
-                            </div>
-                        </div>
-                        <div class="col">
-                            <label class="form-label" for="dome_price">Dome Price</label>
-                            <div class="input-group">
-                                <input type="text" class="form-control" placeholder="0">
-                                <span class="input-group-text" id="basic-addon1">$</span>
-                            </div>
-                        </div>
-                    </div>
+                    <div class="row row-cols-lg-5 row-cols-md-4" id="sport_prices_input"></div>
                 </div>
                 <div class="mb-4 col-sm-6">
                     <div class="row">
                         <div class="col-sm-2">
                             <div class="col">
-                                <label class="form-label" for="dome_price">HST</label>
+                                <label class="form-label" for="dome_hst">HST</label>
                                 <div class="input-group">
-                                    <input type="text" class="form-control" placeholder="0">
+                                    <input type="text" id="dome_hst" name="dome_hst" class="form-control" placeholder="0">
                                     <span class="input-group-text" id="basic-addon1">%</span>
                                 </div>
                             </div>
@@ -241,6 +212,20 @@
             "use strict";
             $(".time_picker").timepicker();
         });
+
+        // Sport Price
+        $('input[data-sport-name]').click(function(){
+            if(this.checked){
+                // var = $(this).attr("data-sport-name");
+                let html = '<div class="col mb-2" id="'+$(this).attr("data-sport-name")+''+$(this).val()+'"><label class="form-label" for="dome_price">'+$(this).attr("data-sport-name")+' Price</label><div class="input-group"><input type="text" class="form-control" id="dome_price" name="dome_price" placeholder="0"><span class="input-group-text" id="basic-addon1">$</span></div></div>';
+                $('#sport_prices_input').append(html);
+            }else{
+                $('#'+$(this).attr("data-sport-name")+''+$(this).val()).remove();
+            }
+        });
+
+
+
         // Google Map For Location
         $(document).ready(function() {
             initMap();
