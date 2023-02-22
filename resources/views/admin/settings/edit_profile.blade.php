@@ -2,7 +2,7 @@
 @section('styles')
 @endsection
 @section('title')
-      Edit Profile
+       Email Settings
 @endsection
 @section('contents')
     <!-- Title -->
@@ -33,70 +33,77 @@
             </div>
         </div>
     </div>
-
-    <form class="card" action="" method="post" enctype="multipart/form-data">
-        @csrf
+    <div class="card">
         <div class="card-body">
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="mb-3">
-                        <label for="exampleFormControlInput1" class="form-label">Name</label>
-                        <input type="text" class="form-control" id="exampleFormControlInput1"
-                            placeholder="Jone">
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="mb-3">
-                        <label for="exampleFormControlInput1" class="form-label">Email Address</label>
-                        <input type="email" class="form-control" id="exampleFormControlInput1"
-                            placeholder="Jone@hotmail.com">
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="mb-3">
-                        <label class="form-label">Profile Image(Optional)</label>
-                        <input type="file" class="form-control mt-2 mb-4">
-                        <div class="add-league-img mt-2">
-                            <img src="http://localhost/domez_backend/storage/app/public/admin/images/gernral_settings/edit_profile.png">
+            <form class="card" action="" method="post" enctype="multipart/form-data">
+                @csrf
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="exampleFormControlInput1" class="form-label">Name</label>
+                                <input type="text" class="form-control" id="exampleFormControlInput1"
+                                    placeholder="Jone">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="exampleFormControlInput1" class="form-label">Email Address</label>
+                                <input type="email" class="form-control" id="exampleFormControlInput1"
+                                    placeholder="Jone@hotmail.com">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">Profile Image(Optional)</label>
+                                <input type="file" class="form-control mt-2 mb-4">
+                                <div class="add-league-img mt-2">
+                                    <img src="http://localhost/domez_backend/storage/app/public/admin/images/gernral_settings/edit_profile.png">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <button type="submit" class="btn btn-primary">Save</button>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-12">
-                    <button type="submit" class="btn btn-primary">Save</button>
-                </div>
-            </div>
+            </form>
         </div>
-    </form>
+    </div>
 
-    <form class="card mt-3" action="" method="post" enctype="multipart/form-data">
-        @csrf
-        <div class="p-4">
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="mb-3">
-                        <label for="inputPassword" class="form-label">Current Password</label>
-                        <input type="password" class="form-control" id="inputPassword"
-                            placeholder="********">
+    <div class="card mt-3">
+        <div class="card-body">
+            <form class="card mt-3" action="" method="post" enctype="multipart/form-data">
+                @csrf
+                <div class="p-4">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label for="inputPassword" class="form-label">Current Password</label>
+                                <input type="password" class="form-control" id="inputPassword"
+                                    placeholder="********">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label for="inputPassword" class="form-label">New Password</label>
+                                <input type="password" class="form-control" id="inputPassword"
+                                    placeholder="********">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label for="inputPassword" class="form-label">Confirm Password</label>
+                                <input type="password" class="form-control" id="inputPassword"
+                                    placeholder="********">
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <button type="submit" class="btn btn-primary">Save</button>
+                        </div>
                     </div>
                 </div>
-                <div class="col-md-4">
-                    <div class="mb-3">
-                        <label for="inputPassword" class="form-label">New Password</label>
-                        <input type="password" class="form-control" id="inputPassword"
-                            placeholder="********">
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="mb-3">
-                        <label for="inputPassword" class="form-label">Confirm Password</label>
-                        <input type="password" class="form-control" id="inputPassword"
-                            placeholder="********">
-                    </div>
-                </div>
-                <div class="col-md-12">
-                    <button type="submit" class="btn btn-primary">Save</button>
-                </div>
-            </div>
+            </form>
         </div>
-    </form>
+    </div>
 @endsection

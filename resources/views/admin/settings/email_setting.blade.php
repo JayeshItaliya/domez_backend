@@ -2,14 +2,14 @@
 @section('styles')
 @endsection
 @section('title')
-     Twilio Settings
+    Email Settings
 @endsection
 @section('contents')
     <!-- Title -->
     <div class="card mb-3">
         <div class="card-body py-2">
             <div class="d-flex align-items-center justify-content-between">
-                <p class="text-secondary fw-semibold">Twilio Settings</p>
+                <p class="text-secondary fw-semibold">Edit Profile</p>
                 <nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='%236c757d'/%3E%3C/svg%3E&#34;);"
                     aria-label="breadcrumb">
                     <ol class="breadcrumb m-0">
@@ -27,12 +27,13 @@
                             </a>
                         </li>
                         <li class="breadcrumb-item">General Settings</li>
-                        <li class="breadcrumb-item active" aria-current="page">Twilio Settings</li>
+                        <li class="breadcrumb-item active" aria-current="page">Email Settings</li>
                     </ol>
                 </nav>
             </div>
         </div>
     </div>
+
     <div class="card">
         <div class="card-body">
             <form class="card" action="" method="post" enctype="multipart/form-data">
@@ -41,23 +42,47 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="mb-3">
-                                <label for="exampleFormControlInput1" class="form-label">Twilio SID</label>
+                                <label for="exampleFormControlInput1" class="form-label">Mailer</label>
                                 <input type="text" class="form-control" id="exampleFormControlInput1"
                                     placeholder="Enter Mailer">
                             </div>
-                        </div>
-                        <div class="col-md-6">
                             <div class="mb-3">
-                                <label for="exampleFormControlInput1" class="form-label">Twilio Token</label>
-                                <input type="email" class="form-control" id="exampleFormControlInput1"
-                                    placeholder="Enter TwilioToken">
+                                <label for="exampleFormControlInput1" class="form-label">Port</label>
+                                <input type="text" class="form-control" id="exampleFormControlInput1"
+                                    placeholder="Enter Port">
+                            </div>
+                            <div class="mb-3">
+                                <label for="exampleFormControlInput1" class="form-label">Password</label>
+                                <input type="password" class="form-control" id="exampleFormControlInput1"
+                                    placeholder="Enter Password">
+                            </div>
+                            <div class="mb-3">
+                                <label for="exampleFormControlInput1" class="form-label">From Email Address</label>
+                                <input type="Email" class="form-control" id="exampleFormControlInput1"
+                                    placeholder="Enter Email Address">
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="mb-3">
-                                <label for="exampleFormControlInput1" class="form-label">Twilio From</label>
+                                <label for="exampleFormControlInput1" class="form-label">Host</label>
+                                <input type="text" class="form-control" id="exampleFormControlInput1"
+                                    placeholder="Enter Host">
+                            </div>
+                            <div class="mb-3">
+                                <label for="exampleFormControlInput1" class="form-label">User Name</label>
                                 <input type="email" class="form-control" id="exampleFormControlInput1"
-                                    placeholder="Twilio From">
+                                    placeholder="Enter User Name">
+                            </div>
+                            <div class="mb-3">
+                                <label for="exampleFormControlInput1" class="form-label" placeholder="TLS">Encryption</label>
+                                <select class="form-control mt-2" id="inlineFormSelectPref">
+                                    <option selected>TLS</option>
+                                    <option value="1">One</option>
+                                    <option value="2">Two</option>
+                                    <option value="3">Three</option>
+                                    <label for="inlineFormSelectPref" class="form-label"><i
+                                        class="fa-solid fa-angle-down"></i></label>
+                                </select>
                             </div>
                         </div>
                         <div class="col-md-12">
