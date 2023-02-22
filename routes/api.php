@@ -54,9 +54,10 @@ Route::get('dome-details-{id}', [DomesController::class, 'domes_details']);
 Route::post('leagues-list', [LeagueController::class, 'leagues_list']);
 Route::get('league-details-{id}', [LeagueController::class, 'league_details']);
 
+Route::post('filter', [HomeController::class, 'filter']);
 
 Route::post('favourite', [FavouriteController::class, 'favourite']);
-Route::get('favourite-list-{id}', [FavouriteController::class, 'favourite_list']);
+Route::post('favourite-list', [FavouriteController::class, 'favourite_list']);
 
 Route::post('booking', [BookingController::class, 'booking']);
 Route::post('check-booking', [BookingController::class, 'check_booking']);
