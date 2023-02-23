@@ -1,6 +1,6 @@
 @extends('admin.layout.default')
 @section('title')
-    Bookings List
+    Bookings
 @endsection
 @section('contents')
     <!-- Title -->
@@ -111,10 +111,10 @@
                                 <td>10:00 AM</td>
                                 <td>$500</td>
                                 <td>
-                                    <span class="badge rounded-pill cursor-pointer text-bg-success" onclick="change_status('2','2','http://localhost/domez/admin/vendors/change_status')">Partial</span>
+                                    <span class="badge rounded-pill cursor-pointer text-bg-primary" onclick="change_status('2','2','http://localhost/domez/admin/vendors/change_status')">Partial</span>
                                 </td>
                                 <td>
-                                    <span class="badge rounded-pill cursor-pointer text-bg-success" onclick="change_status('2','2','http://localhost/domez/admin/vendors/change_status')">Pending</span>
+                                    <span class="badge rounded-pill cursor-pointer text-bg-warning" onclick="change_status('2','2','http://localhost/domez/admin/vendors/change_status')">Pending</span>
                                 </td>
                                 <td>
                                     <a class="cursor-pointer me-2"
@@ -148,10 +148,10 @@
                                 <td>10:00 AM</td>
                                 <td>$500</td>
                                 <td>
-                                    <span class="badge rounded-pill cursor-pointer text-bg-success" onclick="change_status('2','2','http://localhost/domez/admin/vendors/change_status')">Completed</span>
+                                    <span class="badge rounded-pill cursor-pointer text-bg-info" onclick="change_status('2','2','http://localhost/domez/admin/vendors/change_status')">Completed</span>
                                 </td>
                                 <td>
-                                    <span class="badge rounded-pill cursor-pointer text-bg-success" onclick="change_status('2','2','http://localhost/domez/admin/vendors/change_status')">Cancel</span>
+                                    <span class="badge rounded-pill cursor-pointer text-bg-danger" onclick="change_status('2','2','http://localhost/domez/admin/vendors/change_status')">Cancel</span>
                                 </td>
                                 <td>
                                     <a class="cursor-pointer me-2"
@@ -185,10 +185,10 @@
                                 <td>10:00 AM</td>
                                 <td>$500</td>
                                 <td>
-                                    <span class="badge rounded-pill cursor-pointer text-bg-success" onclick="change_status('2','2','http://localhost/domez/admin/vendors/change_status')">Partial</span>
+                                    <span class="badge rounded-pill cursor-pointer text-bg-primary" onclick="change_status('2','2','http://localhost/domez/admin/vendors/change_status')">Partial</span>
                                 </td>
                                 <td>
-                                    <span class="badge rounded-pill cursor-pointer text-bg-success" onclick="change_status('2','2','http://localhost/domez/admin/vendors/change_status')">Pending</span>
+                                    <span class="badge rounded-pill cursor-pointer text-bg-warning" onclick="change_status('2','2','http://localhost/domez/admin/vendors/change_status')">Pending</span>
                                 </td>
                                 <td>
                                     <a class="cursor-pointer me-2"
@@ -222,7 +222,7 @@
                                 <td>10:00 AM</td>
                                 <td>$500</td>
                                 <td>
-                                    <span class="badge rounded-pill cursor-pointer text-bg-success" onclick="change_status('2','2','http://localhost/domez/admin/vendors/change_status')">Completed</span>
+                                    <span class="badge rounded-pill cursor-pointer text-bg-info" onclick="change_status('2','2','http://localhost/domez/admin/vendors/change_status')">Completed</span>
                                 </td>
                                 <td>
                                     <span class="badge rounded-pill cursor-pointer text-bg-success" onclick="change_status('2','2','http://localhost/domez/admin/vendors/change_status')">Confirm</span>

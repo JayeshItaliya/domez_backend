@@ -125,7 +125,7 @@ Support
                                        <textarea  rows="5" class="form-control" placeholder="Lorem Ipsum is simply dummy text.." ></textarea>
                                     </div>
                                     <div class="d-flex justify-content-end mt-3">
-                                       <button type="button" class="btn btn-primary">Replay</button>
+                                       <button type="button" class="btn btn-primary">Submit</button>
                                     </div>
                                  </div>
                              </div>
