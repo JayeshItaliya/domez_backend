@@ -411,7 +411,7 @@
 @section('scripts')
     <script>
         $(function() {
-            var html ='<div class="row"><div class="col-md-3 time" id="box"><div class="mb-3"><label class="form-label"></label><input type="time" class="form-control mt-2" value="00:00 AM" /></div></div><div class="col-md-3 time" id="box"><div class="mb-3"><label class="form-label"></label><input type="time" class="form-control mt-2" value="00:00 AM" /></div></div><div class="col-md-3 time" id="box"><div class="mb-3"><label class="form-label"></label><input type="$" class="form-control mt-2" placeholder="Set Price"></div></div><div class="col-md-3"><div class="mb-3"><a class="btn-custom-primary mt-4" id="appendbtn"><svg xmlns="http://www.w3.org/2000/svg"class="icon-tabler icon-tabler-plus" width="20" height="20" viewBox="0 0 24 24"stroke-width="1.5" stroke="var(--bs-primary)" fill="none" stroke-linecap="round"stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></a></div></div></div>'
+            var html ='<div class="mb-3"><label class="form-label"></label><input type="time" class="form-control mt-2" value="00:00 AM" /></div><div class="mb-3"><label class="form-label"></label><input type="time" class="form-control mt-2" value="00:00 AM" /></div><div class="mb-3"><label class="form-label"></label><input type="$" class="form-control mt-2" placeholder="Set Price"></div>'
             $("#appendbtn").click(function() {
                 $('#box').append(html);
             });

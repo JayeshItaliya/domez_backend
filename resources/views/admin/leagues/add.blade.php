@@ -26,7 +26,7 @@
                                 </svg>
                             </a>
                         </li>
-                        <li class="breadcrumb-item ">league</li>
+                        <li class="breadcrumb-item ">League</li>
                         <li class="breadcrumb-item active" aria-current="page">Add League</li>
                     </ol>
                 </nav>
