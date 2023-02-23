@@ -24,7 +24,7 @@
                         </a>
                     </li>
                     <li class="breadcrumb-item ">Leagues</li>
-                    <li class="breadcrumb-item active" aria-current="page">Edit League</li>
+                    <li class="breadcrumb-item active" aria-current="page">League Details</li>
                 </ol>
             </nav>
         </div>
@@ -57,7 +57,7 @@
                 <div class="bg-gray col-lg-4">
                     <div class="px-3 py-2 d-flex">
                         <div class="col-md-4">
-                            <label>{{ trans('Sport Name') }}</label>
+                            <label>Sport Name</label>
                         </div>
                         <div class="col-md-8">
                             <span class="text-muted fs-7">Vollyball</span>
@@ -70,7 +70,7 @@
                 <div class="bg-gray col-lg-4">
                     <div class="px-3 py-2 d-flex">
                         <div class="col-md-4">
-                            <label>{{ trans('Team Limit') }}</label>
+                            <label>Team Limit</label>
                         </div>
                         <div class="col-md-8">
                             <span class="text-muted fs-7">20</span>
@@ -80,7 +80,7 @@
                 <div class="bg-gray col-lg-4">
                     <div class="px-3 py-2 d-flex">
                         <div class="col-md-4">
-                            <label>{{ trans('Price (Per team)') }}</label>
+                            <label>Price (Per team)</label>
                         </div>
                         <div class="col-md-8">
                             <span class="text-muted fs-7">$ 210</span>
@@ -92,7 +92,7 @@
                 <div class="col-lg-4">
                     <div class="px-3 py-2 d-flex">
                         <div class="col-md-4">
-                            <label>{{ trans('Start Date') }}</label>
+                            <label>Start Date</label>
                         </div>
                         <div class="col-md-8">
                             <span class="text-muted fs-7">20/01/2023</span>
@@ -102,7 +102,7 @@
                 <div class="col-lg-4">
                     <div class="px-3 py-2 d-flex">
                         <div class="col-md-4">
-                            <label>{{ trans('End Date') }}</label>
+                            <label>End Date<label>
                         </div>
                         <div class="col-md-8">
                             <span class="text-muted fs-7">30/03/2023</span>
@@ -114,7 +114,7 @@
                 <div class="bg-gray col-lg-4">
                     <div class="px-3 py-2 d-flex">
                         <div class="col-md-4">
-                            <label>{{ trans('Start Time') }}</label>
+                            <label>Start Time</label>
                         </div>
                         <div class="col-md-8">
                             <span class="text-muted fs-7">09:00 AM</span>
@@ -124,7 +124,7 @@
                 <div class="bg-gray col-lg-4">
                     <div class="px-3 py-2 d-flex">
                         <div class="col-md-4">
-                            <label>{{ trans('End Time') }}</label>
+                            <label>End Time</label>
                         </div>
                         <div class="col-md-8">
                             <span class="text-muted fs-7">06:00 PM</span>
@@ -136,7 +136,7 @@
                 <div class="col-lg-4">
                     <div class="px-3 py-2 d-flex">
                         <div class="col-md-4">
-                            <label>{{ trans('Min Players') }}</label>
+                            <label>Min Players</label>
                         </div>
                         <div class="col-md-8">
                             <span class="text-muted fs-7">10</span>
@@ -146,7 +146,7 @@
                 <div class="col-lg-4">
                     <div class="px-3 py-2 d-flex">
                         <div class="col-md-4">
-                            <label>{{ trans('Max Players') }}</label>
+                            <label>Max Players</label>
                         </div>
                         <div class="col-md-8">
                             <span class="text-muted fs-7">15</span>
@@ -158,7 +158,7 @@
                 <div class="bg-gray col-lg-4">
                     <div class="px-3 py-2 d-flex">
                         <div class="col-md-4">
-                            <label>{{ trans('Age') }}</label>
+                            <label>Age</label>
                         </div>
                         <div class="col-md-8">
                             <span class="text-muted fs-7">Above 18 Years</span>
@@ -168,7 +168,7 @@
                 <div class="bg-gray col-lg-4">
                     <div class="px-3 py-2 d-flex">
                         <div class="col-md-4">
-                            <label>{{ trans('Gender') }}</label>
+                            <label>Gender</label>
                         </div>
                         <div class="col-md-8">
                             <span class="text-muted fs-7">Men</span>

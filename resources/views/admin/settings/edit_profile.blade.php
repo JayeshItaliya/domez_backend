@@ -2,7 +2,7 @@
 @section('styles')
 @endsection
 @section('title')
-       Email Settings
+   Edit Profile
 @endsection
 @section('contents')
     <!-- Title -->

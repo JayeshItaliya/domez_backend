@@ -232,7 +232,7 @@
                             <label>Payment Status</label>
                         </div>
                         <div class="col-md-8">
-                            <span class="badge rounded-pill cursor-pointer text-bg-success mx-3" onclick="change_status('2','2','http://localhost/domez/admin/vendors/change_status')">Completed</span>
+                            <span class="badge rounded-pill cursor-pointer text-bg-info mx-3" onclick="change_status('2','2','http://localhost/domez/admin/vendors/change_status')">Completed</span>
                         </div>
                     </div>
                 </div>
@@ -244,7 +244,7 @@
                             <label>Booking Status</label>
                         </div>
                         <div class="col-md-8">
-                            <span class="badge rounded-pill cursor-pointer text-bg-success mx-3" onclick="change_status('2','2','http://localhost/domez/admin/vendors/change_status')">Confirm</span>
+                            <span class="badge rounded-pill cursor-pointer text-bg-warning mx-3" onclick="change_status('2','2','http://localhost/domez/admin/vendors/change_status')">Confirm</span>
                         </div>
                     </div>
                 </div>
