@@ -98,7 +98,7 @@ Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function () {
         Route::get('delete', [SportsController::class, 'delete']);
     });
     //  Leagues
-    Route::group(['middleware' => 'admin', 'prefix' => 'leagues'], function () {
+    Route::group(['prefix' => 'leagues'], function () {
         Route::get('/', [LeagueController::class, 'index']);
         Route::get('add', [LeagueController::class, 'add']);
         Route::post('store', [LeagueController::class, 'store']);
@@ -133,7 +133,7 @@ Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function () {
     });
 
     //  Field
-    Route::group(['prefix' => 'field'], function () {
+    Route::group(['prefix' => 'fields'], function () {
         Route::get('/', [FieldController::class, 'index']);
         Route::get('add', [FieldController::class, 'add']);
         Route::post('store', [FieldController::class, 'store']);

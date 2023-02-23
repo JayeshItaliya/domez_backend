@@ -192,6 +192,8 @@ class DomesController extends Controller
                 'total_fields' => $fields->count(),
                 'name' => $dome->name,
                 'price' => $dome->price,
+                'hst' => $dome->hst,
+                'address' => $dome->address,
                 'city' => $dome->city,
                 'state' => $dome->state,
                 'start_time' => $dome->start_time,

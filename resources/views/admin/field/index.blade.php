@@ -1,12 +1,12 @@
 @extends('admin.layout.default')
 @section('title')
-    Fields List
+    {{ trans('labels.fields') }}
 @endsection
 @section('contents')
     <div class="card mb-3">
         <div class="card-body py-2">
             <div class="d-flex align-items-center justify-content-between">
-                <p class="text-secondary fw-semibold">Fields</p>
+                <p class="text-secondary fw-semibold">{{ trans('labels.fields') }}</p>
                 <nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='%236c757d'/%3E%3C/svg%3E&#34;);"
                     aria-label="breadcrumb">
                     <ol class="breadcrumb m-0">
@@ -23,7 +23,7 @@
                                 </svg>
                             </a>
                         </li>
-                        <li class="breadcrumb-item active" aria-current="page">Fields</li>
+                        <li class="breadcrumb-item active" aria-current="page">{{ trans('labels.fields') }}</li>
                     </ol>
                 </nav>
             </div>
@@ -56,7 +56,7 @@
                             <td>{{ $i++ }}</td>
                             <td>
                                 <div class="avatar avatar-lg">
-                                    <img src="{{ Helper::image_path($data->image) }}" alt="..." class="avatar-img"
+                                    <img src="{{ Helper::image_path($data->image) }}" alt="..." class="rounded"
                                         style="width: 100px">
                                 </div>
                             </td>
@@ -69,108 +69,41 @@
                             <td>{{ $data->min_person }}</td>
                             <td>{{ $data->max_person }}</td>
                             @if (Auth::user()->type == 2)
-                                <td class="text-center">
+                                <td>
                                     <a href="{{ URL::to('admin/field/edit-') . $data->id }}"
                                         class="text-secondary me-2 fs-3" data-bs-toggle="tooltip" data-bs-placement="bottom"
-                                        data-bs-title="Edit"><i class="fa-duotone fa-pen-to-square"></i></a>
+                                        data-bs-title="Edit">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-edit"
+                                            width="25" height="25" viewBox="0 0 24 24" stroke-width="1"
+                                            stroke="var(--bs-warning)" fill="none" stroke-linecap="round"
+                                            stroke-linejoin="round">
+                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                            <path d="M9 7h-3a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-3" />
+                                            <path d="M9 15h3l8.5 -8.5a1.5 1.5 0 0 0 -3 -3l-8.5 8.5v3" />
+                                            <line x1="16" y1="5" x2="19" y2="8" />
+                                        </svg>
+                                    </a>
                                     <a onclick="field_delete('{{ $data->id }}','{{ $data->is_deleted == 2 ? 1 : 2 }}','{{ URL::to('admin/field/delete') }}')"
                                         class="text-danger me-2 fs-3" data-bs-toggle="tooltip" data-bs-placement="bottom"
-                                        data-bs-title="Delete"><i class="fa-duotone fa-trash-can"></i></a>
+                                        data-bs-title="Delete">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash"
+                                            width="25" height="25" viewBox="0 0 24 24" stroke-width="1"
+                                            stroke="var(--bs-danger)" fill="none" stroke-linecap="round"
+                                            stroke-linejoin="round">
+                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                            <line x1="4" y1="7" x2="20" y2="7" />
+                                            <line x1="10" y1="11" x2="10" y2="17" />
+                                            <line x1="14" y1="11" x2="14" y2="17" />
+                                            <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
+                                            <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
+                                        </svg>
+                                    </a>
                                 </td>
                             @endif
                         </tr>
                     @endforeach
                 </tbody>
             </table>
-
-
-
-
-
-
-
-
-
-            {{-- <div class="table-responsive">
-                <input class="form-control list-search mw-300px float-end mb-5" type="search" placeholder="Search">
-                <table class="table table-nowrap mb-0" data-list='{"valueNames": ["id", "name", "manager", "status"]}'>
-                    <thead class="thead-light">
-                        <tr>
-                            <th>
-                                <a href="javascript: void(0);" class="text-muted list-sort" data-sort="id">ID</a>
-                            </th>
-                            <th>
-                                <a href="javascript: void(0);" class="text-muted list-sort" data-sort="image">Image</a>
-                            </th>
-                            @if (Auth::user()->type == 1)
-                                <th>
-                                    <a href="javascript: void(0);" class="text-muted list-sort" data-sort="vendor_id">Vendor
-                                        Name</a>
-                                </th>
-                                <th>
-                                    <a href="javascript: void(0);" class="text-muted list-sort" data-sort="name">Dome
-                                        Name</a>
-                                </th>
-                            @endif
-                            <th>
-                                <a href="javascript: void(0);" class="text-muted list-sort" data-sort="name">Name</a>
-                            </th>
-                            <th>
-                                <a href="javascript: void(0);" class="text-muted list-sort" data-sort="sports">Sports</a>
-                            </th>
-                            <th>
-                                <a href="javascript: void(0);" class="text-muted list-sort" data-sort="start_time">Min
-                                    Person</a>
-                            </th>
-                            <th>
-                                <a href="javascript: void(0);" class="text-muted list-sort" data-sort="end_time">Max
-                                    Person</a>
-                            </th>
-                            @if (Auth::user()->type == 2)
-                                <th class="text-center">
-                                    <a href="javascript: void(0);" class="text-muted list-sort"
-                                        data-sort="action">Action</a>
-                                </th>
-                            @endif
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @php $i = 1; @endphp
-                        @foreach ($fields as $data)
-                            <tr>
-                                <th>{{ $i++ }}</th>
-                                <td>
-                                    <div class="avatar avatar-lg">
-                                        <img src="{{ Helper::image_path($data->image) }}" alt="..." class="avatar-img"
-                                            style="width: 100px">
-                                    </div>
-                                </td>
-                                @if (Auth::user()->type == 1)
-                                    <td>{{ $data->vendor_name->name }}</td>
-                                    <td>{{ $data->dome_name->name }}</td>
-                                @endif
-                                <td>{{ $data->name }}</td>
-                                <td>{{ $data->category_name->name }}</td>
-                                <td>{{ $data->min_person }}</td>
-                                <td>{{ $data->max_person }}</td>
-                                @if (Auth::user()->type == 2)
-                                    <td class="text-center">
-                                        <a href="{{ URL::to('admin/field/edit-') . $data->id }}"
-                                            class="text-secondary me-2 fs-3" data-bs-toggle="tooltip"
-                                            data-bs-placement="bottom" data-bs-title="Edit"><i
-                                                class="fa-duotone fa-pen-to-square"></i></a>
-                                        <a onclick="field_delete('{{ $data->id }}','{{ $data->is_deleted == 2 ? 1 : 2 }}','{{ URL::to('admin/field/delete') }}')"
-                                            class="text-danger me-2 fs-3" data-bs-toggle="tooltip"
-                                            data-bs-placement="bottom" data-bs-title="Delete"><i
-                                                class="fa-duotone fa-trash-can"></i></a>
-                                    </td>
-                                @endif
-                            </tr>
-                        @endforeach
-                    </tbody>
-
-                </table>
-            </div> --}}
         </div>
     </div>
 @endsection
@@ -178,6 +111,14 @@
 
 @section('scripts')
     <script>
+        if (is_vendor) {
+            $(document).ready(function() {
+                let html =
+                    '<a href="{{ URL::to('admin/fields/add') }}" class="btn-custom-primary"><svg xmlns="http://www.w3.org/2000/svg" class="icon-tabler icon-tabler-plus" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="var(--bs-primary)" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" /></svg></a>';
+
+                $('.fixed-table-toolbar .btn-group').append(html);
+            })
+        }
         // Field Delete
         function field_delete(id, status, url) {
             "use strict";
