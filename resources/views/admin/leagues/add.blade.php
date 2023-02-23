@@ -2,14 +2,14 @@
 @section('styles')
 @endsection
 @section('title')
-    Add League
+    {{ trans('labels.add_league') }}
 @endsection
 @section('contents')
     <!-- Title -->
     <div class="card mb-3">
         <div class="card-body py-2">
             <div class="d-flex align-items-center justify-content-between">
-                <p class="text-secondary fw-semibold">Add League</p>
+                <p class="text-secondary fw-semibold">{{ trans('labels.add_league') }}</p>
                 <nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='%236c757d'/%3E%3C/svg%3E&#34;);"
                     aria-label="breadcrumb">
                     <ol class="breadcrumb m-0">
@@ -26,8 +26,8 @@
                                 </svg>
                             </a>
                         </li>
-                        <li class="breadcrumb-item ">league</li>
-                        <li class="breadcrumb-item active" aria-current="page">Add League</li>
+                        <li class="breadcrumb-item ">{{ trans('labels.leagues') }}</li>
+                        <li class="breadcrumb-item active" aria-current="page">{{ trans('labels.add_league') }}</li>
                     </ol>
                 </nav>
             </div>
@@ -39,39 +39,32 @@
         <div class="card-body">
             <div class="row">
                 <div class="col-md-6">
-                    <label for="" class="form-label">Select Sports</label>
+                    <label for="" class="form-label">{{ trans('labels.select_sports') }}</label>
                     <div class="radio-box d-flex">
                         <div class="form-check pe-3">
-                            <input type="checkbox" name="benefits[]" class="form-check-input" value="Parking" id="Parking">
-                            <label class="form-check-label" for="flexRadioDefault1">
-                                Vollyball
-                            </label>
+                            <input type="radio" name="sport" class="form-check-input" value="Vollyball" id="Vollyball"
+                                checked>
+                            <label class="form-check-label" for="Vollyball">Vollyball</label>
                         </div>
                         <div class="form-check pe-3">
-                            <input type="checkbox" name="benefits[]" class="form-check-input" value="Parking" id="Parking">
-                            <label class="form-check-label" for="flexRadioDefault2">
-                                Golf
-                            </label>
+                            <input type="radio" name="sport" class="form-check-input" value="Golf" id="Golf">
+                            <label class="form-check-label" for="Golf">Golf</label>
                         </div>
                         <div class="form-check pe-3">
-                            <input type="checkbox" name="benefits[]" class="form-check-input" value="Parking" id="Parking">
-                            <label class="form-check-label" for="flexRadioDefault2">
-                                Tennis
-                            </label>
+                            <input type="radio" name="sport" class="form-check-input" value="Tennis" id="Tennis">
+                            <label class="form-check-label" for="Tennis">Tennis</label>
                         </div>
                         <div class="form-check pe-3">
-                            <input type="checkbox" name="benefits[]" class="form-check-input" value="Parking" id="Parking">
-                            <label class="form-check-label" for="flexRadioDefault2">
-                                Soccer
-                            </label>
+                            <input type="radio" name="sport" class="form-check-input" value="Soccer" id="Soccer">
+                            <label class="form-check-label" for="Soccer">Soccer</label>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="mb-3">
-                        <label for="exampleFormControlInput1" class="form-label">League Name</label>
-                        <input type="email" class="form-control" id="exampleFormControlInput1"
-                            placeholder="Enter League Name">
+                        <label for="league_name" class="form-label">{{ trans('labels.league_name') }}</label>
+                        <input type="text" class="form-control" id="league_name" name="league_name"
+                            placeholder="{{ trans('labels.league_name') }}">
                     </div>
                 </div>
                 <div class="col-md-6">

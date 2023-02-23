@@ -99,4 +99,10 @@ return [
     'field_name' => 'Field Name',
     'min_person' => 'Min Person',
     'max_person' => 'Max Person',
+    // Leagues
+    'league_name' => 'League Name',
+    'date' => 'Date',
+    'time' => 'Time',
+    'price' => 'Price',
+    'add_league' => 'Add League',
 ];

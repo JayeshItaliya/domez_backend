@@ -29,7 +29,7 @@ class FavouriteController extends Controller
                 return response()->json(["status" => 0, "message" => 'Please Enter Dome ID'], 200);
             }
         }
-        if ($request->type == 1) {
+        if ($request->type == 2) {
             if ($request->league_id == "") {
                 return response()->json(["status" => 0, "message" => 'Please Enter League ID'], 200);
             }
@@ -42,7 +42,7 @@ class FavouriteController extends Controller
         }
         if (!empty($is_favourite)) {
             $is_favourite->delete();
-            return response()->json(["status" => 1, "message" => 'Unfavourite Successfully'], 200);
+            return response()->json(["status" => 1, "message" => $request->type . ' Unfavourite Successfully'], 200);
         } else {
             $favourite = new Favourite;
             $favourite->user_id = $request->user_id;
@@ -53,7 +53,7 @@ class FavouriteController extends Controller
             }
 
             $favourite->save();
-            return response()->json(["status" => 1, "message" => 'Favourite Successfully'], 200);
+            return response()->json(["status" => 1, "message" => $request->type . ' Favourite Successfully'], 200);
         }
     }
 
@@ -62,7 +62,7 @@ class FavouriteController extends Controller
         $checkuser = User::where('id', $request->user_id)->where('type', 3)->first();
         if (!empty($checkuser)) {
             if ($request->type == 1) {
-                $favourite = Favourite::where('user_id', $checkuser->id)->where('dome_id','!=','')->select('dome_id')->get();
+                $favourite = Favourite::where('user_id', $checkuser->id)->where('dome_id', '!=', '')->select('dome_id')->get();
                 if (count($favourite) != 0) {
                     foreach ($favourite as $dome) {
                         $dome_data = Domes::where('id', $dome->dome_id)->where('is_deleted', 2)->first();
@@ -83,7 +83,7 @@ class FavouriteController extends Controller
                 }
             }
             if ($request->type == 2) {
-                $favourite = Favourite::where('user_id', $checkuser->id)->where('league_id','!=','')->select('league_id')->get();
+                $favourite = Favourite::where('user_id', $checkuser->id)->where('league_id', '!=', '')->select('league_id')->get();
                 if (count($favourite) != 0) {
                     foreach ($favourite as $league) {
                         $league_data = League::where('id', $league->league_id)->where('is_deleted', 2)->first();
