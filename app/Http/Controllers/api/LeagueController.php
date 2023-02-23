@@ -115,7 +115,7 @@ class LeagueController extends Controller
         if ($league_data != 1) {
             return response()->json(["status" => 1, "message" => "Successful", 'league_details' => $league_data], 200);
         } else {
-            return response()->json(["status" => 0, "message" => 'Dome Not Found'], 200);
+            return response()->json(["status" => 0, "message" => 'League Not Found'], 200);
         }
     }
     public function getleaguedataobject($id)
@@ -125,37 +125,7 @@ class LeagueController extends Controller
             return $league_data = 1;
         }
         $sports = Sports::select('id', 'name', DB::raw("CONCAT('" . url('storage/app/public/admin/images/leagues') . "/', image) AS image"))->whereIn('id', explode('|', $league->sport_id))->where('is_available', 1)->where('is_deleted', 2)->get();
-        foreach ($sports as $sport) {
-            $fields = Field::whereIn('id', explode('|', $league->field_id))->where('dome_id', $league->dome_id)->where('sport_id', $league->sport_id)->where('is_available', 1)->where('is_deleted', 2)->get();
-            dd(Field::whereIn('id', explode('|', $league->field_id))->where('dome_id', $league->dome_id)->where('sport_id', $league->sport_id)->get());
-            $field_data = [];
-            foreach ($fields as $field) {
-                $field_data[] = [
-                    'field_id' => $field->id,
-                    'field_name' => $field->name,
-                    'field_area' => $field->area . ' ' . 'Sqr Ft',
-                    'field_person' => $field->min_person . '-' . $field->max_person . ' ' . 'People',
-                ];
-            }
-            $sports_list[] = [
-                'sport_id' => $sport->id,
-                'sport_name' => $sport->name,
-                'sport_image' => $sport->image,
-                // 'field_data' => $field_data,
-            ];
-        }
 
-        $review = Review::where('dome_id', $league->id)->selectRaw('SUM(ratting)/COUNT(user_id) AS avg_rating')->first()->avg_rating;
-        $images = Review::where('reviews.dome_id', $league->id)
-            ->join('users AS users_table', function ($query) {
-                $query->on('reviews.user_id', '=', 'users_table.id')->where('users_table.type', 3);
-            })->select(DB::raw("CONCAT('" . url('storage/app/public/admin/images/profiles') . "/', users_table.image) AS image"))->get()->take(5)->pluck('image');
-        $total_reviews = Review::where('dome_id', $league->id)->get();
-        $ratting_data = [
-            'avg_rating' => ($review) ? $review : "0",
-            'total_review' => $total_reviews->count() > 100 ? '100+' : $total_reviews->count(),
-            'images' => $images,
-        ];
         $dome = Domes::where('id',$league->dome_id)->first();
         if (!empty($league)) {
             $league_data = array(
@@ -170,10 +140,9 @@ class LeagueController extends Controller
                 'description' => $league->description,
                 'lat' => $dome->lat,
                 'lng' => $dome->lng,
-                'benefits_description' => $league->benefits_description,
-                'ratting_data' => $ratting_data,
-                'sports_list' => $sports_list,
-                'dome_images' => $league->dome_images,
+                // 'sports' => $sports_list,
+                // 'benefits_description' => $league->benefits_description,
+                // 'dome_images' => $league->dome_images,
             );
         }
         return $league_data;

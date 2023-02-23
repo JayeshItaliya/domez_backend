@@ -71,7 +71,7 @@
         let no = {{ Js::from(trans('messages.no')) }};
         let wrong = {{ Js::from(trans('messages.wrong')) }};
         let oops = {{ Js::from(trans('messages.oops')) }};
-        
+        let is_vendor = {{ Js::from(Auth::user()->type == 2 ? true : false) }};
 
         $(document).ready(function(){
             $('#bootstrapTable').bootstrapTable({

@@ -33,25 +33,17 @@
 
     <div class="card">
         <div class="card-body">
-            <table id="bootstrapTable">
+            <table id="bootstrapTable" class="table-responsive">
                 <thead>
                     <tr>
                         <th data-field="{{ trans('labels.srno') }}">{{ trans('labels.srno') }}</th>
                         <th data-field="League Name">League Name</th>
                         <th data-field="Domes">Domes</th>
-                        <th data-field="Fields">Fields</th>
                         <th data-field="Sports">Sports</th>
-                        <th data-field="Start Date">Start Date</th>
-                        <th data-field="End Date">End Date</th>
-                        <th data-field="Start Time">Start Time</th>
-                        <th data-field="End Time">End Time</th>
-                        <th data-field="Age">Age</th>
-                        <th data-field="Gender">Gender</th>
-                        <th data-field="Team Limit">Team Limit</th>
-                        <th data-field="Min Players">Min players</th>
-                        <th data-field="Max Players">Max Players</th>
-                        <th data-field="Prices">Prices</th>
-                        <th data-field="Action">Action</th>
+                        <th data-field="Date">Date</th>
+                        <th data-field="Time">Time</th>
+                        <th data-field="Price">Price</th>
+                        <th class="text-center" data-field="Action">Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -62,19 +54,49 @@
                         <td>01</td>
                         <td>Canada National League</td>
                         <td>Dome Stadium</td>
-                        <td>Field 1</td>
-                        <td>#</td>
-                        <td>01/01/23</td>
-                        <td>28/02/23</td>
-                        <td>09:00 AM</td>
-                        <td>06:00 PM</td>
-                        <td>Above 18 Years</td>
-                        <td>Men</td>
-                        <td>20</td>
-                        <td>10</td>
-                        <td>15</td>
+                        <td>Cricket</td>
+                        <td>01/01/23 <span class="fw-bold">to</span> 28/02/23</td>
+                        <td>09:00 AM <span class="fw-bold">to</span> 06:00 PM</td>
                         <td>$210</td>
-                        <td>Action</td>
+                        <td class="text-center">
+                            <a class="cursor-pointer me-2" href="#">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-eye"
+                                    width="24" height="24" viewBox="0 0 24 24" stroke-width="1"
+                                    stroke="var(--bs-info)" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                    <path d="M12 12m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"></path>
+                                    <path
+                                        d="M22 12c-2.667 4.667 -6 7 -10 7s-7.333 -2.333 -10 -7c2.667 -4.667 6 -7 10 -7s7.333 2.333 10 7">
+                                    </path>
+                                </svg>
+                            </a>
+                            @if (Auth::user()->type == 2)
+                                <a class="cursor-pointer me-2" href="#">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-edit"
+                                        width="25" height="25" viewBox="0 0 24 24" stroke-width="1"
+                                        stroke="var(--bs-warning)" fill="none" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                        <path d="M9 7h-3a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-3" />
+                                        <path d="M9 15h3l8.5 -8.5a1.5 1.5 0 0 0 -3 -3l-8.5 8.5v3" />
+                                        <line x1="16" y1="5" x2="19" y2="8" />
+                                    </svg>
+                                </a>
+                                <a href="#" class="cursor-pointer me-2" class="mx-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash"
+                                        width="25" height="25" viewBox="0 0 24 24" stroke-width="1"
+                                        stroke="var(--bs-danger)" fill="none" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                        <line x1="4" y1="7" x2="20" y2="7" />
+                                        <line x1="10" y1="11" x2="10" y2="17" />
+                                        <line x1="14" y1="11" x2="14" y2="17" />
+                                        <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
+                                        <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
+                                    </svg>
+                                </a>
+                            @endif
+                        </td>
                     </tr>
                 </tbody>
             </table>
@@ -83,11 +105,13 @@
 @endsection
 @section('scripts')
     <script>
-        $(document).ready(function() {
-            let html =
-                '<a href="{{ URL::to('admin/leagues/add') }}" class="btn-custom-primary"><svg xmlns="http://www.w3.org/2000/svg" class="icon-tabler icon-tabler-plus" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="var(--bs-primary)" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" /></svg></a>';
+        if (is_vendor) {
+            $(document).ready(function() {
+                let html =
+                    '<a href="{{ URL::to('admin/leagues/add') }}" class="btn-custom-primary"><svg xmlns="http://www.w3.org/2000/svg" class="icon-tabler icon-tabler-plus" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="var(--bs-primary)" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" /></svg></a>';
 
-            $('.fixed-table-toolbar .btn-group').append(html);
-        })
+                $('.fixed-table-toolbar .btn-group').append(html);
+            })
+        }
     </script>
 @endsection
