@@ -5,6 +5,7 @@ namespace App\Http\Controllers\api;
 use App\Http\Controllers\Controller;
 use App\Models\CMS;
 use App\Helper\Helper;
+use App\Models\Domes;
 use App\Models\Enquiries;
 use App\Models\Sports;
 use App\Models\User;
@@ -103,14 +104,14 @@ class HomeController extends Controller
                 "order_id" => $order_id,
             );
             $msg = array(
-                'body' =>$body,
-                'title'=>$title,
-                'sound'=>1/*Default sound*/
+                'body' => $body,
+                'title' => $title,
+                'sound' => 1/*Default sound*/
             );
             $fields = array(
-                'to'           =>$token,
-                'notification' =>$msg,
-                'data'=> $newdata
+                'to'           => $token,
+                'notification' => $msg,
+                'data' => $newdata
             );
             $headers = array(
                 'Authorization: key=AIzaSyCHYsAIsuw4yGYd7EXwFro9coWguKdWu_A',
@@ -118,19 +119,40 @@ class HomeController extends Controller
             );
             #Send Reponse To FireBase Server
             $ch = curl_init();
-            curl_setopt( $ch,CURLOPT_URL, 'https://fcm.googleapis.com/fcm/send' );
-            curl_setopt( $ch,CURLOPT_POST, true );
-            curl_setopt( $ch,CURLOPT_HTTPHEADER, $headers );
-            curl_setopt( $ch,CURLOPT_RETURNTRANSFER, true );
-            curl_setopt( $ch,CURLOPT_SSL_VERIFYPEER, false );
-            curl_setopt( $ch,CURLOPT_POSTFIELDS, json_encode( $fields ) );
-            $result = curl_exec ( $ch );
-            curl_close ( $ch );
+            curl_setopt($ch, CURLOPT_URL, 'https://fcm.googleapis.com/fcm/send');
+            curl_setopt($ch, CURLOPT_POST, true);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($fields));
+            $result = curl_exec($ch);
+            curl_close($ch);
 
             dd(11, $result);
         } catch (\Throwable $th) {
             dd(1111111, $th);
             return response()->json(["status" => 0, "message" => "Something Went Wrong..!!"], 200);
         }
+    }
+    public function filter(Request $request)
+    {
+        if ($request->sport_id == "" && $request->lat == "" && $request->lng == "" && $request->start_price == "" && $request->end_price == "") {
+            return response()->json(["status" => 0, "message" => "Please Select Atleast One Filter"], 200);
+        }
+        if ($request->lat == "" && $request->lng != "") {
+            return response()->json(["status" => 0, "message" => 'Enter Latitude'], 200);
+        }
+        if ($request->lng == "" && $request->lat != "") {
+            return response()->json(["status" => 0, "message" => 'Enter Longitude'], 200);
+        }
+        $domes = Domes::where('is_deleted',2);
+        $domes = $domes->select('sport_id');
+
+        foreach (explode(',' , $request->sport_id) as $sport_id) {
+            $domes = $domes->whereRaw("find_in_set('" . $sport_id . "',sport_id)");
+        }
+        $domes = $domes->get();
+        dd($domes->toArray());
+
     }
 }

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 20, 2023 at 05:18 AM
+-- Generation Time: Feb 22, 2023 at 10:21 AM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -29,8 +29,10 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `bookings` (
   `id` bigint(20) UNSIGNED NOT NULL,
+  `type` tinyint(4) NOT NULL DEFAULT 1 COMMENT '1=Dome Bookings,  2=League Bookings',
   `vendor_id` int(11) NOT NULL,
-  `dome_id` int(11) NOT NULL,
+  `dome_id` int(11) DEFAULT NULL,
+  `league_id` int(11) DEFAULT NULL,
   `user_id` int(11) NOT NULL,
   `sport_id` int(11) NOT NULL,
   `field_id` int(11) NOT NULL,
@@ -39,17 +41,20 @@ CREATE TABLE `bookings` (
   `customer_name` varchar(255) DEFAULT NULL,
   `customer_email` varchar(255) NOT NULL,
   `customer_mobile` varchar(255) DEFAULT NULL,
+  `team_name` varchar(255) DEFAULT NULL COMMENT 'For Leagues Booking Only',
   `players` int(11) NOT NULL,
-  `slots` text NOT NULL,
+  `slots` text DEFAULT NULL COMMENT 'For Domes Booking Only',
+  `start_date` date DEFAULT NULL COMMENT 'For Leagues Booking Only	',
+  `end_date` date DEFAULT NULL COMMENT 'For Leagues Booking Only	',
   `start_time` text NOT NULL,
   `end_time` text NOT NULL,
   `total_amount` double(8,2) NOT NULL,
   `paid_amount` double(8,2) NOT NULL DEFAULT 0.00,
   `due_amount` double(8,2) NOT NULL DEFAULT 0.00,
-  `payment_mode` int(11) NOT NULL COMMENT '1=online,2=offline',
-  `payment_type` int(11) NOT NULL COMMENT '1=Full Amount, 2=Split Amount',
-  `payment_status` int(11) NOT NULL COMMENT '1=Complete,2=Partial',
-  `booking_status` int(11) NOT NULL COMMENT '1=Confirmed, 2=Pending, 3=Cancelled	',
+  `payment_mode` int(11) NOT NULL DEFAULT 1 COMMENT '1=online,2=offline',
+  `payment_type` int(11) NOT NULL DEFAULT 1 COMMENT '1=Full Amount, 2=Split Amount',
+  `payment_status` int(11) NOT NULL DEFAULT 1 COMMENT '1=Complete,2=Partial',
+  `booking_status` int(11) NOT NULL DEFAULT 1 COMMENT '1=Confirmed, 2=Pending, 3=Cancelled	',
   `created_at` timestamp NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -58,28 +63,20 @@ CREATE TABLE `bookings` (
 -- Dumping data for table `bookings`
 --
 
-INSERT INTO `bookings` (`id`, `vendor_id`, `dome_id`, `user_id`, `sport_id`, `field_id`, `booking_id`, `booking_date`, `customer_name`, `customer_email`, `customer_mobile`, `players`, `slots`, `start_time`, `end_time`, `total_amount`, `paid_amount`, `due_amount`, `payment_mode`, `payment_type`, `payment_status`, `booking_status`, `created_at`, `updated_at`) VALUES
-(1, 3, 1, 16, 1, 7, 621524, '2023-02-13', 'Michel Streich', 'blaze.quigley@example.com', '954.785.4257', 18, '', '8:04 PM', '8:07 PM', 53.00, 14.00, 17.00, 2, 1, 1, 1, '2023-02-10 04:42:24', '2023-02-10 04:42:24'),
-(2, 6, 1, 6, 1, 7, 579195, '2013-05-24', 'Cornelius Howell', 'eichmann.grant@example.org', '1-346-256-2304', 14, '0', '12:05 AM', '3:24 AM', 17.00, 17.00, 10.00, 2, 1, 1, 1, '2023-02-10 04:42:24', '2023-02-10 04:42:24'),
-(3, 4, 3, 11, 5, 2, 347737, '1984-11-13', 'Mr. Alexie O\'Kon', 'elise97@example.com', '+1-501-694-2586', 13, '0', '10:19 AM', '12:02 PM', 67.00, 37.00, 18.00, 1, 2, 2, 2, '2023-02-10 04:42:24', '2023-02-10 04:42:24'),
-(4, 4, 2, 7, 5, 1, 213524, '1986-04-18', 'Lenny Jones', 'nschultz@example.com', '(629) 688-4293', 11, '0', '3:50 AM', '4:30 AM', 76.00, 19.00, 25.00, 2, 1, 1, 2, '2023-02-10 04:42:24', '2023-02-10 04:42:24'),
-(5, 3, 1, 10, 2, 1, 381097, '2015-08-15', 'Benedict Smith', 'hettinger.jaclyn@example.com', '+1-505-821-5560', 15, '0', '10:56 PM', '9:50 PM', 60.00, 31.00, 21.00, 2, 2, 1, 1, '2023-02-10 04:42:24', '2023-02-10 04:42:24'),
-(6, 3, 2, 3, 5, 2, 158792, '2006-06-08', 'Ara O\'Hara III', 'donald08@example.org', '1-878-456-6499', 31, '0', '9:16 PM', '12:56 PM', 23.00, 24.00, 14.00, 2, 1, 1, 1, '2023-02-10 04:42:24', '2023-02-10 04:42:24'),
-(7, 6, 4, 8, 1, 2, 282082, '1971-06-24', 'Cecelia Thompson', 'caterina.auer@example.com', '+16828163787', 13, '0', '12:26 AM', '6:19 PM', 71.00, 44.00, 10.00, 1, 2, 2, 2, '2023-02-10 04:42:24', '2023-02-10 04:42:24'),
-(8, 2, 1, 12, 4, 3, 156107, '2020-10-17', 'Karianne Senger', 'llubowitz@example.com', '(689) 280-8526', 32, '0', '6:33 AM', '8:59 AM', 84.00, 41.00, 24.00, 1, 2, 1, 2, '2023-02-10 04:42:24', '2023-02-10 04:42:24'),
-(9, 5, 1, 12, 1, 1, 453539, '2008-03-25', 'Madilyn Little Sr.', 'bella98@example.com', '1-872-596-0362', 20, '0', '5:29 PM', '11:45 PM', 17.00, 27.00, 18.00, 1, 2, 1, 2, '2023-02-10 04:42:24', '2023-02-10 04:42:24'),
-(10, 4, 4, 13, 3, 2, 872731, '1991-03-06', 'Mr. Berry Berge', 'garland98@example.org', '+1 (678) 228-6939', 26, '0', '1:09 PM', '5:09 AM', 87.00, 23.00, 14.00, 2, 2, 1, 1, '2023-02-10 04:42:24', '2023-02-10 04:42:24'),
-(11, 5, 4, 14, 5, 2, 652726, '2005-04-17', 'Wyman Kris', 'rogahn.josiane@example.com', '931.835.8444', 17, '0', '11:31 PM', '3:56 PM', 76.00, 46.00, 27.00, 1, 2, 1, 1, '2023-02-10 04:42:24', '2023-02-10 04:42:24'),
-(12, 3, 3, 3, 1, 1, 451470, '1974-03-09', 'Berniece Ullrich', 'erika.bogisich@example.org', '1-626-470-5576', 29, '0', '4:26 AM', '4:08 PM', 69.00, 25.00, 28.00, 2, 1, 2, 2, '2023-02-10 04:42:24', '2023-02-10 04:42:24'),
-(13, 5, 1, 8, 4, 2, 253593, '1983-06-04', 'Dr. Eloy Rohan', 'nikolaus.justyn@example.com', '401-377-3174', 13, '0', '4:51 PM', '6:45 PM', 98.00, 33.00, 20.00, 1, 1, 1, 1, '2023-02-10 04:42:24', '2023-02-10 04:42:24'),
-(14, 6, 3, 5, 5, 1, 340513, '2010-09-03', 'Tre Nicolas', 'zcartwright@example.org', '561-742-7527', 14, '0', '9:16 PM', '1:38 AM', 77.00, 31.00, 21.00, 1, 1, 2, 2, '2023-02-10 04:42:24', '2023-02-10 04:42:24'),
-(15, 3, 2, 13, 3, 2, 697614, '2021-02-09', 'Dr. Franz Will IV', 'mclaughlin.lorena@example.com', '+17602183243', 32, '0', '2:02 PM', '1:25 AM', 92.00, 27.00, 22.00, 1, 2, 1, 2, '2023-02-10 04:42:24', '2023-02-10 04:42:24'),
-(16, 6, 2, 16, 3, 3, 366355, '1996-06-17', 'Prof. Hattie Waelchi', 'simonis.darlene@example.net', '1-540-300-6715', 29, '0', '8:33 AM', '9:13 PM', 46.00, 19.00, 14.00, 2, 1, 2, 1, '2023-02-10 04:42:24', '2023-02-10 04:42:24'),
-(17, 4, 3, 13, 2, 3, 843022, '1998-05-13', 'Mrs. Amy Jones II', 'ankunding.jalon@example.net', '+16023178892', 22, '0', '9:16 PM', '12:06 AM', 75.00, 41.00, 23.00, 1, 1, 1, 1, '2023-02-10 04:42:24', '2023-02-10 04:42:24'),
-(18, 3, 3, 17, 5, 1, 796032, '1998-05-15', 'Isadore Predovic', 'shakira02@example.org', '+16576774742', 25, '0', '6:52 AM', '1:55 PM', 63.00, 11.00, 25.00, 2, 1, 1, 1, '2023-02-10 04:42:24', '2023-02-10 04:42:24'),
-(19, 4, 1, 12, 5, 1, 117788, '1997-11-29', 'Dr. Jennie Kshlerin DDS', 'elisa.hand@example.com', '1-816-500-1638', 19, '0', '3:46 AM', '11:28 PM', 20.00, 45.00, 18.00, 1, 1, 2, 2, '2023-02-10 04:42:24', '2023-02-10 04:42:24'),
-(20, 2, 2, 17, 1, 3, 652174, '1988-04-01', 'Miss Darlene Hermiston DDS', 'rutherford.rodrick@example.com', '520.590.3276', 22, '0', '7:32 PM', '1:05 AM', 93.00, 47.00, 12.00, 2, 1, 2, 2, '2023-02-10 04:42:24', '2023-02-10 04:42:24'),
-(21, 3, 1, 16, 1, 1, 621524, '2023-02-13', 'Michel Streich', 'blaze.quigley@example.com', '954.785.4257', 18, '', '8:04 PM', '8:07 PM', 53.00, 14.00, 17.00, 2, 1, 1, 1, '2023-02-10 04:42:24', '2023-02-10 04:42:24');
+INSERT INTO `bookings` (`id`, `type`, `vendor_id`, `dome_id`, `league_id`, `user_id`, `sport_id`, `field_id`, `booking_id`, `booking_date`, `customer_name`, `customer_email`, `customer_mobile`, `team_name`, `players`, `slots`, `start_date`, `end_date`, `start_time`, `end_time`, `total_amount`, `paid_amount`, `due_amount`, `payment_mode`, `payment_type`, `payment_status`, `booking_status`, `created_at`, `updated_at`) VALUES
+(22, 1, 2, 35, NULL, 9, 6, 3, 554611, '2003-11-09', 'Prof. Geovany Kuhn', 'arno.mayert@example.com', '+14809074204', NULL, 17, '06:30 AM - 07:30 AM', NULL, NULL, '1:41 PM', '11:35 AM', 87.00, 23.00, 26.00, 1, 2, 1, 1, '2023-02-20 04:57:41', '2023-02-20 04:57:41'),
+(23, 1, 2, 37, NULL, 11, 10, 2, 416036, '1975-09-30', 'Ulises Ledner', 'dillan.sporer@example.com', '+1-940-940-5206', NULL, 25, '06:30 AM - 07:30 AM', NULL, NULL, '8:22 AM', '11:30 AM', 85.00, 40.00, 18.00, 2, 1, 2, 2, '2023-02-20 04:57:41', '2023-02-20 04:57:41'),
+(24, 1, 2, 37, NULL, 7, 6, 2, 369746, '2008-01-05', 'Rodrick Dare PhD', 'schiller.kaelyn@example.net', '+1 (925) 464-1416', NULL, 24, '06:30 AM - 07:30 AM', NULL, NULL, '12:27 PM', '1:21 AM', 56.00, 42.00, 20.00, 1, 1, 1, 1, '2023-02-20 04:57:41', '2023-02-20 04:57:41'),
+(25, 1, 2, 39, NULL, 10, 8, 5, 986568, '2007-07-13', 'Isabelle Dietrich', 'alba.heaney@example.net', '424-832-1927', NULL, 14, '06:30 AM - 07:30 AM', NULL, NULL, '9:18 AM', '6:58 AM', 72.00, 20.00, 10.00, 1, 1, 2, 1, '2023-02-20 04:57:41', '2023-02-20 04:57:41'),
+(26, 1, 2, 36, NULL, 7, 8, 4, 166327, '2004-03-08', 'Ward Purdy', 'lamar04@example.net', '620.723.1946', NULL, 15, '06:30 AM - 07:30 AM', NULL, NULL, '3:38 AM', '5:23 PM', 47.00, 34.00, 25.00, 1, 1, 1, 2, '2023-02-20 04:57:41', '2023-02-20 04:57:41'),
+(27, 1, 2, 36, NULL, 8, 9, 1, 457640, '2002-04-11', 'Dr. Lucile Hoppe', 'robin.mayer@example.org', '283-731-3348', NULL, 28, '06:30 AM - 07:30 AM', NULL, NULL, '8:56 AM', '3:47 AM', 61.00, 45.00, 19.00, 1, 1, 2, 2, '2023-02-20 04:57:41', '2023-02-20 04:57:41'),
+(28, 1, 2, 36, NULL, 12, 9, 4, 637257, '2011-04-09', 'Adolphus Howe DVM', 'friesen.ezekiel@example.com', '(657) 566-7750', NULL, 24, '06:30 AM - 07:30 AM', NULL, NULL, '9:44 PM', '8:05 AM', 32.00, 37.00, 29.00, 1, 1, 1, 2, '2023-02-20 04:57:41', '2023-02-20 04:57:41'),
+(29, 1, 2, 36, NULL, 11, 6, 2, 634153, '1974-01-15', 'Kyler O\'Conner', 'ramon76@example.com', '+1 (520) 281-8861', NULL, 14, '06:30 AM - 07:30 AM', NULL, NULL, '7:13 PM', '11:48 PM', 28.00, 25.00, 22.00, 1, 1, 2, 2, '2023-02-20 04:57:41', '2023-02-20 04:57:41'),
+(30, 1, 2, 35, NULL, 9, 8, 5, 642194, '1989-11-13', 'Verona Marks MD', 'deshawn.abshire@example.com', '+1.918.990.4786', NULL, 14, '06:30 AM - 07:30 AM', NULL, NULL, '1:24 AM', '3:56 AM', 74.00, 34.00, 19.00, 1, 2, 1, 1, '2023-02-20 04:57:41', '2023-02-20 04:57:41'),
+(31, 1, 2, 38, NULL, 6, 10, 5, 628792, '1980-08-18', 'Prof. Lindsey Breitenberg II', 'powlowski.kristopher@example.org', '617.771.7490', NULL, 13, '06:30 AM - 07:30 AM', NULL, NULL, '6:10 AM', '12:04 PM', 62.00, 11.00, 10.00, 1, 1, 1, 1, '2023-02-20 04:57:41', '2023-02-20 04:57:41'),
+(32, 2, 2, 37, 2, 10, 7, 5, 811483, '2023-02-21', 'Rupert Mueller', 'beaulah95@example.net', '1-928-475-2913', 'Regular Old Football League', 27, NULL, '2023-03-10', '2023-04-10', '09:00 AM', '05:00 PM', 1848.00, 0.00, 0.00, 1, 1, 1, 1, '2023-02-21 01:52:13', '2023-02-21 01:52:13'),
+(33, 2, 2, 37, 2, 5, 7, 5, 149051, '2023-02-21', 'Dariana Stark', 'veum.aaliyah@example.com', '+1-318-389-1635', 'Regular Old Football League', 28, NULL, '2023-03-10', '2023-04-10', '09:00 AM', '05:00 PM', 1848.00, 0.00, 0.00, 1, 1, 1, 1, '2023-02-22 00:29:14', '2023-02-22 00:29:14'),
+(34, 2, 2, 37, 2, 13, 7, 5, 448414, '2023-02-21', 'Freeda Lynch', 'brandon.zieme@example.net', '+15746485171', 'Regular Old Football League', 19, NULL, '2023-03-10', '2023-04-10', '09:00 AM', '05:00 PM', 1848.00, 0.00, 0.00, 1, 1, 1, 1, '2023-02-22 00:29:24', '2023-02-22 00:29:24');
 
 -- --------------------------------------------------------
 
@@ -130,40 +127,16 @@ CREATE TABLE `domes` (
 --
 
 INSERT INTO `domes` (`id`, `vendor_id`, `sport_id`, `name`, `price`, `hst`, `address`, `pin_code`, `city`, `state`, `country`, `start_time`, `end_time`, `description`, `lat`, `lng`, `benefits`, `benefits_description`, `is_deleted`, `created_at`, `updated_at`) VALUES
-(1, 2, '1,2,5', 'Dome A', 39.99, 0, 'Times Square, Manhattan, NY, USA', '10036', 'Manhattan', 'New York', 'United States', '09:00 AM', '08:00 PM', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has su', '21.079440', '72.881756', 'Free Wifi|Changing Room|Parking', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum', 2, '2022-12-01 22:23:40', '2022-12-19 18:48:09'),
-(2, 2, '1,4', 'Dome B', 0.00, 0, 'Hollywood Studios Entrance, Kissimmee, FL, USA', '34747', 'Kissimmee', 'Florida', 'United States', '10:00 AM', '02:00 PM', 'rthbgfn vftrjng', '21.413700', '72.849655', 'Free Wifi|Changing Room|Parking', 'eryhfbd rfgedfv rg', 2, '2022-12-01 23:28:53', '2022-12-08 18:55:32'),
-(3, 2, '1,3,5', 'Dome B', 99.00, 0, 'Frame Dubai - Picture Framing & Printing in Dubai, Dubai Garden Centre - Sheikh Zayed Road - Dubai - United Arab Emirates', NULL, NULL, NULL, NULL, '09:00 AM', '12:00 PM', 'hftrdrthfbdh', '21.336971', '73.155899', 'Free Wifi|Changing Room|Parking', 'grev sergwdv', 2, '2022-12-04 18:09:06', '2022-12-05 21:47:25'),
-(4, 2, '1,2', 'Statdium', 99.99, 0, 'Testaccio, Rome, Metropolitan City of Rome, Italy', '00153', 'Rome', 'Lazio', 'Italy', '12:30 AM', '03:00 AM', 'Hello', '21.379437', '73.694916', 'Free Wifi|Changing Room|Parking', 'Test', 2, '2022-12-05 00:29:59', '2022-12-08 20:07:28'),
-(5, 2, '2', 'Scarlett Nicolas', 97.00, 0, 'TEST-ADDRESS', '120442', 'Gaylord D\'Amore', 'Birdie Pfannerstill', 'Vernie Hane DVM', '2:35 AM', '9:49 AM', 'DESCRIPTION', '22.139593', '74.183807', 'Prof. Clement Zieme', 'benefits-DESCRIPTION', 2, '2023-02-09 04:22:40', '2023-02-09 04:22:40'),
-(6, 2, '3', 'Mafalda O\'Keefe', 59.00, 0, 'TEST-ADDRESS', '582456', 'Dr. Sydney Beatty', 'Alvis Monahan', 'Teresa Friesen', '7:49 AM', '11:09 PM', 'DESCRIPTION', '22.867832', '75.551605', 'Jeramie Rowe', 'benefits-DESCRIPTION', 2, '2023-02-09 04:22:40', '2023-02-09 04:22:40'),
-(7, 2, '1', 'Prof. Alejandra Kertzmann Sr.', 65.00, 0, 'TEST-ADDRESS', '639657', 'Mrs. Monica McDermott III', 'Jena Cartwright MD', 'Lacey Jenkins II', '10:00 AM', '4:50 AM', 'DESCRIPTION', '23.193900', '76.622772', 'Garland Pollich', 'benefits-DESCRIPTION', 2, '2023-02-09 04:22:40', '2023-02-09 04:22:40'),
-(8, 2, '2', 'Ines Lynch', 95.00, 0, 'TEST-ADDRESS', '550077', 'Coralie Koepp', 'Jaren Lesch', 'Pascale Quitzon', '11:46 PM', '9:20 PM', 'DESCRIPTION', '23.375547', '74.609528', 'Dr. Enrique Christiansen IV', 'benefits-DESCRIPTION', 2, '2023-02-09 04:22:40', '2023-02-09 04:22:40'),
-(9, 2, '2', 'Marquis DuBuque', 81.00, 0, 'TEST-ADDRESS', '951030', 'Prof. Janick Hansen V', 'Aurelio Trantow', 'Mathew Hegmann PhD', '12:07 PM', '7:27 PM', 'DESCRIPTION', '22.738705', '73.628998', 'Gudrun Hudson Jr.', 'benefits-DESCRIPTION', 2, '2023-02-09 04:22:40', '2023-02-09 04:22:40'),
-(10, 2, '1', 'Milford Mohr', 51.00, 0, 'TEST-ADDRESS', '176145', 'Mr. Chaim Hermiston III', 'Mr. Warren Gusikowski', 'Rahsaan Stamm', '8:23 AM', '9:52 AM', 'DESCRIPTION', '22.365832', '72.843475', 'Vivian D\'Amore PhD', 'benefits-DESCRIPTION', 2, '2023-02-09 04:22:40', '2023-02-09 04:22:40'),
-(11, 2, '2', 'Prof. Colten Sanford', 88.00, 0, 'TEST-ADDRESS', '977299', 'Prof. Jany Beahan', 'Shanel Spinka', 'Elna Schultz MD', '9:40 AM', '11:47 PM', 'DESCRIPTION', '21.979225', '73.357086', 'Bart Windler', 'benefits-DESCRIPTION', 2, '2023-02-09 04:22:40', '2023-02-09 04:22:40'),
-(12, 2, '1', 'Darrin Towne', 61.00, 0, 'TEST-ADDRESS', '472611', 'Dr. Rosie Labadie', 'Eliza Cummings', 'Miss Dorothea Bailey DVM', '6:30 PM', '3:44 PM', 'DESCRIPTION', '21.594116', '73.087921', 'Charlotte Williamson', 'benefits-DESCRIPTION', 2, '2023-02-09 04:22:40', '2023-02-09 04:22:40'),
-(13, 2, '2', 'Prof. Susie Larkin Jr.', 63.00, 0, 'TEST-ADDRESS', '201899', 'Mr. Rollin Treutel IV', 'Sunny Blanda', 'Mrs. Lindsay Grady PhD', '12:48 PM', '7:34 AM', 'DESCRIPTION', '21.097834', '72.950592', 'Mrs. Ima Herzog', 'benefits-DESCRIPTION', 2, '2023-02-09 04:22:40', '2023-02-09 04:22:40'),
-(14, 2, '3', 'Miss Kenna Christiansen V', 78.00, 0, 'TEST-ADDRESS', '675629', 'Maximilian Ritchie PhD', 'Dr. Mossie Osinski', 'Rahsaan Farrell DDS', '8:19 PM', '1:44 AM', 'DESCRIPTION', '20.360601', '73.211517', 'Johnathan Abernathy', 'benefits-DESCRIPTION', 2, '2023-02-09 04:22:40', '2023-02-09 04:22:40'),
-(15, 2, '3', 'Alexanne Ledner', 62.00, 0, 'TEST-ADDRESS', '370795', 'Ocie Kuhn IV', 'Edward Towne', 'Savanah Kris', '10:15 AM', '7:10 PM', 'DESCRIPTION', '20.002266', '73.788300', 'Kole Connelly', 'benefits-DESCRIPTION', 2, '2023-02-09 04:22:40', '2023-02-09 04:22:40'),
-(16, 2, '2', 'Isabelle Hessel', 86.00, 0, 'TEST-ADDRESS', '199947', 'Alexander Marks', 'Mr. Oda Balistreri III', 'Eudora Schuster', '2:56 AM', '11:25 AM', 'DESCRIPTION', '20.479004', '73.769073', 'Mr. Tyrell Luettgen II', 'benefits-DESCRIPTION', 2, '2023-02-09 04:22:40', '2023-02-09 04:22:40'),
-(17, 2, '2', 'Dr. Ryley McDermott', 56.00, 0, 'TEST-ADDRESS', '646649', 'Martine Cassin', 'Elvis Schmidt', 'Kiel Cole', '2:06 PM', '4:02 AM', 'DESCRIPTION', '20.708853', '74.288864', 'Randi Dicki', 'benefits-DESCRIPTION', 2, '2023-02-09 04:22:40', '2023-02-09 04:22:40'),
-(18, 2, '3', 'Robb Rosenbaum', 62.00, 0, 'TEST-ADDRESS', '115439', 'Dr. Isobel Kirlin', 'Jacklyn Moen', 'Jarod Ebert', '7:51 AM', '6:23 PM', 'DESCRIPTION', '20.794895', '73.922195', 'Ottilie Nader', 'benefits-DESCRIPTION', 2, '2023-02-09 04:22:40', '2023-02-09 04:22:40'),
-(19, 2, '4', 'Dr. Hanna Reichel DVM', 79.00, 0, 'TEST-ADDRESS', '114351', 'August Marvin V', 'Mr. Andres Reilly III', 'Elyse Koelpin DDS', '1:01 AM', '10:45 AM', 'DESCRIPTION', '20.945028', '74.137802', 'Leila Johns', 'benefits-DESCRIPTION', 2, '2023-02-09 04:22:40', '2023-02-09 04:22:40'),
-(20, 2, '3', 'Dr. Randi McDermott Sr.', 63.00, 0, 'TEST-ADDRESS', '663926', 'Caitlyn McDermott', 'Jillian Williamson', 'Rhianna Mann', '10:03 PM', '5:04 PM', 'DESCRIPTION', '20.020855', '73.808899', 'Nelle Russel', 'benefits-DESCRIPTION', 2, '2023-02-09 04:22:40', '2023-02-09 04:22:40'),
-(21, 2, '2', 'Kaylee Schimmel MD', 83.00, 0, 'TEST-ADDRESS', '370294', 'Elisabeth Stark IV', 'Miss Vanessa Pfeffer IV', 'Marge Rice', '3:22 AM', '9:32 PM', 'DESCRIPTION', '20.952222', '75.561218', 'Zion Schmeler', 'benefits-DESCRIPTION', 2, '2023-02-09 04:22:40', '2023-02-09 04:22:40'),
-(22, 2, '3', 'Zack Lynch I', 75.00, 0, 'TEST-ADDRESS', '995142', 'Donavon Shanahan', 'Adrian Schinner', 'Manuel Mohr', '9:58 AM', '4:09 PM', 'DESCRIPTION', '21.683471', '75.090179', 'Dr. Heber Terry V', 'benefits-DESCRIPTION', 2, '2023-02-09 04:22:40', '2023-02-09 04:22:40'),
-(23, 2, '2', 'Abigail Lakin', 65.00, 0, 'TEST-ADDRESS', '380939', 'Reyes Kreiger', 'Gregory Hilpert', 'Vern Predovic', '12:37 PM', '1:37 PM', 'DESCRIPTION', '21.581346', '74.244232', 'Prof. Enos Wyman', 'benefits-DESCRIPTION', 2, '2023-02-09 04:22:40', '2023-02-09 04:22:40'),
-(24, 2, '2', 'Dr. Jacey Walter', 78.00, 0, 'TEST-ADDRESS', '380316', 'Dr. Delmer Schmeler II', 'Ole Grant', 'Emma Howe', '4:56 AM', '11:06 AM', 'DESCRIPTION', '21.765120', '74.856720', 'Jacky Carter I', 'benefits-DESCRIPTION', 2, '2023-02-09 04:22:40', '2023-02-09 04:22:40'),
-(25, 2, '2', 'Mrs. Lysanne Ziemann', 88.00, 0, 'TEST-ADDRESS', '142030', 'Retha Reynolds I', 'Ms. Luisa Breitenberg MD', 'Karine Mosciski', '9:17 AM', '4:49 AM', 'DESCRIPTION', '22.304860', '74.293671', 'Theresia Mraz', 'benefits-DESCRIPTION', 2, '2023-02-09 04:22:40', '2023-02-09 04:22:40'),
-(26, 2, '3', 'Madisyn Dicki IV', 82.00, 0, 'TEST-ADDRESS', '553975', 'Prof. Winston Tromp', 'Dr. Blanche Stark DVM', 'Dr. Dameon Blanda MD', '3:41 PM', '5:12 AM', 'DESCRIPTION', '22.124327', '73.453217', 'Madelynn Pollich', 'benefits-DESCRIPTION', 2, '2023-02-09 04:22:40', '2023-02-09 04:22:40'),
-(27, 2, '4', 'Omari Kutch DDS', 83.00, 0, 'TEST-ADDRESS', '720863', 'Clint Lehner', 'Mr. Dudley Fahey', 'Mr. Erling Huel Sr.', '8:18 AM', '7:47 AM', 'DESCRIPTION', '22.200637', '73.744354', 'Jaiden Bailey', 'benefits-DESCRIPTION', 2, '2023-02-09 04:22:40', '2023-02-09 04:22:40'),
-(28, 2, '4', 'Abelardo Waters DVM', 68.00, 0, 'TEST-ADDRESS', '221270', 'Miss Kirsten Krajcik', 'Mr. Tevin Sporer', 'Kristopher Hoeger', '3:41 PM', '2:35 PM', 'DESCRIPTION', '22.200637', '73.744354', 'Prof. Marshall Maggio', 'benefits-DESCRIPTION', 2, '2023-02-09 04:22:40', '2023-02-09 04:22:40'),
-(29, 2, '3', 'Perry Larkin', 58.00, 0, 'TEST-ADDRESS', '212883', 'Prof. Priscilla Mayer', 'Webster Breitenberg DVM', 'Vidal Dach', '3:22 PM', '7:06 AM', 'DESCRIPTION', '22.505460', '73.667450', 'Jordon Carter DDS', 'benefits-DESCRIPTION', 2, '2023-02-09 04:22:40', '2023-02-09 04:22:40'),
-(30, 2, '2', 'Jana Watsica', 50.00, 0, 'TEST-ADDRESS', '390049', 'Dr. Buck Rosenbaum III', 'Miss Nicole Graham', 'Shirley Goldner', '9:00 AM', '12:41 AM', 'DESCRIPTION', '23.024645', '73.527374', 'April Bednar', 'benefits-DESCRIPTION', 2, '2023-02-09 04:22:40', '2023-02-09 04:22:40'),
-(31, 2, '2', 'Finn Schuppe', 86.00, 0, 'TEST-ADDRESS', '233065', 'Prof. Stevie Hayes PhD', 'Clarissa Leannon', 'Dorris Doyle', '5:55 AM', '6:30 AM', 'DESCRIPTION', '22.281988', '73.195038', 'Prof. Winston Connelly', 'benefits-DESCRIPTION', 2, '2023-02-09 04:22:40', '2023-02-09 04:22:40'),
-(32, 2, '1', 'Dr. Clint Hackett', 93.00, 0, 'TEST-ADDRESS', '413875', 'Collin Hagenes III', 'Peyton Buckridge DVM', 'Milo Windler PhD', '2:05 PM', '5:31 PM', 'DESCRIPTION', '22.037793', '73.112640', 'Nick Cormier', 'benefits-DESCRIPTION', 2, '2023-02-09 04:22:40', '2023-02-09 04:22:40'),
-(33, 2, '2', 'Aiyana Schultz', 70.00, 0, 'TEST-ADDRESS', '522262', 'Stanford Upton', 'Dr. Princess Lindgren', 'Caleb Ferry', '10:33 AM', '8:10 PM', 'DESCRIPTION', '22.129416', '73.420258', 'Dr. Ellsworth Towne', 'benefits-DESCRIPTION', 2, '2023-02-09 04:22:40', '2023-02-09 04:22:40'),
-(34, 2, '1', 'Lizeth Macejkovic DVM', 81.00, 0, 'TEST-ADDRESS', '585703', 'Kayli Sawayn', 'Micheal Johnson V', 'Bret D\'Amore', '11:10 PM', '4:52 AM', 'DESCRIPTION', '22.421700', '72.917633', 'Reid McLaughlin Sr.', 'benefits-DESCRIPTION', 2, '2023-02-09 04:22:40', '2023-02-09 04:22:40');
+(35, 2, '6', 'Kinnara', 58.00, 5, 'Costen Tax Solutions, Inc, Birdneck Road North, Virginia Beach, VA, USA', '23451', 'Summerside', 'Prince Edward Island', 'Canada', '6:30 AM', '5:00 PM', 'DESCRIPTION', '28.5156729', '-81.4824233', 'Free Wifi|Changing Room|Parking', 'benefits-DESCRIPTION', 2, '2023-02-20 03:57:09', '2023-02-21 05:03:45'),
+(36, 2, '7', 'Shott', 90.00, 5, '511 Notre Dame St, Summerside, PE, Canada', 'C1N 1T2', 'Summerside', 'Prince Edward Island', 'Canada', '12:03 PM', '7:51 AM', 'DESCRIPTION', '46.3981555', '-63.80031419999999', 'Changing Room', 'benefits-DESCRIPTION', 2, '2023-02-20 03:57:09', '2023-02-21 05:03:55'),
+(37, 2, '8,9', 'geonardo', 80.00, 5, '511 Notre Dame St, Summerside, PE, Canada', 'C1N 1T2', 'Summerside', 'Prince Edward Island', 'Canada', '3:08 PM', '12:10 AM', 'DESCRIPTION', '46.3981555', '-63.80031419999999', 'Changing Room|Parking', 'benefits-DESCRIPTION', 2, '2023-02-20 03:57:09', '2023-02-21 05:04:05'),
+(38, 2, '9,10', 'Shivakar', 85.00, 5, '511 Notre Dame St, Summerside, PE, Canada', 'C1N 1T2', 'Summerside', 'Prince Edward Island', 'Canada', '8:55 PM', '10:05 PM', 'DESCRIPTION', '46.3981555', '-63.80031419999999', 'Free Wifi|Changing Room', 'benefits-DESCRIPTION', 2, '2023-02-20 03:57:09', '2023-02-21 05:04:16'),
+(39, 2, '7,8,10', 'Rockria', 64.00, 5, '511 Notre Dame St, Summerside, PE, Canada', 'C1N 1T2', 'Summerside', 'Prince Edward Island', 'Canada', '10:00 PM', '12:02 PM', 'DESCRIPTION', '46.3981555', '-63.80031419999999', 'Free Wifi|Changing Room|Parking', 'benefits-DESCRIPTION', 2, '2023-02-20 03:57:09', '2023-02-21 05:04:29'),
+(40, 2, '6', 'Geodesic Dome Playground', 76.00, 5, 'Summerside Bowling Alleys, 511 Notre Dame St, Summerside, PE, Canada', 'C1N 1T2', 'Summerside', 'Prince Edward Island', 'Canada', '11:05 PM', '11:36 PM', 'DESCRIPTION', '46.39860830000001', '-63.8004099', 'Parking', 'benefits-DESCRIPTION', 2, '2023-02-20 04:57:41', '2023-02-20 05:06:24'),
+(41, 2, '7,8,10', 'Geodesic Dome Playground', 57.00, 5, 'Summerside Car Rental, Inside Credit Union Place Building, 511 Notre Dame St, Summerside, PE, Canada', 'C1N 1T2', 'Summerside', 'Prince Edward Island', 'Canada', '5:40 AM', '6:46 PM', 'DESCRIPTION', '46.3981555', '-63.80031409999999', 'Free Wifi|Changing Room', 'benefits-DESCRIPTION', 2, '2023-02-20 04:57:41', '2023-02-20 05:06:44'),
+(42, 2, '7,8,10', 'Shrinkle ground', 70.00, 5, 'Summerside Solar, 511 Notre Dame St, Summerside, PE, Canada', 'C1N 1T2', 'Summerside', 'Prince Edward Island', 'Canada', '1:14 AM', '4:14 PM', 'DESCRIPTION', '46.3993871', '-63.8010478', 'Changing Room', 'benefits-DESCRIPTION', 2, '2023-02-20 04:57:41', '2023-02-21 05:04:45'),
+(43, 2, '6,8', 'Geodesic Dome Playground', 97.00, 5, '511 Notre Dame St, Summerside, PE, Canada', 'C1N 1T2', 'Summerside', 'Prince Edward Island', 'Canada', '10:38 AM', '9:33 PM', 'DESCRIPTION', '46.3981555', '-63.80031419999999', 'Changing Room|Parking', 'benefits-DESCRIPTION', 2, '2023-02-20 04:57:41', '2023-02-20 05:07:15'),
+(44, 2, '9,10', 'Geodesic Dome Playground', 68.00, 5, 'Summerside Bowling Alleys, 511 Notre Dame St, Summerside, PE, Canada', 'C1N 1T2', 'Summerside', 'Prince Edward Island', 'Canada', '5:43 AM', '2:41 PM', 'DESCRIPTION', '46.39860830000001', '-63.8004099', 'Free Wifi|Changing Room', 'benefits-DESCRIPTION', 2, '2023-02-20 04:57:41', '2023-02-20 05:10:13');
 
 -- --------------------------------------------------------
 
@@ -185,18 +158,23 @@ CREATE TABLE `dome_images` (
 --
 
 INSERT INTO `dome_images` (`id`, `vendor_id`, `dome_id`, `images`, `created_at`, `updated_at`) VALUES
-(4, 2, 2, 'dome-6389d36541fc3.jpg', '2022-12-01 23:28:53', '2022-12-01 23:28:53'),
-(5, 2, 2, 'dome-6389d365495ec.png', '2022-12-01 23:28:53', '2022-12-01 23:28:53'),
-(6, 2, 2, 'dome-6389d365517ed.png', '2022-12-01 23:28:53', '2022-12-01 23:28:53'),
-(7, 2, 1, 'dome-6389e98c291e1.jpg', '2022-12-02 01:03:24', '2022-12-02 01:03:24'),
-(8, 2, 1, 'dome-6389e98c30fe2.jpg', '2022-12-02 01:03:24', '2022-12-02 01:03:24'),
-(9, 2, 1, 'dome-6389e98c350af.png', '2022-12-02 01:03:24', '2022-12-02 01:03:24'),
-(10, 2, 1, 'dome-6389e98c3d2fa.png', '2022-12-02 01:03:24', '2022-12-02 01:03:24'),
-(11, 2, 3, 'dome-638d7cf2dfd43.png', '2022-12-04 18:09:06', '2022-12-04 18:09:06'),
-(12, 2, 3, 'dome-638d7cf2e4ec7.png', '2022-12-04 18:09:06', '2022-12-04 18:09:06'),
-(13, 2, 4, 'dome-638dd6372d73b.jpg', '2022-12-05 00:29:59', '2022-12-05 00:29:59'),
-(14, 2, 4, 'dome-638dd637345bf.jpg', '2022-12-05 00:29:59', '2022-12-05 00:29:59'),
-(15, 2, 4, 'dome-638dd63739be9.png', '2022-12-05 00:29:59', '2022-12-05 00:29:59');
+(17, 1, 35, 'dome-63f33f137daf5.png', '2023-02-20 04:06:19', '2023-02-20 04:06:19'),
+(18, 1, 36, 'dome-63f34ce3141b4.jpg', '2023-02-20 05:05:15', '2023-02-20 05:05:15'),
+(19, 1, 36, 'dome-63f34ce315178.png', '2023-02-20 05:05:15', '2023-02-20 05:05:15'),
+(20, 1, 38, 'dome-63f34cfddbb9b.jpg', '2023-02-20 05:05:41', '2023-02-20 05:05:41'),
+(21, 1, 38, 'dome-63f34cfddc864.png', '2023-02-20 05:05:41', '2023-02-20 05:05:41'),
+(22, 1, 37, 'dome-63f34d071a031.jpg', '2023-02-20 05:05:51', '2023-02-20 05:05:51'),
+(23, 1, 37, 'dome-63f34d071c65b.png', '2023-02-20 05:05:51', '2023-02-20 05:05:51'),
+(24, 1, 39, 'dome-63f34d19b1030.jpg', '2023-02-20 05:06:09', '2023-02-20 05:06:09'),
+(25, 1, 39, 'dome-63f34d19b1b0f.png', '2023-02-20 05:06:09', '2023-02-20 05:06:09'),
+(26, 1, 40, 'dome-63f34d28721ba.jpg', '2023-02-20 05:06:24', '2023-02-20 05:06:24'),
+(27, 1, 40, 'dome-63f34d2872c25.png', '2023-02-20 05:06:24', '2023-02-20 05:06:24'),
+(28, 1, 41, 'dome-63f34d3c32120.jpg', '2023-02-20 05:06:44', '2023-02-20 05:06:44'),
+(29, 1, 41, 'dome-63f34d3c32dad.png', '2023-02-20 05:06:44', '2023-02-20 05:06:44'),
+(30, 1, 43, 'dome-63f34d5bc9946.jpg', '2023-02-20 05:07:15', '2023-02-20 05:07:15'),
+(31, 1, 43, 'dome-63f34d5bca5e8.png', '2023-02-20 05:07:15', '2023-02-20 05:07:15'),
+(32, 1, 44, 'dome-63f34e0d03fad.jpg', '2023-02-20 05:10:13', '2023-02-20 05:10:13'),
+(33, 1, 44, 'dome-63f34e0d04c53.png', '2023-02-20 05:10:13', '2023-02-20 05:10:13');
 
 -- --------------------------------------------------------
 
@@ -219,7 +197,8 @@ CREATE TABLE `enquiries` (
 --
 
 INSERT INTO `enquiries` (`id`, `email`, `subject`, `message`, `type`, `created_at`, `updated_at`) VALUES
-(1, 'ipsum@yopmail.comn', 'Talk About Something..', 'Lorem is ipsum data to world to tast data.', 1, '2023-02-19 01:13:26', '2023-02-19 01:13:26');
+(1, 'ipsum@yopmail.comn', 'Talk About Something..', 'Lorem is ipsum data to world to tast data.', 1, '2023-02-19 01:13:26', '2023-02-19 01:13:26'),
+(2, 's@gmail.com', 'soham', 'Soham is sad', 1, '2023-02-20 01:26:33', '2023-02-20 01:26:33');
 
 -- --------------------------------------------------------
 
@@ -246,7 +225,8 @@ CREATE TABLE `failed_jobs` (
 CREATE TABLE `favourites` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `user_id` int(11) NOT NULL,
-  `dome_id` int(11) NOT NULL,
+  `dome_id` int(11) DEFAULT NULL,
+  `league_id` int(11) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -255,10 +235,27 @@ CREATE TABLE `favourites` (
 -- Dumping data for table `favourites`
 --
 
-INSERT INTO `favourites` (`id`, `user_id`, `dome_id`, `created_at`, `updated_at`) VALUES
-(1, 7, 2, '2023-02-13 02:09:37', '2023-02-13 02:09:37'),
-(23, 4, 1, '2023-02-14 04:47:58', '2023-02-14 04:47:58'),
-(24, 4, 1, '2023-02-14 04:47:58', '2023-02-14 04:47:58');
+INSERT INTO `favourites` (`id`, `user_id`, `dome_id`, `league_id`, `created_at`, `updated_at`) VALUES
+(1, 5, NULL, 4, '2023-02-22 00:38:11', '2023-02-22 00:38:11'),
+(2, 5, NULL, 1, '2023-02-22 00:38:11', '2023-02-22 00:38:11'),
+(3, 6, NULL, 5, '2023-02-22 00:38:11', '2023-02-22 00:38:11'),
+(4, 9, NULL, 2, '2023-02-22 00:38:11', '2023-02-22 00:38:11'),
+(5, 13, NULL, 1, '2023-02-22 00:38:11', '2023-02-22 00:38:11'),
+(6, 9, NULL, 4, '2023-02-22 00:38:11', '2023-02-22 00:38:11'),
+(7, 6, NULL, 5, '2023-02-22 00:38:11', '2023-02-22 00:38:11'),
+(8, 6, NULL, 2, '2023-02-22 00:38:11', '2023-02-22 00:38:11'),
+(9, 7, NULL, 2, '2023-02-22 00:38:11', '2023-02-22 00:38:11'),
+(10, 9, NULL, 3, '2023-02-22 00:38:11', '2023-02-22 00:38:11'),
+(11, 12, 40, NULL, '2023-02-22 00:38:18', '2023-02-22 00:38:18'),
+(12, 8, 40, NULL, '2023-02-22 00:38:18', '2023-02-22 00:38:18'),
+(13, 8, 40, NULL, '2023-02-22 00:38:18', '2023-02-22 00:38:18'),
+(14, 4, 38, NULL, '2023-02-22 00:38:18', '2023-02-22 00:38:18'),
+(15, 7, 36, NULL, '2023-02-22 00:38:18', '2023-02-22 00:38:18'),
+(16, 3, 36, NULL, '2023-02-22 00:38:18', '2023-02-22 00:38:18'),
+(17, 9, 39, NULL, '2023-02-22 00:38:18', '2023-02-22 00:38:18'),
+(18, 9, 40, NULL, '2023-02-22 00:38:18', '2023-02-22 00:38:18'),
+(19, 11, 36, NULL, '2023-02-22 00:38:18', '2023-02-22 00:38:18'),
+(20, 10, 40, NULL, '2023-02-22 00:38:18', '2023-02-22 00:38:18');
 
 -- --------------------------------------------------------
 
@@ -287,30 +284,52 @@ CREATE TABLE `fields` (
 --
 
 INSERT INTO `fields` (`id`, `vendor_id`, `dome_id`, `sport_id`, `name`, `area`, `min_person`, `max_person`, `image`, `is_available`, `is_deleted`, `created_at`, `updated_at`) VALUES
-(2, 2, 1, '2', 'Test 1', 0.00, 2, 9, 'field-1135.jpg', 1, 2, '2022-12-03 21:26:27', '2022-12-04 17:54:18'),
-(3, 6, 3, '1', 'Test 2', 0.00, 2, 9, 'field-9600.jpg', 1, 2, '2022-12-04 18:10:37', '2022-12-04 18:10:37'),
-(4, 3, 2, '2', 'Chelsea Mayer', 489.00, 8, 22, 'field-9600.jpg', 1, 2, '2022-12-19 22:36:53', '2022-12-19 22:36:53'),
-(6, 2, 3, '5', 'Valentin Sipes', 159.00, 9, 18, 'field-9600.jpg', 1, 2, '2022-12-19 22:36:53', '2022-12-19 22:36:53'),
-(7, 5, 1, '1', 'Mrs. Jazmyn Jerde', 117.00, 5, 28, 'field-9600.jpg', 1, 2, '2022-12-19 22:36:53', '2022-12-19 22:36:53'),
-(9, 6, 1, '3', 'Zetta Leuschke', 194.00, 8, 28, 'field-9600.jpg', 1, 2, '2022-12-19 22:36:53', '2022-12-19 22:36:53'),
-(11, 6, 2, '2', 'Verna Dickinson MD', 130.00, 7, 25, 'field-9600.jpg', 1, 2, '2022-12-19 22:36:53', '2022-12-19 22:36:53'),
-(12, 2, 1, '4', 'Kimberly Gerlach', 251.00, 4, 22, 'field-9600.jpg', 1, 2, '2022-12-19 22:36:53', '2022-12-19 22:36:53'),
-(13, 5, 1, '5', 'Kailey Gutmann V', 227.00, 4, 19, 'field-9600.jpg', 1, 2, '2022-12-19 22:36:53', '2022-12-19 22:36:53'),
-(14, 3, 4, '1', 'Norberto Douglas', 280.00, 10, 24, 'field-9600.jpg', 1, 2, '2022-12-19 22:36:53', '2022-12-19 22:36:53'),
-(15, 2, 1, '5', 'Mrs. Dessie Tillman V', 421.00, 5, 25, 'field-9600.jpg', 1, 2, '2022-12-19 22:36:53', '2022-12-19 22:36:53'),
-(16, 6, 3, '1', 'Amari Toy', 311.00, 8, 19, 'field-9600.jpg', 1, 2, '2022-12-19 22:36:53', '2022-12-19 22:36:53'),
-(17, 4, 2, '5', 'Vella Hackett V', 103.00, 4, 30, 'field-9600.jpg', 1, 2, '2022-12-19 22:36:53', '2022-12-19 22:36:53'),
-(18, 4, 2, '2', 'Garfield Eichmann', 158.00, 5, 23, 'field-9600.jpg', 1, 2, '2022-12-19 22:36:53', '2022-12-19 22:36:53'),
-(20, 4, 1, '5', 'Gabe Beahan', 395.00, 4, 21, 'field-9600.jpg', 1, 2, '2022-12-19 22:36:53', '2022-12-19 22:36:53'),
-(21, 5, 1, '1', 'Mrs. Jazmyn Jerde', 117.00, 5, 28, 'field-9600.jpg', 1, 2, '2022-12-19 22:36:53', '2022-12-19 22:36:53'),
-(22, 3, 3, '1', 'Antwan Hilpert', 242.00, 8, 25, 'field-9600.jpg', 1, 2, '2022-12-19 22:36:53', '2022-12-19 22:36:53'),
-(23, 3, 4, '1', 'Chauncey Weissnat V', 396.00, 8, 20, 'field-9600.jpg', 1, 2, '2022-12-19 22:36:53', '2022-12-19 22:36:53'),
-(24, 6, 2, '2', 'Mr. Jamel Armstrong', 165.00, 7, 21, 'field-9600.jpg', 1, 2, '2022-12-19 22:36:53', '2022-12-19 22:36:53'),
-(25, 4, 3, '5', 'Alexandre Larson V', 286.00, 7, 18, 'field-9600.jpg', 1, 2, '2022-12-19 22:36:53', '2022-12-19 22:36:53'),
-(26, 5, 3, '2', 'Clint Tremblay MD', 136.00, 5, 21, 'field-9600.jpg', 1, 2, '2022-12-19 22:36:53', '2022-12-19 22:36:53'),
-(27, 6, 3, '1', 'Mrs. Dandre Kutch I', 302.00, 10, 28, 'field-9600.jpg', 1, 2, '2022-12-19 22:36:53', '2022-12-19 22:36:53'),
-(28, 4, 3, '4', 'Mayra Moen', 149.00, 9, 29, 'field-9600.jpg', 1, 2, '2022-12-19 22:36:53', '2022-12-19 22:36:53'),
-(29, 5, 1, '1', 'Mrs. Jazmyn Jerde', 117.00, 5, 28, 'field-9600.jpg', 1, 2, '2022-12-19 22:36:53', '2022-12-19 22:36:53');
+(1, 2, 38, '8', 'Dr. Christian Walter IV', 491.00, 8, 20, 'field-1135.jpg', 1, 2, '2023-02-20 05:57:52', '2023-02-20 05:57:52'),
+(2, 2, 35, '6', 'Ms. Annie Gorczany IV', 452.00, 5, 30, 'field-1135.jpg', 1, 2, '2023-02-20 05:57:52', '2023-02-20 05:57:52'),
+(3, 2, 36, '9', 'Christa Hettinger MD', 129.00, 6, 19, 'field-1135.jpg', 1, 2, '2023-02-20 05:57:52', '2023-02-20 05:57:52'),
+(4, 2, 39, '8', 'Mr. Brent Shields I', 401.00, 6, 18, 'field-1135.jpg', 1, 2, '2023-02-20 05:57:52', '2023-02-20 05:57:52'),
+(5, 2, 38, '10', 'Karianne Muller', 439.00, 6, 29, 'field-1135.jpg', 1, 2, '2023-02-20 05:57:52', '2023-02-20 05:57:52');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `leagues`
+--
+
+CREATE TABLE `leagues` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `vendor_id` int(11) NOT NULL,
+  `dome_id` int(11) NOT NULL,
+  `field_id` varchar(255) NOT NULL,
+  `sport_id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `start_date` date NOT NULL,
+  `end_date` date NOT NULL,
+  `start_time` varchar(255) NOT NULL,
+  `end_time` varchar(255) NOT NULL,
+  `from_age` int(11) NOT NULL,
+  `to_age` int(11) NOT NULL,
+  `gender` tinyint(4) NOT NULL DEFAULT 1 COMMENT '1=Male, 2=Female, 3=Other',
+  `min_player` int(11) NOT NULL,
+  `max_player` int(11) NOT NULL,
+  `team_limit` int(11) NOT NULL,
+  `price` int(11) NOT NULL,
+  `image` varchar(255) NOT NULL DEFAULT 'default_league.png',
+  `is_deleted` tinyint(4) NOT NULL DEFAULT 2 COMMENT '1=yes,2=no',
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `leagues`
+--
+
+INSERT INTO `leagues` (`id`, `vendor_id`, `dome_id`, `field_id`, `sport_id`, `name`, `start_date`, `end_date`, `start_time`, `end_time`, `from_age`, `to_age`, `gender`, `min_player`, `max_player`, `team_limit`, `price`, `image`, `is_deleted`, `created_at`, `updated_at`) VALUES
+(1, 2, 35, '2|3', 7, 'Regular Old Football League', '2023-03-10', '2023-04-10', '09:00 AM', '05:00 PM', 16, 28, 1, 12, 17, 13, 1489, 'default_league.png', 2, '2023-02-20 06:56:50', '2023-02-20 06:56:50'),
+(2, 2, 37, '5', 7, 'Regular Old Football League', '2023-03-10', '2023-04-10', '09:00 AM', '05:00 PM', 20, 30, 1, 12, 16, 13, 1848, 'default_league.png', 2, '2023-02-20 06:56:50', '2023-02-20 06:56:50'),
+(3, 2, 37, '4', 7, 'Regular Old Football League', '2023-03-10', '2023-04-10', '09:00 AM', '05:00 PM', 13, 24, 2, 13, 24, 14, 1976, 'default_league.png', 2, '2023-02-20 06:56:50', '2023-02-20 06:56:50'),
+(4, 2, 38, '3', 9, 'Regular Old Football League', '2023-03-10', '2023-04-10', '09:00 AM', '05:00 PM', 13, 22, 1, 12, 17, 15, 1527, 'default_league.png', 2, '2023-02-20 06:56:50', '2023-02-20 06:56:50'),
+(5, 2, 39, '4', 9, 'Regular Old Football League', '2023-03-10', '2023-04-10', '09:00 AM', '05:00 PM', 17, 21, 3, 13, 20, 12, 1909, 'default_league.png', 2, '2023-02-20 06:56:50', '2023-02-20 06:56:50');
 
 -- --------------------------------------------------------
 
@@ -341,7 +360,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (11, '2023_02_06_110542_create_reviews_table', 10),
 (12, '2023_02_06_110902_create_transactions_table', 11),
 (14, '2023_02_19_062821_create_enquiries_table', 12),
-(15, '2023_02_19_071908_add_fcm_token_column_to_users_table', 13);
+(15, '2023_02_19_071908_add_fcm_token_column_to_users_table', 13),
+(16, '2023_02_17_092343_create_leagues_table', 14);
 
 -- --------------------------------------------------------
 
@@ -911,7 +931,8 @@ INSERT INTO `reviews` (`id`, `dome_id`, `user_id`, `ratting`, `comment`, `reply_
 (497, 1, 6, 4, NULL, NULL, NULL, '2022-12-12 22:47:06', '2022-12-12 22:47:06'),
 (498, 3, 4, 4, NULL, NULL, NULL, '2022-12-12 22:47:06', '2022-12-12 22:47:06'),
 (499, 1, 3, 1, NULL, NULL, NULL, '2022-12-12 22:47:06', '2022-12-12 22:47:06'),
-(500, 4, 4, 3, NULL, NULL, NULL, '2022-12-12 22:47:06', '2022-12-12 22:47:06');
+(500, 4, 4, 3, NULL, NULL, NULL, '2022-12-12 22:47:06', '2022-12-12 22:47:06'),
+(501, 36, 4, 5, 'Sohammmmmmmmmm', NULL, NULL, '2023-02-21 07:32:04', '2023-02-21 07:33:27');
 
 -- --------------------------------------------------------
 
@@ -934,11 +955,11 @@ CREATE TABLE `sports` (
 --
 
 INSERT INTO `sports` (`id`, `name`, `image`, `is_available`, `is_deleted`, `created_at`, `updated_at`) VALUES
-(1, 'Cricket', 'sport-4213.png', 1, 2, '2022-11-21 23:57:58', '2022-12-08 19:02:44'),
-(2, 'Vollyball', 'sport-7411.png', 1, 2, '2022-11-22 01:16:14', '2022-11-22 01:16:14'),
-(3, 'Golf', 'sport-923.png', 1, 2, '2022-11-22 01:16:26', '2022-11-22 01:16:26'),
-(4, 'Tennis', 'sport-5843.png', 1, 2, '2022-11-22 01:16:39', '2022-11-22 01:16:39'),
-(5, 'Soccer', 'sport-8388.png', 1, 2, '2022-12-05 00:14:04', '2022-12-05 00:14:04');
+(6, 'Soccer', 'sport-7424.png', 1, 2, '2023-02-20 03:35:39', '2023-02-20 03:35:39'),
+(7, 'Golf', 'sport-3424.png', 1, 2, '2023-02-20 03:35:56', '2023-02-20 03:35:56'),
+(8, 'Basketball', 'sport-9595.png', 1, 2, '2023-02-20 03:37:44', '2023-02-20 03:37:44'),
+(9, 'Cricket', 'sport-1841.png', 1, 2, '2023-02-20 03:41:14', '2023-02-20 03:41:14'),
+(10, 'Vollyball', 'sport-2840.png', 1, 2, '2023-02-20 03:43:02', '2023-02-20 03:43:02');
 
 -- --------------------------------------------------------
 
@@ -1040,9 +1061,9 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `type`, `login_type`, `name`, `email`, `countrycode`, `phone`, `password`, `google_id`, `apple_id`, `facebook_id`, `fcm_token`, `otp`, `image`, `is_verified`, `is_available`, `is_deleted`, `created_at`, `updated_at`) VALUES
 (1, 1, 1, 'Admin', 'admin@gmail.com', 'CA', '1234567890', '$2y$10$z0eXm5BtjQQP77GHRvJAGOIp1osY2Lx0NvMvmkpTgPzpiTUvnIlri', NULL, NULL, NULL, NULL, NULL, 'default.png', 1, 1, 2, '2023-02-06 05:11:02', '2023-02-06 05:11:02'),
-(2, 2, 1, 'test', 'test@yopmail.com', 'CA', '1234657890', '$2y$10$z0eXm5BtjQQP77GHRvJAGOIp1osY2Lx0NvMvmkpTgPzpiTUvnIlri', NULL, NULL, NULL, NULL, NULL, 'default.png', 1, 1, 2, '2023-02-06 00:03:03', '2023-02-09 05:23:37'),
-(3, 3, 2, 'test1', 'dummy@gmail.com', 'CA', '6359487772', NULL, NULL, NULL, NULL, NULL, NULL, 'default.png', 1, 1, 2, '2023-02-06 00:14:06', '2023-02-19 00:44:25'),
-(4, 3, 1, 'test1', 's@gmail.com', 'CA', '12345679', '$2y$10$ZT0nObeNnoOfxpc51wNMjuEMdj.wDjDWwTN7HrpIF4PLgHp73A3b2', NULL, NULL, NULL, NULL, NULL, 'default.png', 1, 1, 2, '2023-02-09 04:55:36', '2023-02-15 07:35:53'),
+(2, 2, 1, 'domez', 'domez@yopmail.com', 'CA', '1234657890', '$2y$10$z0eXm5BtjQQP77GHRvJAGOIp1osY2Lx0NvMvmkpTgPzpiTUvnIlri', NULL, NULL, NULL, NULL, NULL, 'default.png', 1, 1, 2, '2023-02-06 00:03:03', '2023-02-09 05:23:37'),
+(3, 3, 2, 'test1', 'dummy@gmail.com', 'CA', '6359487772', NULL, NULL, NULL, NULL, NULL, NULL, 'user-8767.jpg', 1, 1, 2, '2023-02-06 00:14:06', '2023-02-20 01:27:18'),
+(4, 3, 1, 'soham1', 's@gmail.com', 'CA', '1234567988', '$2y$10$ZT0nObeNnoOfxpc51wNMjuEMdj.wDjDWwTN7HrpIF4PLgHp73A3b2', NULL, NULL, NULL, NULL, NULL, 'user-63f3392b4218e.png', 1, 1, 2, '2023-02-09 04:55:36', '2023-02-20 22:45:18'),
 (5, 3, 1, 'Siwakar', 'siwakar@gmail.com', 'CA', '6666666666', '$2y$10$HJpJ0YcLA8xpmy7vElmcDuwPhJKphXxvZZNsshwsKhKA73kqaDQSC', NULL, NULL, NULL, NULL, NULL, 'default.png', 1, 1, 2, '2023-02-17 05:44:14', '2023-02-17 05:44:14'),
 (6, 3, 1, 'test1', 'shiva@gmail.com', 'CA', '12345679', '$2y$10$IeoPopibjXY5aAKkxxa9bepetQY6gAF1K/316ghgG5MzAqI1.3MfK', NULL, NULL, NULL, NULL, NULL, 'default.png', 1, 1, 2, '2023-02-19 01:50:12', '2023-02-19 01:50:12'),
 (7, 3, 1, 'Soham', 'domez@gmail.com', 'CA', '6359478772', '$2y$10$gtan0ZH/DCiZmnR2yLGiyeZAR0YeEu9krVXGHQfXBqk63ep0WQEEm', NULL, NULL, NULL, NULL, NULL, 'default.png', 1, 1, 2, '2023-02-19 02:22:29', '2023-02-19 05:28:51'),
@@ -1100,6 +1121,12 @@ ALTER TABLE `fields`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `leagues`
+--
+ALTER TABLE `leagues`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `migrations`
 --
 ALTER TABLE `migrations`
@@ -1143,7 +1170,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `bookings`
 --
 ALTER TABLE `bookings`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- AUTO_INCREMENT for table `cms`
@@ -1155,37 +1182,43 @@ ALTER TABLE `cms`
 -- AUTO_INCREMENT for table `domes`
 --
 ALTER TABLE `domes`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
 
 --
 -- AUTO_INCREMENT for table `dome_images`
 --
 ALTER TABLE `dome_images`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT for table `enquiries`
 --
 ALTER TABLE `enquiries`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `favourites`
 --
 ALTER TABLE `favourites`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `fields`
 --
 ALTER TABLE `fields`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `leagues`
+--
+ALTER TABLE `leagues`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `payment_gateways`
@@ -1197,13 +1230,13 @@ ALTER TABLE `payment_gateways`
 -- AUTO_INCREMENT for table `reviews`
 --
 ALTER TABLE `reviews`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=501;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=502;
 
 --
 -- AUTO_INCREMENT for table `sports`
 --
 ALTER TABLE `sports`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `transactions`
