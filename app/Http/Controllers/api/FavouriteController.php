@@ -8,8 +8,10 @@ use App\Models\DomeImages;
 use App\Models\Domes;
 use App\Models\Favourite;
 use App\Models\League;
+use App\Models\Sports;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class FavouriteController extends Controller
 {
@@ -69,11 +71,13 @@ class FavouriteController extends Controller
                         $dome_image = DomeImages::where('dome_id', $dome->dome_id)->first();
                         $dome_list = array(
                             "id" => $dome_data->id,
-                            "name" => $dome_data->name,
+                            "league_name" => $dome_data->name,
+                            "dome_name" => '',
                             "image" => Helper::image_path($dome_image->images),
                             "price" => $dome_data->price,
                             "city" => $dome_data->city,
                             "state" => $dome_data->state,
+                            "sports_list" => Sports::select('id', 'name', DB::raw("CONCAT('" . url('storage/app/public/admin/images/sports') . "/', image) AS image"))->whereIn('id', explode('|', $dome_data->sport_id))->where('is_available', 1)->where('is_deleted', 2)->get(),
                         );
                         $dome_lists[] = $dome_list;
                     }
@@ -90,11 +94,13 @@ class FavouriteController extends Controller
                         $dome_data = Domes::where('id', $league_data->dome_id)->where('is_deleted', 2)->first();
                         $league_list = array(
                             "id" => $league_data->id,
-                            "name" => $league_data->name,
+                            "league_name" => $league_data->name,
+                            "dome_name" => $dome_data->name,
                             "image" => Helper::image_path($league_data->image),
                             "price" => $league_data->price,
                             "city" => $dome_data->city,
                             "state" => $dome_data->state,
+                            "sports_list" => Sports::select('id', 'name', DB::raw("CONCAT('" . url('storage/app/public/admin/images/sports') . "/', image) AS image"))->whereIn('id', explode('|', $league_data->sport_id))->where('is_available', 1)->where('is_deleted', 2)->get(),
                         );
                         $league_lists[] = $league_list;
                     }

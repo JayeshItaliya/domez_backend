@@ -26,13 +26,8 @@
                                 </svg>
                             </a>
                         </li>
-<<<<<<< HEAD
                         <li class="breadcrumb-item ">{{ trans('labels.leagues') }}</li>
                         <li class="breadcrumb-item active" aria-current="page">{{ trans('labels.add_league') }}</li>
-=======
-                        <li class="breadcrumb-item ">League</li>
-                        <li class="breadcrumb-item active" aria-current="page">Add League</li>
->>>>>>> e20aae5ffc8eafa76f608b065ced514a69881ad6
                     </ol>
                 </nav>
             </div>
