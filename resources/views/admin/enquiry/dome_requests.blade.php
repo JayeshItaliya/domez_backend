@@ -84,8 +84,8 @@ Dome Enquiry
                             <td>991 125 462 21</td>
                             <td>Dome A</td>
                             <td>USA</td>
-                            <td><span class="badge rounded-pill cursor-pointer text-bg-info fa-solid fa-reply me-4" data-bs-target="#mymodal" data-bs-toggle="modal">Reply</span>
-                                <i class="fa-regular fa-circle-check text-success mx-2 fs-4"></i>
+                            <td><span class="badge rounded-pill cursor-pointer text-bg-info fa-solid fa-reply me-2" data-bs-target="#mymodal" data-bs-toggle="modal">Reply</span>
+                                <i class="fa-regular fa-circle-check text-success mx-1 fs-4"></i>
                                 <i class="fa-regular fa-circle-xmark text-danger mx-2 fs-4"></i>
                             </td>
 
@@ -97,8 +97,8 @@ Dome Enquiry
                             <td>991 125 462 21</td>
                             <td>Dome B</td>
                             <td>USA</td>
-                            <td><span class="badge rounded-pill cursor-pointer text-bg-info fa-solid fa-reply me-4" data-bs-target="#mymodal" data-bs-toggle="modal">Reply</span>
-                                <i class="fa-regular fa-circle-check text-success mx-2 fs-4"></i>
+                            <td><span class="badge rounded-pill cursor-pointer text-bg-info fa-solid fa-reply me-2" data-bs-target="#mymodal" data-bs-toggle="modal">Reply</span>
+                                <i class="fa-regular fa-circle-check text-success mx-1 fs-4"></i>
                                 <i class="fa-regular fa-circle-xmark text-danger  mx-2 fs-4"></i>
                             </td>
                         </tr>
@@ -109,8 +109,8 @@ Dome Enquiry
                             <td>991 125 462 21</td>
                             <td>Dome C</td>
                             <td>USA</td>
-                            <td><span class="badge rounded-pill cursor-pointer text-bg-info fa-solid fa-reply me-4" data-bs-target="#mymodal" data-bs-toggle="modal">Reply</span>
-                                <i class="fa-regular fa-circle-check text-success mx-2 fs-4"></i>
+                            <td><span class="badge rounded-pill cursor-pointer text-bg-info fa-solid fa-reply me-2" data-bs-target="#mymodal" data-bs-toggle="modal">Reply</span>
+                                <i class="fa-regular fa-circle-check text-success mx-1 fs-4"></i>
                                 <i class="fa-regular fa-circle-xmark text-danger  mx-2 fs-4"></i>
                             </td>
                         </tr>
@@ -121,8 +121,8 @@ Dome Enquiry
                             <td>991 125 462 21</td>
                             <td>Dome D</td>
                             <td>USA</td>
-                            <td><span class="badge rounded-pill cursor-pointer text-bg-info fa-solid fa-reply me-4" data-bs-target="#mymodal" data-bs-toggle="modal">Reply</span>
-                                <i class="fa-regular fa-circle-check text-success mx-2 fs-4"></i>
+                            <td><span class="badge rounded-pill cursor-pointer text-bg-info fa-solid fa-reply me-2" data-bs-target="#mymodal" data-bs-toggle="modal">Reply</span>
+                                <i class="fa-regular fa-circle-check text-success mx-1 fs-4"></i>
                                 <i class="fa-regular fa-circle-xmark text-danger mx-2 fs-4"></i>
                             </td>
                         </tr>

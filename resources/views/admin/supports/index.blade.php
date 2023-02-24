@@ -33,45 +33,19 @@ Support
 
     <div class="card">
         <div class="card-body">
-            <div class="table-responsive">
-                <input class="form-control list-search mw-300px float-end mb-5" type="search" placeholder="Search">
-                <table class="table table-nowrap mb-0">
-                    <thead class=" thead-light">
-                        <tr>
-                            <th class="w-80px">
-                                <a href="javascript: void(0);" class="text-muted list-sort" data-sort="id">
-                                    ID
-                                </a>
-                            </th>
-                            <th>
-                                <a href="javascript: void(0);" class="text-muted list-sort" data-sort="user_name">
-                                    Dome Owners
-                                </a>
-                            </th>
-                            <th>
-                                <a href="javascript: void(0);" class="text-muted list-sort" data-sort="Rating">
-                                    User
-                                </a>
-                            </th>
-                            <th>
-                                <a href="javascript: void(0);" class="text-muted list-sort" data-sort="Review">
-                                    Subject
-                                </a>
-                            </th>
-                            <th>
-                                <a href="javascript: void(0);" class="text-muted list-sort" data-sort="Actions">
-                                    Message
-                                </a>
-                            </th>
-                            <th>
-                                <a href="javascript: void(0);" class="text-muted list-sort" data-sort="Actions">
-                                    Actions
-                                </a>
-                            </th>
-                        </tr>
-                    </thead>
-
-                    <tbody class="list">
+            <table id="bootstrapTable">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Dome Owners</th>
+                        <th>User</th>
+                        <th>Subject</th>
+                        <th>Message</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tbody>
                         <tr>
                             <td>01</td>
                             <td>Kelly Doyle</td>
@@ -79,34 +53,6 @@ Support
                             <td>Lorem Ipsum..</td>
                             <td>Lorem Ipsum is simply dummy text..</td>
                             <td><span class="badge rounded-pill cursor-pointer text-bg-info fa-solid fa-reply me-4" data-bs-target="#mymodal" data-bs-toggle="modal">Reply</span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>02</td>
-                            <td>Kelly Doyle</td>
-                            <td>wiegand@hotmail.com</td>
-                            <td>Lorem Ipsum..</td>
-                            <td>Lorem Ipsum is simply dummy text..</td>
-                            <td><span class="badge rounded-pill cursor-pointer text-bg-info fa-solid fa-reply me-4" data-bs-target="#mymodal" data-bs-toggle="modal">Reply</span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>03</td>
-                            <td>Kelly Doyle</td>
-                            <td>wiegand@hotmail.com</td>
-                            <td>Lorem Ipsum..</td>
-                            <td>Lorem Ipsum is simply dummy text..</td>
-                            <td><span class="badge rounded-pill cursor-pointer text-bg-info fa-solid fa-reply me-4" data-bs-target="#mymodal" data-bs-toggle="modal">Reply</span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>04</td>
-                            <td>Kelly Doyle</td>
-                            <td>wiegand@hotmail.com</td>
-                            <td>Lorem Ipsum..</td>
-                            <td>Lorem Ipsum is simply dummy text..</td>
-                            <td><span class="badge rounded-pill cursor-pointer text-bg-info fa-solid fa-reply me-4" data-bs-target="#mymodal" data-bs-toggle="modal">Reply</span>
-
                             </td>
                         </tr>
                     </tbody>
@@ -131,8 +77,8 @@ Support
                              </div>
                         </div>
                    </div>
-                </table>
-            </div>
+                </tbody>
+            </table>
         </div>
     </div>
 @endsection
