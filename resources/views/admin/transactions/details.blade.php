@@ -55,15 +55,13 @@
                     </div>
                 </div>
             </div>
-            <div class="d-flex">
-                <div class="col-lg-6">
-                    <div class="px-3 py-2 d-flex">
-                        <div class="col-md-4">
-                            <label>Email</label>
-                        </div>
-                        <div class="col-md-8">
-                            <span class="text-muted fs-7">wiegand@hotmail.com</span>
-                        </div>
+            <div class="col-lg-6">
+                <div class="px-3 py-2 d-flex">
+                    <div class="col-md-4">
+                        <label>Email</label>
+                    </div>
+                    <div class="col-md-8">
+                        <span class="text-muted fs-7">wiegand@hotmail.com</span>
                     </div>
                 </div>
             </div>
@@ -75,7 +73,7 @@
                             <label>Name</label>
                         </div>
                         <div class="col-md-8">
-                            <span class="text-muted fs-7">Curtis</span>
+                            <span class="text-muted fs-7">John</span>
                         </div>
                     </div>
                 </div>
@@ -90,15 +88,13 @@
                     </div>
                 </div>
             </div>
-            <div class="d-flex">
-                <div class="col-lg-6">
-                    <div class="px-3 py-2 d-flex">
-                        <div class="col-md-4">
-                            <label>Email</label>
-                        </div>
-                        <div class="col-md-8">
-                            <span class="text-muted fs-7">wiegand@hotmail.com</span>
-                        </div>
+            <div class="col-lg-6">
+                <div class="px-3 py-2 d-flex">
+                    <div class="col-md-4">
+                        <label>Email</label>
+                    </div>
+                    <div class="col-md-8">
+                        <span class="text-muted fs-7">wiegand@hotmail.com</span>
                     </div>
                 </div>
             </div>

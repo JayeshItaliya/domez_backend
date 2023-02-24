@@ -30,7 +30,6 @@
             </div>
         </div>
     </div>
-
     <div class="card">
         <div class="card-body">
             <div class="table-responsive">
@@ -146,7 +145,6 @@
                                             <button type="button" class="btn btn-primary">Submit</button>
                                          </div>
                                       </div>
-
                                   </div>
                              </div>
                         </div>
