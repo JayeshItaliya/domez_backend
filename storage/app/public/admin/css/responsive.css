@@ -40,6 +40,9 @@
     label.form-check-label {
         font-size: 14px;
     }
+    .content-wrapper {
+        margin: 15px 15px;
+    }
 }
 
 @media (max-width: 1199px) {
@@ -74,4 +77,21 @@
     .contact-form .form-wrapper>div {
         flex-direction: column;
     }
+    .navbar .navbar-wrapper {
+        display: none;
+    }
+    .content-wrapper {
+         margin: 15px;
+    }
 }
+
+
+
+
+
+
+
+
+
+
+/* for admin panel */

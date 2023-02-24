@@ -51,7 +51,5 @@ Privacy Policy
                 console.error( error );
             } );
 </script>
-
-
 @endsection
 

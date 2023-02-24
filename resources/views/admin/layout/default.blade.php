@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="{{ url('storage/app/public/admin/css/datatable/datatables.min.css') }}">
     @yield('styles')
     <link rel="stylesheet" href="{{ url('storage/app/public/admin/css/custom.css') }}">
+    <link rel="stylesheet" href="{{ url('storage/app/public/admin/css/responsive.css') }}">
 </head>
 
 <body>
