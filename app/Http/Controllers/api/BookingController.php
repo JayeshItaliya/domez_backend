@@ -88,7 +88,7 @@ class BookingController extends Controller
 
                 $slots[] = [
                     'slot' => $slot,
-                    'price' => 0,
+                    'price' => rand(111,999),
                     'status' => $status,
                 ];
             }

@@ -55,6 +55,7 @@ Route::post('leagues-list', [LeagueController::class, 'leagues_list']);
 Route::get('league-details-{id}', [LeagueController::class, 'league_details']);
 
 Route::post('filter', [HomeController::class, 'filter']);
+Route::post('search', [HomeController::class, 'search']);
 Route::post('dome-request', [HomeController::class, 'dome_request']);
 
 Route::post('favourite', [FavouriteController::class, 'favourite']);
@@ -62,13 +63,13 @@ Route::post('favourite-list', [FavouriteController::class, 'favourite_list']);
 
 Route::post('booking', [BookingController::class, 'booking']);
 Route::post('check-booking', [BookingController::class, 'check_booking']);
+Route::post('timeslots', [BookingController::class, 'timeslots']);
+Route::post('available-fields', [BookingController::class, 'avl_fields']);
 
 Route::post('review', [ReviewController::class, 'review']);
 Route::get('avg-ratting-{id}', [ReviewController::class, 'avg_rating']);
 Route::get('rattinglist-{dome_id}', [ReviewController::class, 'rattinglist']);
 
-Route::post('timeslots', [BookingController::class, 'timeslots']);
-Route::post('available-fields', [BookingController::class, 'avl_fields']);
 
 
 // Route::post('requestdomes', [AuthenticationController::class, 'requestdomes']);
