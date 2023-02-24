@@ -45,15 +45,13 @@
                     </div>
                 </div>
             </div>
-            <div class="d-flex">
-                <div class="col-lg-4">
-                    <div class="px-3 py-2 d-flex">
-                        <div class="col-md-4">
-                            <label>Dome Name</label>
-                        </div>
-                        <div class="col-md-8">
-                            <span class="text-muted fs-7 mx-3">Dome A</span>
-                        </div>
+            <div class="col-lg-4">
+                <div class="px-3 py-2 d-flex">
+                    <div class="col-md-4">
+                        <label>Dome Name</label>
+                    </div>
+                    <div class="col-md-8">
+                        <span class="text-muted fs-7 mx-3">Dome A</span>
                     </div>
                 </div>
             </div>
@@ -69,15 +67,13 @@
                     </div>
                 </div>
             </div>
-            <div class="d-flex">
-                <div class="col-lg-4">
-                    <div class="px-3 py-2 d-flex">
-                        <div class="col-md-4">
-                            <label>Booking ID</label>
-                        </div>
-                        <div class="col-md-8">
-                            <span class="text-muted fs-7 mx-3">OI3v7zGMF7</span>
-                        </div>
+            <div class="col-lg-4">
+                <div class="px-3 py-2 d-flex">
+                    <div class="col-md-4">
+                        <label>Booking ID</label>
+                    </div>
+                    <div class="col-md-8">
+                        <span class="text-muted fs-7 mx-3">OI3v7zGMF7</span>
                     </div>
                 </div>
             </div>
@@ -93,15 +89,13 @@
                     </div>
                 </div>
             </div>
-            <div class="d-flex">
-                <div class="col-lg-4">
-                    <div class="px-3 py-2 d-flex">
-                        <div class="col-md-4">
-                            <label>Customer Email</label>
-                        </div>
-                        <div class="col-md-8">
-                            <span class="text-muted fs-7 mx-3">abcd1@gmail</span>
-                        </div>
+            <div class="col-lg-4">
+                <div class="px-3 py-2 d-flex">
+                    <div class="col-md-4">
+                        <label>Customer Email</label>
+                    </div>
+                    <div class="col-md-8">
+                        <span class="text-muted fs-7 mx-3">abcd1@gmail</span>
                     </div>
                 </div>
             </div>
@@ -117,15 +111,13 @@
                     </div>
                 </div>
             </div>
-            <div class="d-flex">
-                <div class="col-lg-4">
-                    <div class="px-3 py-2 d-flex">
-                        <div class="col-md-4">
-                            <label>Payment Mode</label>
-                        </div>
-                        <div class="col-md-8">
-                            <span class="text-muted fs-7 mx-3">Completed</span>
-                        </div>
+            <div class="col-lg-4">
+                <div class="px-3 py-2 d-flex">
+                    <div class="col-md-4">
+                        <label>Payment Mode</label>
+                    </div>
+                    <div class="col-md-8">
+                        <span class="text-muted fs-7 mx-3">Completed</span>
                     </div>
                 </div>
             </div>
@@ -141,15 +133,13 @@
                     </div>
                 </div>
             </div>
-            <div class="d-flex">
-                <div class="col-lg-4">
-                    <div class="px-3 py-2 d-flex">
-                        <div class="col-md-4">
-                            <label>Booking Date</label>
-                        </div>
-                        <div class="col-md-8">
-                            <span class="text-muted fs-7 mx-3">12-05-2023</span>
-                        </div>
+            <div class="col-lg-4">
+                <div class="px-3 py-2 d-flex">
+                    <div class="col-md-4">
+                        <label>Booking Date</label>
+                    </div>
+                    <div class="col-md-8">
+                        <span class="text-muted fs-7 mx-3">12-05-2023</span>
                     </div>
                 </div>
             </div>
@@ -165,15 +155,13 @@
                     </div>
                 </div>
             </div>
-            <div class="d-flex">
-                <div class="col-lg-4">
-                    <div class="px-3 py-2 d-flex">
-                        <div class="col-md-4">
-                            <label>End Time</label>
-                        </div>
-                        <div class="col-md-8">
-                            <span class="text-muted fs-7 mx-3">05 : 00 PM</span>
-                        </div>
+            <div class="col-lg-4">
+                <div class="px-3 py-2 d-flex">
+                    <div class="col-md-4">
+                        <label>End Time</label>
+                    </div>
+                    <div class="col-md-8">
+                        <span class="text-muted fs-7 mx-3">05 : 00 PM</span>
                     </div>
                 </div>
             </div>
@@ -189,15 +177,13 @@
                     </div>
                 </div>
             </div>
-            <div class="d-flex">
-                <div class="col-lg-4">
-                    <div class="px-3 py-2 d-flex">
-                        <div class="col-md-4">
-                            <label>Paid Amount</label>
-                        </div>
-                        <div class="col-md-8">
-                            <span class="text-muted fs-7 mx-3">$500</span>
-                        </div>
+            <div class="col-lg-4">
+                <div class="px-3 py-2 d-flex">
+                    <div class="col-md-4">
+                        <label>Paid Amount</label>
+                    </div>
+                    <div class="col-md-8">
+                        <span class="text-muted fs-7 mx-3">$500</span>
                     </div>
                 </div>
             </div>
@@ -213,15 +199,13 @@
                     </div>
                 </div>
             </div>
-            <div class="d-flex">
-                <div class="col-lg-4">
-                    <div class="px-3 py-2 d-flex">
-                        <div class="col-md-4">
-                            <label>Payment Type</label>
-                        </div>
-                        <div class="col-md-8">
-                            <span class="text-muted fs-7 mx-3">Google Pay</span>
-                        </div>
+            <div class="col-lg-4">
+                <div class="px-3 py-2 d-flex">
+                    <div class="col-md-4">
+                        <label>Payment Type</label>
+                    </div>
+                    <div class="col-md-8">
+                        <span class="text-muted fs-7 mx-3">Google Pay</span>
                     </div>
                 </div>
             </div>
@@ -237,15 +221,13 @@
                     </div>
                 </div>
             </div>
-            <div class="d-flex">
-                <div class=" col-lg-4">
-                    <div class="px-3 py-2 d-flex">
-                        <div class="col-md-4">
-                            <label>Booking Status</label>
-                        </div>
-                        <div class="col-md-8">
-                            <span class="badge rounded-pill cursor-pointer text-bg-warning mx-3" onclick="change_status('2','2','http://localhost/domez/admin/vendors/change_status')">Confirm</span>
-                        </div>
+            <div class=" col-lg-4">
+                <div class="px-3 py-2 d-flex">
+                    <div class="col-md-4">
+                        <label>Booking Status</label>
+                    </div>
+                    <div class="col-md-8">
+                        <span class="badge rounded-pill cursor-pointer text-bg-warning mx-3" onclick="change_status('2','2','http://localhost/domez/admin/vendors/change_status')">Confirm</span>
                     </div>
                 </div>
             </div>

@@ -36,7 +36,7 @@
             <div class="card-body">
                 <div class="table-responsive">
                     <input class="form-control list-search mw-300px float-end mb-5" type="search" placeholder="Search">
-                    <table class="table table-nowrap mb-0" data-list='{"valueNames": ["id", "name", "manager", "status"]}'>
+                    <table class="table table-nowrap mb-0">
                         <thead class="thead-light">
                             <tr>
                                 <th class="w-80px">
@@ -86,7 +86,6 @@
                                 </th>
                             </tr>
                         </thead>
-
                         <tbody class="list">
                             <tr>
                                 <td>01</td>
