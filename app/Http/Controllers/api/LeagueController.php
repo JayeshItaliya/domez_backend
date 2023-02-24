@@ -30,7 +30,7 @@ class LeagueController extends Controller
                     if (empty(User::find($request->user_id))) {
                         return response()->json(["status" => 0, "message" => 'Invalid User ID'], 200);
                     }
-                    $recentbookings = Booking::where('user_id', $request->user_id)->where('type',2)->get();
+                    $recentbookings = Booking::where('user_id', $request->user_id)->where('type', 2)->get();
                     foreach ($recentbookings as $booking) {
                         $dome = Domes::find($booking->dome_id);
                         $league = League::where('id', $booking->league_id)->where('is_deleted', 2)->first();
@@ -47,7 +47,7 @@ class LeagueController extends Controller
                                 "city" => $dome->city,
                                 "state" => $dome->state,
                                 "is_fav" => !empty(@$is_fav) ? true : false,
-                                "date" => date('d F', strtotime($league->start_date)).' - '.date('d F', strtotime($league->end_date)),
+                                "date" => date('d F', strtotime($league->start_date)) . ' - ' . date('d F', strtotime($league->end_date)),
                                 "sport_data" => Sports::select('id', 'name', DB::raw("CONCAT('" . url('storage/app/public/admin/images/sports') . "/', image) AS image"))->whereIn('id', explode('|', $league->sport_id))->where('is_available', 1)->where('is_deleted', 2)->get(),
                             ];
                         }
@@ -126,23 +126,48 @@ class LeagueController extends Controller
         }
         $sports = Sports::select('id', 'name', DB::raw("CONCAT('" . url('storage/app/public/admin/images/leagues') . "/', image) AS image"))->whereIn('id', explode('|', $league->sport_id))->where('is_available', 1)->where('is_deleted', 2)->get();
 
-        $dome = Domes::where('id',$league->dome_id)->first();
+        $dome = Domes::where('id', $league->dome_id)->first();
+        $benefits = [];
+        foreach (explode('|', $dome->benefits) as $benefit) {
+            $benefits[] = [
+                'benefit' => $benefit,
+                'benefit_image' => 'https://via.placeholder.com/150',
+            ];
+        }
         if (!empty($league)) {
             $league_data = array(
                 'id' => $league->id,
                 'league_name' => $league->name,
                 'dome_name' => $dome->name,
+                "fields" => '',
+                "time" => $league->start_time . ' To ' . $league->end_time,
+                "date" => $league->start_date . ' To ' . $league->end_date,
+                'gender' => $league->gender == 1 ? 'Male' : ($league->gender == 2 ? 'Female' : 'Other'),
+                'age' => $league->from_age . ' Years' . ' To ' . $league->to_age . ' Years',
+                'sport' => Sports::find($league->sport_id)->name,
+                'team_limit' => $league->team_limit . ' Teams ',
+                'min_player' => $league->min_player . ' Players ',
+                'max_player' => $league->max_player . ' Players ',
+                'price' => $league->price,
                 'price' => $league->price,
                 'city' => $dome->city,
                 'state' => $dome->state,
-                'start_time' => $league->start_time,
-                'end_time' => $league->end_time,
-                'description' => $league->description,
                 'lat' => $dome->lat,
                 'lng' => $dome->lng,
-                // 'sports' => $sports_list,
-                // 'benefits_description' => $league->benefits_description,
-                // 'dome_images' => $league->dome_images,
+                'amenities_description' => $dome->benefits_description,
+                'league_images' => [
+                    [
+                        "id" => '',
+                        "league_id" => '',
+                        "image" => '',
+                    ],
+                    [
+                        "id" => '',
+                        "league_id" => '',
+                        "image" => '',
+                    ],
+                ],
+                'amenities' => $benefits,
             );
         }
         return $league_data;
