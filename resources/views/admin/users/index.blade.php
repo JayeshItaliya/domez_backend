@@ -40,6 +40,7 @@
                             <th>{{ trans('labels.phone_number') }}</th>
                             <th>{{ trans('labels.login_type') }}</th>
                             <th>{{ trans('labels.status') }}</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -69,7 +70,20 @@
                                         class="badge rounded-pill cursor-pointer text-bg-{{ $user->is_available == 1 ? 'success' : 'danger' }}"
                                         onclick="change_status('{{ $user->id }}','{{ $user->is_available == 1 ? 2 : 1 }}','{{ URL::to('admin/users/change_status') }}')">{{ $user->is_available == 1 ? 'Active' : 'Inactive' }}</span>
                                 </td>
+                                <td>
+                                    <i class="fa-solid fa-ellipsis-vertical ms-3"  data-bs-toggle="dropdown" aria-expanded="false"></i>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item" href="#">View Details</a></li>
+                                        <li><hr class="dropdown-divider"></li>
+                                        <li><a class="dropdown-item" href="#">Edit</a></li>
+                                        <li><hr class="dropdown-divider"></li>
+                                        <li><a class="dropdown-item" href="#">Make Inactive</a></li>
+                                        <li><hr class="dropdown-divider"></li>
+                                        <li><a class="dropdown-item" href="#">Delete</a></li>
+                                      </ul>
+                                </td>
                             </tr>
+
                         @endforeach
                     </tbody>
                 </table>

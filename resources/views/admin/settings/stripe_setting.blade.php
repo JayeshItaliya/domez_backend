@@ -9,7 +9,7 @@
     <div class="card mb-3">
         <div class="card-body py-2">
             <div class="d-flex align-items-center justify-content-between">
-                <p class="text-secondary fw-semibold">Twilio Settings</p>
+                <p class="text-secondary fw-semibold">Stripe Settings</p>
                 <nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='%236c757d'/%3E%3C/svg%3E&#34;);"
                     aria-label="breadcrumb">
                     <ol class="breadcrumb m-0">
@@ -49,7 +49,7 @@
                         <div class="col-md-12">
                             <div class="mb-3">
                                 <label for="exampleFormControlInput1" class="form-label">Secret Key</label>
-                                <input type="email" class="form-control" id="exampleFormControlInput1"
+                                <input type="text" class="form-control" id="exampleFormControlInput1"
                                     placeholder="sk_test_51LlAvQFysF0okTxJ2zYdNO3KY6BqSEQMCXuY7SxBvTlI7L2wEneSwWKL70Qhrsg52XWHm1aI95VN3Qna6R7dE7FU00JJ4aysw3">
                             </div>
                         </div>

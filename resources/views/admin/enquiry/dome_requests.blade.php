@@ -134,7 +134,7 @@ Dome Enquiry
                                     <h6 class="mb-5">New Message</h6>
                                     <form>
                                         <div class="mb-3">
-                                          <input type="text" class="form-control" id="recipient-name" placeholder="Wiegend@hotmail.com">
+                                          <input type="email" class="form-control" id="recipient-name" placeholder="Wiegend@hotmail.com">
                                         </div>
                                         <div class="mb-3">
                                             <input type="text" class="form-control" id="recipient-name" placeholder="Subject">
