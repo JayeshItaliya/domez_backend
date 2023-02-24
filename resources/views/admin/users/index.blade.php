@@ -73,9 +73,9 @@
                                 <td>
                                     <i class="fa-solid fa-ellipsis-vertical ms-3"  data-bs-toggle="dropdown" aria-expanded="false"></i>
                                     <ul class="dropdown-menu">
-                                        <li><a class="dropdown-item" href="#">View Details</a></li>
+                                        <li><a class="dropdown-item" href="{{ URL::to('admin/users/details-'.$user->id)}}">View Details</a></li>
                                         <li><hr class="dropdown-divider"></li>
-                                        <li><a class="dropdown-item" href="#">Edit</a></li>
+                                        <li><a class="dropdown-item" href="{{ URL::to('admin/users/edit-'.$user->id)}}">Edit</a></li>
                                         <li><hr class="dropdown-divider"></li>
                                         <li><a class="dropdown-item" href="#">Make Inactive</a></li>
                                         <li><hr class="dropdown-divider"></li>
