@@ -24,7 +24,7 @@
                                 </svg>
                             </a>
                         </li>
-                        <li class="breadcrumb-item ">{{ trans('labels.domes') }}</li>
+                        <li class="breadcrumb-item">{{ trans('labels.domes') }}</li>
                         <li class="breadcrumb-item active" aria-current="page">{{ trans('labels.dome_details') }}</li>
                     </ol>
                 </nav>

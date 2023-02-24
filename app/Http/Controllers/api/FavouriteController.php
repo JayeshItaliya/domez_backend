@@ -81,7 +81,7 @@ class FavouriteController extends Controller
                         );
                         $dome_lists[] = $dome_list;
                     }
-                    return response()->json(["status" => 1, "message" => "Successful", 'total_favourite_domes' => $favourite->count(), 'dome_list' => $dome_lists], 200);
+                    return response()->json(["status" => 1, "message" => "Successful", 'total_favourite_domes' => $favourite->count(), 'data_list' => $dome_lists], 200);
                 } else {
                     return response()->json(["status" => 0, "message" => 'No Data Found'], 200);
                 }
@@ -104,7 +104,7 @@ class FavouriteController extends Controller
                         );
                         $league_lists[] = $league_list;
                     }
-                    return response()->json(["status" => 1, "message" => "Successful", 'total_favourite_leagues' => $favourite->count(), 'league_list' => $league_lists], 200);
+                    return response()->json(["status" => 1, "message" => "Successful", 'total_favourite_leagues' => $favourite->count(), 'data_list' => $league_lists], 200);
                 } else {
                     return response()->json(["status" => 0, "message" => 'No Data Found'], 200);
                 }

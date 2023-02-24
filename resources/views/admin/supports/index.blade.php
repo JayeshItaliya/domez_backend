@@ -24,7 +24,7 @@ Support
                                 </svg>
                             </a>
                         </li>
-                        <li class="breadcrumb-item ">Support</li>
+                        <li class="breadcrumb-item">Support</li>
                     </ol>
                 </nav>
             </div>

@@ -23,7 +23,7 @@
                             </svg>
                         </a>
                     </li>
-                    <li class="breadcrumb-item ">Leagues</li>
+                    <li class="breadcrumb-item">Leagues</li>
                     <li class="breadcrumb-item active" aria-current="page">League Details</li>
                 </ol>
             </nav>

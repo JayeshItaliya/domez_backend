@@ -23,7 +23,7 @@
                             </svg>
                         </a>
                     </li>
-                    <li class="breadcrumb-item ">Transactions</li>
+                    <li class="breadcrumb-item">Transactions</li>
                     <li class="breadcrumb-item active" aria-current="page">Transactions details</li>
                 </ol>
             </nav>

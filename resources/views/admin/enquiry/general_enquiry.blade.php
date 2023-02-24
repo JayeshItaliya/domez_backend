@@ -24,7 +24,7 @@
                                 </svg>
                             </a>
                         </li>
-                        <li class="breadcrumb-item ">General Enquiry</li>
+                        <li class="breadcrumb-item">General Enquiry</li>
                     </ol>
                 </nav>
             </div>
