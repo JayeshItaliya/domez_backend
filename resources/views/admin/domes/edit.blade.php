@@ -21,7 +21,8 @@
                             <div class="col-auto">
                                 <div class="form-check mb-3">
                                     <input type="checkbox" id="{{ $data->name }}" name="sport_id[]"
-                                        class="form-check-input" value="{{ $data->id }}"  data-sport-name="{{ $data->name }}"
+                                        class="form-check-input" value="{{ $data->id }}"
+                                        data-sport-name="{{ $data->name }}"
                                         {{ in_array($data->id, $cat_id) ? 'checked' : '' }}>
                                     <label class="form-check-label" for="{{ $data->name }}">{{ $data->name }}</label>
                                 </div>
@@ -51,7 +52,8 @@
                             <div class="col">
                                 <label class="form-label" for="dome_hst">HST</label>
                                 <div class="input-group">
-                                    <input type="text" id="dome_hst" name="dome_hst" value="{{$dome->hst}}" class="form-control" placeholder="0">
+                                    <input type="text" id="dome_hst" name="dome_hst" value="{{ $dome->hst }}"
+                                        class="form-control" placeholder="0">
                                     <span class="input-group-text" id="basic-addon1">%</span>
                                 </div>
                             </div>
@@ -59,7 +61,7 @@
                         <div class="col-sm-5">
                             <label for="start_time" class="form-label">Start Time</label>
                             <input type="text" class="form-control time_picker" name="start_time"
-                            value="{{ $dome->start_time }}" id="start_time" placeholder="Select Start Time"
+                                value="{{ $dome->start_time }}" id="start_time" placeholder="Select Start Time"
                                 autocomplete="off">
                             @error('start_time')
                                 <span class="text-danger">{{ $message }}</span>
@@ -68,7 +70,7 @@
                         <div class="col-sm-5">
                             <label for="end_time" class="form-label">End Time</label>
                             <input type="text" class="form-control time_picker" name="end_time"
-                            value="{{ $dome->end_time }}" id="end_time" placeholder="Select End Time"
+                                value="{{ $dome->end_time }}" id="end_time" placeholder="Select End Time"
                                 autocomplete="off">
                             @error('end_time')
                                 <span class="text-danger">{{ $message }}</span>
@@ -206,16 +208,19 @@
         // Timepicker
         $(document).ready(function() {
             "use strict";
-            $(".time_picker").timepicker();
+            $(".time_picker").timepicker({
+                interval: 60,
+            });
         });
         // Sport Price
-        $('input[data-sport-name]').click(function(){
-            if(this.checked){
-                // var = $(this).attr("data-sport-name");
-                let html = '<div class="col mb-2" id="'+$(this).attr("data-sport-name")+''+$(this).val()+'"><label class="form-label" for="dome_price">'+$(this).attr("data-sport-name")+' Price</label><div class="input-group"><input type="text" class="form-control" id="dome_price" name="dome_price" placeholder="0"><span class="input-group-text" id="basic-addon1">$</span></div></div>';
+        $('input[data-sport-name]').click(function() {
+            if (this.checked) {
+                let html = '<div class="col mb-2" id="' + $(this).attr("data-sport-name") + '' + $(this).val() +
+                    '"><label class="form-label" for="dome_price">' + $(this).attr("data-sport-name") +
+                    ' Price</label><div class="input-group"><input type="text" class="form-control" id="dome_price" name="dome_price" placeholder="0"><span class="input-group-text" id="basic-addon1">$</span></div></div>';
                 $('#sport_prices_input').append(html);
-            }else{
-                $('#'+$(this).attr("data-sport-name")+''+$(this).val()).remove();
+            } else {
+                $('#' + $(this).attr("data-sport-name") + '' + $(this).val()).remove();
             }
         });
         // Dome Image Delete

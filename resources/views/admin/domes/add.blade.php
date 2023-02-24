@@ -210,7 +210,9 @@
         // Timepicker
         $(document).ready(function() {
             "use strict";
-            $(".time_picker").timepicker();
+            $(".time_picker").timepicker({
+                interval: 60,
+            });
         });
 
         // Sport Price

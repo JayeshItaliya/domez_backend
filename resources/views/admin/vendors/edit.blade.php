@@ -32,43 +32,56 @@
             </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col-lg-6">
-            <form class="card" action="{{ URL::to('admin/vendors/update-') . $user->id }}" method="post"
-                enctype="multipart/form-data">
-                @csrf
-                <div class="card-body">
+    <form class="card" action="{{ URL::to('admin/vendors/update-') . $user->id }}" method="post"
+        enctype="multipart/form-data">
+        @csrf
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
                     <div class="form-group">
                         <label for="name" class="form-label">{{ trans('labels.name') }}</label>
-                        <input type="text" id="name" name="name" placeholder="{{ trans('messages.enter_name') }}"
+                        <input type="text" id="name" name="name" placeholder="{{ trans('labels.name') }}"
                             class="form-control" value="{{ $user->name }}">
                         @error('name')
                             <span class="text-danger">{{ $message }}</span>
                         @enderror
                     </div>
+                </div>
+                <div class="col-md-6">
                     <div class="form-group">
                         <label for="email" class="form-label">{{ trans('labels.email') }}</label>
-                        <input type="text" id="email" name="email"
-                            placeholder="{{ trans('messages.enter_email_address') }}" class="form-control"
-                            value="{{ $user->email }}">
+                        <input type="text" id="email" name="email" placeholder="{{ trans('labels.email') }}" class="form-control" value="{{ $user->email }}">
                         @error('email')
                             <span class="text-danger">{{ $message }}</span>
                         @enderror
                     </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="phone" class="form-label">{{ trans('labels.phone_number') }}</label>
+                        <div class="input-group">
+                            <input type="hidden" name="country" id="country" value="91">
+                            <input type="tel" id="phone" name="phone"
+                                class="form-control custom-input rounded mb-3" placeholder="{{ trans('labels.phone_number') }}" value="{{ $user->phone }}">
+                        </div>
+                        @error('phone')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                    </div>
+                </div>
+                <div class="col-md-6">
                     <div class="form-group">
                         <label for="profile" class="form-label"> {{ trans('labels.profile_image') }} <span
-                                class="fs-8 text-muted"> ({{ trans('labels.optional') }}) </span></label>
+                                class="fs-8 text-muted">{{ trans('labels.optional') }}</span></label>
                         <input type="file" name="profile" id="profile" class="form-control">
                         @error('profile')
                             <span class="text-danger">{{ $message }}</span>
                         @enderror
                     </div>
-                    <img src="{{ Helper::image_path($user->image) }}" alt="" class="avatar-xxl mb-3"><br>
-                    <button type="submit" class="btn btn-primary">{{ trans('labels.submit') }}</button>
-                    <a href="{{ URL::to('admin/vendors') }}"
-                        class="btn btn-outline-danger">{{ trans('labels.cancel') }}</a>
                 </div>
-            </form>
+            </div>
+            <button type="submit" class="btn btn-primary w-auto me-2">{{ trans('labels.submit') }}</button>
+            <a href="{{ URL::to('admin/vendors') }}" class="btn btn-outline-danger w-auto">{{ trans('labels.cancel') }}</a>
         </div>
-    </div>
+    </form>
 @endsection

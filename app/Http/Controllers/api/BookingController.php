@@ -13,7 +13,10 @@ use Illuminate\Support\Facades\DB;
 
 class BookingController extends Controller
 {
-
+    public function booking(Request $request)
+    {
+        dd('wd');
+    }
     public function timeslots(Request $request)
     {
         if ($request->date == "") {

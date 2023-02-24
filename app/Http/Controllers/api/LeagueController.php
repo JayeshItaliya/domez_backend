@@ -47,7 +47,7 @@ class LeagueController extends Controller
                                 "city" => $dome->city,
                                 "state" => $dome->state,
                                 "is_fav" => !empty(@$is_fav) ? true : false,
-                                "date" => date('d F', strtotime($league->start_date)) . ' - ' . date('d F', strtotime($league->end_date)),
+                                "date" => date('d M', strtotime($league->start_date)) . ' - ' . date('d M', strtotime($league->end_date)),
                                 "sport_data" => Sports::select('id', 'name', DB::raw("CONCAT('" . url('storage/app/public/admin/images/sports') . "/', image) AS image"))->whereIn('id', explode('|', $league->sport_id))->where('is_available', 1)->where('is_deleted', 2)->get(),
                             ];
                         }
@@ -140,8 +140,10 @@ class LeagueController extends Controller
                 'league_name' => $league->name,
                 'dome_name' => $dome->name,
                 "fields" => '',
+                "days" => '',
+                "total_games" => '',
                 "time" => $league->start_time . ' To ' . $league->end_time,
-                "date" => $league->start_date . ' To ' . $league->end_date,
+                "date" => date('d/m/Y',strtotime($league->start_date)) . ' To ' . date('d/m/Y',strtotime($league->end_date)),
                 'gender' => $league->gender == 1 ? 'Male' : ($league->gender == 2 ? 'Female' : 'Other'),
                 'age' => $league->from_age . ' Years' . ' To ' . $league->to_age . ' Years',
                 'sport' => Sports::find($league->sport_id)->name,
