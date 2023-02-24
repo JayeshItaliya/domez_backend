@@ -36,8 +36,7 @@
 
     <div class="card">
         <div class="card-body">
-            <form class="card" action="" method="post" enctype="multipart/form-data">
-                @csrf
+            <form class="card">
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-6">
@@ -47,8 +46,8 @@
                                     placeholder="Enter Mailer">
                             </div>
                             <div class="mb-3">
-                                <label for="exampleFormControlInput1" class="form-label">Port</label>
-                                <input type="text" class="form-control" id="exampleFormControlInput1"
+                                <label for="staticport" class="form-label">Port</label>
+                                <input type="text" class="form-control" id="staticport"
                                     placeholder="Enter Port">
                             </div>
                             <div class="mb-3">
@@ -64,24 +63,22 @@
                         </div>
                         <div class="col-md-6">
                             <div class="mb-3">
-                                <label for="exampleFormControlInput1" class="form-label">Host</label>
-                                <input type="text" class="form-control" id="exampleFormControlInput1"
+                                <label for="exampleFormControlInput2" class="form-label">Host</label>
+                                <input type="text" class="form-control" id="exampleFormControlInput2"
                                     placeholder="Enter Host">
                             </div>
                             <div class="mb-3">
-                                <label for="exampleFormControlInput1" class="form-label">User Name</label>
-                                <input type="email" class="form-control" id="exampleFormControlInput1"
+                                <label class="form-label">User Name</label>
+                                <input type="text" class="form-control"
                                     placeholder="Enter User Name">
                             </div>
                             <div class="mb-3">
                                 <label for="exampleFormControlInput1" class="form-label" placeholder="TLS">Encryption</label>
-                                <select class="form-control mt-2" id="inlineFormSelectPref">
+                                <select class="form-select" aria-label="Default select example">
                                     <option selected>TLS</option>
                                     <option value="1">One</option>
                                     <option value="2">Two</option>
                                     <option value="3">Three</option>
-                                    <label for="inlineFormSelectPref" class="form-label"><i
-                                        class="fa-solid fa-angle-down"></i></label>
                                 </select>
                             </div>
                         </div>
