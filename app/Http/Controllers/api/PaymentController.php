@@ -45,7 +45,7 @@ class PaymentController extends Controller
         // Payment Type = 1=Card, 2=Apple Pay, 3=Google Pay
         if ($request->payment_type == 1) {
             try {
-                $stripekey = helper::stripe_data()->secret_key;
+                $stripekey = Helper::stripe_data()->secret_key;
                 $stripe = new \Stripe\StripeClient($stripekey);
                 $gettoken = $stripe->tokens->create([
                     'card' => [
@@ -63,22 +63,22 @@ class PaymentController extends Controller
                     "description" => "Domez Payment",
                 ]);
                 $transaction_id = $payment->id;
+                // Payment Type = 1=Card, 2=Apple Pay, 3=Google Pay
+                $transaction = new Transaction;
+                $transaction->vendor_id = $request->vendor_id;
+                $transaction->dome_id = $request->dome_id;
+                $transaction->field_id = $request->field_id;
+                $transaction->user_id = $request->user_id;
+                $transaction->payment_type = $request->payment_type;
+                $transaction->transaction_id = $transaction_id;
+                $transaction->amount = $request->amount;
+                $transaction->save();
+
+                return response()->json(['status' => 1, "message" => "Successful", "transaction_details" => $transaction], 200);
             } catch (\Throwable $th) {
                 return response()->json(['status' => 0, "message" => "Payment Failed"], 200);
             }
         }
 
-        // Payment Type = 1=Card, 2=Apple Pay, 3=Google Pay
-        $transaction = new Transaction;
-        $transaction->vendor_id = $request->vendor_id;
-        $transaction->dome_id = $request->dome_id;
-        $transaction->field_id = $request->field_id;
-        $transaction->user_id = $request->user_id;
-        $transaction->payment_type = $request->payment_type;
-        $transaction->transaction_id = $transaction_id;
-        $transaction->amount = $request->amount;
-        $transaction->save();
-
-        return response()->json(['status' => 1, "message" => "Successful", "transaction_details" => $transaction], 200);
     }
 }
