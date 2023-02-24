@@ -1,41 +1,57 @@
 @extends('admin.layout.default')
-@section('title') Privacy Policy @endsection
 @section('styles')
-    <link rel="stylesheet" href="{{ url('storage/app/public/admin/css/summernote/summernote.min.css') }}">
+@endsection
+@section('title')
+Privacy Policy
 @endsection
 @section('contents')
     <!-- Title -->
-    <h1 class="h2">Privacy Policy</h1>
-    <div class="row">
-        <div class="card">
-            <form class="card-body" action="{{ URL::to('admin/cms/store-privacy-policy') }}" method="post">
-                @csrf
-                @error('privacy_policy')
-                    <span class="text-danger mb-3">{{ $message }}</span>
-                @enderror
-                <textarea id="privacy_policy" name="content">{{!empty($content) ? $content->content : ''}}</textarea>
-                <button type="submit" class="btn btn-primary mt-4 float-end">Save</button>
-            </form>
+    <div class="card mb-3">
+        <div class="card-body py-2">
+            <div class="d-flex align-items-center justify-content-between">
+                <p class="text-secondary fw-semibold">Privacy Policy</p>
+                <nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='%236c757d'/%3E%3C/svg%3E&#34;);"
+                    aria-label="breadcrumb">
+                    <ol class="breadcrumb m-0">
+                        <li class="breadcrumb-item">
+                            <a href="{{ URL::to('admin/dashboard') }}">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home"
+                                    width="20" height="20" viewBox="0 0 24 24" stroke-width="2"
+                                    stroke="var(--bs-secondary)" fill="none" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                    <polyline points="5 12 3 12 12 3 21 12 19 12" />
+                                    <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+                                    <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+                                </svg>
+                            </a>
+                        </li>
+                        <li class="breadcrumb-item">General Settings</li>
+                        <li class="breadcrumb-item active" aria-current="page">Privacy Policy</li>
+                    </ol>
+                </nav>
+            </div>
         </div>
     </div>
+    <div class="card">
+        <div class="card-body">
+            <div id="editor">
+                <p>This is some sample content.</p>
+            </div>
+        </div>
+    </div>
+
 @endsection
 @section('scripts')
-    <script src="{{ url('storage/app/public/admin/js/summernote/summernote.min.js') }}"></script>
-    <script>
-        $(document).ready(function() {
-            $('#privacy_policy').summernote({
-                placeholder: 'Please Enter Privacy Policy',
-                tabsize: 2,
-                minHeight: 500,
-                toolbar: [
-                    ['font', ['bold', 'underline', 'clear']],
-                    ['color', ['color']],
-                    ['para', ['ul', 'ol', 'paragraph']],
-                    ['table', ['table']],
-                    ['insert', ['link', 'picture', 'video']],
-                    ['view', ['fullscreen', 'codeview', 'help']]
-                ]
-            });
-        });
-    </script>
+<script src="https://cdn.ckeditor.com/ckeditor5/36.0.1/classic/ckeditor.js"></script>
+<script>
+   ClassicEditor
+            .create( document.querySelector( '#editor' ) )
+            .catch( error => {
+                console.error( error );
+            } );
+</script>
+
+
 @endsection
+
