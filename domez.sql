@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 22, 2023 at 10:21 AM
+-- Generation Time: Feb 24, 2023 at 11:25 AM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -128,15 +128,15 @@ CREATE TABLE `domes` (
 
 INSERT INTO `domes` (`id`, `vendor_id`, `sport_id`, `name`, `price`, `hst`, `address`, `pin_code`, `city`, `state`, `country`, `start_time`, `end_time`, `description`, `lat`, `lng`, `benefits`, `benefits_description`, `is_deleted`, `created_at`, `updated_at`) VALUES
 (35, 2, '6', 'Kinnara', 58.00, 5, 'Costen Tax Solutions, Inc, Birdneck Road North, Virginia Beach, VA, USA', '23451', 'Summerside', 'Prince Edward Island', 'Canada', '6:30 AM', '5:00 PM', 'DESCRIPTION', '28.5156729', '-81.4824233', 'Free Wifi|Changing Room|Parking', 'benefits-DESCRIPTION', 2, '2023-02-20 03:57:09', '2023-02-21 05:03:45'),
-(36, 2, '7', 'Shott', 90.00, 5, '511 Notre Dame St, Summerside, PE, Canada', 'C1N 1T2', 'Summerside', 'Prince Edward Island', 'Canada', '12:03 PM', '7:51 AM', 'DESCRIPTION', '46.3981555', '-63.80031419999999', 'Changing Room', 'benefits-DESCRIPTION', 2, '2023-02-20 03:57:09', '2023-02-21 05:03:55'),
-(37, 2, '8,9', 'geonardo', 80.00, 5, '511 Notre Dame St, Summerside, PE, Canada', 'C1N 1T2', 'Summerside', 'Prince Edward Island', 'Canada', '3:08 PM', '12:10 AM', 'DESCRIPTION', '46.3981555', '-63.80031419999999', 'Changing Room|Parking', 'benefits-DESCRIPTION', 2, '2023-02-20 03:57:09', '2023-02-21 05:04:05'),
-(38, 2, '9,10', 'Shivakar', 85.00, 5, '511 Notre Dame St, Summerside, PE, Canada', 'C1N 1T2', 'Summerside', 'Prince Edward Island', 'Canada', '8:55 PM', '10:05 PM', 'DESCRIPTION', '46.3981555', '-63.80031419999999', 'Free Wifi|Changing Room', 'benefits-DESCRIPTION', 2, '2023-02-20 03:57:09', '2023-02-21 05:04:16'),
-(39, 2, '7,8,10', 'Rockria', 64.00, 5, '511 Notre Dame St, Summerside, PE, Canada', 'C1N 1T2', 'Summerside', 'Prince Edward Island', 'Canada', '10:00 PM', '12:02 PM', 'DESCRIPTION', '46.3981555', '-63.80031419999999', 'Free Wifi|Changing Room|Parking', 'benefits-DESCRIPTION', 2, '2023-02-20 03:57:09', '2023-02-21 05:04:29'),
-(40, 2, '6', 'Geodesic Dome Playground', 76.00, 5, 'Summerside Bowling Alleys, 511 Notre Dame St, Summerside, PE, Canada', 'C1N 1T2', 'Summerside', 'Prince Edward Island', 'Canada', '11:05 PM', '11:36 PM', 'DESCRIPTION', '46.39860830000001', '-63.8004099', 'Parking', 'benefits-DESCRIPTION', 2, '2023-02-20 04:57:41', '2023-02-20 05:06:24'),
-(41, 2, '7,8,10', 'Geodesic Dome Playground', 57.00, 5, 'Summerside Car Rental, Inside Credit Union Place Building, 511 Notre Dame St, Summerside, PE, Canada', 'C1N 1T2', 'Summerside', 'Prince Edward Island', 'Canada', '5:40 AM', '6:46 PM', 'DESCRIPTION', '46.3981555', '-63.80031409999999', 'Free Wifi|Changing Room', 'benefits-DESCRIPTION', 2, '2023-02-20 04:57:41', '2023-02-20 05:06:44'),
-(42, 2, '7,8,10', 'Shrinkle ground', 70.00, 5, 'Summerside Solar, 511 Notre Dame St, Summerside, PE, Canada', 'C1N 1T2', 'Summerside', 'Prince Edward Island', 'Canada', '1:14 AM', '4:14 PM', 'DESCRIPTION', '46.3993871', '-63.8010478', 'Changing Room', 'benefits-DESCRIPTION', 2, '2023-02-20 04:57:41', '2023-02-21 05:04:45'),
-(43, 2, '6,8', 'Geodesic Dome Playground', 97.00, 5, '511 Notre Dame St, Summerside, PE, Canada', 'C1N 1T2', 'Summerside', 'Prince Edward Island', 'Canada', '10:38 AM', '9:33 PM', 'DESCRIPTION', '46.3981555', '-63.80031419999999', 'Changing Room|Parking', 'benefits-DESCRIPTION', 2, '2023-02-20 04:57:41', '2023-02-20 05:07:15'),
-(44, 2, '9,10', 'Geodesic Dome Playground', 68.00, 5, 'Summerside Bowling Alleys, 511 Notre Dame St, Summerside, PE, Canada', 'C1N 1T2', 'Summerside', 'Prince Edward Island', 'Canada', '5:43 AM', '2:41 PM', 'DESCRIPTION', '46.39860830000001', '-63.8004099', 'Free Wifi|Changing Room', 'benefits-DESCRIPTION', 2, '2023-02-20 04:57:41', '2023-02-20 05:10:13');
+(36, 3, '7', 'Shott', 90.00, 5, '511 Notre Dame St, Summerside, PE, Canada', 'C1N 1T2', 'Summerside', 'Prince Edward Island', 'Canada', '12:03 PM', '7:51 AM', 'DESCRIPTION', '46.3981555', '-63.80031419999999', 'Changing Room', 'benefits-DESCRIPTION', 2, '2023-02-20 03:57:09', '2023-02-21 05:03:55'),
+(37, 4, '8,9', 'geonardo', 80.00, 5, '511 Notre Dame St, Summerside, PE, Canada', 'C1N 1T2', 'Summerside', 'Prince Edward Island', 'Canada', '3:08 PM', '12:10 AM', 'DESCRIPTION', '46.3981555', '-63.80031419999999', 'Changing Room|Parking', 'benefits-DESCRIPTION', 2, '2023-02-20 03:57:09', '2023-02-21 05:04:05'),
+(38, 5, '9,10', 'Shivakar', 85.00, 5, '511 Notre Dame St, Summerside, PE, Canada', 'C1N 1T2', 'Summerside', 'Prince Edward Island', 'Canada', '8:55 PM', '10:05 PM', 'DESCRIPTION', '46.3981555', '-63.80031419999999', 'Free Wifi|Changing Room', 'benefits-DESCRIPTION', 2, '2023-02-20 03:57:09', '2023-02-21 05:04:16'),
+(39, 6, '7,8,10', 'Rockria', 64.00, 5, '511 Notre Dame St, Summerside, PE, Canada', 'C1N 1T2', 'Summerside', 'Prince Edward Island', 'Canada', '10:00 PM', '12:02 PM', 'DESCRIPTION', '46.3981555', '-63.80031419999999', 'Free Wifi|Changing Room|Parking', 'benefits-DESCRIPTION', 2, '2023-02-20 03:57:09', '2023-02-21 05:04:29'),
+(40, 7, '6', 'Geodesic Dome Playground', 76.00, 5, 'Summerside Bowling Alleys, 511 Notre Dame St, Summerside, PE, Canada', 'C1N 1T2', 'Summerside', 'Prince Edward Island', 'Canada', '11:05 PM', '11:36 PM', 'DESCRIPTION', '46.39860830000001', '-63.8004099', 'Parking', 'benefits-DESCRIPTION', 2, '2023-02-20 04:57:41', '2023-02-20 05:06:24'),
+(41, 8, '7,8,10', 'Geodesic Dome Playground', 57.00, 5, 'Summerside Car Rental, Inside Credit Union Place Building, 511 Notre Dame St, Summerside, PE, Canada', 'C1N 1T2', 'Summerside', 'Prince Edward Island', 'Canada', '5:40 AM', '6:46 PM', 'DESCRIPTION', '46.3981555', '-63.80031409999999', 'Free Wifi|Changing Room', 'benefits-DESCRIPTION', 2, '2023-02-20 04:57:41', '2023-02-20 05:06:44'),
+(42, 9, '7,8,10', 'Shrinkle ground', 70.00, 5, 'Summerside Solar, 511 Notre Dame St, Summerside, PE, Canada', 'C1N 1T2', 'Summerside', 'Prince Edward Island', 'Canada', '1:14 AM', '4:14 PM', 'DESCRIPTION', '46.3993871', '-63.8010478', 'Changing Room', 'benefits-DESCRIPTION', 2, '2023-02-20 04:57:41', '2023-02-21 05:04:45'),
+(43, 10, '6,8', 'Geodesic Dome Playground', 97.00, 5, '511 Notre Dame St, Summerside, PE, Canada', 'C1N 1T2', 'Summerside', 'Prince Edward Island', 'Canada', '10:38 AM', '9:33 PM', 'DESCRIPTION', '46.3981555', '-63.80031419999999', 'Changing Room|Parking', 'benefits-DESCRIPTION', 2, '2023-02-20 04:57:41', '2023-02-20 05:07:15'),
+(44, 11, '9,10', 'Geodesic Dome Playground', 68.00, 5, 'Summerside Bowling Alleys, 511 Notre Dame St, Summerside, PE, Canada', 'C1N 1T2', 'Summerside', 'Prince Edward Island', 'Canada', '5:43 AM', '2:41 PM', 'DESCRIPTION', '46.39860830000001', '-63.8004099', 'Free Wifi|Changing Room', 'benefits-DESCRIPTION', 2, '2023-02-20 04:57:41', '2023-02-20 05:10:13');
 
 -- --------------------------------------------------------
 
@@ -184,10 +184,14 @@ INSERT INTO `dome_images` (`id`, `vendor_id`, `dome_id`, `images`, `created_at`,
 
 CREATE TABLE `enquiries` (
   `id` bigint(20) UNSIGNED NOT NULL,
+  `venue_name` varchar(255) DEFAULT NULL,
+  `venue_address` varchar(255) DEFAULT NULL,
+  `name` varchar(255) DEFAULT NULL,
   `email` varchar(255) NOT NULL,
+  `phone` varchar(255) DEFAULT NULL,
   `subject` varchar(255) DEFAULT NULL,
   `message` varchar(255) DEFAULT NULL,
-  `type` tinyint(4) NOT NULL DEFAULT 1 COMMENT '1=HelpCenter, 2=GeneralEnquiry, 3=DomesRequest',
+  `type` tinyint(4) NOT NULL DEFAULT 1 COMMENT '1=HelpCenter, 2=GeneralEnquiry, 3=DomesRequest [From Landing Page],\r\n4=DomesRequest [From Mobile App]',
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -196,9 +200,10 @@ CREATE TABLE `enquiries` (
 -- Dumping data for table `enquiries`
 --
 
-INSERT INTO `enquiries` (`id`, `email`, `subject`, `message`, `type`, `created_at`, `updated_at`) VALUES
-(1, 'ipsum@yopmail.comn', 'Talk About Something..', 'Lorem is ipsum data to world to tast data.', 1, '2023-02-19 01:13:26', '2023-02-19 01:13:26'),
-(2, 's@gmail.com', 'soham', 'Soham is sad', 1, '2023-02-20 01:26:33', '2023-02-20 01:26:33');
+INSERT INTO `enquiries` (`id`, `venue_name`, `venue_address`, `name`, `email`, `phone`, `subject`, `message`, `type`, `created_at`, `updated_at`) VALUES
+(1, NULL, NULL, NULL, 'ipsum@yopmail.comn', NULL, 'Talk About Something..', 'Lorem is ipsum data to world to tast data.', 1, '2023-02-19 01:13:26', '2023-02-19 01:13:26'),
+(2, NULL, NULL, NULL, 's@gmail.com', NULL, 'soham', 'Soham is sad', 1, '2023-02-20 01:26:33', '2023-02-20 01:26:33'),
+(3, 'test', 'test', 'test', 'test@gmail.com', '12354679', NULL, 'test', 4, '2023-02-24 02:43:40', '2023-02-24 02:43:40');
 
 -- --------------------------------------------------------
 
@@ -249,13 +254,19 @@ INSERT INTO `favourites` (`id`, `user_id`, `dome_id`, `league_id`, `created_at`,
 (11, 12, 40, NULL, '2023-02-22 00:38:18', '2023-02-22 00:38:18'),
 (12, 8, 40, NULL, '2023-02-22 00:38:18', '2023-02-22 00:38:18'),
 (13, 8, 40, NULL, '2023-02-22 00:38:18', '2023-02-22 00:38:18'),
-(14, 4, 38, NULL, '2023-02-22 00:38:18', '2023-02-22 00:38:18'),
 (15, 7, 36, NULL, '2023-02-22 00:38:18', '2023-02-22 00:38:18'),
 (16, 3, 36, NULL, '2023-02-22 00:38:18', '2023-02-22 00:38:18'),
 (17, 9, 39, NULL, '2023-02-22 00:38:18', '2023-02-22 00:38:18'),
 (18, 9, 40, NULL, '2023-02-22 00:38:18', '2023-02-22 00:38:18'),
 (19, 11, 36, NULL, '2023-02-22 00:38:18', '2023-02-22 00:38:18'),
-(20, 10, 40, NULL, '2023-02-22 00:38:18', '2023-02-22 00:38:18');
+(20, 10, 40, NULL, '2023-02-22 00:38:18', '2023-02-22 00:38:18'),
+(25, 3, 35, NULL, '2023-02-23 01:05:07', '2023-02-23 01:05:07'),
+(30, 9, 35, NULL, '2023-02-23 01:42:17', '2023-02-23 01:42:17'),
+(54, 4, 38, NULL, '2023-02-24 03:19:45', '2023-02-24 03:19:45'),
+(55, 4, 37, NULL, '2023-02-24 03:19:49', '2023-02-24 03:19:49'),
+(56, 4, 36, NULL, '2023-02-24 03:19:51', '2023-02-24 03:19:51'),
+(57, 4, NULL, 38, '2023-02-24 03:44:45', '2023-02-24 03:44:45'),
+(58, 4, NULL, 2, '2023-02-24 03:53:32', '2023-02-24 03:53:32');
 
 -- --------------------------------------------------------
 
@@ -1061,7 +1072,7 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `type`, `login_type`, `name`, `email`, `countrycode`, `phone`, `password`, `google_id`, `apple_id`, `facebook_id`, `fcm_token`, `otp`, `image`, `is_verified`, `is_available`, `is_deleted`, `created_at`, `updated_at`) VALUES
 (1, 1, 1, 'Admin', 'admin@gmail.com', 'CA', '1234567890', '$2y$10$z0eXm5BtjQQP77GHRvJAGOIp1osY2Lx0NvMvmkpTgPzpiTUvnIlri', NULL, NULL, NULL, NULL, NULL, 'default.png', 1, 1, 2, '2023-02-06 05:11:02', '2023-02-06 05:11:02'),
-(2, 2, 1, 'domez', 'domez@yopmail.com', 'CA', '1234657890', '$2y$10$z0eXm5BtjQQP77GHRvJAGOIp1osY2Lx0NvMvmkpTgPzpiTUvnIlri', NULL, NULL, NULL, NULL, NULL, 'default.png', 1, 1, 2, '2023-02-06 00:03:03', '2023-02-09 05:23:37'),
+(2, 2, 1, 'domez', 'domez@yopmail.com', 'CA', '1234657890', '$2y$10$z0eXm5BtjQQP77GHRvJAGOIp1osY2Lx0NvMvmkpTgPzpiTUvnIlri', NULL, NULL, NULL, NULL, NULL, 'default.png', 1, 1, 2, '2023-02-06 00:03:03', '2023-02-22 04:12:48'),
 (3, 3, 2, 'test1', 'dummy@gmail.com', 'CA', '6359487772', NULL, NULL, NULL, NULL, NULL, NULL, 'user-8767.jpg', 1, 1, 2, '2023-02-06 00:14:06', '2023-02-20 01:27:18'),
 (4, 3, 1, 'soham1', 's@gmail.com', 'CA', '1234567988', '$2y$10$ZT0nObeNnoOfxpc51wNMjuEMdj.wDjDWwTN7HrpIF4PLgHp73A3b2', NULL, NULL, NULL, NULL, NULL, 'user-63f3392b4218e.png', 1, 1, 2, '2023-02-09 04:55:36', '2023-02-20 22:45:18'),
 (5, 3, 1, 'Siwakar', 'siwakar@gmail.com', 'CA', '6666666666', '$2y$10$HJpJ0YcLA8xpmy7vElmcDuwPhJKphXxvZZNsshwsKhKA73kqaDQSC', NULL, NULL, NULL, NULL, NULL, 'default.png', 1, 1, 2, '2023-02-17 05:44:14', '2023-02-17 05:44:14'),
@@ -1194,13 +1205,13 @@ ALTER TABLE `dome_images`
 -- AUTO_INCREMENT for table `enquiries`
 --
 ALTER TABLE `enquiries`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `favourites`
 --
 ALTER TABLE `favourites`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
 
 --
 -- AUTO_INCREMENT for table `fields`

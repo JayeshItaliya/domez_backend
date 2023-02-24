@@ -98,8 +98,6 @@ class BookingController extends Controller
         }
         return response()->json(["status" => 0, "message" => 'Dome Not Found'], 200);
     }
-
-
     public function avl_fields(Request $request)
     {
         if ($request->dome_id == "") {
