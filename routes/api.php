@@ -55,6 +55,7 @@ Route::post('leagues-list', [LeagueController::class, 'leagues_list']);
 Route::get('league-details-{id}', [LeagueController::class, 'league_details']);
 
 Route::post('filter', [HomeController::class, 'filter']);
+Route::post('dome-request', [HomeController::class, 'dome_request']);
 
 Route::post('favourite', [FavouriteController::class, 'favourite']);
 Route::post('favourite-list', [FavouriteController::class, 'favourite_list']);

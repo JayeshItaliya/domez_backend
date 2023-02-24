@@ -10,6 +10,7 @@ use App\Models\Enquiries;
 use App\Models\Sports;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {
@@ -136,6 +137,9 @@ class HomeController extends Controller
     }
     public function filter(Request $request)
     {
+        if ($request->type == "") {
+            return response()->json(["status" => 0, "message" => "Select Filter Type"], 200);
+        }
         if ($request->sport_id == "" && $request->lat == "" && $request->lng == "" && $request->start_price == "" && $request->end_price == "") {
             return response()->json(["status" => 0, "message" => "Please Select Atleast One Filter"], 200);
         }
@@ -145,14 +149,14 @@ class HomeController extends Controller
         if ($request->lng == "" && $request->lat != "") {
             return response()->json(["status" => 0, "message" => 'Enter Longitude'], 200);
         }
-        $domes = Domes::where('is_deleted',2);
-        $domes = $domes->select('sport_id');
-
-        foreach (explode(',' , $request->sport_id) as $sport_id) {
-            $domes = $domes->whereRaw("find_in_set('" . $sport_id . "',sport_id)");
+        if ($request->type == 1) {
+            $domes = Domes::where('is_deleted', 2);
+            $domes = $domes->select('sport_id');
+            $sql = '';
+            $searchvalue = 'css';
+            $query = $domes->whereRaw('FIND_IN_SET(, sport_id)', [$searchvalue]);
+            dd($query);
+            $domes = $domes->get();
         }
-        $domes = $domes->get();
-        dd($domes->toArray());
-
     }
 }
