@@ -23,7 +23,7 @@
                             </svg>
                         </a>
                     </li>
-                    <li class="breadcrumb-item ">Bookings</li>
+                    <li class="breadcrumb-item">Bookings</li>
                     <li class="breadcrumb-item active" aria-current="page">Booking Details</li>
                 </ol>
             </nav>

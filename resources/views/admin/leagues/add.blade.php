@@ -26,7 +26,7 @@
                                 </svg>
                             </a>
                         </li>
-                        <li class="breadcrumb-item ">{{ trans('labels.leagues') }}</li>
+                        <li class="breadcrumb-item"><a href="{{URL::to('admin/leagues')}}">{{ trans('labels.leagues') }}</a></li>
                         <li class="breadcrumb-item active" aria-current="page">{{ trans('labels.add_league') }}</li>
                     </ol>
                 </nav>
@@ -40,28 +40,19 @@
             <div class="row">
                 <div class="col-md-6">
                     <label for="" class="form-label">{{ trans('labels.select_sports') }}</label>
-                    <div class="radio-box d-flex">
-                        <div class="form-check pe-3">
-                            <input type="radio" name="sport" class="form-check-input" value="Vollyball" id="Vollyball"
-                                checked>
-                            <label class="form-check-label" for="Vollyball">Vollyball</label>
-                        </div>
-                        <div class="form-check pe-3">
-                            <input type="radio" name="sport" class="form-check-input" value="Golf" id="Golf">
-                            <label class="form-check-label" for="Golf">Golf</label>
-                        </div>
-                        <div class="form-check pe-3">
-                            <input type="radio" name="sport" class="form-check-input" value="Tennis" id="Tennis">
-                            <label class="form-check-label" for="Tennis">Tennis</label>
-                        </div>
-                        <div class="form-check pe-3">
-                            <input type="radio" name="sport" class="form-check-input" value="Soccer" id="Soccer">
-                            <label class="form-check-label" for="Soccer">Soccer</label>
-                        </div>
+                    <div class="d-flex">
+                        @foreach ($sports as $sport)
+                            <div class="form-check pe-3">
+                                <input type="radio" name="sport" class="form-check-input" value="{{ $sport->id }}"
+                                    id="{{ $sport->name . $sport->id }}" {{ $loop->first ? 'checked' : '' }}>
+                                <label class="form-check-label"
+                                    for="{{ $sport->name . $sport->id }}">{{ $sport->name }}</label>
+                            </div>
+                        @endforeach
                     </div>
                 </div>
                 <div class="col-md-6">
-                    <div class="mb-3">
+                    <div class="form-group">
                         <label for="league_name" class="form-label">{{ trans('labels.league_name') }}</label>
                         <input type="text" class="form-control" id="league_name" name="league_name"
                             placeholder="{{ trans('labels.league_name') }}">
@@ -70,28 +61,24 @@
                 <div class="col-md-6">
                     <div class="row">
                         <div class="col-md-6">
-                            <div class="mb-3">
-                                <label class="form-label">Dome</label>
-                                <select class="form-control mt-2" id="inlineFormSelectPref">
-                                    <option selected>Select Dome</option>
-                                    <option value="1">One</option>
-                                    <option value="2">Two</option>
-                                    <option value="3">Three</option>
-                                    <label for="inlineFormSelectPref" class="form-label"><i
-                                            class="fa-solid fa-angle-down"></i></label>
+                            <div class="form-group">
+                                <label class="form-label" for="domes">{{ trans('labels.select_dome') }}</label>
+                                <select class="form-select" id="domes">
+                                    <option disabled selected>{{ trans('labels.select_dome') }}</option>
+                                    @foreach ($domes as $dome)
+                                        <option value="{{ $dome->id }}">{{ $dome->name }}</option>
+                                    @endforeach
                                 </select>
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <div class="mb-3">
-                                <label class="form-label">Field</label>
-                                <select class="form-control mt-2" id="inlineFormSelectPref">
+                            <div class="form-group">
+                                <label class="form-label" for="fields">{{ trans('labels.select_field') }}</label>
+                                <select class="form-select" id="fields">
                                     <option selected>Select Field</option>
-                                    <option value="1">One</option>
-                                    <option value="2">Two</option>
-                                    <option value="3">Three</option>
-                                    <label for="inlineFormSelectPref" class="form-label"><i
-                                            class="fa-solid fa-angle-down"></i></label>
+                                    @foreach ($fields as $field)
+                                        <option value="{{ $field->id }}">{{ $field->name }}</option>
+                                    @endforeach
                                 </select>
                             </div>
                         </div>
@@ -100,27 +87,75 @@
                 <div class="col-md-6">
                     <div class="row">
                         <div class="col-md-3">
-                            <div class="mb-3">
-                                <label class="form-label">Start Date</label>
-                                <input type="text" class="form-control date mt-2" id="datepicker" value="00/00/0000">
+                            <div class="form-group">
+                                <label class="form-label">{{ trans('labels.start_date') }}</label>
+                                <input type="date" class="form-control" id="datepicker">
                             </div>
                         </div>
                         <div class="col-md-3">
-                            <div class="mb-3">
-                                <label class="form-label">End Date</label>
-                                <input type="text" class="form-control date mt-2" id="datepicker" value="00/00/0000">
+                            <div class="form-group">
+                                <label class="form-label">{{ trans('labels.end_date') }}</label>
+                                <input type="date" class="form-control" id="datepicker">
                             </div>
                         </div>
                         <div class="col-md-3">
-                            <div class="mb-3">
-                                <label class="form-label">Start Time</label>
-                                <input type="time" class="form-control mt-2" value="00:00 AM" />
+                            <div class="form-group">
+                                <label class="form-label" for="start_time">{{ trans('labels.start_time') }}</label>
+                                <input type="time" class="form-control " name="start_time" id="start_time">
                             </div>
                         </div>
                         <div class="col-md-3">
-                            <div class="mb-3">
-                                <label class="form-label">End Time</label>
-                                <input type="time" class="form-control mt-2" value="00:00 AM" />
+                            <div class="form-group">
+                                <label class="form-label" for="end_time">{{ trans('labels.end_time') }}</label>
+                                <input type="time" class="form-control " name="end_time" id="end_time">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="row">
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label class="form-label" for="from_age">{{ trans('labels.from_age') }}</label>
+                                <select class="form-select" id="from_age" name="from_age">
+                                    <option disabled selected>{{ trans('labels.age') }}</option>
+                                    @for ($i = 12; $i <= 50; $i++)
+                                        <option value="{{ $i }}">{{ $i }}</option>
+                                    @endfor
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label class="form-label" for="to_age">{{ trans('labels.to_age') }}</label>
+                                <select class="form-select" id="to_age" name="to_age">
+                                    <option disabled selected>{{ trans('labels.age') }}</option>
+                                    @for ($i = 12; $i <= 50; $i++)
+                                        <option value="{{ $i }}">{{ $i }}</option>
+                                    @endfor
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="form-label" for="select_gender">{{ trans('labels.select_gender') }}</label>
+                                <select class="form-select" id="select_gender">
+                                    <option selected>{{ trans('labels.select_gender') }}</option>
+                                    <option value="1">{{ trans('labels.men') }}</option>
+                                    <option value="2">{{ trans('labels.female') }}</option>
+                                    <option value="3">{{ trans('labels.other') }}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="form-label" for="min_player">{{ trans('labels.min_player') }}</label>
+                                <select class="form-select" id="min_player" name="min_player">
+                                    <option disabled selected>{{ trans('labels.min_player') }}</option>
+                                    @for ($i = 1; $i <= 30; $i++)
+                                        <option value="{{ $i }}">{{ $i }}</option>
+                                    @endfor
+                                </select>
                             </div>
                         </div>
                     </div>
@@ -128,67 +163,39 @@
                 <div class="col-md-6">
                     <div class="row">
                         <div class="col-md-4">
-                            <div class="mb-3">
-                                <label class="form-label">Select Age</label>
-                                <select class="form-control mt-2" id="inlineFormSelectPref">
-                                    <option selected>Select Age</option>
-                                    <option value="1">17</option>
-                                    <option value="2">21</option>
-                                    <option value="3">25</option>
-                                    <label for="inlineFormSelectPref" class="form-label"><i
-                                            class="fa-solid fa-angle-down"></i></label>
+                            <div class="form-group">
+                                <label class="form-label" for="max_player">{{ trans('labels.max_player') }}</label>
+                                <select class="form-select" id="max_player" name="max_player">
+                                    <option disabled selected>{{ trans('labels.max_player') }}</option>
+                                    @for ($i = 1; $i <= 30; $i++)
+                                        <option value="{{ $i }}">{{ $i }}</option>
+                                    @endfor
                                 </select>
                             </div>
                         </div>
                         <div class="col-md-4">
-                            <div class="mb-3">
-                                <label class="form-label">Select Gender</label>
-                                <select class="form-control mt-2" id="inlineFormSelectPref">
-                                    <option selected>Select Gender</option>
-                                    <option value="1">Men</option>
-                                    <option value="2">Female</option>
-                                    <label for="inlineFormSelectPref" class="form-label"><i
-                                            class="fa-solid fa-angle-down"></i></label>
+                            <div class="form-group">
+                                <label class="form-label">{{ trans('labels.team_limit') }}</label>
+                                <select class="form-select" id="team_limit" name="team_limit">
+                                    <option disabled selected>{{ trans('labels.team_limit') }}</option>
+                                    @for ($i = 5; $i <= 20; $i++)
+                                        <option value="{{ $i }}">{{ $i }}</option>
+                                    @endfor
                                 </select>
                             </div>
                         </div>
                         <div class="col-md-4">
-                            <div class="mb-3">
-                                <label class="form-label">Min Players</label>
-                                <input placeholder="Enter Min Players" class="form-control mt-2">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="mb-3">
-                                <label class="form-label">Max Players</label>
-                                <input placeholder="Enter Max Players" class="form-control mt-2">
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="mb-3">
-                                <label class="form-label">Team Limit</label>
-                                <input placeholder="Enter Team Limit" class="form-control mt-2">
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="mb-3">
+                            <div class="form-group">
                                 <label class="form-label">Price Per Team</label>
-                                <input placeholder="Enter Price" class="form-control mt-2">
+                                <input type="number" placeholder="0" class="form-control ">
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-6">
-                    <div class="mb-3">
+                    <div class="form-group">
                         <label class="form-label">League Banner Images</label>
-                        <input type="file" class="form-control mt-2 mb-4">
-                        <div class="add-league-img mt-2">
-                            <img src="http://localhost/domez/storage/app/public/admin/images/League/Add_League.png">
-                        </div>
+                        <input type="file" class="form-control mb-4">
                     </div>
                 </div>
                 <div class="col-md-12">
