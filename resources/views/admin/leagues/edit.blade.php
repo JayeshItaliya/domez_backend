@@ -58,31 +58,6 @@
                         <label for="league_name" class="form-label">{{ trans('labels.league_name') }}</label>
                         <input type="text" class="form-control" id="league_name" name="league_name"
                             placeholder="{{ trans('labels.league_name') }}">
-                    <div class="radio-box d-flex">
-                        <div class="form-check pe-3">
-                            <input type="radio" name="sport" class="form-check-input" value="Vollyball" id="Vollyball"
-                                checked>
-                            <label class="form-check-label" for="Vollyball">Vollyball</label>
-                        </div>
-                        <div class="form-check pe-3">
-                            <input type="radio" name="sport" class="form-check-input" value="Golf" id="Golf">
-                            <label class="form-check-label" for="Golf">Golf</label>
-                        </div>
-                        <div class="form-check pe-3">
-                            <input type="radio" name="sport" class="form-check-input" value="Tennis" id="Tennis">
-                            <label class="form-check-label" for="Tennis">Tennis</label>
-                        </div>
-                        <div class="form-check pe-3">
-                            <input type="radio" name="sport" class="form-check-input" value="Soccer" id="Soccer">
-                            <label class="form-check-label" for="Soccer">Soccer</label>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="mb-3">
-                        <label for="exampleFormControlInput1" class="form-label">League Name</label>
-                        <input type="text" class="form-control" id="League Name"
-                            placeholder="Enter League Name">
                     </div>
                 </div>
                 <div class="col-md-6">
@@ -123,15 +98,6 @@
                             <div class="form-group">
                                 <label class="form-label">{{ trans('labels.end_date') }}</label>
                                 <input type="date" class="form-control" id="datepicker">
-                            <div class="mb-3">
-                                <label class="form-label">Start Date</label>
-                                <input type="date" class="form-control date mt-2" id="datepicker" value="00/00/0000">
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="mb-3">
-                                <label class="form-label">End Date</label>
-                                <input type="date" class="form-control date mt-2" id="datepicker" value="00/00/0000">
                             </div>
                         </div>
                         <div class="col-md-3">
