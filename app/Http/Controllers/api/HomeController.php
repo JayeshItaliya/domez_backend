@@ -150,12 +150,20 @@ class HomeController extends Controller
             return response()->json(["status" => 0, "message" => 'Enter Longitude'], 200);
         }
         if ($request->type == 1) {
-            $domes = Domes::where('is_deleted', 2);
-            $domes = $domes->select('sport_id');
-            $sql = '';
-            $searchvalue = 'css';
-            $query = $domes->whereRaw('FIND_IN_SET(, sport_id)', [$searchvalue]);
-            dd($query);
+            $domes = Domes::where('is_deleted', 2)->select('sport_id');
+            $list = explode(',', $request->sport_id);
+            $totallist = count(explode(',', $request->sport_id));
+            $q = '';
+            foreach ($list as $key => $value) {
+                $q .= 'FIND_IN_SET(' . $value . ', sport_id) ';
+                if ($key + 1 == $totallist) {
+                    $q .= '';
+                }else{
+                    $q .= ' OR ';
+                }
+            }
+            dd($q,$domes);
+            $domes = $domes->whereRaw($q);
             $domes = $domes->get();
         }
     }
@@ -177,12 +185,20 @@ class HomeController extends Controller
             return response()->json(["status" => 0, "message" => "Enter Phone"], 200);
         }
         $comment  = $request->comment != '' ? $request->comment : '';
-        $send_mail = Helper::invite_dome($request->venue_name,$request->venue_address,$request->name,$request->email,$request->phone,$comment);
+        $send_mail = Helper::invite_dome($request->venue_name, $request->venue_address, $request->name, $request->email, $request->phone, $comment);
         if ($send_mail == 1) {
             $enquiry = new Enquiries;
+            $enquiry->type = 4;
+            $enquiry->venue_name = $request->venue_name;
+            $enquiry->venue_address = $request->venue_address;
+            $enquiry->name = $request->name;
+            $enquiry->email = $request->email;
+            $enquiry->phone = $request->phone;
+            $enquiry->message = $comment;
+            $enquiry->save();
+            return response()->json(["status" => 1, "message" => "Request Submit Successfully"], 200);
         } else {
             return response()->json(["status" => 0, "message" => "Email Error"], 200);
         }
-
     }
 }

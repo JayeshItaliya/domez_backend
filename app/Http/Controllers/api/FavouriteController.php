@@ -71,8 +71,8 @@ class FavouriteController extends Controller
                         $dome_image = DomeImages::where('dome_id', $dome->dome_id)->first();
                         $dome_list = array(
                             "id" => $dome_data->id,
-                            "league_name" => $dome_data->name,
-                            "dome_name" => '',
+                            "league_name" => '',
+                            "dome_name" => $dome_data->name,
                             "image" => Helper::image_path($dome_image->images),
                             "price" => $dome_data->price,
                             "city" => $dome_data->city,
