@@ -5,6 +5,7 @@ namespace App\Http\Controllers\api;
 use App\Helper\Helper;
 use Stripe;
 use App\Http\Controllers\Controller;
+use App\Models\Domes;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
 
@@ -62,10 +63,11 @@ class PaymentController extends Controller
                     "source" => $gettoken->id,
                     "description" => "Domez Payment",
                 ]);
+                $dome = Domes::find($request->dome_id);
                 $transaction_id = $payment->id;
                 // Payment Type = 1=Card, 2=Apple Pay, 3=Google Pay
                 $transaction = new Transaction;
-                $transaction->vendor_id = $request->vendor_id;
+                $transaction->vendor_id = $dome->vendor_id;
                 $transaction->dome_id = $request->dome_id;
                 $transaction->field_id = $request->field_id;
                 $transaction->user_id = $request->user_id;

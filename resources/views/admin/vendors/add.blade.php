@@ -32,11 +32,11 @@
             </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col-lg-6">
-            <form class="card" action="{{ URL::to('admin/vendors/store') }}" method="post" enctype="multipart/form-data">
-                @csrf
-                <div class="card-body">
+    <form class="card" action="{{ URL::to('admin/vendors/store') }}" method="post" enctype="multipart/form-data">
+        @csrf
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
                     <div class="form-group">
                         <label for="name" class="form-label">{{ trans('labels.name') }}</label>
                         <input type="text" id="name" name="name" placeholder="{{ trans('messages.enter_name') }}"
@@ -45,6 +45,8 @@
                             <span class="text-danger">{{ $message }}</span>
                         @enderror
                     </div>
+                </div>
+                <div class="col-md-6">
                     <div class="form-group">
                         <label for="email" class="form-label">{{ trans('labels.email') }}</label>
                         <input type="text" id="email" name="email"
@@ -53,27 +55,58 @@
                             <span class="text-danger">{{ $message }}</span>
                         @enderror
                     </div>
+                </div>
+                <div class="col-md-6">
                     <div class="form-group">
-                        <label for="password" class="form-label">Password</label>
-                        <input type="text" id="password" name="password" placeholder="Enter Password"
+                        <label for="password" class="form-label">{{ trans('labels.password') }}</label>
+                        <input type="password" id="password" name="password" placeholder="{{ trans('labels.password') }}"
                             class="form-control">
                         @error('password')
                             <span class="text-danger">{{ $message }}</span>
                         @enderror
                     </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="phone" class="form-label">{{ trans('labels.phone_number') }}</label>
+                        <div class="input-group">
+                            <input type="hidden" name="country" id="country" value="91">
+                            <input type="tel" id="phone" name="phone"
+                                class="form-control custom-input rounded mb-3" placeholder="{{ trans('labels.phone_number') }}" value="">
+                        </div>
+                        @error('phone')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                    </div>
+                </div>
+                <div class="col-md-6">
                     <div class="form-group">
                         <label for="profile" class="form-label"> {{ trans('labels.profile_image') }} <span
-                                class="fs-8 text-muted">({{ trans('labels.optional') }})</span></label>
+                                class="fs-8 text-muted">{{ trans('labels.optional') }}</span></label>
                         <input type="file" name="profile" id="profile" class="form-control">
                         @error('profile')
                             <span class="text-danger">{{ $message }}</span>
                         @enderror
                     </div>
-                    <button type="submit" class="btn btn-primary">{{ trans('labels.submit') }}</button>
-                    <a href="{{ URL::to('admin/vendors') }}"
-                        class="btn btn-outline-danger">{{ trans('labels.cancel') }}</a>
                 </div>
-            </form>
+            </div>
+            <button type="submit" class="btn btn-primary w-auto me-2">{{ trans('labels.submit') }}</button>
+            <a href="{{ URL::to('admin/vendors') }}" class="btn btn-outline-danger w-auto">{{ trans('labels.cancel') }}</a>
         </div>
-    </div>
+    </form>
+@endsection
+
+@section('scripts')
+    <script src="{{url('storage/app/public/admin/js/intelTelInput/intlTelInput.min.js')}}"></script>
+    <link rel="stylesheet" href="{{url('storage/app/public/admin/js/intelTelInput/intlTelInput.min.css')}}">
+    <script src="{{url('storage/app/public/admin/js/intelTelInput/utils.js')}}"></script>
+    <script>
+        var input = $('#phone');
+        var iti = intlTelInput(input.get(0))
+        iti.setCountry("in");
+        input.on('countrychange', function(e) {
+            $('#country').val(iti.getSelectedCountryData().dialCode);
+        });
+        $('.iti--allow-dropdown').addClass('w-100');
+    </script>
 @endsection
