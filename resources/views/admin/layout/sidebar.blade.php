@@ -181,13 +181,11 @@
             </a>
             <div class="collapse {{ request()->is('admin/settings*') ? 'show' : '' }}" id="generalsettings">
                 <ul class="nav d-grid">
-                    <a href="javascript:void(0)" class="nav-item">
-                        <span
-                            class="nav-link {{ request()->is('admin/settings/privacy-policy') ? 'active' : '' }}">{{ trans('labels.privacy_policy') }}</span>
+                    <a href="{{URL::to('admin/settings/privacy-policy')}}" class="nav-item">
+                        <span class="nav-link {{ request()->is('admin/settings/privacy-policy') ? 'active' : '' }}">{{ trans('labels.privacy_policy') }}</span>
                     </a>
-                    <a href="javascript:void(0)" class="nav-item">
-                        <span
-                            class="nav-link {{ request()->is('admin/settings/privacy-policy') ? 'active' : '' }}">{{ trans('labels.terms_conditions') }}</span>
+                    <a href="{{URL::to('admin/settings/terms-conditions')}}" class="nav-item">
+                        <span class="nav-link {{ request()->is('admin/settings/terms-conditions') ? 'active' : '' }}">{{ trans('labels.terms_conditions') }}</span>
                     </a>
                     <a href="{{ URL::to('admin/settings/edit-profile-{id}') }}" class="nav-item">
                         <span

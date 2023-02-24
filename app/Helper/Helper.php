@@ -63,6 +63,18 @@ class Helper
             return 0;
         }
     }
+    public static function invite_dome($venue_name, $venue_address, $name, $email, $phone, $comment){
+        $data=['title'=>'Domes Invitation','email'=>$email, 'name'=>$name,'venue_name'=>$venue_name, 'venue_address'=>$venue_address, 'phone'=>$phone, 'comment'=>$comment, 'logo'=>url('storage/app/public/admin/images/logo.png')];
+        try {
+            Mail::send('email.domes_invitation',$data,function($message)use($data){
+                $message->from(env('MAIL_USERNAME'))->subject($data['title']);
+                $message->to(env('MAIL_USERNAME'));
+            });
+            return 1;
+        } catch (\Throwable $th) {
+            return 0;
+        }
+    }
 
     public static function stripe_data()
     {

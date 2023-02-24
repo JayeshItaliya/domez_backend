@@ -159,4 +159,30 @@ class HomeController extends Controller
             $domes = $domes->get();
         }
     }
+    public function dome_request(Request $request)
+    {
+        if ($request->venue_name == "") {
+            return response()->json(["status" => 0, "message" => "Enter Venue Name"], 200);
+        }
+        if ($request->venue_address == "") {
+            return response()->json(["status" => 0, "message" => "Enter Venue Address"], 200);
+        }
+        if ($request->name == "") {
+            return response()->json(["status" => 0, "message" => "Enter Name"], 200);
+        }
+        if ($request->email == "") {
+            return response()->json(["status" => 0, "message" => "Enter Email"], 200);
+        }
+        if ($request->phone == "") {
+            return response()->json(["status" => 0, "message" => "Enter Phone"], 200);
+        }
+        $comment  = $request->comment != '' ? $request->comment : '';
+        $send_mail = Helper::invite_dome($request->venue_name,$request->venue_address,$request->name,$request->email,$request->phone,$comment);
+        if ($send_mail == 1) {
+            $enquiry = new Enquiries;
+        } else {
+            return response()->json(["status" => 0, "message" => "Email Error"], 200);
+        }
+
+    }
 }

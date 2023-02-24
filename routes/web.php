@@ -159,6 +159,8 @@ Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function () {
     // Settings
     Route::group(['prefix' => 'settings'], function (){
         Route::get('/', [AdminController::class, 'settings']);
+        Route::get('privacy-policy', [SettingsController::class, 'privacy_policy']);
+        Route::get('terms-conditions', [SettingsController::class, 'terms_conditions']);
         Route::get('edit-profile-{id}', [SettingsController::class, 'edit_profile']);
         Route::get('email-setting', [SettingsController::class, 'email_setting']);
         Route::get('twilio-setting', [SettingsController::class, 'twilio_setting']);
