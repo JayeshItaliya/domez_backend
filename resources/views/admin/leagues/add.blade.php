@@ -40,7 +40,7 @@
             <div class="row">
                 <div class="col-md-6">
                     <label for="" class="form-label">{{ trans('labels.select_sports') }}</label>
-                    <div class="d-flex">
+                    <div class="d-flex radio-editer">
                         @foreach ($sports as $sport)
                             <div class="form-check pe-3">
                                 <input type="radio" name="sport" class="form-check-input" value="{{ $sport->id }}"

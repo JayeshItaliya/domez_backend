@@ -168,7 +168,7 @@
                             <span class="badge rounded-pill cursor-pointer text-bg-info" onclick="change_status('2','2','http://localhost/domez/admin/vendors/change_status')">Completed</span>
                         </td>
                         <td>
-                            <span class="badge rounded-pill cursor-pointer text-bg-danger" onclick="change_status('2','2','http://localhost/domez/admin/vendors/change_status')">Completed</span>
+                            <span class="badge rounded-pill cursor-pointer text-bg-danger" onclick="change_status('2','2','http://localhost/domez/admin/vendors/change_status')">Cancel </span>
                         </td>
                         <td>
                             <a class="cursor-pointer me-2"
@@ -238,7 +238,7 @@
                             <span class="badge rounded-pill cursor-pointer text-bg-info" onclick="change_status('2','2','http://localhost/domez/admin/vendors/change_status')">Completed</span>
                         </td>
                         <td>
-                            <span class="badge rounded-pill cursor-pointer text-bg-success" onclick="change_status('2','2','http://localhost/domez/admin/vendors/change_status')">Confirm</span>
+                            <span class="badge rounded-pill cursor-pointer text-bg-success" onclick="change_status('2','2','http://localhost/domez/admin/vendors/change_status')">Completed</span>
                         </td>
                         <td>
                             <a class="cursor-pointer me-2"
