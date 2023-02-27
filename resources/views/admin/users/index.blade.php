@@ -1,6 +1,6 @@
 @extends('admin.layout.default')
 @section('title')
-    {{ trans('labels.users') }}
+Users List
 @endsection
 @section('contents')
     <div class="card mb-3">
@@ -23,7 +23,7 @@
                                 </svg>
                             </a>
                         </li>
-                        <li class="breadcrumb-item active" aria-current="page">{{ trans('labels.users') }}</li>
+                        <li class="breadcrumb-item active" aria-current="page">Users List</li>
                     </ol>
                 </nav>
             </div>

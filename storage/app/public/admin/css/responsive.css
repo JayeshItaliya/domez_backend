@@ -89,6 +89,9 @@
         right: 20%;
         top: 30%;
     }
+    .radio-editer {
+        display: block!important;
+    }
 }
 
 
