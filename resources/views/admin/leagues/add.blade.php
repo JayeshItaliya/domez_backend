@@ -141,7 +141,7 @@
                                 <label class="form-label" for="select_gender">{{ trans('labels.select_gender') }}</label>
                                 <select class="form-select" id="select_gender">
                                     <option selected>{{ trans('labels.select_gender') }}</option>
-                                    <option value="1">{{ trans('labels.men') }}</option>
+                                    <option value="1">{{ trans('labels.male') }}</option>
                                     <option value="2">{{ trans('labels.female') }}</option>
                                     <option value="3">{{ trans('labels.other') }}</option>
                                 </select>

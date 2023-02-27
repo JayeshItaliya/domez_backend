@@ -76,7 +76,6 @@ class LeagueController extends Controller
 
                     if ($request->sport_id != "") {
                         $getarounddomes = $getarounddomes->whereRaw("find_in_set('" . $request->sport_id . "',sport_id)");
-                        // dd($getarounddomes);
                     }
                     if ($request->max_price > 0) {
                         $getarounddomes = $getarounddomes->whereBetween('price', [$request->min_price, $request->max_price]);

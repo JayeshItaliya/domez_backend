@@ -7,6 +7,7 @@ use App\Models\CMS;
 use App\Helper\Helper;
 use App\Models\Domes;
 use App\Models\Enquiries;
+use App\Models\League;
 use App\Models\Sports;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -37,7 +38,7 @@ class HomeController extends Controller
         }
         return response()->json(["status" => 1, "message" => "Successful", 'sportslist' => $sportslist], 200);
     }
-    function helpcenter(Request $request)
+    public function helpcenter(Request $request)
     {
         try {
             if ($request->email == "") {
@@ -60,62 +61,35 @@ class HomeController extends Controller
             return response()->json(["status" => 0, "message" => "Something Went Wrong..!!"], 200);
         }
     }
-    function pushnotification(Request $request)
+    public function pushnotification(Request $request)
     {
         try {
-            // $FcmToken = User::whereNotNull('fcm_token')->pluck('fcm_token')->all();
-            // $data = [
-            //     "registration_ids" => $FcmToken,
-            //     "notification" => [
-            //         "title" => $request->title,
-            //         "body" => $request->body,
-            //     ]
-            // ];
-            // $encodedData = json_encode($data);
-            // $headers = [
-            //     'Authorization:key=' . 'API KEY',
-            //     'Content-Type: application/json',
-            // ];
-            // $ch = curl_init();
-            // curl_setopt($ch, CURLOPT_URL, 'https://fcm.googleapis.com/fcm/send');
-            // curl_setopt($ch, CURLOPT_POST, true);
-            // curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-            // curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            // curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
-            // curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
-            // // Disabling SSL Certificate support temporarly
-            // curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-            // curl_setopt($ch, CURLOPT_POSTFIELDS, $encodedData);
-            // // Execute post
-            // $result = curl_exec($ch);
-            // if ($result === FALSE) {
-            //     die('Curl failed: ' . curl_error($ch));
-            // }
-            // // Close connection
-            // curl_close($ch);
+            // TYPE  =  4  ->  NEW LEAGUE IS ADDED BY DOME OWNER (only those users who've been favourited that dome)
+            // TYPE  =  5  ->  DOME BOOKING IS CONFIRMED
+            // TYPE  =  6  ->  LEAGUE BOOKING IS CONFIRMED
 
-
-
-            $type = $order_id = '';
+            $type = 4;
             $title = "Test Notification";
+            $token = "erAQsdXuT1iFMB_A0oWYWq:APA91bEhTrUry9qlpYzIVECvmaucNwMWmmh6K8PmGBeOXxg52R3buzXe9pBnRw1DdiAZ0lTe0GXIaVt8MfWzx4eq4kexrUOMCkDqnuojlcEWiF3_vnadDKSGu_lVlrqTgPkABa-ZOd7G";
             $body = "Test Message";
-            $token = "5618EDAC-F96A-49CC-8C4D-DCD9BCA977ED";
-            $newdata = array(
+            $firebasekey = "AAAAThCJSTQ:APA91bG2bwTSmHb23mBs_YRAdNC_c-YfseDAeUXfp3jXm8Oy01aeB9hu5JXDxra0YlqeQ6jqxZrAlMI2kvVg1YqSyrYInzDE4VsRLqDzswU70nDw-m3uZn8tL8TnKWeoNHK6V2hxGwFC";
+            $data = array(
                 "type" => $type,
-                "order_id" => $order_id,
+                "league_id" => '',
+                "booking_id" => '',
             );
-            $msg = array(
+            $notification = array(
                 'body' => $body,
                 'title' => $title,
                 'sound' => 1/*Default sound*/
             );
             $fields = array(
-                'to'           => $token,
-                'notification' => $msg,
-                'data' => $newdata
+                'to' => $token,
+                'notification' => $notification,
+                'data' => $data
             );
             $headers = array(
-                'Authorization: key=AIzaSyCHYsAIsuw4yGYd7EXwFro9coWguKdWu_A',
+                'Authorization: key=' . $firebasekey,
                 'Content-Type: application/json'
             );
             #Send Reponse To FireBase Server
@@ -128,44 +102,153 @@ class HomeController extends Controller
             curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($fields));
             $result = curl_exec($ch);
             curl_close($ch);
-
-            dd(11, $result);
+            return response()->json(["status" => 1, "message" => "Successfull"], 200);
         } catch (\Throwable $th) {
-            dd(1111111, $th);
             return response()->json(["status" => 0, "message" => "Something Went Wrong..!!"], 200);
         }
     }
     public function filter(Request $request)
     {
-        if ($request->type == "") {
-            return response()->json(["status" => 0, "message" => "Select Filter Type"], 200);
-        }
-        if ($request->sport_id == "" && $request->lat == "" && $request->lng == "" && $request->start_price == "" && $request->end_price == "") {
-            return response()->json(["status" => 0, "message" => "Please Select Atleast One Filter"], 200);
-        }
-        if ($request->lat == "" && $request->lng != "") {
-            return response()->json(["status" => 0, "message" => 'Enter Latitude'], 200);
-        }
-        if ($request->lng == "" && $request->lat != "") {
-            return response()->json(["status" => 0, "message" => 'Enter Longitude'], 200);
-        }
-        if ($request->type == 1) {
-            $domes = Domes::where('is_deleted', 2)->select('sport_id');
-            $list = explode(',', $request->sport_id);
-            $totallist = count(explode(',', $request->sport_id));
-            $q = '';
-            foreach ($list as $key => $value) {
-                $q .= 'FIND_IN_SET(' . $value . ', sport_id) ';
-                if ($key + 1 == $totallist) {
-                    $q .= '';
-                }else{
-                    $q .= ' OR ';
-                }
+        try {
+            if ($request->type == "") {
+                return response()->json(["status" => 0, "message" => "Select Filter Type"], 200);
             }
-            dd($q,$domes);
-            $domes = $domes->whereRaw($q);
-            $domes = $domes->get();
+            if (!in_array($request->type, [1, 2])) {
+                return response()->json(["status" => 0, "message" => "Invalid Request!!"], 200);
+            }
+
+            if ($request->sport_id == "" && $request->lat == "" && $request->lng == "" && $request->start_price == "" && $request->end_price == "") {
+                return response()->json(["status" => 0, "message" => "Please Select Atleast One Filter"], 200);
+            }
+
+            $getfilterlist = [];
+            if ($request->type == 1) {
+                $getfilterlist = Domes::with('dome_image')->where('is_deleted', 2)->select('domes.*');
+                // ---------- Location Filter --------- //
+                if ($request->lat != "" && $request->lng != "") {
+                    $getfilterlist = $getfilterlist->select(
+                        'domes.*',
+                        DB::raw("6371 * acos(cos(radians(" . $request->lat . "))
+                        * cos(radians(lat))
+                    * cos(radians(lng) - radians(" . $request->lng . "))
+                    + sin(radians(" . $request->lat . "))
+                    * sin(radians(lat))) AS distance")
+                    );
+                    // NOTE :- The Distance Will Be in Kilometers
+                    $getfilterlist = $getfilterlist->having('distance', '<=', $request->kilometer > 0 ? $request->kilometer : 1000)->orderBy('distance');
+                } else {
+                    $getfilterlist = $getfilterlist->orderBy('id');
+                }
+                // ---------- Sports Filter ---------- //
+                if ($request->has('sport_id') && $request->sport_id != "") {
+                    $q = '';
+                    foreach (explode(',', $request->sport_id) as $key => $value) {
+                        $q .= 'FIND_IN_SET(' . $value . ', sport_id) ';
+                        $q .= $key + 1 == count(explode(',', $request->sport_id)) ? '' : ' OR ';
+                    }
+                    $getfilterlist = $getfilterlist->whereRaw($q);
+                }
+                // ------------ Price Filter ---------- //
+                if ($request->max_price > 0) {
+                    $getfilterlist = $getfilterlist->whereBetween('price', [$request->min_price, $request->max_price]);
+                }
+                $getfilterlist = $getfilterlist->paginate(20);
+            } else {
+                $getfilterlist = League::with(['league_image', 'dome_info'])
+                    ->where('leagues.is_deleted', 2)->select('leagues.*');
+                // ---------- Location Filter --------- //
+                if ($request->lat != "" && $request->lng != "") {
+                    $getfilterlist = $getfilterlist->join('domes', 'leagues.dome_id', 'domes.id')
+                        ->select(
+                            'leagues.*',
+                            DB::raw("6371 * acos(cos(radians(" . $request->lat . "))
+                        * cos(radians(domes.lat))
+                    * cos(radians(domes.lng) - radians(" . $request->lng . "))
+                    + sin(radians(" . $request->lat . "))
+                    * sin(radians(domes.lat))) AS distance")
+                        );
+                    // NOTE :- The Distance Will Be in Kilometers
+                    $getfilterlist = $getfilterlist->having('distance', '<=', $request->kilometer > 0 ? $request->kilometer : 1000)->orderBy('distance');
+                } else {
+                    $getfilterlist = $getfilterlist->orderBy('leagues.id');
+                }
+                // ---------- Sports Filter ---------- //
+                if ($request->has('sport_id') && $request->sport_id != "") {
+                    $q = '';
+                    foreach (explode(',', $request->sport_id) as $key => $value) {
+                        $q .= 'FIND_IN_SET(' . $value . ', leagues.sport_id) ';
+                        $q .= $key + 1 == count(explode(',', $request->sport_id)) ? '' : ' OR ';
+                    }
+                    $getfilterlist = $getfilterlist->whereRaw($q);
+                }
+                // ------------ Price Filter ---------- //
+                if ($request->max_price > 0) {
+                    $getfilterlist = $getfilterlist->whereBetween('leagues.price', [$request->min_price, $request->max_price]);
+                }
+                $getfilterlist = $getfilterlist->paginate(20);
+            }
+
+            $responsedata = [];
+            foreach ($getfilterlist as $data) {
+                if ($request->type == 1) {
+                    $image = $data->dome_image == "" ? "" : $data->dome_image->image;
+                } else {
+                    $image = $data->league_image == "" ? "" : $data->league_image->image;
+                }
+                $responsedata[] = [
+                    "id" => $data->id,
+                    "dome_id" => $request->type == 1 ? '' : $data->dome_id,
+                    "sport_id" => $data->sport_id,
+                    "league_name" => $request->type == 1 ? '' : $data->name,
+                    "dome_name" => $request->type == 1 ? $data->name : $data->dome_info->name,
+                    "price" => $request->type == 1 ? rand(111, 999) : $data->price,
+                    "image" => $image,
+                    "city" => $request->type == 1 ? $data->city : $data->dome_info->city,
+                    "state" => $request->type == 1 ? $data->state : $data->dome_info->state,
+                    "sports_list" => Sports::select('id', 'name', DB::raw("CONCAT('" . url('storage/app/public/admin/images/sports') . "/', image) AS image"))->whereIn('id', explode('|', $data->sport_id))->where('is_available', 1)->where('is_deleted', 2)->get(),
+                ];
+            }
+            return response()->json(['status' => 1, 'message' => 'Successfull', 'data' => $responsedata, 'pagination' => $getfilterlist->toArray()['links']], 200);
+        } catch (\Throwable $th) {
+            return response()->json(["status" => 0, "message" => "Something Went Wrong..!!"], 200);
         }
+    }
+    public function search(Request $request)
+    {
+        if ($request->type == "") {
+            return response()->json(["status" => 0, "message" => "Select Search Type"], 200);
+        }
+        if (!in_array($request->type, [1, 2])) {
+            return response()->json(["status" => 0, "message" => "Invalid Request!!"], 200);
+        }
+        $responsedata = [];
+        if ($request->type == 1) {
+            $getsearchlist = Domes::with('dome_image')->where('is_deleted', 2);
+        } else {
+            $getsearchlist = League::with('league_image')->where('is_deleted', 2);
+        }
+        if ($request->has('name') && $request->name != "") {
+            $getsearchlist = $getsearchlist->where('name', 'like', '%' . $request->name . '%');
+        }
+        $getsearchlist = $getsearchlist->paginate(10);
+        foreach ($getsearchlist as $data) {
+            if ($request->type == 1) {
+                $image = $data->dome_image == "" ? "" : $data->dome_image->image;
+            } else {
+                $image = $data->league_image == "" ? "" : $data->league_image->image;
+            }
+            $responsedata[] = [
+                "id" => $data->id,
+                "league_name" => $request->type == 1 ? '' : $data->name,
+                "dome_name" => $request->type == 1 ? $data->name : $data->dome_info->name,
+                "price" => $request->type == 1 ? rand(111, 999) : $data->price,
+                "image" => $image,
+                "city" => $data->city,
+                "state" => $data->state,
+                "sports_list" => Sports::select('id', 'name', DB::raw("CONCAT('" . url('storage/app/public/admin/images/sports') . "/', image) AS image"))->whereIn('id', explode('|', $data->sport_id))->where('is_available', 1)->where('is_deleted', 2)->get(),
+            ];
+        }
+        return response()->json(['status' => 1, 'message' => 'Successfull', 'data' => $responsedata, 'pagination' => $getsearchlist->toArray()['links']], 200);
     }
     public function dome_request(Request $request)
     {

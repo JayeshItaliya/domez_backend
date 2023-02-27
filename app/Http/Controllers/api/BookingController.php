@@ -15,7 +15,6 @@ class BookingController extends Controller
 {
     public function booking(Request $request)
     {
-        dd('wd');
     }
     public function timeslots(Request $request)
     {
@@ -59,9 +58,6 @@ class BookingController extends Controller
             //         array_push($out,$slots); //add slot to array
             //     }
             // }
-            // dd($out);   //array out
-
-            // dd($getdomedata->start_time,$getdomedata->end_time);
 
             $period = new CarbonPeriod(date('h:i A', strtotime($getdomedata->start_time)), '60 minutes', date('h:i A', strtotime($getdomedata->end_time))); // for create use 24 hours format later change format
             $slots = [];
@@ -91,11 +87,10 @@ class BookingController extends Controller
 
                 $slots[] = [
                     'slot' => $slot,
-                    'price' => 0,
+                    'price' => rand(111,999),
                     'status' => $status,
                 ];
             }
-            // dd($slots);
 
             return response()->json(["status" => 1, "message" => "Successful", 'data' => $slots], 200);
         }

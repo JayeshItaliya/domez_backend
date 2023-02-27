@@ -39,7 +39,7 @@ class DomesController extends Controller
                                 "id" => $dome->id,
                                 "name" => $dome->name,
                                 "image" => $dome->dome_image == "" ? "" : $dome->dome_image->image,
-                                "price" => $dome->price,
+                                "price" => rand(111,999),
                                 "city" => $dome->city,
                                 "state" => $dome->state,
                                 "is_fav" => !empty(@$is_fav) ? true : false,
@@ -63,7 +63,7 @@ class DomesController extends Controller
                                 "id" => $dome->id,
                                 "name" => $dome->name,
                                 "image" => $dome->dome_image == "" ? "" : $dome->dome_image->image,
-                                "price" => $dome->price,
+                                "price" => rand(111,999),
                                 "city" => $dome->city,
                                 "state" => $dome->state,
                                 "is_fav" => !empty(@$is_fav) ? true : false,
@@ -97,7 +97,6 @@ class DomesController extends Controller
 
                     if ($request->sport_id != "") {
                         $getarounddomes = $getarounddomes->whereRaw("find_in_set('" . $request->sport_id . "',sport_id)");
-                        // dd($getarounddomes);
                     }
                     if ($request->max_price > 0) {
                         $getarounddomes = $getarounddomes->whereBetween('price', [$request->min_price, $request->max_price]);
@@ -112,7 +111,7 @@ class DomesController extends Controller
                             "id" => $dome->id,
                             "name" => $dome->name,
                             "image" => $dome->dome_image == "" ? "" : $dome->dome_image->image,
-                            "price" => $dome->price,
+                            "price" => rand(111,999),
                             "city" => $dome->city,
                             "state" => $dome->state,
                             "is_fav" => !empty(@$is_fav) ? true : false,
@@ -191,7 +190,7 @@ class DomesController extends Controller
                 'id' => $dome->id,
                 'total_fields' => $fields->count(),
                 'name' => $dome->name,
-                'price' => $dome->price,
+                'price' => rand(111,999),
                 'hst' => $dome->hst,
                 'address' => $dome->address,
                 'city' => $dome->city,
