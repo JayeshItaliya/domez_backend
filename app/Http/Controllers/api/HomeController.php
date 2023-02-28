@@ -70,9 +70,11 @@ class HomeController extends Controller
 
             $type = 4;
             $title = "Test Notification";
-            $token = "erAQsdXuT1iFMB_A0oWYWq:APA91bEhTrUry9qlpYzIVECvmaucNwMWmmh6K8PmGBeOXxg52R3buzXe9pBnRw1DdiAZ0lTe0GXIaVt8MfWzx4eq4kexrUOMCkDqnuojlcEWiF3_vnadDKSGu_lVlrqTgPkABa-ZOd7G";
+            $token = $request->token;
+            // $token = "erAQsdXuT1iFMB_A0oWYWq:APA91bEhTrUry9qlpYzIVECvmaucNwMWmmh6K8PmGBeOXxg52R3buzXe9pBnRw1DdiAZ0lTe0GXIaVt8MfWzx4eq4kexrUOMCkDqnuojlcEWiF3_vnadDKSGu_lVlrqTgPkABa-ZOd7G";
             $body = "Test Message";
-            $firebasekey = "AAAAThCJSTQ:APA91bG2bwTSmHb23mBs_YRAdNC_c-YfseDAeUXfp3jXm8Oy01aeB9hu5JXDxra0YlqeQ6jqxZrAlMI2kvVg1YqSyrYInzDE4VsRLqDzswU70nDw-m3uZn8tL8TnKWeoNHK6V2hxGwFC";
+            $firebasekey = $request->server_key;
+            // $firebasekey = "AAAAThCJSTQ:APA91bG2bwTSmHb23mBs_YRAdNC_c-YfseDAeUXfp3jXm8Oy01aeB9hu5JXDxra0YlqeQ6jqxZrAlMI2kvVg1YqSyrYInzDE4VsRLqDzswU70nDw-m3uZn8tL8TnKWeoNHK6V2hxGwFC";
             $data = array(
                 "type" => $type,
                 "league_id" => '',
@@ -102,8 +104,10 @@ class HomeController extends Controller
             curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($fields));
             $result = curl_exec($ch);
             curl_close($ch);
+            dd($result);
             return response()->json(["status" => 1, "message" => "Successfull"], 200);
         } catch (\Throwable $th) {
+            dd($th);
             return response()->json(["status" => 0, "message" => "Something Went Wrong..!!"], 200);
         }
     }

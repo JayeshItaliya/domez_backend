@@ -43,7 +43,7 @@ Route::get('sportslist', [HomeController::class, 'sportslist']);
 Route::get('privacy-policy', [HomeController::class, 'privacy_policy']);
 Route::get('terms-conditions', [HomeController::class, 'terms_conditions']);
 Route::post('helpcenter', [HomeController::class, 'helpcenter']);
-Route::get('pushnotification', [HomeController::class, 'pushnotification']);
+Route::post('pushnotification', [HomeController::class, 'pushnotification']);
 
 
 Route::post('payment', [PaymentController::class, 'payment']);
