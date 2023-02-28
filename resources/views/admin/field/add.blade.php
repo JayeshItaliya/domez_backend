@@ -111,7 +111,7 @@
                     </div>
                 </div>
             </div>
-            <button type="submit" class="btn btn-primary mt-2 float-end">Submit</button>
+            <button type="submit" class="btn btn-primary mt-2">Submit</button>
         </div>
     </form>
 @endsection

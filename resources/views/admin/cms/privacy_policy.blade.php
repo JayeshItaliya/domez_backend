@@ -46,12 +46,10 @@
 
     <script>
     ClassicEditor.create( document.querySelector( '#editor' ), {
-
 	language: 'en',
 	toolbar: {
 		shouldNotGroupWhenFull: true,
 		items: [
-			// --- Document-wide tools ----------------------------------------------------------------------
 			'undo',
 			'redo',
 			'|',
@@ -65,14 +63,8 @@
 			'selectAll',
 			'wproofreader',
 			'|',
-
-			// --- "Insertables" ----------------------------------------------------------------------------
 			'link',
 			'insertImage',
-			/* You must provide a valid token URL in order to use the CKBox application.
-			After registering to CKBox, the fastest way to try out CKBox is to use the development token endpoint:
-			https://ckeditor.com/docs/ckbox/latest/guides/configuration/authentication.html#token-endpoint*/
-			// 'ckbox',
 			'insertTable',
 			'blockQuote',
 			'mediaEmbed',
@@ -81,13 +73,9 @@
 			'pageBreak',
 			'horizontalLine',
 			'-',
-
-			// --- Block-level formatting -------------------------------------------------------------------
 			'heading',
 			'style',
 			'|',
-
-			// --- Basic styles, font and inline formatting -------------------------------------------------------
 			'bold',
 			'italic',
 			'underline',
@@ -107,12 +95,8 @@
 				'|' ]
 			}, 'removeFormat',
 			'|',
-
-			// --- Text alignment ---------------------------------------------------------------------------
 			'alignment',
 			'|',
-
-			// --- Lists and indentation --------------------------------------------------------------------
 			'bulletedList',
 			'numberedList',
 			'todoList',
