@@ -47,7 +47,7 @@
                             </div>
                             <div class="mb-3">
                                 <label for="staticport" class="form-label">Port</label>
-                                <input type="text" class="form-control" id="staticport"
+                                <input type="text" class="form-control" id="examplestaticport"
                                     placeholder="Enter Port">
                             </div>
                             <div class="mb-3">

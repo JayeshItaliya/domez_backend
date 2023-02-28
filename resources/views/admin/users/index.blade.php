@@ -71,7 +71,7 @@ Users List
                                         onclick="change_status('{{ $user->id }}','{{ $user->is_available == 1 ? 2 : 1 }}','{{ URL::to('admin/users/change_status') }}')">{{ $user->is_available == 1 ? 'Active' : 'Inactive' }}</span>
                                 </td>
                                 <td>
-                                    <i class="fa-solid fa-ellipsis-vertical ms-3"  data-bs-toggle="dropdown" aria-expanded="false"></i>
+                                    <i class="fa-solid fa-ellipsis-vertical ms-3"  data-bs-toggle="dropdown" aria-expanded="false" style="cursor: pointer;"></i>
                                     <ul class="dropdown-menu">
                                         <li><a class="dropdown-item" href="{{ URL::to('admin/users/details-'.$user->id)}}">View Details</a></li>
                                         <li><hr class="dropdown-divider"></li>

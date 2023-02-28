@@ -2,7 +2,7 @@
 @section('styles')
 @endsection
 @section('title')
-Privacy Policy
+    Privacy Policy
 @endsection
 @section('contents')
     <!-- Title -->
@@ -40,16 +40,87 @@ Privacy Policy
             </div>
         </div>
     </div>
-
 @endsection
 @section('scripts')
-<script src="https://cdn.ckeditor.com/ckeditor5/36.0.1/classic/ckeditor.js"></script>
-<script>
-   ClassicEditor
-            .create( document.querySelector( '#editor' ) )
-            .catch( error => {
-                console.error( error );
-            } );
-</script>
-@endsection
+    <script src="https://cdn.ckeditor.com/ckeditor5/36.0.1/classic/ckeditor.js"></script>
 
+    <script>
+    ClassicEditor.create( document.querySelector( '#editor' ), {
+
+	language: 'en',
+	toolbar: {
+		shouldNotGroupWhenFull: true,
+		items: [
+			// --- Document-wide tools ----------------------------------------------------------------------
+			'undo',
+			'redo',
+			'|',
+			'sourceEditing',
+			'|',
+			'importWord',
+			'exportWord',
+			'exportPdf',
+			'|',
+			'findAndReplace',
+			'selectAll',
+			'wproofreader',
+			'|',
+
+			// --- "Insertables" ----------------------------------------------------------------------------
+			'link',
+			'insertImage',
+			/* You must provide a valid token URL in order to use the CKBox application.
+			After registering to CKBox, the fastest way to try out CKBox is to use the development token endpoint:
+			https://ckeditor.com/docs/ckbox/latest/guides/configuration/authentication.html#token-endpoint*/
+			// 'ckbox',
+			'insertTable',
+			'blockQuote',
+			'mediaEmbed',
+			'codeBlock',
+			'htmlEmbed',
+			'pageBreak',
+			'horizontalLine',
+			'-',
+
+			// --- Block-level formatting -------------------------------------------------------------------
+			'heading',
+			'style',
+			'|',
+
+			// --- Basic styles, font and inline formatting -------------------------------------------------------
+			'bold',
+			'italic',
+			'underline',
+			'strikethrough',
+			'superscript',
+			'subscript',
+			{
+				label: 'Basic styles',
+				icon: 'text',
+				items: [ 'fontSize',
+				'fontFamily',
+				'fontColor',
+				'fontBackgroundColor',
+				'code',
+				'|',
+				'textPartLanguage',
+				'|' ]
+			}, 'removeFormat',
+			'|',
+
+			// --- Text alignment ---------------------------------------------------------------------------
+			'alignment',
+			'|',
+
+			// --- Lists and indentation --------------------------------------------------------------------
+			'bulletedList',
+			'numberedList',
+			'todoList',
+			'|',
+			'outdent',
+			'indent'
+		]
+	},
+} );
+    </script>
+@endsection

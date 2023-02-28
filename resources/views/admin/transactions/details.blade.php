@@ -33,8 +33,8 @@
     <div class="card">
         <div class="card-body">
             <p class="mb-2 fw-semibold">Dome Owner Details</p>
-            <div class="d-flex">
-                <div class="bg-gray col-lg-6">
+            <div class="d-flex bg-gray">
+                <div class="col-lg-6 col-md-6">
                     <div class="px-3 py-2 d-flex">
                         <div class="col-md-4">
                             <label>Name</label>
@@ -44,7 +44,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="bg-gray col-lg-6">
+                <div class="col-lg-6 col-md-6">
                     <div class="px-3 py-2 d-flex">
                         <div class="col-md-4">
                             <label>Phone number</label>
@@ -55,7 +55,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-6">
+            <div class="col-lg-6 col-md-6">
                 <div class="px-3 py-2 d-flex">
                     <div class="col-md-4">
                         <label>Email</label>
@@ -66,8 +66,8 @@
                 </div>
             </div>
             <p class="my-3 fw-semibold">User Details</p>
-            <div class="d-flex">
-                <div class="bg-gray col-lg-6">
+            <div class="d-flex bg-gray">
+                <div class="col-lg-6 col-md-6">
                     <div class="px-3 py-2 d-flex">
                         <div class="col-md-4">
                             <label>Name</label>
@@ -77,7 +77,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="bg-gray col-lg-6">
+                <div class="col-lg-6 col-md-6">
                     <div class="px-3 py-2 d-flex">
                         <div class="col-md-4">
                             <label>Phone number</label>
@@ -88,7 +88,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-6">
+            <div class="col-lg-6 col-md-6">
                 <div class="px-3 py-2 d-flex">
                     <div class="col-md-4">
                         <label>Email</label>
@@ -99,8 +99,8 @@
                 </div>
             </div>
             <p class="my-3 fw-semibold">Bookings Details</p>
-            <div class="d-flex">
-                <div class="bg-gray col-lg-6">
+            <div class="d-flex bg-gray">
+                <div class="col-lg-6 col-md-6">
                     <div class="px-3 py-2 d-flex">
                         <div class="col-md-4">
                             <label>Booking ID</label>
@@ -110,7 +110,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="bg-gray col-lg-6">
+                <div class="col-lg-6 col-md-6">
                     <div class="px-3 py-2 d-flex">
                         <div class="col-md-4">
                             <label>Total  Amount</label>
@@ -122,7 +122,7 @@
                 </div>
             </div>
             <div class="d-flex">
-                <div class="col-lg-6">
+                <div class="col-lg-6 col-md-6">
                     <div class="px-3 py-2 d-flex">
                         <div class="col-md-4">
                             <label>Booking  Date</label>
@@ -132,7 +132,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-6">
+                <div class="col-lg-6 col-md-6">
                     <div class="px-3 py-2 d-flex">
                         <div class="col-md-4">
                             <label>Due Amount</label>
@@ -143,10 +143,10 @@
                     </div>
                 </div>
             </div>
-            <div class="d-flex">
-                <div class="bg-gray col-lg-6">
+            <div class="d-flex bg-gray">
+                <div class="col-lg-6 col-md-6">
                     <div class="px-3 py-2 d-flex">
-                        <div class="col-md-4">
+                        <div class="col-md-4 me-2">
                             <label>Booking Time</label>
                         </div>
                         <div class="col-md-8">
@@ -154,7 +154,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="bg-gray col-lg-6">
+                <div class="col-lg-6 col-md-6">
                     <div class="px-3 py-2 d-flex">
                         <div class="col-md-4">
                             <label>Paid Amount</label>
@@ -166,7 +166,7 @@
                 </div>
             </div>
             <div class="d-flex">
-                <div class="col-lg-6">
+                <div class="col-lg-6 col-md-6">
                     <div class="px-3 py-2 d-flex">
                         <div class="col-md-4">
                             <label>Dome Name</label>
@@ -176,9 +176,9 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-6">
+                <div class="col-lg-6 col-md-6">
                     <div class="px-3 py-2 d-flex">
-                        <div class="col-md-4">
+                        <div class="col-md-4 me-2">
                             <label>Payment Type</label>
                         </div>
                         <div class="col-md-8">
@@ -187,8 +187,8 @@
                     </div>
                 </div>
             </div>
-            <div class="d-flex">
-                <div class="bg-gray col-lg-6">
+            <div class="d-flex bg-gray">
+                <div class="col-lg-6 col-md-6">
                     <div class="px-3 py-2 d-flex">
                         <div class="col-md-4">
                             <label>Field Name</label>
@@ -198,7 +198,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="bg-gray col-lg-6">
+                <div class="col-lg-6 col-md-6">
                     <div class="px-3 py-2 d-flex">
                         <div class="col-md-4">
                             <label>Payment Status</label>
@@ -210,7 +210,7 @@
                 </div>
             </div>
             <div class="d-flex">
-                <div class="col-lg-6">
+                <div class="col-lg-6 col-md-6">
                     <div class="px-3 py-2 d-flex">
                         <div class="col-md-4">
                             <label>Player</label>
@@ -220,7 +220,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-6">
+                <div class="col-lg-6 col-md-6">
                     <div class="px-3 py-2 d-flex">
                         <div class="col-md-4">
                             <label>Booking Status</label>
@@ -231,8 +231,8 @@
                     </div>
                 </div>
             </div>
-            <div class="d-flex">
-                <div class="bg-gray col-lg-6">
+            <div class="d-flex bg-gray">
+                <div class="col-lg-6 col-md-6">
                     <div class="px-3 py-2 d-flex">
                         <div class="col-md-4">
                             <label>Payment Mode</label>
@@ -242,7 +242,6 @@
                         </div>
                     </div>
                 </div>
-                <div class="bg-gray col-lg-6"></div>
             </div>
         </div>
     </div>

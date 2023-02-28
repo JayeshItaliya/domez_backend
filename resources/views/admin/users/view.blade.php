@@ -34,9 +34,9 @@
         </div>
     </div>
     <div class="card">
-        <div class="card-body">
-            <div class="d-flex">
-                <div class="bg-gray col-lg-6">
+        <div class="card-body table-responsive">
+            <div class="d-flex bg-gray">
+                <div class="col-lg-6 col-md-6">
                     <div class="px-3 py-2 d-flex">
                         <div class="col-md-4">
                             <label>Name</label>
@@ -46,7 +46,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="bg-gray col-lg-6">
+                <div class="col-lg-6 col-md-6">
                     <div class="px-3 py-2 d-flex">
                         <div class="col-md-4">
                             <label>Login Type</label>
@@ -58,7 +58,7 @@
                 </div>
             </div>
             <div class="class d-flex">
-                <div class="col-lg-6">
+                <div class="col-lg-6 col-md-6">
                     <div class="px-3 py-2 d-flex">
                         <div class="col-md-4">
                             <label>Email</label>
@@ -68,7 +68,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-6">
+                <div class="col-lg-6 col-md-6   ">
                     <div class="px-3 py-2 d-flex">
                         <div class="col-md-4">
                             <label>Phone number</label>
