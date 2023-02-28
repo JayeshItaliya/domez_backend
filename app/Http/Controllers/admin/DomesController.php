@@ -50,8 +50,6 @@ class DomesController extends Controller
             'address.required' => 'Please Enter Dome Address',
         ]);
 
-        // dd($request->input());
-
         $dome = new Domes;
         $dome->vendor_id = Auth::user()->id;
         $dome->sport_id = implode(",", $request->sport_id);

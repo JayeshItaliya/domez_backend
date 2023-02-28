@@ -62,6 +62,7 @@ Route::post('favourite', [FavouriteController::class, 'favourite']);
 Route::post('favourite-list', [FavouriteController::class, 'favourite_list']);
 
 Route::post('booking', [BookingController::class, 'booking']);
+Route::post('booking-list-{id}', [BookingController::class, 'booking_list']);
 Route::post('check-booking', [BookingController::class, 'check_booking']);
 Route::post('timeslots', [BookingController::class, 'timeslots']);
 Route::post('available-fields', [BookingController::class, 'avl_fields']);
