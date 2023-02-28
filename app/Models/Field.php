@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Field extends Model
 {
@@ -16,8 +17,8 @@ class Field extends Model
     {
         return $this->hasOne('App\Models\Domes', 'id', 'dome_id')->select('id','name');
     }
-    public function category_name()
+    public function sport_data()
     {
-        return $this->hasOne('App\Models\Sports', 'id', 'sport_id')->select('id','name');
+        return $this->hasOne('App\Models\Sports', 'id', 'sport_id')->select('id','name',DB::raw("CONCAT('" . url('storage/app/public/admin/images/sports') . "/', image) AS image"));
     }
 }

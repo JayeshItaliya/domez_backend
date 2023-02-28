@@ -87,7 +87,7 @@ class BookingController extends Controller
 
                 $slots[] = [
                     'slot' => $slot,
-                    'price' => rand(111,999),
+                    'price' => rand(111, 999),
                     'status' => $status,
                 ];
             }
@@ -116,13 +116,17 @@ class BookingController extends Controller
         if ($request->players == "") {
             return response()->json(["status" => 0, "message" => 'Please Enter Number Of Players'], 200);
         }
-        $available_fields = Field::select('id', 'vendor_id', 'dome_id', 'sport_id', 'name', 'area', 'min_person', 'max_person', DB::raw("CONCAT('" . url('storage/app/public/admin/images/fields') . "/', image) AS image"))->where('dome_id', $request->dome_id)->whereRaw("find_in_set('" . $request->sport_id . "',sport_id)")->whereRaw('? between min_person and max_person', [$request->players])->where('is_available', 1)->where('is_deleted', 2);
+        if (Carbon::createFromFormat('Y-m-d', $request->date)->isPast() && $request->date != Carbon::today()->format('Y-m-d')) {
+            return response()->json(["status" => 0, "message" => 'Select Current or Future Date Only'], 200);
+        }
+        $available_fields = Field::with('sport_data')->select('id', 'dome_id', 'sport_id', 'name', 'min_person', 'max_person', DB::raw("CONCAT('" . url('storage/app/public/admin/images/fields') . "/', image) AS image"))->where('dome_id', $request->dome_id)->whereRaw("find_in_set('" . $request->sport_id . "',sport_id)")->whereRaw($request->players . ' between min_person and max_person')->where('is_available', 1)->where('is_deleted', 2);
 
         $bookedfield = Booking::where('dome_id', $request->dome_id)->where('sport_id', $request->sport_id)->where('booking_date', $request->date)->where('slots', $request->slots)->where('booking_status', 1)->select('field_id')->get()->pluck('field_id')->toArray();
         if (!empty($bookedfield)) {
             $available_fields = $available_fields->whereNotIn('id', $bookedfield);
         }
-        $available_fields = $available_fields->get();
-        return response()->json(["status" => 0, "message" => "Successful", 'fields' => $available_fields], 200);
+        $available_fields = $available_fields->get()->makeHidden(['sport_id','dome_id']);
+
+        return response()->json(["status" => 1, "message" => "Successful", 'fields' => $available_fields], 200);
     }
 }

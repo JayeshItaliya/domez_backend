@@ -73,7 +73,6 @@ class VendorController extends Controller
         $dome_owner = User::find($request->id);
         $dome = Domes::where('vendor_id',$dome_owner->id)->first();
         $sports = Sports::where('is_available',1)->where('is_deleted',2)->get();
-        // dd($dome->id);
         $dome_images = DomeImages::where('dome_id',$dome->id)->select('images')->get();
         return view('admin.vendors.view', compact('dome','dome_owner','sports','dome_images'));
     }

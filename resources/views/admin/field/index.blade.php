@@ -65,7 +65,7 @@
                                 <td>{{ $data->dome_name->name }}</td>
                             @endif
                             <td>{{ $data->name }}</td>
-                            <td>{{ $data->category_name->name }}</td>
+                            <td>{{ $data->sport_data->name }}</td>
                             <td>{{ $data->min_person }}</td>
                             <td>{{ $data->max_person }}</td>
                             @if (Auth::user()->type == 2)

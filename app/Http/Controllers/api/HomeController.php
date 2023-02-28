@@ -7,6 +7,7 @@ use App\Models\CMS;
 use App\Helper\Helper;
 use App\Models\Domes;
 use App\Models\Enquiries;
+use App\Models\Favourite;
 use App\Models\League;
 use App\Models\Sports;
 use App\Models\User;
@@ -193,24 +194,32 @@ class HomeController extends Controller
             }
 
             $responsedata = [];
+            $checkuser = User::where('id', $request->user_id)->where('type', 3)->first();
+            if (!empty($checkuser)) {
+                $favourite = Favourite::where('user_id', $checkuser->id)->where('dome_id', '!=', '')->select('dome_id')->get();
+            }
             foreach ($getfilterlist as $data) {
                 if ($request->type == 1) {
                     $image = $data->dome_image == "" ? "" : $data->dome_image->image;
                 } else {
                     $image = $data->league_image == "" ? "" : $data->league_image->image;
                 }
-                $responsedata[] = [
-                    "id" => $data->id,
-                    "dome_id" => $request->type == 1 ? '' : $data->dome_id,
-                    "sport_id" => $data->sport_id,
-                    "league_name" => $request->type == 1 ? '' : $data->name,
-                    "dome_name" => $request->type == 1 ? $data->name : $data->dome_info->name,
-                    "price" => $request->type == 1 ? rand(111, 999) : $data->price,
-                    "image" => $image,
-                    "city" => $request->type == 1 ? $data->city : $data->dome_info->city,
-                    "state" => $request->type == 1 ? $data->state : $data->dome_info->state,
-                    "sports_list" => Sports::select('id', 'name', DB::raw("CONCAT('" . url('storage/app/public/admin/images/sports') . "/', image) AS image"))->whereIn('id', explode('|', $data->sport_id))->where('is_available', 1)->where('is_deleted', 2)->get(),
-                ];
+                foreach ($favourite as $fav) {
+                    $responsedata[] = [
+                        "id" => $data->id,
+                        "type"=>$request->type == 1 ? 1 : 2,
+                        "league_name" => $request->type == 1 ? '' : $data->name,
+                        "dome_id" => $request->type == 1 ? '' : $data->dome_id,
+                        "dome_name" => $request->type == 1 ? $data->name : $data->dome_info->name,
+                        "price" => $request->type == 1 ? rand(111, 999) : $data->price,
+                        "image" => $image,
+                        "city" => $request->type == 1 ? $data->city : $data->dome_info->city,
+                        "state" => $request->type == 1 ? $data->state : $data->dome_info->state,
+                        "is_fav" => $request->user_id != "" ? ($data->dome_id == $fav->dome_id ? true : false) : '',
+                        "sport_id" => $data->sport_id,
+                        "sports_list" => Sports::select('id', 'name', DB::raw("CONCAT('" . url('storage/app/public/admin/images/sports') . "/', image) AS image"))->whereIn('id', explode('|', $data->sport_id))->where('is_available', 1)->where('is_deleted', 2)->get(),
+                    ];
+                }
             }
             return response()->json(['status' => 1, 'message' => 'Successfull', 'data' => $responsedata, 'pagination' => $getfilterlist->toArray()['links']], 200);
         } catch (\Throwable $th) {
@@ -229,7 +238,7 @@ class HomeController extends Controller
         if ($request->type == 1) {
             $getsearchlist = Domes::with('dome_image')->where('is_deleted', 2);
         } else {
-            $getsearchlist = League::with('league_image')->where('is_deleted', 2);
+            $getsearchlist = League::with('league_image', 'dome_info')->where('is_deleted', 2);
         }
         if ($request->has('name') && $request->name != "") {
             $getsearchlist = $getsearchlist->where('name', 'like', '%' . $request->name . '%');
@@ -247,8 +256,8 @@ class HomeController extends Controller
                 "dome_name" => $request->type == 1 ? $data->name : $data->dome_info->name,
                 "price" => $request->type == 1 ? rand(111, 999) : $data->price,
                 "image" => $image,
-                "city" => $data->city,
-                "state" => $data->state,
+                "city" => $request->type == 1 ? $data->city : $data->dome_info->city,
+                "state" => $request->type == 1 ? $data->state : $data->dome_info->state,
                 "sports_list" => Sports::select('id', 'name', DB::raw("CONCAT('" . url('storage/app/public/admin/images/sports') . "/', image) AS image"))->whereIn('id', explode('|', $data->sport_id))->where('is_available', 1)->where('is_deleted', 2)->get(),
             ];
         }
