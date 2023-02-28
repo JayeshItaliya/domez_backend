@@ -33,7 +33,7 @@
 
     @if (count($bookings) != 0)
         <div class="card">
-            <div class="card-body">
+            <div class="card-body table-responsive">
                 <div class="row">
                     <div class="col-6">
                         <div class="dropdown">
