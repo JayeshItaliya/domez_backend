@@ -7,14 +7,76 @@ use Illuminate\Http\Request;
 use App\Models\Domes;
 use App\Models\Booking;
 use App\Models\Field;
+use App\Models\League;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
 use Illuminate\Support\Facades\DB;
 
 class BookingController extends Controller
 {
-    public function booking(Request $request)
+    public function booking_list(Request $request)
     {
+        if ($request->user_id == "") {
+            return response()->json(["status" => 0, "message" => "Please Enter User ID"], 200);
+        }
+        if ($request->is_active == "") {
+            return response()->json(["status" => 0, "message" => "Please Enter Booking Type"], 200);
+        }
+        $bookings_list = Booking::where('user_id', $request->user_id)->orderByDesc('booking_date');
+
+        if ($request->is_active == true) {
+            $bookings_list = $bookings_list->where('end_date', '>=', Carbon::today()->format('Y-m-d'));
+        }
+        if ($request->is_active == false) {
+            $bookings_list = $bookings_list->where('end_date', '<=', Carbon::today()->format('Y-m-d'));
+        }
+        foreach ($bookings_list->get() as $booking) {
+            $dome = Domes::with('dome_image')->where('id', $booking->dome_id)->first();
+            if ($booking->league_id != '') {
+                $league = League::find($booking->league_id);
+            }
+            $bookinglist[] = [
+                "booking_id" => $booking->id,
+                "type" => $booking->type,
+                "field" => $booking->field_id,
+                "dome_name" => $dome->name,
+                "league_name" => $booking->league_id != '' ? $league->name : '',
+                "date" => $booking->type != 2 ? date('d M', strtotime($booking->start_date)) : date('d M', strtotime($booking->start_date)) . ' To ' . date('d M', strtotime($booking->end_date)),
+                "price" => $booking->total_amount,
+                'image' => $dome->dome_image->image,
+
+            ];
+        }
+        return response()->json(["status" => 1, "message" => "Success", 'bookings_list' => $bookinglist], 200);
+    }
+    public function booking_details(Request $request)
+    {
+        $booking = Booking::find($request->id);
+        if (!empty($booking)) {
+            $dome = Domes::with('dome_image')->where('id', $booking->dome_id)->first();
+            if ($booking->league_id != '') {
+                $league = League::find($booking->league_id);
+            }
+            $booking_details = [
+                "type" => $booking->type,
+                "field" => $booking->field_id,
+                "dome_name" => $dome->name,
+                "league_name" => $booking->league_id != '' ? $league->name : '',
+                "date" => $booking->type != 2 ? date('d M, Y', strtotime($booking->start_date)) : date('d M', strtotime($booking->start_date)) . ' To ' . date('d M', strtotime($booking->end_date)),
+                "time" => date('h A', strtotime($booking->start_time)) . ' To ' . date('h A', strtotime($booking->end_time)),
+                "players" => $booking->players,
+                "address" => $dome->address,
+                "sub_total" => $booking->total_amount,
+                "service_fee" => $booking->total_amount * 5 / 100,
+                "hst" => $booking->total_amount * $dome->hst / 100,
+                "total_amount" => $booking->total_amount + $booking->total_amount * 5 / 100 + $booking->total_amount * $dome->hst / 100,
+                'image' => $dome->dome_image->image,
+
+            ];
+            return response()->json(["status" => 1, "message" => "Success", 'booking_details' => $booking_details], 200);
+        } else {
+            return response()->json(["status" => 0, "message" => "Booking Not Found"], 200);
+        }
     }
     public function timeslots(Request $request)
     {
@@ -125,7 +187,7 @@ class BookingController extends Controller
         if (!empty($bookedfield)) {
             $available_fields = $available_fields->whereNotIn('id', $bookedfield);
         }
-        $available_fields = $available_fields->get()->makeHidden(['sport_id','dome_id']);
+        $available_fields = $available_fields->get()->makeHidden(['sport_id', 'dome_id']);
 
         return response()->json(["status" => 1, "message" => "Successful", 'fields' => $available_fields], 200);
     }

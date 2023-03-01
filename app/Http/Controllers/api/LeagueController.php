@@ -151,6 +151,8 @@ class LeagueController extends Controller
                 'max_player' => $league->max_player . ' Players ',
                 'price' => $league->price,
                 'price' => $league->price,
+                'hst' => $dome->hst,
+                'address' => $dome->address,
                 'city' => $dome->city,
                 'state' => $dome->state,
                 'lat' => $dome->lat,

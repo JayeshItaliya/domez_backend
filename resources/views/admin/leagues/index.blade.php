@@ -50,7 +50,7 @@
                     @php
                         $i = 1;
                     @endphp
-                    
+                            
                 </tbody>
             </table>
         </div>

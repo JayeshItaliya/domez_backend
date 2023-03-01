@@ -107,7 +107,7 @@ class BookingController extends Controller
                         Stripe\Stripe::setApiKey($stripekey);
                         $payment = Stripe\Charge::create([
                             "amount" => $request->total_amount * 100,
-                            "currency" => "USD",
+                            "currency" => "CAD",
                             "source" => $gettoken->id,
                             "description" => "Domez Payment",
                         ]);
@@ -151,7 +151,7 @@ class BookingController extends Controller
                         Stripe\Stripe::setApiKey($stripekey);
                         $payment = Stripe\Charge::create([
                             "amount" => $request->partial_amount * 100,
-                            "currency" => "USD",
+                            "currency" => "CAD",
                             "source" => $gettoken->id,
                             "description" => "Domez Payment",
                         ]);
