@@ -21,7 +21,7 @@ class ReviewController extends Controller
         if ($request->ratting == "") {
             return response()->json(["status" => 0, "message" => 'Enter Dome Ratting'], 200);
         }
-        if ( in_array($request->ratting,[1,2,3,4,5]) ) {
+        if (in_array($request->ratting, [1, 2, 3, 4, 5])) {
             $checkreview = Review::where('dome_id', $request->dome_id)->where('user_id', $request->user_id)->first();
             if (empty($checkreview)) {
                 $checkreview = new Review();
@@ -61,16 +61,20 @@ class ReviewController extends Controller
                 ->join('domes AS dome_table', function ($query) {
                     $query->on('reviews.dome_id', '=', 'dome_table.id');
                 })
+                ->leftJoin('users AS dome_owner', function ($query) {
+                    $query->on('dome_table.vendor_id', '=', 'dome_owner.id');
+                })
                 ->where('reviews.dome_id', $request->dome_id)
                 ->select(
                     'reviews.user_id',
                     'users_table.name as user_name',
                     'reviews.ratting',
+                    'reviews.created_at',
                     'dome_table.name as dome_name',
-                    DB::raw('DATE_FORMAT(reviews.created_at, "%d %M %Y") as ratting_created_at'),
+                    'dome_owner.name as dome_owner_name',
                     DB::raw('(CASE WHEN reviews.comment IS NULL THEN "" ELSE reviews.comment END) AS comment'),
-                    DB::raw('(CASE WHEN reviews.replied_at IS NULL THEN "" ELSE DATE_FORMAT(reviews.replied_at, "%d %M %Y") END) AS replied_at'),
                     DB::raw('(CASE WHEN reviews.reply_message IS NULL THEN "" ELSE reviews.reply_message END) AS reply_message'),
+                    DB::raw('(CASE WHEN reviews.replied_at IS NULL THEN "" ELSE DATE_FORMAT(reviews.replied_at, "%d %M %Y") END) AS replied_at'),
                     DB::raw("CONCAT('" . url('storage/app/public/admin/images/profiles') . "/', users_table.image) AS user_image")
                 )->orderByDesc('reviews.id')->paginate(5);
 
@@ -80,3 +84,5 @@ class ReviewController extends Controller
         }
     }
 }
+
+        // DB::raw('DATE_FORMAT(reviews.created_at, "%d %M %Y") as ratting_created_at'),

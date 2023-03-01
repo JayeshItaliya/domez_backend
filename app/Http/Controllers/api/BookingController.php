@@ -72,6 +72,7 @@ class BookingController extends Controller
                 "hst" => $booking->total_amount * $dome->hst / 100,
                 "total_amount" => $booking->total_amount + $booking->total_amount * 5 / 100 + $booking->total_amount * $dome->hst / 100,
                 'image' => $dome->dome_image->image,
+                'booking_created_at' => $booking->created_at,
 
             ];
             return response()->json(["status" => 1, "message" => "Success", 'booking_details' => $booking_details], 200);
