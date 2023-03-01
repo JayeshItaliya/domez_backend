@@ -32,7 +32,9 @@
             </div>
         </div>
     </div>
-    <form class="card" action="{{ URL::to('admin/vendors/store') }}" method="post" enctype="multipart/form-data">
+    <div class="card">
+        <div class="card-body">
+               <form class="card" action="{{ URL::to('admin/vendors/store') }}" method="post" enctype="multipart/form-data">
         @csrf
         <div class="card-body">
             <div class="row">
@@ -94,6 +96,9 @@
             <a href="{{ URL::to('admin/vendors') }}" class="btn btn-outline-danger w-auto">{{ trans('labels.cancel') }}</a>
         </div>
     </form>
+        </div>
+    </div>
+
 @endsection
 
 @section('scripts')
@@ -101,7 +106,7 @@
     <link rel="stylesheet" href="{{url('storage/app/public/admin/js/intelTelInput/intlTelInput.min.css')}}">
     <script src="{{url('storage/app/public/admin/js/intelTelInput/utils.js')}}"></script>
     <script>
-        var input = $('#phone');
+            var input = $('#phone');
         var iti = intlTelInput(input.get(0))
         iti.setCountry("in");
         input.on('countrychange', function(e) {

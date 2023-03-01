@@ -40,7 +40,7 @@
         @csrf
         <div class="card-body">
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-lg-6 col-md-12">
                     <label for="" class="form-label">{{ trans('labels.select_sports') }}</label>
                     <div class="d-flex">
                         @foreach ($sports as $sport)
@@ -88,25 +88,25 @@
                 </div>
                 <div class="col-md-6">
                     <div class="row">
-                        <div class="col-md-3">
+                        <div class="col-lg-3 col-md-6">
                             <div class="form-group">
                                 <label class="form-label">{{ trans('labels.start_date') }}</label>
                                 <input type="date" class="form-control" id="datepicker">
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-lg-3 col-md-6">
                             <div class="form-group">
                                 <label class="form-label">{{ trans('labels.end_date') }}</label>
                                 <input type="date" class="form-control" id="datepicker">
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-lg-3 col-md-6">
                             <div class="form-group">
                                 <label class="form-label" for="start_time">{{ trans('labels.start_time') }}</label>
                                 <input type="time" class="form-control " name="start_time" id="start_time">
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-lg-3 col-md-6">
                             <div class="form-group">
                                 <label class="form-label" for="end_time">{{ trans('labels.end_time') }}</label>
                                 <input type="time" class="form-control " name="end_time" id="end_time">
@@ -116,7 +116,7 @@
                 </div>
                 <div class="col-md-6">
                     <div class="row">
-                        <div class="col-md-2">
+                        <div class="col-lg-2 col-md-4">
                             <div class="form-group">
                                 <label class="form-label" for="from_age">{{ trans('labels.from_age') }}</label>
                                 <select class="form-select" id="from_age" name="from_age">
@@ -127,7 +127,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-lg-2 col-md-4">
                             <div class="form-group">
                                 <label class="form-label" for="to_age">{{ trans('labels.to_age') }}</label>
                                 <select class="form-select" id="to_age" name="to_age">
@@ -149,7 +149,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-lg-4 col-md-12">
                             <div class="form-group">
                                 <label class="form-label" for="min_player">{{ trans('labels.min_player') }}</label>
                                 <select class="form-select" id="min_player" name="min_player">
@@ -162,9 +162,9 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-lg-6 col-md-12">
                     <div class="row">
-                        <div class="col-md-4">
+                        <div class="col-lg-4 col-md-6">
                             <div class="form-group">
                                 <label class="form-label" for="max_player">{{ trans('labels.max_player') }}</label>
                                 <select class="form-select" id="max_player" name="max_player">
@@ -175,7 +175,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-lg-4 col-md-6">
                             <div class="form-group">
                                 <label class="form-label">{{ trans('labels.team_limit') }}</label>
                                 <select class="form-select" id="team_limit" name="team_limit">
@@ -186,7 +186,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-lg-4 col-md-6">
                             <div class="form-group">
                                 <label class="form-label">Price Per Team</label>
                                 <input type="number" placeholder="0" class="form-control ">
@@ -194,7 +194,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-lg-6 col-md-12">
                     <div class="form-group">
                         <label class="form-label">League Banner Images</label>
                         <input type="file" class="form-control mb-4">

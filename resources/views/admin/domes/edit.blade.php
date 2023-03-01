@@ -46,7 +46,7 @@
                 <div class="mb-4 col-sm-6">
                     <div class="row row-cols-lg-5 row-cols-md-4" id="sport_prices_input"></div>
                 </div>
-                <div class="mb-4 col-sm-6">
+                <div class="col-md-0 col-lg-6">
                     <div class="row">
                         <div class="col-sm-2">
                             <div class="col">
@@ -80,7 +80,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="mb-4 col-sm-6">
+                <div class="mb-4 col-sm-6 mt-3">
                     <label class="form-label" for="address">Dome Address</label>
                     <input type="text" class="form-control" name="address" value="{{ $dome->address }}" id="address"
                         placeholder="Please Enter Dome Address">
@@ -110,7 +110,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="mb-4 col-sm-6">
+                <div class="mb-4 col-sm-6 mt-3">
                     <label class="form-label" for="description">Dome Description</label>
                     <textarea class="form-control" name="description" value="{{ old('description') }}" id="description" rows="5"
                         placeholder="Please Enter Dome Description">{{ $dome->description }}</textarea>

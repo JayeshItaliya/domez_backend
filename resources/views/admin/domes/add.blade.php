@@ -66,10 +66,10 @@
                 </div>
             </div>
             <div class="row">
-                <div class="mb-4 col-sm-6">
+                <div class="col-mb-0 col-lg-6">
                     <div class="row row-cols-lg-5 row-cols-md-4" id="sport_prices_input"></div>
                 </div>
-                <div class="mb-4 col-sm-6">
+                <div class="col-mb-12 col-lg-6 mb-3 ">
                     <div class="row">
                         <div class="col-sm-2">
                             <div class="col">

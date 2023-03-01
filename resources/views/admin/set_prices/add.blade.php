@@ -79,10 +79,10 @@
                 </div>
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-md-1 mt-4">
+                        <div class="col-lg-1 col-md-12 mt-4 mb-md-2">
                             <p>Monday</p>
                         </div>
-                        <div class="col-md-11">
+                        <div class="col-lg-11 col-md-12">
                                 <div class="card">
                                     <div class="card-body">
                                         <div class="row" id="box">

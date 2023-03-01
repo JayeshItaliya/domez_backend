@@ -7,7 +7,7 @@
     <div class="card mb-3">
         <div class="card-body py-2">
             <div class="d-flex align-items-center justify-content-between">
-                <p class="text-secondary fw-semibold">{{ trans('labels.domes') }}</p>
+                <p class="text-secondary fw-semibold">{{ trans('labels.dome_details') }}</p>
                 <nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='%236c757d'/%3E%3C/svg%3E&#34;);"
                     aria-label="breadcrumb">
                     <ol class="breadcrumb m-0">
@@ -35,8 +35,8 @@
     <div class="card mb-3">
         <div class="card-body">
             <p class="mb-2 fw-semibold">{{ trans('labels.dome_owner') }}</p>
-            <div class="d-flex">
-                <div class="bg-gray col-lg-6">
+            <div class="d-flex bg-gray">
+                <div class=" col-lg-6 col-md-6">
                     <div class="px-3 py-2 d-flex">
                         <div class="col-md-4">
                             <label>{{ trans('labels.name') }}</label>
@@ -46,7 +46,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="bg-gray col-lg-6">
+                <div class="col-lg-6 col-md-6">
                     <div class="px-3 py-2 d-flex">
                         <div class="col-md-4">
                             <label>{{ trans('labels.status') }}</label>
@@ -58,7 +58,7 @@
                 </div>
             </div>
             <div class="d-flex mb-3">
-                <div class="col-lg-6">
+                <div class="col-lg-6 col-md-6">
                     <div class="px-3 py-2 d-flex">
                         <div class="col-md-4">
                             <label>{{ trans('labels.email') }}</label>
@@ -68,7 +68,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-6">
+                <div class="col-lg-6 col-md-6">
                     <div class="px-3 py-2 d-flex">
                         <div class="col-md-4">
                             <label>{{ trans('labels.phone_number') }}</label>
@@ -80,8 +80,8 @@
                 </div>
             </div>
             <p class="mb-2 fw-semibold">{{ trans('labels.dome_details') }}</p>
-            <div class="d-flex">
-                <div class="bg-gray col-lg-6">
+            <div class="d-flex bg-gray">
+                <div class="col-lg-6 col-md-6">
                     <div class="px-3 py-2 d-flex">
                         <div class="col-md-4">
                             <label>{{ trans('labels.dome_name') }}</label>
@@ -91,7 +91,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="bg-gray col-lg-6">
+                <div class="col-lg-6 col-md-6">
                     <div class="px-3 py-2 d-flex">
                         <div class="col-md-4">
                             <label>{{ trans('labels.hst') }}</label>
@@ -103,7 +103,7 @@
                 </div>
             </div>
             <div class="d-flex">
-                <div class="col-lg-6">
+                <div class="col-lg-6 col-md-6">
                     <div class="px-3 py-2 d-flex">
                         <div class="col-md-4">
                             <label>{{ trans('labels.start_time') }}</label>
@@ -113,7 +113,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-6">
+                <div class="col-lg-6 col-md-6">
                     <div class="px-3 py-2 d-flex">
                         <div class="col-md-4">
                             <label>{{ trans('labels.dome_address') }}</label>
@@ -124,8 +124,8 @@
                     </div>
                 </div>
             </div>
-            <div class="d-flex">
-                <div class="bg-gray col-lg-6">
+            <div class="d-flex bg-gray">
+                <div class="col-lg-6 col-md-6">
                     <div class="px-3 py-2 d-flex">
                         <div class="col-md-4">
                             <label>{{ trans('labels.end_time') }}</label>
@@ -135,7 +135,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="bg-gray col-lg-6">
+                <div class="col-lg-6 col-md-6">
                     <div class="px-3 py-2 d-flex">
                         <div class="col-md-4">
                             <label>{{ trans('labels.dome_description') }}</label>
@@ -147,7 +147,7 @@
                 </div>
             </div>
             <div class="d-flex">
-                <div class="col-lg-6">
+                <div class="col-lg-6 col-md-6">
                     <div class="px-3 py-2 d-flex">
                         <div class="col-md-4">
                             <label>{{ trans('labels.city') }}</label>
@@ -157,7 +157,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-6">
+                <div class="col-lg-6 col-md-6">
                     <div class="px-3 py-2 d-flex">
                         <div class="col-md-4">
                             <label>{{ trans('labels.pincode') }}</label>
@@ -168,13 +168,13 @@
                     </div>
                 </div>
             </div>
-            <div class="d-flex">
-                <div class="bg-gray col-lg-6">
+            <div class="d-flex bg-gray">
+                <div class="col-lg-6 col-md-6">
                     <div class="px-3 py-2 d-flex">
                         <div class="col-md-4">
                             <label>{{ trans('labels.amenities') }}</label>
                         </div>
-                        <div class="col-md-8">
+                        <div class="col-lg-8">
                             <ul class="d-flex">
                                 @foreach (explode('|', $dome->benefits) as $data)
                                     <li class="text-muted fs-7 me-3" style="list-style: inside">{{ $data }}</li>
@@ -183,7 +183,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="bg-gray col-lg-6">
+                <div class="col-lg-6 col-md-6">
                     <div class="px-3 py-2 d-flex">
                         <div class="col-md-4">
                             <label>{{ trans('labels.amenities_description') }}</label>
@@ -195,21 +195,21 @@
                 </div>
             </div>
             <div class="d-flex">
-                <div class="col-lg-6">
+                <div class="col-lg-6 col-md-6">
                     <div class="px-3 py-2 d-flex">
-                        <div class="col-md-4">
+                        <div class="col-lg-4 col-md-2">
                             <label>{{ trans('labels.sports') }}</label>
                         </div>
-                        <div class="col-md-8">
+                        <div class="col-lg-8 col-md-10">
                             <ul class="d-flex">
                                 @foreach ($sports as $sport)
-                                    <li class="text-muted fs-7 me-3" style="list-style: inside">{{ $sport->name }}</li>
+                                    <li class="text-muted fs-7 me-3 " style="list-style: inside">{{ $sport->name }}</li>
                                 @endforeach
                             </ul>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-6">
+                <div class="col-lg-6 col-md-6">
                     <div class="px-3 py-2 d-flex">
                         <div class="col-md-4">
                             <label>{{ trans('labels.state') }}</label>
@@ -221,7 +221,7 @@
                 </div>
             </div>
             <div class="d-flex">
-                <div class="bg-gray col-lg-6">
+                <div class="bg-gray col-lg-6 col-md-6">
                     <div class="px-3 py-2 d-flex">
                         <div class="col-md-4">
                             <label>{{ trans('labels.sports_price') }}</label>
@@ -229,13 +229,13 @@
                         <div class="col-md-8">
                             <ul class="d-flex">
                                 @foreach ($sports as $sport)
-                                    <li class="text-muted fs-7 me-3" style="list-style: inside">{{ $sport->name }}</li>
+                                    <li class="text-muted fs-7 me-3 me-mb-0" style="list-style: inside">{{ $sport->name }}</li>
                                 @endforeach
                             </ul>
                         </div>
                     </div>
                 </div>
-                <div class="bg-gray col-lg-6">
+                <div class="bg-gray col-lg-6 col-md-6">
                     <div class="px-3 py-2 d-flex">
                         <div class="col-md-4">
                             <label>{{ trans('labels.country') }}</label>

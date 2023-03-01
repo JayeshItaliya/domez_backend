@@ -67,7 +67,7 @@
             </div>
             <p class="my-3 fw-semibold">League Details</p>
             <div class="d-flex bg-gray">
-                <div class="col-lg-4 col-md-4">
+                <div class="col-lg-4 col-md-6">
                     <div class="px-3 py-2 d-flex">
                         <div class="col-md-4">
                             <label>Team Limit</label>
@@ -77,7 +77,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-4 col-md-4">
+                <div class="col-lg-4 col-md-6">
                     <div class="px-3 py-2 d-flex">
                         <div class="col-md-4">
                             <label>Price (Per team)</label>
@@ -89,7 +89,7 @@
                 </div>
             </div>
             <div class="d-flex">
-                <div class="col-lg-4 col-md-4">
+                <div class="col-lg-4 col-md-6">
                     <div class="px-3 py-2 d-flex">
                         <div class="col-md-4">
                             <label>Start Date</label>
@@ -99,7 +99,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-4 col-md-4">
+                <div class="col-lg-4 col-md-6">
                     <div class="px-3 py-2 d-flex">
                         <div class="col-md-4">
                             <label>End Date<label>
@@ -111,7 +111,7 @@
                 </div>
             </div>
             <div class="d-flex bg-gray">
-                <div class="col-lg-4 col-md-4">
+                <div class="col-lg-4 col-md-6">
                     <div class="px-3 py-2 d-flex">
                         <div class="col-md-4">
                             <label>Start Time</label>
@@ -121,7 +121,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-4 col-md-4">
+                <div class="col-lg-4 col-md-6">
                     <div class="px-3 py-2 d-flex">
                         <div class="col-md-4">
                             <label>End Time</label>
@@ -133,7 +133,7 @@
                 </div>
             </div>
             <div class="d-flex">
-                <div class="col-lg-4 col-md-4">
+                <div class="col-lg-4 col-md-6">
                     <div class="px-3 py-2 d-flex">
                         <div class="col-md-4">
                             <label>Min Players</label>
@@ -143,7 +143,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-4 col-md-4">
+                <div class="col-lg-4 col-md-6">
                     <div class="px-3 py-2 d-flex">
                         <div class="col-md-4">
                             <label>Max Players</label>
@@ -155,7 +155,7 @@
                 </div>
             </div>
             <div class="d-flex bg-gray">
-                <div class="col-lg-4 col-md-4">
+                <div class="col-lg-4 col-md-6">
                     <div class="px-3 py-2 d-flex">
                         <div class="col-md-4">
                             <label>Age</label>
@@ -165,7 +165,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-4 col-md-4">
+                <div class="col-lg-4 col-md-6">
                     <div class="px-3 py-2 d-flex">
                         <div class="col-md-4">
                             <label>Gender</label>

@@ -67,7 +67,7 @@
                                     placeholder="+1 98765 43210">
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-lg-6 col-md-12">
                             <div class="mb-3">
                                 <label class="form-label">Profile Image(Optional)</label>
                                 <input type="file" class="form-control mt-2 mb-4">
