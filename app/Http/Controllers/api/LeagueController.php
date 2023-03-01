@@ -12,6 +12,10 @@ use App\Models\League;
 use App\Models\Review;
 use App\Models\Sports;
 use App\Models\User;
+use Carbon\CarbonPeriod;
+use DateInterval;
+use DatePeriod;
+use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -134,15 +138,23 @@ class LeagueController extends Controller
             ];
         }
         if (!empty($league)) {
+            $datetime1 = new DateTime($league->start_date);
+            $datetime2 = new DateTime($league->end_date);
+            $interval = $datetime1->diff($datetime2);
+            $startDate2 = new \DateTime(date('m/d'));
+            $endDate2 = new \DateTime(date('m/d', strtotime("+7 day")));
+            for ($date = $startDate2; $date < $endDate2; $date->modify('+1 day')) {
+                $daylist[] = $date->format('D');
+            }
             $league_data = array(
                 'id' => $league->id,
                 'league_name' => $league->name,
                 'dome_name' => $dome->name,
-                "fields" => '',
-                "days" => '',
-                "total_games" => '',
+                "fields" => '1 & 3',
+                "days" => implode(' | ', $daylist),
+                "total_games" => $interval->format('%a'),
                 "time" => $league->start_time . ' To ' . $league->end_time,
-                "date" => date('d/m/Y',strtotime($league->start_date)) . ' To ' . date('d/m/Y',strtotime($league->end_date)),
+                "date" => date('d/m/Y', strtotime($league->start_date)) . ' To ' . date('d/m/Y', strtotime($league->end_date)),
                 'gender' => $league->gender == 1 ? 'Male' : ($league->gender == 2 ? 'Female' : 'Other'),
                 'age' => $league->from_age . ' Years' . ' To ' . $league->to_age . ' Years',
                 'sport' => Sports::find($league->sport_id)->name,

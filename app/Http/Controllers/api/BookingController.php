@@ -24,12 +24,13 @@ class BookingController extends Controller
         }
         $bookings_list = Booking::where('user_id', $request->user_id)->orderByDesc('booking_date');
 
-        if ($request->is_active == true) {
+        if ($request->is_active == 1) {
             $bookings_list = $bookings_list->where('end_date', '>=', Carbon::today()->format('Y-m-d'));
         }
-        if ($request->is_active == false) {
+        if ($request->is_active == 2) {
             $bookings_list = $bookings_list->where('end_date', '<=', Carbon::today()->format('Y-m-d'));
         }
+        $bookinglist = [];
         foreach ($bookings_list->get() as $booking) {
             $dome = Domes::with('dome_image')->where('id', $booking->dome_id)->first();
             if ($booking->league_id != '') {
