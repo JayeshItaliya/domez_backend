@@ -21,7 +21,7 @@ class DatabaseSeeder extends Seeder
         \App\Models\Field::factory(0)->create();
         \App\Models\Domes::factory(0)->create();
         \App\Models\League::factory(0)->create();
-        \App\Models\Favourite::factory(10)->create();
+        \App\Models\Favourite::factory(0)->create();
 
         // \App\Models\User::factory()->create([
         //     'name' => 'Test User',

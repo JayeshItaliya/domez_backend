@@ -207,7 +207,7 @@ class HomeController extends Controller
                 foreach ($favourite as $fav) {
                     $responsedata[] = [
                         "id" => $data->id,
-                        "type"=>$request->type == 1 ? 1 : 2,
+                        "type" => $request->type == 1 ? 1 : 2,
                         "league_name" => $request->type == 1 ? '' : $data->name,
                         "dome_id" => $request->type == 1 ? '' : $data->dome_id,
                         "dome_name" => $request->type == 1 ? $data->name : $data->dome_info->name,
@@ -245,13 +245,17 @@ class HomeController extends Controller
         }
         $getsearchlist = $getsearchlist->paginate(10);
         foreach ($getsearchlist as $data) {
+            $dome_id = "";
             if ($request->type == 1) {
+                $dome_id = $data->id;
                 $image = $data->dome_image == "" ? "" : $data->dome_image->image;
             } else {
+                $league_id = $data->id;
                 $image = $data->league_image == "" ? "" : $data->league_image->image;
             }
             $responsedata[] = [
                 "id" => $data->id,
+                "is_fav" => $request->user_id != "" ? Helper::is_fav($request->user_id, $dome_id, $league_id) : false,
                 "league_name" => $request->type == 1 ? '' : $data->name,
                 "dome_name" => $request->type == 1 ? $data->name : $data->dome_info->name,
                 "price" => $request->type == 1 ? rand(111, 999) : $data->price,

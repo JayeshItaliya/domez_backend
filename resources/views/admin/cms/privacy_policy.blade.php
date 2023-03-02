@@ -2,14 +2,33 @@
 @section('styles')
 @endsection
 @section('title')
-    Privacy Policy
+    {{ trans('labels.privacy_policy') }}
+@endsection
+@section('styles')
+    <style>
+        #container {
+            width: 1000px;
+            margin: 20px auto;
+        }
+
+        .ck-editor__editable[role="textbox"] {
+            /* editing area */
+            min-height: 200px;
+        }
+
+        .ck-content .image {
+            /* block images */
+            max-width: 80%;
+            margin: 20px auto;
+        }
+    </style>
 @endsection
 @section('contents')
     <!-- Title -->
     <div class="card mb-3">
         <div class="card-body py-2">
             <div class="d-flex align-items-center justify-content-between">
-                <p class="text-secondary fw-semibold">Privacy Policy</p>
+                <p class="text-secondary fw-semibold">{{ trans('labels.privacy_policy') }}</p>
                 <nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='%236c757d'/%3E%3C/svg%3E&#34;);"
                     aria-label="breadcrumb">
                     <ol class="breadcrumb m-0">
@@ -26,8 +45,8 @@
                                 </svg>
                             </a>
                         </li>
-                        <li class="breadcrumb-item">General Settings</li>
-                        <li class="breadcrumb-item active" aria-current="page">Privacy Policy</li>
+                        <li class="breadcrumb-item">{{ trans('labels.general_settings') }}</li>
+                        <li class="breadcrumb-item active" aria-current="page">{{ trans('labels.privacy_policy') }}</li>
                     </ol>
                 </nav>
             </div>
@@ -35,76 +54,32 @@
     </div>
     <div class="card">
         <div class="card-body">
-            <div id="editor">
-                <p>This is some sample content.</p>
-            </div>
+            <textarea id="editor"></textarea>
         </div>
     </div>
 @endsection
 @section('scripts')
-    <script src="https://cdn.ckeditor.com/ckeditor5/36.0.1/classic/ckeditor.js"></script>
+    <script src="{{ url('storage/app/public/admin/js/ckeditor/ckeditor.js') }}"></script>
 
     <script>
-    ClassicEditor.create( document.querySelector( '#editor' ), {
-	language: 'en',
-	toolbar: {
-		shouldNotGroupWhenFull: true,
-		items: [
-			'undo',
-			'redo',
-			'|',
-			'sourceEditing',
-			'|',
-			'importWord',
-			'exportWord',
-			'exportPdf',
-			'|',
-			'findAndReplace',
-			'selectAll',
-			'wproofreader',
-			'|',
-			'link',
-			'insertImage',
-			'insertTable',
-			'blockQuote',
-			'mediaEmbed',
-			'codeBlock',
-			'htmlEmbed',
-			'pageBreak',
-			'horizontalLine',
-			'-',
-			'heading',
-			'style',
-			'|',
-			'bold',
-			'italic',
-			'underline',
-			'strikethrough',
-			'superscript',
-			'subscript',
-			{
-				label: 'Basic styles',
-				icon: 'text',
-				items: [ 'fontSize',
-				'fontFamily',
-				'fontColor',
-				'fontBackgroundColor',
-				'code',
-				'|',
-				'textPartLanguage',
-				'|' ]
-			}, 'removeFormat',
-			'|',
-			'alignment',
-			'|',
-			'bulletedList',
-			'numberedList',
-			'todoList',
-			'|',
-			'outdent',
-			'indent'
-		]
-	},
-} );
+        ClassicEditor.create(document.querySelector('#editor'), {
+                toolbar: ['htmlEmbed', /* ... */ ],
+                htmlEmbed: {
+                    showPreviews: true,
+                    sanitizeHtml: (inputHtml) => {
+                        // Strip unsafe elements and attributes, e.g.:
+                        // the `<script>` elements and `on*` attributes.
+                        const outputHtml = sanitize(inputHtml);
+
+                        return {
+                            html: outputHtml,
+                            // true or false depending on whether the sanitizer stripped anything.
+                            hasChanged: true
+                        };
+                    }
+                }
+            })
+            .then( /* ... */ )
+            .catch( /* ... */ );
     </script>
 @endsection

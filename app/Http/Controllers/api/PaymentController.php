@@ -78,7 +78,7 @@ class PaymentController extends Controller
         if ($request->players == "") {
             return response()->json(["status" => 0, "message" => "Please Enter Numbers Of Players"], 200);
         }
-        if ($request->payment_method == 2 || $request->payment_method == 3 && $request->transaction_id == "") {
+        if ( in_array($request->payment_method, [2,3]) && $request->transaction_id == "") {
             return response()->json(["status" => 0, "message" => "Please Enter Transaction ID"], 200);
         }
         if ($request->booking_type == 2 && $request->team_name == "") {

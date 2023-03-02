@@ -105,6 +105,11 @@
         @if (Session::has('warning'))
             toastr.warning("{{ session('warning') }}");
         @endif
+
+        $(function(){
+            $('form, input,textarea ').attr("autocomplete", 'off');
+        });
+
     </script>
     @yield('scripts')
 

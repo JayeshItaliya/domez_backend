@@ -17,9 +17,10 @@ class ReviewFactory extends Factory
     public function definition()
     {
         return [
-            "dome_id" => $this->faker->numberBetween(1,4),
-            "user_id" => $this->faker->numberBetween(3,6),
+            "dome_id" => $this->faker->numberBetween(35,40),
+            "user_id" => $this->faker->numberBetween(3,16),
             "ratting" => $this->faker->numberBetween(1,5),
+            "comment" => 'Very Good Experience',
         ];
     }
 }

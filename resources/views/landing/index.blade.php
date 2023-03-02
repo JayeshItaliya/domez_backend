@@ -34,7 +34,7 @@
         {{-- Header Area Start  --}}
         <header class="container header-section">
             <nav class="navbar navbar-expand-lg navbar-light">
-                <a class="navbar-brand logo-img" href="{{URL::to('/')}}"><img
+                <a class="navbar-brand logo-img" href="{{ URL::to('/') }}"><img
                         src="{{ url('storage/app/public/admin/images/landing/logo.png') }}" /></a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse"
                     data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
@@ -69,8 +69,10 @@
                     <h2 class="text-capitalize">the most advanced <br> booking system for your dome</h2>
                     <p>get bookings faster than ever before through the DOMEZ
                         mobile application!</p>
-                    <a href="{{URL::to('contact')}}" class="btn btn-success dmz-button px-4" data-bs-toggle="tooltip" data-bs-placement="right"
-                        data-bs-title="Dear Dome Owner, If you want to join your dome service with us then please press the get to connect button and send your details to the master admin.">Get Started</a>
+                    <a href="{{ URL::to('contact') }}" class="btn btn-success dmz-button px-4" data-bs-toggle="tooltip"
+                        data-bs-placement="right"
+                        data-bs-title="Dear Dome Owner, If you want to join your dome service with us then please press the get to connect button and send your details to the master admin.">Get
+                        Started</a>
                 </div>
                 <div class="banner-images wow fadeInDown animated animated">
                     <img class="w-100" src="{{ url('storage/app/public/admin/images/landing/OBJECTS.png') }}" />
@@ -83,7 +85,8 @@
         <section class="properly-games small-padding">
             <div class="container">
                 <h1 class="heading-title wow fadeInDown delay-0-2s animated">Most Popular Sports</h1>
-                <p class="mb-4 text-center text-muted fw-semibold">List the Sports and Games That Your Dome Offers on the DOMEZ Mobile App!</p>
+                <p class="mb-4 text-center text-muted fw-semibold">List the Sports and Games That Your Dome Offers on
+                    the DOMEZ Mobile App!</p>
                 <div class="row justify-content-center py-5">
                     <div class="col-lg-3 col-md-6 col-auto mb-3">
                         <div class="most-games-box position-relative" data-wow-duration="1s">
@@ -138,11 +141,14 @@
                             <h2 class="wow fadeInDown  delay-0-2s animated">Monitor Your Revenue, Number of Bookings
                                 and
                                 Number of Users Daily.</h2>
-                            <p class="text-muted fw-semibold">Domez provides a complete suite of tools to manage your bookings and payments processes.
+                            <p class="text-muted fw-semibold">Domez provides a complete suite of tools to manage your
+                                bookings and payments processes.
                                 At the centre of everything we do are the sports facilities themselves.</p>
-                            <p class="text-muted fw-semibold">By their very nature, sports facilities vary based on a wide range of factors. Location,
+                            <p class="text-muted fw-semibold">By their very nature, sports facilities vary based on a
+                                wide range of factors. Location,
                                 opening times, typically booking slot lengths, facility types and much more.</p>
-                            <p class="text-muted fw-semibold">At Domez, our sole focus is an online platform for sports facilities. This allows us to
+                            <p class="text-muted fw-semibold">At Domez, our sole focus is an online platform for sports
+                                facilities. This allows us to
                                 focus on creating a platform that caters to the specific requirements of pitches,
                                 courts, halls and other playing surfaces.</p>
                             <button class="btn btn-success wow fadeInRight delay-0-2s animated">Get Started</button>
@@ -154,7 +160,8 @@
                         class="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 right-column m-0 align-items-center text-md-start  ps-3 pe-3">
                         <div class="game-details-text" data-wow-duration="2s">
                             <h2 class="wow fadeInDown  delay-0-2s animated">Domez Solved the Problem!</h2>
-                            <p class="text-muted fw-semibold">Now each player can pay their portion since the app splits the amount among the number of
+                            <p class="text-muted fw-semibold">Now each player can pay their portion since the app
+                                splits the amount among the number of
                                 players equally through shared access to the booking. No more the hassle of paying back
                                 and missed calculations after each match. An option to pay in full is also offered if
                                 one player would like to pay for the whole booking fee.</p>
@@ -186,10 +193,12 @@
                         class="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 right-column m-0 align-items-center text-md-start  ps-3 pe-3">
                         <div class="game-details-text" data-wow-duration="2s">
                             <h2 class="wow fadeInDown  delay-0-2s animated">Book a sports<br>facility near you</h2>
-                            <p class="text-muted fw-semibold">At the Domez , we can offer your team a personalized playing experience due to our
+                            <p class="text-muted fw-semibold">At the Domez , we can offer your team a personalized
+                                playing experience due to our
                                 adaptable playing surface. With outfield fences for Volleyball, and Soccer Goals, and
                                 Tennis, and Golf, the Domez can easily be customized to fit your specific needs.</p>
-                            <p class="text-muted fw-semibold">Contact us today, and we can take you through the<br>set-ups we can provide!</p>
+                            <p class="text-muted fw-semibold">Contact us today, and we can take you through
+                                the<br>set-ups we can provide!</p>
                             <button class="btn btn-success dmz-button wow fadeInRight delay-0-2s animated">Get
                                 Started</button>
                         </div>
@@ -204,7 +213,8 @@
                         <div class="rev_slide">
                             <div class="test">
                                 <div class="client-img">
-                                    <img src="{{ url('storage/app/public/admin/images/landing/Eddie-Jacobs.png') }}" />
+                                    <img
+                                        src="{{ url('storage/app/public/admin/images/landing/Eddie-Jacobs.png') }}" />
                                 </div>
                                 <div class="client-infomation mt-4">
                                     <div class="client-name">Eddie Jacobs</div>
@@ -221,7 +231,8 @@
                         <div class="rev_slide">
                             <div class="test">
                                 <div class="client-img">
-                                    <img src="{{ url('storage/app/public/admin/images/landing/Eddie-Jacobs.png') }}" />
+                                    <img
+                                        src="{{ url('storage/app/public/admin/images/landing/Eddie-Jacobs.png') }}" />
                                 </div>
                                 <div class="client-infomation mt-4">
                                     <div class="client-name">Eddie Jacobs</div>
@@ -244,33 +255,53 @@
                 <div class="row  align-items-center">
                     <div class="col-lg-6 pt-sm-5">
                         <div class="game-details-text" data-wow-duration="2s">
-                            <h2 class="wow fadeInDown  delay-0-2s animated">Do you have any questions?
-                                We are here to help!
-                            </h2>
-                            <form action="{{URL::to('/')}}" method="post">
+                            <h2 class="wow fadeInDown  delay-0-2s animated">Do you have any questions? We are here to
+                                help!</h2>
+                            <form action="{{ URL::to('general-enquiries') }}" method="post">
+                                @csrf
                                 <div class="row">
                                     <div class="col-6">
                                         <div class="form-group">
                                             <label for="name" class="form-label fw-semibold">Name</label>
-                                            <input class="form-control" type="name" name="name" id="name" placeholder="Enter Name">
+                                            <input class="form-control" autocomplete="off" type="name"
+                                                name="name" value="{{ old('name') }}" id="name"
+                                                placeholder="Name" required>
+                                            @error('name')
+                                                <span class="text-danger">{{ $message }}</span>
+                                            @enderror
                                         </div>
                                     </div>
                                     <div class="col-6">
                                         <div class="form-group">
                                             <label for="email" class="form-label fw-semibold">Email</label>
-                                            <input class="form-control" type="email" name="email" id="email" placeholder="Enter Email">
+                                            <input class="form-control" autocomplete="off" type="email"
+                                                name="email" value="{{ old('email') }}" id="email"
+                                                placeholder="Email" required>
+                                            @error('email')
+                                                <span class="text-danger">{{ $message }}</span>
+                                            @enderror
                                         </div>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="subject" class="form-label fw-semibold">Subject</label>
-                                    <input class="form-control" type="subject" name="subject" id="subject" placeholder="Enter Subject">
+                                    <input class="form-control" autocomplete="off" type="subject" name="subject"
+                                        value="{{ old('subject') }}" id="subject" placeholder="Subject"
+                                        required>
+                                    @error('subject')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
                                 </div>
                                 <div class="form-group">
                                     <label for="message" class="form-label fw-semibold">Message</label>
-                                    <textarea class="form-control" type="message" name="message" id="message" placeholder="Enter Message" rows="5"></textarea>
+                                    <textarea class="form-control" autocomplete="off" type="message" name="message" value="{{ old('message') }}"
+                                        id="message" placeholder="Message" rows="5" required></textarea>
+                                    @error('message')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
                                 </div>
-                                <button type="submit" class="btn btn-success dmz-button wow fadeInRight delay-0-2s animated">Send your
+                                <button type="submit"
+                                    class="btn btn-success dmz-button wow fadeInRight delay-0-2s animated">Send your
                                     message</button>
                             </form>
                         </div>
@@ -394,7 +425,7 @@
                     <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12 ps-sm-0">
                         <div class="footer-box wow fadeInDown delay-0-4s animated">
                             <div class="logo-img mb-4 w-100">
-                                <a href="{{URL::to('/')}}"><img class="footer-logo"
+                                <a href="{{ URL::to('/') }}"><img class="footer-logo"
                                         src="{{ url('storage/app/public/admin/images/landing/Domez-Logo-name-white.png') }}" /></a>
                             </div>
                             <p class="footer-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
@@ -450,7 +481,7 @@
             <div class="container border-top">
                 <div class="row">
                     <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 footer-bottom">
-                        <p class="copright-text m-0 py-3"><a href="{{URL::to('/')}}"
+                        <p class="copright-text m-0 py-3"><a href="{{ URL::to('/') }}"
                                 class="text-decoration-none text-copyright wow fadeInLeft delay-0-2s animated">Copyright
                                 © 2023. All rights reserved.</a></p>
                     </div>
@@ -466,6 +497,20 @@
     <script src="{{ url('storage/app/public/admin/js/toastr/toastr.min.js') }}"></script>
     <script src="{{ url('storage/app/public/admin/js/slick/slick.min.js') }}"></script>
     <script src="{{ url('storage/app/public/admin/js/custom.js') }}"></script>
+    <script>
+        @if (Session::has('success'))
+            toastr.success("{{ session('success') }}");
+        @endif
+        @if (Session::has('error'))
+            toastr.error("{{ session('error') }}");
+        @endif
+        @if (Session::has('info'))
+            toastr.info("{{ session('info') }}");
+        @endif
+        @if (Session::has('warning'))
+            toastr.warning("{{ session('warning') }}");
+        @endif
+    </script>
     <script>
         const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
         const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
