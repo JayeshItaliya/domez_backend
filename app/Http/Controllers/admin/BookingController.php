@@ -18,11 +18,16 @@ class BookingController extends Controller
     public function index(Request $request)
     {
         if (Auth::user()->type == 1) {
-            $getbookingslist = Booking::get();
+            $getbookingslist = Booking::orderByDesc('id')->get();
         } else {
-            $getbookingslist = Booking::where('vendor_id', Auth::user()->id)->get();
+            $getbookingslist = Booking::where('vendor_id', Auth::user()->id)->orderByDesc('id')->get();
         }
         return view('admin.bookings.index', compact('getbookingslist'));
+    }
+    public function details(Request $request)
+    {
+        $bookingdata = Booking::where('booking_id', $request->booking_id)->first();
+        return view('admin.bookings.details', compact('bookingdata'));
     }
     public function booking(Request $request)
     {
@@ -187,9 +192,5 @@ class BookingController extends Controller
         } else {
             abort(404);
         }
-    }
-    public function details(Request $request)
-    {
-        return view('admin.bookings.details');
     }
 }
