@@ -8,9 +8,14 @@ use App\Models\Domes;
 use App\Models\Booking;
 use App\Models\Field;
 use App\Models\League;
+use App\Models\Transaction;
+use App\Models\User;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
+use DateTime;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\URL;
 
 class BookingController extends Controller
 {
@@ -45,6 +50,7 @@ class BookingController extends Controller
                 "date" => $booking->type != 2 ? date('d M', strtotime($booking->start_date)) : date('d M', strtotime($booking->start_date)) . ' To ' . date('d M', strtotime($booking->end_date)),
                 "price" => $booking->total_amount,
                 'image' => $dome->dome_image->image,
+                'payment_type' => $booking->payment_type,
 
             ];
         }
@@ -58,21 +64,45 @@ class BookingController extends Controller
             if ($booking->league_id != '') {
                 $league = League::find($booking->league_id);
             }
+            $datetime1 = new DateTime($league->start_date);
+            $datetime2 = new DateTime($league->end_date);
+            $interval = $datetime1->diff($datetime2);
+            $startDate2 = new \DateTime(date('m/d'));
+            $endDate2 = new \DateTime(date('m/d', strtotime("+7 day")));
+            for ($date = $startDate2; $date < $endDate2; $date->modify('+1 day')) {
+                $daylist[] = $date->format('D');
+            }
+
+            $gettransaction = Transaction::leftJoin('users AS user', function ($query) {
+                $query->on('transactions.user_id', '=', 'user.id');
+                // ->where('user_id','!=','')->where('user_id','>',0);
+            })
+            ->where('transactions.booking_id', $booking->booking_id)->select('transactions.user_id','transactions.contributor_name','transactions.amount', DB::raw('(CASE WHEN transactions.user_id IS NULL THEN "https://via.placeholder.com/150" ELSE "" END) AS contributor_image_url'),
+            DB::raw("CONCAT('" . url('storage/app/public/admin/images/users') . "/', user.image) AS user_image")
+            )->get()->toArray();
+
             $booking_details = [
                 "type" => $booking->type,
                 "field" => $booking->field_id,
                 "dome_name" => $dome->name,
                 "league_name" => $booking->league_id != '' ? $league->name : '',
+                "days" => implode(' | ', $daylist),
+                "total_games" => $interval->format('%a'),
                 "date" => $booking->type != 2 ? date('d M, Y', strtotime($booking->start_date)) : date('d M', strtotime($booking->start_date)) . ' To ' . date('d M', strtotime($booking->end_date)),
                 "time" => date('h A', strtotime($booking->start_time)) . ' To ' . date('h A', strtotime($booking->end_time)),
                 "players" => $booking->players,
                 "address" => $dome->address,
+                "city" => $dome->city,
+                "state" => $dome->state,
                 "sub_total" => $booking->total_amount,
                 "service_fee" => $booking->total_amount * 5 / 100,
                 "hst" => $booking->total_amount * $dome->hst / 100,
                 "total_amount" => $booking->total_amount + $booking->total_amount * 5 / 100 + $booking->total_amount * $dome->hst / 100,
-                'image' => $dome->dome_image->image,
-                'booking_created_at' => $booking->created_at,
+                "image" => $dome->dome_image->image,
+                "booking_created_at" => $booking->created_at,
+                "user_info" => $booking->user_info,
+                "payment_link" => URL::to('/payment/' . $booking->token),
+                "other_contributors" => $gettransaction,
 
             ];
             return response()->json(["status" => 1, "message" => "Success", 'booking_details' => $booking_details], 200);

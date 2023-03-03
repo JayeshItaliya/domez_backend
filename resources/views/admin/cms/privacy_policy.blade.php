@@ -5,23 +5,7 @@
     {{ trans('labels.privacy_policy') }}
 @endsection
 @section('styles')
-    <style>
-        #container {
-            width: 1000px;
-            margin: 20px auto;
-        }
-
-        .ck-editor__editable[role="textbox"] {
-            /* editing area */
-            min-height: 200px;
-        }
-
-        .ck-content .image {
-            /* block images */
-            max-width: 80%;
-            margin: 20px auto;
-        }
-    </style>
+    <link rel="stylesheet" href="{{ url('storage/app/public/admin/plugins/richtexteditor/rte_theme_default.css') }}" />
 @endsection
 @section('contents')
     <!-- Title -->
@@ -54,32 +38,19 @@
     </div>
     <div class="card">
         <div class="card-body">
-            <textarea id="editor"></textarea>
+            <form action="" method="post">
+                @csrf
+                <textarea name="" class="mb-3" id="ckeditor"></textarea>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
         </div>
     </div>
 @endsection
 @section('scripts')
-    <script src="{{ url('storage/app/public/admin/js/ckeditor/ckeditor.js') }}"></script>
-
-    <script>
-        ClassicEditor.create(document.querySelector('#editor'), {
-                toolbar: ['htmlEmbed', /* ... */ ],
-                htmlEmbed: {
-                    showPreviews: true,
-                    sanitizeHtml: (inputHtml) => {
-                        // Strip unsafe elements and attributes, e.g.:
-                        // the `<script>` elements and `on*` attributes.
-                        const outputHtml = sanitize(inputHtml);
-
-                        return {
-                            html: outputHtml,
-                            // true or false depending on whether the sanitizer stripped anything.
-                            hasChanged: true
-                        };
-                    }
-                }
-            })
-            .then( /* ... */ )
-            .catch( /* ... */ );
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ckeditor/4.12.1/ckeditor.js"></script>
+    <script type="text/javascript">
+        CKEDITOR.replace('ckeditor',{
+            height: '500',
+        });
     </script>
 @endsection

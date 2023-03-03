@@ -13,16 +13,16 @@
     <link rel="stylesheet" href="{{ url('storage/app/public/admin/css/toastr/toastr.min.css') }}">
     <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.21.2/dist/bootstrap-table.min.css">
     <link rel="stylesheet" href="{{ url('storage/app/public/admin/css/datatable/datatables.min.css') }}">
-    @yield('styles')
     <link rel="stylesheet" href="{{ url('storage/app/public/admin/css/custom.css') }}">
     <link rel="stylesheet" href="{{ url('storage/app/public/admin/css/responsive.css') }}">
+    @yield('styles')
 </head>
 
 <body>
     <!-- PreLoader -->
     <div id="preloader">
         <div id="status">
-            <img src="{{Helper::image_path('preloader.gif')}}" width="150" height="150" alt="Prealoader">
+            <img src="{{ Helper::image_path('preloader.gif') }}" width="150" height="150" alt="Prealoader">
         </div>
     </div>
     <main>
@@ -66,15 +66,15 @@
     <script src="{{ url('storage/app/public/admin/js/datatable/dataTables.bootstrap5.min.js') }}"></script>
     <script src="{{ url('storage/app/public/admin/js/custom.js') }}"></script>
     <script>
-
         let are_you_sure = {{ Js::from(trans('messages.are_you_sure')) }};
         let yes = {{ Js::from(trans('messages.yes')) }};
         let no = {{ Js::from(trans('messages.no')) }};
         let wrong = {{ Js::from(trans('messages.wrong')) }};
         let oops = {{ Js::from(trans('messages.oops')) }};
         let is_vendor = {{ Js::from(Auth::user()->type == 2 ? true : false) }};
+        let systempath = {{ js::from(URL::to('').'/storage/app/public/admin/plugins/richtexteditor') }};
 
-        $(document).ready(function(){
+        $(document).ready(function() {
             $('#bootstrapTable').bootstrapTable({
                 toolbar: ".toolbar",
                 clickToSelect: false,
@@ -106,10 +106,9 @@
             toastr.warning("{{ session('warning') }}");
         @endif
 
-        $(function(){
+        $(function() {
             $('form, input,textarea ').attr("autocomplete", 'off');
         });
-
     </script>
     @yield('scripts')
 

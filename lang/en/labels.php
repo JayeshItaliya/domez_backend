@@ -83,6 +83,8 @@ return [
     'action' => 'Action',
     'profile_image' => 'Profile Image',
     'optional' => 'Optional',
+    // Users
+    'users_list' => 'Users List',
     // Domes
     'default_price' => 'Default Price',
     'domes_list' => 'Domes List',
@@ -122,4 +124,6 @@ return [
     'min_player' => 'Min Player',
     'max_player' => 'Max Player',
     'team_limit' => 'Team Limit',
+    // Enquiry
+    'dome_requests' => 'Dome Requests',
 ];

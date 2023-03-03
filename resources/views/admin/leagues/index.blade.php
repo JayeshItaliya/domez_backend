@@ -37,6 +37,9 @@
                 <thead>
                     <tr>
                         <th data-field="{{ trans('labels.srno') }}">{{ trans('labels.srno') }}</th>
+                        @if (Auth::user()->type == 1)
+                            <th data-field="{{ trans('labels.dome_owners') }}">{{ trans('labels.dome_owners') }}</th>
+                        @endif
                         <th data-field="{{trans('labels.league_name')}}">{{trans('labels.league_name')}}</th>
                         <th data-field="{{trans('labels.domes')}}">{{trans('labels.domes')}}</th>
                         <th data-field="{{trans('labels.sports')}}">{{trans('labels.sports')}}</th>
@@ -50,7 +53,7 @@
                     @php
                         $i = 1;
                     @endphp
-                            
+
                 </tbody>
             </table>
         </div>

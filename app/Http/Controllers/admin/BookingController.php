@@ -11,6 +11,7 @@ use App\Models\Transaction;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Stripe;
 
 class BookingController extends Controller
@@ -178,8 +179,16 @@ class BookingController extends Controller
         $checkbooking = Booking::where('booking_date', $request->booking_date)->where('start_time', '!=', $request->start_time)->where('end_time', '!=', $request->end_time)->get();
         return response()->json($checkbooking, 200);
     }
-
-
+    public function split_payment(Request $request)
+    {
+        dd($request->token);
+        $checkbooking = Booking::where('token', $request->token)->first();
+        if (!empty($checkbooking)) {
+            dd($checkbooking);
+        } else {
+            abort(404);
+        }
+    }
     public function details(Request $request)
     {
         return view('admin.bookings.details');

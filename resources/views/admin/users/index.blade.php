@@ -1,12 +1,12 @@
 @extends('admin.layout.default')
 @section('title')
-Users List
+    {{ trans('labels.users_list') }}
 @endsection
 @section('contents')
     <div class="card mb-3">
         <div class="card-body py-2">
             <div class="d-flex align-items-center justify-content-between">
-                <p>User List</p>
+                <p>{{ trans('labels.users_list') }}</p>
                 <nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='%236c757d'/%3E%3C/svg%3E&#34;);"
                     aria-label="breadcrumb">
                     <ol class="breadcrumb m-0">
@@ -23,7 +23,7 @@ Users List
                                 </svg>
                             </a>
                         </li>
-                        <li class="breadcrumb-item active" aria-current="page">Users List</li>
+                        <li class="breadcrumb-item active" aria-current="page">{{ trans('labels.users_list') }}</li>
                     </ol>
                 </nav>
             </div>
@@ -32,7 +32,7 @@ Users List
     <div class="card">
         <div class="card-body">
             <div class="table-responsive">
-                <table id="datatable" class="table table-hover overflow-hidden" data-page-length='10'>
+                <table id="bootstrapTable">
                     <thead>
                         <tr>
                             <th>{{ trans('labels.srno') }}</th>
@@ -40,7 +40,7 @@ Users List
                             <th>{{ trans('labels.phone_number') }}</th>
                             <th>{{ trans('labels.login_type') }}</th>
                             <th>{{ trans('labels.status') }}</th>
-                            <th>Action</th>
+                            <th>{{ trans('labels.action') }}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -71,19 +71,28 @@ Users List
                                         onclick="change_status('{{ $user->id }}','{{ $user->is_available == 1 ? 2 : 1 }}','{{ URL::to('admin/users/change_status') }}')">{{ $user->is_available == 1 ? 'Active' : 'Inactive' }}</span>
                                 </td>
                                 <td>
-                                    <i class="fa-solid fa-ellipsis-vertical ms-3"  data-bs-toggle="dropdown" aria-expanded="false" style="cursor: pointer;"></i>
+                                    <i class="fa-solid fa-ellipsis-vertical ms-3" data-bs-toggle="dropdown"
+                                        aria-expanded="false" style="cursor: pointer;"></i>
                                     <ul class="dropdown-menu">
-                                        <li><a class="dropdown-item" href="{{ URL::to('admin/users/details-'.$user->id)}}">View Details</a></li>
-                                        <li><hr class="dropdown-divider"></li>
-                                        <li><a class="dropdown-item" href="{{ URL::to('admin/users/edit-'.$user->id)}}">Edit</a></li>
-                                        <li><hr class="dropdown-divider"></li>
+                                        <li><a class="dropdown-item"
+                                                href="{{ URL::to('admin/users/details-' . $user->id) }}">View Details</a>
+                                        </li>
+                                        <li>
+                                            <hr class="dropdown-divider">
+                                        </li>
+                                        <li><a class="dropdown-item"
+                                                href="{{ URL::to('admin/users/edit-' . $user->id) }}">Edit</a></li>
+                                        <li>
+                                            <hr class="dropdown-divider">
+                                        </li>
                                         <li><a class="dropdown-item" href="#">Make Inactive</a></li>
-                                        <li><hr class="dropdown-divider"></li>
+                                        <li>
+                                            <hr class="dropdown-divider">
+                                        </li>
                                         <li><a class="dropdown-item" href="#">Delete</a></li>
-                                      </ul>
+                                    </ul>
                                 </td>
                             </tr>
-
                         @endforeach
                     </tbody>
                 </table>
