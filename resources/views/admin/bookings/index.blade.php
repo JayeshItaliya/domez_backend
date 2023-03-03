@@ -31,223 +31,82 @@
         </div>
     </div>
 
-    @if (count($bookings) != 0)
+    @if (count($getbookingslist) != 0)
         <div class="card">
             <div class="card-body table-responsive">
                 <div class="row">
-                    <div class="col-6">
-                        <div class="dropdown">
-                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                              Today
-                            </button>
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                              <button class="dropdown-item" type="button">Action</button>
-                              <button class="dropdown-item" type="button">Another action</button>
-                              <button class="dropdown-item" type="button">Something else here</button>
-                            </div>
-                          </div>
-                    </div>
-                    <div class="col-6">
-                        <input class="form-control list-search mw-300px float-end mb-5" type="search" placeholder="Search">
+                    <div class="col-2">
+                        <select class="form-select" name="" id="">
+                            <option value="">Select</option>
+                            <option value="today">Today</option>
+                        </select>
                     </div>
                 </div>
-
-                <table class="table table-nowrap mb-0">
-                    <thead class="thead-light">
+                <table class="table table-nowrap mb-0" id="bootstrapTable">
+                    <thead>
                         <tr>
-                            @if (Auth::user()->type == 1)
-                                <th>
-                                    <a href="javascript: void(0);" class="text-muted list-sort" data-sort="id">ID</a>
-                                </th>
-                                <th>
-                                    <a href="javascript: void(0);" class="text-muted list-sort"
-                                        data-sort="vendor_id">Booking ID</a>
-                                </th>
-                            @endif
-                            <th>
-                                <a href="javascript: void(0);" class="text-muted list-sort" data-sort="dome_name">Dome Owners</a>
-                            </th>
-                            <th>
-                                <a href="javascript: void(0);" class="text-muted list-sort" data-sort="dome_price">Dome Name</a>
-                            </th>
-                            <th>
-                                <a href="javascript: void(0);" class="text-muted list-sort" data-sort="dome_price">Booking Date</a>
-                            </th>
-                            <th>
-                                <a href="javascript: void(0);" class="text-muted list-sort" data-sort="sports">Start  Time</a>
-                            </th>
-                            <th>
-                                <a href="javascript: void(0);" class="text-muted list-sort" data-sort="start_time">End Time</a>
-                            </th>
-                            <th>
-                                <a href="javascript: void(0);" class="text-muted list-sort" data-sort="end_time">Amount</a>
-                            </th>
-                            <th>
-                                <a href="javascript: void(0);" class="text-muted list-sort" data-sort="end_time">Payment Status</a>
-                            </th>
-                            <th>
-                                <a href="javascript: void(0);" class="text-muted list-sort" data-sort="end_time">Status</a>
-                            </th>
-                            <th>
-                                <a href="javascript: void(0);" class="text-muted list-sort" data-sort="end_time">Actions</a>
-                            </th>
-                            @if (Auth::user()->type == 2)
-                                <th class="text-center">
-                                    <a href="javascript: void(0);" class="text-muted list-sort" data-sort="action">Action</a>
-                                </th>
-                            @endif
+                            <th> ID </th>
+                            <th> Booking ID </th>
+                            <th> Dome Owners </th>
+                            <th> Dome Name </th>
+                            <th> Booking Date </th>
+                            <th> Start-End Time </th>
+                            <th> Amount </th>
+                            <th> Payment Status </th>
+                            <th> Status </th>
+                            <th> Actions </th>
                         </tr>
                     </thead>
+                    <tbody>
+                        @php
+                            $i = 1;
+                        @endphp
+                        @foreach ($getbookingslist as $booking)
+                            <tr>
+                                <td>{{ $i++ }}</td>
+                                <td>{{ $booking->booking_id }}</td>
+                                <td>{{ $booking['dome_owner']->name }}</td>
+                                <td>{{ $booking['dome_name']->name }}</td>
+                                <td>{{ Helper::date_format($booking->booking_date) }}</td>
+                                <td>{{ Helper::date_format($booking->start_time) }} - {{ Helper::date_format($booking->end_time) }}</td>
+                                <td>{{ Helper::currency_format($booking->total_amount) }}</td>
+                                <td>
+                                    <span class="badge rounded-pill cursor-pointer text-bg-primary"
+                                        onclick="change_status('2','2','http://localhost/domez/admin/vendors/change_status')">Partial</span>
+                                </td>
+                                <td>
+                                    <span class="badge rounded-pill cursor-pointer text-bg-warning"
+                                        onclick="change_status('2','2','http://localhost/domez/admin/vendors/change_status')">Pending</span>
+                                </td>
+                                <td>
+                                    <a class="cursor-pointer me-2" href="{{ URL::to('admin/bookings/details-21') }}">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-eye"
+                                            width="24" height="24" viewBox="0 0 24 24" stroke-width="1"
+                                            stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                            <path d="M12 12m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"></path>
+                                            <path
+                                                d="M22 12c-2.667 4.667 -6 7 -10 7s-7.333 -2.333 -10 -7c2.667 -4.667 6 -7 10 -7s7.333 2.333 10 7">
+                                            </path>
+                                        </svg>
+                                    </a>
+                                    @if (Auth::user()->type == 2)
+                                        <a class="cursor-pointer me-2" href="{{ URL::to('admin/bookings/details-21') }}">
+                                            <svg width="18" height="18" viewBox="0 0 18 18" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <path
+                                                    d="M8.99964 16.6364C13.2171 16.6364 16.636 13.2175 16.636 9.00001C16.636 4.78256 13.2171 1.36365 8.99964 1.36365C4.7822 1.36365 1.36328 4.78256 1.36328 9.00001C1.36328 13.2175 4.7822 16.6364 8.99964 16.6364Z"
+                                                    stroke="#616161" stroke-linecap="round" stroke-linejoin="round" />
+                                                <path d="M7.30273 7.30304L10.6967 10.697M10.6967 7.30304L7.30273 10.697"
+                                                    stroke="#616161" stroke-linecap="round" stroke-linejoin="round" />
+                                            </svg>
+                                        </a>
+                                    @endif
+                                </td>
+                            </tr>
+                        @endforeach
 
-                    <tbody class="list">
-                        <tr data-index="0">
-                            <td>01</td>
-                            <td>OI3v7zGMF7</td>
-                            <td>Kelly Doyle</td>
-                            <td>Dome A</td>
-                            <td>2/1/2023</td>
-                            <td>09:00 PM</td>
-                            <td>10:00 AM</td>
-                            <td>$500</td>
-                            <td>
-                                <span class="badge rounded-pill cursor-pointer text-bg-primary" onclick="change_status('2','2','http://localhost/domez/admin/vendors/change_status')">Partial</span>
-                            </td>
-                            <td>
-                                <span class="badge rounded-pill cursor-pointer text-bg-warning" onclick="change_status('2','2','http://localhost/domez/admin/vendors/change_status')">Pending</span>
-                            </td>
-                            <td>
-                                <a class="cursor-pointer me-2"
-                                href="{{ URL::to('admin/bookings/details-21') }}">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-eye"
-                                    width="24" height="24" viewBox="0 0 24 24" stroke-width="1" stroke="#2c3e50"
-                                    fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                    <path d="M12 12m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"></path>
-                                    <path
-                                        d="M22 12c-2.667 4.667 -6 7 -10 7s-7.333 -2.333 -10 -7c2.667 -4.667 6 -7 10 -7s7.333 2.333 10 7">
-                                    </path>
-                                </svg>
-                            </a>
-                            <a class="cursor-pointer me-2"
-                                href="{{ URL::to('admin/bookings/details-21') }}">
-                                <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M8.99964 16.6364C13.2171 16.6364 16.636 13.2175 16.636 9.00001C16.636 4.78256 13.2171 1.36365 8.99964 1.36365C4.7822 1.36365 1.36328 4.78256 1.36328 9.00001C1.36328 13.2175 4.7822 16.6364 8.99964 16.6364Z" stroke="#616161" stroke-linecap="round" stroke-linejoin="round"/>
-                                    <path d="M7.30273 7.30304L10.6967 10.697M10.6967 7.30304L7.30273 10.697" stroke="#616161" stroke-linecap="round" stroke-linejoin="round"/>
-                                </svg>
-                                </a>
-                            </td>
-                        </tr>
-                        <tr data-index="0">
-                            <td>02</td>
-                            <td>OI3v7zGMF7</td>
-                            <td>Kelly Doyle</td>
-                            <td>Dome B</td>
-                            <td>2/1/2023</td>
-                            <td>09:00 PM</td>
-                            <td>10:00 AM</td>
-                            <td>$500</td>
-                            <td>
-                                <span class="badge rounded-pill cursor-pointer text-bg-info" onclick="change_status('2','2','http://localhost/domez/admin/vendors/change_status')">Completed</span>
-                            </td>
-                            <td>
-                                <span class="badge rounded-pill cursor-pointer text-bg-danger" onclick="change_status('2','2','http://localhost/domez/admin/vendors/change_status')">Cancel</span>
-                            </td>
-                            <td>
-                                <a class="cursor-pointer me-2"
-                                href="{{ URL::to('admin/bookings/details-21') }}">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-eye"
-                                    width="24" height="24" viewBox="0 0 24 24" stroke-width="1" stroke="#2c3e50"
-                                    fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                    <path d="M12 12m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"></path>
-                                    <path
-                                        d="M22 12c-2.667 4.667 -6 7 -10 7s-7.333 -2.333 -10 -7c2.667 -4.667 6 -7 10 -7s7.333 2.333 10 7">
-                                    </path>
-                                </svg>
-                            </a>
-                            <a class="cursor-pointer me-2"
-                                href="{{ URL::to('admin/bookings/details-21') }}">
-                                <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M8.99964 16.6364C13.2171 16.6364 16.636 13.2175 16.636 9.00001C16.636 4.78256 13.2171 1.36365 8.99964 1.36365C4.7822 1.36365 1.36328 4.78256 1.36328 9.00001C1.36328 13.2175 4.7822 16.6364 8.99964 16.6364Z" stroke="#616161" stroke-linecap="round" stroke-linejoin="round"/>
-                                    <path d="M7.30273 7.30304L10.6967 10.697M10.6967 7.30304L7.30273 10.697" stroke="#616161" stroke-linecap="round" stroke-linejoin="round"/>
-                                </svg>
-                            </a>
-                            </td>
-                        </tr>
-                        <tr data-index="0">
-                            <td>03</td>
-                            <td>OI3v7zGMF7</td>
-                            <td>Kelly Doyle</td>
-                            <td>Dome C</td>
-                            <td>4/1/2023</td>
-                            <td>09:00 PM</td>
-                            <td>10:00 AM</td>
-                            <td>$500</td>
-                            <td>
-                                <span class="badge rounded-pill cursor-pointer text-bg-primary" onclick="change_status('2','2','http://localhost/domez/admin/vendors/change_status')">Partial</span>
-                            </td>
-                            <td>
-                                <span class="badge rounded-pill cursor-pointer text-bg-warning" onclick="change_status('2','2','http://localhost/domez/admin/vendors/change_status')">Pending</span>
-                            </td>
-                            <td>
-                                <a class="cursor-pointer me-2"
-                                href="{{ URL::to('admin/bookings/details-21') }}">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-eye"
-                                    width="24" height="24" viewBox="0 0 24 24" stroke-width="1" stroke="#2c3e50"
-                                    fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                    <path d="M12 12m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"></path>
-                                    <path
-                                        d="M22 12c-2.667 4.667 -6 7 -10 7s-7.333 -2.333 -10 -7c2.667 -4.667 6 -7 10 -7s7.333 2.333 10 7">
-                                    </path>
-                                </svg>
-                            </a>
-                            <a class="cursor-pointer me-2"
-                                href="{{ URL::to('admin/bookings/details-21') }}">
-                                <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M8.99964 16.6364C13.2171 16.6364 16.636 13.2175 16.636 9.00001C16.636 4.78256 13.2171 1.36365 8.99964 1.36365C4.7822 1.36365 1.36328 4.78256 1.36328 9.00001C1.36328 13.2175 4.7822 16.6364 8.99964 16.6364Z" stroke="#616161" stroke-linecap="round" stroke-linejoin="round"/>
-                                    <path d="M7.30273 7.30304L10.6967 10.697M10.6967 7.30304L7.30273 10.697" stroke="#616161" stroke-linecap="round" stroke-linejoin="round"/>
-                                </svg>
-                            </a>
-                        </td>
-                        </tr>
-                        <tr data-index="0">
-                            <td>04</td>
-                            <td>OI3v7zGMF7</td>
-                            <td>Kelly Doyle</td>
-                            <td>Dome D</td>
-                            <td>5/1/2023</td>
-                            <td>09:00 PM</td>
-                            <td>10:00 AM</td>
-                            <td>$500</td>
-                            <td>
-                                <span class="badge rounded-pill cursor-pointer text-bg-info" onclick="change_status('2','2','http://localhost/domez/admin/vendors/change_status')">Completed</span>
-                            </td>
-                            <td>
-                                <span class="badge rounded-pill cursor-pointer text-bg-success" onclick="change_status('2','2','http://localhost/domez/admin/vendors/change_status')">Confirm</span>
-                            </td>
-                            <td>
-                                <a class="cursor-pointer me-2"
-                                href="{{ URL::to('admin/bookings/details-21') }}">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-eye"
-                                    width="24" height="24" viewBox="0 0 24 24" stroke-width="1" stroke="#2c3e50"
-                                    fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                    <path d="M12 12m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"></path>
-                                    <path
-                                        d="M22 12c-2.667 4.667 -6 7 -10 7s-7.333 -2.333 -10 -7c2.667 -4.667 6 -7 10 -7s7.333 2.333 10 7">
-                                    </path>
-                                </svg>
-                            </a>
-                            <a class="cursor-pointer me-2"
-                                href="{{ URL::to('admin/bookings/details-21') }}">
-                                <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M8.99964 16.6364C13.2171 16.6364 16.636 13.2175 16.636 9.00001C16.636 4.78256 13.2171 1.36365 8.99964 1.36365C4.7822 1.36365 1.36328 4.78256 1.36328 9.00001C1.36328 13.2175 4.7822 16.6364 8.99964 16.6364Z" stroke="#616161" stroke-linecap="round" stroke-linejoin="round"/>
-                                    <path d="M7.30273 7.30304L10.6967 10.697M10.6967 7.30304L7.30273 10.697" stroke="#616161" stroke-linecap="round" stroke-linejoin="round"/>
-                                </svg>
-                                </a>
-                            </td>
-                        </tr>
+
                     </tbody>
                 </table>
             </div>

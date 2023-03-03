@@ -11,7 +11,6 @@ use App\Models\Transaction;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 use Stripe;
 
 class BookingController extends Controller
@@ -19,11 +18,11 @@ class BookingController extends Controller
     public function index(Request $request)
     {
         if (Auth::user()->type == 1) {
-            $bookings = Booking::get();
+            $getbookingslist = Booking::get();
         } else {
-            $bookings = Booking::where('vendor_id', Auth::user()->id)->get();
+            $getbookingslist = Booking::where('vendor_id', Auth::user()->id)->get();
         }
-        return view('admin.bookings.index', compact('bookings'));
+        return view('admin.bookings.index', compact('getbookingslist'));
     }
     public function booking(Request $request)
     {
