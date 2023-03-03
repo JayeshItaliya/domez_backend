@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Transaction extends Model
 {
     use HasFactory;
-    public function vendor_name()
+    public function dome_owner()
     {
         return $this->hasOne('App\Models\User', 'id', 'vendor_id')->select('id','name');
     }

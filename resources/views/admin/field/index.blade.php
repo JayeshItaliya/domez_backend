@@ -61,7 +61,7 @@
                                 </div>
                             </td>
                             @if (Auth::user()->type == 1)
-                                <td>{{ $data->vendor_name->name }}</td>
+                                <td>{{ $data->dome_owner->name }}</td>
                                 <td>{{ $data->dome_name->name }}</td>
                             @endif
                             <td>{{ $data->name }}</td>

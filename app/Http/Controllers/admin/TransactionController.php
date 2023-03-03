@@ -12,9 +12,9 @@ class TransactionController extends Controller
     public function index(Request $request)
     {
         if (Auth::user()->id == 1) {
-            $transactions = Transaction::get();
+            $transactions = Transaction::where('user_id','!=','')->orderByDesc('id')->get();
         } else {
-            $transactions = Transaction::where('vendor_id', Auth::user()->id)->get();
+            $transactions = Transaction::where('user_id','!=','')->where('vendor_id', Auth::user()->id)->orderByDesc('id')->get();
         }
         return view('admin.transactions.index', compact('transactions'));
     }
@@ -23,3 +23,4 @@ class TransactionController extends Controller
         return view('admin.transactions.details');
     }
 }
+?>

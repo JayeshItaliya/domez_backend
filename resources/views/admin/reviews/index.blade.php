@@ -1,13 +1,13 @@
 @extends('admin.layout.default')
 @section('title')
-         Reviews
+    {{ trans('labels.reviews') }}
 @endsection
 @section('contents')
     <!-- Title -->
     <div class="card mb-3">
         <div class="card-body py-2">
             <div class="d-flex align-items-center justify-content-between">
-                <p class="text-secondary fw-semibold">Reviews</p>
+                <p class="text-secondary fw-semibold">{{ trans('labels.reviews') }}</p>
                 <nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='%236c757d'/%3E%3C/svg%3E&#34;);"
                     aria-label="breadcrumb">
                     <ol class="breadcrumb m-0">
@@ -24,7 +24,7 @@
                                 </svg>
                             </a>
                         </li>
-                        <li class="breadcrumb-item">Reviews</li>
+                        <li class="breadcrumb-item">{{ trans('labels.reviews') }}</li>
                     </ol>
                 </nav>
             </div>
@@ -33,124 +33,42 @@
     <div class="card">
         <div class="card-body">
             <div class="table-responsive">
-                <input class="form-control list-search mw-300px float-end mb-5" type="search" placeholder="Search">
-                <table class="table table-nowrap mb-0">
-                    <thead class=" thead-light">
+
+
+
+                <table id="bootstrapTable" class="table-responsive">
+                    <thead>
                         <tr>
-                            <th class="w-80px">
-                                <a href="javascript: void(0);" class="text-muted list-sort" data-sort="id">
-                                    ID
-                                </a>
-                            </th>
-                            <th>
-                                <a href="javascript: void(0);" class="text-muted list-sort" data-sort="user_name">
-                                    User Name
-                                </a>
-                            </th>
-                            <th>
-                                <a href="javascript: void(0);" class="text-muted list-sort" data-sort="Rating">
-                                    Rating
-                                </a>
-                            </th>
-                            <th>
-                                <a href="javascript: void(0);" class="text-muted list-sort" data-sort="Review">
-                                    Review
-                                </a>
-                            </th>
-                            <th>
-                                <a href="javascript: void(0);" class="text-muted list-sort" data-sort="Actions">
-                                    Actions
-                                </a>
-                            </th>
+                            <th>{{ trans('labels.srno') }}</th>
+                            <th>{{ trans('labels.dome_name') }}</th>
+                            <th>{{ trans('labels.user_name') }}</th>
+                            <th>{{ trans('labels.rattings') }}</th>
+                            <th>{{ trans('labels.comments') }}</th>
+                            <th>{{ trans('labels.action') }}</th>
                         </tr>
                     </thead>
-
-                    <tbody class="list">
-                        <tr>
-                            <td>01</td>
-                            <td>Kelly Doyle</td>
-                            <td>
-                                <i class="fa-sharp fa-regular fa-star text-warning fs-4 me-1"></i>
-                                <i class="fa-sharp fa-regular fa-star text-warning fs-4 me-1"></i>
-                                <i class="fa-sharp fa-regular fa-star text-warning fs-4 me-1"></i>
-                                <i class="fa-sharp fa-regular fa-star text-warning fs-4 me-1"></i>
-                                <i class="fa-sharp fa-regular fa-star text-muted fs-4 me-1"></i>
-                            </td>
-                            <td>Lorem Ipsum is simply dummy text..</td>
-                            <td><span class="badge rounded-pill cursor-pointer text-bg-info fa-solid fa-reply" data-bs-target="#mymodal" data-bs-toggle="modal">Reply</span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>02</td>
-                            <td>Kelly Doyle</td>
-                            <td>
-                                <i class="fa-sharp fa-regular fa-star text-warning fs-4 me-1"></i>
-                                <i class="fa-sharp fa-regular fa-star text-warning fs-4 me-1"></i>
-                                <i class="fa-sharp fa-regular fa-star text-warning fs-4 me-1"></i>
-                                <i class="fa-sharp fa-regular fa-star text-warning fs-4 me-1"></i>
-                                <i class="fa-sharp fa-regular fa-star text-muted fs-4 me-1"></i>
-                            </td>
-                            <td>Lorem Ipsum is simply dummy text..</td>
-                            <td><span class="badge rounded-pill cursor-pointer text-bg-info fa-solid fa-reply" data-bs-target="#mymodal" data-bs-toggle="modal">Reply</span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>03</td>
-                            <td>Kelly Doyle</td>
-                            <td>
-                                <i class="fa-sharp fa-regular fa-star text-warning fs-4 me-1"></i>
-                                <i class="fa-sharp fa-regular fa-star text-warning fs-4 me-1"></i>
-                                <i class="fa-sharp fa-regular fa-star text-warning fs-4 me-1"></i>
-                                <i class="fa-sharp fa-regular fa-star text-warning fs-4 me-1"></i>
-                                <i class="fa-sharp fa-regular fa-star text-muted fs-4 me-1"></i>
-                            </td>
-                            <td>Lorem Ipsum is simply dummy text..</td>
-                            <td><span class="badge rounded-pill cursor-pointer text-bg-info fa-solid fa-reply" data-bs-target="#mymodal" data-bs-toggle="modal">Reply</span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>04</td>
-                            <td>Kelly Doyle</td>
-                            <td>
-                                <i class="fa-sharp fa-regular fa-star text-warning fs-4 me-1"></i>
-                                <i class="fa-sharp fa-regular fa-star text-warning fs-4 me-1"></i>
-                                <i class="fa-sharp fa-regular fa-star text-warning fs-4 me-1"></i>
-                                <i class="fa-sharp fa-regular fa-star text-warning fs-4 me-1"></i>
-                                <i class="fa-sharp fa-regular fa-star text-muted fs-4 me-1"></i>
-                            </td>
-                            <td>Lorem Ipsum is simply dummy text..</td>
-                            <td><span class="badge rounded-pill cursor-pointer text-bg-info fa-solid fa-reply" data-bs-target="#mymodal" data-bs-toggle="modal" >Reply</span>
-                            </td>
-                        </tr>
+                    <tbody>
+                        @php
+                            $i = 1;
+                        @endphp
+                        @foreach ($reviewslist as $review)
+                            <tr>
+                                <td>{{ $i++ }}</td>
+                                <td>{{ $review->dome_name->name }}</td>
+                                <td>{{ $review->user_name->name }}</td>
+                                <td>
+                                    @for ($i = 1; $i <= 5; $i++)
+                                        <i
+                                            class="fa-regular fa-star {{ $i <= $review->ratting ? 'text-warning' : '' }}"></i>
+                                    @endfor
+                                </td>
+                                <td>{{ $review->comment }}</td>
+                                <td></td>
+                            </tr>
+                        @endforeach
                     </tbody>
-                        <div class="modal" id="mymodal">
-                             <div class="modal-dialog modal-dialog-centered">
-                                  <div class="modal-content">
-                                      <div class="d-block p-3">
-                                         <h6 class="mb-2">User Name</h6>
-                                         <p class="mb-3">Kelly Doyle</p>
-                                         <h6>Subject</h6>
-                                            <i class="fa-sharp fa-regular fa-star text-warning fs-4 me-1"></i>
-                                            <i class="fa-sharp fa-regular fa-star text-warning fs-4 me-1"></i>
-                                            <i class="fa-sharp fa-regular fa-star text-warning fs-4 me-1"></i>
-                                            <i class="fa-sharp fa-regular fa-star text-warning fs-4 me-1"></i>
-                                            <i class="fa-sharp fa-regular fa-star text-muted fs-4 me-1"></i>
-                                         <h6 class="mt-3">Review</h6>
-                                         <p class="my-2">Lorem Ipsum is simply dummy text..</p>
-                                         <div class="modal-body p-0">
-                                            <h6 class="mt-3 mb-2">Replay</h6>
-                                            <textarea  rows="5" class="form-control" placeholder="Lorem Ipsum is simply dummy text.."></textarea>
-                                         </div>
-                                         <div class="d-flex justify-content-end mt-3">
-                                            <button type="button" class="btn btn-primary">Submit</button>
-                                         </div>
-                                      </div>
-                                  </div>
-                             </div>
-                        </div>
                 </table>
             </div>
         </div>
     </div>
 @endsection
-

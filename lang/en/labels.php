@@ -49,7 +49,6 @@ return [
     'twillio_settings' => 'Twillio Settings',
     'stripe_settings' => 'Stripe Settings',
     'supports' => 'Supports',
-
     // Users
     'users' => 'Users',
     // Vendors
@@ -126,4 +125,31 @@ return [
     'team_limit' => 'Team Limit',
     // Enquiry
     'dome_requests' => 'Dome Requests',
+    // Booking
+    'booking_id' => 'Booking ID',
+    'booking_date' => 'Booking Date',
+    'amount' => 'Amount',
+    'payment_status' => 'Payment Status',
+    'booking_details' => 'Booking Details',
+    'customer_name' => 'Customer Name',
+    'customer_email' => 'Customer Email',
+    'customer_phone' => 'Customer Phone',
+    'partial' => 'Partial',
+    'completed' => 'Completed',
+    'confirmed' => 'Confirmed',
+    'pending' => 'Pending',
+    'cancelled' => 'Cancelled',
+    // Transactions
+    'transactions' => 'Transactions',
+    'payment_id' => 'Payment ID',
+    'payment_type' => 'Payment Type',
+    'user_name' => 'User Name',
+    'total_amount' => 'Total Amount',
+    'paid_amount' => 'Paid Amount',
+    'due_amount' => 'Due Amount',
+    // Reviews
+    'reviews' => 'Reviews',
+    'comments' => 'Comments',
+    'rattings' => 'Rattings',
 ];
+?>

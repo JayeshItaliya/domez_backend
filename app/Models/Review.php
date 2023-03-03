@@ -14,6 +14,14 @@ class Review extends Model
     ];
     public function user_image()
     {
-        return $this->hasMany('App\Models\User', 'id', 'user_id')->select('id','image');
+        return $this->hasMany('App\Models\User', 'id', 'user_id')->select('id', 'image');
+    }
+    public function user_name()
+    {
+        return $this->hasOne('App\Models\User', 'id', 'user_id')->select('id', 'name');
+    }
+    public function dome_name()
+    {
+        return $this->hasOne('App\Models\Domes', 'id', 'dome_id')->select('id', 'name');
     }
 }

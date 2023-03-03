@@ -36,16 +36,16 @@
             <table id="bootstrapTable" class="table-responsive">
                 <thead>
                     <tr>
-                        <th data-field="{{ trans('labels.srno') }}">{{ trans('labels.srno') }}</th>
+                        <th>{{ trans('labels.srno') }}</th>
                         @if (Auth::user()->type == 1)
-                            <th data-field="{{ trans('labels.dome_owners') }}">{{ trans('labels.dome_owners') }}</th>
+                            <th>{{ trans('labels.dome_owners') }}</th>
                         @endif
-                        <th data-field="{{ trans('labels.league_name') }}">{{ trans('labels.league_name') }}</th>
-                        <th data-field="{{ trans('labels.domes') }}">{{ trans('labels.domes') }}</th>
-                        <th data-field="{{ trans('labels.sports') }}">{{ trans('labels.sports') }}</th>
-                        <th data-field="{{ trans('labels.date') }}">{{ trans('labels.date') }}</th>
-                        <th data-field="{{ trans('labels.time') }}">{{ trans('labels.time') }}</th>
-                        <th class="text-center" data-field="{{ trans('labels.action') }}">{{ trans('labels.action') }}
+                        <th>{{ trans('labels.league_name') }}</th>
+                        <th>{{ trans('labels.domes') }}</th>
+                        <th>{{ trans('labels.sports') }}</th>
+                        <th>{{ trans('labels.date') }}</th>
+                        <th>{{ trans('labels.time') }}</th>
+                        <th class="text-center">{{ trans('labels.action') }}
                         </th>
                     </tr>
                 </thead>
