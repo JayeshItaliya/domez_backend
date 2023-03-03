@@ -5,6 +5,7 @@ namespace App\Http\Controllers\admin;
 use App\Http\Controllers\Controller;
 use App\Models\Domes;
 use App\Models\Field;
+use App\Models\League;
 use App\Models\Sports;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -13,7 +14,8 @@ class LeagueController extends Controller
 {
     public function index(Request $request)
     {
-        return view('admin.leagues.index');
+        $leaguesdata = League::where('is_deleted',2)->get();
+        return view('admin.leagues.index', compact('leaguesdata'));
     }
 
     public function add(Request $request)

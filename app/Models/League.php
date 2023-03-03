@@ -20,6 +20,14 @@ class League extends Model
     }
     public function dome_info()
     {
-        return $this->hasOne('App\Models\Domes', 'id', 'dome_id')->select('id', 'name', 'state', 'city');
+        return $this->hasOne('App\Models\Domes', 'id', 'dome_id')->select('id', 'name', 'sport_id', 'state', 'city');
+    }
+    public function dome_owner()
+    {
+        return $this->hasOne('App\Models\User', 'id', 'vendor_id')->select('id', 'name');
+    }
+    public function sport_info()
+    {
+        return $this->hasOne('App\Models\Sports', 'id', 'sport_id')->select('id', 'name');
     }
 }

@@ -94,4 +94,16 @@ class Helper
     {
         return PaymentGateway::select('public_key', 'secret_key')->where('type', 1)->first();
     }
+    public static function date_format($date)
+    {
+        return date('d M, Y', strtotime($date));
+    }
+    public static function time_format($time)
+    {
+        return date('h A', strtotime($time));
+    }
+    public static function currency_format($price)
+    {
+        return '$'.$price;
+    }
 }
