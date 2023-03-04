@@ -21,12 +21,6 @@ class EventServiceProvider extends ServiceProvider
         \SocialiteProviders\Manager\SocialiteWasCalled::class => [
             \SocialiteProviders\Apple\AppleExtendSocialite::class.'@handle',
         ],
-        \SocialiteProviders\Manager\SocialiteWasCalled::class => [
-            \SocialiteProviders\Facebook\FacebookExtendSocialite::class.'@handle',
-        ],
-        \SocialiteProviders\Manager\SocialiteWasCalled::class => [
-            \SocialiteProviders\Google\GoogleExtendSocialite::class.'@handle',
-        ],
     ];
 
     /**
