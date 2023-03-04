@@ -23,7 +23,8 @@
                                 </svg>
                             </a>
                         </li>
-                        <li class="breadcrumb-item"><a href="{{ URL::to('admin/vendors') }}">{{ trans('labels.dome_owners') }}</a></li>
+                        <li class="breadcrumb-item"><a
+                                href="{{ URL::to('admin/vendors') }}">{{ trans('labels.dome_owners') }}</a></li>
                         <li class="breadcrumb-item active" aria-current="page">{{ trans('labels.dome_owner_detail') }}</li>
                     </ol>
                 </nav>
@@ -35,228 +36,240 @@
             <p class="mb-2 fw-semibold">{{ trans('labels.dome_owner') }}</p>
             <div class="d-flex">
                 <div class="bg-gray col-lg-6">
-                    <div class="px-3 py-2 d-flex">
+                    <div class="px-3 py-2 row">
                         <div class="col-md-4">
                             <label>{{ trans('labels.name') }}</label>
                         </div>
                         <div class="col-md-8">
-                            <span class="text-muted fs-7">{{$dome_owner->name}}</span>
+                            <span class="text-muted fs-7">{{ $dome_owner->name }}</span>
                         </div>
                     </div>
                 </div>
                 <div class="bg-gray col-lg-6">
-                    <div class="px-3 py-2 d-flex">
+                    <div class="px-3 py-2 row">
                         <div class="col-md-4">
                             <label>{{ trans('labels.status') }}</label>
                         </div>
                         <div class="col-md-8">
-                            <span class="text-muted fs-7">{{$dome_owner->is_available}}</span>
+                            <span class="badge rounded-pill cursor-pointer text-bg-{{ $dome_owner->is_available == 1 ? 'success' : 'danger' }}">
+                                {{ $dome_owner->is_available == 1 ? trans('labels.active') : trans('labels.inactive') }}
+                            </span>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="d-flex mb-3">
                 <div class="col-lg-6">
-                    <div class="px-3 py-2 d-flex">
+                    <div class="px-3 py-2 row">
                         <div class="col-md-4">
                             <label>{{ trans('labels.email') }}</label>
                         </div>
                         <div class="col-md-8">
-                            <span class="text-muted fs-7">{{$dome_owner->email}}</span>
+                            <span class="text-muted fs-7">{{ $dome_owner->email }}</span>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-6">
-                    <div class="px-3 py-2 d-flex">
+                    <div class="px-3 py-2 row">
                         <div class="col-md-4">
                             <label>{{ trans('labels.phone_number') }}</label>
                         </div>
                         <div class="col-md-8">
-                            <span class="text-muted fs-7">{{$dome_owner->phone}}</span>
+                            <span class="text-muted fs-7">{{ $dome_owner->phone }}</span>
                         </div>
                     </div>
                 </div>
             </div>
             <p class="mb-2 fw-semibold">{{ trans('labels.dome_details') }}</p>
-            <div class="d-flex">
-                <div class="bg-gray col-lg-6">
-                    <div class="px-3 py-2 d-flex">
-                        <div class="col-md-4">
-                            <label>{{ trans('labels.dome_name') }}</label>
-                        </div>
-                        <div class="col-md-8">
-                            <span class="text-muted fs-7">{{ $dome->name }}</span>
+            @foreach ($domes as $key => $dome)
+                <div class="accordion mb-3" id="accordion_unique">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="panel{{ $key }}">
+                            <button class="accordion-button {{ $key != 0 ? 'collapsed' : '' }}" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#collapse{{ $key }}" aria-expanded="{{ $key == 0 ? 'true' : '' }}" aria-controls="collapse{{ $key }}">
+                                {{ trans('labels.dome_name') . ': ' . $dome->name }}
+                            </button>
+                        </h2>
+                        <div id="collapse{{ $key }}" class="accordion-collapse collapse {{ $key == 0 ? 'show' : '' }}" aria-labelledby="panel{{ $key }}" data-bs-parent="#accordion_unique">
+                            <div class="accordion-body">
+                                <div class="d-flex">
+                                    <div class="bg-gray col-12">
+                                        <div class="px-3 py-2 row">
+                                            <div class="col-md-2">
+                                                <label>{{ trans('labels.dome_address') }}</label>
+                                            </div>
+                                            <div class="col-md-10">
+                                                <span class="text-muted fs-7">{{ $dome->address }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="d-flex">
+                                    <div class="col-lg-6">
+                                        <div class="px-3 py-2 row">
+                                            <div class="col-md-4">
+                                                <label>{{ trans('labels.start_time') }}</label>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <span class="text-muted fs-7">{{ $dome->start_time }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="px-3 py-2 row">
+                                            <div class="col-md-4">
+                                                <label>{{ trans('labels.hst') }}</label>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <span class="text-muted fs-7">{{ $dome->hst }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="d-flex">
+                                    <div class="bg-gray col-lg-6">
+                                        <div class="px-3 py-2 row">
+                                            <div class="col-md-4">
+                                                <label>{{ trans('labels.end_time') }}</label>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <span class="text-muted fs-7">{{ $dome->end_time }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="bg-gray col-lg-6">
+                                        <div class="px-3 py-2 row">
+                                            <div class="col-md-4">
+                                                <label>{{ trans('labels.dome_description') }}</label>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <span class="text-muted fs-7">{{ $dome->description }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="d-flex">
+                                    <div class="col-lg-6">
+                                        <div class="px-3 py-2 row">
+                                            <div class="col-md-4">
+                                                <label>{{ trans('labels.city') }}</label>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <span class="text-muted fs-7">{{ $dome->city }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="px-3 py-2 row">
+                                            <div class="col-md-4">
+                                                <label>{{ trans('labels.pincode') }}</label>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <span class="text-muted fs-7">{{ $dome->pin_code }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="d-flex">
+                                    <div class="bg-gray col-lg-6">
+                                        <div class="px-3 py-2 row">
+                                            <div class="col-md-4">
+                                                <label>{{ trans('labels.amenities') }}</label>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <ul class="d-flex">
+                                                    @foreach (explode('|', $dome->benefits) as $data)
+                                                        <li class="text-muted fs-7 me-3" style="list-style: inside">
+                                                            {{ $data }}</li>
+                                                    @endforeach
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="bg-gray col-lg-6">
+                                        <div class="px-3 py-2 row">
+                                            <div class="col-md-4">
+                                                <label>{{ trans('labels.amenities_description') }}</label>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <span class="text-muted fs-7">{{ $dome->benefits_description }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="d-flex">
+                                    <div class="col-lg-6">
+                                        <div class="px-3 py-2 row">
+                                            <div class="col-md-4">
+                                                <label>{{ trans('labels.sports') }}</label>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <ul class="d-flex">
+                                                    @foreach ($sports as $sport)
+                                                        <li class="text-muted fs-7 me-3" style="list-style: inside">
+                                                            {{ $sport->name }}</li>
+                                                    @endforeach
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="px-3 py-2 row">
+                                            <div class="col-md-4">
+                                                <label>{{ trans('labels.state') }}</label>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <span class="text-muted fs-7">{{ $dome->state }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="d-flex">
+                                    <div class="bg-gray col-lg-6">
+                                        <div class="px-3 py-2 row">
+                                            <div class="col-md-4">
+                                                <label>{{ trans('labels.sports_price') }}</label>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <ul class="d-flex">
+                                                    @foreach ($sports as $sport)
+                                                        <li class="text-muted fs-7 me-3" style="list-style: inside">
+                                                            {{ $sport->name }}</li>
+                                                    @endforeach
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="bg-gray col-lg-6">
+                                        <div class="px-3 py-2 row">
+                                            <div class="col-md-4">
+                                                <label>{{ trans('labels.country') }}</label>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <span class="text-muted fs-7">{{ $dome->country }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="px-3 py-2 row">
+                                    <div class="col-12">
+                                        <label>{{ trans('labels.dome_images') }}</label>
+                                    </div>
+                                </div>
+                                <div class="px-3 py-2 row">
+                                    {{-- @foreach ($domes->dome_images as $images)
+                                        <div class="col-auto me-3">
+                                            <img src="{{ Helper::image_path($images->images) }}" alt=""
+                                                width="100" height="60" class="rounded"
+                                                style="object-fit: cover; object-position:center;">
+                                        </div>
+                                    @endforeach --}}
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="bg-gray col-lg-6">
-                    <div class="px-3 py-2 d-flex">
-                        <div class="col-md-4">
-                            <label>{{ trans('labels.hst') }}</label>
-                        </div>
-                        <div class="col-md-8">
-                            <span class="text-muted fs-7">{{ $dome->hst }}</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="d-flex">
-                <div class="col-lg-6">
-                    <div class="px-3 py-2 d-flex">
-                        <div class="col-md-4">
-                            <label>{{ trans('labels.start_time') }}</label>
-                        </div>
-                        <div class="col-md-8">
-                            <span class="text-muted fs-7">{{ $dome->start_time }}</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6">
-                    <div class="px-3 py-2 d-flex">
-                        <div class="col-md-4">
-                            <label>{{ trans('labels.dome_address') }}</label>
-                        </div>
-                        <div class="col-md-8">
-                            <span class="text-muted fs-7">{{ $dome->address }}</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="d-flex">
-                <div class="bg-gray col-lg-6">
-                    <div class="px-3 py-2 d-flex">
-                        <div class="col-md-4">
-                            <label>{{ trans('labels.end_time') }}</label>
-                        </div>
-                        <div class="col-md-8">
-                            <span class="text-muted fs-7">{{ $dome->end_time }}</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="bg-gray col-lg-6">
-                    <div class="px-3 py-2 d-flex">
-                        <div class="col-md-4">
-                            <label>{{ trans('labels.dome_description') }}</label>
-                        </div>
-                        <div class="col-md-8">
-                            <span class="text-muted fs-7">{{ $dome->description }}</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="d-flex">
-                <div class="col-lg-6">
-                    <div class="px-3 py-2 d-flex">
-                        <div class="col-md-4">
-                            <label>{{ trans('labels.city') }}</label>
-                        </div>
-                        <div class="col-md-8">
-                            <span class="text-muted fs-7">{{ $dome->city }}</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6">
-                    <div class="px-3 py-2 d-flex">
-                        <div class="col-md-4">
-                            <label>{{ trans('labels.pincode') }}</label>
-                        </div>
-                        <div class="col-md-8">
-                            <span class="text-muted fs-7">{{ $dome->pin_code }}</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="d-flex">
-                <div class="bg-gray col-lg-6">
-                    <div class="px-3 py-2 d-flex">
-                        <div class="col-md-4">
-                            <label>{{ trans('labels.amenities') }}</label>
-                        </div>
-                        <div class="col-md-8">
-                            <ul class="d-flex">
-                                @foreach (explode('|', $dome->benefits) as $data)
-                                    <li class="text-muted fs-7 me-3" style="list-style: inside">{{ $data }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class="bg-gray col-lg-6">
-                    <div class="px-3 py-2 d-flex">
-                        <div class="col-md-4">
-                            <label>{{ trans('labels.amenities_description') }}</label>
-                        </div>
-                        <div class="col-md-8">
-                            <span class="text-muted fs-7">{{ $dome->benefits_description }}</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="d-flex">
-                <div class="col-lg-6">
-                    <div class="px-3 py-2 d-flex">
-                        <div class="col-md-4">
-                            <label>{{ trans('labels.sports') }}</label>
-                        </div>
-                        <div class="col-md-8">
-                            <ul class="d-flex">
-                                @foreach ($sports as $sport)
-                                    <li class="text-muted fs-7 me-3" style="list-style: inside">{{ $sport->name }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6">
-                    <div class="px-3 py-2 d-flex">
-                        <div class="col-md-4">
-                            <label>{{ trans('labels.state') }}</label>
-                        </div>
-                        <div class="col-md-8">
-                            <span class="text-muted fs-7">{{ $dome->state }}</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="d-flex">
-                <div class="bg-gray col-lg-6">
-                    <div class="px-3 py-2 d-flex">
-                        <div class="col-md-4">
-                            <label>{{ trans('labels.sports_price') }}</label>
-                        </div>
-                        <div class="col-md-8">
-                            <ul class="d-flex">
-                                @foreach ($sports as $sport)
-                                    <li class="text-muted fs-7 me-3" style="list-style: inside">{{ $sport->name }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class="bg-gray col-lg-6">
-                    <div class="px-3 py-2 d-flex">
-                        <div class="col-md-4">
-                            <label>{{ trans('labels.country') }}</label>
-                        </div>
-                        <div class="col-md-8">
-                            <span class="text-muted fs-7">{{ $dome->country }}</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="px-3 py-2 d-flex">
-                <div class="col-12">
-                    <label>{{ trans('labels.dome_images') }}</label>
-                </div>
-            </div>
-            <div class="px-3 py-2 d-flex">
-                @foreach ($dome_images as $images)
-                    <div class="col-auto me-3">
-                        <img src="{{ Helper::image_path($images->images) }}" alt="" width="100"
-                            height="60" class="rounded" style="object-fit: cover; object-position:center;">
-                    </div>
-                @endforeach
-            </div>
+            @endforeach
         </div>
     </div>
     <div class="row">

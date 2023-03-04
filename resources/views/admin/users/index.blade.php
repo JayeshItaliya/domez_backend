@@ -71,26 +71,28 @@
                                         onclick="change_status('{{ $user->id }}','{{ $user->is_available == 1 ? 2 : 1 }}','{{ URL::to('admin/users/change_status') }}')">{{ $user->is_available == 1 ? 'Active' : 'Inactive' }}</span>
                                 </td>
                                 <td>
-                                    <i class="fa-solid fa-ellipsis-vertical ms-3" data-bs-toggle="dropdown"
-                                        aria-expanded="false" style="cursor: pointer;"></i>
-                                    <ul class="dropdown-menu">
-                                        <li><a class="dropdown-item"
-                                                href="{{ URL::to('admin/users/details-' . $user->id) }}">View Details</a>
-                                        </li>
-                                        <li>
-                                            <hr class="dropdown-divider">
-                                        </li>
-                                        <li><a class="dropdown-item"
-                                                href="{{ URL::to('admin/users/edit-' . $user->id) }}">Edit</a></li>
-                                        <li>
-                                            <hr class="dropdown-divider">
-                                        </li>
-                                        <li><a class="dropdown-item" href="#">Make Inactive</a></li>
-                                        <li>
-                                            <hr class="dropdown-divider">
-                                        </li>
-                                        <li><a class="dropdown-item" href="#">Delete</a></li>
-                                    </ul>
+                                    <a class="cursor-pointer me-2"
+                                        href="{{ URL::to('admin/users/details-' . $user->id) }}">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-eye"
+                                            width="24" height="24" viewBox="0 0 24 24" stroke-width="1" stroke="#2c3e50"
+                                            fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                            <path d="M12 12m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"></path>
+                                            <path
+                                                d="M22 12c-2.667 4.667 -6 7 -10 7s-7.333 -2.333 -10 -7c2.667 -4.667 6 -7 10 -7s7.333 2.333 10 7">
+                                            </path>
+                                        </svg>
+                                    </a>
+                                    <a class="cursor-pointer me-2" href="{{ URL::to('admin/users/edit-' . $user->id) }} ">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-edit"
+                                            width="25" height="25" viewBox="0 0 24 24" stroke-width="1" stroke="#2c3e50"
+                                            fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                            <path d="M9 7h-3a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-3" />
+                                            <path d="M9 15h3l8.5 -8.5a1.5 1.5 0 0 0 -3 -3l-8.5 8.5v3" />
+                                            <line x1="16" y1="5" x2="19" y2="8" />
+                                        </svg>
+                                    </a>
                                 </td>
                             </tr>
                         @endforeach

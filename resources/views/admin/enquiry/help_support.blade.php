@@ -81,7 +81,7 @@
                             <td> wiegand@hotmail.com</td>
                             <td>Lorem Ipsum..</td>
                             <td>Lorem Ipsum is simply dummy text..</td>
-                            <td><span class="badge rounded-pill cursor-pointer text-bg-info fa-solid fa-reply" data-bs-target="#mymodal" data-bs-toggle="modal">Reply</span>
+                            <td><span class="badge rounded-pill cursor-pointer partial-pill fa-solid fa-reply" data-bs-target="#mymodal" data-bs-toggle="modal">Reply</span>
                             </td>
                         </tr>
                         <tr>
@@ -91,7 +91,7 @@
                             <td> wiegand@hotmail.com</td>
                             <td>Lorem Ipsum..</td>
                             <td>Lorem Ipsum is simply dummy text..</td>
-                            <td><span class="badge rounded-pill cursor-pointer text-bg-info fa-solid fa-reply" data-bs-target="#mymodal" data-bs-toggle="modal">Reply</span>
+                            <td><span class="badge rounded-pill cursor-pointer partial-pill fa-solid fa-reply" data-bs-target="#mymodal" data-bs-toggle="modal">Reply</span>
                             </td>
                         </tr>
                         <tr>
@@ -101,7 +101,7 @@
                             <td> wiegand@hotmail.com</td>
                             <td>Lorem Ipsum..</td>
                             <td>Lorem Ipsum is simply dummy text..</td>
-                            <td><span class="badge rounded-pill cursor-pointer text-bg-info fa-solid fa-reply" data-bs-target="#mymodal" data-bs-toggle="modal">Reply</span>
+                            <td><span class="badge rounded-pill cursor-pointer partial-pill fa-solid fa-reply" data-bs-target="#mymodal" data-bs-toggle="modal">Reply</span>
                             </td>
                         </tr>
                         <tr>
@@ -111,7 +111,7 @@
                             <td>wiegand@hotmail.com</td>
                             <td>Lorem Ipsum..</td>
                             <td>Lorem Ipsum is simply dummy text..</td>
-                            <td><span class="badge rounded-pill cursor-pointer text-bg-info fa-solid fa-reply"data-bs-target="#mymodal" data-bs-toggle="modal">Reply</span>
+                            <td><span class="badge rounded-pill cursor-pointer partial-pill fa-solid fa-reply"data-bs-target="#mymodal" data-bs-toggle="modal">Reply</span>
                             </td>
                         </tr>
                     </tbody>

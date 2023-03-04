@@ -2,13 +2,13 @@
 @section('styles')
 @endsection
 @section('title')
-    User Details
+    {{ trans('labels.user_details') }}
 @endsection
 @section('contents')
     <div class="card mb-3">
         <div class="card-body py-2">
             <div class="d-flex align-items-center justify-content-between">
-                <p class="text-secondary fw-semibold">User Details</p>
+                <p class="text-secondary fw-semibold">{{ trans('labels.user_details') }}</p>
                 <nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='%236c757d'/%3E%3C/svg%3E&#34;);"
                     aria-label="breadcrumb">
                     <ol class="breadcrumb m-0">
@@ -26,7 +26,7 @@
                             </a>
                         </li>
                         <li class="breadcrumb-item">Users</li>
-                        <li class="breadcrumb-item active" aria-current="page">User Details</li>
+                        <li class="breadcrumb-item active" aria-current="page">{{ trans('labels.user_details') }}</li>
                     </ol>
                 </nav>
             </div>
@@ -38,20 +38,22 @@
                 <div class="col-lg-6 col-md-6">
                     <div class="px-3 py-2 d-flex">
                         <div class="col-md-4">
-                            <label>Name</label>
+                            <label>{{ trans('labels.name') }}</label>
                         </div>
                         <div class="col-md-8">
-                            <span class="text-muted fs-7">Curtis</span>
+                            <span class="text-muted fs-7">{{ $user->name }}</span>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-6 col-md-6">
                     <div class="px-3 py-2 d-flex">
                         <div class="col-md-4">
-                            <label>Login Type</label>
+                            <label>{{ trans('labels.login_type') }}</label>
                         </div>
                         <div class="col-md-8">
-                            <span class="text-muted fs-7">Google</span>
+                            <img class="border-radius"
+                                src="{{ Helper::image_path($user->login_type == 1 ? 'email.svg' : ($user->login_type == 2 ? 'google.svg' : ($user->login_type == 3 ? 'apple.svg' : ($vendor->login_type == 4 ? 'facebook.svg' : '')))) }}"
+                                width="25" height="25">
                         </div>
                     </div>
                 </div>
@@ -60,65 +62,40 @@
                 <div class="col-lg-6 col-md-6">
                     <div class="px-3 py-2 d-flex">
                         <div class="col-md-4">
-                            <label>Email</label>
+                            <label>{{ trans('labels.email') }}</label>
                         </div>
                         <div class="col-md-8">
-                            <span class="text-muted fs-7">wiegand@hotmail.com</span>
+                            <span class="text-muted fs-7">{{ $user->email }}</span>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-6 col-md-6   ">
                     <div class="px-3 py-2 d-flex">
                         <div class="col-md-4">
-                            <label>Phone number</label>
+                            <label>{{ trans('labels.phone_number') }}</label>
                         </div>
                         <div class="col-md-8">
-                            <span class="text-muted fs-7">+1 123456789</span>
+                            <span class="text-muted fs-7">{{ $user->phone }}</span>
                         </div>
                     </div>
                 </div>
             </div>
-            <table class="table table-nowrap mt-3">
-                <h5 class="mt-5">Booking History</h5>
-                <thead class="thead-light">
+
+            <table id="bootstrapTable">
+                <thead>
                     <tr>
-                        @if (Auth::user()->type == 1)
-                            <th>
-                                <a href="javascript: void(0);" class="text-muted list-sort" data-sort="id">ID</a>
-                            </th>
-                            <th>
-                                <a href="javascript: void(0);" class="text-muted list-sort"
-                                    data-sort="vendor_id">Booking ID</a>
-                            </th>
-                        @endif
-                        <th>
-                            <a href="javascript: void(0);" class="text-muted list-sort" data-sort="dome_name">Dome Owners</a>
-                        </th>
-                        <th>
-                            <a href="javascript: void(0);" class="text-muted list-sort" data-sort="dome_price">Dome Name</a>
-                        </th>
-                        <th>
-                            <a href="javascript: void(0);" class="text-muted list-sort" data-sort="dome_price">Booking Date</a>
-                        </th>
-                        <th>
-                            <a href="javascript: void(0);" class="text-muted list-sort" data-sort="end_time">Amount</a>
-                        </th>
-                        <th>
-                            <a href="javascript: void(0);" class="text-muted list-sort" data-sort="end_time">Payment Status</a>
-                        </th>
-                        <th>
-                            <a href="javascript: void(0);" class="text-muted list-sort" data-sort="end_time">Status</a>
-                        </th>
-                        <th>
-                            <a href="javascript: void(0);" class="text-muted list-sort" data-sort="end_time">Actions</a>
-                        </th>
-                        @if (Auth::user()->type == 2)
-                            <th class="text-center">
-                                <a href="javascript: void(0);" class="text-muted list-sort" data-sort="action">Action</a>
-                            </th>
-                        @endif
+                        <th>{{ trans('labels.srno') }}</th>
+                        <th>{{ trans('labels.booking_id') }}</th>
+                        <th>{{ trans('labels.dome_owner') }}</th>
+                        <th>{{ trans('labels.dome_name') }}</th>
+                        <th>{{ trans('labels.booking_date') }}</th>
+                        <th>{{ trans('labels.amount') }}</th>
+                        <th>{{ trans('labels.payment_status') }}</th>
+                        <th>{{ trans('labels.status') }}</th>
+                        <th>{{ trans('labels.action') }}</th>
                     </tr>
                 </thead>
+
                 <tbody class="list">
                     <tr data-index="0">
                         <td>01</td>

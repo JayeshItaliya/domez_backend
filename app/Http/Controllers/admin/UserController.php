@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Booking;
 use Illuminate\Http\Request;
 
 use App\Models\User;
@@ -20,6 +21,8 @@ class UserController extends Controller
     }
     public function user_details(Request $request)
     {
-        return view('admin.users.view');
+        $user = User::find($request->id);
+        $bookings = Booking::where('user_id',$user->id)->get();
+        return view('admin.users.view', compact('user','bookings'));
     }
 }
