@@ -130,6 +130,7 @@ return [
     'booking_id' => 'Booking ID',
     'booking_date' => 'Booking Date',
     'amount' => 'Amount',
+    'players' => 'Players',
     'full_amount' => 'Full Payment',
     'partial_amount' => 'Partial Payment',
     'payment_status' => 'Payment Status',
