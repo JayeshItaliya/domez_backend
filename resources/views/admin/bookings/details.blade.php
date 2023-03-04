@@ -95,12 +95,10 @@
                 <div class="col-lg-4">
                     <div class="px-3 py-2 d-flex">
                         <div class="col-md-4">
-                            <label>{{ trans('labels.payment_status') }}</label>
+                            <label>{{ trans('labels.players') }}</label>
                         </div>
                         <div class="col-md-8">
-                            <span class="text-muted fs-7 mx-3">
-                                {{ $bookingdata->payment_status == 1 ? trans('labels.completed') : trans('labels.partial') }}
-                            </span>
+                            <span class="text-muted fs-7 mx-3">{{ $bookingdata->players }}</span>
                         </div>
                     </div>
                 </div>
@@ -108,10 +106,10 @@
                     <div class="col-lg-4">
                         <div class="px-3 py-2 d-flex">
                             <div class="col-md-4">
-                                <label>{{ trans('labels.players') }}</label>
+                                <label>{{ trans('labels.booking_date') }}</label>
                             </div>
                             <div class="col-md-8">
-                                <span class="text-muted fs-7 mx-3">{{ $bookingdata->players }}</span>
+                                <span class="text-muted fs-7 mx-3">{{ Helper::date_format($bookingdata->booking_date) }}</span>
                             </div>
                         </div>
                     </div>
@@ -119,57 +117,11 @@
                 <div class="col-lg-4">
                     <div class="px-3 py-2 d-flex">
                         <div class="col-md-4">
-                            <label>{{ trans('labels.booking_date') }}</label>
-                        </div>
-                        <div class="col-md-8">
-                            <span class="text-muted fs-7 mx-3">{{ Helper::date_format($bookingdata->booking_date) }}</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="bg-gray">
-                    <div class="col-lg-4">
-                        <div class="px-3 py-2 d-flex">
-                            <div class="col-md-4">
-                                <label>{{ trans('labels.start_time') }}</label>
-                            </div>
-                            <div class="col-md-8">
-                                <span
-                                    class="text-muted fs-7 mx-3">{{ Helper::time_format($bookingdata->start_time) }}</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4">
-                    <div class="px-3 py-2 d-flex">
-                        <div class="col-md-4">
-                            <label>{{ trans('labels.end_time') }}</label>
-                        </div>
-                        <div class="col-md-8">
-                            <span class="text-muted fs-7 mx-3">{{ Helper::time_format($bookingdata->end_time) }}</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="bg-gray">
-                    <div class="col-lg-4">
-                        <div class="px-3 py-2 d-flex">
-                            <div class="col-md-4">
-                                <label>{{ trans('labels.total_amount') }}</label>
-                            </div>
-                            <div class="col-md-8">
-                                <span
-                                    class="text-muted fs-7 mx-3">{{ Helper::currency_format($bookingdata->total_amount) }}</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4">
-                    <div class="px-3 py-2 d-flex">
-                        <div class="col-md-4">
-                            <label>{{ trans('labels.paid_amount') }}</label>
+                            <label>{{ trans('labels.start_time') }}</label>
                         </div>
                         <div class="col-md-8">
                             <span
-                                class="text-muted fs-7 mx-3">{{ Helper::currency_format($bookingdata->paid_amount) }}</span>
+                                class="text-muted fs-7 mx-3">{{ Helper::time_format($bookingdata->start_time) }}</span>
                         </div>
                     </div>
                 </div>
@@ -177,11 +129,10 @@
                     <div class="col-lg-4">
                         <div class="px-3 py-2 d-flex">
                             <div class="col-md-4">
-                                <label>{{ trans('labels.due_amount') }}</label>
+                                <label>{{ trans('labels.end_time') }}</label>
                             </div>
                             <div class="col-md-8">
-                                <span
-                                    class="text-muted fs-7 mx-3">{{ Helper::currency_format($bookingdata->due_amount) }}</span>
+                                <span class="text-muted fs-7 mx-3">{{ Helper::time_format($bookingdata->end_time) }}</span>
                             </div>
                         </div>
                     </div>
@@ -189,16 +140,35 @@
                 <div class="col-lg-4">
                     <div class="px-3 py-2 d-flex">
                         <div class="col-md-4">
-                            <label>{{ trans('labels.payment_type') }}</label>
+                            <label>{{ trans('labels.total_amount') }}</label>
                         </div>
                         <div class="col-md-8">
-                            <span class="text-muted fs-7 mx-3">
-                                @if ($bookingdata->payment_type == 1)
-                                    {{ trans('labels.full_amount') }}
-                                @else
-                                    {{ trans('labels.partial_amount') }}
-                                @endif
-                            </span>
+                            <span
+                                class="text-muted fs-7 mx-3">{{ Helper::currency_format($bookingdata->total_amount) }}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-gray">
+                    <div class="col-lg-4">
+                        <div class="px-3 py-2 d-flex">
+                            <div class="col-md-4">
+                                <label>{{ trans('labels.paid_amount') }}</label>
+                            </div>
+                            <div class="col-md-8">
+                                <span
+                                    class="text-muted fs-7 mx-3">{{ Helper::currency_format($bookingdata->paid_amount) }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="px-3 py-2 d-flex">
+                        <div class="col-md-4">
+                            <label>{{ trans('labels.due_amount') }}</label>
+                        </div>
+                        <div class="col-md-8">
+                            <span
+                                class="text-muted fs-7 mx-3">{{ Helper::currency_format($bookingdata->due_amount) }}</span>
                         </div>
                     </div>
                 </div>
@@ -220,7 +190,7 @@
                         </div>
                     </div>
                 </div>
-                <div class=" col-lg-4">
+                <div class="col-lg-4">
                     <div class="px-3 py-2 d-flex">
                         <div class="col-md-4">
                             <label>{{ trans('labels.status') }}</label>
