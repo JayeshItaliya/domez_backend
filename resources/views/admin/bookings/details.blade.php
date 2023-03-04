@@ -223,7 +223,7 @@
                 <div class=" col-lg-4">
                     <div class="px-3 py-2 d-flex">
                         <div class="col-md-4">
-                            <label>{{ trans('label.status') }}</label>
+                            <label>{{ trans('labels.status') }}</label>
                         </div>
                         <div class="col-md-8">
                             @if ($bookingdata->booking_status == 1)
