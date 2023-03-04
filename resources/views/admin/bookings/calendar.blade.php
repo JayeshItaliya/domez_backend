@@ -68,21 +68,23 @@
                     center: 'title',
                     right: 'dayGridMonth timeGridWeek timeGridDay listWeek'
                 },
-                eventDisplay: 'block',
+                eventDisplay: 'list-item',
                 events: [
                     @foreach ($getbookingslist as $booking)
-                        {
-                            title: "{{ $booking->booking_id }} - {{ $booking->dome_name->name }}",
+                    {
+                        title: "{{ strtoupper($booking->booking_id) }} - {{ $booking->dome_name->name }}",
                             start: "{{ $booking->booking_date }}",
                             url: "{{ URL::to('admin/bookings/details-' . $booking->booking_id) }}",
-                            description: 'Lecture',
-
-                            // color: 'yellow',
-                            // textColor: 'black',
+                            description: 'Hii',
+                            color: "{{ $booking->league_id != '' ? 'gray' : '' }}",
+                            // textColor: 'white',
                             // borderColor: 'cyan'
                         },
                     @endforeach
-                ]
+                ],
+                eventRender: function(event, element) {
+                    element.find('.fc-event-title').append("<br/>" + event.description);
+                }
             });
             calendar.render();
             fcChangeIconsPositions();
