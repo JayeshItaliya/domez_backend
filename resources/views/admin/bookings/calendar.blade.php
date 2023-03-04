@@ -3,6 +3,26 @@
     {{ trans('labels.calendar') }}
 @endsection
 @section('contents')
+    <style>
+        .fc-button {
+            background-color: transparent !important;
+            color: var(--bs-primary) !important;
+            border-color: var(--bs-primary) !important;
+        }
+
+        .fc-button.fc-button-active {
+            background-color: var(--bs-primary) !important;
+            color: white !important;
+            border-color: var(--bs-primary) !important;
+        }
+
+        .fc-prev-button,
+        .fc-next-button {
+            background-color: transparent !important;
+            color: black !important;
+            border-color: transparent !important;
+        }
+    </style>
     <div class="card mb-3">
         <div class="card-body py-2">
             <div class="d-flex align-items-center justify-content-between">
@@ -42,23 +62,48 @@
             var calendarEl = document.getElementById('calendar');
             var calendar = new FullCalendar.Calendar(calendarEl, {
                 // initialDate: '2024-05-05',
-                initialView: 'dayGridMonth',
+                // initialView: 'multiMonthYear',
                 headerToolbar: {
-                    left: 'prev,next today',
+                    left: 'prev next today',
                     center: 'title',
-                    right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
+                    right: 'dayGridMonth timeGridWeek timeGridDay listWeek'
                 },
+                eventDisplay: 'block',
                 events: [
                     @foreach ($getbookingslist as $booking)
                         {
-                            title: "#{{ $booking->booking_id }} - {{ $booking->dome_name->name }}",
+                            title: "{{ $booking->booking_id }} - {{ $booking->dome_name->name }}",
                             start: "{{ $booking->booking_date }}",
-                            url: "{{ URL::to('admin/bookings/details-'.$booking->booking_id) }}"
+                            url: "{{ URL::to('admin/bookings/details-' . $booking->booking_id) }}",
+                            description: 'Lecture',
+
+                            // color: 'yellow',
+                            // textColor: 'black',
+                            // borderColor: 'cyan'
                         },
                     @endforeach
                 ]
             });
             calendar.render();
+            fcChangeIconsPositions();
+            $('button.fc-button').on('click', function() {
+                fcChangeIconsPositions();
+            });
         });
+
+        function fcChangeIconsPositions() {
+
+            $(".fc-toolbar-title").addClass('mx-3');
+            $(".fc-toolbar-title").parent().addClass('d-flex align-items-center');
+            $(".fc-toolbar-title").before($(".fc-prev-button"));
+            $(".fc-toolbar-title").after($(".fc-next-button"));
+            $(".fc-next-button").addClass('m-0');
+
+            $('.fc-dayGridMonth-button').html('<i class="fa-light fa-grid-2"></i>');
+            $('.fc-timeGridWeek-button').html('<i class="fa-sharp fa-regular fa-chart-tree-map"></i>');
+            $('.fc-timeGridDay-button').html('<i class="fa-solid fa-grip-lines"></i>');
+            $('.fc-listWeek-button').html('<i class="fa-regular fa-list-ol"></i>');
+            $('.fc-today-button').text('Today');
+        }
     </script>
 @endsection

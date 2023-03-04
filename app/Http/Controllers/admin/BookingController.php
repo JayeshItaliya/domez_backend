@@ -11,6 +11,7 @@ use App\Models\Transaction;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\URL;
 use Stripe;
 
 class BookingController extends Controller
@@ -31,6 +32,15 @@ class BookingController extends Controller
         } else {
             $getbookingslist = Booking::where('vendor_id', Auth::user()->id)->orderByDesc('id')->get();
         }
+        // $data = [];
+        // foreach ($getbookingslist as $key => $booking) {
+        //     $data[] = [
+        //         "title" => $booking->booking_id . ' - ' . $booking->dome_name->name,
+        //         "start" => $booking->booking_date,
+        //         "url" => URL::to('admin/bookings/details-' . $booking->booking_id),
+        //     ];
+        // }
+        // $getbookingslist = json_encode($data,true);
         return view('admin.bookings.calendar', compact('getbookingslist'));
     }
     public function details(Request $request)
