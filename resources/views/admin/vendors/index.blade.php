@@ -36,7 +36,7 @@
                     <tr>
                         <th>{{ trans('labels.srno') }}</th>
                         <th>{{ trans('labels.profile') }}</th>
-                        <th>{{ trans('labels.profile') }}</th>
+                        <th>{{ trans('labels.phone_number') }}</th>
                         <th>{{ trans('labels.login_type') }}</th>
                         <th>{{ trans('labels.status') }}</th>
                         <th>{{ trans('labels.action') }}</th>
@@ -65,8 +65,7 @@
                                     src="{{ Helper::image_path($vendor->login_type == 1 ? 'email.svg' : ($vendor->login_type == 2 ? 'google.svg' : ($vendor->login_type == 3 ? 'apple.svg' : ($vendor->login_type == 4 ? 'facebook.svg' : '')))) }}"
                                     width="25" height="25">
                             </td>
-                            <td><span
-                                    class="badge rounded-pill cursor-pointer text-bg-{{ $vendor->is_available == 1 ? 'success' : 'danger' }}"
+                            <td><span class="badge rounded-pill cursor-pointer text-bg-{{ $vendor->is_available == 1 ? 'success' : 'danger' }}"
                                     onclick="change_status('{{ $vendor->id }}','{{ $vendor->is_available == 1 ? 2 : 1 }}','{{ URL::to('admin/vendors/change_status') }}')">{{ $vendor->is_available == 1 ? trans('labels.active') : trans('labels.inactive') }}</span>
                             </td>
                             <td>

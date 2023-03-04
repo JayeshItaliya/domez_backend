@@ -51,6 +51,7 @@ return [
     'supports' => 'Supports',
     // Users
     'users' => 'Users',
+    'user_details' => 'User Details',
     // Vendors
     'dome_owner' => 'Dome Owner',
     'dome_owner_detail' => 'Dome Owner Detail',

@@ -702,3 +702,14 @@ header .nav-icons .dropdown-menu .notifications:hover {
     border-bottom-left-radius: 4px;
     border-bottom-right-radius: 0;
 }
+
+/* Bookings CSS */
+
+.complete-pill {
+    color: rgba(33, 150, 243, 1) !important;
+    background-color: #E3F2FD !important;
+}
+.partial-pill {
+    color: rgba(94, 53, 177, 1) !important;
+    background-color: #EDE7F6 !important;
+}

@@ -153,7 +153,8 @@ class BookingController extends Controller
             //     }
             // }
 
-            $period = new CarbonPeriod(date('h:i A', strtotime($getdomedata->start_time)), '60 minutes', date('h:i A', strtotime($getdomedata->end_time))); // for create use 24 hours format later change format
+            // for create use 24 hours format later change format
+            $period = new CarbonPeriod(date('h:i A', strtotime($getdomedata->start_time)), '60 minutes', date('h:i A', strtotime($getdomedata->end_time)));
             $slots = [];
             foreach ($period as $item) {
 

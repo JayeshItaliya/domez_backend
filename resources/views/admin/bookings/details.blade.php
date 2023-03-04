@@ -211,10 +211,10 @@
                             <div class="col-md-8">
                                 @if ($bookingdata->payment_status == 1)
                                     <span
-                                        class="badge rounded-pill cursor-pointer text-bg-primary">{{ trans('labels.completed') }}</span>
+                                        class="badge rounded-pill cursor-pointer complete-pill">{{ trans('labels.completed') }}</span>
                                 @else
                                     <span
-                                        class="badge rounded-pill cursor-pointer text-bg-info">{{ trans('labels.partial') }}</span>
+                                        class="badge rounded-pill cursor-pointer partial-pill">{{ trans('labels.partial') }}</span>
                                 @endif
                             </div>
                         </div>
@@ -223,7 +223,7 @@
                 <div class=" col-lg-4">
                     <div class="px-3 py-2 d-flex">
                         <div class="col-md-4">
-                            <label>{{ trans('labela.status') }}</label>
+                            <label>{{ trans('label.status') }}</label>
                         </div>
                         <div class="col-md-8">
                             @if ($bookingdata->booking_status == 1)

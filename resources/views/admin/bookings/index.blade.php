@@ -35,10 +35,24 @@
         <div class="card-body table-responsive">
             @if (count($getbookingslist) > 0)
                 <div class="filter_content">
-                    <select class="form-select" name="" id="">
-                        <option value="" selected disabled>Select</option>
-                        <option value="today" selected>Today</option>
-                    </select>
+                    <div class="row gx-2">
+                        <div class="col-auto">
+                            <select class="form-select" name="" id="">
+                                <option value="" selected disabled>Select</option>
+                                <option value="all" selected>All</option>
+                                <option value="domes">Domes</option>
+                                <option value="leagues">Leagues</option>
+                            </select>
+                        </div>
+                        <div class="col-auto">
+                            <select class="form-select" name="" id="">
+                                <option value="" selected disabled>Select</option>
+                                <option value="today" selected>Today</option>
+                                <option value="last-7">Last 7 days</option>
+                                <option value="this-month">This Month</option>
+                            </select>
+                        </div>
+                    </div>
                 </div>
             @endif
             <table class="table table-nowrap mb-0" id="bootstrapTable">
@@ -73,10 +87,10 @@
                             <td>
                                 @if ($bookingdata->payment_status == 1)
                                     <span
-                                        class="badge rounded-pill cursor-pointer text-bg-primary">{{ trans('labels.completed') }}</span>
+                                        class="badge rounded-pill cursor-pointer complete-pill">{{ trans('labels.completed') }}</span>
                                 @else
                                     <span
-                                        class="badge rounded-pill cursor-pointer text-bg-info">{{ trans('labels.partial') }}</span>
+                                        class="badge rounded-pill cursor-pointer partial-pill">{{ trans('labels.partial') }}</span>
                                 @endif
                             </td>
                             <td>
