@@ -3,7 +3,6 @@
     {{ trans('labels.reviews') }}
 @endsection
 @section('contents')
-    <!-- Title -->
     <div class="card mb-3">
         <div class="card-body py-2">
             <div class="d-flex align-items-center justify-content-between">
@@ -34,8 +33,6 @@
         <div class="card-body">
             <div class="table-responsive">
 
-
-
                 <table id="bootstrapTable" class="table-responsive">
                     <thead>
                         <tr>
@@ -57,13 +54,29 @@
                                 <td>{{ $review->dome_name->name }}</td>
                                 <td>{{ $review->user_name->name }}</td>
                                 <td>
-                                    @for ($i = 1; $i <= 5; $i++)
-                                        <i
-                                            class="fa-regular fa-star {{ $i <= $review->ratting ? 'text-warning' : '' }}"></i>
-                                    @endfor
+                                    <span class="stars-{{ $i }}">
+                                        @for ($j = 1; $j <= 5; $j++)
+                                            <i
+                                                class="fa-regular fa-star {{ $j <= $review->ratting ? 'text-warning' : '' }}"></i>
+                                        @endfor
+                                    </span>
                                 </td>
                                 <td>{{ $review->comment }}</td>
-                                <td></td>
+                                <td>
+                                    <span class="badge rounded-pill cursor-pointer text-bg-info review_action"
+                                        data-id="{{ $i }}" data-user-name="{{ $review->user_name->name }}"
+                                        data-comment="{{ $review->comment }}" data-bs-toggle="modal"
+                                        data-bs-target="#replymessage">
+                                        <svg width="10" height="9" viewBox="0 0 10 9" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M3.25833 3.70833L1.125 6.04167L3.25833 8.375M1.125 6.04167H6.99167C7.55746 6.04167 8.10008 5.79583 8.50016 5.35825C8.90024 4.92066 9.125 4.32717 9.125 3.70833C9.125 3.08949 8.90024 2.496 8.50016 2.05842C8.10008 1.62083 7.55746 1.375 6.99167 1.375H6.45833"
+                                                stroke="#2196F3" stroke-width="1.25" stroke-linecap="round"
+                                                stroke-linejoin="round" />
+                                        </svg>
+                                        {{ trans('labels.reply') }}
+                                    </span>
+                                </td>
                             </tr>
                         @endforeach
                     </tbody>
@@ -71,4 +84,59 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="replymessage" tabindex="-1" aria-labelledby="replymessageLabel" aria-hidden="true">
+        <div class="modal-dialog
+        {{-- modal-dialog-scrollable --}}
+        ">
+            <div class="modal-content">
+                {{-- <div class="modal-header">
+                    <h5 class="modal-title" id="replymessageLabel">{{ trans('labels.reply') }}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div> --}}
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="user_name" class="form-label fw-bold">{{ trans('labels.user_name') }}</label>
+                                <p class="show_user_name"></p>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="form-label fw-bold">{{ trans('labels.subject') }}</label>
+                                <p class="show-stars"></p>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="comment" class="form-label fw-bold">{{ trans('labels.comments') }}</label>
+                                <p class="show_comment"></p>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="reply" class="form-label fw-bold">{{ trans('labels.reply') }}</label>
+                                <textarea class="form-control" name="reply" placeholder="{{ trans('labels.reply') }}" autocomplete="off" rows="4"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    {{-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> --}}
+                    <button type="button" class="btn btn-primary">{{ trans('labels.submit') }}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+@endsection
+@section('scripts')
+    <script>
+        $(function() {
+            $(".review_action").on('click', function() {
+                $('.show_user_name').text($(this).attr('data-user-name'));
+                $(".show-stars").html('').html($(".stars-" + $(this).attr('data-id')).html());
+                $('.show_comment').text($(this).attr('data-comment'));
+            });
+        });
+    </script>
 @endsection

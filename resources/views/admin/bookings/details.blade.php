@@ -108,7 +108,7 @@
                     <div class="col-lg-4">
                         <div class="px-3 py-2 d-flex">
                             <div class="col-md-4">
-                                <label>{{ trans('labelas.players') }}</label>
+                                <label>{{ trans('labels.players') }}</label>
                             </div>
                             <div class="col-md-8">
                                 <span class="text-muted fs-7 mx-3">{{ $bookingdata->players }}</span>
@@ -196,7 +196,7 @@
                                 @if ($bookingdata->payment_type == 1)
                                     {{ trans('labels.full_amount') }}
                                 @else
-                                    {{ trans('labels.split_amount') }}
+                                    {{ trans('labels.partial_amount') }}
                                 @endif
                             </span>
                         </div>

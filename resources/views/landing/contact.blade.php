@@ -1,13 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <!-- Page Title -->
     <title>{{ trans('labels.website_title') }}</title>
-
     <!-- Favicon -->
     <link rel="icon" href="{{ Helper::image_path('preloader.gif') }}" sizes="any">
     <!-- Bootstrap CSS -->
@@ -27,9 +25,7 @@
     <!-- responsive Css -->
     <link rel="stylesheet" href="{{ url('storage/app/public/admin/css/responsive.css') }}">
 </head>
-
 <body>
-
     <div class="layout">
         <header class="container header-section-contact">
             <nav class="navbar navbar-expand-lg navbar-light">
@@ -40,7 +36,6 @@
                     aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-
                 <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
                     <ul class="navbar-nav ml-auto mr-4">
                         <li class="nav-item mx-3">
@@ -53,14 +48,11 @@
                             <a class="nav-link" href="#">FAQ</a>
                         </li>
                     </ul>
-
                     <a href="{{ URL::to('login') }}" class="btn btn-success dmz-button px-4 my-2 my-sm-0">Sign In</a>
                 </div>
             </nav>
         </header>
-
         @dump(Helper::image_path('logo.png'))
-
         <section style="margin:100px 0">
             <div class="container">
                 <div class="row justify-content-center">
@@ -198,7 +190,6 @@
             </div>
         </div>
     </div>
-
     <!-- Javascript -->
     <script src="{{ url('storage/app/public/admin/js/jquery/jquery.min.js') }}"></script>
     <script src="{{ url('storage/app/public/admin/js/bootstrap/bootstrap.bundle.min.js') }}"></script>
@@ -271,5 +262,4 @@
         });
     </script>
 </body>
-
 </html>

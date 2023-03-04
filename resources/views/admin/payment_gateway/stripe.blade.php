@@ -2,7 +2,6 @@
 @section('title') Stripe @endsection
 @section('contents')
 
-    <!-- Title -->
     <h1 class="h2">Stripe Configuration</h1>
     <div class="row">
         <div class="col-md-8">
@@ -24,5 +23,4 @@
             </form>
         </div>
     </div>
-    
 @endsection

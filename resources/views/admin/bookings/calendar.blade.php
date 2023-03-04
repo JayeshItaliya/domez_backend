@@ -1,17 +1,12 @@
 @extends('admin.layout.default')
-@section('styles')
-@endsection
 @section('title')
-    {{ trans('labels.privacy_policy') }}
-@endsection
-@section('styles')
-    <link rel="stylesheet" href="{{ url('storage/app/public/admin/plugins/richtexteditor/rte_theme_default.css') }}" />
+    {{ trans('labels.calendar') }}
 @endsection
 @section('contents')
     <div class="card mb-3">
         <div class="card-body py-2">
             <div class="d-flex align-items-center justify-content-between">
-                <p class="text-secondary fw-semibold">{{ trans('labels.privacy_policy') }}</p>
+                <p class="text-secondary fw-semibold">{{ trans('labels.calendar') }}</p>
                 <nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='%236c757d'/%3E%3C/svg%3E&#34;);"
                     aria-label="breadcrumb">
                     <ol class="breadcrumb m-0">
@@ -28,28 +23,42 @@
                                 </svg>
                             </a>
                         </li>
-                        <li class="breadcrumb-item">{{ trans('labels.general_settings') }}</li>
-                        <li class="breadcrumb-item active" aria-current="page">{{ trans('labels.privacy_policy') }}</li>
+                        <li class="breadcrumb-item">{{ trans('labels.calendar') }}</li>
                     </ol>
                 </nav>
             </div>
         </div>
     </div>
     <div class="card">
-        <div class="card-body">
-            <form action="" method="post">
-                @csrf
-                <textarea name="" class="mb-3" id="ckeditor"></textarea>
-                <button type="submit" class="btn btn-primary">Submit</button>
-            </form>
+        <div class="card-body table-responsive">
+            <div id='calendar'></div>
         </div>
     </div>
 @endsection
 @section('scripts')
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/ckeditor/4.12.1/ckeditor.js"></script>
-    <script type="text/javascript">
-        CKEDITOR.replace('ckeditor',{
-            height: '500',
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.4/index.global.min.js'></script>
+    <script>
+        $(function() {
+            var calendarEl = document.getElementById('calendar');
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                // initialDate: '2024-05-05',
+                initialView: 'dayGridMonth',
+                headerToolbar: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
+                },
+                events: [
+                    @foreach ($getbookingslist as $booking)
+                        {
+                            title: "#{{ $booking->booking_id }} - {{ $booking->dome_name->name }}",
+                            start: "{{ $booking->booking_date }}",
+                            url: "{{ URL::to('admin/bookings/details-'.$booking->booking_id) }}"
+                        },
+                    @endforeach
+                ]
+            });
+            calendar.render();
         });
     </script>
 @endsection

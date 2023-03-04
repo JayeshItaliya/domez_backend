@@ -3,9 +3,7 @@
     Settings
 @endsection
 @section('contents')
-    <!-- Title -->
     <h1 class="h2">Settings</h1>
-
     <div class="row rows-col-lg-2">
         <div class="col">
             <form class="card" action="{{URL::to('admin/settings/edit-profile'.$user->id)}}" method="POST" enctype="multipart/form-data">

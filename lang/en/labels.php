@@ -130,7 +130,6 @@ return [
     'booking_id' => 'Booking ID',
     'booking_date' => 'Booking Date',
     'amount' => 'Amount',
-    'payment_status' => 'Payment Status',
     'full_amount' => 'Full Payment',
     'partial_amount' => 'Partial Payment',
     'payment_status' => 'Payment Status',
@@ -151,9 +150,15 @@ return [
     'total_amount' => 'Total Amount',
     'paid_amount' => 'Paid Amount',
     'due_amount' => 'Due Amount',
+    'card' => 'Card',
+    'apple_pay' => 'Apple Pay',
+    'google_pay' => 'Google Pay',
     // Reviews
     'reviews' => 'Reviews',
     'comments' => 'Comments',
     'rattings' => 'Rattings',
+    'reply' => 'Reply',
+    'subject' => 'Subject',
+    // Calendar
+    'calendar' => 'Calendar',
 ];
-?>

@@ -2,7 +2,6 @@
 @section('title')
     Verification
 @endsection
-
 @section('contents')
     <section class="auth-bg">
         <div class="row justify-content-center align-items-center g-0 w-100 h-100vh">
@@ -34,14 +33,12 @@
         </div>
     </section>
 @endsection
-
 @section('scripts')
     <script>
         let digitValidate = function(ele) {
             console.log(ele.value);
             ele.value = ele.value.replace(/[^0-9]/g, "");
         };
-
         let tabChange = function(val) {
             let ele = document.querySelectorAll("input");
             if (ele[val - 1].value != "") {

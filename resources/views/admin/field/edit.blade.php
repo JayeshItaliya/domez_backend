@@ -6,9 +6,7 @@
     <link href="https://cdn.rawgit.com/harvesthq/chosen/gh-pages/chosen.min.css" rel="stylesheet" />
 @endsection
 @section('contents')
-    <!-- Title -->
     <h1 class="h2">Edit Field</h1>
-
     <form class="card" action="{{ URL::to('admin/field/update-' . $field->id) }}" method="post" enctype="multipart/form-data">
         @csrf
         <div class="card-body">

@@ -3,7 +3,6 @@
     {{ trans('labels.dome_details') }}
 @endsection
 @section('contents')
-    <!-- Title -->
     <div class="card mb-3">
         <div class="card-body py-2">
             <div class="d-flex align-items-center justify-content-between">
@@ -31,7 +30,6 @@
             </div>
         </div>
     </div>
-
     <div class="card mb-3">
         <div class="card-body">
             <p class="mb-2 fw-semibold">{{ trans('labels.dome_owner') }}</p>
