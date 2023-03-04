@@ -22,6 +22,11 @@
             color: black !important;
             border-color: transparent !important;
         }
+
+        .fc-event-title {
+            font-size: 12px;
+            line-height: 1;
+        }
     </style>
     <div class="card mb-3">
         <div class="card-body py-2">
@@ -63,27 +68,38 @@
             var calendar = new FullCalendar.Calendar(calendarEl, {
                 // initialDate: '2024-05-05',
                 // initialView: 'multiMonthYear',
+                // eventDisplay: 'list-item',
+                dayMaxEvents: true,
                 headerToolbar: {
                     left: 'prev next today',
                     center: 'title',
                     right: 'dayGridMonth timeGridWeek timeGridDay listWeek'
                 },
-                eventDisplay: 'list-item',
                 events: [
                     @foreach ($getbookingslist as $booking)
-                    {
-                        title: "{{ strtoupper($booking->booking_id) }} - {{ $booking->dome_name->name }}",
+                        {
+                            title: "#{{ $booking->booking_id }}",
                             start: "{{ $booking->booking_date }}",
                             url: "{{ URL::to('admin/bookings/details-' . $booking->booking_id) }}",
-                            description: 'Hii',
+                            dome_name: '{{ $booking->dome_name != '' ? Str::limit($booking->dome_name->name,20) : '' }}',
+                            league_name: '{{ $booking->league_id != '' ? Str::limit($booking->league_info->name,20) : '' }}',
                             color: "{{ $booking->league_id != '' ? 'gray' : '' }}",
-                            // textColor: 'white',
-                            // borderColor: 'cyan'
                         },
                     @endforeach
                 ],
-                eventRender: function(event, element) {
-                    element.find('.fc-event-title').append("<br/>" + event.description);
+                eventContent: function(info) {
+                    var title = '';
+                    if (info.event.extendedProps.dome_name != "") {
+                        title = '<b>{{ trans("labels.dome") }}</b> : ' + info.event.extendedProps.dome_name;
+                    }
+                    if (info.event.extendedProps.league_name != "") {
+                        title += '<br><b>{{ trans("labels.league") }}</b> : ' + info.event.extendedProps.league_name;
+                    }
+                    return {
+                        html: '<b> {{ trans("labels.booking_id") }} : ' + info.event.title + '</b><br>' + title
+                        // 'Start: ' + info.event.start.toLocaleString() + '<br>' +
+                        // 'End: ' + info.event.end.toLocaleString() + '<br>' +
+                    };
                 }
             });
             calendar.render();
@@ -95,6 +111,7 @@
 
         function fcChangeIconsPositions() {
 
+            $(".fc-event-main").addClass('text-wrap');
             $(".fc-toolbar-title").addClass('mx-3');
             $(".fc-toolbar-title").parent().addClass('d-flex align-items-center');
             $(".fc-toolbar-title").before($(".fc-prev-button"));
