@@ -3,7 +3,6 @@
 {{ trans('labels.dome_requests') }}
 @endsection
 @section('contents')
-    <!-- Title -->
     <div class="card mb-3">
         <div class="card-body py-2">
             <div class="d-flex align-items-center justify-content-between">
@@ -30,7 +29,6 @@
             </div>
         </div>
     </div>
-
     <div class="card">
         <div class="card-body">
             <div class="table-responsive">
@@ -75,7 +73,6 @@
                             </th>
                         </tr>
                     </thead>
-
                     <tbody class="list">
                         <tr>
                             <td>01</td>
@@ -88,7 +85,6 @@
                                 <i class="fa-regular fa-circle-check text-success mx-1 fs-4"></i>
                                 <i class="fa-regular fa-circle-xmark text-danger mx-2 fs-4"></i>
                             </td>
-
                         </tr>
                         <tr>
                             <td>02</td>
@@ -147,7 +143,6 @@
                                        <button type="button" class="btn btn-primary">Replay</button>
                                     </div>
                                  </div>
-
                              </div>
                         </div>
                    </div>
@@ -156,4 +151,3 @@
         </div>
     </div>
 @endsection
-

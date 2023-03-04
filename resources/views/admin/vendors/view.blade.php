@@ -307,10 +307,8 @@
     <div id="secondaryColor" style="color: var(--bs-secondary)"></div>
     <div id="lightSecondaryColor" style="color: rgba(var(--bs-secondary-rgb),0.75)"></div>
 @endsection
-
 @section('scripts')
     <script src="{{ url('storage/app/public/admin/js/charts/apexchart/apexcharts.js') }}"></script>
-
     <script>
         let primary_color = $('#primaryColor').css('color');
         let secondary_color = $('#secondaryColor').css('color');
@@ -350,7 +348,6 @@
         };
         var chart = new ApexCharts(document.querySelector("#dome_revenue"), options);
         chart.render();
-
         //Total Bookings Chart
         var options = {
             series: [44, 55, 11],
@@ -375,7 +372,6 @@
                 }
             }]
         };
-
         var chart = new ApexCharts(document.querySelector("#booking_chart"), options);
         chart.render();
     </script>

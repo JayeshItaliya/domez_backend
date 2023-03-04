@@ -4,7 +4,6 @@
     <link rel="stylesheet" href="{{ url('storage/app/public/admin/css/summernote/summernote.min.css') }}">
 @endsection
 @section('contents')
-    <!-- Title -->
     <h1 class="h2">Refund Policy</h1>
     <div class="row">
         <div class="card">

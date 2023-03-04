@@ -3,7 +3,6 @@
     {{ trans('labels.transactions') }}
 @endsection
 @section('contents')
-    <!-- Title -->
     <div class="card mb-3">
         <div class="card-body py-2">
             <div class="d-flex align-items-center justify-content-between">
@@ -30,51 +29,44 @@
             </div>
         </div>
     </div>
-
-    @if (count($transactions) != 0)
-        <div class="card">
-            <div class="card-body">
-                <div class="table-responsive">
-                    <table id="bootstrapTable" class="table-responsive">
-                        <thead>
+    <div class="card">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table id="bootstrapTable" class="table-responsive">
+                    <thead>
+                        <tr>
+                            <th>{{ trans('labels.srno') }}</th>
+                            <th>{{ trans('labels.payment_id') }}</th>
+                            <th>{{ trans('labels.payment_type') }}</th>
+                            @if (Auth::user()->type == 1)
+                                <th>{{ trans('labels.dome_owners') }}</th>
+                            @endif
+                            <th>{{ trans('labels.user_name') }}</th>
+                            <th>{{ trans('labels.booking_id') }}</th>
+                            <th>{{ trans('labels.amount') }}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @php
+                            $i = 1;
+                        @endphp
+                        @foreach ($transactions as $transaction)
                             <tr>
-                                <th>{{ trans('labels.srno') }}</th>
-                                <th>{{ trans('labels.payment_id') }}</th>
-                                <th>{{ trans('labels.payment_type') }}</th>
+                                <td>{{ $i++ }}</td>
+                                <td>{{ $transaction->transaction_id }}</td>
+                                <td>{{ $transaction->payment_method == 1 ? trans('labels.card') : ($transaction->payment_method == 2 ? trans('labels.apple_pay') : trans('labels.google_pay')) }}
+                                </td>
                                 @if (Auth::user()->type == 1)
-                                    <th>{{ trans('labels.dome_owners') }}</th>
+                                    <td>{{ $transaction->dome_owner->name }}</td>
                                 @endif
-                                <th>{{ trans('labels.user_name') }}</th>
-                                <th>{{ trans('labels.booking_id') }}</th>
-                                <th>{{ trans('labels.amount') }}</th>
+                                <td>{{ $transaction->user_name->name }}</td>
+                                <td>{{ $transaction->booking_id }}</td>
+                                <td>{{ Helper::currency_format($transaction->amount) }}</td>
                             </tr>
-                        </thead>
-                        <tbody>
-                            @php
-                                $i = 1;
-                            @endphp
-                            @foreach ($transactions as $transaction)
-                                <tr>
-                                    <td>{{ $i++ }}</td>
-                                    <td>{{ $transaction->transaction_id }}</td>
-                                    <td>{{ $transaction->payment_method == 1 ? 'Card' : ($transaction->payment_method == 2 ? 'Apple Pay' : 'Google Pay') }}
-                                    </td>
-                                    @if (Auth::user()->type == 1)
-                                        <td>{{ $transaction->dome_owner->name }}</td>
-                                    @endif
-                                    <td>{{ $transaction->user_name->name }}</td>
-                                    <td>{{ $transaction->booking_id }}</td>
-                                    <td>{{ $transaction->amount }}</td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
+                        @endforeach
+                    </tbody>
+                </table>
             </div>
         </div>
-    @else
-        <div class="row justify-content-center">
-            <img class="img-fluid w-50" src="{{ Helper::image_path('no_data.svg') }}">
-        </div>
-    @endif
+    </div>
 @endsection

@@ -6,9 +6,7 @@
     Edit Dome
 @endsection
 @section('contents')
-    <!-- Title -->
     <h1 class="h2">Edit Dome</h1>
-
     <form class="card" action="{{ URL::to('admin/domes/update-' . $dome->id) }}" method="post" enctype="multipart/form-data">
         @csrf
         <div class="card-body">
@@ -197,13 +195,11 @@
         </div>
     </form>
 @endsection
-
 @section('scripts')
     <script src="{{ url('storage/app/public/admin/js/timepicker/jquery.timepicker.min.js') }}" defer=""></script>
     <script
         src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places&key=AIzaSyCvlZaKvRSMouyH9pDgGC6pMGADfytOrsA">
     </script>
-
     <script type="text/javascript">
         // Timepicker
         $(document).ready(function() {
@@ -233,7 +229,6 @@
                 },
                 buttonsStyling: false,
             });
-
             swalWithBootstrapButtons
                 .fire({
                     title: "Are You Sure?",
@@ -284,40 +279,32 @@
         $(document).ready(function() {
             initMap();
         });
-
         function initMap() {
             var myLatLng = {
                 lat: {{ $dome->lat }},
                 lng: {{ $dome->lng }}
             };
-
             var map = new google.maps.Map(document.getElementById('map_canvas'), {
                 center: myLatLng,
                 zoom: 15
             });
-
             var marker = new google.maps.Marker({
                 position: myLatLng,
                 map: map,
                 title: 'Dome Location',
                 draggable: false
             });
-
             google.maps.event.addListener(marker, 'dragend', function(marker) {
                 var latLng = marker.latLng;
                 var lat = document.getElementById('textLat').innerHTML = latLng.lat();
                 var lng = document.getElementById('textLng').innerHTML = latLng.lng();
-
                 $('#textLat').val(lat);
                 $('#textLng').val(lng);
             });
-
         }
-
         function init() {
             var input = document.getElementById('address');
             var autocomplete = new google.maps.places.Autocomplete(input);
-
             google.maps.event.addListener(autocomplete, 'place_changed',
                 function() {
                     var place = autocomplete.getPlace();
@@ -326,7 +313,6 @@
                     var placeInput = document.getElementById('place');
                     var latInput = document.getElementById('textLat');
                     var lngInput = document.getElementById('textLng');
-
                     console.log(place.address_components);
                     let country = place.address_components.find(function(component) {
                         return component.types[0] === "country";
@@ -341,11 +327,9 @@
                         return component.types[0] === "administrative_area_level_3";
                     });
 
-
                     //placeInput.value = place.name;
                     latInput.value = latValue;
                     lngInput.value = lngValue;
-
                     var map = new google.maps.Map(document.getElementById('map_canvas'), {
                         center: {
                             lat: latValue,
@@ -353,7 +337,6 @@
                         },
                         zoom: 15
                     });
-
                     var marker = new google.maps.Marker({
                         position: {
                             lat: latValue,
@@ -372,9 +355,7 @@
                     $('#country').val(country.long_name);
                 }
             );
-
         }
-
         init();
     </script>
 @endsection

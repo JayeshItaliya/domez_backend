@@ -2,7 +2,6 @@
 @section('title')
     {{ trans('labels.dashboard') }}
 @endsection
-
 @section('contents')
     <div class="dashboard">
         <div class="row">
@@ -266,9 +265,7 @@
     <div id="primaryColor" style="color: var(--bs-primary)"></div>
     <div id="secondaryColor" style="color: var(--bs-secondary)"></div>
     <div id="lightSecondaryColor" style="color: rgba(var(--bs-secondary-rgb),0.75)"></div>
-
 @endsection
-
 @section('scripts')
     <script>
         let primary_color = $('#primaryColor').css('color');
@@ -335,7 +332,6 @@
         };
         var chart = new ApexCharts(document.querySelector("#total_bookings"), options);
         chart.render();
-
         // Total Bookings Chart
         var options = {
             series: [{

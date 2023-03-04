@@ -153,6 +153,10 @@ Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function () {
         Route::get('/', [BookingController::class, 'index']);
         Route::get('details-{booking_id}', [BookingController::class, 'details']);
     });
+    //  calendar
+    Route::group(['prefix' => 'calendar'], function () {
+        Route::get('/', [BookingController::class, 'calendar']);
+    });
 
     //  Reviews
     Route::group(['prefix' => 'reviews'], function () {

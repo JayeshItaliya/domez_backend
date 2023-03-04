@@ -1,10 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="light" data-sidebar-behaviour="fixed" data-navigation-color="inverted" data-is-fluid="true">
-
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
     <!-- Favicon -->
     <link rel="icon" href="{{ url('storage/app/public/admin/images/favicon/favicon.ico') }}" sizes="any">
     <!-- Fontawesome CSS -->
@@ -17,18 +15,15 @@
     <link rel="stylesheet" href="{{ url('storage/app/public/admin/css/toastr/toastr.min.css') }}">
     @yield('styles')
     <link rel="stylesheet" href="{{ url('storage/app/public/admin/css/custom.css') }}">
-
     <!-- Page Title -->
     <title>Register | Domez</title>
 </head>
-
 <body>
     <!-- MAIN CONTENT -->
     <main class="container">
         <div class="row align-items-center justify-content-center vh-100">
             <div class="col-md-7 col-lg-6 d-flex flex-column py-6">
                 <div class="my-auto">
-                    <!-- Title -->
                     <h1 class="mb-2">Free Sign Up</h1>
                     <!-- Subtitle -->
                     <p class="text-secondary">Don't have an account? Create your account, it takes less than a minute</p>
@@ -90,7 +85,6 @@
                     </form>
                 </div>
             </div>
-
             <div class="col-md-5 col-lg-6 px-lg-4 px-xl-6 d-none d-lg-block">
                 <!-- Image -->
                 <div class="text-center">
@@ -99,7 +93,6 @@
             </div>
         </div> <!-- / .row -->
     </main>
-
     <!-- JAVASCRIPT-->
     <script src="{{ url('storage/app/public/admin/js/jquery/jquery.min.js') }}"></script>
     <script src="{{ url('storage/app/public/admin/js/sweetalert/sweetalert2.min.js') }}"></script>
@@ -116,19 +109,15 @@
         @if (Session::has('success'))
             toastr.success("{{ session('success') }}");
         @endif
-
         @if (Session::has('error'))
             toastr.error("{{ session('error') }}");
         @endif
-
         @if (Session::has('info'))
             toastr.info("{{ session('info') }}");
         @endif
-
         @if (Session::has('warning'))
             toastr.warning("{{ session('warning') }}");
         @endif
     </script>
 </body>
-
 </html>

@@ -5,7 +5,6 @@
     User Details
 @endsection
 @section('contents')
-    <!-- Title -->
     <div class="card mb-3">
         <div class="card-body py-2">
             <div class="d-flex align-items-center justify-content-between">
@@ -120,7 +119,6 @@
                         @endif
                     </tr>
                 </thead>
-
                 <tbody class="list">
                     <tr data-index="0">
                         <td>01</td>
@@ -266,5 +264,4 @@
             </table>
         </div>
     </div>
-
 @endsection

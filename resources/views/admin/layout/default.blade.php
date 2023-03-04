@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -17,7 +16,6 @@
     <link rel="stylesheet" href="{{ url('storage/app/public/admin/css/responsive.css') }}">
     @yield('styles')
 </head>
-
 <body>
     <!-- PreLoader -->
     <div id="preloader">
@@ -54,8 +52,6 @@
         @endif
     </main>
 
-
-
     <!-- Javascript -->
     <script src="{{ url('storage/app/public/admin/js/jquery/jquery.min.js') }}"></script>
     <script src="{{ url('storage/app/public/admin/js/bootstrap/bootstrap.bundle.min.js') }}"></script>
@@ -73,7 +69,6 @@
         let oops = {{ Js::from(trans('messages.oops')) }};
         let is_vendor = {{ Js::from(Auth::user()->type == 2 ? true : false) }};
         let systempath = {{ js::from(URL::to('').'/storage/app/public/admin/plugins/richtexteditor') }};
-
         $(document).ready(function() {
             $('#bootstrapTable').bootstrapTable({
                 toolbar: ".toolbar",
@@ -105,14 +100,11 @@
         @if (Session::has('warning'))
             toastr.warning("{{ session('warning') }}");
         @endif
-
         $(function() {
             $('form, input,textarea ').attr("autocomplete", 'off');
         });
     </script>
     @yield('scripts')
 
-
 </body>
-
 </html>

@@ -3,7 +3,6 @@
 Support
 @endsection
 @section('contents')
-    <!-- Title -->
     <div class="card mb-3">
         <div class="card-body py-2">
             <div class="d-flex align-items-center justify-content-between">
@@ -30,7 +29,6 @@ Support
             </div>
         </div>
     </div>
-
     <div class="card">
         <div class="card-body">
             <table id="bootstrapTable">
@@ -82,4 +80,3 @@ Support
         </div>
     </div>
 @endsection
-

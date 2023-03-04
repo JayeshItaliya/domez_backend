@@ -24,6 +24,15 @@ class BookingController extends Controller
         }
         return view('admin.bookings.index', compact('getbookingslist'));
     }
+    public function calendar(Request $request)
+    {
+        if (Auth::user()->type == 1) {
+            $getbookingslist = Booking::orderByDesc('id')->get();
+        } else {
+            $getbookingslist = Booking::where('vendor_id', Auth::user()->id)->orderByDesc('id')->get();
+        }
+        return view('admin.bookings.calendar', compact('getbookingslist'));
+    }
     public function details(Request $request)
     {
         $bookingdata = Booking::where('booking_id', $request->booking_id)->first();

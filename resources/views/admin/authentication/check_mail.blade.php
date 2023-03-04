@@ -1,13 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <!-- Page Title -->
     <title>{{ trans('labels.forgot_password') }} | {{ trans('labels.website_titile') }}</title>
-
     <!-- Favicon -->
     <link rel="icon" href="{{ Helper::image_path('preloader.gif') }}" sizes="any">
     <!-- Bootstrap CSS -->
@@ -21,7 +19,6 @@
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{{ url('storage/app/public/admin/css/custom.css') }}">
 </head>
-
 <body>
     <style>
         :root {
@@ -54,7 +51,6 @@
             </div>
         </div>
     </section>
-
     <!-- Javascript -->
     <script src="{{ url('storage/app/public/admin/js/jquery/jquery.min.js') }}"></script>
     <script src="{{ url('storage/app/public/admin/js/bootstrap/bootstrap.bundle.min.js') }}"></script>
@@ -62,5 +58,4 @@
     <script src="{{ url('storage/app/public/admin/js/toastr/toastr.min.js') }}"></script>
     <script src="{{ url('storage/app/public/admin/js/custom.js') }}"></script>
 </body>
-
 </html>

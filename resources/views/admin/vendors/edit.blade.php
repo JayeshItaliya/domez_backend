@@ -2,7 +2,6 @@
 @section('title')
     {{ trans('labels.dome_owners') }} | {{ trans('labels.edit') }}
 @endsection
-
 @section('contents')
     <div class="card mb-3">
         <div class="card-body py-2">

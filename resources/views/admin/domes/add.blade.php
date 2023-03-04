@@ -6,7 +6,6 @@
     {{ trans('labels.add_dome') }}
 @endsection
 @section('contents')
-    <!-- Title -->
     <div class="card mb-3">
         <div class="card-body py-2">
             <div class="d-flex align-items-center justify-content-between">
@@ -34,7 +33,6 @@
             </div>
         </div>
     </div>
-
     <form class="card" action="{{ URL::to('admin/domes/store') }}" method="post" enctype="multipart/form-data">
         @csrf
         <div class="card-body">
@@ -199,13 +197,11 @@
         </div>
     </form>
 @endsection
-
 @section('scripts')
     <script src="{{ url('storage/app/public/admin/js/timepicker/jquery.timepicker.min.js') }}" defer=""></script>
     <script
         src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places&key=AIzaSyCvlZaKvRSMouyH9pDgGC6pMGADfytOrsA">
     </script>
-
     <script type="text/javascript">
         // Timepicker
         $(document).ready(function() {
@@ -214,7 +210,6 @@
                 interval: 60,
             });
         });
-
         // Sport Price
         $('input[data-sport-name]').click(function(){
             if(this.checked){
@@ -226,13 +221,10 @@
             }
         });
 
-
-
         // Google Map For Location
         $(document).ready(function() {
             initMap();
         });
-
         if ($('#textLat').val().length == 0) {
             var lat = -33.8688197;
             var lng = 151.2092955;
@@ -240,40 +232,32 @@
             var lat = $('#textLat').val();
             var lng = $('#textLng').val();
         }
-
         function initMap() {
             var myLatLng = {
                 lat: lat,
                 lng: lng
             };
-
             var map = new google.maps.Map(document.getElementById('map_canvas'), {
                 center: myLatLng,
                 zoom: 13
             });
-
             var marker = new google.maps.Marker({
                 position: myLatLng,
                 map: map,
                 title: 'Domez Location',
                 draggable: false
             });
-
             google.maps.event.addListener(marker, 'dragend', function(marker) {
                 var latLng = marker.latLng;
                 var lat = document.getElementById('textLat').innerHTML = latLng.lat();
                 var lng = document.getElementById('textLng').innerHTML = latLng.lng();
-
                 $('#textLat').val(lat);
                 $('#textLng').val(lng);
-
             });
         }
-
         function init() {
             var input = document.getElementById('address');
             var autocomplete = new google.maps.places.Autocomplete(input);
-
             google.maps.event.addListener(autocomplete, 'place_changed',
                 function() {
                     var place = autocomplete.getPlace();
@@ -294,10 +278,8 @@
                     let city = place.address_components.find(function(component) {
                         return component.types[0] == "locality";
                     });
-
                     latInput.value = latValue;
                     lngInput.value = lngValue;
-
                     var map = new google.maps.Map(document.getElementById('map_canvas'), {
                         center: {
                             lat: latValue,
@@ -305,7 +287,6 @@
                         },
                         zoom: 15
                     });
-
                     var marker = new google.maps.Marker({
                         position: {
                             lat: latValue,
@@ -315,16 +296,13 @@
                         title: 'Domez Location',
                         draggable: false
                     });
-
                     $('#pin_code').val(postalCode.long_name);
                     $('#city').val(city.long_name);
                     $('#state').val(state.long_name);
                     $('#country').val(country.long_name);
                 }
             );
-
         }
-
         init();
     </script>
 @endsection

@@ -26,7 +26,6 @@
                     </svg>
                     <span class="mx-3">{{ trans('labels.dome_owners') }}</span>
                 </a>
-
                 <a href="{{ URL::to('admin/users') }}"
                     class="nav-item {{ request()->is('admin/users*') ? 'active' : '' }}">
                     <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-users" width="25"
@@ -40,7 +39,6 @@
                     </svg>
                     <span class="mx-3">{{ trans('labels.users') }}</span>
                 </a>
-
                 <a href="{{ URL::to('admin/sports') }}"
                     class="nav-item {{ request()->is('admin/sports*') ? 'active' : '' }}">
                     <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-list-check"
@@ -92,15 +90,11 @@
             </div>
 
 
-
-
-
             <a href="{{ URL::to('admin/leagues') }}"
                 class="nav-item {{ request()->is('admin/leagues*') ? 'active' : '' }}">
                 <i class="fa-light fa-list-dropdown"></i>
                 <span class="mx-3">{{ trans('labels.leagues') }}</span>
             </a>
-
             <a href="{{ URL::to('admin/bookings') }}"
                 class="nav-item {{ request()->is('admin/bookings*') ? 'active' : '' }}">
                 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-event"
@@ -115,7 +109,6 @@
                 </svg>
                 <span class="mx-3">{{ trans('labels.bookings') }}</span>
             </a>
-
             <a href="{{ URL::to('admin/transactions') }}"
                 class="nav-item {{ request()->is('admin/transactions*') ? 'active' : '' }}">
                 <i class="fa-light fa-file-invoice-dollar"></i>
@@ -126,13 +119,11 @@
                 <i class="fa-light fa-message-smile"></i>
                 <span class="mx-3">{{ trans('labels.reviews') }}</span>
             </a>
-
             <a href="{{ URL::to('admin/calendar') }}"
                 class="nav-item {{ request()->is('admin/calendar*') ? 'active' : '' }}">
                 <i class="fa-light fa-calendar-range"></i>
                 <span class="mx-3">{{ trans('labels.calendar') }}</span>
             </a>
-
             <a href="#enquiry" class="nav-item {{ request()->is('admin/enquiries*') ? 'active' : '' }}"
                 data-bs-toggle="collapse" role="button"
                 aria-expanded="{{ request()->is('admin/enquiries*') ? 'true' : 'false' }}" aria-controls="enquiry">
@@ -163,7 +154,6 @@
                     </a>
                 </ul>
             </div>
-
             <a href="#generalsettings" class="nav-item {{ request()->is('admin/settings*') ? 'active' : '' }}"
                 data-bs-toggle="collapse" role="button"
                 aria-expanded="{{ request()->is('admin/settings*') ? 'true' : 'false' }}"
@@ -205,7 +195,6 @@
                     </a>
                 </ul>
             </div>
-
             <a href="{{ URL::to('admin/supports') }}"
                 class="nav-item {{ request()->is('admin/supports*') ? 'active' : '' }}">
                 <i class="fa-light fa-circle-question"></i>

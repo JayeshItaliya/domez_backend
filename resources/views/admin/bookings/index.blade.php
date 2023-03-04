@@ -3,7 +3,6 @@
     Bookings
 @endsection
 @section('contents')
-    <!-- Title -->
     <div class="card mb-3">
         <div class="card-body py-2">
             <div class="d-flex align-items-center justify-content-between">
@@ -30,7 +29,6 @@
             </div>
         </div>
     </div>
-
     <div class="card">
         <div class="card-body table-responsive">
             @if (count($getbookingslist) > 0)
@@ -121,19 +119,16 @@
                         </tr>
                     @endforeach
 
-
                 </tbody>
             </table>
         </div>
     </div>
 @endsection
-
 @section('scripts')
     <script>
         $(function() {
             $(".filter_content").appendTo($(".fixed-table-toolbar .float-left"));
         });
-
         // Dome Delete
         function dome_delete(id, status, url) {
             "use strict";
@@ -144,7 +139,6 @@
                 },
                 buttonsStyling: false,
             });
-
             swalWithBootstrapButtons
                 .fire({
                     title: "Are You Sure?",

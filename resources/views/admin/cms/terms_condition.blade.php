@@ -5,7 +5,6 @@
 Terms & Conditions
 @endsection
 @section('contents')
-    <!-- Title -->
     <div class="card mb-3">
         <div class="card-body py-2">
             <div class="d-flex align-items-center justify-content-between">
@@ -40,7 +39,6 @@ Terms & Conditions
             </div>
         </div>
     </div>
-
 @endsection
 @section('scripts')
 <script src="https://cdn.ckeditor.com/ckeditor5/36.0.1/classic/ckeditor.js"></script>
@@ -52,4 +50,3 @@ Terms & Conditions
             } );
 </script>
 @endsection
-

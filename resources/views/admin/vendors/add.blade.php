@@ -2,7 +2,6 @@
 @section('title')
     {{ trans('labels.dome_owners') }} | {{ trans('labels.add_new') }}
 @endsection
-
 @section('contents')
     <div class="card mb-3">
         <div class="card-body py-2">
@@ -98,9 +97,7 @@
     </form>
         </div>
     </div>
-
 @endsection
-
 @section('scripts')
     <script src="{{url('storage/app/public/admin/js/intelTelInput/intlTelInput.min.js')}}"></script>
     <link rel="stylesheet" href="{{url('storage/app/public/admin/js/intelTelInput/intlTelInput.min.css')}}">

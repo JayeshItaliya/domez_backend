@@ -6,7 +6,6 @@
     <link href="https://cdn.rawgit.com/harvesthq/chosen/gh-pages/chosen.min.css" rel="stylesheet" />
 @endsection
 @section('contents')
-    <!-- Title -->
     <div class="card mb-3">
         <div class="card-body py-2">
             <div class="d-flex align-items-center justify-content-between">
@@ -34,7 +33,6 @@
             </div>
         </div>
     </div>
-
     <form class="card" action="{{ URL::to('admin/field/store') }}" method="post" enctype="multipart/form-data">
         @csrf
         <div class="card-body">

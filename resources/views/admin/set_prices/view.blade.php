@@ -29,7 +29,6 @@
             </div>
         </div>
     </div>
-
     <form class="card" action="" method="post" enctype="multipart/form-data">
         @csrf
         <div class="card-body">
@@ -130,7 +129,6 @@
                                                 </div>
                                             </div>
                                         </div>
-
                                     </div>
                                 </div>
                             </form>
@@ -142,7 +140,6 @@
                     </div>
     </form>
 @endsection
-
 @section('scripts')
     <script>
         $(function() {
