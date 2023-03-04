@@ -52,7 +52,6 @@
                 </div>
             </nav>
         </header>
-        @dump(Helper::image_path('logo.png'))
         <section style="margin:100px 0">
             <div class="container">
                 <div class="row justify-content-center">
