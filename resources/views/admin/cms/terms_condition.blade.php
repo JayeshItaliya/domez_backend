@@ -2,13 +2,16 @@
 @section('styles')
 @endsection
 @section('title')
-Terms & Conditions
+    {{ trans('labels.terms_conditions') }}
+@endsection
+@section('styles')
+    <link rel="stylesheet" href="{{ url('storage/app/public/admin/plugins/richtexteditor/rte_theme_default.css') }}" />
 @endsection
 @section('contents')
     <div class="card mb-3">
         <div class="card-body py-2">
             <div class="d-flex align-items-center justify-content-between">
-                <p class="text-secondary fw-semibold">Terms & Conditions</p>
+                <p class="text-secondary fw-semibold">{{ trans('labels.terms_conditions') }}</p>
                 <nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='%236c757d'/%3E%3C/svg%3E&#34;);"
                     aria-label="breadcrumb">
                     <ol class="breadcrumb m-0">
@@ -25,8 +28,8 @@ Terms & Conditions
                                 </svg>
                             </a>
                         </li>
-                        <li class="breadcrumb-item">General Settings</li>
-                        <li class="breadcrumb-item active" aria-current="page">Terms & Conditions</li>
+                        <li class="breadcrumb-item">{{ trans('labels.general_settings') }}</li>
+                        <li class="breadcrumb-item active" aria-current="page">{{ trans('labels.terms_conditions') }}</li>
                     </ol>
                 </nav>
             </div>
@@ -34,19 +37,20 @@ Terms & Conditions
     </div>
     <div class="card">
         <div class="card-body">
-            <div id="editor">
-                <p>This is some sample content.</p>
-            </div>
+            <form action="{{ URL::to('admin/settings/store-cms') }}" method="post">
+                @csrf
+                <textarea name="content" id="ckeditor">{{ @$content->content }}</textarea>
+                <button type="submit" name="terms_conditions"
+                    class="btn btn-primary mt-3">{{ trans('labels.submit') }}</button>
+            </form>
         </div>
     </div>
 @endsection
 @section('scripts')
-<script src="https://cdn.ckeditor.com/ckeditor5/36.0.1/classic/ckeditor.js"></script>
-<script>
-   ClassicEditor
-            .create( document.querySelector( '#editor' ) )
-            .catch( error => {
-                console.error( error );
-            } );
-</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ckeditor/4.12.1/ckeditor.js"></script>
+    <script type="text/javascript">
+        CKEDITOR.replace('ckeditor', {
+            height: '500',
+        });
+    </script>
 @endsection
