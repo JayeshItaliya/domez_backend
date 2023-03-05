@@ -234,7 +234,7 @@ form span.text-danger {
     list-style: none;
     width: 20px;
     height: 20px;
-    background: rgba(var(--bs-secondary-rgb), 0.25);
+    background: rgba(var(--bs-secondary-rgb), 0.30);
     animation: animate 25s linear infinite;
     bottom: -150px;
 
