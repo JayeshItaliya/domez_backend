@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -18,6 +19,7 @@
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{{ url('storage/app/public/admin/css/custom.css') }}">
 </head>
+
 <body>
     <style>
         :root {
@@ -35,7 +37,7 @@
             <img src="{{ Helper::image_path('preloader.gif') }}" width="150" height="150" alt="Prealoader">
         </div>
     </div>
-    <section class="auth-bg">
+    <section class="auth-bg auth-main-content">
         <div class="row justify-content-center align-items-center g-0 w-100 h-100vh">
             <div class="col-xxl-4 col-xl-5 col-lg-6 col-sm-8 px-5">
                 <div class="card auth-wrapper box-shadow">
@@ -78,10 +80,25 @@
             </div>
         </div>
     </section>
+    <div class="circles-backgound-area">
+        <ul class="circles">
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+        </ul>
+    </div>
     <script src="{{ url('storage/app/public/admin/js/jquery/jquery.min.js') }}"></script>
     <script src="{{ url('storage/app/public/admin/js/bootstrap/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ url('storage/app/public/admin/js/sweetalert/sweetalert2.min.js') }}"></script>
     <script src="{{ url('storage/app/public/admin/js/toastr/toastr.min.js') }}"></script>
     <script src="{{ url('storage/app/public/admin/js/custom.js') }}"></script>
 </body>
+
 </html>

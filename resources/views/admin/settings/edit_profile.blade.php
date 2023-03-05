@@ -2,13 +2,13 @@
 @section('styles')
 @endsection
 @section('title')
-   Edit Profile
+    {{ trans('labels.edit_profile') }}
 @endsection
 @section('contents')
     <div class="card mb-3">
         <div class="card-body py-2">
             <div class="d-flex align-items-center justify-content-between">
-                <p class="text-secondary fw-semibold">Edit Profile</p>
+                <p class="text-secondary fw-semibold">{{ trans('labels.edit_profile') }}</p>
                 <nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='%236c757d'/%3E%3C/svg%3E&#34;);"
                     aria-label="breadcrumb">
                     <ol class="breadcrumb m-0">
@@ -25,8 +25,8 @@
                                 </svg>
                             </a>
                         </li>
-                        <li class="breadcrumb-item">General Settings</li>
-                        <li class="breadcrumb-item active" aria-current="page">Edit Profile</li>
+                        <li class="breadcrumb-item">{{ trans('labels.general_settings') }}</li>
+                        <li class="breadcrumb-item active" aria-current="page">{{ trans('labels.edit_profile') }}</li>
                     </ol>
                 </nav>
             </div>
@@ -40,29 +40,30 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="mb-3">
-                                <label for="exampleFormControlInput1" class="form-label">Name</label>
-                                <input type="text" class="form-control" id="exampleFormControlInput1"
-                                    placeholder="Jone">
+                                <label for="name" class="form-label">{{ trans('labels.name') }}</label>
+                                <input type="text" name="name" class="form-control" id="name"
+                                    value="{{ Auth::user()->name }}" placeholder="Jone">
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="mb-3">
-                                <label for="exampleFormControlInput1" class="form-label">Email Address</label>
-                                <input type="email" class="form-control" id="exampleFormControlInput1"
-                                    placeholder="Jone@hotmail.com">
+                                <label for="email_address" class="form-label">{{ trans('labels.email_address') }}</label>
+                                <input type="email" name="email" class="form-control" id="email_address"
+                                    value="{{ Auth::user()->email }}" placeholder="Jone@hotmail.com">
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="mb-3">
-                                <label class="form-label">Profile Image(Optional)</label>
+                                <label class="form-label">{{ trans('labels.profile_image') }}
+                                    {{ trans('labels.optional') }}</label>
                                 <input type="file" class="form-control mt-2 mb-4">
                                 <div class="add-league-img mt-2">
-                                    <img src="http://localhost/domez_backend/storage/app/public/admin/images/gernral_settings/edit_profile.png">
+                                    <img src="{{ Helper::image_path(Auth::user()->image) }}" width="100" class="object-fit-contain rounded">
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-12">
-                            <button type="submit" class="btn btn-primary">Save</button>
+                            <button type="submit" class="btn btn-primary">{{ trans('labels.submit') }}</button>
                         </div>
                     </div>
                 </div>
@@ -71,33 +72,35 @@
     </div>
     <div class="card mt-3">
         <div class="card-body">
-            <form class="card mt-3" action="" method="post" enctype="multipart/form-data">
+            <form class="card mt-3" action="" method="post">
                 @csrf
                 <div class="p-4">
                     <div class="row">
                         <div class="col-md-4">
                             <div class="mb-3">
-                                <label for="inputPassword" class="form-label">Current Password</label>
-                                <input type="password" class="form-control" id="inputPassword"
-                                    placeholder="********">
+                                <label for="current_password"
+                                    class="form-label">{{ trans('labels.current_password') }}</label>
+                                <input type="password" name="current_password" class="form-control" id="current_password"
+                                    placeholder="{{ trans('labels.current_password') }}">
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="mb-3">
-                                <label for="inputPassword" class="form-label">New Password</label>
-                                <input type="password" class="form-control" id="inputPassword"
-                                    placeholder="********">
+                                <label for="new_password" class="form-label">{{ trans('labels.new_password') }}</label>
+                                <input type="password" name="new_password" class="form-control" id="new_password"
+                                    placeholder="{{ trans('labels.new_password') }}">
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="mb-3">
-                                <label for="inputPassword" class="form-label">Confirm Password</label>
-                                <input type="password" class="form-control" id="inputPassword"
-                                    placeholder="********">
+                                <label for="confirm_password"
+                                    class="form-label">{{ trans('labels.confirm_password') }}</label>
+                                <input type="password" name="confirm_password" class="form-control" id="confirm_password"
+                                    placeholder="{{ trans('labels.confirm_password') }}">
                             </div>
                         </div>
                         <div class="col-md-12">
-                            <button type="submit" class="btn btn-primary">Save</button>
+                            <button type="submit" class="btn btn-primary">{{ trans('labels.submit') }}</button>
                         </div>
                     </div>
                 </div>

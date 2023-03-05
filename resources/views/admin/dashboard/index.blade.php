@@ -5,7 +5,7 @@
 @section('contents')
     <div class="dashboard">
         <div class="row">
-            <div class="col-lg-4 mb-3 h-100">
+            <div class="col-lg-4 col-md-6 mb-3 h-100">
                 <div class="card earning-card">
                     <div class="card-body">
                         <div class="earning-icon">
@@ -24,7 +24,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-4 mb-3 h-100">
+            <div class="col-lg-4 col-md-6 mb-3 h-100">
                 <div class="card confirm-booking-card">
                     <div class="card-body">
                         <div class="confirm-booking-icon">
@@ -116,7 +116,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-4 mb-3 h-100">
+            <div class="col-lg-4 col-md-6 mb-3 h-100">
                 <div class="card total-income-chart">
                     <div class="card-body">
                         <div class="d-flex align-items-center justify-content-between mb-3">

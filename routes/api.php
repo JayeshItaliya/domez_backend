@@ -36,6 +36,7 @@ Route::post('resend-otp', [AuthenticationController::class, 'resend_otp']);
 Route::post('forgot-password', [AuthenticationController::class, 'forgot_password']);
 Route::post('change-password', [AuthenticationController::class, 'changepassword']);
 Route::post('google-login', [AuthenticationController::class, 'google_login']);
+Route::post('apple-login', [AuthenticationController::class, 'apple_login']);
 Route::get('delete-account-{id}', [AuthenticationController::class, 'delete_account']);
 Route::post('editprofile', [AuthenticationController::class, 'editprofile']);
 

@@ -37,10 +37,11 @@
     </div>
     <div class="card">
         <div class="card-body">
-            <form action="" method="post">
+            <form action="{{ URL::to('admin/settings/store-cms') }}" method="post">
                 @csrf
-                <textarea name="" class="mb-3" id="ckeditor"></textarea>
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <textarea name="content" id="ckeditor">{{ @$content->content }}</textarea>
+                <button type="submit" name="privacy_policy"
+                    class="btn btn-primary mt-3">{{ trans('labels.submit') }}</button>
             </form>
         </div>
     </div>
@@ -48,7 +49,7 @@
 @section('scripts')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ckeditor/4.12.1/ckeditor.js"></script>
     <script type="text/javascript">
-        CKEDITOR.replace('ckeditor',{
+        CKEDITOR.replace('ckeditor', {
             height: '500',
         });
     </script>
