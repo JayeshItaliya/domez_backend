@@ -13,9 +13,30 @@ return [
     'email_sent' => 'Email has been Sent Successfully',
     'email_pass_invalid' => 'Email or password is invalid!!',
     'otp_required' => 'Please Enter OTP',
+    // League
+    'select_dome' => 'Please Select Dome',
+    'select_field' => 'Please Select Field',
+    'select_sport' => 'Please Select Sport',
+    'select_start_date' => 'Please Select Start date',
+    'select_end_date' => 'Please Select End date',
+    'select_start_time' => 'Please Select Start time',
+    'select_end_time' => 'Please Select End time',
+    'select_from_age' => 'Please Select From age',
+    'select_to_age' => 'Please Select To age',
+    'select_gender' => 'Please Select Gender',
+    'select_min_player' => 'Please Select Min player',
+    'select_max_player' => 'Please Select Max player',
+    'select_team_limit' => 'Please Select Team limit',
+    'price_required' => 'Please Enter Price',
+
+    'image_required' => 'Please Enter Image',
+    'valid_image' => 'The Images must be a image type of file',
+    'valid_image_type' => 'The Images must be a file of type: PNG, JPG, JPEG, SVG',
 
     'invalid_email' => 'Invalid Email Address',
     'invalid_otp' => 'Invalid OTP',
+    'invalid_dome' => 'Invalid Dome',
+    'no_data' => 'No Data Found!!',
 
     // Placeholders
     'enter_email_address' => 'Enter Email Address',

@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
     <title> {{ trans('labels.website_title') }} | @yield('title')</title>
     <link rel="icon" href="{{ Helper::image_path('favicon.png') }}" sizes="any">
     <link rel="stylesheet" href="{{ url('storage/app/public/admin/css/bootstrap/bootstrap.min.css') }}">
@@ -16,6 +18,7 @@
     <link rel="stylesheet" href="{{ url('storage/app/public/admin/css/responsive.css') }}">
     @yield('styles')
 </head>
+
 <body>
     <!-- PreLoader -->
     <div id="preloader">
@@ -67,8 +70,9 @@
         let no = {{ Js::from(trans('messages.no')) }};
         let wrong = {{ Js::from(trans('messages.wrong')) }};
         let oops = {{ Js::from(trans('messages.oops')) }};
+        let no_data = {{ Js::from(trans('messages.no_data')) }};
         let is_vendor = {{ Js::from(Auth::user()->type == 2 ? true : false) }};
-        let systempath = {{ js::from(URL::to('').'/storage/app/public/admin/plugins/richtexteditor') }};
+        let systempath = {{ js::from(URL::to('') . '/storage/app/public/admin/plugins/richtexteditor') }};
         $(document).ready(function() {
             $('#bootstrapTable').bootstrapTable({
                 toolbar: ".toolbar",
@@ -100,11 +104,10 @@
         @if (Session::has('warning'))
             toastr.warning("{{ session('warning') }}");
         @endif
-        $(function() {
-            $('form, input,textarea ').attr("autocomplete", 'off');
-        });
+        // $(function() {
+        //     $('form, input, textarea').attr("autocomplete", 'off');
+        // });
     </script>
     @yield('scripts')
-
 </body>
 </html>

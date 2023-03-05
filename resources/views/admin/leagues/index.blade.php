@@ -65,7 +65,7 @@
                             <td>{{Helper::date_format($league->start_date). ' - '. Helper::date_format($league->end_date)}}</td>
                             <td>{{Helper::time_format($league->start_time). ' - '. Helper::time_format($league->end_time)}}</td>
                             <td>
-                                <a class="cursor-pointer me-2" href="{{ URL::to('admin/domes/details-' . $league->id) }}">
+                                <a class="cursor-pointer me-2" href="{{ URL::to('admin/leagues/details-' . $league->id) }}">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-eye"
                                         width="24" height="24" viewBox="0 0 24 24" stroke-width="1"
                                         stroke="var(--bs-info)" fill="none" stroke-linecap="round"
@@ -77,7 +77,7 @@
                                         </path>
                                     </svg>
                                 </a>
-                                <a class="cursor-pointer me-2" href="{{ URL::to('admin/domes/edit-' . $league->id) }}">
+                                <a class="cursor-pointer me-2" href="{{ URL::to('admin/leagues/edit-' . $league->id) }}">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-edit"
                                         width="25" height="25" viewBox="0 0 24 24" stroke-width="1"
                                         stroke="var(--bs-warning)" fill="none" stroke-linecap="round"
@@ -89,7 +89,7 @@
                                     </svg>
                                 </a>
                                 <a class="cursor-pointer me-2"
-                                    onclick="vendor_delete('{{ $league->id }}','{{ $league->is_deleted == 2 ? 1 : 2 }}','{{ URL::to('admin/domes/delete') }}')"
+                                    onclick="vendor_delete('{{ $league->id }}','{{ $league->is_deleted == 2 ? 1 : 2 }}','{{ URL::to('admin/leagues/delete') }}')"
                                     class="mx-2">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash"
                                         width="25" height="25" viewBox="0 0 24 24" stroke-width="1"

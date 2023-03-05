@@ -163,7 +163,7 @@
                     reverseButtons: true,
                 })
                 .then((result) => {
-                    $("#preloader , #status").show();
+                    showpreloader();
                     if (result.isConfirmed) {
                         $.ajax({
                             type: "get",
@@ -175,11 +175,11 @@
                             dataType: "json",
                             success: function(response) {
                                 if (response == 1) {
-                                    $("#preloader , #status").hide();
+                                    hidepreloader();
                                     toastr.success("Success");
                                     location.reload();
                                 } else {
-                                    $("#preloader , #status").hide();
+                                    hidepreloader();
                                     Swal.fire({
                                         icon: "error",
                                         title: "Oops...",
@@ -188,7 +188,7 @@
                                 }
                             },
                             failure: function(response) {
-                                $("#preloader , #status").hide();
+                                hidepreloader();
                                 Swal.fire({
                                     icon: "error",
                                     title: "Oops...",
@@ -197,7 +197,7 @@
                             },
                         });
                     }
-                    $("#preloader , #status").hide();
+                    hidepreloader();
                 });
         }
     </script>

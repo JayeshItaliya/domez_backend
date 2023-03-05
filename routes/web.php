@@ -30,13 +30,13 @@ use App\Http\Controllers\admin\SettingsController;
 */
 
 // Landing Page Route
-Route::get('/', [AdminController::class,'landing']);
-Route::get('payment/{token}', [BookingController::class,'split_payment']);
-Route::post('general-enquiries', [EnquiryController::class,'general_enquiries']);
-Route::post('dome-request', [EnquiryController::class,'dome_request']);
-Route::get('contact', [AdminController::class,'contact']);
-Route::get('privacy-policy', [AdminController::class,'privacy_policy']);
-Route::get('terms-condition', [AdminController::class,'terms_condition']);
+Route::get('/', [AdminController::class, 'landing']);
+Route::get('payment/{token}', [BookingController::class, 'split_payment']);
+Route::post('general-enquiries', [EnquiryController::class, 'general_enquiries']);
+Route::post('dome-request', [EnquiryController::class, 'dome_request']);
+Route::get('contact', [AdminController::class, 'contact']);
+Route::get('privacy-policy', [AdminController::class, 'privacy_policy']);
+Route::get('terms-condition', [AdminController::class, 'terms_condition']);
 
 
 // Authentication Routes
@@ -108,10 +108,11 @@ Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function () {
         Route::get('add', [LeagueController::class, 'add']);
         Route::post('store', [LeagueController::class, 'store']);
         Route::get('edit-{id}', [LeagueController::class, 'edit']);
-        Route::post('update-{id}', [LeagueController::class, 'update']);
+        Route::post('update-{id}', [LeagueController::class, 'store']);
         Route::get('change_status', [LeagueController::class, 'change_status']);
         Route::get('delete', [LeagueController::class, 'delete']);
         Route::get('details-{id}', [LeagueController::class, 'leaguedetails']);
+        Route::get('sports-fields', [LeagueController::class, 'getsportsandfields']);
     });
 
     //  Domes
@@ -127,7 +128,7 @@ Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function () {
     });
 
     // Set Prices
-    Route::group(['prefix' => 'set-prices'], function(){
+    Route::group(['prefix' => 'set-prices'], function () {
         Route::get('/', [DomesPriceController::class, 'index']);
         Route::get('add', [DomesPriceController::class, 'add']);
         Route::post('store', [DomesPriceController::class, 'store']);
@@ -164,10 +165,11 @@ Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function () {
     });
 
     // Settings
-    Route::group(['prefix' => 'settings'], function (){
+    Route::group(['prefix' => 'settings'], function () {
         Route::get('/', [AdminController::class, 'settings']);
         Route::get('privacy-policy', [SettingsController::class, 'privacy_policy']);
         Route::get('terms-conditions', [SettingsController::class, 'terms_conditions']);
+        Route::post('store-cms', [SettingsController::class, 'store_cms']);
         Route::get('edit-profile-{id}', [SettingsController::class, 'edit_profile']);
         Route::get('email-setting', [SettingsController::class, 'email_setting']);
         Route::get('twilio-setting', [SettingsController::class, 'twilio_setting']);
@@ -175,18 +177,20 @@ Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function () {
     });
 
     // Supports
-    Route::group(['prefix' => 'supports'], function (){
+    Route::group(['prefix' => 'supports'], function () {
         Route::get('/', [AdminController::class, 'supports']);
     });
 
     // Enquiry
-    Route::group(['prefix' => 'enquiries'], function (){
+    Route::group(['prefix' => 'enquiries'], function () {
         Route::get('dome-requests', [EnquiryController::class, 'dome_requests']);
         Route::get('general-enquiry', [EnquiryController::class, 'general_enquiry']);
         Route::get('help-support', [EnquiryController::class, 'help_support']);
     });
 });
 
-Route::group(['prefix' => 'new'],function(){
-    Route::get('/', function(){ return view('admin.dashboard.index'); });
+Route::group(['prefix' => 'new'], function () {
+    Route::get('/', function () {
+        return view('admin.dashboard.index');
+    });
 });

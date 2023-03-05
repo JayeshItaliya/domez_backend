@@ -32,7 +32,6 @@ return [
     'fields' => 'Fields',
     'set_prices' => 'Set Prices',
     'sports' => 'Sports',
-    'leagues' => 'Leagues',
     'bookings' => 'Bookings',
     'transactions' => 'Transactions',
     'reviews' => 'Reviews',
@@ -82,7 +81,9 @@ return [
     'status' => 'Status',
     'action' => 'Action',
     'profile_image' => 'Profile Image',
-    'optional' => 'Optional',
+    'current_password' => 'Current Password',
+    'new_password' => 'New Password',
+    'confirm_password' => 'Confirm Password',
     // Users
     'users_list' => 'Users List',
     // Domes
@@ -103,6 +104,7 @@ return [
     'max_person' => 'Max Person',
     // Leagues
     'league_name' => 'League Name',
+    'leagues' => 'Leagues',
     'date' => 'Date',
     'time' => 'Time',
     'price' => 'Price',
@@ -124,6 +126,9 @@ return [
     'min_player' => 'Min Player',
     'max_player' => 'Max Player',
     'team_limit' => 'Team Limit',
+    'select' => 'Select',
+    'banner_images' => 'Banner Images',
+    'price_per_team' => 'Price Per Team',
     // Enquiry
     'dome_requests' => 'Dome Requests',
     // Booking
@@ -162,4 +167,6 @@ return [
     'subject' => 'Subject',
     // Calendar
     'calendar' => 'Calendar',
+    'dome' => 'Dome',
+    'league' => 'League',
 ];

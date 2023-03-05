@@ -1,60 +1,74 @@
 // Preloader
 $(window).on("load", function () {
     "use strict";
-    $("#status").delay(500).fadeOut("slow"), $("#preloader").delay(500).fadeOut("slow");
+    $("#status").delay(500).fadeOut("slow"),
+        $("#preloader").delay(500).fadeOut("slow");
 });
 
-// Logout
+// Common for all sweetalerts
+const swalWithBootstrapButtons = Swal.mixin({
+    customClass: {
+        confirmButton: "btn btn-success mx-2",
+        cancelButton: "btn btn-danger mx-2",
+    },
+    buttonsStyling: false,
+});
+
+function swal_cancelled(issettitle) {
+    "use strict";
+    var title = wrong;
+    if (issettitle) {
+        title = "" + issettitle + "";
+    }
+    swalWithBootstrapButtons.fire("Cancelled", title, "error");
+    // Swal.fire({
+    //     icon: "error",
+    //     title: "Oops...",
+    //     text: wrong,
+    // });
+}
+
+function showpreloader() {
+    $("#preloader , #status").show();
+}
+
+function hidepreloader() {
+    $("#preloader , #status").hide();
+}
+
 function logout(url) {
     "use strict";
-    const swalWithBootstrapButtons = Swal.mixin({
-        customClass: {
-            confirmButton: "btn btn-success mx-2",
-            cancelButton: "btn btn-danger mx-2",
-        },
-        buttonsStyling: false,
-    });
-
     swalWithBootstrapButtons
         .fire({
-            title: "Are You Sure?",
+            title: are_you_sure,
             icon: "warning",
-            confirmButtonText: "Yes",
-            cancelButtonText: "No",
+            confirmButtonText: yes,
+            cancelButtonText: no,
             showCancelButton: true,
             reverseButtons: true,
         })
         .then((result) => {
-            $("#preloader , #status").show();
+            showpreloader();
             if (result.isConfirmed) {
                 window.location = url;
             }
-            $("#preloader , #status").hide();
+            hidepreloader();
         });
 }
 
-// Change Status
 function change_status(id, status, url) {
     "use strict";
-    const swalWithBootstrapButtons = Swal.mixin({
-        customClass: {
-            confirmButton: "btn btn-success mx-2",
-            cancelButton: "btn btn-danger mx-2",
-        },
-        buttonsStyling: false,
-    });
-
     swalWithBootstrapButtons
         .fire({
-            title: "Are You Sure?",
+            title: are_you_sure,
             icon: "warning",
-            confirmButtonText: "Yes",
-            cancelButtonText: "No",
+            confirmButtonText: yes,
+            cancelButtonText: no,
             showCancelButton: true,
             reverseButtons: true,
         })
         .then((result) => {
-            $("#preloader , #status").show();
+            showpreloader();
             if (result.isConfirmed) {
                 $.ajax({
                     type: "get",
@@ -66,28 +80,20 @@ function change_status(id, status, url) {
                     dataType: "json",
                     success: function (response) {
                         if (response == 1) {
-                            $("#preloader , #status").hide();
+                            hidepreloader();
                             toastr.success("Success");
                             location.reload();
                         } else {
-                            $("#preloader , #status").hide();
-                            Swal.fire({
-                                icon: "error",
-                                title: "Oops...",
-                                text: wrong,
-                            });
+                            hidepreloader();
+                            swal_cancelled(wrong)
                         }
                     },
                     failure: function (response) {
-                        $("#preloader , #status").hide();
-                        Swal.fire({
-                            icon: "error",
-                            title: "Oops...",
-                            text: wrong,
-                        });
+                        hidepreloader();
+                        swal_cancelled(wrong)
                     },
                 });
             }
-            $("#preloader , #status").hide();
+            hidepreloader();
         });
 }

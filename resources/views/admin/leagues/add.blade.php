@@ -1,6 +1,9 @@
 @extends('admin.layout.default')
+
 @section('styles')
+    <link rel="stylesheet" href="{{ url('storage/app/public/admin/css/timepicker/jquery.timepicker.min.css') }}">
 @endsection
+
 @section('title')
     {{ trans('labels.add_league') }}
 @endsection
@@ -25,135 +28,172 @@
                                 </svg>
                             </a>
                         </li>
-                        <li class="breadcrumb-item"><a href="{{URL::to('admin/leagues')}}">{{ trans('labels.leagues') }}</a></li>
+                        <li class="breadcrumb-item"><a
+                                href="{{ URL::to('admin/leagues') }}">{{ trans('labels.leagues') }}</a></li>
                         <li class="breadcrumb-item active" aria-current="page">{{ trans('labels.add_league') }}</li>
                     </ol>
                 </nav>
             </div>
         </div>
     </div>
-    <form class="card" action="" method="post" enctype="multipart/form-data">
+    <form class="card" action="{{ URL::to('admin/leagues/store') }}" method="post" enctype="multipart/form-data">
         @csrf
         <div class="card-body">
+            @dump($errors)
             <div class="row">
                 <div class="col-lg-6 col-md-12">
-                    <label for="" class="form-label">{{ trans('labels.select_sports') }}</label>
-                    <div class="d-flex radio-editer">
-                        @foreach ($sports as $sport)
-                            <div class="form-check pe-3">
-                                <input type="radio" name="sport" class="form-check-input" value="{{ $sport->id }}"
-                                    id="{{ $sport->name . $sport->id }}" {{ $loop->first ? 'checked' : '' }}>
-                                <label class="form-check-label"
-                                    for="{{ $sport->name . $sport->id }}">{{ $sport->name }}</label>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-label" for="dome">{{ trans('labels.select_dome') }}</label>
+                                <select class="form-select" required name="dome" id="dome"
+                                    data-next="{{ URL::to('/admin/leagues/sports-fields') }}">
+                                    <option value="" disabled selected>{{ trans('labels.select') }}</option>
+                                    @foreach ($domes as $dome)
+                                        <option value="{{ $dome->id }}"
+                                            {{ $dome->id == old('dome') ? 'selected' : '' }}>{{ $dome->name }}</option>
+                                    @endforeach
+                                </select>
+                                @error('dome')
+                                    <span class="text-danger"> {{ $message }} </span>
+                                @enderror
                             </div>
-                        @endforeach
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-label" for="field">{{ trans('labels.select_field') }}</label>
+                                <select class="form-select" required name="field" id="field">
+                                    <option value="" disabled selected>{{ trans('labels.select') }}</option>
+                                </select>
+                                @error('field')
+                                    <span class="text-danger"> {{ $message }} </span>
+                                @enderror
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label for="league_name" class="form-label">{{ trans('labels.league_name') }}</label>
-                        <input type="text" class="form-control" id="league_name" name="league_name"
-                            placeholder="{{ trans('labels.league_name') }}">
+                        <label for="name" class="form-label">{{ trans('labels.league_name') }}</label>
+                        <input type="text" required class="form-control" id="name" name="name"
+                            value="{{ old('name') }}" placeholder="{{ trans('labels.league_name') }}">
+                        @error('name')
+                            <span class="text-danger"> {{ $message }} </span>
+                        @enderror
                     </div>
                 </div>
                 <div class="col-md-6">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label class="form-label" for="domes">{{ trans('labels.select_dome') }}</label>
-                                <select class="form-select" id="domes">
-                                    <option disabled selected>{{ trans('labels.select_dome') }}</option>
-                                    @foreach ($domes as $dome)
-                                        <option value="{{ $dome->id }}">{{ $dome->name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label class="form-label" for="fields">{{ trans('labels.select_field') }}</label>
-                                <select class="form-select" id="fields">
-                                    <option selected>Select Field</option>
-                                    @foreach ($fields as $field)
-                                        <option value="{{ $field->id }}">{{ $field->name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                    </div>
+                    <label for="" class="form-label">{{ trans('labels.select_sports') }}</label>
+                    <div class="d-flex radio-editer"></div>
+                    @error('sport')
+                        <span class="text-danger"> {{ $message }} </span>
+                    @enderror
                 </div>
                 <div class="col-md-6">
                     <div class="row">
                         <div class="col-lg-3 col-md-6">
                             <div class="form-group">
-                                <label class="form-label">{{ trans('labels.start_date') }}</label>
-                                <input type="date" class="form-control" id="datepicker">
+                                <label for="start_date" class="form-label">{{ trans('labels.start_date') }}</label>
+                                <input type="date" required class="form-control" name="start_date" id="start_date"
+                                    min="{{ date('Y-m-d') }}">
+                                @error('start_date')
+                                    <span class="text-danger"> {{ $message }} </span>
+                                @enderror
                             </div>
                         </div>
                         <div class="col-lg-3 col-md-6">
                             <div class="form-group">
-                                <label class="form-label">{{ trans('labels.end_date') }}</label>
-                                <input type="date" class="form-control" id="datepicker">
+                                <label for="end_date" class="form-label">{{ trans('labels.end_date') }}</label>
+                                <input type="date" required class="form-control" name="end_date" id="end_date" disabled>
+                                @error('end_date')
+                                    <span class="text-danger"> {{ $message }} </span>
+                                @enderror
                             </div>
                         </div>
                         <div class="col-lg-3 col-md-6">
                             <div class="form-group">
                                 <label class="form-label" for="start_time">{{ trans('labels.start_time') }}</label>
-                                <input type="time" class="form-control " name="start_time" id="start_time">
+                                <input type="text" required class="form-control time_picker" name="start_time"
+                                    value="{{ old('start_time') }}" placeholder="{{ trans('labels.start_time') }}"
+                                    id="start_time">
+                                @error('start_time')
+                                    <span class="text-danger"> {{ $message }} </span>
+                                @enderror
                             </div>
                         </div>
                         <div class="col-lg-3 col-md-6">
                             <div class="form-group">
                                 <label class="form-label" for="end_time">{{ trans('labels.end_time') }}</label>
-                                <input type="time" class="form-control " name="end_time" id="end_time">
+                                <input type="text" required class="form-control time_picker" name="end_time"
+                                    value="{{ old('end_time') }}" placeholder="{{ trans('labels.end_time') }}"
+                                    id="end_time">
+                                @error('end_time')
+                                    <span class="text-danger"> {{ $message }} </span>
+                                @enderror
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="row">
-                        <div class="col-lg-2 col-md-4">
+                        <div class="col-md-3">
                             <div class="form-group">
                                 <label class="form-label" for="from_age">{{ trans('labels.from_age') }}</label>
-                                <select class="form-select" id="from_age" name="from_age">
-                                    <option disabled selected>{{ trans('labels.age') }}</option>
+                                <select class="form-select" required id="from_age" name="from_age">
+                                    <option value="" disabled selected>{{ trans('labels.select') }}</option>
                                     @for ($i = 12; $i <= 50; $i++)
-                                        <option value="{{ $i }}">{{ $i }}</option>
+                                        <option value="{{ $i }}"
+                                            {{ $i == old('from_age') ? 'selected' : '' }}>{{ $i }}</option>
                                     @endfor
                                 </select>
+                                @error('from_age')
+                                    <span class="text-danger"> {{ $message }} </span>
+                                @enderror
                             </div>
                         </div>
-                        <div class="col-lg-2 col-md-4">
+                        <div class="col-md-3">
                             <div class="form-group">
                                 <label class="form-label" for="to_age">{{ trans('labels.to_age') }}</label>
-                                <select class="form-select" id="to_age" name="to_age">
-                                    <option disabled selected>{{ trans('labels.age') }}</option>
+                                <select class="form-select" required id="to_age" name="to_age">
+                                    <option value="" disabled selected>{{ trans('labels.select') }}</option>
                                     @for ($i = 12; $i <= 50; $i++)
-                                        <option value="{{ $i }}">{{ $i }}</option>
+                                        <option value="{{ $i }}" {{ $i == old('to_age') ? 'selected' : '' }}>
+                                            {{ $i }}</option>
                                     @endfor
                                 </select>
+                                @error('to_age')
+                                    <span class="text-danger"> {{ $message }} </span>
+                                @enderror
                             </div>
                         </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label class="form-label" for="select_gender">{{ trans('labels.select_gender') }}</label>
-                                <select class="form-select" id="select_gender">
-                                    <option selected>{{ trans('labels.select_gender') }}</option>
-                                    <option value="1">{{ trans('labels.male') }}</option>
-                                    <option value="2">{{ trans('labels.female') }}</option>
-                                    <option value="3">{{ trans('labels.other') }}</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-md-12">
+                        <div class="col-md-3">
                             <div class="form-group">
                                 <label class="form-label" for="min_player">{{ trans('labels.min_player') }}</label>
-                                <select class="form-select" id="min_player" name="min_player">
-                                    <option disabled selected>{{ trans('labels.min_player') }}</option>
+                                <select class="form-select" required id="min_player" name="min_player">
+                                    <option value="" disabled selected>{{ trans('labels.select') }}</option>
                                     @for ($i = 1; $i <= 30; $i++)
-                                        <option value="{{ $i }}">{{ $i }}</option>
+                                        <option value="{{ $i }}"
+                                            {{ $i == old('min_player') ? 'selected' : '' }}>{{ $i }}</option>
                                     @endfor
                                 </select>
+                                @error('min_player')
+                                    <span class="text-danger"> {{ $message }} </span>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="form-label" for="max_player">{{ trans('labels.max_player') }}</label>
+                                <select class="form-select" required id="max_player" name="max_player">
+                                    <option value="" disabled selected>{{ trans('labels.select') }}</option>
+                                    @for ($i = 1; $i <= 30; $i++)
+                                        <option value="{{ $i }}"
+                                            {{ $i == old('max_player') ? 'selected' : '' }}>{{ $i }}</option>
+                                    @endfor
+                                </select>
+                                @error('max_player')
+                                    <span class="text-danger"> {{ $message }} </span>
+                                @enderror
                             </div>
                         </div>
                     </div>
@@ -162,44 +202,151 @@
                     <div class="row">
                         <div class="col-lg-4 col-md-6">
                             <div class="form-group">
-                                <label class="form-label" for="max_player">{{ trans('labels.max_player') }}</label>
-                                <select class="form-select" id="max_player" name="max_player">
-                                    <option disabled selected>{{ trans('labels.max_player') }}</option>
-                                    @for ($i = 1; $i <= 30; $i++)
-                                        <option value="{{ $i }}">{{ $i }}</option>
-                                    @endfor
+                                <label class="form-label" for="gender">{{ trans('labels.select_gender') }}</label>
+                                <select class="form-select" required name="gender" id="gender">
+                                    <option value="" disabled selected>{{ trans('labels.select') }}</option>
+                                    <option value="1">{{ trans('labels.male') }}</option>
+                                    <option value="2">{{ trans('labels.female') }}</option>
+                                    <option value="3">{{ trans('labels.other') }}</option>
                                 </select>
+                                @error('gender')
+                                    <span class="text-danger"> {{ $message }} </span>
+                                @enderror
                             </div>
                         </div>
                         <div class="col-lg-4 col-md-6">
                             <div class="form-group">
                                 <label class="form-label">{{ trans('labels.team_limit') }}</label>
-                                <select class="form-select" id="team_limit" name="team_limit">
-                                    <option disabled selected>{{ trans('labels.team_limit') }}</option>
+                                <select class="form-select" required id="team_limit" name="team_limit">
+                                    <option value="" disabled selected>{{ trans('labels.select') }}</option>
                                     @for ($i = 5; $i <= 20; $i++)
-                                        <option value="{{ $i }}">{{ $i }}</option>
+                                        <option value="{{ $i }}"
+                                            {{ $i == old('team_limit') ? 'selected' : '' }}>{{ $i }}</option>
                                     @endfor
                                 </select>
+                                @error('team_limit')
+                                    <span class="text-danger"> {{ $message }} </span>
+                                @enderror
                             </div>
                         </div>
                         <div class="col-lg-4 col-md-6">
                             <div class="form-group">
-                                <label class="form-label">Price Per Team</label>
-                                <input type="number" placeholder="0" class="form-control ">
+                                <label class="form-label" for="price">{{ trans('labels.price') }}</label>
+                                <input type="number" required class="form-control" name="price" id="price"
+                                    value="{{ old('price') }}" placeholder="{{ trans('labels.price') }}">
+                                @error('price')
+                                    <span class="text-danger"> {{ $message }} </span>
+                                @enderror
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-6 col-md-12">
                     <div class="form-group">
-                        <label class="form-label">League Banner Images</label>
-                        <input type="file" class="form-control mb-4">
+                        <label class="form-label" for="image">{{ trans('labels.banner_images') }}</label>
+                        <input type="file" required class="form-control" name="images[]" id="image">
+                        @if ($errors->has('images'))
+                            <span class="text-danger">{{ $errors->first('images') }}</span>
+                        @endif
                     </div>
                 </div>
                 <div class="col-md-12">
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="submit" class="btn btn-primary me-3">{{ trans('labels.submit') }}</button>
+                    <button type="button" class="btn btn-outline-danger">{{ trans('labels.cancel') }}</button>
                 </div>
             </div>
         </div>
     </form>
+@endsection
+@section('scripts')
+    <script src="{{ url('storage/app/public/admin/js/timepicker/jquery.timepicker.min.js') }}" defer=""></script>
+
+    <script>
+        $('#start_date').on('change', function() {
+            if ($.trim($(this).val()) != "") {
+                $('#end_date').attr('disabled', false);
+                $('#end_date').attr('min', $(this).val());
+            }
+        }).change();
+
+        $(function() {
+            $(".time_picker").timepicker({
+                interval: 60,
+            });
+        });
+        $('#from_age').on('change', function() {
+            var from_age = $(this).val();
+            $("#to_age").find("option").each(function(index, el) {
+                if ($(this).val() <= from_age) {
+                    $(this).attr('disabled', true);
+                } else {
+                    $(this).attr('disabled', false);
+                }
+            });
+        }).change();
+        $('#min_player').on('change', function() {
+            var min_player = $(this).val();
+            $("#max_player").find("option").each(function(index, el) {
+                if ($(this).val() <= min_player) {
+                    $(this).attr('disabled', true);
+                } else {
+                    $(this).attr('disabled', false);
+                }
+            });
+        }).change();
+
+        $('.radio-editer').parent().hide();
+        $('#dome').on('change', function() {
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
+                        'content')
+                },
+                url: $(this).attr('data-next'),
+                data: {
+                    id: $(this).val(),
+                },
+                method: 'GET',
+                success: function(response) {
+                    $('.radio-editer').parent().show();
+                    if (response.status == 1) {
+                        var html = '';
+                        if (response.sportsdata.length > 0) {
+                            $.each(response.sportsdata, function(arrayIndex, elementValue) {
+                                var checked = arrayIndex == 0 ? 'checked' : '';
+                                html +=
+                                    '<div class="form-check pe-3"><input type="radio" name="sport" class="form-check-input" value="' +
+                                    elementValue.id + '" id="radio' + arrayIndex + '" ' +
+                                    checked +
+                                    ' ><label class="form-check-label" for="radio' +
+                                    arrayIndex +
+                                    '">' + elementValue.name + '</label></div>';
+                            });
+                            $('.radio-editer').html(html);
+                        } else {
+                            $('.radio-editer').html(no_data);
+                        }
+
+                        $('#field option:not(:first)').remove();
+                        if (response.fieldsdata.length > 0) {
+                            $.each(response.fieldsdata, function(arrayIndex, elementValue) {
+                                $('#field').append('<option value="' + elementValue.id + '">' +
+                                    elementValue.name + '</option>');
+                            });
+                        } else {
+                            $('#field').append('<option value="" selected disabled>' + no_data +
+                                '</option>');
+                        }
+                    } else {
+                        toastr.error(response.message);
+                        return false;
+                    }
+                },
+                error: function(e) {
+                    toastr.error(wrong);
+                    return false;
+                }
+            });
+        });
+    </script>
 @endsection
