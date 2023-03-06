@@ -13,6 +13,7 @@ return [
     'continue' => 'Continue',
     'back_to' => 'Back to',
     'check_email' => 'Check Email Inbox',
+    'verification' => 'Verification',
 
     'srno' => '#',
     'active' => 'Active',
@@ -48,6 +49,10 @@ return [
     'twillio_settings' => 'Twillio Settings',
     'stripe_settings' => 'Stripe Settings',
     'supports' => 'Supports',
+    // Dashboard
+    'cancelled_bookings' => 'Cancelled Bookings',
+    'total_income' => 'Total Income',
+    'recent_bookings' => 'Recent Bookings',
     // Users
     'users' => 'Users',
     'user_details' => 'User Details',
@@ -90,10 +95,16 @@ return [
     'default_price' => 'Default Price',
     'domes_list' => 'Domes List',
     'add_dome' => 'Add Dome',
+    'edit_dome' => 'Edit Dome',
+    'dome_location' => 'Dome Location',
     'select_sports' => 'Select Sports',
     'optional' => '(Optinal)',
     'amenities' => 'Amenities',
     'amenities_description' => 'Amenities Description',
+    'free_wifi' => 'Free Wifi',
+    'changing_room' => 'Changing Room',
+    'parking' => 'Parking',
+    'dome_location' => 'Dome Location',
     // Sports
     'image' => 'Image',
     'sport_name' => 'Sport Name',
@@ -132,6 +143,10 @@ return [
     // Enquiry
     'dome_requests' => 'Dome Requests',
     // Booking
+    'all' => 'All',
+    'today' => 'Today',
+    'last_7_days' => 'Last 7 Days',
+    'this_month' => 'This Month',
     'booking_id' => 'Booking ID',
     'booking_date' => 'Booking Date',
     'amount' => 'Amount',
@@ -169,4 +184,6 @@ return [
     'calendar' => 'Calendar',
     'dome' => 'Dome',
     'league' => 'League',
+    // Supports
+    'message' => 'Message',
 ];

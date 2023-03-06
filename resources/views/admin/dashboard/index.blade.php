@@ -20,7 +20,7 @@
                             </svg>
                         </div>
                         <h1 class="text-white mb-2">$54756.86</h1>
-                        <p class="text-white text-opacity-75">Income</p>
+                        <p class="text-white text-opacity-75">{{ trans('labels.income') }}</p>
                     </div>
                 </div>
             </div>
@@ -41,7 +41,7 @@
                             </svg>
                         </div>
                         <h1 class="text-white mb-2">156</h1>
-                        <p class="text-white text-opacity-75">Confirm Bookings</p>
+                        <p class="text-white text-opacity-75">{{ trans('labels.confirm_bookings') }}</p>
                     </div>
                 </div>
             </div>
@@ -64,7 +64,7 @@
                             </div>
                             <div class="mx-2">
                                 <h6 class="text-white">78</h6>
-                                <p class="text-white text-opacity-75 fs-7">Pending Bookings</p>
+                                <p class="text-white text-opacity-75 fs-7">{{ trans('labels.pending_bookings') }}</p>
                             </div>
                         </div>
                     </div>
@@ -86,7 +86,7 @@
                             </div>
                             <div class="mx-2">
                                 <h6 class="text-dark">78</h6>
-                                <p class="text-dark text-opacity-50 fs-7">Cancelled Bookings</p>
+                                <p class="text-dark text-opacity-50 fs-7">{{ trans('labels.cancelled_bookings') }}</p>
                             </div>
                         </div>
                     </div>
@@ -94,51 +94,36 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-lg-8 mb-3 h-100">
-                <div class="card total-booking-chart">
+            <div class="col-lg-8 mb-3">
+                <div class="card total-booking-chart h-100">
                     <div class="card-body">
                         <div class="d-flex align-items-center justify-content-between mb-3">
                             <div class="content">
-                                <p class="mb-2 text-muted">Total Bookings</p>
+                                <p class="mb-2 fw-500 text-muted">{{ trans('labels.total_bookings') }}</p>
                                 <h4>156</h4>
                             </div>
-                            <a role="button" class="py-2 px-3 text-dark border-radius border dropdown-toggle"
-                                data-bs-toggle="dropdown" aria-expanded="false">
-                                Last 7 Days
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#">Last 7 Days</a></li>
-                                <li><a class="dropdown-item" href="#">This Month</a></li>
-                                <li><a class="dropdown-item" href="#">This Year</a></li>
-                            </ul>
+                            <select class="form-select w-auto" name="" id="">
+                                <option value="last-7">{{ trans('labels.last_7_days') }}</option>
+                                <option value="this-month">{{ trans('labels.this_month') }}</option>
+                                <option value="this-year">{{ trans('labels.this_year') }}</option>
+                            </select>
                         </div>
                         <div id="total_bookings"></div>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-4 col-md-6 mb-3 h-100">
-                <div class="card total-income-chart">
+            <div class="col-lg-4 col-md-6 mb-3">
+                <div class="card total-income-chart h-100">
                     <div class="card-body">
                         <div class="d-flex align-items-center justify-content-between mb-3">
                             <div class="content">
-                                <p class="text-muted fw-500">Total Income</p>
+                                <p class="text-muted fw-500">{{ trans('labels.total_income') }}</p>
                             </div>
-                            <a role="button" class="px-2" data-bs-toggle="dropdown" aria-expanded="false">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-dots"
-                                    width="25" height="25" viewBox="0 0 24 24" stroke-width="1.5"
-                                    stroke="var(--bs-secondary)" fill="none" stroke-linecap="round"
-                                    stroke-linejoin="round">
-                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                    <circle cx="5" cy="12" r="1" />
-                                    <circle cx="12" cy="12" r="1" />
-                                    <circle cx="19" cy="12" r="1" />
-                                </svg>
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#">Last 7 Days</a></li>
-                                <li><a class="dropdown-item" href="#">This Month</a></li>
-                                <li><a class="dropdown-item" href="#">This Year</a></li>
-                            </ul>
+                            <select class="form-select w-auto" name="" id="">
+                                <option value="last-7">{{ trans('labels.last_7_days') }}</option>
+                                <option value="this-month">{{ trans('labels.this_month') }}</option>
+                                <option value="this-year">{{ trans('labels.this_year') }}</option>
+                            </select>
                         </div>
                         <div id="total_income" class="mb-3"></div>
                         <ul class="list-group list-group-flush">
@@ -184,20 +169,20 @@
         </div>
         <div class="card">
             <div class="card-body">
-                <p class="mb-2 text-muted">Recent Bookings</p>
+                <p class="mb-2 fw-500 text-muted">{{ trans('labels.recent_bookings') }}</p>
                 <div class="table-responsive">
-                    <table id="datatable" class="table table-hover overflow-hidden" data-page-length='10'>
-                        <thead class="table-secondary">
+                    <table class="table table-nowrap mb-0" id="bootstrapTable">
+                        <thead>
                             <tr>
-                                <th>ID</th>
-                                <th>Booking ID</th>
-                                <th>Vendor Name</th>
-                                <th>Dome Name</th>
-                                <th>Dome Price</th>
-                                <th>Booking Date</th>
-                                <th>Start Time</th>
-                                <th>End Time</th>
-                                <th>Status</th>
+                                <th> {{ trans('labels.srno') }} </th>
+                                <th> {{ trans('labels.booking_id') }} </th>
+                                <th> {{ trans('labels.dome_owner') }} </th>
+                                <th> {{ trans('labels.dome_name') }} </th>
+                                <th> {{ trans('labels.booking_date') }} </th>
+                                <th> {{ trans('labels.time') }} </th>
+                                <th> {{ trans('labels.amount') }} </th>
+                                <th> {{ trans('labels.payment_status') }} </th>
+                                <th> {{ trans('labels.status') }} </th>
                             </tr>
                         </thead>
                         <tbody>
@@ -262,15 +247,11 @@
             </div>
         </div>
     </div>
-    <div id="primaryColor" style="color: var(--bs-primary)"></div>
-    <div id="secondaryColor" style="color: var(--bs-secondary)"></div>
-    <div id="lightSecondaryColor" style="color: rgba(var(--bs-secondary-rgb),0.75)"></div>
+
 @endsection
 @section('scripts')
     <script>
-        let primary_color = $('#primaryColor').css('color');
-        let secondary_color = $('#secondaryColor').css('color');
-        let light_secondary_color = $('#lightSecondaryColor').css('color');
+
     </script>
     <script src="{{ url('storage/app/public/admin/js/charts/apexchart/apexcharts.js') }}"></script>
     <script>

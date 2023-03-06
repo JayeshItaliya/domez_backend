@@ -32,51 +32,55 @@
     </div>
     <div class="card mb-3">
         <div class="card-body">
-            <p class="mb-2 fw-semibold">{{ trans('labels.dome_owner') }}</p>
-            <div class="d-flex bg-gray">
-                <div class=" col-lg-6 col-md-6">
-                    <div class="px-3 py-2 d-flex">
-                        <div class="col-md-4">
-                            <label>{{ trans('labels.name') }}</label>
+            @if (Auth::user()->type == 1)
+                <p class="mb-2 fw-semibold">{{ trans('labels.dome_owner') }}</p>
+                <div class="d-flex bg-gray">
+                    <div class=" col-lg-6 col-md-6">
+                        <div class="px-3 py-2 d-flex">
+                            <div class="col-md-4">
+                                <label>{{ trans('labels.name') }}</label>
+                            </div>
+                            <div class="col-md-8">
+                                <span class="text-muted fs-7">{{ $dome->dome_owner->name }}</span>
+                            </div>
                         </div>
-                        <div class="col-md-8">
-                            <span class="text-muted fs-7">Dome</span>
+                    </div>
+                    <div class="col-lg-6 col-md-6">
+                        <div class="px-3 py-2 d-flex">
+                            <div class="col-md-4">
+                                <label>{{ trans('labels.status') }}</label>
+                            </div>
+                            <div class="col-md-8">
+                                <span
+                                    class="badge rounded-pill cursor-pointer text-bg-{{ $dome->dome_owner->is_available == 1 ? 'success' : 'danger' }}"
+                                    onclick="change_status('{{ $dome->dome_owner->id }}','{{ $dome->dome_owner->is_available == 1 ? 2 : 1 }}','{{ URL::to('admin/vendors/change_status') }}')">{{ $dome->dome_owner->is_available == 1 ? trans('labels.active') : trans('labels.inactive') }}</span>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-6 col-md-6">
-                    <div class="px-3 py-2 d-flex">
-                        <div class="col-md-4">
-                            <label>{{ trans('labels.status') }}</label>
+                <div class="d-flex mb-3">
+                    <div class="col-lg-6 col-md-6">
+                        <div class="px-3 py-2 d-flex">
+                            <div class="col-md-4">
+                                <label>{{ trans('labels.email') }}</label>
+                            </div>
+                            <div class="col-md-8">
+                                <span class="text-muted fs-7">{{ $dome->dome_owner->email }}</span>
+                            </div>
                         </div>
-                        <div class="col-md-8">
-                            <span class="text-muted fs-7">Dome</span>
+                    </div>
+                    <div class="col-lg-6 col-md-6">
+                        <div class="px-3 py-2 d-flex">
+                            <div class="col-md-4">
+                                <label>{{ trans('labels.phone_number') }}</label>
+                            </div>
+                            <div class="col-md-8">
+                                <span class="text-muted fs-7">{{ $dome->dome_owner->phone }}</span>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="d-flex mb-3">
-                <div class="col-lg-6 col-md-6">
-                    <div class="px-3 py-2 d-flex">
-                        <div class="col-md-4">
-                            <label>{{ trans('labels.email') }}</label>
-                        </div>
-                        <div class="col-md-8">
-                            <span class="text-muted fs-7">Dome</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6 col-md-6">
-                    <div class="px-3 py-2 d-flex">
-                        <div class="col-md-4">
-                            <label>{{ trans('labels.phone_number') }}</label>
-                        </div>
-                        <div class="col-md-8">
-                            <span class="text-muted fs-7">Dome</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            @endif
             <p class="mb-2 fw-semibold">{{ trans('labels.dome_details') }}</p>
             <div class="d-flex bg-gray">
                 <div class="col-lg-6 col-md-6">
@@ -139,34 +143,12 @@
                             <label>{{ trans('labels.dome_description') }}</label>
                         </div>
                         <div class="col-md-8">
-                            <span class="text-muted fs-7">{{ $dome->description }}</span>
+                            <span class="text-muted fs-7">{{ Str::limit($dome->description, 50, '...') }}</span>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="d-flex">
-                <div class="col-lg-6 col-md-6">
-                    <div class="px-3 py-2 d-flex">
-                        <div class="col-md-4">
-                            <label>{{ trans('labels.city') }}</label>
-                        </div>
-                        <div class="col-md-8">
-                            <span class="text-muted fs-7">{{ $dome->city }}</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6 col-md-6">
-                    <div class="px-3 py-2 d-flex">
-                        <div class="col-md-4">
-                            <label>{{ trans('labels.pincode') }}</label>
-                        </div>
-                        <div class="col-md-8">
-                            <span class="text-muted fs-7">{{ $dome->pin_code }}</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="d-flex bg-gray">
                 <div class="col-lg-6 col-md-6">
                     <div class="px-3 py-2 d-flex">
                         <div class="col-md-4">
@@ -184,10 +166,32 @@
                 <div class="col-lg-6 col-md-6">
                     <div class="px-3 py-2 d-flex">
                         <div class="col-md-4">
+                            <label>{{ trans('labels.city') }}</label>
+                        </div>
+                        <div class="col-md-8">
+                            <span class="text-muted fs-7">{{ $dome->city }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="d-flex bg-gray">
+                <div class="col-lg-6 col-md-6">
+                    <div class="px-3 py-2 d-flex">
+                        <div class="col-md-4">
                             <label>{{ trans('labels.amenities_description') }}</label>
                         </div>
                         <div class="col-md-8">
-                            <span class="text-muted fs-7">{{ $dome->benefits_description }}</span>
+                            <span class="text-muted fs-7">{{ Str::limit($dome->benefits_description, 50, '...') }}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6">
+                    <div class="px-3 py-2 d-flex">
+                        <div class="col-md-4">
+                            <label>{{ trans('labels.pincode') }}</label>
+                        </div>
+                        <div class="col-md-8">
+                            <span class="text-muted fs-7">{{ $dome->pin_code }}</span>
                         </div>
                     </div>
                 </div>
@@ -227,7 +231,8 @@
                         <div class="col-md-8">
                             <ul class="d-flex">
                                 @foreach ($sports as $sport)
-                                    <li class="text-muted fs-7 me-3 me-mb-0" style="list-style: inside">{{ $sport->name }}</li>
+                                    <li class="text-muted fs-7 me-3 me-mb-0" style="list-style: inside">
+                                        {{ $sport->name }}</li>
                                 @endforeach
                             </ul>
                         </div>
@@ -263,19 +268,16 @@
         <div class="col-lg-8">
             <div class="card">
                 <div class="card-body">
-                    <div class="row justify-content-between align-items-center mb-3">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
                         <div class="col-auto">
                             <span class="text-muted fs-7">{{ trans('labels.dome_revenue') }}</span>
                             <p class="fw-semibold">5000 $</p>
                         </div>
-                        <div class="col-auto">
-                            <select name="" id="" class="form-select">
-                                <option value="">Today</option>
-                                <option value="">This Week</option>
-                                <option value="">This Month</option>
-                                <option value="" selected>This Year</option>
-                            </select>
-                        </div>
+                        <select class="form-select w-auto" name="" id="">
+                            <option value="last-7">{{ trans('labels.last_7_days') }}</option>
+                            <option value="this-month">{{ trans('labels.this_month') }}</option>
+                            <option value="this-year">{{ trans('labels.this_year') }}</option>
+                        </select>
                     </div>
                     <div id="dome_revenue"></div>
                 </div>
@@ -284,23 +286,86 @@
         <div class="col-lg-4">
             <div class="card h-100">
                 <div class="card-body">
-                    <div class="row justify-content-between align-items-center mb-3">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
                         <div class="col-auto">
                             <span class="text-muted fs-7">{{ trans('labels.total_bookings') }}</span>
                             <p class="fw-semibold">110</p>
                         </div>
-                        <div class="col-auto">
-                            <select name="" id="" class="form-select">
-                                <option value="">Today</option>
-                                <option value="">This Week</option>
-                                <option value="">This Month</option>
-                                <option value="" selected>This Year</option>
-                            </select>
-                        </div>
+                        <select class="form-select w-auto" name="" id="">
+                            <option value="last-7">{{ trans('labels.last_7_days') }}</option>
+                            <option value="this-month">{{ trans('labels.this_month') }}</option>
+                            <option value="this-year">{{ trans('labels.this_year') }}</option>
+                        </select>
                     </div>
                     <div id="booking_chart"></div>
                 </div>
             </div>
         </div>
     </div>
+@endsection
+@section('scripts')
+    <script src="{{ url('storage/app/public/admin/js/charts/apexchart/apexcharts.js') }}"></script>
+    <script>
+        // Dome Revenue Chart
+        var options = {
+            series: [{
+                name: "Revenue",
+                data: [10, 41, 35, 51, 49, 62, 69, 91, 148, 155, 200, 230]
+            }],
+            chart: {
+                height: 400,
+                type: 'line',
+                zoom: {
+                    enabled: false
+                }
+            },
+            dataLabels: {
+                enabled: true,
+                formatter: function(val) {
+                    return val + "$"
+                }
+            },
+            stroke: {
+                curve: 'straight'
+            },
+            grid: {
+                row: {
+                    colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
+                    opacity: 0.3
+                },
+            },
+            colors: [secondary_color],
+            xaxis: {
+                categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+            }
+        };
+        var chart = new ApexCharts(document.querySelector("#dome_revenue"), options);
+        chart.render();
+        //Total Bookings Chart
+        var options = {
+            series: [44, 55, 11],
+            chart: {
+                height: 450,
+                type: 'pie',
+            },
+            labels: ['{{ trans('labels.confirm_bookings') }}', '{{ trans('labels.pending_bookings') }}',
+                '{{ trans('labels.cancel_bookings') }}'
+            ],
+            colors: [primary_color, secondary_color, light_secondary_color],
+            responsive: [{
+                breakpoint: 480,
+                options: {
+                    chart: {
+                        width: 200
+                    },
+                    legend: {
+                        show: false,
+                        position: 'bottom'
+                    }
+                }
+            }]
+        };
+        var chart = new ApexCharts(document.querySelector("#booking_chart"), options);
+        chart.render();
+    </script>
 @endsection
