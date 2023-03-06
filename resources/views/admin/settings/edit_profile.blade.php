@@ -48,15 +48,23 @@
                         <div class="col-md-4">
                             <div class="mb-3">
                                 <label for="email_address" class="form-label">{{ trans('labels.email_address') }}</label>
-                                <input type="email" name="email" class="form-control" id="email_address"
-                                    value="{{ Auth::user()->email }}" placeholder="{{ trans('labels.email_address') }}">
+                                <div class="input-group">
+                                    <input type="email" name="email" class="form-control" id="email_address"
+                                        value="{{ Auth::user()->email }}" placeholder="{{ trans('labels.email_address') }}"
+                                        data-next="{{ URL::to('admin/settings/check-email-exist') }}">
+                                    <span class="input-group-text my-spinner" id="basic-addon1">
+                                        <div class="spinner-border spinner-border-sm text-dark" role="status">
+                                            <span class="visually-hidden">Loading...</span>
+                                        </div>
+                                    </span>
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="mb-3">
-                                <label for="phone" class="form-label">{{ trans('labels.phone') }}</label>
+                                <label for="phone" class="form-label">{{ trans('labels.phone_number') }}</label>
                                 <input type="number" name="email" class="form-control" id="phone"
-                                    value="{{ Auth::user()->phone }}">
+                                    value="{{ Auth::user()->phone }}" placeholder="{{ trans('labels.phone_number') }}">
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -71,7 +79,7 @@
                             </div>
                         </div>
                         <div class="col-md-12">
-                            <button type="submit" class="btn btn-primary">{{ trans('labels.submit') }}</button>
+                            <button type="submit" class="btn btn-primary btn_submit">{{ trans('labels.submit') }}</button>
                         </div>
                     </div>
                 </div>
@@ -115,12 +123,110 @@
             </form>
         </div>
     </div>
+
+    <div class="modal fade" id="verifyemailmodal" tabindex="-1" aria-labelledby="verifyemailmodalLabel"
+        aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="verifyemailmodalLabel">{{ trans('labels.verification') }}</h5>
+                    {{-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> --}}
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <p class="text-muted fw-bold show_email"></p>
+                                <div class="input-group">
+                                    <input type="number" class="form-control" placeholder="{{ trans('labels.otp') }}"
+                                        name="otp" id="otp">
+                                    <button class="btn btn-primary btn_verify">{{ trans('labels.verify') }}</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {{-- <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">{{ trans('labels.submit') }}</button>
+                </div> --}}
+            </div>
+        </div>
+    </div>
 @endsection
 @section('scripts')
     <script>
-        $('#email_address').on('keyup', function() {
+        $('.my-spinner').hide();
+        $('#email_address').on('blur', function() {
             "use strict";
-            
+            if ($.trim($(this).val()) == '') {
+                return false;
+            }
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
+                        'content')
+                },
+                url: $(this).attr('data-next'),
+                data: {
+                    email: $(this).val(),
+                },
+                method: 'POST',
+                beforeSend: function() {
+                    $('.my-spinner').show();
+                    $('.btn_submit').attr('disabled',true);
+                },
+                success: function(response) {
+                    $('.my-spinner').hide();
+                    $('.btn_submit').attr('disabled',false);
+                    if (response.status == 1) {
+                        $('#email_address').removeClass('is-invalid')
+                        $('#verifyemailmodal .show_email').text($('#email_address').val());
+                        $('#verifyemailmodal').modal('show');
+                    } else {
+                        $('#email_address').addClass('is-invalid')
+                        toastr.error(response.message);
+                        return false;
+                    }
+                },
+                error: function(e) {
+                    toastr.error(wrong);
+                    return false;
+                }
+            });
+        });
+        $('#btn_verify').on('click', function() {
+            "use strict";
+            if ($.trim($('#otp').val()) == '') {
+                $('#otp').addClass('is-invalid');
+                return false;
+            }
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
+                        'content')
+                },
+                url: $(this).attr('data-next'),
+                data: {
+                    email: $(this).val(),
+                },
+                method: 'POST',
+                success: function(response) {
+                    alert(response.status)
+                    if (response.status == 1) {
+                        $('#email_address').removeClass('is-invalid')
+                        $('#verifyemailmodal').modal('show');
+                    } else {
+                        $('#email_address').addClass('is-invalid')
+                        toastr.error(response.message);
+                        return false;
+                    }
+                },
+                error: function(e) {
+                    toastr.error(wrong);
+                    return false;
+                }
+            });
         });
     </script>
 @endsection

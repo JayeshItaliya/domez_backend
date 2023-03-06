@@ -6,6 +6,7 @@ return [
     // validation-error messages
     'email_required' => 'Please Enter Email Address',
     'valid_email' => 'Please Enter Valid Email Address',
+    'email_exist' => 'Email already exist!!',
     'password_required' => 'Please Passsword',
     'password_min_length' => 'Password must be at least 8 characters in length',
     'account_deleted' => 'Account has been deleted',
