@@ -114,6 +114,8 @@ return [
     'min_person' => 'Min Person',
     'max_person' => 'Max Person',
     // Leagues
+    'league_details' => 'League Details',
+    'league_id' => 'League ID',
     'league_name' => 'League Name',
     'leagues' => 'Leagues',
     'date' => 'Date',
@@ -128,8 +130,9 @@ return [
     'start_time' => 'Start Time',
     'end_time' => 'End Time',
     'select_gender' => 'Select Gender',
-    'male' => 'Male',
-    'female' => 'Female',
+    'gender' => 'Gender',
+    'men' => 'Men',
+    'women' => 'Women',
     'other' => 'Other',
     'age' => ' Age',
     'from_age' => 'From Age',
@@ -140,6 +143,9 @@ return [
     'select' => 'Select',
     'banner_images' => 'Banner Images',
     'price_per_team' => 'Price Per Team',
+    'years' => 'Years',
+    'years' => 'Years',
+    'years' => 'Years',
     // Enquiry
     'dome_requests' => 'Dome Requests',
     // Booking
@@ -186,4 +192,7 @@ return [
     'league' => 'League',
     // Supports
     'message' => 'Message',
+    // General Settings
+    'otp' => 'OTP',
+    'verify' => 'Verify',
 ];

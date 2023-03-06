@@ -55,7 +55,7 @@ Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function () {
 
     Route::get('dashboard', [AdminController::class, 'dashboard']);
     Route::get('calendar', [BookingController::class, 'calendar']);
-    // Domes
+    // Domes 
     Route::get('domes', [DomesController::class, 'index']);
     Route::get('domes/details-{id}', [DomesController::class, 'dome_details']);
     // Leagues

@@ -124,6 +124,7 @@ class LeagueController extends Controller
     }
     public function leaguedetails(Request $request)
     {
-        return view('admin.leagues.leaguedetails');
+        $league = League::find($request->id);
+        return view('admin.leagues.view', compact('league'));
     }
 }

@@ -78,14 +78,16 @@
                         <span
                             class="nav-link {{ request()->is('admin/domes*') ? 'active' : '' }}">{{ trans('labels.domes') }}</span>
                     </a>
-                    <a href="{{ URL::to('admin/fields') }}" class="nav-item">
-                        <span
-                            class="nav-link {{ request()->is('admin/field*') ? 'active' : '' }}">{{ trans('labels.fields') }}</span>
-                    </a>
-                    <a href="{{ URL::to('admin/set-prices') }}" class="nav-item">
-                        <span
-                            class="nav-link {{ request()->is('admin/set-prices*') ? 'active' : '' }}">{{ trans('labels.set_prices') }}</span>
-                    </a>
+                    @if (Auth::user()->type == 2)
+                        <a href="{{ URL::to('admin/fields') }}" class="nav-item">
+                            <span
+                                class="nav-link {{ request()->is('admin/field*') ? 'active' : '' }}">{{ trans('labels.fields') }}</span>
+                        </a>
+                        <a href="{{ URL::to('admin/set-prices') }}" class="nav-item">
+                            <span
+                                class="nav-link {{ request()->is('admin/set-prices*') ? 'active' : '' }}">{{ trans('labels.set_prices') }}</span>
+                        </a>
+                    @endif
                 </ul>
             </div>
 
@@ -114,87 +116,94 @@
                 <i class="fa-light fa-file-invoice-dollar"></i>
                 <span class="mx-3">{{ trans('labels.transactions') }}</span>
             </a>
-            <a href="{{ URL::to('admin/reviews') }}"
-                class="nav-item {{ request()->is('admin/reviews*') ? 'active' : '' }}">
-                <i class="fa-light fa-message-smile"></i>
-                <span class="mx-3">{{ trans('labels.reviews') }}</span>
-            </a>
+            @if (Auth::user()->type == 2)
+                <a href="{{ URL::to('admin/reviews') }}"
+                    class="nav-item {{ request()->is('admin/reviews*') ? 'active' : '' }}">
+                    <i class="fa-light fa-message-smile"></i>
+                    <span class="mx-3">{{ trans('labels.reviews') }}</span>
+                </a>
+            @endif
             <a href="{{ URL::to('admin/calendar') }}"
                 class="nav-item {{ request()->is('admin/calendar*') ? 'active' : '' }}">
                 <i class="fa-light fa-calendar-range"></i>
                 <span class="mx-3">{{ trans('labels.calendar') }}</span>
             </a>
-            <a href="#enquiry" class="nav-item {{ request()->is('admin/enquiries*') ? 'active' : '' }}"
-                data-bs-toggle="collapse" role="button"
-                aria-expanded="{{ request()->is('admin/enquiries*') ? 'true' : 'false' }}" aria-controls="enquiry">
-                <i class="fa-light fa-message-smile"></i>
-                <div class="ms-3 d-flex align-items-center justify-content-between w-100">
-                    <span>{{ trans('labels.enquiry') }}</span>
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-down"
-                        width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50"
-                        fill="none" stroke-linecap="round" stroke-linejoin="round">
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                        <polyline points="6 9 12 15 18 9" />
-                    </svg>
+            @if (Auth::user()->type == 1)
+                <a href="#enquiry" class="nav-item {{ request()->is('admin/enquiries*') ? 'active' : '' }}"
+                    data-bs-toggle="collapse" role="button"
+                    aria-expanded="{{ request()->is('admin/enquiries*') ? 'true' : 'false' }}"
+                    aria-controls="enquiry">
+                    <i class="fa-light fa-message-smile"></i>
+                    <div class="ms-3 d-flex align-items-center justify-content-between w-100">
+                        <span>{{ trans('labels.enquiry') }}</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-down"
+                            width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50"
+                            fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                            <polyline points="6 9 12 15 18 9" />
+                        </svg>
+                    </div>
+                </a>
+                <div class="collapse {{ request()->is('admin/enquiries*') ? 'show' : '' }}" id="enquiry">
+                    <ul class="nav d-grid">
+                        <a href="{{ URL::to('admin/enquiries/dome-requests') }}" class="nav-item">
+                            <span
+                                class="nav-link {{ request()->is('admin/enquiries/dome-requests') ? 'active' : '' }}">{{ trans('labels.domes_requests') }}</span>
+                        </a>
+                        <a href="{{ URL::to('admin/enquiries/general-enquiry') }}" class="nav-item">
+                            <span
+                                class="nav-link {{ request()->is('admin/enquiries/general-enquiry') ? 'active' : '' }}">{{ trans('labels.general_enquiry') }}</span>
+                        </a>
+                        <a href="{{ URL::to('admin/enquiries/help-support') }}" class="nav-item">
+                            <span
+                                class="nav-link {{ request()->is('admin/enquiries/help-support') ? 'active' : '' }}">{{ trans('labels.help_support') }}</span>
+                        </a>
+                    </ul>
                 </div>
-            </a>
-            <div class="collapse {{ request()->is('admin/enquiries*') ? 'show' : '' }}" id="enquiry">
-                <ul class="nav d-grid">
-                    <a href="{{ URL::to('admin/enquiries/dome-requests') }}" class="nav-item">
-                        <span
-                            class="nav-link {{ request()->is('admin/enquiries/dome-requests') ? 'active' : '' }}">{{ trans('labels.domes_requests') }}</span>
-                    </a>
-                    <a href="{{ URL::to('admin/enquiries/general-enquiry') }}" class="nav-item">
-                        <span
-                            class="nav-link {{ request()->is('admin/enquiries/general-enquiry') ? 'active' : '' }}">{{ trans('labels.general_enquiry') }}</span>
-                    </a>
-                    <a href="{{ URL::to('admin/enquiries/help-support') }}" class="nav-item">
-                        <span
-                            class="nav-link {{ request()->is('admin/enquiries/help-support') ? 'active' : '' }}">{{ trans('labels.help_support') }}</span>
-                    </a>
-                </ul>
-            </div>
-            <a href="#generalsettings" class="nav-item {{ request()->is('admin/settings*') ? 'active' : '' }}"
-                data-bs-toggle="collapse" role="button"
-                aria-expanded="{{ request()->is('admin/settings*') ? 'true' : 'false' }}"
-                aria-controls="generalsettings">
-                <i class="fa-light fa-wrench"></i>
-                <div class="ms-3 d-flex align-items-center justify-content-between w-100">
-                    <span>{{ trans('labels.general_settings') }}</span>
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-down"
-                        width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50"
-                        fill="none" stroke-linecap="round" stroke-linejoin="round">
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                        <polyline points="6 9 12 15 18 9" />
-                    </svg>
+                <a href="#generalsettings" class="nav-item {{ request()->is('admin/settings*') ? 'active' : '' }}"
+                    data-bs-toggle="collapse" role="button"
+                    aria-expanded="{{ request()->is('admin/settings*') ? 'true' : 'false' }}"
+                    aria-controls="generalsettings">
+                    <i class="fa-light fa-wrench"></i>
+                    <div class="ms-3 d-flex align-items-center justify-content-between w-100">
+                        <span>{{ trans('labels.general_settings') }}</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-down"
+                            width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50"
+                            fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                            <polyline points="6 9 12 15 18 9" />
+                        </svg>
+                    </div>
+                </a>
+                <div class="collapse {{ request()->is('admin/settings*') ? 'show' : '' }}" id="generalsettings">
+                    <ul class="nav d-grid">
+                        <a href="{{ URL::to('admin/settings/privacy-policy') }}" class="nav-item">
+                            <span
+                                class="nav-link {{ request()->is('admin/settings/privacy-policy') ? 'active' : '' }}">{{ trans('labels.privacy_policy') }}</span>
+                        </a>
+                        <a href="{{ URL::to('admin/settings/terms-conditions') }}" class="nav-item">
+                            <span
+                                class="nav-link {{ request()->is('admin/settings/terms-conditions') ? 'active' : '' }}">{{ trans('labels.terms_conditions') }}</span>
+                        </a>
+                        <a href="{{ URL::to('admin/settings/edit-profile') }}" class="nav-item">
+                            <span
+                                class="nav-link {{ request()->is('admin/settings/edit-profile') ? 'active' : '' }}">{{ trans('labels.edit_profile') }}</span>
+                        </a>
+                        <a href="{{ URL::to('admin/settings/email-setting') }}" class="nav-item">
+                            <span
+                                class="nav-link {{ request()->is('admin/settings/email-setting') ? 'active' : '' }}">{{ trans('labels.email_settings') }}</span>
+                        </a>
+                        <a href="{{ URL::to('admin/settings/twilio-setting') }}" class="nav-item">
+                            <span
+                                class="nav-link {{ request()->is('admin/settings/twilio-setting') ? 'active' : '' }}">{{ trans('labels.twillio_settings') }}</span>
+                        </a>
+                        <a href="{{ URL::to('admin/settings/stripe-setting') }}" class="nav-item">
+                            <span
+                                class="nav-link {{ request()->is('admin/settings/stripe-setting') ? 'active' : '' }}">{{ trans('labels.stripe_settings') }}</span>
+                        </a>
+                    </ul>
                 </div>
-            </a>
-            <div class="collapse {{ request()->is('admin/settings*') ? 'show' : '' }}" id="generalsettings">
-                <ul class="nav d-grid">
-                    <a href="{{URL::to('admin/settings/privacy-policy')}}" class="nav-item">
-                        <span class="nav-link {{ request()->is('admin/settings/privacy-policy') ? 'active' : '' }}">{{ trans('labels.privacy_policy') }}</span>
-                    </a>
-                    <a href="{{URL::to('admin/settings/terms-conditions')}}" class="nav-item">
-                        <span class="nav-link {{ request()->is('admin/settings/terms-conditions') ? 'active' : '' }}">{{ trans('labels.terms_conditions') }}</span>
-                    </a>
-                    <a href="{{ URL::to('admin/settings/edit-profile') }}" class="nav-item">
-                        <span
-                            class="nav-link {{ request()->is('admin/settings/edit-profile') ? 'active' : '' }}">{{ trans('labels.edit_profile') }}</span>
-                    </a>
-                    <a href="{{ URL::to('admin/settings/email-setting') }}" class="nav-item">
-                        <span
-                            class="nav-link {{ request()->is('admin/settings/email-setting') ? 'active' : '' }}">{{ trans('labels.email_settings') }}</span>
-                    </a>
-                    <a href="{{ URL::to('admin/settings/twilio-setting') }}" class="nav-item">
-                        <span
-                            class="nav-link {{ request()->is('admin/settings/twilio-setting') ? 'active' : '' }}">{{ trans('labels.twillio_settings') }}</span>
-                    </a>
-                    <a href="{{ URL::to('admin/settings/stripe-setting') }}" class="nav-item">
-                        <span
-                            class="nav-link {{ request()->is('admin/settings/stripe-setting') ? 'active' : '' }}">{{ trans('labels.stripe_settings') }}</span>
-                    </a>
-                </ul>
-            </div>
+            @endif
             <a href="{{ URL::to('admin/supports') }}"
                 class="nav-item {{ request()->is('admin/supports*') ? 'active' : '' }}">
                 <i class="fa-light fa-circle-question"></i>

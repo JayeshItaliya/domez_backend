@@ -226,9 +226,9 @@
                                 <select class="form-select" required name="gender" id="gender">
                                     <option value="" disabled selected>{{ trans('labels.select') }}</option>
                                     <option value="1" {{ $getleaguedata->gender == 1 ? 'selected' : '' }}>
-                                        {{ trans('labels.male') }}</option>
+                                        {{ trans('labels.men') }}</option>
                                     <option value="2" {{ $getleaguedata->gender == 2 ? 'selected' : '' }}>
-                                        {{ trans('labels.female') }}</option>
+                                        {{ trans('labels.women') }}</option>
                                     <option value="3" {{ $getleaguedata->gender == 3 ? 'selected' : '' }}>
                                         {{ trans('labels.other') }}</option>
                                 </select>

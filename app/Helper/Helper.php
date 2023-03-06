@@ -100,7 +100,7 @@ class Helper
     }
     public static function time_format($time)
     {
-        return date('h A', strtotime($time));
+        return date('h:i A', strtotime($time));
     }
     public static function currency_format($price)
     {
