@@ -24,33 +24,23 @@ class SettingsController extends Controller
     {
         if ($request->has('privacy_policy')) {
             $data = CMS::where('type', 1)->first();
-            if (!empty($data)) {
-                $data->content = $request->content;
-                $data->save();
-            } else {
+            if (empty($data)) {
                 $data = new CMS;
                 $data->type = 1;
-                $data->content = $request->content;
-                $data->save();
             }
+            $data->content = $request->content;
+            $data->save();
         }
         if ($request->has('terms_conditions')) {
             $data = CMS::where('type', 2)->first();
-            if (!empty($data)) {
-                $data->content = $request->content;
-                $data->save();
-            } else {
+            if (empty($data)) {
                 $data = new CMS;
                 $data->type = 2;
-                $data->content = $request->content;
-                $data->save();
             }
+            $data->content = $request->content;
+            $data->save();
         }
         return redirect()->back()->with('success', trans('messages.success'));
-    }
-    public function edit_profile(Request $request)
-    {
-        return view('admin.settings.edit_profile');
     }
     public function email_setting(Request $request)
     {
@@ -63,5 +53,23 @@ class SettingsController extends Controller
     public function stripe_setting(Request $request)
     {
         return view('admin.settings.stripe_setting');
+    }
+
+
+
+
+
+    public function show_profile(Request $request)
+    {
+        return view('admin.settings.edit_profile');
+    }
+    public function checkemailexist(Request $request)
+    {
+        return view('admin.settings.edit_profile');
+    }
+    public function update_profile(Request $request)
+    {
+        dd($request->input());
+        return view('admin.settings.edit_profile');
     }
 }

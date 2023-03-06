@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('phone')->nullable();
             $table->string('subject')->nullable();
             $table->string('message')->nullable();
-            $table->tinyInteger('type')->default(1)->comment('1=HelpCenter, 2=GeneralEnquiry, 3=DomesRequest [From Landing Page], 4=DomesRequest [From Mobile App]	');
+            $table->tinyInteger('type')->default(1)->comment('1=HelpCenter[Mobile App], 2=HelpCenter[Web], 3=DomesRequest[Web], 4=DomesRequest[Mobile App], 5=Supports[DomeOwner-AdminPanel]');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent();
         });

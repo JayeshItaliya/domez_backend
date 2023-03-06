@@ -1,12 +1,12 @@
 @extends('admin.layout.default')
 @section('title')
-Support
+    {{ trans('labels.supports') }}
 @endsection
 @section('contents')
     <div class="card mb-3">
         <div class="card-body py-2">
             <div class="d-flex align-items-center justify-content-between">
-                <p class="text-secondary fw-semibold">Support</p>
+                <p class="text-secondary fw-semibold">{{ trans('labels.supports') }}</p>
                 <nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='%236c757d'/%3E%3C/svg%3E&#34;);"
                     aria-label="breadcrumb">
                     <ol class="breadcrumb m-0">
@@ -23,7 +23,7 @@ Support
                                 </svg>
                             </a>
                         </li>
-                        <li class="breadcrumb-item">Support</li>
+                        <li class="breadcrumb-item">{{ trans('labels.supports') }}</li>
                     </ol>
                 </nav>
             </div>
@@ -34,49 +34,93 @@ Support
             <table id="bootstrapTable">
                 <thead>
                     <tr>
-                        <th>ID</th>
-                        <th>Dome Owners</th>
-                        <th>User</th>
-                        <th>Subject</th>
-                        <th>Message</th>
-                        <th>Actions</th>
+                        <th> {{ trans('labels.srno') }} </th>
+                        <th> {{ trans('labels.dome_owner') }} </th>
+                        <th> {{ trans('labels.email') }} </th>
+                        <th> {{ trans('labels.subject') }} </th>
+                        <th> {{ trans('labels.message') }} </th>
+                        <th> {{ trans('labels.action') }} </th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tbody>
+                    @php
+                        $i = 1;
+                    @endphp
+                    @foreach ($getsupportslist as $support)
                         <tr>
-                            <td>01</td>
-                            <td>Kelly Doyle</td>
-                            <td>wiegand@hotmail.com</td>
-                            <td>Lorem Ipsum..</td>
-                            <td>Lorem Ipsum is simply dummy text..</td>
-                            <td><span class="badge rounded-pill cursor-pointer partial-pill fa-solid fa-reply me-4" data-bs-target="#mymodal" data-bs-toggle="modal">Reply</span>
+                            <td>{{ $i++ }}</td>
+                            <td>{{ $support['dome_owner']->name }}</td>
+                            <td>{{ $support['dome_owner']->email }}</td>
+                            <td>{{ $support->subject }}</td>
+                            <td>{{ $support->message }}</td>
+                            <td>
+                                <span class="badge rounded-pill cursor-pointer partial-pill me-4 reply_support"
+                                    data-subject="{{ $support->subject }}"
+                                    data-user-name="{{ $support['dome_owner']->name }}"
+                                    data-message="{{ $support->message }}" data-bs-target="#replysupport"
+                                    data-bs-toggle="modal">
+                                    <i class="fa-solid fa-reply"></i>
+                                    {{ trans('labels.reply') }}
+                                </span>
                             </td>
                         </tr>
-                    </tbody>
-                    <div class="modal" id="mymodal">
-                        <div class="modal-dialog modal-dialog-centered">
-                             <div class="modal-content">
-                                 <div class="d-block p-3">
-                                    <h6 class="mb-2">User Name</h6>
-                                    <p class="mb-3">Kelly Doyle</p>
-                                    <h6 class="mb-2">Subject</h6>
-                                    <p class="mb-3">Lorem Ipsum is simply dummy text..</p>
-                                    <h6 class="mb-2">Message</h6>
-                                    <p class="mb-3">Lorem Ipsum is simply dummy text..</p>
-                                    <div class="modal-body p-0">
-                                        <h6 class="mt-3 mb-2">Replay</h6>
-                                       <textarea  rows="5" class="form-control" placeholder="Lorem Ipsum is simply dummy text.." ></textarea>
-                                    </div>
-                                    <div class="d-flex justify-content-end mt-3">
-                                       <button type="button" class="btn btn-primary">Submit</button>
-                                    </div>
-                                 </div>
-                             </div>
-                        </div>
-                   </div>
+                    @endforeach
                 </tbody>
             </table>
         </div>
     </div>
+    <div class="modal fade" id="replysupport" tabindex="-1" aria-labelledby="replysupportLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                {{-- <div class="modal-header">
+                    <h5 class="modal-title" id="replysupportLabel">{{ trans('labels.reply') }}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div> --}}
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="form-label fw-bold">{{ trans('labels.user_name') }}</label>
+                                <p class="show_user_name"></p>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="form-label fw-bold">{{ trans('labels.subject') }}</label>
+                                <p class="show_subject"></p>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="form-label fw-bold">{{ trans('labels.message') }}</label>
+                                <p class="show_message"></p>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="reply" class="form-label fw-bold">{{ trans('labels.reply') }}</label>
+                                <textarea class="form-control" name="reply" placeholder="{{ trans('labels.reply') }}" autocomplete="off"
+                                    rows="4"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    {{-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> --}}
+                    <button type="button" class="btn btn-primary">{{ trans('labels.submit') }}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+@endsection
+@section('scripts')
+    <script>
+        $(function() {
+            $(".reply_support").on('click', function() {
+                $('.show_user_name').text($(this).attr('data-user-name'));
+                $(".show_subject").text($(this).attr('data-subject'));
+                $('.show_message').text($(this).attr('data-message'));
+            });
+        });
+    </script>
 @endsection

@@ -53,124 +53,34 @@ Route::get('resend-otp', [AuthenticationController::class, 'resend']);
 Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function () {
 
     Route::get('dashboard', [AdminController::class, 'dashboard']);
-
-    // Vendors Routes
-    Route::group(['middleware' => 'admin', 'prefix' => 'vendors'], function () {
-        Route::get('/', [VendorController::class, 'index']);
-        Route::get('add', [VendorController::class, 'add']);
-        Route::post('store', [VendorController::class, 'store']);
-        Route::get('dome-owner-details-{id}', [VendorController::class, 'dome_owner_detail']);
-        Route::get('edit-{id}', [VendorController::class, 'edit']);
-        Route::post('update-{id}', [VendorController::class, 'update']);
-        Route::get('delete', [VendorController::class, 'delete']);
-        Route::get('change_status', [VendorController::class, 'change_status']);
-    });
-    // Users Routes
-    Route::group(['middleware' => 'admin', 'prefix' => 'users'], function () {
-        Route::get('/', [UserController::class, 'index']);
-        Route::get('edit-{id}', [UserController::class, 'edit']);
-        Route::get('details-{id}', [UserController::class, 'user_details']);
-        Route::get('delete', [UserController::class, 'delete']);
-        Route::get('change_status', [UserController::class, 'change_status']);
-    });
-    // CMS Pages Routes
-    Route::group(['middleware' => 'admin', 'prefix' => 'cms'], function () {
-        Route::get('privacy-policy', [AdminController::class, 'privacy_policy']);
-        Route::post('store-privacy-policy', [AdminController::class, 'store_privacy_policy']);
-        Route::get('terms-condition', [AdminController::class, 'terms_condition']);
-        Route::post('store-terms-condition', [AdminController::class, 'store_terms_condition']);
-        Route::get('refund-policy', [AdminController::class, 'refund_policy']);
-        Route::post('store-refund-policy', [AdminController::class, 'store_refund_policy']);
-    });
-    //  Payment Gateway
-    Route::group(['middleware' => 'admin', 'prefix' => 'payment-gateway'], function () {
-        Route::get('stripe', [PaymentGatewayController::class, 'stripe']);
-        Route::post('store-stripe', [PaymentGatewayController::class, 'store_stripe']);
-    });
-
+    Route::get('calendar', [BookingController::class, 'calendar']);
     //  Transaction
-    Route::get('transactions', [TransactionController::class, 'index']);
-    Route::get('transactions/details-{id}', [TransactionController::class, 'details']);
-
-    //  Sports
-    Route::group(['middleware' => 'admin', 'prefix' => 'sports'], function () {
-        Route::get('/', [SportsController::class, 'index']);
-        Route::get('add', [SportsController::class, 'add']);
-        Route::post('store', [SportsController::class, 'store']);
-        Route::get('edit-{id}', [SportsController::class, 'edit']);
-        Route::post('update-{id}', [SportsController::class, 'update']);
-        Route::get('change_status', [SportsController::class, 'change_status']);
-        Route::get('delete', [SportsController::class, 'delete']);
+    Route::group(['prefix' => 'transactions'], function () {
+        Route::get('/', [TransactionController::class, 'index']);
+        Route::get('details-{id}', [TransactionController::class, 'details']);
     });
-    //  Leagues
-    Route::group(['prefix' => 'leagues'], function () {
-        Route::get('/', [LeagueController::class, 'index']);
-        Route::get('add', [LeagueController::class, 'add']);
-        Route::post('store', [LeagueController::class, 'store']);
-        Route::get('edit-{id}', [LeagueController::class, 'edit']);
-        Route::post('update-{id}', [LeagueController::class, 'store']);
-        Route::get('change_status', [LeagueController::class, 'change_status']);
-        Route::get('delete', [LeagueController::class, 'delete']);
-        Route::get('details-{id}', [LeagueController::class, 'leaguedetails']);
-        Route::get('sports-fields', [LeagueController::class, 'getsportsandfields']);
-    });
-
-    //  Domes
-    Route::group(['prefix' => 'domes'], function () {
-        Route::get('/', [DomesController::class, 'index']);
-        Route::get('add', [DomesController::class, 'add']);
-        Route::post('store', [DomesController::class, 'store']);
-        Route::get('details-{id}', [DomesController::class, 'dome_details']);
-        Route::get('edit-{id}', [DomesController::class, 'edit']);
-        Route::get('image_delete', [DomesController::class, 'image_delete']);
-        Route::post('update-{id}', [DomesController::class, 'update']);
-        Route::get('delete', [DomesController::class, 'delete']);
-    });
-
-    // Set Prices
-    Route::group(['prefix' => 'set-prices'], function () {
-        Route::get('/', [DomesPriceController::class, 'index']);
-        Route::get('add', [DomesPriceController::class, 'add']);
-        Route::post('store', [DomesPriceController::class, 'store']);
-        Route::get('details-{id}', [DomesPriceController::class, 'dome_price_details']);
-        Route::get('edit-{id}', [DomesPriceController::class, 'edit']);
-        Route::post('update-{id}', [DomesPriceController::class, 'update']);
-        Route::get('delete', [DomesPriceController::class, 'delete']);
-    });
-
-    //  Field
-    Route::group(['prefix' => 'fields'], function () {
-        Route::get('/', [FieldController::class, 'index']);
-        Route::get('add', [FieldController::class, 'add']);
-        Route::post('store', [FieldController::class, 'store']);
-        Route::get('edit-{id}', [FieldController::class, 'edit']);
-        Route::get('image_delete', [FieldController::class, 'image_delete']);
-        Route::post('update-{id}', [FieldController::class, 'update']);
-        Route::get('delete', [FieldController::class, 'delete']);
-    });
-
     //  Bookings
     Route::group(['prefix' => 'bookings'], function () {
         Route::get('/', [BookingController::class, 'index']);
         Route::get('details-{booking_id}', [BookingController::class, 'details']);
     });
-    //  calendar
-    Route::group(['prefix' => 'calendar'], function () {
-        Route::get('/', [BookingController::class, 'calendar']);
+    // Enquiry
+    Route::group(['prefix' => 'enquiries'], function () {
+        Route::get('dome-requests', [EnquiryController::class, 'dome_requests']);
+        Route::get('general-enquiry', [EnquiryController::class, 'general_enquiry']);
+        Route::get('help-support', [EnquiryController::class, 'help_support']);
     });
-
-    //  Reviews
-    Route::group(['prefix' => 'reviews'], function () {
-        Route::get('/', [ReviewController::class, 'index']);
-    });
-
     // Settings
     Route::group(['prefix' => 'settings'], function () {
         Route::get('/', [AdminController::class, 'settings']);
         Route::get('privacy-policy', [SettingsController::class, 'privacy_policy']);
         Route::get('terms-conditions', [SettingsController::class, 'terms_conditions']);
         Route::post('store-cms', [SettingsController::class, 'store_cms']);
-        Route::get('edit-profile-{id}', [SettingsController::class, 'edit_profile']);
+
+        Route::get('edit-profile', [SettingsController::class, 'show_profile']);
+        Route::post('check-email-exist', [SettingsController::class, 'checkemailexist']);
+        Route::post('update-profile', [SettingsController::class, 'update_profile']);
+
         Route::get('email-setting', [SettingsController::class, 'email_setting']);
         Route::get('twilio-setting', [SettingsController::class, 'twilio_setting']);
         Route::get('stripe-setting', [SettingsController::class, 'stripe_setting']);
@@ -181,11 +91,90 @@ Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function () {
         Route::get('/', [AdminController::class, 'supports']);
     });
 
-    // Enquiry
-    Route::group(['prefix' => 'enquiries'], function () {
-        Route::get('dome-requests', [EnquiryController::class, 'dome_requests']);
-        Route::get('general-enquiry', [EnquiryController::class, 'general_enquiry']);
-        Route::get('help-support', [EnquiryController::class, 'help_support']);
+    // Vendors Routes
+    Route::group(['middleware' => 'AdminMiddleware'], function () {
+        Route::group(['prefix' => 'vendors'], function () {
+            Route::get('/', [VendorController::class, 'index']);
+            Route::get('add', [VendorController::class, 'add']);
+            Route::post('store', [VendorController::class, 'store']);
+            Route::get('dome-owner-details-{id}', [VendorController::class, 'dome_owner_detail']);
+            Route::get('edit-{id}', [VendorController::class, 'edit']);
+            Route::post('update-{id}', [VendorController::class, 'update']);
+            Route::get('delete', [VendorController::class, 'delete']);
+            Route::get('change_status', [VendorController::class, 'change_status']);
+        });
+        // Users Routes
+        Route::group(['prefix' => 'users'], function () {
+            Route::get('/', [UserController::class, 'index']);
+            Route::get('edit-{id}', [UserController::class, 'edit']);
+            Route::get('details-{id}', [UserController::class, 'user_details']);
+            Route::get('delete', [UserController::class, 'delete']);
+            Route::get('change_status', [UserController::class, 'change_status']);
+        });
+        //  Payment Gateway
+        Route::group(['prefix' => 'payment-gateway'], function () {
+            Route::get('stripe', [PaymentGatewayController::class, 'stripe']);
+            Route::post('store-stripe', [PaymentGatewayController::class, 'store_stripe']);
+        });
+        //  Sports
+        Route::group(['prefix' => 'sports'], function () {
+            Route::get('/', [SportsController::class, 'index']);
+            Route::get('add', [SportsController::class, 'add']);
+            Route::post('store', [SportsController::class, 'store']);
+            Route::get('edit-{id}', [SportsController::class, 'edit']);
+            Route::post('update-{id}', [SportsController::class, 'update']);
+            Route::get('change_status', [SportsController::class, 'change_status']);
+            Route::get('delete', [SportsController::class, 'delete']);
+        });
+    });
+    Route::group(['middleware' => 'VendorMiddleware'], function () {
+        //  Leagues
+        Route::group(['prefix' => 'leagues'], function () {
+            Route::get('/', [LeagueController::class, 'index']);
+            Route::get('add', [LeagueController::class, 'add']);
+            Route::post('store', [LeagueController::class, 'store']);
+            Route::get('edit-{id}', [LeagueController::class, 'edit']);
+            Route::post('update-{id}', [LeagueController::class, 'store']);
+            Route::get('change_status', [LeagueController::class, 'change_status']);
+            Route::get('delete', [LeagueController::class, 'delete']);
+            Route::get('details-{id}', [LeagueController::class, 'leaguedetails']);
+            Route::get('sports-fields', [LeagueController::class, 'getsportsandfields']);
+        });
+        //  Domes
+        Route::group(['prefix' => 'domes'], function () {
+            Route::get('/', [DomesController::class, 'index']);
+            Route::get('add', [DomesController::class, 'add']);
+            Route::post('store', [DomesController::class, 'store']);
+            Route::get('details-{id}', [DomesController::class, 'dome_details']);
+            Route::get('edit-{id}', [DomesController::class, 'edit']);
+            Route::get('image_delete', [DomesController::class, 'image_delete']);
+            Route::post('update-{id}', [DomesController::class, 'update']);
+            Route::get('delete', [DomesController::class, 'delete']);
+        });
+        // Set Prices
+        Route::group(['prefix' => 'set-prices'], function () {
+            Route::get('/', [DomesPriceController::class, 'index']);
+            Route::get('add', [DomesPriceController::class, 'add']);
+            Route::post('store', [DomesPriceController::class, 'store']);
+            Route::get('details-{id}', [DomesPriceController::class, 'dome_price_details']);
+            Route::get('edit-{id}', [DomesPriceController::class, 'edit']);
+            Route::post('update-{id}', [DomesPriceController::class, 'update']);
+            Route::get('delete', [DomesPriceController::class, 'delete']);
+        });
+        //  Field
+        Route::group(['prefix' => 'fields'], function () {
+            Route::get('/', [FieldController::class, 'index']);
+            Route::get('add', [FieldController::class, 'add']);
+            Route::post('store', [FieldController::class, 'store']);
+            Route::get('edit-{id}', [FieldController::class, 'edit']);
+            Route::get('image_delete', [FieldController::class, 'image_delete']);
+            Route::post('update-{id}', [FieldController::class, 'update']);
+            Route::get('delete', [FieldController::class, 'delete']);
+        });
+        //  Reviews
+        Route::group(['prefix' => 'reviews'], function () {
+            Route::get('/', [ReviewController::class, 'index']);
+        });
     });
 });
 

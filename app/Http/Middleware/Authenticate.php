@@ -17,7 +17,7 @@ class Authenticate
      */
     public function handle(Request $request, Closure $next)
     {
-        if(Auth::user()){
+        if(Auth::user() && in_array(Auth::user()->type,[1,2])){
             return $next($request);
         }else{
             return redirect('/');

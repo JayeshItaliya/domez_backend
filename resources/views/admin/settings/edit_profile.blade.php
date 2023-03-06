@@ -38,18 +38,25 @@
                 @csrf
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <div class="mb-3">
                                 <label for="name" class="form-label">{{ trans('labels.name') }}</label>
                                 <input type="text" name="name" class="form-control" id="name"
                                     value="{{ Auth::user()->name }}" placeholder="Jone">
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <div class="mb-3">
                                 <label for="email_address" class="form-label">{{ trans('labels.email_address') }}</label>
                                 <input type="email" name="email" class="form-control" id="email_address"
-                                    value="{{ Auth::user()->email }}" placeholder="Jone@hotmail.com">
+                                    value="{{ Auth::user()->email }}" placeholder="{{ trans('labels.email_address') }}">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label for="phone" class="form-label">{{ trans('labels.phone') }}</label>
+                                <input type="number" name="email" class="form-control" id="phone"
+                                    value="{{ Auth::user()->phone }}">
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -58,7 +65,8 @@
                                     {{ trans('labels.optional') }}</label>
                                 <input type="file" class="form-control mt-2 mb-4">
                                 <div class="add-league-img mt-2">
-                                    <img src="{{ Helper::image_path(Auth::user()->image) }}" width="100" class="object-fit-contain rounded">
+                                    <img src="{{ Helper::image_path(Auth::user()->image) }}" width="100"
+                                        class="object-fit-contain rounded">
                                 </div>
                             </div>
                         </div>
@@ -95,8 +103,8 @@
                             <div class="mb-3">
                                 <label for="confirm_password"
                                     class="form-label">{{ trans('labels.confirm_password') }}</label>
-                                <input type="password" name="confirm_password" class="form-control" id="confirm_password"
-                                    placeholder="{{ trans('labels.confirm_password') }}">
+                                <input type="password" name="confirm_password" class="form-control"
+                                    id="confirm_password" placeholder="{{ trans('labels.confirm_password') }}">
                             </div>
                         </div>
                         <div class="col-md-12">
@@ -107,4 +115,12 @@
             </form>
         </div>
     </div>
+@endsection
+@section('scripts')
+    <script>
+        $('#email_address').on('keyup', function() {
+            "use strict";
+
+        });
+    </script>
 @endsection

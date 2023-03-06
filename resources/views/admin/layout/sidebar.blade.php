@@ -177,9 +177,9 @@
                     <a href="{{URL::to('admin/settings/terms-conditions')}}" class="nav-item">
                         <span class="nav-link {{ request()->is('admin/settings/terms-conditions') ? 'active' : '' }}">{{ trans('labels.terms_conditions') }}</span>
                     </a>
-                    <a href="{{ URL::to('admin/settings/edit-profile-{id}') }}" class="nav-item">
+                    <a href="{{ URL::to('admin/settings/edit-profile') }}" class="nav-item">
                         <span
-                            class="nav-link {{ request()->is('admin/settings/edit-profile-{id}') ? 'active' : '' }}">{{ trans('labels.edit_profile') }}</span>
+                            class="nav-link {{ request()->is('admin/settings/edit-profile') ? 'active' : '' }}">{{ trans('labels.edit_profile') }}</span>
                     </a>
                     <a href="{{ URL::to('admin/settings/email-setting') }}" class="nav-item">
                         <span
