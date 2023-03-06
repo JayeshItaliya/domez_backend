@@ -120,7 +120,7 @@
     <script>
         $('#email_address').on('keyup', function() {
             "use strict";
-
+            
         });
     </script>
 @endsection
