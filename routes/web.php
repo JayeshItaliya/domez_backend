@@ -52,8 +52,15 @@ Route::get('resend-otp', [AuthenticationController::class, 'resend']);
 
 Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function () {
 
+
     Route::get('dashboard', [AdminController::class, 'dashboard']);
     Route::get('calendar', [BookingController::class, 'calendar']);
+    // Domes
+    Route::get('domes', [DomesController::class, 'index']);
+    Route::get('domes/details-{id}', [DomesController::class, 'dome_details']);
+    // Leagues
+    Route::get('leagues', [LeagueController::class, 'index']);
+    Route::get('leagues/details-{id}', [LeagueController::class, 'leaguedetails']);
     //  Transaction
     Route::group(['prefix' => 'transactions'], function () {
         Route::get('/', [TransactionController::class, 'index']);
@@ -130,22 +137,18 @@ Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function () {
     Route::group(['middleware' => 'VendorMiddleware'], function () {
         //  Leagues
         Route::group(['prefix' => 'leagues'], function () {
-            Route::get('/', [LeagueController::class, 'index']);
             Route::get('add', [LeagueController::class, 'add']);
             Route::post('store', [LeagueController::class, 'store']);
             Route::get('edit-{id}', [LeagueController::class, 'edit']);
             Route::post('update-{id}', [LeagueController::class, 'store']);
             Route::get('change_status', [LeagueController::class, 'change_status']);
             Route::get('delete', [LeagueController::class, 'delete']);
-            Route::get('details-{id}', [LeagueController::class, 'leaguedetails']);
             Route::get('sports-fields', [LeagueController::class, 'getsportsandfields']);
         });
         //  Domes
         Route::group(['prefix' => 'domes'], function () {
-            Route::get('/', [DomesController::class, 'index']);
             Route::get('add', [DomesController::class, 'add']);
             Route::post('store', [DomesController::class, 'store']);
-            Route::get('details-{id}', [DomesController::class, 'dome_details']);
             Route::get('edit-{id}', [DomesController::class, 'edit']);
             Route::get('image_delete', [DomesController::class, 'image_delete']);
             Route::post('update-{id}', [DomesController::class, 'update']);
