@@ -70,6 +70,7 @@ class SettingsController extends Controller
         $validator = Validator::make($request->input(), [
             'email' => 'required|email|unique:users,email,' . auth()->user()->id,
         ], [
+            'email.required' => trans('messages.email_required'),
             'email.email' => trans('messages.valid_email'),
             'email.unique' => trans('messages.email_exist'),
         ]);
@@ -91,13 +92,55 @@ class SettingsController extends Controller
             }
             return response()->json(["status" => 0, "message" => trans('messages.email_error')], 200);
         } catch (\Throwable $th) {
-            dd($th->getMessage());
+            return response()->json(["status" => 0, "message" => trans('messages.wrong')], 200);
+        }
+    }
+    public function verifyemail(Request $request)
+    {
+        try {
+            if ($request->otp == '') {
+                return response()->json(["status" => 0, "message" => trans('messages.otp_required')], 200);
+            }
+            $user = User::find(auth()->user()->id);
+            if ($user->otp != $request->otp) {
+                return response()->json(["status" => 0, "message" => trans('messages.invalid_otp')], 200);
+            }
+            $user->email = $request->email;
+            $user->otp = '';
+            $user->save();
+            return response()->json(["status" => 1, "message" => trans('messages.success')], 200);
+        } catch (\Throwable $th) {
             return response()->json(["status" => 0, "message" => trans('messages.wrong')], 200);
         }
     }
     public function update_profile(Request $request)
     {
-        dd($request->input());
-        return view('admin.settings.edit_profile');
+        $request->validate([
+            'name' => 'required',
+            'phone' => 'unique:users,phone,' . auth()->user()->id,
+        ], [
+            'name.required' => trans('messages.name_required'),
+            'phone.unique' => trans('messages.phone_exist'),
+        ]);
+        $user = User::find(auth()->user()->id);
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->phone = $request->phone;
+        if ($request->has('profile')) {
+            $request->validate([
+                'profile' => 'image|mimes:jpg,jpeg,png,svg'
+            ],[
+                'profile.image' => trans('messages.valid_image'),
+                'profile.mimes' => trans('messages.valid_image_type'),
+            ]);
+            if (auth()->user()->image != 'default.png' && file_exists('storage/app/public/admin/images/profiles/' . auth()->user()->image)) {
+                unlink('storage/app/public/admin/images/profiles/' . auth()->user()->image);
+            }
+            $image = 'vendor-' . rand(0000, 9999) . '.' . $request->profile->getClientOriginalExtension();
+            $request->profile->move(storage_path('app\public\admin\images\profiles'), $image);
+            $user->image = $image;
+        }
+        $user->save();
+        return redirect('admin/settings/edit-profile')->with('success',trans('messages.success'));
     }
 }

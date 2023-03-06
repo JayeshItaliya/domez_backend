@@ -33,8 +33,9 @@
         </div>
     </div>
     <div class="card">
+        @dump($errors)
         <div class="card-body">
-            <form class="card" action="" method="post" enctype="multipart/form-data">
+            <form class="card" action="{{ URL::to('admin/settings/update-profile') }}" method="post" enctype="multipart/form-data">
                 @csrf
                 <div class="card-body">
                     <div class="row">
@@ -42,7 +43,7 @@
                             <div class="mb-3">
                                 <label for="name" class="form-label">{{ trans('labels.name') }}</label>
                                 <input type="text" name="name" class="form-control" id="name"
-                                    value="{{ Auth::user()->name }}" placeholder="Jone">
+                                    value="{{ Auth::user()->name }}" placeholder="{{ trans('labels.name') }}" required>
                             </div>
                         </div>
                         <div class="col-md-4">
@@ -51,7 +52,7 @@
                                 <div class="input-group">
                                     <input type="email" name="email" class="form-control" id="email_address"
                                         value="{{ Auth::user()->email }}" placeholder="{{ trans('labels.email_address') }}"
-                                        data-next="{{ URL::to('admin/settings/check-email-exist') }}">
+                                        data-next="{{ URL::to('admin/settings/check-email-exist') }}" required>
                                     <span class="input-group-text my-spinner" id="basic-addon1">
                                         <div class="spinner-border spinner-border-sm text-dark" role="status">
                                             <span class="visually-hidden">Loading...</span>
@@ -63,19 +64,21 @@
                         <div class="col-md-4">
                             <div class="mb-3">
                                 <label for="phone" class="form-label">{{ trans('labels.phone_number') }}</label>
-                                <input type="number" name="email" class="form-control" id="phone"
-                                    value="{{ Auth::user()->phone }}" placeholder="{{ trans('labels.phone_number') }}">
+                                <input type="number" name="phone" class="form-control" id="phone"
+                                    value="{{ Auth::user()->phone }}" placeholder="{{ trans('labels.phone_number') }}"
+                                    required>
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <div class="mb-3">
                                 <label class="form-label">{{ trans('labels.profile_image') }}
                                     {{ trans('labels.optional') }}</label>
-                                <input type="file" class="form-control mt-2 mb-4">
-                                <div class="add-league-img mt-2">
-                                    <img src="{{ Helper::image_path(Auth::user()->image) }}" width="100"
-                                        class="object-fit-contain rounded">
-                                </div>
+                                <input type="file" class="form-control mt-2" name="profile">
+                                @error('profile')
+                                    <span class="text-danger">{{ $message }}</span>
+                                @enderror
+                                <img src="{{ Helper::image_path(Auth::user()->image) }}" width="100"
+                                    class="object-fit-contain rounded mt-2">
                             </div>
                         </div>
                         <div class="col-md-12">
@@ -124,44 +127,44 @@
         </div>
     </div>
 
+    {{-- OTP/Email Verification Modal -- START --}}
     <div class="modal fade" id="verifyemailmodal" tabindex="-1" aria-labelledby="verifyemailmodalLabel"
         aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="verifyemailmodalLabel">{{ trans('labels.verification') }}</h5>
-                    {{-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> --}}
                 </div>
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
                                 <p class="text-muted fw-bold show_email"></p>
+                                <input type="hidden" id="show_email">
                                 <div class="input-group">
                                     <input type="number" class="form-control" placeholder="{{ trans('labels.otp') }}"
                                         name="otp" id="otp">
-                                    <button class="btn btn-primary btn_verify">{{ trans('labels.verify') }}</button>
+                                    <button class="btn btn-primary btn_verify"
+                                        data-next="{{ URL::to('admin/settings/verify-email') }}">{{ trans('labels.verify') }}</button>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                {{-- <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">{{ trans('labels.submit') }}</button>
-                </div> --}}
             </div>
         </div>
     </div>
+    {{-- OTP/Email Verification Modal -- END --}}
 @endsection
 @section('scripts')
     <script>
         $('.my-spinner').hide();
         $('#email_address').on('blur', function() {
             "use strict";
-            if ($.trim($(this).val()) == '') {
-                return false;
-            }
+            var email = $(this).val();
+            // if ($.trim(email) == '') {
+            //     return false;
+            // }
             $.ajax({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
@@ -169,19 +172,20 @@
                 },
                 url: $(this).attr('data-next'),
                 data: {
-                    email: $(this).val(),
+                    email: email,
                 },
                 method: 'POST',
                 beforeSend: function() {
                     $('.my-spinner').show();
-                    $('.btn_submit').attr('disabled',true);
+                    $('.btn_submit').attr('disabled', true);
                 },
                 success: function(response) {
                     $('.my-spinner').hide();
-                    $('.btn_submit').attr('disabled',false);
+                    $('.btn_submit').attr('disabled', false);
                     if (response.status == 1) {
                         $('#email_address').removeClass('is-invalid')
-                        $('#verifyemailmodal .show_email').text($('#email_address').val());
+                        $('#verifyemailmodal .show_email').text(email);
+                        $('#verifyemailmodal #show_email').val(email);
                         $('#verifyemailmodal').modal('show');
                     } else {
                         $('#email_address').addClass('is-invalid')
@@ -195,12 +199,14 @@
                 }
             });
         });
-        $('#btn_verify').on('click', function() {
+        $('.btn_verify').on('click', function() {
             "use strict";
+            $('#otp').removeClass('is-invalid');
             if ($.trim($('#otp').val()) == '') {
-                $('#otp').addClass('is-invalid');
+                $('#otp').addClass('is-invalid').focus();
                 return false;
             }
+            var btntext = $(this).html();
             $.ajax({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
@@ -208,21 +214,25 @@
                 },
                 url: $(this).attr('data-next'),
                 data: {
-                    email: $(this).val(),
+                    otp: $('#otp').val(),
+                    email: $('#show_email').val(),
                 },
                 method: 'POST',
+                beforeSend: function() {
+                    $('.btn_verify').html($('.my-spinner').html());
+                },
                 success: function(response) {
-                    alert(response.status)
+                    $('.btn_verify').html(btntext);
                     if (response.status == 1) {
-                        $('#email_address').removeClass('is-invalid')
-                        $('#verifyemailmodal').modal('show');
+                        toastr.error(response.message);
+                        location.reload();
                     } else {
-                        $('#email_address').addClass('is-invalid')
                         toastr.error(response.message);
                         return false;
                     }
                 },
                 error: function(e) {
+                    $('.btn_verify').html(btntext);
                     toastr.error(wrong);
                     return false;
                 }

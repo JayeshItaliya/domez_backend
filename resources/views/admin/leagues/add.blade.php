@@ -39,7 +39,6 @@
     <form class="card" action="{{ URL::to('admin/leagues/store') }}" method="post" enctype="multipart/form-data">
         @csrf
         <div class="card-body">
-            @dump($errors)
             <div class="row">
                 <div class="col-lg-6 col-md-12">
                     <div class="row">

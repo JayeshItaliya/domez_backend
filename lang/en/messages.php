@@ -7,6 +7,7 @@ return [
     'email_required' => 'Please Enter Email Address',
     'valid_email' => 'Please Enter Valid Email Address',
     'email_exist' => 'Email already exist!!',
+    'phone_exist' => 'Phone already exist!!',
     'password_required' => 'Please Passsword',
     'password_min_length' => 'Password must be at least 8 characters in length',
     'account_deleted' => 'Account has been deleted',
@@ -14,7 +15,7 @@ return [
     'email_sent' => 'Email has been Sent Successfully',
     'email_pass_invalid' => 'Email or password is invalid!!',
     'otp_required' => 'Please Enter OTP',
-    // League
+
     'select_dome' => 'Please Select Dome',
     'select_field' => 'Please Select Field',
     'select_sport' => 'Please Select Sport',
@@ -28,7 +29,9 @@ return [
     'select_min_player' => 'Please Select Min player',
     'select_max_player' => 'Please Select Max player',
     'select_team_limit' => 'Please Select Team limit',
+
     'price_required' => 'Please Enter Price',
+    'name_required' => 'Please Enter Name',
 
     'image_required' => 'Please Enter Image',
     'valid_image' => 'The Images must be a image type of file',

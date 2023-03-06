@@ -55,7 +55,7 @@ Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function () {
 
     Route::get('dashboard', [AdminController::class, 'dashboard']);
     Route::get('calendar', [BookingController::class, 'calendar']);
-    // Domes 
+    // Domes
     Route::get('domes', [DomesController::class, 'index']);
     Route::get('domes/details-{id}', [DomesController::class, 'dome_details']);
     // Leagues
@@ -86,6 +86,7 @@ Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function () {
 
         Route::get('edit-profile', [SettingsController::class, 'show_profile']);
         Route::post('check-email-exist', [SettingsController::class, 'checkemailexist']);
+        Route::post('verify-email', [SettingsController::class, 'verifyemail']);
         Route::post('update-profile', [SettingsController::class, 'update_profile']);
 
         Route::get('email-setting', [SettingsController::class, 'email_setting']);
