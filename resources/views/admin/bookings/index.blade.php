@@ -31,27 +31,25 @@
     </div>
     <div class="card">
         <div class="card-body table-responsive">
-            @if (count($getbookingslist) > 0)
-                <div class="filter_content">
-                    <div class="row gx-2">
-                        <div class="col-auto">
-                            <select class="form-select" name="" id="">
-                                <option value="" selected disabled>{{ trans('labels.select') }}</option>
-                                <option value="all" selected>{{ trans('labels.all') }}</option>
-                                <option value="domes">{{ trans('labels.domes') }}</option>
-                                <option value="leagues">{{ trans('labels.leagues') }}</option>
-                            </select>
-                        </div>
-                        <div class="col-auto">
-                            <select class="form-select" name="" id="">
-                                <option value="today" selected>{{ trans('labels.today') }}</option>
-                                <option value="last-7">{{ trans('labels.last_7_days') }}</option>
-                                <option value="this-month">{{ trans('labels.this_month') }}</option>
-                            </select>
-                        </div>
+            <div class="filter_content">
+                <div class="row gx-2">
+                    <div class="col-auto">
+                        <select class="form-select" name="" id="">
+                            <option value="" selected disabled>{{ trans('labels.select') }}</option>
+                            <option value="all" selected>{{ trans('labels.all') }}</option>
+                            <option value="domes">{{ trans('labels.domes') }}</option>
+                            <option value="leagues">{{ trans('labels.leagues') }}</option>
+                        </select>
+                    </div>
+                    <div class="col-auto">
+                        <select class="form-select" name="" id="">
+                            <option value="today" selected>{{ trans('labels.today') }}</option>
+                            <option value="last-7">{{ trans('labels.last_7_days') }}</option>
+                            <option value="this-month">{{ trans('labels.this_month') }}</option>
+                        </select>
                     </div>
                 </div>
-            @endif
+            </div>
             <table class="table table-nowrap mb-0" id="bootstrapTable">
                 <thead>
                     <tr>
