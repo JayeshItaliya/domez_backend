@@ -1,12 +1,12 @@
 @extends('admin.layout.default')
 @section('title')
-    Bookings
+    {{ trans('labels.bookings') }}
 @endsection
 @section('contents')
     <div class="card mb-3">
         <div class="card-body py-2">
             <div class="d-flex align-items-center justify-content-between">
-                <p class="text-secondary fw-semibold">Bookings</p>
+                <p class="text-secondary fw-semibold">{{ trans('labels.bookings') }}</p>
                 <nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='%236c757d'/%3E%3C/svg%3E&#34;);"
                     aria-label="breadcrumb">
                     <ol class="breadcrumb m-0">
@@ -23,7 +23,7 @@
                                 </svg>
                             </a>
                         </li>
-                        <li class="breadcrumb-item">Bookings</li>
+                        <li class="breadcrumb-item">{{ trans('labels.bookings') }}</li>
                     </ol>
                 </nav>
             </div>
@@ -36,18 +36,17 @@
                     <div class="row gx-2">
                         <div class="col-auto">
                             <select class="form-select" name="" id="">
-                                <option value="" selected disabled>Select</option>
-                                <option value="all" selected>All</option>
-                                <option value="domes">Domes</option>
-                                <option value="leagues">Leagues</option>
+                                <option value="" selected disabled>{{ trans('labels.select') }}</option>
+                                <option value="all" selected>{{ trans('labels.all') }}</option>
+                                <option value="domes">{{ trans('labels.domes') }}</option>
+                                <option value="leagues">{{ trans('labels.leagues') }}</option>
                             </select>
                         </div>
                         <div class="col-auto">
                             <select class="form-select" name="" id="">
-                                <option value="" selected disabled>Select</option>
-                                <option value="today" selected>Today</option>
-                                <option value="last-7">Last 7 days</option>
-                                <option value="this-month">This Month</option>
+                                <option value="today" selected>{{ trans('labels.today') }}</option>
+                                <option value="last-7">{{ trans('labels.last_7_days') }}</option>
+                                <option value="this-month">{{ trans('labels.this_month') }}</option>
                             </select>
                         </div>
                     </div>
@@ -146,19 +145,12 @@
         // Dome Delete
         function dome_delete(id, status, url) {
             "use strict";
-            const swalWithBootstrapButtons = Swal.mixin({
-                customClass: {
-                    confirmButton: "btn btn-success mx-2",
-                    cancelButton: "btn btn-danger mx-2",
-                },
-                buttonsStyling: false,
-            });
             swalWithBootstrapButtons
                 .fire({
-                    title: "Are You Sure?",
+                    title: are_you_sure,
                     icon: "warning",
-                    confirmButtonText: "Yes",
-                    cancelButtonText: "No",
+                    confirmButtonText: yes,
+                    cancelButtonText: no,
                     showCancelButton: true,
                     reverseButtons: true,
                 })
@@ -180,20 +172,12 @@
                                     location.reload();
                                 } else {
                                     hidepreloader();
-                                    Swal.fire({
-                                        icon: "error",
-                                        title: "Oops...",
-                                        text: wrong,
-                                    });
+                                    swal_cancelled(wrong);
                                 }
                             },
                             failure: function(response) {
                                 hidepreloader();
-                                Swal.fire({
-                                    icon: "error",
-                                    title: "Oops...",
-                                    text: wrong,
-                                });
+                                swal_cancelled(wrong);
                             },
                         });
                     }

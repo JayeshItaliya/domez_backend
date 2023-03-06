@@ -3,16 +3,43 @@
     <link rel="stylesheet" href="{{ url('storage/app/public/admin/css/timepicker/jquery.timepicker.min.css') }}">
 @endsection
 @section('title')
-    Edit Dome
+    {{ trans('labels.edit_dome') }}
 @endsection
 @section('contents')
-    <h1 class="h2">Edit Dome</h1>
-    <form class="card" action="{{ URL::to('admin/domes/update-' . $dome->id) }}" method="post" enctype="multipart/form-data">
+    <div class="card mb-3">
+        <div class="card-body py-2">
+            <div class="d-flex align-items-center justify-content-between">
+                <p class="text-secondary fw-semibold">{{ trans('labels.edit_dome') }}</p>
+                <nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='%236c757d'/%3E%3C/svg%3E&#34;);"
+                    aria-label="breadcrumb">
+                    <ol class="breadcrumb m-0">
+                        <li class="breadcrumb-item">
+                            <a href="{{ URL::to('admin/dashboard') }}">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home"
+                                    width="20" height="20" viewBox="0 0 24 24" stroke-width="2"
+                                    stroke="var(--bs-secondary)" fill="none" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                    <polyline points="5 12 3 12 12 3 21 12 19 12" />
+                                    <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+                                    <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+                                </svg>
+                            </a>
+                        </li>
+                        <li class="breadcrumb-item">{{ trans('labels.domes') }}</li>
+                        <li class="breadcrumb-item active" aria-current="page">{{ trans('labels.edit_dome') }}</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+    <form class="card" action="{{ URL::to('admin/domes/update-' . $dome->id) }}" method="post"
+        enctype="multipart/form-data">
         @csrf
         <div class="card-body">
             <div class="row">
                 <div class="mb-4 col-sm-6">
-                    <label class="form-label">Select Sport</label>
+                    <label class="form-label">{{ trans('labels.select_sports') }}</label>
                     <div class="row">
                         @php $cat_id = explode(',', $dome->sport_id) @endphp
                         @foreach ($getsportslist as $data)
@@ -32,9 +59,9 @@
                     @enderror
                 </div>
                 <div class="mb-4 col-sm-6">
-                    <label class="form-label" for="dome_name">Dome Name</label>
+                    <label class="form-label" for="dome_name">{{ trans('labels.dome_name') }}</label>
                     <input type="text" id="dome_name" name="dome_name" value="{{ $dome->name }}" class="form-control"
-                        placeholder="Please Enter Dome Name">
+                        placeholder="{{ trans('labels.dome_name') }}">
                     @error('dome_name')
                         <span class="text-danger">{{ $message }}</span>
                     @enderror
@@ -48,27 +75,27 @@
                     <div class="row">
                         <div class="col-sm-2">
                             <div class="col">
-                                <label class="form-label" for="dome_hst">HST</label>
+                                <label class="form-label" for="dome_hst">{{ trans('labels.hst') }}</label>
                                 <div class="input-group">
                                     <input type="text" id="dome_hst" name="dome_hst" value="{{ $dome->hst }}"
                                         class="form-control" placeholder="0">
-                                    <span class="input-group-text" id="basic-addon1">%</span>
+                                    <span class="input-group-text">%</span>
                                 </div>
                             </div>
                         </div>
                         <div class="col-sm-5">
-                            <label for="start_time" class="form-label">Start Time</label>
+                            <label for="start_time" class="form-label">{{ trans('labels.start_time') }}</label>
                             <input type="text" class="form-control time_picker" name="start_time"
-                                value="{{ $dome->start_time }}" id="start_time" placeholder="Select Start Time"
-                                autocomplete="off">
+                                value="{{ $dome->start_time }}" id="start_time"
+                                placeholder="{{ trans('labels.start_time') }}" autocomplete="off">
                             @error('start_time')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
                         </div>
                         <div class="col-sm-5">
-                            <label for="end_time" class="form-label">End Time</label>
+                            <label for="end_time" class="form-label">{{ trans('labels.end_time') }}</label>
                             <input type="text" class="form-control time_picker" name="end_time"
-                                value="{{ $dome->end_time }}" id="end_time" placeholder="Select End Time"
+                                value="{{ $dome->end_time }}" id="end_time" placeholder="{{ trans('labels.end_time') }}"
                                 autocomplete="off">
                             @error('end_time')
                                 <span class="text-danger">{{ $message }}</span>
@@ -79,39 +106,39 @@
             </div>
             <div class="row">
                 <div class="mb-4 col-sm-6 mt-3">
-                    <label class="form-label" for="address">Dome Address</label>
-                    <input type="text" class="form-control" name="address" value="{{ $dome->address }}" id="address"
-                        placeholder="Please Enter Dome Address">
+                    <label class="form-label" for="address">{{ trans('labels.dome_address') }}</label>
+                    <input type="text" class="form-control" name="address" value="{{ $dome->address }}"
+                        id="address" placeholder="{{ trans('labels.dome_address') }}">
                     @error('address')
                         <span class="text-danger">{{ $message }}</span>
                     @enderror
-                    <div class="row mt-3 gx-5">
-                        <div class="col-auto">
-                            <label for="pin_code" class="form-label">Pin Code</label>
+                    <div class="row mt-3">
+                        <div class="col">
+                            <label for="pin_code" class="form-label">{{ trans('labels.pincode') }}</label>
                             <input type="text" class="form-control" name="pin_code" id="pin_code"
-                                value="{{ $dome->pin_code }}" placeholder="Enter Pincode Name" readonly>
+                                value="{{ $dome->pin_code }}" placeholder="{{ trans('labels.pincode') }}" readonly>
                         </div>
-                        <div class="col-auto">
-                            <label for="city" class="form-label">City</label>
+                        <div class="col">
+                            <label for="city" class="form-label">{{ trans('labels.city') }}</label>
                             <input type="text" class="form-control" name="city" id="city"
-                                value="{{ $dome->city }}" placeholder="Enter City Name" readonly>
+                                value="{{ $dome->city }}" placeholder="{{ trans('labels.city') }}" readonly>
                         </div>
-                        <div class="col-auto">
-                            <label for="state" class="form-label">State</label>
+                        <div class="col">
+                            <label for="state" class="form-label">{{ trans('labels.state') }}</label>
                             <input type="text" class="form-control" name="state" id="state"
-                                value="{{ $dome->state }}" placeholder="Enter State Name" readonly>
+                                value="{{ $dome->state }}" placeholder="{{ trans('labels.state') }}" readonly>
                         </div>
-                        <div class="col-auto">
-                            <label for="country" class="form-label">Country</label>
+                        <div class="col">
+                            <label for="country" class="form-label">{{ trans('labels.country') }}</label>
                             <input type="text" class="form-control" name="country" id="country"
-                                value="{{ $dome->country }}" placeholder="Enter Country Name" readonly>
+                                value="{{ $dome->country }}" placeholder="{{ trans('labels.country') }}" readonly>
                         </div>
                     </div>
                 </div>
                 <div class="mb-4 col-sm-6 mt-3">
-                    <label class="form-label" for="description">Dome Description</label>
+                    <label class="form-label" for="description">{{ trans('labels.dome_description') }}</label>
                     <textarea class="form-control" name="description" value="{{ old('description') }}" id="description" rows="5"
-                        placeholder="Please Enter Dome Description">{{ $dome->description }}</textarea>
+                        placeholder="{{ trans('labels.dome_description') }}">{{ $dome->description }}</textarea>
                     @error('description')
                         <span class="text-danger">{{ $message }}</span>
                     @enderror
@@ -121,14 +148,15 @@
                 <div class="col-sm-6">
                     @php $benefit = explode('|', $dome->benefits) @endphp
                     <div class="form-group mb-4">
-                        <label class="form-label mb-3">Benefits<span
-                                class="form-label-secondary px-2">(Optional)</span></label>
+                        <label class="form-label mb-3">{{ trans('labels.amenities') }}<span
+                                class="form-label-secondary px-2">{{ trans('labels.optional') }}</span></label>
                         <div class="row">
                             <div class="col-auto">
                                 <div class="form-check mb-0">
                                     <input type="checkbox" id="free_wifi" name="benefits[]" value="Free Wifi"
                                         class="form-check-input" {{ in_array('Free Wifi', $benefit) ? 'checked' : '' }}>
-                                    <label class="form-check-label" for="free_wifi">Free Wifi</label>
+                                    <label class="form-check-label"
+                                        for="free_wifi">{{ trans('labels.free_wifi') }}</label>
                                 </div>
                             </div>
                             <div class="col-auto">
@@ -136,20 +164,21 @@
                                     <input type="checkbox" id="changing_room" name="benefits[]" value="Changing Room"
                                         class="form-check-input"
                                         {{ in_array('Changing Room', $benefit) ? 'checked' : '' }}>
-                                    <label class="form-check-label" for="changing_room">Changing Room</label>
+                                    <label class="form-check-label"
+                                        for="changing_room">{{ trans('labels.changing_room') }}</label>
                                 </div>
                             </div>
                             <div class="col-auto">
                                 <div class="form-check mb-0">
                                     <input type="checkbox" id="parking" name="benefits[]" value="Parking"
                                         class="form-check-input" {{ in_array('Parking', $benefit) ? 'checked' : '' }}>
-                                    <label class="form-check-label" for="parking">Parking</label>
+                                    <label class="form-check-label" for="parking">{{ trans('labels.parking') }}</label>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="form-label" for="dome_images">Dome Images</label>
+                        <label class="form-label" for="dome_images">{{ trans('labels.dome_images') }}</label>
                         <input type="file" class="form-control" id="dome_images" name="dome_images[]" multiple>
                         @error('dome_images')
                             <span class="text-danger">{{ $message }}</span>
@@ -157,8 +186,8 @@
                     </div>
                 </div>
                 <div class="mb-4 col-sm-6">
-                    <label class="form-label" for="benefits_description">Benefits Description<span
-                            class="form-label-secondary px-2">(Optional)</span></label>
+                    <label class="form-label" for="benefits_description">{{ trans('labels.amenities_description') }}<span
+                            class="form-label-secondary px-2">{{ trans('labels.optional') }}</span></label>
                     <textarea class="form-control" name="benefits_description" value="{{ old('benefits_description') }}"
                         id="benefits_description" rows="5" placeholder="Please Enter Benefits Description">{{ $dome->benefits_description }}</textarea>
                     @error('benefits_description')
@@ -182,7 +211,7 @@
                 @endforeach
             </div>
             <div class="mb-4">
-                <label class="form-label" for="location">Dome Location</label>
+                <label class="form-label" for="location">{{ trans('labels.dome_location') }}</label>
                 <input type="text" name="lat" id="textLat"value="{{ $dome->lat }}" hidden>
                 <input type="text" name="lng" id="textLng"value="{{ $dome->lng }}" hidden>
                 <div id="map_canvas" class="w-auto" style="height: 500px;"></div>
@@ -190,8 +219,7 @@
                     <span class="text-danger">{{ $message }}</span>
                 @enderror
             </div>
-        </div>
-        <button type="submit" class="btn btn-primary mt-2 float-end">Update</button>
+            <button type="submit" class="btn btn-primary mt-2 float-end">{{ trans('labels.submit') }}</button>
         </div>
     </form>
 @endsection
@@ -203,8 +231,7 @@
     <script type="text/javascript">
         // Timepicker
         $(document).ready(function() {
-            "use strict";
-            $(".time_picker").timepicker({
+            "use strict";            $(".time_picker").timepicker({
                 interval: 60,
             });
         });
@@ -222,19 +249,12 @@
         // Dome Image Delete
         function dome_delete(id, url) {
             "use strict";
-            const swalWithBootstrapButtons = Swal.mixin({
-                customClass: {
-                    confirmButton: "btn btn-success mx-2",
-                    cancelButton: "btn btn-danger mx-2",
-                },
-                buttonsStyling: false,
-            });
             swalWithBootstrapButtons
                 .fire({
-                    title: "Are You Sure?",
+                    title: are_you_sure,
                     icon: "warning",
-                    confirmButtonText: "Yes",
-                    cancelButtonText: "No",
+                    confirmButtonText: yes,
+                    cancelButtonText: no,
                     showCancelButton: true,
                     reverseButtons: true,
                 })
@@ -255,20 +275,12 @@
                                     location.reload();
                                 } else {
                                     hidepreloader();
-                                    Swal.fire({
-                                        icon: "error",
-                                        title: "Oops...",
-                                        text: wrong,
-                                    });
+                                    swal_cancelled(wrong);
                                 }
                             },
                             failure: function(response) {
                                 hidepreloader();
-                                Swal.fire({
-                                    icon: "error",
-                                    title: "Oops...",
-                                    text: wrong,
-                                });
+                                swal_cancelled(wrong);
                             },
                         });
                     }
@@ -279,6 +291,7 @@
         $(document).ready(function() {
             initMap();
         });
+
         function initMap() {
             var myLatLng = {
                 lat: {{ $dome->lat }},
@@ -302,6 +315,7 @@
                 $('#textLng').val(lng);
             });
         }
+
         function init() {
             var input = document.getElementById('address');
             var autocomplete = new google.maps.places.Autocomplete(input);

@@ -1,6 +1,6 @@
 @extends('admin.layout.default')
 @section('title')
-    Verification
+    {{ trans('labels.verification') }}
 @endsection
 @section('contents')
     <section class="auth-bg auth-main-content">
@@ -28,7 +28,7 @@
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
                         </div>
-                        <button type="submit" class="btn btn-primary w-100 mt-2 mb-4">Continue</button>
+                        <button type="submit" class="btn btn-primary w-100 mt-2 mb-4">{{ trans('labels.continue') }}</button>
                         <p class="text-center fw-semibold mb-3 fs-7">Did not receive the email? check your spam filter, or
                         </p>
                         <div class="text-center">

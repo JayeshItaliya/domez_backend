@@ -117,18 +117,11 @@
         // Sport Delete
         function delete_sport(id, status, url) {
             "use strict";
-            const swalWithBootstrapButtons = Swal.mixin({
-                customClass: {
-                    confirmButton: "btn btn-success mx-2",
-                    cancelButton: "btn btn-danger mx-2",
-                },
-                buttonsStyling: false,
-            });
             swalWithBootstrapButtons.fire({
-                title: "Are You Sure?",
+                title: are_you_sure,
                 icon: "warning",
-                confirmButtonText: "Yes",
-                cancelButtonText: "No",
+                confirmButtonText: yes,
+                cancelButtonText: no,
                 showCancelButton: true,
                 reverseButtons: true,
             })
@@ -150,18 +143,14 @@
                                 location.reload();
                             } else {
                                 hidepreloader();
-                                Swal.fire({
-                                    icon: "error",
-                                    title: "Oops...",
-                                    text: wrong,
-                                });
+                                swal_cancelled(wrong);
                             }
                         },
                         failure: function(response) {
                             hidepreloader();
                             Swal.fire({
                                 icon: "error",
-                                title: "Oops...",
+                                title: opps,
                                 text: wrong,
                             });
                         },

@@ -276,19 +276,16 @@
         <div class="col-lg-8">
             <div class="card">
                 <div class="card-body">
-                    <div class="row justify-content-between align-items-center mb-3">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
                         <div class="col-auto">
                             <span class="text-muted fs-7">{{ trans('labels.dome_revenue') }}</span>
                             <p class="fw-semibold">5000 $</p>
                         </div>
-                        <div class="col-auto">
-                            <select name="" id="" class="form-select">
-                                <option value="">Today</option>
-                                <option value="">This Week</option>
-                                <option value="">This Month</option>
-                                <option value="" selected>This Year</option>
+                        <select class="form-select w-auto" name="" id="">
+                                <option value="last-7">{{ trans('labels.last_7_days') }}</option>
+                                <option value="this-month">{{ trans('labels.this_month') }}</option>
+                                <option value="this-year">{{ trans('labels.this_year') }}</option>
                             </select>
-                        </div>
                     </div>
                     <div id="dome_revenue"></div>
                 </div>
@@ -297,35 +294,28 @@
         <div class="col-lg-4">
             <div class="card h-100">
                 <div class="card-body">
-                    <div class="row justify-content-between align-items-center mb-3">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
                         <div class="col-auto">
                             <span class="text-muted fs-7">{{ trans('labels.total_bookings') }}</span>
                             <p class="fw-semibold">110</p>
                         </div>
-                        <div class="col-auto">
-                            <select name="" id="" class="form-select">
-                                <option value="">Today</option>
-                                <option value="">This Week</option>
-                                <option value="">This Month</option>
-                                <option value="" selected>This Year</option>
+                        <select class="form-select w-auto" name="" id="">
+                                <option value="last-7">{{ trans('labels.last_7_days') }}</option>
+                                <option value="this-month">{{ trans('labels.this_month') }}</option>
+                                <option value="this-year">{{ trans('labels.this_year') }}</option>
                             </select>
-                        </div>
                     </div>
                     <div id="booking_chart"></div>
                 </div>
             </div>
         </div>
     </div>
-    <div id="primaryColor" style="color: var(--bs-primary)"></div>
-    <div id="secondaryColor" style="color: var(--bs-secondary)"></div>
-    <div id="lightSecondaryColor" style="color: rgba(var(--bs-secondary-rgb),0.75)"></div>
+
 @endsection
 @section('scripts')
     <script src="{{ url('storage/app/public/admin/js/charts/apexchart/apexcharts.js') }}"></script>
     <script>
-        let primary_color = $('#primaryColor').css('color');
-        let secondary_color = $('#secondaryColor').css('color');
-        let light_secondary_color = $('#lightSecondaryColor').css('color');
+
         // Dome Revenue Chart
         var options = {
             series: [{

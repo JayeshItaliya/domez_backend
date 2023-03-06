@@ -126,13 +126,6 @@
         // Vendor Delete
         function vendor_delete(id, status, url) {
             "use strict";
-            const swalWithBootstrapButtons = Swal.mixin({
-                customClass: {
-                    confirmButton: "btn btn-success mx-2",
-                    cancelButton: "btn btn-danger mx-2",
-                },
-                buttonsStyling: false,
-            });
             swalWithBootstrapButtons
                 .fire({
                     title: are_you_sure,
