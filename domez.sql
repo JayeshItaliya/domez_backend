@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 06, 2023 at 09:51 AM
+-- Generation Time: Mar 07, 2023 at 05:27 AM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -230,6 +230,9 @@ CREATE TABLE `enquiries` (
   `phone` varchar(255) DEFAULT NULL,
   `subject` varchar(255) DEFAULT NULL,
   `message` varchar(255) DEFAULT NULL,
+  `is_replied` tinyint(1) NOT NULL DEFAULT 2 COMMENT '1=Yes, 2=No',
+  `is_accepted` tinyint(1) NOT NULL DEFAULT 2 COMMENT '1=Yes, 2=No',
+  `is_deleted` tinyint(1) NOT NULL DEFAULT 2 COMMENT '1=Yes, 2=No',
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -238,16 +241,16 @@ CREATE TABLE `enquiries` (
 -- Dumping data for table `enquiries`
 --
 
-INSERT INTO `enquiries` (`id`, `vendor_id`, `type`, `dome_name`, `dome_zipcode`, `dome_city`, `dome_state`, `dome_country`, `venue_name`, `venue_address`, `name`, `email`, `phone`, `subject`, `message`, `created_at`, `updated_at`) VALUES
-(1, NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'ipsum@yopmail.comn', NULL, 'Talk About Something..', 'Lorem is ipsum data to world to tast data.', '2023-02-19 01:13:26', '2023-02-19 01:13:26'),
-(2, NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 's@gmail.com', NULL, 'soham', 'Soham is sad', '2023-02-20 01:26:33', '2023-02-20 01:26:33'),
-(3, NULL, 4, NULL, NULL, NULL, NULL, NULL, 'test', 'test', 'test', 'test@gmail.com', '12354679', NULL, 'test', '2023-02-24 02:43:40', '2023-02-24 02:43:40'),
-(4, NULL, 4, NULL, NULL, NULL, NULL, NULL, 'test', 'test', 'test', 'test@gmail.com', '12354679', NULL, 'test', '2023-02-24 09:38:18', '2023-02-24 09:38:18'),
-(5, 2, 5, NULL, NULL, NULL, NULL, NULL, 'SOh,', 'OJ', 'O', 's@gmail.com', '1234567890', 'Ipsum', 'CDSDS', '2023-02-24 11:50:37', '2023-02-24 11:50:37'),
-(6, 2, 5, NULL, NULL, NULL, NULL, NULL, 'qws', 'qww', 'qw', 's@gmail.com', '1234567890', 'Lorem', 'qw', '2023-02-24 11:51:12', '2023-02-24 11:51:12'),
-(7, NULL, 4, NULL, NULL, NULL, NULL, NULL, 'sads', 'asdasd', 'asda', 's@gmail.com', '1235467890', NULL, 'asd', '2023-02-24 11:53:55', '2023-02-24 11:53:55'),
-(8, NULL, 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'test', 'test@yopmail.com', NULL, 'test', 'test', '2023-03-02 01:10:02', '2023-03-02 01:10:02'),
-(9, NULL, 3, 'Dome 1', NULL, 'Surat', 'Gujarat', 'Country', NULL, NULL, 'Domez', 'domez@yopmail.com', '1234567890', NULL, NULL, '2023-03-02 04:47:56', '2023-03-02 04:47:56');
+INSERT INTO `enquiries` (`id`, `vendor_id`, `type`, `dome_name`, `dome_zipcode`, `dome_city`, `dome_state`, `dome_country`, `venue_name`, `venue_address`, `name`, `email`, `phone`, `subject`, `message`, `is_replied`, `is_accepted`, `is_deleted`, `created_at`, `updated_at`) VALUES
+(1, NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'ipsum@yopmail.comn', NULL, 'Talk About Something..', 'Lorem is ipsum data to world to tast data.', 2, 2, 2, '2023-02-19 01:13:26', '2023-02-19 01:13:26'),
+(2, NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 's@gmail.com', NULL, 'soham', 'Soham is sad', 2, 2, 2, '2023-02-20 01:26:33', '2023-02-20 01:26:33'),
+(3, NULL, 4, NULL, NULL, NULL, NULL, NULL, 'test', 'test', 'test', 'test@gmail.com', '12354679', NULL, 'test', 2, 2, 2, '2023-02-24 02:43:40', '2023-02-24 02:43:40'),
+(4, NULL, 4, NULL, NULL, NULL, NULL, NULL, 'test', 'test', 'test', 'test@gmail.com', '12354679', NULL, 'test', 2, 2, 2, '2023-02-24 09:38:18', '2023-02-24 09:38:18'),
+(5, 2, 5, NULL, NULL, NULL, NULL, NULL, 'SOh,', 'OJ', 'O', 's@gmail.com', '1234567890', 'Ipsum', 'CDSDS', 2, 2, 2, '2023-02-24 11:50:37', '2023-02-24 11:50:37'),
+(6, 2, 5, NULL, NULL, NULL, NULL, NULL, 'qws', 'qww', 'qw', 's@gmail.com', '1234567890', 'Lorem', 'qw', 2, 2, 2, '2023-02-24 11:51:12', '2023-02-24 11:51:12'),
+(7, NULL, 4, NULL, NULL, NULL, NULL, NULL, 'sads', 'asdasd', 'asda', 's@gmail.com', '1235467890', NULL, 'asd', 2, 2, 2, '2023-02-24 11:53:55', '2023-02-24 11:53:55'),
+(8, NULL, 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'test', 'test@yopmail.com', NULL, 'test', 'test', 2, 2, 2, '2023-03-02 01:10:02', '2023-03-02 01:10:02'),
+(9, NULL, 3, 'Dome 1', '394001', 'Surat', 'Gujarat', 'India', NULL, NULL, 'Domez', 'domez@yopmail.com', '1234567890', NULL, NULL, 2, 2, 2, '2023-03-02 04:47:56', '2023-03-02 04:47:56');
 
 -- --------------------------------------------------------
 
@@ -387,7 +390,7 @@ CREATE TABLE `leagues` (
   `end_time` varchar(255) NOT NULL,
   `from_age` int(11) NOT NULL,
   `to_age` int(11) NOT NULL,
-  `gender` tinyint(4) NOT NULL DEFAULT 1 COMMENT '1=Male, 2=Female, 3=Other',
+  `gender` tinyint(4) NOT NULL DEFAULT 1 COMMENT '1=Men, 2=Women, 3=Other',
   `min_player` int(11) NOT NULL,
   `max_player` int(11) NOT NULL,
   `team_limit` int(11) NOT NULL,
@@ -422,7 +425,7 @@ INSERT INTO `leagues` (`id`, `vendor_id`, `dome_id`, `field_id`, `sport_id`, `na
 (18, 2, 37, '4', 7, 'Regular Old Football League', '2023-03-10', '2023-04-10', '09:00 AM', '05:00 PM', 13, 24, 2, 13, 24, 14, 1976, 2, '2023-02-20 06:56:50', '2023-02-20 06:56:50'),
 (19, 2, 38, '3', 9, 'Regular Old Football League', '2023-03-10', '2023-04-10', '09:00 AM', '05:00 PM', 13, 22, 1, 12, 17, 15, 1527, 2, '2023-02-20 06:56:50', '2023-02-20 06:56:50'),
 (20, 2, 39, '4', 9, 'Regular Old Football League', '2023-03-10', '2023-04-10', '09:00 AM', '05:00 PM', 17, 21, 3, 13, 20, 12, 1909, 2, '2023-02-20 06:56:50', '2023-02-20 06:56:50'),
-(21, 2, 35, '20', 6, 'Ipsum League', '2023-03-08', '2023-03-31', '01:00 AM', '04:00 AM', 14, 18, 2, 3, 6, 6, 120, 2, '2023-03-05 07:08:44', '2023-03-05 07:25:42');
+(21, 2, 35, '20|3', 6, 'Ipsum League', '2023-03-08', '2023-03-31', '01:00 AM', '04:00 AM', 14, 18, 2, 3, 6, 6, 120, 2, '2023-03-05 07:08:44', '2023-03-05 07:25:42');
 
 -- --------------------------------------------------------
 
