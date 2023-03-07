@@ -40,7 +40,7 @@ function swal_cancelled(issettitle) {
     if (issettitle) {
         title = "" + issettitle + "";
     }
-    swalWithBootstrapButtons.fire("Cancelled", title, "error");
+    swalWithBootstrapButtons.fire(oops, title, "error");
     // Swal.fire({
     //     icon: "error",
     //     title: opps,

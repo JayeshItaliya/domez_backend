@@ -103,6 +103,7 @@ class DomesController extends Controller
 
     public function update(Request $request)
     {
+        dd($request->input());
         $request->validate([
             'sport_id' => 'required',
             'dome_name' => 'required',
@@ -163,11 +164,14 @@ class DomesController extends Controller
 
     public function delete(Request $request)
     {
-        $dome = Domes::find($request->id);
-        $dome->is_deleted = $request->status;
-        $dome->save();
-
-        return 1;
+        try {
+            $checkdome = Domes::find($request->id);
+            $checkdome->is_deleted = 1;
+            $checkdome->save();
+            return response()->json(['status' => 1, 'message' => trans('messages.success')],200);
+        } catch (\Throwable $th) {
+            return response()->json(['status' => 0, 'message' => trans('messages.wrong')],200);
+        }
     }
 
     public function image_delete(Request $request)

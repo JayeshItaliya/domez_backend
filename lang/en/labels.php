@@ -31,7 +31,6 @@ return [
     'domes_management' => 'Domes Management',
     'domes' => 'Domes',
     'fields' => 'Fields',
-    'set_prices' => 'Set Prices',
     'sports' => 'Sports',
     'bookings' => 'Bookings',
     'transactions' => 'Transactions',
@@ -53,6 +52,7 @@ return [
     'cancelled_bookings' => 'Cancelled Bookings',
     'total_income' => 'Total Income',
     'recent_bookings' => 'Recent Bookings',
+    'user_mobile_app' => 'Users Of Mobile App',
     // Users
     'users' => 'Users',
     'user_details' => 'User Details',
@@ -144,8 +144,6 @@ return [
     'banner_images' => 'Banner Images',
     'price_per_team' => 'Price Per Team',
     'years' => 'Years',
-    'years' => 'Years',
-    'years' => 'Years',
     // Enquiry
     'dome_requests' => 'Dome Requests',
     'general_enquiry' => 'General Enquiry',
@@ -155,6 +153,8 @@ return [
     'today' => 'Today',
     'last_7_days' => 'Last 7 Days',
     'this_month' => 'This Month',
+    'this_year' => 'This Year',
+    'this_week' => 'This Week',
     'booking_id' => 'Booking ID',
     'booking_date' => 'Booking Date',
     'amount' => 'Amount',
@@ -207,4 +207,9 @@ return [
     'twilio_sid' => 'Twilio Sid',
     'twilio_token' => 'Twilio Token',
     'twilio_from' => 'Twilio From',
+    // Set Price
+    'set_prices' => 'Set Prices',
+    'select_day_wise_price' => 'Select Day Wise Price',
+    'add_new_price' => 'Add New Price',
 ];
+

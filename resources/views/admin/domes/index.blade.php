@@ -61,11 +61,8 @@
                             <td>{{ $dome->name }}</td>
                             <td>{{ $dome->price }}</td>
                             <td>
-                                @php
-                                    $sport_ids = explode(',', $dome->sport_id);
-                                @endphp
                                 @foreach ($sports as $sport)
-                                    @foreach ($sport_ids as $sport_id)
+                                    @foreach (explode(',', $dome->sport_id) as $sport_id)
                                         @if ($sport->id == $sport_id)
                                             {{ $sport->name }} {{ !$loop->last ? '|' : '' }}
                                         @endif
@@ -89,7 +86,32 @@
                                     </svg>
                                 </a>
                                 @if (Auth::user()->type == 2)
-
+                                    <a class="cursor-pointer me-2" href="{{ URL::to('admin/domes/edit-' . $dome->id) }}">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-edit"
+                                            width="25" height="25" viewBox="0 0 24 24" stroke-width="1"
+                                            stroke="var(--bs-warning)" fill="none" stroke-linecap="round"
+                                            stroke-linejoin="round">
+                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                            <path d="M9 7h-3a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-3" />
+                                            <path d="M9 15h3l8.5 -8.5a1.5 1.5 0 0 0 -3 -3l-8.5 8.5v3" />
+                                            <line x1="16" y1="5" x2="19" y2="8" />
+                                        </svg>
+                                    </a>
+                                    <a class="cursor-pointer me-2"
+                                        onclick="deletedata('{{ $dome->id }}','{{ URL::to('admin/domes/delete') }}')"
+                                        class="mx-2">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash"
+                                            width="25" height="25" viewBox="0 0 24 24" stroke-width="1"
+                                            stroke="var(--bs-danger)" fill="none" stroke-linecap="round"
+                                            stroke-linejoin="round">
+                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                            <line x1="4" y1="7" x2="20" y2="7" />
+                                            <line x1="10" y1="11" x2="10" y2="17" />
+                                            <line x1="14" y1="11" x2="14" y2="17" />
+                                            <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
+                                            <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
+                                        </svg>
+                                    </a>
                                 @endif
                             </td>
                         </tr>
@@ -103,51 +125,54 @@
     <script>
         if (is_vendor) {
             $(document).ready(function() {
-                let html = '<a href="{{ URL::to('admin/domes/add') }}" class="btn-custom-primary"><svg xmlns="http://www.w3.org/2000/svg" class="icon-tabler icon-tabler-plus" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="var(--bs-primary)" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" /></svg></a>';
+                let html =
+                    '<a href="{{ URL::to('admin/domes/add') }}" class="btn-custom-primary"><svg xmlns="http://www.w3.org/2000/svg" class="icon-tabler icon-tabler-plus" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="var(--bs-primary)" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" /></svg></a>';
                 $('.fixed-table-toolbar .btn-group').append(html);
             })
         }
-        // Dome Delete
-        function dome_delete(id, status, url) {
+        function deletedata(id, url) {
             "use strict";
             swalWithBootstrapButtons
                 .fire({
+                    icon: 'warning',
                     title: are_you_sure,
-                    icon: "warning",
+                    showCancelButton: true,
+                    allowOutsideClick: false,
+                    allowEscapeKey: false,
                     confirmButtonText: yes,
                     cancelButtonText: no,
-                    showCancelButton: true,
                     reverseButtons: true,
-                })
-                .then((result) => {
-                    showpreloader();
-                    if (result.isConfirmed) {
-                        $.ajax({
-                            type: "get",
-                            url: url,
-                            data: {
-                                id: id,
-                                status: status,
-                            },
-                            dataType: "json",
-                            success: function(response) {
-                                if (response == 1) {
-                                    hidepreloader();
-                                    toastr.success("Success");
-                                    location.reload();
-                                } else {
-                                    hidepreloader();
+                    showLoaderOnConfirm: true,
+                    preConfirm: function() {
+                        return new Promise(function(resolve, reject) {
+                            $.ajax({
+                                type: "GET",
+                                url: url,
+                                data: {
+                                    id: id,
+                                },
+                                dataType: "json",
+                                success: function(response) {
+                                    if (response.status == 1) {
+                                        // toastr.success(response.message);
+                                        location.reload();
+                                    } else {
+                                        swal_cancelled(wrong);
+                                        return false;
+                                    }
+                                },
+                                error: function(response) {
                                     swal_cancelled(wrong);
-                                }
-                            },
-                            failure: function(response) {
-                                hidepreloader();
-                                swal_cancelled(wrong);
-                            },
+                                    return false;
+                                },
+                            });
                         });
+                    },
+                }).then((result) => {
+                    if (!result.isConfirmed) {
+                        result.dismiss === Swal.DismissReason.cancel
                     }
-                    hidepreloader();
-                });
+                })
         }
     </script>
 @endsection

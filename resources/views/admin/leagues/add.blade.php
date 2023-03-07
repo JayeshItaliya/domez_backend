@@ -1,7 +1,6 @@
 @extends('admin.layout.default')
 
 @section('styles')
-    <link rel="stylesheet" href="{{ url('storage/app/public/admin/css/timepicker/jquery.timepicker.min.css') }}">
 @endsection
 
 @section('title')
@@ -258,8 +257,6 @@
     </form>
 @endsection
 @section('scripts')
-    <script src="{{ url('storage/app/public/admin/js/timepicker/jquery.timepicker.min.js') }}" defer=""></script>
-
     <script>
         $('#start_date').on('change', function() {
             if ($.trim($(this).val()) != "") {
@@ -269,10 +266,20 @@
         }).change();
 
         $(function() {
+
             $(".time_picker").timepicker({
                 interval: 60,
             });
+            // $("#start_time.time_picker").timepicker({
+            //     interval: 60,
+            //     change: function(time) {
+            //         var time = $(this);
+            //         var picker = $("#end_time");
+            //         picker.timepicker('option', 'minTime', time);
+            //     }
+            // });
         });
+
         $('#from_age').on('change', function() {
             var from_age = $(this).val();
             $("#to_age").find("option").each(function(index, el) {
