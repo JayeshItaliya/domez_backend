@@ -33,9 +33,9 @@
         </div>
     </div>
     <div class="card">
-        @dump($errors)
         <div class="card-body">
-            <form class="card" action="{{ URL::to('admin/settings/update-profile') }}" method="post" enctype="multipart/form-data">
+            <form class="card" action="{{ URL::to('admin/settings/update-profile') }}" method="post"
+                enctype="multipart/form-data">
                 @csrf
                 <div class="card-body">
                     <div class="row">
@@ -51,7 +51,8 @@
                                 <label for="email_address" class="form-label">{{ trans('labels.email_address') }}</label>
                                 <div class="input-group">
                                     <input type="email" name="email" class="form-control" id="email_address"
-                                        value="{{ Auth::user()->email }}" placeholder="{{ trans('labels.email_address') }}"
+                                        value="{{ Auth::user()->email }}"
+                                        placeholder="{{ trans('labels.email_address') }}"
                                         data-next="{{ URL::to('admin/settings/check-email-exist') }}" required>
                                     <span class="input-group-text my-spinner" id="basic-addon1">
                                         <div class="spinner-border spinner-border-sm text-dark" role="status">
@@ -91,7 +92,7 @@
     </div>
     <div class="card mt-3">
         <div class="card-body">
-            <form class="card mt-3" action="" method="post">
+            <form class="card mt-3" action="{{ URL::to('admin/settings/change-password') }}" method="post">
                 @csrf
                 <div class="p-4">
                     <div class="row">
@@ -101,6 +102,9 @@
                                     class="form-label">{{ trans('labels.current_password') }}</label>
                                 <input type="password" name="current_password" class="form-control" id="current_password"
                                     placeholder="{{ trans('labels.current_password') }}">
+                                @error('current_password')
+                                    <span class="text-danger">{{ $message }}</span>
+                                @enderror
                             </div>
                         </div>
                         <div class="col-md-4">
@@ -108,6 +112,9 @@
                                 <label for="new_password" class="form-label">{{ trans('labels.new_password') }}</label>
                                 <input type="password" name="new_password" class="form-control" id="new_password"
                                     placeholder="{{ trans('labels.new_password') }}">
+                                @error('new_password')
+                                    <span class="text-danger">{{ $message }}</span>
+                                @enderror
                             </div>
                         </div>
                         <div class="col-md-4">
@@ -116,6 +123,9 @@
                                     class="form-label">{{ trans('labels.confirm_password') }}</label>
                                 <input type="password" name="confirm_password" class="form-control"
                                     id="confirm_password" placeholder="{{ trans('labels.confirm_password') }}">
+                                @error('confirm_password')
+                                    <span class="text-danger">{{ $message }}</span>
+                                @enderror
                             </div>
                         </div>
                         <div class="col-md-12">

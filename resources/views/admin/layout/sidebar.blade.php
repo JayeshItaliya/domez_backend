@@ -116,6 +116,11 @@
                 <i class="fa-light fa-file-invoice-dollar"></i>
                 <span class="mx-3">{{ trans('labels.transactions') }}</span>
             </a>
+            <a href="{{ URL::to('admin/calendar') }}"
+                class="nav-item {{ request()->is('admin/calendar*') ? 'active' : '' }}">
+                <i class="fa-light fa-calendar-range"></i>
+                <span class="mx-3">{{ trans('labels.calendar') }}</span>
+            </a>
             @if (Auth::user()->type == 2)
                 <a href="{{ URL::to('admin/reviews') }}"
                     class="nav-item {{ request()->is('admin/reviews*') ? 'active' : '' }}">
@@ -123,11 +128,6 @@
                     <span class="mx-3">{{ trans('labels.reviews') }}</span>
                 </a>
             @endif
-            <a href="{{ URL::to('admin/calendar') }}"
-                class="nav-item {{ request()->is('admin/calendar*') ? 'active' : '' }}">
-                <i class="fa-light fa-calendar-range"></i>
-                <span class="mx-3">{{ trans('labels.calendar') }}</span>
-            </a>
             @if (Auth::user()->type == 1)
                 <a href="#enquiry" class="nav-item {{ request()->is('admin/enquiries*') ? 'active' : '' }}"
                     data-bs-toggle="collapse" role="button"

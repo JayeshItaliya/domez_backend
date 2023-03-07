@@ -76,7 +76,7 @@ class LeagueController extends Controller
 
         try {
             $league = League::find($request->id);
-            if(empty($league)){
+            if (empty($league)) {
                 $league = new League();
             }
             $league->vendor_id = auth()->user()->id;
@@ -124,7 +124,8 @@ class LeagueController extends Controller
     }
     public function leaguedetails(Request $request)
     {
-        $league = League::find($request->id);
-        return view('admin.leagues.view', compact('league'));
+        $getleaguedata = League::find($request->id);
+        $fields = Field::whereIn('id', explode('|', $getleaguedata->field_id))->where('is_available', 1)->where('is_deleted', 2)->get();
+        return view('admin.leagues.view', compact('getleaguedata', 'fields'));
     }
 }

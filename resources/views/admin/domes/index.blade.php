@@ -34,17 +34,17 @@
             <table id="bootstrapTable">
                 <thead>
                     <tr>
-                        <th data-field="{{ trans('labels.srno') }}">{{ trans('labels.srno') }}</th>
+                        <th>{{ trans('labels.srno') }}</th>
                         @if (Auth::user()->type == 1)
-                            <th data-field="{{ trans('labels.dome_owners') }}">{{ trans('labels.dome_owners') }}</th>
+                            <th>{{ trans('labels.dome_owners') }}</th>
                         @endif
-                        <th data-field="{{ trans('labels.dome_name') }}">{{ trans('labels.dome_name') }}</th>
-                        <th data-field="{{ trans('labels.default_price') }}">{{ trans('labels.default_price') }}</th>
-                        <th data-field="{{ trans('labels.sports') }}">{{ trans('labels.sports') }}</th>
-                        <th data-field="{{ trans('labels.country') }}">{{ trans('labels.country') }}</th>
-                        <th data-field="{{ trans('labels.start_time') }}">{{ trans('labels.start_time') }}</th>
-                        <th data-field="{{ trans('labels.end_time') }}">{{ trans('labels.end_time') }}</th>
-                        <th data-field="{{ trans('labels.action') }}" class="text-center">{{ trans('labels.action') }}
+                        <th>{{ trans('labels.dome_name') }}</th>
+                        <th>{{ trans('labels.default_price') }}</th>
+                        <th>{{ trans('labels.sports') }}</th>
+                        <th>{{ trans('labels.country') }}</th>
+                        <th>{{ trans('labels.start_time') }}</th>
+                        <th>{{ trans('labels.end_time') }}</th>
+                        <th class="text-center">{{ trans('labels.action') }}
                         </th>
                     </tr>
                 </thead>

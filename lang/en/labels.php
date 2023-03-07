@@ -148,6 +148,8 @@ return [
     'years' => 'Years',
     // Enquiry
     'dome_requests' => 'Dome Requests',
+    'general_enquiry' => 'General Enquiry',
+    'help_support' => 'Help & Support',
     // Booking
     'all' => 'All',
     'today' => 'Today',

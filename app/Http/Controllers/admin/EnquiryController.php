@@ -11,15 +11,22 @@ class EnquiryController extends Controller
 {
     public function dome_requests(Request $request)
     {
-        return view('admin.enquiry.dome_requests');
+        $enquiries = Enquiries::where('type', 3)->where('is_replied', 2)->where('is_accepted', 2)->where('is_deleted', 2)->orderByDesc('id')->get();
+        return view('admin.enquiry.dome_requests', compact('enquiries'));
+    }
+    public function dome_request_reply(Request $request)
+    {
+        dd($request->input());
     }
     public function general_enquiry(Request $request)
     {
-        return view('admin.enquiry.general_enquiry');
+        $enquiries = Enquiries::where('type', 2)->where('is_replied', 2)->where('is_accepted', 2)->where('is_deleted', 2)->orderByDesc('id')->get();
+        return view('admin.enquiry.general_enquiry', compact('enquiries'));
     }
     public function help_support(Request $request)
     {
-        return view('admin.enquiry.help_support');
+        $enquiries = Enquiries::where('type', 1)->where('is_replied', 2)->where('is_accepted', 2)->where('is_deleted', 2)->orderByDesc('id')->get();
+        return view('admin.enquiry.help_support', compact('enquiries'));
     }
 
     public function general_enquiries(Request $request)
@@ -52,24 +59,24 @@ class EnquiryController extends Controller
 
     public function dome_request(Request $request)
     {
-        if($request->send_otp == 1){
+        if ($request->send_otp == 1) {
             $otp = rand(1000, 9999);
-            session()->put('verification_otp',$otp);
+            session()->put('verification_otp', $otp);
             $mail = Helper::verificationemail($request->email, $request->name, $otp);
-            if($mail == 1){
-                return response()->json(['status' => 1, 'message' => "Account Verification Otp email has been sent to you."],200);
-            }else{
-                return response()->json(['status' => 0, 'message' => "Email error!!"],200);
+            if ($mail == 1) {
+                return response()->json(['status' => 1, 'message' => "Account Verification Otp email has been sent to you."], 200);
+            } else {
+                return response()->json(['status' => 0, 'message' => "Email error!!"], 200);
             }
         }
-        if($request->verify_otp == 1){
-            if($request->otp == ""){
-                return response()->json(['status' => 0, 'message' => "Please Enter OTP"],200);
+        if ($request->verify_otp == 1) {
+            if ($request->otp == "") {
+                return response()->json(['status' => 0, 'message' => "Please Enter OTP"], 200);
             }
-            if($request->otp != session()->get('verification_otp')){
-                return response()->json(['status' => 0, 'message' => "Please Enter Valid OTP"],200);
-            }else{
-                return response()->json(['status' => 1, 'message' => "OTP Verification Successfull"],200);
+            if ($request->otp != session()->get('verification_otp')) {
+                return response()->json(['status' => 0, 'message' => "Please Enter Valid OTP"], 200);
+            } else {
+                return response()->json(['status' => 1, 'message' => "OTP Verification Successfull"], 200);
             }
         }
 

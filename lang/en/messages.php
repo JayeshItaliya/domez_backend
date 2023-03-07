@@ -8,6 +8,10 @@ return [
     'valid_email' => 'Please Enter Valid Email Address',
     'email_exist' => 'Email already exist!!',
     'phone_exist' => 'Phone already exist!!',
+    "old_password_required" => "Old password required",
+    "new_password_required" => "New password required",
+    "confirm_password_required" => "Confirm password required",
+    "new_password_diffrent" => "New password must be different to old password",
     'password_required' => 'Please Passsword',
     'password_min_length' => 'Password must be at least 8 characters in length',
     'account_deleted' => 'Account has been deleted',
@@ -41,11 +45,6 @@ return [
     'invalid_otp' => 'Invalid OTP',
     'invalid_dome' => 'Invalid Dome',
     'no_data' => 'No Data Found!!',
-
-    // Placeholders
-    'enter_email_address' => 'Enter Email Address',
-    'enter_password' => 'Enter Password',
-    'enter_name' => 'Enter Name',
 
     // Sweetalert
     'are_you_sure' => 'Are You Sure?',

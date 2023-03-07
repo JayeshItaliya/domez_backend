@@ -74,6 +74,7 @@ Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function () {
     // Enquiry
     Route::group(['prefix' => 'enquiries'], function () {
         Route::get('dome-requests', [EnquiryController::class, 'dome_requests']);
+        Route::post('dome-request-reply',[EnquiryController::class, 'dome_request_reply']);
         Route::get('general-enquiry', [EnquiryController::class, 'general_enquiry']);
         Route::get('help-support', [EnquiryController::class, 'help_support']);
     });
@@ -88,6 +89,7 @@ Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function () {
         Route::post('check-email-exist', [SettingsController::class, 'checkemailexist']);
         Route::post('verify-email', [SettingsController::class, 'verifyemail']);
         Route::post('update-profile', [SettingsController::class, 'update_profile']);
+        Route::post('change-password', [SettingsController::class, 'change_password']);
 
         Route::get('email-setting', [SettingsController::class, 'email_setting']);
         Route::get('twilio-setting', [SettingsController::class, 'twilio_setting']);

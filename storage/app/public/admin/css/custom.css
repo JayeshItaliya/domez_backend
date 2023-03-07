@@ -833,7 +833,8 @@ header .nav-icons .dropdown-menu .notifications:hover {
 
 /* Bookings CSS */
 
-.complete-pill {
+.complete-pill,
+.reply-pill {
     color: rgba(33, 150, 243, 1) !important;
     background-color: #E3F2FD !important;
 }

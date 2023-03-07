@@ -155,7 +155,7 @@ class LeagueController extends Controller
                 "total_games" => $interval->format('%a'),
                 "time" => $league->start_time . ' To ' . $league->end_time,
                 "date" => date('d/m/Y', strtotime($league->start_date)) . ' To ' . date('d/m/Y', strtotime($league->end_date)),
-                'gender' => $league->gender == 1 ? 'Male' : ($league->gender == 2 ? 'Female' : 'Other'),
+                'gender' => $league->gender == 1 ? 'Men' : ($league->gender == 2 ? 'Women' : 'Other'),
                 'age' => $league->from_age . ' Years' . ' To ' . $league->to_age . ' Years',
                 'sport' => Sports::find($league->sport_id)->name,
                 'team_limit' => $league->team_limit . ' Teams ',

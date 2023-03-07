@@ -60,7 +60,9 @@
                                     <td>{{ $transaction->dome_owner->name }}</td>
                                 @endif
                                 <td>{{ $transaction->user_name->name }}</td>
-                                <td>{{ $transaction->booking_id }}</td>
+                                <td>
+                                    <a class="text-decoration-underline" href="{{ URL::to('admin/bookings/details-' . $transaction->booking_id) }}">{{ $transaction->booking_id }}</a>
+                                </td>
                                 <td>{{ Helper::currency_format($transaction->amount) }}</td>
                             </tr>
                         @endforeach

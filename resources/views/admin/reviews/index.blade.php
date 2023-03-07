@@ -57,22 +57,19 @@
                                     <span class="stars-{{ $i }}">
                                         @for ($j = 1; $j <= 5; $j++)
                                             <i
-                                                class="fa-regular fa-star {{ $j <= $review->ratting ? 'text-warning' : '' }}"></i>
+                                                class="fa-{{ $j <= $review->ratting ? 'solid' : 'regular' }} fa-star {{ $j <= $review->ratting ? 'text-warning' : 'text-muted' }}"></i>
                                         @endfor
                                     </span>
                                 </td>
                                 <td>{{ $review->comment }}</td>
                                 <td>
-                                    <span class="badge rounded-pill cursor-pointer text-bg-info review_action"
+                                    <span class="badge rounded-pill cursor-pointer reply-pill review_action"
                                         data-id="{{ $i }}" data-user-name="{{ $review->user_name->name }}"
                                         data-comment="{{ $review->comment }}" data-bs-toggle="modal"
                                         data-bs-target="#replymessage">
                                         <svg width="10" height="9" viewBox="0 0 10 9" fill="none"
                                             xmlns="http://www.w3.org/2000/svg">
-                                            <path
-                                                d="M3.25833 3.70833L1.125 6.04167L3.25833 8.375M1.125 6.04167H6.99167C7.55746 6.04167 8.10008 5.79583 8.50016 5.35825C8.90024 4.92066 9.125 4.32717 9.125 3.70833C9.125 3.08949 8.90024 2.496 8.50016 2.05842C8.10008 1.62083 7.55746 1.375 6.99167 1.375H6.45833"
-                                                stroke="#2196F3" stroke-width="1.25" stroke-linecap="round"
-                                                stroke-linejoin="round" />
+                                            <path d="M3.25833 3.70833L1.125 6.04167L3.25833 8.375M1.125 6.04167H6.99167C7.55746 6.04167 8.10008 5.79583 8.50016 5.35825C8.90024 4.92066 9.125 4.32717 9.125 3.70833C9.125 3.08949 8.90024 2.496 8.50016 2.05842C8.10008 1.62083 7.55746 1.375 6.99167 1.375H6.45833" stroke="#2196F3" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" />
                                         </svg>
                                         {{ trans('labels.reply') }}
                                     </span>
@@ -85,9 +82,7 @@
         </div>
     </div>
     <div class="modal fade" id="replymessage" tabindex="-1" aria-labelledby="replymessageLabel" aria-hidden="true">
-        <div class="modal-dialog
-        {{-- modal-dialog-scrollable --}}
-        ">
+        <div class="modal-dialog {{-- modal-dialog-scrollable --}}">
             <div class="modal-content">
                 {{-- <div class="modal-header">
                     <h5 class="modal-title" id="replymessageLabel">{{ trans('labels.reply') }}</h5>

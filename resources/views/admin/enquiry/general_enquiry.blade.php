@@ -1,12 +1,12 @@
 @extends('admin.layout.default')
 @section('title')
-         General Enquiry
+    {{ trans('labels.general_enquiry') }}
 @endsection
 @section('contents')
     <div class="card mb-3">
         <div class="card-body py-2">
             <div class="d-flex align-items-center justify-content-between">
-                <p class="text-secondary fw-semibold">General Enquiry</p>
+                <p class="text-secondary fw-semibold">{{ trans('labels.general_enquiry') }}</p>
                 <nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='%236c757d'/%3E%3C/svg%3E&#34;);"
                     aria-label="breadcrumb">
                     <ol class="breadcrumb m-0">
@@ -23,7 +23,7 @@
                                 </svg>
                             </a>
                         </li>
-                        <li class="breadcrumb-item">General Enquiry</li>
+                        <li class="breadcrumb-item">{{ trans('labels.general_enquiry') }}</li>
                     </ol>
                 </nav>
             </div>
@@ -32,105 +32,98 @@
     <div class="card">
         <div class="card-body">
             <div class="table-responsive">
-                <input class="form-control list-search mw-300px float-end mb-5" type="search" placeholder="Search">
-                <table class="table table-nowrap mb-0">
-                    <thead class=" thead-light">
+                <table id="bootstrapTable">
+                    <thead>
                         <tr>
-                            <th class="w-80px">
-                                <a href="javascript: void(0);" class="text-muted list-sort" data-sort="id">
-                                    ID
-                                </a>
-                            </th>
-                            <th>
-                                <a href="javascript: void(0);" class="text-muted list-sort" data-sort="Name">
-                                    Name
-                                </a>
-                            </th>
-                            <th>
-                                <a href="javascript: void(0);" class="text-muted list-sort" data-sort="Email">
-                                    Email
-                                </a>
-                            </th>
-                            <th>
-                                <a href="javascript: void(0);" class="text-muted list-sort" data-sort="Subject">
-                                    Subject
-                                </a>
-                            </th>
-                            <th>
-                                <a href="javascript: void(0);" class="text-muted list-sort" data-sort="Message">
-                                    Message
-                                </a>
-                            </th>
-                            <th>
-                                <a href="javascript: void(0);" class="text-muted list-sort" data-sort="Actions">
-                                    Actions
-                                </a>
-                            </th>
+                            <th>{{ trans('labels.srno') }}</th>
+                            <th>{{ trans('labels.name') }}</th>
+                            <th>{{ trans('labels.email') }}</th>
+                            <th>{{ trans('labels.subject') }}</th>
+                            <th>{{ trans('labels.message') }}</th>
+                            <th>{{ trans('labels.action') }}</th>
                         </tr>
                     </thead>
-                    <tbody class="list">
-                        <tr>
-                            <td>01</td>
-                            <td>Kelly Doyle</td>
-                            <td> wiegand@hotmail.com</td>
-                            <td>Lorem Ipsum..</td>
-                            <td>Lorem Ipsum is simply dummy text..</td>
-                            <td><span class="badge rounded-pill cursor-pointer partial-pill fa-solid fa-reply" data-bs-target="#mymodal" data-bs-toggle="modal">Reply</span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>02</td>
-                            <td>Kelly Doyle</td>
-                            <td> wiegand@hotmail.com</td>
-                            <td>Lorem Ipsum..</td>
-                            <td>Lorem Ipsum is simply dummy text..</td>
-                            <td><span class="badge rounded-pill cursor-pointer partial-pill fa-solid fa-reply" data-bs-target="#mymodal" data-bs-toggle="modal">Reply</span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>03</td>
-                            <td>Kelly Doyle</td>
-                            <td> wiegand@hotmail.com</td>
-                            <td>Lorem Ipsum..</td>
-                            <td>Lorem Ipsum is simply dummy text..</td>
-                            <td><span class="badge rounded-pill cursor-pointer partial-pill fa-solid fa-reply" data-bs-target="#mymodal" data-bs-toggle="modal">Reply</span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>04</td>
-                            <td>Kelly Doyle</td>
-                            <td> wiegand@hotmail.com</td>
-                            <td>Lorem Ipsum..</td>
-                            <td>Lorem Ipsum is simply dummy text..</td>
-                            <td><span class="badge rounded-pill cursor-pointer partial-pill fa-solid fa-reply" data-bs-target="#mymodal" data-bs-toggle="modal">Reply</span>
-                            </td>
-                        </tr>
+                    <tbody>
+                        @php
+                            $i = 1;
+                        @endphp
+                        @foreach ($enquiries as $enquiry)
+                            <tr>
+                                <td>{{ $i++ }}</td>
+                                <td>{{ $enquiry->name }}</td>
+                                <td>{{ $enquiry->email }}</td>
+                                <td>{{ $enquiry->subject }}</td>
+                                <td>{{ $enquiry->message }}</td>
+                                <td>
+                                    <span class="badge rounded-pill cursor-pointer reply-pill me-2 reply_action"
+                                        data-show-name="{{ $enquiry->name }}" data-show-email="{{ $enquiry->email }}"
+                                        data-show-subject="{{ $enquiry->subject }}"
+                                        data-show-message="{{ $enquiry->message }}" data-bs-target="#reply_modal"
+                                        data-bs-toggle="modal" style="height: fit-content">
+                                        <svg width="10" height="9" viewBox="0 0 10 9" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M3.25833 3.70833L1.125 6.04167L3.25833 8.375M1.125 6.04167H6.99167C7.55746 6.04167 8.10008 5.79583 8.50016 5.35825C8.90024 4.92066 9.125 4.32717 9.125 3.70833C9.125 3.08949 8.90024 2.496 8.50016 2.05842C8.10008 1.62083 7.55746 1.375 6.99167 1.375H6.45833"
+                                                stroke="#2196F3" stroke-width="1.25" stroke-linecap="round"
+                                                stroke-linejoin="round" />
+                                        </svg>
+                                        {{ trans('labels.reply') }}
+                                    </span>
+                                </td>
+                            </tr>
+                        @endforeach
                     </tbody>
-                    <div class="modal" id="mymodal">
-                        <div class="modal-dialog modal-dialog-centered">
-                             <div class="modal-content">
-                                 <div class="d-block p-3">
-                                    <h6 class="mb-5">New Message</h6>
-                                    <form>
-                                        <div class="mb-3">
-                                          <input type="email" class="form-control" id="recipient-name" placeholder="Wiegend@hotmail.com">
-                                        </div>
-                                        <div class="mb-3">
-                                            <input type="text" class="form-control" id="recipient-name" placeholder="Subject">
-                                        </div>
-                                      </form>
-                                    <div class="modal-body p-0">
-                                       <textarea  rows="5" class="form-control" placeholder="Lorem Ipsum is simply dummy text.." ></textarea>
-                                    </div>
-                                    <div class="d-flex justify-content-end mt-3">
-                                       <button type="button" class="btn btn-primary">Replay</button>
-                                    </div>
-                                 </div>
-                             </div>
-                        </div>
-                   </div>
                 </table>
             </div>
         </div>
     </div>
+    <div class="modal fade" id="reply_modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="replymessageLabel">{{ trans('labels.reply') }}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="{{ URL::to('admin/enquiries/dome-request-reply') }}" method="POST" class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6 mb-2">
+                            <label for="name" class="form-label fw-bold">{{ trans('labels.name') }}</label>
+                            <p class="show_name"></p>
+                        </div>
+                        <div class="col-md-6 mb-2">
+                            <label for="email" class="form-label fw-bold">{{ trans('labels.email') }}</label>
+                            <p class="show_email"></p>
+                        </div>
+                        <div class="col-md-12 mb-2">
+                            <label for="phone_number" class="form-label fw-bold">{{ trans('labels.subject') }}</label>
+                            <p class="show_subject"></p>
+                        </div>
+                        <div class="col-md-12 mb-2">
+                            <label for="dome_name" class="form-label fw-bold">{{ trans('labels.message') }}</label>
+                            <p class="show_message"></p>
+                        </div>
+                        <div class="col-md-12 mb-2">
+                            <label for="reply" class="form-label fw-bold">{{ trans('labels.reply') }}</label>
+                            <textarea class="form-control" name="reply" placeholder="{{ trans('labels.reply') }}" autocomplete="off"
+                                rows="4"></textarea>
+                        </div>
+                    </div>
+                    {{-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> --}}
+                    <button type="button" class="btn btn-primary float-end">{{ trans('labels.submit') }}</button>
+                </form>
+            </div>
+        </div>
+    </div>
+@endsection
+@section('scripts')
+    <script>
+        $(function() {
+            $(".reply_action").on('click', function() {
+                $('.show_name').text($(this).attr('data-show-name'));
+                $('.show_email').text($(this).attr('data-show-email'));
+                $('.show_subject').text($(this).attr('data-show-subject'));
+                $('.show_message').text($(this).attr('data-show-message'));
+            });
+        });
+    </script>
 @endsection

@@ -40,7 +40,7 @@
                             <label>{{ trans('Dome Name') }}</label>
                         </div>
                         <div class="col-md-8">
-                            <span class="text-muted fs-7">{{ $league->dome_info->name }}</span>
+                            <span class="text-muted fs-7">{{ $getleaguedata->dome_info->name }}</span>
                         </div>
                     </div>
                 </div>
@@ -51,9 +51,8 @@
                         </div>
                         <div class="col-md-8">
                             <span class="text-muted fs-7">
-                                @dump($league->field_info)
-                                @foreach ($league->field_info as $field)
-                                    {{ $field->name }} {{ !$loop->last ? '|' : '' }}
+                                @foreach ($fields as $field)
+                                    {{ $field->name }} {{ !$loop->last ? '&' : '' }}
                                 @endforeach
                             </span>
                         </div>
@@ -65,7 +64,7 @@
                     <label>{{ trans('labels.dome_address') }}</label>
                 </div>
                 <div class="col-md-10 ps-0">
-                    <span class="text-muted fs-7">{{ $league->dome_info->address }}</span>
+                    <span class="text-muted fs-7">{{ $getleaguedata->dome_info->address }}</span>
                 </div>
             </div>
             <p class="my-3 fw-semibold">{{ trans('labels.league_details') }}</p>
@@ -76,7 +75,7 @@
                             <label>{{ trans('labels.league_name') }}</label>
                         </div>
                         <div class="col-md-8">
-                            <span class="text-muted fs-7">{{ $league->name }}</span>
+                            <span class="text-muted fs-7">{{ $getleaguedata->name }}</span>
                         </div>
                     </div>
                 </div>
@@ -86,7 +85,7 @@
                             <label>{{ trans('labels.price_per_team') }}</label>
                         </div>
                         <div class="col-md-8">
-                            <span class="text-muted fs-7">{{ Helper::currency_format($league->price) }}</span>
+                            <span class="text-muted fs-7">{{ Helper::currency_format($getleaguedata->price) }}</span>
                         </div>
                     </div>
                 </div>
@@ -98,7 +97,7 @@
                             <label>{{ trans('labels.team_limit') }}</label>
                         </div>
                         <div class="col-md-8">
-                            <span class="text-muted fs-7">{{ $league->team_limit }}</span>
+                            <span class="text-muted fs-7">{{ $getleaguedata->team_limit }}</span>
                         </div>
                     </div>
                 </div>
@@ -108,7 +107,7 @@
                             <label>{{ trans('labels.price_per_team') }}</label>
                         </div>
                         <div class="col-md-8">
-                            <span class="text-muted fs-7">{{ Helper::currency_format($league->price) }}</span>
+                            <span class="text-muted fs-7">{{ Helper::currency_format($getleaguedata->price) }}</span>
                         </div>
                     </div>
                 </div>
@@ -120,7 +119,7 @@
                             <label>{{ trans('labels.start_date') }}</label>
                         </div>
                         <div class="col-md-8">
-                            <span class="text-muted fs-7">{{ Helper::date_format($league->start_date) }}</span>
+                            <span class="text-muted fs-7">{{ Helper::date_format($getleaguedata->start_date) }}</span>
                         </div>
                     </div>
                 </div>
@@ -130,7 +129,7 @@
                             <label>{{ trans('labels.end_date') }}</label>
                         </div>
                         <div class="col-md-8">
-                            <span class="text-muted fs-7">{{ Helper::date_format($league->end_date) }}</span>
+                            <span class="text-muted fs-7">{{ Helper::date_format($getleaguedata->end_date) }}</span>
                         </div>
                     </div>
                 </div>
@@ -142,7 +141,7 @@
                             <label>{{ trans('labels.start_time') }}</label>
                         </div>
                         <div class="col-md-8">
-                            <span class="text-muted fs-7">{{ Helper::time_format($league->start_time) }}</span>
+                            <span class="text-muted fs-7">{{ Helper::time_format($getleaguedata->start_time) }}</span>
                         </div>
                     </div>
                 </div>
@@ -152,7 +151,7 @@
                             <label>{{ trans('labels.end_time') }}<label>
                         </div>
                         <div class="col-md-8">
-                            <span class="text-muted fs-7">{{ Helper::time_format($league->end_time) }}</span>
+                            <span class="text-muted fs-7">{{ Helper::time_format($getleaguedata->end_time) }}</span>
                         </div>
                     </div>
                 </div>
@@ -164,7 +163,7 @@
                             <label>{{ trans('labels.min_player') }}</label>
                         </div>
                         <div class="col-md-8">
-                            <span class="text-muted fs-7">{{ $league->min_player }}</span>
+                            <span class="text-muted fs-7">{{ $getleaguedata->min_player }}</span>
                         </div>
                     </div>
                 </div>
@@ -174,7 +173,7 @@
                             <label>{{ trans('labels.max_player') }}</label>
                         </div>
                         <div class="col-md-8">
-                            <span class="text-muted fs-7">{{ $league->max_player }}</span>
+                            <span class="text-muted fs-7">{{ $getleaguedata->max_player }}</span>
                         </div>
                     </div>
                 </div>
@@ -187,7 +186,7 @@
                         </div>
                         <div class="col-md-8">
                             <span
-                                class="text-muted fs-7">{{ $league->from_age . ' - ' . $league->to_age . ' ' . trans('labels.years') }}</span>
+                                class="text-muted fs-7">{{ $getleaguedata->from_age . ' - ' . $getleaguedata->to_age . ' ' . trans('labels.years') }}</span>
                         </div>
                     </div>
                 </div>
@@ -198,13 +197,13 @@
                         </div>
                         <div class="col-md-8">
                             <span
-                                class="text-muted fs-7">{{ $league->gender == 1 ? trans('labels.men') : ($league->gender == 2 ? trans('labels.women') : trans('labels.other')) }}</span>
+                                class="text-muted fs-7">{{ $getleaguedata->gender == 1 ? trans('labels.men') : ($getleaguedata->gender == 2 ? trans('labels.women') : trans('labels.other')) }}</span>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="px-3 py-2 d-flex">
-                @foreach ($league['league_images'] as $images)
+                @foreach ($getleaguedata['league_images'] as $images)
                     <div class="col-auto me-3">
                         <img src="{{ Helper::image_path($images->images) }}" alt="" width="100"
                             height="60" class="rounded" style="object-fit: cover; object-position:center;">

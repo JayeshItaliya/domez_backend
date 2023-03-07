@@ -8,6 +8,7 @@ use App\Models\CMS;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
 class SettingsController extends Controller
@@ -129,7 +130,7 @@ class SettingsController extends Controller
         if ($request->has('profile')) {
             $request->validate([
                 'profile' => 'image|mimes:jpg,jpeg,png,svg'
-            ],[
+            ], [
                 'profile.image' => trans('messages.valid_image'),
                 'profile.mimes' => trans('messages.valid_image_type'),
             ]);
@@ -141,6 +142,26 @@ class SettingsController extends Controller
             $user->image = $image;
         }
         $user->save();
-        return redirect('admin/settings/edit-profile')->with('success',trans('messages.success'));
+        return redirect('admin/settings/edit-profile')->with('success', trans('messages.success'));
+    }
+    public function change_password(Request $request)
+    {
+        $request->validate([
+            'current_password' => 'required|min:8',
+            'new_password' => 'required|min:8|different:current_password',
+            'confirm_password' => 'required|same:new_password|min:8',
+        ], [
+            'current_password.required' => trans('messages.old_password_required'),
+            'new_password.required' => trans('messages.new_password_required'),
+            'new_password.different' => trans('messages.new_password_diffrent'),
+            'confirm_password.required' => trans('messages.confirm_password_required'),
+            'confirm_password.same' => trans('messages.confirm_password_same')
+        ]);
+        if (Hash::check($request->current_password, Auth::user()->password)) {
+            User::where('id', Auth::user()->id)->update(['password' => Hash::make($request->new_password)]);
+            return redirect()->back()->with('success', trans('messages.success'));
+        } else {
+            return redirect()->back()->with('error', trans('messages.old_password_invalid'));
+        }
     }
 }
