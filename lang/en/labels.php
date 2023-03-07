@@ -197,4 +197,12 @@ return [
     // General Settings
     'otp' => 'OTP',
     'verify' => 'Verify',
+    'mailer' => 'Mailer',
+    'host' => 'Host',
+    'port' => 'Port',
+    'username' => 'Username',
+    'encryption' => 'Encryption',
+    'tls' => 'TLS',
+    'ssl' => 'SSL',
+    'from_email_address' => 'From Email Address',
 ];
