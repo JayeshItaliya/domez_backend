@@ -30,7 +30,8 @@
         </div>
     </div>
     <div class="card">
-        <form id="storesetprices" action="{{ URL::to('admin/set-prices/store') }}" method="post" enctype="multipart/form-data">
+        <form id="storesetprices" action="{{ URL::to('admin/set-prices/store') }}" method="post"
+            enctype="multipart/form-data">
             @csrf
             <div class="card-body">
                 <div class="row">
@@ -42,7 +43,7 @@
                             <div class="col-md-3">
                                 <div class="mb-3">
                                     <label class="form-label">{{ trans('labels.dome') }}</label>
-                                    <select class="form-select"  name="dome" id="dome"
+                                    <select class="form-select" name="dome" id="dome"
                                         data-next="{{ URL::to('/admin/leagues/sports-fields') }}">
                                         <option value="" disabled selected>{{ trans('labels.select') }}</option>
                                         @foreach ($getdomeslist as $dome)
@@ -59,7 +60,7 @@
                             <div class="col-md-3">
                                 <div class="mb-3">
                                     <label class="form-label">{{ trans('labels.select_sports') }}</label>
-                                    <select class="form-select"  name="sport" id="sport">
+                                    <select class="form-select" name="sport" id="sport">
                                         <option value="" disabled selected>{{ trans('labels.select') }}</option>
                                     </select>
                                     @error('sport')
@@ -70,7 +71,7 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="start_date" class="form-label">{{ trans('labels.start_date') }}</label>
-                                    <input type="date"  class="form-control" name="start_date" id="start_date"
+                                    <input type="date" class="form-control" name="start_date" id="start_date"
                                         min="{{ date('Y-m-d') }}" value="{{ old('start_date') }}">
                                     @error('start_date')
                                         <span class="text-danger"> {{ $message }} </span>
@@ -80,8 +81,7 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="end_date" class="form-label">{{ trans('labels.end_date') }}</label>
-                                    <input type="date"  class="form-control" name="end_date" id="end_date"
-                                        disabled>
+                                    <input type="date" class="form-control" name="end_date" id="end_date" disabled>
                                     @error('end_date')
                                         <span class="text-danger"> {{ $message }} </span>
                                     @enderror
@@ -100,7 +100,7 @@
                                     <input type="hidden" name="daynames[]" value="{{ $dayname }}">
                                     <div class="card mb-3">
                                         <div class="card-header">
-                                            <p>{{ ucfirst($dayname) }}</p>
+                                            <h6>{{ ucfirst($dayname) }}</h6>
                                         </div>
                                         <div class="card-body">
                                             <div class="row my-2">
@@ -110,7 +110,7 @@
                                                             <input type="text"
                                                                 class="form-control time_picker border-end-0"
                                                                 name="start_time[{{ $dayname }}][]"
-                                                                placeholder="{{ trans('labels.start_time') }}"  />
+                                                                placeholder="{{ trans('labels.start_time') }}" />
                                                             <span class="input-group-text bg-transparent border-start-0"><i
                                                                     class="fa-regular fa-clock"></i> </span>
                                                         </div>
@@ -122,7 +122,7 @@
                                                             <input type="text"
                                                                 class="form-control time_picker border-end-0"
                                                                 name="end_time[{{ $dayname }}][]"
-                                                                placeholder="{{ trans('labels.end_time') }}"  />
+                                                                placeholder="{{ trans('labels.end_time') }}" />
                                                             <span class="input-group-text bg-transparent border-start-0"><i
                                                                     class="fa-regular fa-clock"></i> </span>
                                                         </div>
@@ -203,6 +203,7 @@
                 $('.' + dayname + '.extra_fields').append(html);
             });
         });
+
         function removeslot(id) {
             $('#remove' + id).remove();
         }
@@ -241,18 +242,27 @@
             });
         });
         $('#storesetprices').on('submit', function() {
-            $.each($('#storesetprices input'), function (indexInArray, valueOfElement) {
-                alert(indexInArray)
-                alert(valueOfElement.value)
+            var check = 1;
+            $.each($('#storesetprices select, #storesetprices input'), function(indexInArray, valueOfElement) {
                 if ($.trim(valueOfElement.value) == '') {
                     $(this).addClass('is-invalid').focus();
-                    return false;
-                }else{
+                    if ($(this).parent().hasClass('input-group')) {
+                        $(this).next().addClass('border-danger')
+                    }
+                    check = 0;
+                } else {
                     $(this).removeClass('is-invalid');
+                    if ($(this).parent().hasClass('input-group')) {
+                        $(this).next().removeClass('border-danger')
+                    }
+                }
+                if (check == 0) {
+                    return false;
                 }
             });
-            return true;
+            if (check == 0) {
+                return false;
+            }
         });
-
     </script>
 @endsection

@@ -21,6 +21,7 @@ class DomesPriceController extends Controller
     }
     public function store(Request $request)
     {
+        dd(1111);
         $set_prices = new SetPrices();
         $set_prices->dome_id = $request->dome;
         $set_prices->sport_id = $request->sport;
