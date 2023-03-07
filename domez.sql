@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 07, 2023 at 05:27 AM
+-- Generation Time: Mar 07, 2023 at 01:48 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -163,7 +163,7 @@ INSERT INTO `domes` (`id`, `vendor_id`, `sport_id`, `name`, `price`, `hst`, `add
 (42, 9, '7,8,10', 'Shrinkle ground', 70.00, 5.00, 'Summerside Solar, 511 Notre Dame St, Summerside, PE, Canada', 'C1N 1T2', 'Summerside', 'Prince Edward Island', 'Canada', '1:00 AM', '4:00 PM', 'DESCRIPTION', '46.3993871', '-63.8010478', 'Changing Room', 'benefits-DESCRIPTION', 2, '2023-02-20 04:57:41', '2023-02-21 05:04:45'),
 (43, 10, '6,8', 'Geodesic Dome Playground', 97.00, 5.00, '511 Notre Dame St, Summerside, PE, Canada', 'C1N 1T2', 'Summerside', 'Prince Edward Island', 'Canada', '10:00 AM', '9:00 PM', 'DESCRIPTION', '46.3981555', '-63.80031419999999', 'Changing Room|Parking', 'benefits-DESCRIPTION', 2, '2023-02-20 04:57:41', '2023-02-20 05:07:15'),
 (44, 11, '9,10', 'Geodesic Dome Playground', 68.00, 5.00, 'Summerside Bowling Alleys, 511 Notre Dame St, Summerside, PE, Canada', 'C1N 1T2', 'Summerside', 'Prince Edward Island', 'Canada', '5:00 AM', '2:00 PM', 'DESCRIPTION', '46.39860830000001', '-63.8004099', 'Free Wifi|Changing Room', 'benefits-DESCRIPTION', 2, '2023-02-20 04:57:41', '2023-02-20 05:10:13'),
-(45, 2, '8,9', 'Lorem Ipsum', 80.00, 5.00, 'Costen Tax Solutions, Inc, Birdneck Road North, Virginia Beach, VA, USA', '23451', 'Summerside', 'Prince Edward Island', 'Canada', '6:00 AM', '5:00 PM', 'DESCRIPTION', '28.5156729', '-81.4824233', 'Free Wifi|Changing Room|Parking', 'benefits-DESCRIPTION', 2, '2023-02-20 03:57:09', '2023-02-21 05:03:45');
+(45, 2, '8,9', 'Lorem Ipsum', 80.00, 5.00, 'Costen Tax Solutions, Inc, Birdneck Road North, Virginia Beach, VA, USA', '23451', 'Summerside', 'Prince Edward Island', 'Canada', '6:00 AM', '5:00 PM', 'DESCRIPTION', '28.5156729', '-81.4824233', 'Free Wifi|Changing Room|Parking', 'benefits-DESCRIPTION', 1, '2023-02-20 03:57:09', '2023-03-06 23:48:03');
 
 -- --------------------------------------------------------
 
@@ -730,6 +730,67 @@ INSERT INTO `reviews` (`id`, `vendor_id`, `dome_id`, `user_id`, `ratting`, `comm
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `set_prices`
+--
+
+CREATE TABLE `set_prices` (
+  `id` int(11) NOT NULL,
+  `dome_Id` int(11) NOT NULL,
+  `sport_id` int(11) NOT NULL,
+  `start_date` varchar(11) DEFAULT NULL,
+  `end_date` varchar(11) DEFAULT NULL,
+  `price_type` int(11) NOT NULL DEFAULT 1 COMMENT '1=default,2=daywise',
+  `price` double NOT NULL DEFAULT 0,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `set_prices`
+--
+
+INSERT INTO `set_prices` (`id`, `dome_Id`, `sport_id`, `start_date`, `end_date`, `price_type`, `price`, `created_at`, `updated_at`) VALUES
+(3, 35, 10, '2023-03-17', '2023-03-29', 2, 0, '2023-03-07 07:05:53', '2023-03-07 07:05:53');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `set_prices_days_slots`
+--
+
+CREATE TABLE `set_prices_days_slots` (
+  `id` int(11) NOT NULL,
+  `set_prices_id` int(11) NOT NULL,
+  `start_time` varchar(255) NOT NULL,
+  `end_time` varchar(255) NOT NULL,
+  `day` varchar(255) NOT NULL,
+  `price` double NOT NULL DEFAULT 0,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `set_prices_days_slots`
+--
+
+INSERT INTO `set_prices_days_slots` (`id`, `set_prices_id`, `start_time`, `end_time`, `day`, `price`, `created_at`, `updated_at`) VALUES
+(1, 3, '01:00 AM', '02:00 AM', 'monday', 0, '2023-03-07 07:05:53', '2023-03-07 07:05:53'),
+(2, 3, '02:00 AM', '05:00 AM', 'monday', 0, '2023-03-07 07:05:53', '2023-03-07 07:05:53'),
+(3, 3, '02:00 AM', '03:00 AM', 'tuesday', 0, '2023-03-07 07:05:53', '2023-03-07 07:05:53'),
+(4, 3, '03:00 AM', '05:00 AM', 'tuesday', 0, '2023-03-07 07:05:53', '2023-03-07 07:05:53'),
+(5, 3, '12:00 PM', '06:00 PM', 'tuesday', 0, '2023-03-07 07:05:53', '2023-03-07 07:05:53'),
+(6, 3, '04:00 PM', '06:00 PM', 'wednesday', 0, '2023-03-07 07:05:53', '2023-03-07 07:05:53'),
+(7, 3, '05:00 PM', '06:00 PM', 'thursday', 0, '2023-03-07 07:05:53', '2023-03-07 07:05:53'),
+(8, 3, '05:00 PM', '09:00 PM', 'thursday', 0, '2023-03-07 07:05:53', '2023-03-07 07:05:53'),
+(9, 3, '07:00 PM', '07:00 PM', 'friday', 0, '2023-03-07 07:05:53', '2023-03-07 07:05:53'),
+(10, 3, '05:00 PM', '09:00 PM', 'friday', 0, '2023-03-07 07:05:53', '2023-03-07 07:05:53'),
+(11, 3, '07:00 PM', '11:00 PM', 'friday', 0, '2023-03-07 07:05:53', '2023-03-07 07:05:53'),
+(12, 3, '07:00 PM', '10:00 PM', 'saturday', 0, '2023-03-07 07:05:53', '2023-03-07 07:05:53'),
+(13, 3, '07:00 PM', '10:00 PM', 'sunday', 0, '2023-03-07 07:05:53', '2023-03-07 07:05:53');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `sports`
 --
 
@@ -986,6 +1047,19 @@ ALTER TABLE `reviews`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `set_prices`
+--
+ALTER TABLE `set_prices`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `set_prices_days_slots`
+--
+ALTER TABLE `set_prices_days_slots`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `set_prices_id_foreign` (`set_prices_id`);
+
+--
 -- Indexes for table `sports`
 --
 ALTER TABLE `sports`
@@ -1072,6 +1146,18 @@ ALTER TABLE `payment_gateways`
 --
 ALTER TABLE `reviews`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=201;
+
+--
+-- AUTO_INCREMENT for table `set_prices`
+--
+ALTER TABLE `set_prices`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `set_prices_days_slots`
+--
+ALTER TABLE `set_prices_days_slots`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `sports`
