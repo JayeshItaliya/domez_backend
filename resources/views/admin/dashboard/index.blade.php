@@ -151,6 +151,7 @@
         // Total Bookings Chart
         var options = {
             series: [{
+                name:'{{trans('labels.bookings')}}',
                 data: [10, 41, 35, 99, 26, 75, 15]
             }],
             chart: {
@@ -194,6 +195,7 @@
         // Total Income Chart
         var options = {
             series: [{
+                name:'{{trans('labels.total_income')}}',
                 data: [10, 41, 35, 99, 26, 75, 15]
             }],
             chart: {
@@ -237,6 +239,7 @@
         // Total Revenue Chart
         var options = {
             series: [{
+                name:'{{trans('labels.revenue')}}',
                 data: [10, 41, 35, 99, 26, 75, 15]
             }],
             chart: {
@@ -264,7 +267,7 @@
                 width: 2,
                 curve: 'smooth'
             },
-            colors: [secondary_color],
+            colors: [primary_color],
             fill: {
                 opacity: 1,
             },
@@ -290,17 +293,18 @@
             plotOptions: {
                 bar: {
                     horizontal: false,
-                    columnWidth: '55%',
+                    borderRadius: 4,
                     endingShape: 'rounded'
                 },
             },
             dataLabels: {
                 enabled: false
             },
+            colors: ['#57A70040'],
             stroke: {
                 show: true,
                 width: 2,
-                colors: ['transparent']
+                colors: [secondary_color]
             },
             xaxis: {
                 categories: ['Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct'],
@@ -328,6 +332,12 @@
                     borderRadius: 4,
                     horizontal: true,
                 }
+            },
+            colors: ['#468F7240'],
+            stroke: {
+                show: true,
+                width: 2,
+                colors: ['#468F72']
             },
             dataLabels: {
                 enabled: false

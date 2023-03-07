@@ -51,6 +51,7 @@ return [
     // Dashboard
     'cancelled_bookings' => 'Cancelled Bookings',
     'total_income' => 'Total Income',
+    'revenue' => 'Revenue',
     'recent_bookings' => 'Recent Bookings',
     'user_mobile_app' => 'Users Of Mobile App',
     // Users

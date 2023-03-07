@@ -26,6 +26,7 @@
             <img src="{{ Helper::image_path('preloader.gif') }}" width="150" height="150" alt="Prealoader">
         </div>
     </div>
+    <button class="btn btn-primary position-fixed top-50 end-0" style="z-index: 99"><i class="fa-regular fa-sliders"></i></button>
     <main>
         <style>
             :root {
@@ -54,8 +55,8 @@
             @include('admin.layout.footer')
         @endif
         <div id="primaryColor" style="color: var(--bs-primary)"></div>
-    <div id="secondaryColor" style="color: var(--bs-secondary)"></div>
-    <div id="lightSecondaryColor" style="color: rgba(var(--bs-secondary-rgb),0.75)"></div>
+        <div id="secondaryColor" style="color: var(--bs-secondary)"></div>
+        <div id="lightSecondaryColor" style="color: rgba(var(--bs-secondary-rgb),0.75)"></div>
     </main>
 
     <!-- Javascript -->
@@ -96,4 +97,5 @@
     <script src="{{ url('storage/app/public/admin/js/custom.js') }}"></script>
     @yield('scripts')
 </body>
+
 </html>

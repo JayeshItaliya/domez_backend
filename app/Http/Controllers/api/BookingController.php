@@ -63,14 +63,14 @@ class BookingController extends Controller
             $dome = Domes::with('dome_image')->where('id', $booking->dome_id)->first();
             if ($booking->league_id != '') {
                 $league = League::find($booking->league_id);
-            }
-            $datetime1 = new DateTime($league->start_date);
-            $datetime2 = new DateTime($league->end_date);
-            $interval = $datetime1->diff($datetime2);
-            $startDate2 = new \DateTime(date('m/d'));
-            $endDate2 = new \DateTime(date('m/d', strtotime("+7 day")));
-            for ($date = $startDate2; $date < $endDate2; $date->modify('+1 day')) {
-                $daylist[] = $date->format('D');
+                $datetime1 = new DateTime($league->start_date);
+                $datetime2 = new DateTime($league->end_date);
+                $interval = $datetime1->diff($datetime2);
+                $startDate2 = new \DateTime(date('m/d'));
+                $endDate2 = new \DateTime(date('m/d', strtotime("+7 day")));
+                for ($date = $startDate2; $date < $endDate2; $date->modify('+1 day')) {
+                    $daylist[] = $date->format('D');
+                }
             }
 
             $gettransaction = Transaction::leftJoin('users AS user', function ($query) {
@@ -86,8 +86,8 @@ class BookingController extends Controller
                 "field" => $booking->field_id,
                 "dome_name" => $dome->name,
                 "league_name" => $booking->league_id != '' ? $league->name : '',
-                "days" => implode(' | ', $daylist),
-                "total_games" => $interval->format('%a'),
+                "days" => $booking->league_id != '' ? implode(' | ', $daylist) : '',
+                "total_games" => $booking->league_id != '' ? $interval->format('%a') : '',
                 "date" => $booking->type != 2 ? date('d M, Y', strtotime($booking->start_date)) : date('d M', strtotime($booking->start_date)) . ' To ' . date('d M', strtotime($booking->end_date)),
                 "time" => date('h A', strtotime($booking->start_time)) . ' To ' . date('h A', strtotime($booking->end_time)),
                 "players" => $booking->players,
@@ -98,6 +98,8 @@ class BookingController extends Controller
                 "service_fee" => $booking->total_amount * 5 / 100,
                 "hst" => $booking->total_amount * $dome->hst / 100,
                 "total_amount" => $booking->total_amount + $booking->total_amount * 5 / 100 + $booking->total_amount * $dome->hst / 100,
+                "paid_amount" => $booking->paid_amount,
+                "due_amount" => $booking->due_amount,
                 "image" => $dome->dome_image->image,
                 "payment_status" => $booking->payment_status == 1 ? 'Paid' : 'Pending',
                 "booking_created_at" => $booking->created_at,
