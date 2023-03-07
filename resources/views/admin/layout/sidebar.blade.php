@@ -195,7 +195,7 @@
                         </a>
                         <a href="{{ URL::to('admin/settings/twilio-setting') }}" class="nav-item">
                             <span
-                                class="nav-link {{ request()->is('admin/settings/twilio-setting') ? 'active' : '' }}">{{ trans('labels.twillio_settings') }}</span>
+                                class="nav-link {{ request()->is('admin/settings/twilio-setting') ? 'active' : '' }}">{{ trans('labels.twilio_settings') }}</span>
                         </a>
                         <a href="{{ URL::to('admin/settings/stripe-setting') }}" class="nav-item">
                             <span

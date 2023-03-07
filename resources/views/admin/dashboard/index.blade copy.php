@@ -5,7 +5,7 @@
 @section('contents')
     <div class="dashboard">
         <div class="row">
-            <div class="col-md-6 mb-3 h-100">
+            <div class="col-lg-4 col-md-6 mb-3 h-100">
                 <div class="card earning-card">
                     <div class="card-body">
                         <div class="earning-icon">
@@ -19,19 +19,12 @@
                                 <path d="M3 13a20 20 0 0 0 18 0" />
                             </svg>
                         </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <h1 class="text-white mb-2">$54756.86</h1>
-                                <p class="text-white text-opacity-75">{{ trans('labels.total_income') }}</p>
-                            </div>
-                            <div class="col-md-6" style="z-index: 9;">
-                                <div id="total_income"></div>
-                            </div>
-                        </div>
+                        <h1 class="text-white mb-2">$54756.86</h1>
+                        <p class="text-white text-opacity-75">{{ trans('labels.total_income') }}</p>
                     </div>
                 </div>
             </div>
-            <div class="col-md-6 mb-3 h-100">
+            <div class="col-lg-4 col-md-6 mb-3 h-100">
                 <div class="card confirm-booking-card">
                     <div class="card-body">
                         <div class="confirm-booking-icon">
@@ -49,6 +42,53 @@
                         </div>
                         <h1 class="text-white mb-2">156</h1>
                         <p class="text-white text-opacity-75">{{ trans('labels.confirm_bookings') }}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 mb-3 h-100">
+                <div class="card pending-booking-card mb-3">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center">
+                            <div class="pending-booking-icon mb-0">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time"
+                                    width="25" height="25" viewBox="0 0 24 24" stroke-width="1.5" stroke="white"
+                                    fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                    <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+                                    <circle cx="18" cy="18" r="4" />
+                                    <path d="M15 3v4" />
+                                    <path d="M7 3v4" />
+                                    <path d="M3 11h16" />
+                                    <path d="M18 16.496v1.504l1 1" />
+                                </svg>
+                            </div>
+                            <div class="mx-2">
+                                <h6 class="text-white">78</h6>
+                                <p class="text-white text-opacity-75 fs-7">{{ trans('labels.pending_bookings') }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card cancel-booking-card">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center">
+                            <div class="cancel-booking-icon mb-0">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-minus"
+                                    width="25" height="25" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50"
+                                    fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                    <rect x="4" y="5" width="16" height="16" rx="2" />
+                                    <line x1="16" y1="3" x2="16" y2="7" />
+                                    <line x1="8" y1="3" x2="8" y2="7" />
+                                    <line x1="4" y1="11" x2="20" y2="11" />
+                                    <line x1="10" y1="16" x2="14" y2="16" />
+                                </svg>
+                            </div>
+                            <div class="mx-2">
+                                <h6 class="text-dark">78</h6>
+                                <p class="text-dark text-opacity-50 fs-7">{{ trans('labels.cancelled_bookings') }}</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -207,9 +247,12 @@
             </div>
         </div>
     </div>
+
 @endsection
 @section('scripts')
-    <script></script>
+    <script>
+
+    </script>
     <script src="{{ url('storage/app/public/admin/js/charts/apexchart/apexcharts.js') }}"></script>
     <script>
         // Total Bookings Chart
@@ -255,7 +298,7 @@
                     }
                 },
             },
-            colors: [primary_color, secondary_color, light_secondary_color],
+            colors: [ primary_color, secondary_color, light_secondary_color],
             xaxis: {
                 type: 'days',
                 categories: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
@@ -270,30 +313,42 @@
         };
         var chart = new ApexCharts(document.querySelector("#total_bookings"), options);
         chart.render();
-        // Total Income Chart
+        // Total Bookings Chart
         var options = {
             series: [{
-                name: "Desktops",
-                data: [10, 41, 35]
+                name: 'series1',
+                data: [58, 86, 58, 51, 42, 109, 100]
             }],
             chart: {
-                group: 'sparklines',
+                height: 200,
                 type: 'area',
-                height: 100,
-                sparkline: {
-                    enabled: true
+                toolbar: {
+                    show: true
                 },
+                zoom: {
+                    enabled: false
+                }
             },
             dataLabels: {
                 enabled: false
             },
             stroke: {
+                width: 2,
                 curve: 'smooth'
             },
-            colors: ['#fff'],
-            fill: {
-                opacity: 1,
-            }
+            colors: [primary_color],
+            xaxis: {
+                type: 'datetime',
+                categories: ["2018-09-19T00:00:00.000Z", "2018-09-19T01:30:00.000Z", "2018-09-19T02:30:00.000Z",
+                    "2018-09-19T03:30:00.000Z", "2018-09-19T04:30:00.000Z", "2018-09-19T05:30:00.000Z",
+                    "2018-09-19T06:30:00.000Z"
+                ]
+            },
+            tooltip: {
+                x: {
+                    format: 'dd/MM/yy HH:mm'
+                },
+            },
         };
         var chart = new ApexCharts(document.querySelector("#total_income"), options);
         chart.render();

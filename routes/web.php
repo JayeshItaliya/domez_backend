@@ -92,7 +92,9 @@ Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function () {
         Route::post('change-password', [SettingsController::class, 'change_password']);
 
         Route::get('email-setting', [SettingsController::class, 'email_setting']);
+        Route::post('email-setting', [SettingsController::class, 'store_email_setting']);
         Route::get('twilio-setting', [SettingsController::class, 'twilio_setting']);
+        Route::post('twilio-setting', [SettingsController::class, 'store_twilio_setting']);
         Route::get('stripe-setting', [SettingsController::class, 'stripe_setting']);
     });
 

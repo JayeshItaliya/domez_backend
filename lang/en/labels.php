@@ -46,7 +46,7 @@ return [
     'terms_conditions' => 'Terms & Conditions',
     'edit_profile' => 'Edit Profile',
     'email_settings' => 'Email Settings',
-    'twillio_settings' => 'Twillio Settings',
+    'twilio_settings' => 'Twilio Settings',
     'stripe_settings' => 'Stripe Settings',
     'supports' => 'Supports',
     // Dashboard
@@ -204,5 +204,7 @@ return [
     'encryption' => 'Encryption',
     'tls' => 'TLS',
     'ssl' => 'SSL',
-    'from_email_address' => 'From Email Address',
+    'twilio_sid' => 'Twilio Sid',
+    'twilio_token' => 'Twilio Token',
+    'twilio_from' => 'Twilio From',
 ];

@@ -2,6 +2,7 @@
 return [
     'success' => 'Success',
     'wrong' => 'Something Went Wrong',
+    'required' => 'This Field is required.',
     'email_error' => 'Something has been wrong while sending Email',
     // validation-error messages
     'email_required' => 'Please Enter Email Address',

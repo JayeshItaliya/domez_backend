@@ -2,13 +2,13 @@
 @section('styles')
 @endsection
 @section('title')
-     Twilio Settings
+    {{ trans('twilio_settings') }}
 @endsection
 @section('contents')
     <div class="card mb-3">
         <div class="card-body py-2">
             <div class="d-flex align-items-center justify-content-between">
-                <p class="text-secondary fw-semibold">Twilio Settings</p>
+                <p class="text-secondary fw-semibold">{{ trans('twilio_settings') }}</p>
                 <nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='%236c757d'/%3E%3C/svg%3E&#34;);"
                     aria-label="breadcrumb">
                     <ol class="breadcrumb m-0">
@@ -25,8 +25,8 @@
                                 </svg>
                             </a>
                         </li>
-                        <li class="breadcrumb-item">General Settings</li>
-                        <li class="breadcrumb-item active" aria-current="page">Twilio Settings</li>
+                        <li class="breadcrumb-item">{{ trans('labels.general_settings') }}</li>
+                        <li class="breadcrumb-item active" aria-current="page">{{ trans('twilio_settings') }}</li>
                     </ol>
                 </nav>
             </div>
@@ -34,33 +34,44 @@
     </div>
     <div class="card">
         <div class="card-body">
-            <form class="card" action="" method="post" enctype="multipart/form-data">
+            <form class="card" action="{{ URL::to('admin/settings/twilio-setting') }}" method="post">
                 @csrf
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-6">
-                            <div class="mb-3">
-                                <label for="exampleFormControlInput1" class="form-label">Twilio SID</label>
-                                <input type="text" class="form-control" id="exampleFormControlInput1"
-                                    placeholder="Enter Mailer">
+                            <div class="form-group">
+                                <label for="twilio_sid" class="form-label">{{ trans('labels.twilio_sid') }}</label>
+                                <input type="text" class="form-control" name="twilio_sid" id="twilio_sid"
+                                    value="{{ env('TWILIO_SID') }}" placeholder="{{ trans('labels.twilio_sid') }}">
+                                @error('twilio_sid')
+                                    <span class="text-danger">{{ $message }}</span>
+                                @enderror
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <div class="mb-3">
-                                <label for="exampleFormControlInput1" class="form-label">Twilio Token</label>
-                                <input type="text" class="form-control" id="exampleFormControlInput1"
-                                    placeholder="Enter TwilioToken">
+                            <div class="form-group">
+                                <label for="twilio_token" class="form-label">{{ trans('labels.twilio_token') }}</label>
+                                <input type="text" class="form-control" i name="twilio_token"d="twilio_token"
+                                    value="{{ env('TWILIO_AUTH_TOKEN') }}"
+                                    placeholder="{{ trans('labels.twilio_token') }}">
+                                @error('twilio_token')
+                                    <span class="text-danger">{{ $message }}</span>
+                                @enderror
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <div class="mb-3">
-                                <label for="exampleFormControlInput1" class="form-label">Twilio From</label>
-                                <input type="text" class="form-control" id="exampleFormControlInput1"
-                                    placeholder="Twilio From">
+                            <div class="form-group">
+                                <label for="twilio_from" class="form-label">{{ trans('labels.twilio_from') }}</label>
+                                <input type="text" class="form-control" name="twilio_from"id="twilio_from"
+                                    value="{{ env('TWILIO_PHONE_NUMBER') }}"
+                                    placeholder="{{ trans('labels.twilio_from') }}">
+                                @error('twilio_from')
+                                    <span class="text-danger">{{ $message }}</span>
+                                @enderror
                             </div>
                         </div>
                         <div class="col-md-12">
-                            <button type="submit" class="btn btn-primary">Save</button>
+                            <button type="submit" class="btn btn-primary">{{ trans('labels.submit') }}</button>
                         </div>
                     </div>
                 </div>

@@ -49,9 +49,55 @@ class SettingsController extends Controller
     {
         return view('admin.settings.email_setting');
     }
+    public function store_email_setting(Request $request)
+    {
+        $request->validate([
+            'mailer' => 'required',
+            'host' => 'required',
+            'port' => 'required',
+            'username' => 'required',
+            'password' => 'required',
+            'encryption' => 'required',
+        ],[
+            'mailer.required' => trans('messages.required'),
+            'host.required' => trans('messages.required'),
+            'port.required' => trans('messages.required'),
+            'username.required' => trans('messages.required'),
+            'password.required' => trans('messages.required'),
+            'encryption.required' => trans('messages.required'),
+
+        ]);
+        $envFile = base_path('.env');
+        file_put_contents($envFile, str_replace('MAIL_MAILER=' . env('MAIL_MAILER'), 'MAIL_MAILER=' . $request->mailer, file_get_contents($envFile)));
+        file_put_contents($envFile, str_replace('MAIL_HOST=' . env('MAIL_HOST'), 'MAIL_HOST=' . $request->host, file_get_contents($envFile)));
+        file_put_contents($envFile, str_replace('MAIL_PORT=' . env('MAIL_PORT'), 'MAIL_PORT=' . $request->port, file_get_contents($envFile)));
+        file_put_contents($envFile, str_replace('MAIL_USERNAME=' . env('MAIL_USERNAME'), 'MAIL_USERNAME=' . $request->username, file_get_contents($envFile)));
+        file_put_contents($envFile, str_replace('MAIL_PASSWORD=' . env('MAIL_PASSWORD'), 'MAIL_PASSWORD=' . $request->password, file_get_contents($envFile)));
+        file_put_contents($envFile, str_replace('MAIL_ENCRYPTION=' . env('MAIL_ENCRYPTION'), 'MAIL_ENCRYPTION=' . $request->encryption, file_get_contents($envFile)));
+        return redirect()->back()->with('success', trans('messages.success'));
+    }
     public function twilio_setting(Request $request)
     {
         return view('admin.settings.twilio_setting');
+    }
+    public function store_twilio_setting(Request $request)
+    {
+        $request->validate([
+            'twilio_sid' => 'required',
+            'twilio_token' => 'required',
+            'twilio_from' => 'required',
+        ],[
+            'twilio_sid.required' => trans('messages.required'),
+            'twilio_token.required' => trans('messages.required'),
+            'twilio_from.required' => trans('messages.required'),
+
+        ]);
+        $envFile = base_path('.env');
+        file_put_contents($envFile, str_replace('TWILIO_SID=' . env('TWILIO_SID'), 'TWILIO_SID=' . $request->twilio_sid, file_get_contents($envFile)));
+        file_put_contents($envFile, str_replace('TWILIO_AUTH_TOKEN=' . env('TWILIO_AUTH_TOKEN'), 'TWILIO_AUTH_TOKEN=' . $request->twilio_token, file_get_contents($envFile)));
+        file_put_contents($envFile, str_replace('TWILIO_PHONE_NUMBER=' . env('TWILIO_PHONE_NUMBER'), 'TWILIO_PHONE_NUMBER=' . $request->twilio_from, file_get_contents($envFile)));
+
+        return redirect()->back()->with('success', trans('messages.success'));
     }
     public function stripe_setting(Request $request)
     {
