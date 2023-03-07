@@ -156,19 +156,33 @@ div.dataTables_filter label {
 }
 
 .btn-custom-primary {
-    margin-left: 16px;
     display: flex;
     align-items: center;
     justify-content: center;
     border-radius: var(--border-radius);
     color: var(--bs-primary);
     background-color: rgba(var(--bs-primary-rgb), 0.1);
-    padding: 10px;
+    padding: 6px;
 }
 
 .btn-custom-primary:hover,
 .btn-custom-primary:active {
     background-color: rgba(var(--bs-primary-rgb), 0.15);
+}
+
+.btn-custom-danger {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--border-radius);
+    color: var(--bs-danger);
+    background-color: rgba(var(--bs-danger-rgb), 0.1);
+    padding: 6px;
+}
+
+.btn-custom-danger:hover,
+.btn-custom-danger:active {
+    background-color: rgba(var(--bs-danger-rgb), 0.15);
 }
 
 form span.text-danger {
@@ -678,7 +692,6 @@ header .nav-icons .dropdown-menu .notifications:hover {
     justify-content: center;
     border-radius: var(--border-radius);
     padding: 0.5rem;
-    margin-bottom: 1rem;
 }
 
 .dashboard .confirm-booking-card,
@@ -747,7 +760,6 @@ header .nav-icons .dropdown-menu .notifications:hover {
     justify-content: center;
     border-radius: var(--border-radius);
     padding: 0.5rem;
-    margin-bottom: 1rem;
 }
 
 .dashboard .cancel-booking-card {
@@ -802,6 +814,17 @@ header .nav-icons .dropdown-menu .notifications:hover {
 .dashboard .total-income-chart .dropdown-menu .dropdown-item:hover {
     color: var(--bs-secondary);
     background: rgba(var(--bs-secondary-rgb), 0.2);
+}
+
+.dashboard .confirm-booking-card .booking-filter,
+.dashboard .earning-card .income-filter {
+    background-color: transparent;
+    color: white;
+}
+
+.dashboard .confirm-booking-card .booking-filter option,
+.dashboard .earning-card .income-filter option {
+    color: #2c3e50;
 }
 
 /* Dome Owners CSS */

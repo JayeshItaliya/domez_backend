@@ -4,24 +4,35 @@
 @endsection
 @section('contents')
     <div class="dashboard">
-        <div class="row">
+        <div class="row mb-3">
             <div class="col-md-6 mb-3 h-100">
                 <div class="card earning-card">
                     <div class="card-body">
-                        <div class="earning-icon">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-briefcase"
-                                width="25" height="25" viewBox="0 0 24 24" stroke-width="1.5" stroke="white"
-                                fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                <rect x="3" y="7" width="18" height="13" rx="2" />
-                                <path d="M8 7v-2a2 2 0 0 1 2 -2h4a2 2 0 0 1 2 2v2" />
-                                <line x1="12" y1="12" x2="12" y2="12.01" />
-                                <path d="M3 13a20 20 0 0 0 18 0" />
-                            </svg>
+                        <div class="row justify-content-between">
+                            <div class="col-auto mb-3">
+                                <div class="earning-icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-briefcase"
+                                        width="25" height="25" viewBox="0 0 24 24" stroke-width="1.5" stroke="white"
+                                        fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                        <rect x="3" y="7" width="18" height="13" rx="2" />
+                                        <path d="M8 7v-2a2 2 0 0 1 2 -2h4a2 2 0 0 1 2 2v2" />
+                                        <line x1="12" y1="12" x2="12" y2="12.01" />
+                                        <path d="M3 13a20 20 0 0 0 18 0" />
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="col-auto mb-3" style="z-index:9;">
+                                <select name="" id="" class="form-select income-filter">
+                                    <option value="" selected>{{ trans('labels.this_week') }}</option>
+                                    <option value="">{{ trans('labels.this_month') }}</option>
+                                    <option value="">{{ trans('labels.this_year') }}</option>
+                                </select>
+                            </div>
                         </div>
                         <div class="row">
                             <div class="col-md-6">
-                                <h1 class="text-white mb-2">$54756.86</h1>
+                                <h1 class="text-white mb-2">{{ Helper::currency_format('54842') }}</h1>
                                 <p class="text-white text-opacity-75">{{ trans('labels.total_income') }}</p>
                             </div>
                             <div class="col-md-6" style="z-index: 9;">
@@ -34,175 +45,100 @@
             <div class="col-md-6 mb-3 h-100">
                 <div class="card confirm-booking-card">
                     <div class="card-body">
-                        <div class="confirm-booking-icon">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-stats"
-                                width="25" height="25" viewBox="0 0 24 24" stroke-width="1.5" stroke="white"
-                                fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
-                                <path d="M18 14v4h4" />
-                                <circle cx="18" cy="18" r="4" />
-                                <path d="M15 3v4" />
-                                <path d="M7 3v4" />
-                                <path d="M3 11h16" />
-                            </svg>
+                        <div class="row justify-content-between">
+                            <div class="col-auto mb-3">
+                                <div class="confirm-booking-icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                        class="icon icon-tabler icon-tabler-calendar-stats" width="25" height="25"
+                                        viewBox="0 0 24 24" stroke-width="1.5" stroke="white" fill="none"
+                                        stroke-linecap="round" stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                        <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+                                        <path d="M18 14v4h4" />
+                                        <circle cx="18" cy="18" r="4" />
+                                        <path d="M15 3v4" />
+                                        <path d="M7 3v4" />
+                                        <path d="M3 11h16" />
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="col-auto mb-3" style="z-index:9;">
+                                <select name="" id="" class="form-select booking-filter">
+                                    <option value="" selected>{{ trans('labels.this_week') }}</option>
+                                    <option value="">{{ trans('labels.this_month') }}</option>
+                                    <option value="">{{ trans('labels.this_year') }}</option>
+                                </select>
+                            </div>
                         </div>
-                        <h1 class="text-white mb-2">156</h1>
-                        <p class="text-white text-opacity-75">{{ trans('labels.confirm_bookings') }}</p>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h1 class="text-white mb-2">156</h1>
+                                <p class="text-white text-opacity-75">{{ trans('labels.total_bookings') }}</p>
+                            </div>
+                            <div class="col-md-6" style="z-index: 9;">
+                                <div id="total_bookings"></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-lg-8 mb-3">
-                <div class="card total-booking-chart h-100">
+        <div class="row mb-3">
+            <div class="col-12">
+                <div class="card" style="background: rgba(var(--bs-secondary-rgb),0.1)">
                     <div class="card-body">
                         <div class="d-flex align-items-center justify-content-between mb-3">
                             <div class="content">
-                                <p class="mb-2 fw-500 text-muted">{{ trans('labels.total_bookings') }}</p>
-                                <h4>156</h4>
+                                <p class="mb-2 fw-500 text-muted">{{ trans('labels.revenue') }}</p>
+                                <h4>{{ Helper::currency_format('54842') }}</h4>
                             </div>
-                            <select class="form-select w-auto" name="" id="">
-                                <option value="last-7">{{ trans('labels.last_7_days') }}</option>
+                            <select class="form-select w-auto" name="" id=""
+                                style="background-color: transparent;border-color:var(--bs-primary);">
+                                <option value="last-7">{{ trans('labels.this_week') }}</option>
                                 <option value="this-month">{{ trans('labels.this_month') }}</option>
                                 <option value="this-year">{{ trans('labels.this_year') }}</option>
                             </select>
                         </div>
-                        <div id="total_bookings"></div>
                     </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6 mb-3">
-                <div class="card total-income-chart h-100">
-                    <div class="card-body">
-                        <div class="d-flex align-items-center justify-content-between mb-3">
-                            <div class="content">
-                                <p class="text-muted fw-500">{{ trans('labels.total_income') }}</p>
-                            </div>
-                            <select class="form-select w-auto" name="" id="">
-                                <option value="last-7">{{ trans('labels.last_7_days') }}</option>
-                                <option value="this-month">{{ trans('labels.this_month') }}</option>
-                                <option value="this-year">{{ trans('labels.this_year') }}</option>
-                            </select>
-                        </div>
-                        <div id="total_income" class="mb-3"></div>
-                        <ul class="list-group list-group-flush">
-                            <li class="list-group-item d-flex align-items-start justify-content-between">
-                                <div class="content">
-                                    <p class="fw-600 ">Apple Pay</p>
-                                    <span class="text-muted fs-8">OI3v7zGMF7</span>
-                                </div>
-                                <p class="text-success fw-500">$500.00</p>
-                            </li>
-                            <li class="list-group-item d-flex align-items-start justify-content-between">
-                                <div class="content">
-                                    <p class="fw-600 ">Google Pay</p>
-                                    <span class="text-muted fs-8">OI3v7zGMF7</span>
-                                </div>
-                                <p class="text-success fw-500">$564.00</p>
-                            </li>
-                            <li class="list-group-item d-flex align-items-start justify-content-between">
-                                <div class="content">
-                                    <p class="fw-600 ">Card</p>
-                                    <span class="text-muted fs-8">OI3v7zGMF7</span>
-                                </div>
-                                <p class="text-success fw-500">$544.00</p>
-                            </li>
-                            <li class="list-group-item d-flex align-items-start justify-content-between">
-                                <div class="content">
-                                    <p class="fw-600 ">Apple Pay</p>
-                                    <span class="text-muted fs-8">OI3v7zGMF7</span>
-                                </div>
-                                <p class="text-success fw-500">$745.00</p>
-                            </li>
-                            <li class="list-group-item d-flex align-items-start justify-content-between">
-                                <div class="content">
-                                    <p class="fw-600 ">Apple Pay</p>
-                                    <span class="text-muted fs-8">OI3v7zGMF7</span>
-                                </div>
-                                <p class="text-success fw-500">$984.00</p>
-                            </li>
-                        </ul>
-                    </div>
+                    <div id="revenue_chart"></div>
                 </div>
             </div>
         </div>
-        <div class="card">
-            <div class="card-body">
-                <p class="mb-2 fw-500 text-muted">{{ trans('labels.recent_bookings') }}</p>
-                <div class="table-responsive">
-                    <table class="table table-nowrap mb-0" id="bootstrapTable">
-                        <thead>
-                            <tr>
-                                <th> {{ trans('labels.srno') }} </th>
-                                <th> {{ trans('labels.booking_id') }} </th>
-                                <th> {{ trans('labels.dome_owner') }} </th>
-                                <th> {{ trans('labels.dome_name') }} </th>
-                                <th> {{ trans('labels.booking_date') }} </th>
-                                <th> {{ trans('labels.time') }} </th>
-                                <th> {{ trans('labels.amount') }} </th>
-                                <th> {{ trans('labels.payment_status') }} </th>
-                                <th> {{ trans('labels.status') }} </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td><a href="#" class="text-decoration-underline">#8321847</a></td>
-                                <td>Domez</td>
-                                <td>Dome A</td>
-                                <td>49$</td>
-                                <td>26-Dec-2022</td>
-                                <td>12:00 PM</td>
-                                <td>4:00 PM</td>
-                                <td><span class="badge rounded-pill text-bg-success">Completed</span></td>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td><a href="#" class="text-decoration-underline">#8321847</a></td>
-                                <td>Domez</td>
-                                <td>Dome A</td>
-                                <td>49$</td>
-                                <td>26-Dec-2022</td>
-                                <td>12:00 PM</td>
-                                <td>4:00 PM</td>
-                                <td><span class="badge rounded-pill text-bg-danger">Cancelled</span></td>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td><a href="#" class="text-decoration-underline">#8321847</a></td>
-                                <td>Domez</td>
-                                <td>Dome A</td>
-                                <td>49$</td>
-                                <td>26-Dec-2022</td>
-                                <td>12:00 PM</td>
-                                <td>4:00 PM</td>
-                                <td><span class="badge rounded-pill text-bg-success">Completed</span></td>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td><a href="#" class="text-decoration-underline">#8321847</a></td>
-                                <td>Domez</td>
-                                <td>Dome A</td>
-                                <td>49$</td>
-                                <td>26-Dec-2022</td>
-                                <td>12:00 PM</td>
-                                <td>4:00 PM</td>
-                                <td><span class="badge rounded-pill text-bg-warning">Pending</span></td>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td><a href="#" class="text-decoration-underline">#8321847</a></td>
-                                <td>Domez</td>
-                                <td>Dome A</td>
-                                <td>49$</td>
-                                <td>26-Dec-2022</td>
-                                <td>12:00 PM</td>
-                                <td>4:00 PM</td>
-                                <td><span class="badge rounded-pill text-bg-success">Completed</span></td>
-                            </tr>
-                        </tbody>
-                    </table>
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center justify-content-between mb-3">
+                            <div class="content">
+                                <p class="mb-2 fw-500 text-muted">{{ trans('labels.user_mobile_app') }}</p>
+                                <h4>6874</h4>
+                            </div>
+                            <select class="form-select w-auto" name="" id="">
+                                <option value="last-7">{{ trans('labels.this_week') }}</option>
+                                <option value="this-month">{{ trans('labels.this_month') }}</option>
+                                <option value="this-year">{{ trans('labels.this_year') }}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div id="users_chart"></div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center justify-content-between mb-3">
+                            <div class="content">
+                                <p class="mb-2 fw-500 text-muted">{{ trans('labels.dome_owners') }}</p>
+                                <h4>685</h4>
+                            </div>
+                            <select class="form-select w-auto" name="" id="">
+                                <option value="last-7">{{ trans('labels.this_week') }}</option>
+                                <option value="this-month">{{ trans('labels.this_month') }}</option>
+                                <option value="this-year">{{ trans('labels.this_year') }}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div id="dome_owner_chart"></div>
                 </div>
             </div>
         </div>
@@ -215,25 +151,15 @@
         // Total Bookings Chart
         var options = {
             series: [{
-                name: 'Confirm',
-                data: [44, 55, 41, 67, 22, 43, 18]
-            }, {
-                name: 'Pending',
-                data: [13, 23, 20, 8, 13, 27, 26]
-            }, {
-                name: 'Cancelled',
-                data: [11, 17, 15, 15, 21, 14, 35]
+                data: [10, 41, 35, 99, 26, 75, 15]
             }],
             chart: {
-                type: 'bar',
-                height: 500,
-                stacked: true,
-                toolbar: {
-                    show: true
+                group: 'sparklines',
+                type: 'line',
+                height: 100,
+                sparkline: {
+                    enabled: true
                 },
-                zoom: {
-                    enabled: false
-                }
             },
             responsive: [{
                 breakpoint: 480,
@@ -245,57 +171,174 @@
                     }
                 }
             }],
-            plotOptions: {
-                bar: {
-                    horizontal: false,
-                    dataLabels: {
-                        total: {
-                            enabled: false
-                        }
-                    }
-                },
+            dataLabels: {
+                enabled: false
             },
-            colors: [primary_color, secondary_color, light_secondary_color],
+            stroke: {
+                width: 2,
+                curve: 'smooth'
+            },
+            colors: ['#fff'],
+            fill: {
+                opacity: 1,
+            },
             xaxis: {
                 type: 'days',
                 categories: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
             },
-            legend: {
-                position: 'right',
-                offsetY: 40
-            },
-            fill: {
-                opacity: 1
-            }
         };
         var chart = new ApexCharts(document.querySelector("#total_bookings"), options);
         chart.render();
+
+
         // Total Income Chart
         var options = {
             series: [{
-                name: "Desktops",
-                data: [10, 41, 35]
+                data: [10, 41, 35, 99, 26, 75, 15]
+            }],
+            chart: {
+                group: 'sparklines',
+                type: 'line',
+                height: 100,
+                sparkline: {
+                    enabled: true
+                },
+            },
+            responsive: [{
+                breakpoint: 480,
+                options: {
+                    legend: {
+                        position: 'bottom',
+                        offsetX: -10,
+                        offsetY: 0
+                    }
+                }
+            }],
+            dataLabels: {
+                enabled: false
+            },
+            stroke: {
+                width: 2,
+                curve: 'smooth'
+            },
+            colors: ['#fff'],
+            fill: {
+                opacity: 1,
+            },
+            xaxis: {
+                type: 'days',
+                categories: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+            },
+        };
+        var chart = new ApexCharts(document.querySelector("#total_income"), options);
+        chart.render();
+
+
+        // Total Revenue Chart
+        var options = {
+            series: [{
+                data: [10, 41, 35, 99, 26, 75, 15]
             }],
             chart: {
                 group: 'sparklines',
                 type: 'area',
-                height: 100,
+                height: 300,
                 sparkline: {
                     enabled: true
+                },
+            },
+            responsive: [{
+                breakpoint: 480,
+                options: {
+                    legend: {
+                        position: 'bottom',
+                        offsetX: -10,
+                        offsetY: 0
+                    }
+                }
+            }],
+            dataLabels: {
+                enabled: false
+            },
+            stroke: {
+                width: 2,
+                curve: 'smooth'
+            },
+            colors: [secondary_color],
+            fill: {
+                opacity: 1,
+            },
+            xaxis: {
+                type: 'days',
+                categories: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+            },
+        };
+        var chart = new ApexCharts(document.querySelector("#revenue_chart"), options);
+        chart.render();
+
+
+        // Total Users Of Mobile Chart
+        var options = {
+            series: [{
+                name: 'Users',
+                data: [35, 41, 36, 26, 45, 48, 52, 53, 41]
+            }],
+            chart: {
+                type: 'bar',
+                height: 350
+            },
+            plotOptions: {
+                bar: {
+                    horizontal: false,
+                    columnWidth: '55%',
+                    endingShape: 'rounded'
                 },
             },
             dataLabels: {
                 enabled: false
             },
             stroke: {
-                curve: 'smooth'
+                show: true,
+                width: 2,
+                colors: ['transparent']
             },
-            colors: ['#fff'],
+            xaxis: {
+                categories: ['Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct'],
+            },
             fill: {
-                opacity: 1,
+                opacity: 1
             }
         };
-        var chart = new ApexCharts(document.querySelector("#total_income"), options);
+        var chart = new ApexCharts(document.querySelector("#users_chart"), options);
+        chart.render();
+
+
+        // Total Dome Owner Chart
+        var options = {
+            series: [{
+                name: 'Dome Owners',
+                data: [400, 430, 448, 470, 540, 580, 690, 1100, 1200, 1380]
+            }],
+            chart: {
+                type: 'bar',
+                height: 350
+            },
+            plotOptions: {
+                bar: {
+                    borderRadius: 4,
+                    horizontal: true,
+                }
+            },
+            dataLabels: {
+                enabled: false
+            },
+            xaxis: {
+                categories: ['South Korea', 'Canada', 'United Kingdom', 'Netherlands', 'Italy', 'France', 'Japan',
+                    'United States', 'China', 'Germany'
+                ],
+            }
+        };
+        var chart = new ApexCharts(document.querySelector("#dome_owner_chart"), options);
         chart.render();
     </script>
 @endsection

@@ -99,6 +99,7 @@ class BookingController extends Controller
                 "hst" => $booking->total_amount * $dome->hst / 100,
                 "total_amount" => $booking->total_amount + $booking->total_amount * 5 / 100 + $booking->total_amount * $dome->hst / 100,
                 "image" => $dome->dome_image->image,
+                "payment_status" => $booking->payment_status == 1 ? 'Paid' : 'Pending',
                 "booking_created_at" => $booking->created_at,
                 "user_info" => $booking->user_info,
                 "payment_link" => URL::to('/payment/' . $booking->token),

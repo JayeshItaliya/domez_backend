@@ -173,13 +173,18 @@ class LeagueController extends Controller
                 'league_images' => [
                     [
                         "id" => '',
-                        "league_id" => '',
-                        "image" => '',
+                        "league_id" => $league->id,
+                        "image" => 'https://www.playall.in/images/gallery/orbitMall_box_cricket_2.png',
                     ],
                     [
                         "id" => '',
-                        "league_id" => '',
-                        "image" => '',
+                        "league_id" => $league->id,
+                        "image" => 'https://cdn.xxl.thumbs.canstockphoto.com/3d-render-of-a-round-cricket-stadium-with-black-seats-and-vip-boxes-3d-render-of-a-beautiful-modern-clipart_csp46450310.jpg',
+                    ],
+                    [
+                        "id" => '',
+                        "league_id" => $league->id,
+                        "image" => 'https://thumbs.dreamstime.com/b/indoor-stadium-view-behind-wicket-cricket-160851985.jpg',
                     ],
                 ],
                 'amenities' => $benefits,
