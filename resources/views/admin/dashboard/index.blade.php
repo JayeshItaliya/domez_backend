@@ -94,7 +94,7 @@
                             </div>
                             <select class="form-select w-auto" name="" id=""
                                 style="background-color: transparent;border-color:var(--bs-primary);">
-                                <option value="last-7">{{ trans('labels.this_week') }}</option>
+                                <option value="this-week">{{ trans('labels.this_week') }}</option>
                                 <option value="this-month">{{ trans('labels.this_month') }}</option>
                                 <option value="this-year">{{ trans('labels.this_year') }}</option>
                             </select>
@@ -114,7 +114,7 @@
                                 <h4>6874</h4>
                             </div>
                             <select class="form-select w-auto" name="" id="">
-                                <option value="last-7">{{ trans('labels.this_week') }}</option>
+                                <option value="this-week">{{ trans('labels.this_week') }}</option>
                                 <option value="this-month">{{ trans('labels.this_month') }}</option>
                                 <option value="this-year">{{ trans('labels.this_year') }}</option>
                             </select>
@@ -131,8 +131,8 @@
                                 <p class="mb-2 fw-500 text-muted">{{ trans('labels.dome_owners') }}</p>
                                 <h4>685</h4>
                             </div>
-                            <select class="form-select w-auto" name="" id="">
-                                <option value="last-7">{{ trans('labels.this_week') }}</option>
+                            <select class="form-select w-auto" id="dome_owner_filter">
+                                <option value="this-week">{{ trans('labels.this_week') }}</option>
                                 <option value="this-month">{{ trans('labels.this_month') }}</option>
                                 <option value="this-year">{{ trans('labels.this_year') }}</option>
                             </select>
@@ -148,49 +148,6 @@
     <script></script>
     <script src="{{ url('storage/app/public/admin/js/charts/apexchart/apexcharts.js') }}"></script>
     <script>
-        // Total Bookings Chart
-        var options = {
-            series: [{
-                name:'{{trans('labels.bookings')}}',
-                data: [10, 41, 35, 99, 26, 75, 15]
-            }],
-            chart: {
-                group: 'sparklines',
-                type: 'line',
-                height: 100,
-                sparkline: {
-                    enabled: true
-                },
-            },
-            responsive: [{
-                breakpoint: 480,
-                options: {
-                    legend: {
-                        position: 'bottom',
-                        offsetX: -10,
-                        offsetY: 0
-                    }
-                }
-            }],
-            dataLabels: {
-                enabled: false
-            },
-            stroke: {
-                width: 2,
-                curve: 'smooth'
-            },
-            colors: ['#fff'],
-            fill: {
-                opacity: 1,
-            },
-            xaxis: {
-                type: 'days',
-                categories: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
-            },
-        };
-        var chart = new ApexCharts(document.querySelector("#total_bookings"), options);
-        chart.render();
-
 
         // Total Income Chart
         var options = {
@@ -233,6 +190,50 @@
             },
         };
         var chart = new ApexCharts(document.querySelector("#total_income"), options);
+        chart.render();
+
+
+        // Total Bookings Chart
+        var options = {
+            series: [{
+                name:'{{trans('labels.bookings')}}',
+                data: [10, 41, 35, 99, 26, 75, 15]
+            }],
+            chart: {
+                group: 'sparklines',
+                type: 'line',
+                height: 100,
+                sparkline: {
+                    enabled: true
+                },
+            },
+            responsive: [{
+                breakpoint: 480,
+                options: {
+                    legend: {
+                        position: 'bottom',
+                        offsetX: -10,
+                        offsetY: 0
+                    }
+                }
+            }],
+            dataLabels: {
+                enabled: false
+            },
+            stroke: {
+                width: 2,
+                curve: 'smooth'
+            },
+            colors: ['#fff'],
+            fill: {
+                opacity: 1,
+            },
+            xaxis: {
+                type: 'days',
+                categories: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+            },
+        };
+        var chart = new ApexCharts(document.querySelector("#total_bookings"), options);
         chart.render();
 
 
@@ -318,6 +319,9 @@
 
 
         // Total Dome Owner Chart
+        $('#dome_owner_filter').on('change', function(){
+            alert(123);
+        });
         var options = {
             series: [{
                 name: 'Dome Owners',
@@ -351,4 +355,5 @@
         var chart = new ApexCharts(document.querySelector("#dome_owner_chart"), options);
         chart.render();
     </script>
+
 @endsection
