@@ -153,20 +153,12 @@
                                     location.reload();
                                 } else {
                                     hidepreloader();
-                                    Swal.fire({
-                                        icon: "error",
-                                        title: oops,
-                                        text: wrong,
-                                    });
+                                   swal_cancelled(wrong);
                                 }
                             },
                             failure: function(response) {
                                 hidepreloader();
-                                Swal.fire({
-                                    icon: "error",
-                                    title: oops,
-                                    text: wrong,
-                                });
+                                swal_cancelled(wrong);
                             },
                         });
                     }

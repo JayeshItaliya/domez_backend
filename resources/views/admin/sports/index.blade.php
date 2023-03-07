@@ -148,11 +148,7 @@
                         },
                         failure: function(response) {
                             hidepreloader();
-                            Swal.fire({
-                                icon: "error",
-                                title: opps,
-                                text: wrong,
-                            });
+                            swal_cancelled(wrong);
                         },
                     });
                 }
