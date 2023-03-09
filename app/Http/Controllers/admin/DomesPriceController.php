@@ -12,49 +12,52 @@ class DomesPriceController extends Controller
 {
     public function index(Request $request)
     {
-        return view('admin.set_prices.index');
+        $getsetpriceslist = SetPrices::where('vendor_id', auth()->user()->id)->orderByDesc('id')->get();
+        return view('admin.set_prices.index',compact('getsetpriceslist'));
     }
     public function add(Request $request)
     {
         $getdomeslist = Domes::where('vendor_id', auth()->user()->id)->where('is_deleted', 2)->orderByDesc('id')->get();
-        return view('admin.set_prices.add',compact('getdomeslist'));
+        return view('admin.set_prices.add', compact('getdomeslist'));
     }
     public function store(Request $request)
     {
-        dd(1111);
-        $set_prices = new SetPrices();
-        $set_prices->dome_id = $request->dome;
-        $set_prices->sport_id = $request->sport;
-        $set_prices->start_date = $request->start_date;
-        $set_prices->end_date = $request->end_date;
-        $set_prices->price_type = 2;
-        $set_prices->price = 0;
-        $set_prices->save();
+        try {
+            $set_prices = new SetPrices();
+            $set_prices->vendor_id = auth()->user()->id;
+            $set_prices->dome_id = $request->dome;
+            $set_prices->sport_id = $request->sport;
+            $set_prices->start_date = $request->start_date;
+            $set_prices->end_date = $request->end_date;
+            $set_prices->price_type = 2;
+            $set_prices->price = 0;
+            $set_prices->save();
+            foreach ($request->daynames as $daynamekey => $dayname) {
 
-        foreach ($request->daynames as $daynamekey => $dayname) {
-
-            $starttimearray = $endtimearray = $pricearay = [];
-            foreach ($request->start_time[$dayname] as $starttimekey => $starttime) {
-                $starttimearray[] = $starttime;
+                $starttimearray = $endtimearray = $pricearay = [];
+                foreach ($request->start_time[$dayname] as $starttimekey => $starttime) {
+                    $starttimearray[] = $starttime;
+                }
+                foreach ($request->end_time[$dayname] as $endtimekey => $endtime) {
+                    $endtimearray[] = $endtime;
+                }
+                foreach ($request->price[$dayname] as $pricekey => $price) {
+                    $pricearay[] = $price;
+                }
+                foreach ($starttimearray as $key => $data) {
+                    $slots = new SetPricesDaysSlots();
+                    $slots->set_prices_id = $set_prices->id;
+                    $slots->start_time = $data;
+                    $slots->end_time = $endtimearray[$key];
+                    $slots->day = $dayname;
+                    $slots->price = $pricearay[$key];
+                    $slots->save();
+                }
             }
-            foreach ($request->end_time[$dayname] as $endtimekey => $endtime) {
-                $endtimearray[] = $endtime;
-            }
-            foreach ($request->price[$dayname] as $pricekey => $price) {
-                $pricearay[] = $price;
-            }
-            foreach ($starttimearray as $key => $data) {
-                $slots = new SetPricesDaysSlots();
-                $slots->set_prices_id = $set_prices->id;
-                $slots->start_time = $data;
-                $slots->end_time = $endtimearray[$key];
-                $slots->day = $dayname;
-                $slots->price = $pricearay[$key];
-                $slots->save();
-            }
+            return redirect('admin/set-prices')->with('success',trans('messages.success'));
+        } catch (\Throwable $th) {
+            return redirect()->back()->with('error',trans('messages.wrong'));
         }
-
-        return view('admin.set_prices.add',compact('getdomeslist'));
     }
     public function edit(Request $request)
     {
