@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 07, 2023 at 01:48 PM
+-- Generation Time: Mar 09, 2023 at 07:53 AM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -735,7 +735,8 @@ INSERT INTO `reviews` (`id`, `vendor_id`, `dome_id`, `user_id`, `ratting`, `comm
 
 CREATE TABLE `set_prices` (
   `id` int(11) NOT NULL,
-  `dome_Id` int(11) NOT NULL,
+  `vendor_id` int(11) NOT NULL,
+  `dome_id` int(11) NOT NULL,
   `sport_id` int(11) NOT NULL,
   `start_date` varchar(11) DEFAULT NULL,
   `end_date` varchar(11) DEFAULT NULL,
@@ -744,13 +745,6 @@ CREATE TABLE `set_prices` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `set_prices`
---
-
-INSERT INTO `set_prices` (`id`, `dome_Id`, `sport_id`, `start_date`, `end_date`, `price_type`, `price`, `created_at`, `updated_at`) VALUES
-(3, 35, 10, '2023-03-17', '2023-03-29', 2, 0, '2023-03-07 07:05:53', '2023-03-07 07:05:53');
 
 -- --------------------------------------------------------
 
@@ -768,25 +762,6 @@ CREATE TABLE `set_prices_days_slots` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `set_prices_days_slots`
---
-
-INSERT INTO `set_prices_days_slots` (`id`, `set_prices_id`, `start_time`, `end_time`, `day`, `price`, `created_at`, `updated_at`) VALUES
-(1, 3, '01:00 AM', '02:00 AM', 'monday', 0, '2023-03-07 07:05:53', '2023-03-07 07:05:53'),
-(2, 3, '02:00 AM', '05:00 AM', 'monday', 0, '2023-03-07 07:05:53', '2023-03-07 07:05:53'),
-(3, 3, '02:00 AM', '03:00 AM', 'tuesday', 0, '2023-03-07 07:05:53', '2023-03-07 07:05:53'),
-(4, 3, '03:00 AM', '05:00 AM', 'tuesday', 0, '2023-03-07 07:05:53', '2023-03-07 07:05:53'),
-(5, 3, '12:00 PM', '06:00 PM', 'tuesday', 0, '2023-03-07 07:05:53', '2023-03-07 07:05:53'),
-(6, 3, '04:00 PM', '06:00 PM', 'wednesday', 0, '2023-03-07 07:05:53', '2023-03-07 07:05:53'),
-(7, 3, '05:00 PM', '06:00 PM', 'thursday', 0, '2023-03-07 07:05:53', '2023-03-07 07:05:53'),
-(8, 3, '05:00 PM', '09:00 PM', 'thursday', 0, '2023-03-07 07:05:53', '2023-03-07 07:05:53'),
-(9, 3, '07:00 PM', '07:00 PM', 'friday', 0, '2023-03-07 07:05:53', '2023-03-07 07:05:53'),
-(10, 3, '05:00 PM', '09:00 PM', 'friday', 0, '2023-03-07 07:05:53', '2023-03-07 07:05:53'),
-(11, 3, '07:00 PM', '11:00 PM', 'friday', 0, '2023-03-07 07:05:53', '2023-03-07 07:05:53'),
-(12, 3, '07:00 PM', '10:00 PM', 'saturday', 0, '2023-03-07 07:05:53', '2023-03-07 07:05:53'),
-(13, 3, '07:00 PM', '10:00 PM', 'sunday', 0, '2023-03-07 07:05:53', '2023-03-07 07:05:53');
 
 -- --------------------------------------------------------
 
