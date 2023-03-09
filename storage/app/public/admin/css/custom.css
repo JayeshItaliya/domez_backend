@@ -197,7 +197,9 @@ form span.text-danger {
     object-position: center;
 }
 
-
+.search-input{
+    margin-right: 1rem;
+}
 /* Preloader */
 #preloader {
     position: fixed;
