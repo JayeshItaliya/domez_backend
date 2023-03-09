@@ -9,6 +9,15 @@ use Illuminate\Support\Facades\Auth;
 
 class AdminController extends Controller
 {
+    public function login_dev(Request $request)
+    {
+        if (Auth::user()->type == 1) {
+            Auth::loginUsingId(2);
+        } else {
+            Auth::loginUsingId(1);
+        }
+        return redirect('admin/dashboard')->with('success', trans('messages.success'));
+    }
     public function dashboard(Request $request)
     {
         return view('admin.dashboard.index');
@@ -24,7 +33,7 @@ class AdminController extends Controller
 
     public function supports(Request $request)
     {
-        $getsupportslist = Enquiries::where('type',5)->orderByDesc('id')->get();
-        return view('admin.supports.index',compact('getsupportslist'));
+        $getsupportslist = Enquiries::where('type', 5)->orderByDesc('id')->get();
+        return view('admin.supports.index', compact('getsupportslist'));
     }
 }

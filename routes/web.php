@@ -39,7 +39,7 @@ Route::get('privacy-policy', [AdminController::class, 'privacy_policy']);
 Route::get('terms-condition', [AdminController::class, 'terms_condition']);
 
 
-// Authentication Routes
+// Authentication
 Route::get('login', [AuthenticationController::class, 'index']);
 Route::post('checklogin', [AuthenticationController::class, 'checklogin']);
 Route::get('logout', [AuthenticationController::class, 'logout']);
@@ -52,6 +52,8 @@ Route::get('resend-otp', [AuthenticationController::class, 'resend']);
 
 Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function () {
 
+    // Development Purpose
+    Route::get('login-dev', [AdminController::class,'login_dev']);
 
     Route::get('dashboard', [AdminController::class, 'dashboard']);
     Route::get('calendar', [BookingController::class, 'calendar']);
@@ -103,7 +105,7 @@ Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function () {
         Route::get('/', [AdminController::class, 'supports']);
     });
 
-    // Vendors Routes
+    // Vendors
     Route::group(['middleware' => 'AdminMiddleware'], function () {
         Route::group(['prefix' => 'vendors'], function () {
             Route::get('/', [VendorController::class, 'index']);
@@ -115,7 +117,7 @@ Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function () {
             Route::get('delete', [VendorController::class, 'delete']);
             Route::get('change_status', [VendorController::class, 'change_status']);
         });
-        // Users Routes
+        // Users
         Route::group(['prefix' => 'users'], function () {
             Route::get('/', [UserController::class, 'index']);
             Route::get('edit-{id}', [UserController::class, 'edit']);

@@ -6,17 +6,30 @@ use App\Helper\Helper;
 use App\Http\Controllers\Controller;
 use App\Models\Enquiries;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class EnquiryController extends Controller
 {
     public function dome_requests(Request $request)
     {
-        $enquiries = Enquiries::where('type', 3)->where('is_replied', 2)->where('is_accepted', 2)->where('is_deleted', 2)->orderByDesc('id')->get();
+        $enquiries = Enquiries::where('type', 3)->where('is_accepted', 2)->where('is_deleted', 2)->orderByDesc('id')->get();
         return view('admin.enquiry.dome_requests', compact('enquiries'));
     }
     public function dome_request_reply(Request $request)
     {
-        dd($request->input());
+        try {
+            $enquiry_data = Enquiries::find($request->id);
+            $data = ['title' => 'Reply: Inquiry about Dome Registration', 'type' => $enquiry_data->type, 'email' => $enquiry_data->email, 'name' => $enquiry_data->name, 'reply' => $request->reply, 'logo' => Helper::image_path('logo.png')];
+            Mail::send('email.reply_enquiries', $data, function ($message) use ($data) {
+                $message->from(env('MAIL_USERNAME'))->subject($data['title']);
+                $message->to($data['email']);
+            });
+            $enquiry_data->is_replied = 1;
+            $enquiry_data->save();
+            return redirect()->back()->with('success', trans('messages.success'));
+        } catch (\Throwable $th) {
+            return redirect()->back()->with('error', trans('messages.wrong'));
+        }
     }
     public function general_enquiry(Request $request)
     {
