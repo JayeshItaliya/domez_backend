@@ -7,7 +7,8 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="csrf-token" content="{{ csrf_token() }}" />
     <title> {{ trans('labels.website_title') }} | @yield('title')</title>
-    <link rel="icon" href="{{ Helper::image_path('favicon.png') }}" sizes="any">
+    <!-- Favicon -->
+    <link rel="icon" href="{{ Helper::image_path('preloader.gif') }}" sizes="any">
     <link rel="stylesheet" href="{{ url('storage/app/public/admin/css/bootstrap/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ url('storage/app/public/admin/css/fontawesome/all.min.css') }}">
     <link rel="stylesheet" href="{{ url('storage/app/public/admin/css/sweetalert/sweetalert2.min.css') }}">

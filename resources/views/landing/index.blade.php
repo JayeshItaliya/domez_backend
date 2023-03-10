@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -25,6 +26,7 @@
     <!-- responsive Css -->
     <link rel="stylesheet" href="{{ url('storage/app/public/admin/css/responsive.css') }}">
 </head>
+
 <body>
     <div class="layout">
         {{-- Header Area Start  --}}
@@ -40,13 +42,13 @@
                 <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
                     <ul class="navbar-nav ml-auto mr-4">
                         <li class="nav-item mx-3">
-                            <a class="nav-link" href="#">PRIVACY & POLICY</a>
+                            <a class="nav-link" href="{{ URL::to('privacy-policy') }}">PRIVACY & POLICY</a>
                         </li>
                         <li class="nav-item mx-3">
-                            <a class="nav-link" href="#">TERMS OF SERVICE</a>
+                            <a class="nav-link" href="{{ URL::to('terms-conditions') }}">TERMS OF SERVICE</a>
                         </li>
                         <li class="nav-item mx-3">
-                            <a class="nav-link" href="#">FAQ</a>
+                            <a class="nav-link" href="#faq">FAQ</a>
                         </li>
                     </ul>
                     <a href="{{ URL::to('login') }}" class="btn btn-success dmz-button px-4 my-2 my-sm-0">Sign In</a>
@@ -248,7 +250,7 @@
                         <div class="game-details-text" data-wow-duration="2s">
                             <h2 class="wow fadeInDown  delay-0-2s animated">Do you have any questions? We are here to
                                 help!</h2>
-                            <form action="{{ URL::to('general-enquiries') }}" method="post">
+                            <form action="{{ URL::to('store-general-enquiries') }}" method="post">
                                 @csrf
                                 <div class="row">
                                     <div class="col-6">
@@ -277,8 +279,7 @@
                                 <div class="form-group">
                                     <label for="subject" class="form-label fw-semibold">Subject</label>
                                     <input class="form-control" autocomplete="off" type="subject" name="subject"
-                                        value="{{ old('subject') }}" id="subject" placeholder="Subject"
-                                        required>
+                                        value="{{ old('subject') }}" id="subject" placeholder="Subject" required>
                                     @error('subject')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
@@ -306,7 +307,7 @@
                 </div>
             </div>
         </section>
-        <section class="faq-quection">
+        <section class="faq-quection" id="faq">
             <div class="container">
                 <div class="row ">
                     <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-3 col-sm-3 col-3">
@@ -441,13 +442,16 @@
                         <h6 class="fw-Medium mb-4">Support</h6>
                         <div class="footer-link link">
                             <p>
-                                <a href="#" class="text-reset text-copyright mb-2"> Privacy & Policy</a>
+                                <a href="{{ URL::to('privacy-policy') }}"
+                                    class="text-reset text-copyright mb-2">Privacy & Policy</a>
                             </p>
                             <p>
-                                <a href="#" class="text-reset text-copyright">Terms Of Service</a>
+                                <a href="{{ URL::to('terms-conditions') }}" class="text-reset text-copyright">Terms
+                                    Of
+                                    Service</a>
                             </p>
                             <p>
-                                <a href="#" class="text-reset text-copyright">FAQ</a>
+                                <a href="#faq" class="text-reset text-copyright">FAQ</a>
                             </p>
                         </div>
                     </div>
@@ -556,4 +560,5 @@
         });
     </script>
 </body>
+
 </html>

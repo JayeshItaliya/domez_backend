@@ -2,6 +2,7 @@
 
 namespace App\Helper;
 
+use App\Models\CMS;
 use App\Models\Favourite;
 use App\Models\PaymentGateway;
 use Illuminate\Support\Str;
@@ -106,6 +107,14 @@ class Helper
     public static function currency_format($price)
     {
         return '$' . $price;
+    }
+    public static function cms($type)
+    {
+        if ($type == 1) {
+            return @CMS::where('type', 1)->select('content')->first()->content;
+        } else {
+            return @CMS::where('type', 2)->select('content')->first()->content;
+        }
     }
     public static function verificationsms($mobile, $otp)
     {
