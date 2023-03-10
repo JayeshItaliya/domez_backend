@@ -26,7 +26,7 @@
             <img src="{{ Helper::image_path('preloader.gif') }}" width="150" height="150" alt="Prealoader">
         </div>
     </div>
-    <button class="btn btn-primary position-fixed top-50 end-0 fs-5" style="z-index: 99"><i class="fa-regular fa-sliders"></i></button>
+    {{-- <button class="btn btn-primary position-fixed top-50 end-0 fs-5" style="z-index: 99"><i class="fa-regular fa-sliders"></i></button> --}}
     <main>
         <style>
             :root {

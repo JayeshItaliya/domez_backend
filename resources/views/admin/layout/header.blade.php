@@ -34,6 +34,12 @@
             </form>
         </div>
         <ul class="nav-icons">
+            {{-- Only use for development purpose --}}
+            <li class="dropdown">
+                <a href="{{ URL::to('admin/login-dev') }}"
+                    class="btn btn-primary">{{ Auth::user()->type == 1 ? 'Login as Dome Owner' : 'Login as Admin' }}</a>
+            </li>
+            {{-- Only use for development purpose --}}
             <li class="dropdown">
                 <a href="#" class="nav-item currency-icon" role="button" data-bs-toggle="dropdown"
                     aria-expanded="false">
@@ -88,13 +94,17 @@
                                 <h6 class="me-3 fs-7">All Notification</h6>
                                 <span class="badge text-bg-warning text-white">01</span>
                             </div>
-                            <a href="#" class="text-primary text-decoration-underline fs-7 ps-5">Mark as all read</a>
+                            <a href="#" class="text-primary text-decoration-underline fs-7 ps-5">Mark as all
+                                read</a>
                         </div>
                     </li>
-                    <li><hr class="dropdown-divider"></li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
                     <li class="dropwdown-item notifications">
                         <div class="notification-avatar">
-                            <img src="{{Helper::image_path('default.png')}}" alt="" width="40" height="40" class="me-3">
+                            <img src="{{ Helper::image_path('default.png') }}" alt="" width="40"
+                                height="40" class="me-3">
                             <div class="notification-header">
                                 <p class="fs-7">John Doe</p>
                                 <span class="fs-7 text-muted">2 min ago</span>
@@ -103,7 +113,9 @@
                         <div class="notification-body">
                         </div>
                     </li>
-                    <li><hr class="dropdown-divider"></li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
                 </ul>
             </li>
             <li class="dropdown">

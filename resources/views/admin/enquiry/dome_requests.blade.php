@@ -57,26 +57,30 @@
                                 <td>{{ $enquiry->dome_name }}</td>
                                 <td>{{ $enquiry->dome_country }}</td>
                                 <td class="d-flex align-items-center">
-                                    <span class="badge rounded-pill cursor-pointer reply-pill me-2 reply_action"
-                                        data-show-name="{{ $enquiry->name }}" data-show-email="{{ $enquiry->email }}"
-                                        data-show-phone="{{ $enquiry->phone }}"
-                                        data-show-dome-name="{{ $enquiry->dome_name }}"
-                                        data-show-dome-zipcode="{{ $enquiry->dome_zipcode }}"
-                                        data-show-dome-city="{{ $enquiry->dome_city }}"
-                                        data-show-dome-state="{{ $enquiry->dome_state }}"
-                                        data-show-dome-country="{{ $enquiry->dome_country }}" data-bs-target="#reply_modal"
-                                        data-bs-toggle="modal" style="height: fit-content">
-                                        <svg width="10" height="9" viewBox="0 0 10 9" fill="none"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <path
-                                                d="M3.25833 3.70833L1.125 6.04167L3.25833 8.375M1.125 6.04167H6.99167C7.55746 6.04167 8.10008 5.79583 8.50016 5.35825C8.90024 4.92066 9.125 4.32717 9.125 3.70833C9.125 3.08949 8.90024 2.496 8.50016 2.05842C8.10008 1.62083 7.55746 1.375 6.99167 1.375H6.45833"
-                                                stroke="#2196F3" stroke-width="1.25" stroke-linecap="round"
-                                                stroke-linejoin="round" />
-                                        </svg>
-                                        {{ trans('labels.reply') }}
-                                    </span>
-                                    <i class="fa-regular fa-circle-check me-2 text-success fs-4"></i>
-                                    <i class="fa-regular fa-circle-xmark text-danger fs-4"></i>
+                                    @if ($enquiry->is_replied == 2)
+                                        <span class="badge rounded-pill cursor-pointer reply-pill me-2 reply_action"
+                                            data-show-name="{{ $enquiry->name }}" data-show-email="{{ $enquiry->email }}"
+                                            data-show-phone="{{ $enquiry->phone }}"
+                                            data-show-dome-name="{{ $enquiry->dome_name }}"
+                                            data-show-dome-zipcode="{{ $enquiry->dome_zipcode }}"
+                                            data-show-dome-city="{{ $enquiry->dome_city }}"
+                                            data-show-dome-state="{{ $enquiry->dome_state }}"
+                                            data-show-dome-country="{{ $enquiry->dome_country }}"
+                                            data-id="{{ $enquiry->id }}" data-bs-target="#reply_modal"
+                                            data-bs-toggle="modal" style="height: fit-content">
+                                            <svg width="10" height="9" viewBox="0 0 10 9" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <path
+                                                    d="M3.25833 3.70833L1.125 6.04167L3.25833 8.375M1.125 6.04167H6.99167C7.55746 6.04167 8.10008 5.79583 8.50016 5.35825C8.90024 4.92066 9.125 4.32717 9.125 3.70833C9.125 3.08949 8.90024 2.496 8.50016 2.05842C8.10008 1.62083 7.55746 1.375 6.99167 1.375H6.45833"
+                                                    stroke="#2196F3" stroke-width="1.25" stroke-linecap="round"
+                                                    stroke-linejoin="round" />
+                                            </svg>
+                                            {{ trans('labels.reply') }}
+                                        </span>
+                                    @endif
+                                    <i class="fa-regular fa-circle-check me-2 text-success fs-4 cursor-pointer"
+                                        onclick="changestatus('{{ $enquiry->id }}','{{ URL::to('admin/enquiries/dome-request-status') }}')"></i>
+                                    <i class="fa-regular fa-circle-xmark text-danger fs-4 cursor-pointer"></i>
                                 </td>
                             </tr>
                         @endforeach
@@ -92,7 +96,10 @@
                     <h5 class="modal-title" id="replymessageLabel">{{ trans('labels.reply') }}</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form action="{{ URL::to('admin/enquiries/dome-request-reply') }}" method="POST" class="modal-body">
+                <form action="{{ URL::to('admin/enquiries/dome-request-reply') }}" method="POST" class="modal-body"
+                    id="reply_dome_request_form">
+                    @csrf
+                    <input type="hidden" name="id" value="">
                     <div class="row">
                         <div class="col-md-6 mb-2">
                             <label for="name" class="form-label fw-bold">{{ trans('labels.name') }}</label>
@@ -129,11 +136,10 @@
                         <div class="col-md-12 mb-2">
                             <label for="reply" class="form-label fw-bold">{{ trans('labels.reply') }}</label>
                             <textarea class="form-control" name="reply" placeholder="{{ trans('labels.reply') }}" autocomplete="off"
-                                rows="4"></textarea>
+                                rows="4" required></textarea>
                         </div>
                     </div>
-                    {{-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> --}}
-                    <button type="button" class="btn btn-primary float-end">{{ trans('labels.submit') }}</button>
+                    <button type="submit" class="btn btn-primary float-end">{{ trans('labels.submit') }}</button>
                 </form>
             </div>
         </div>
@@ -141,8 +147,18 @@
 @endsection
 @section('scripts')
     <script>
+        $('#reply_dome_request_form').on('submit', function() {
+            if ($('#reply_dome_request_form textarea').val() == "") {
+                $('#reply_dome_request_form textarea').addClass('is-invalid');
+                return false;
+            } else {
+                showpreloader();
+                $('#reply_dome_request_form textarea').removeClass('is-invalid');
+            }
+        });
         $(function() {
             $(".reply_action").on('click', function() {
+                $('input[name=id]').val($(this).attr('data-id'));
                 $('.show_name').text($(this).attr('data-show-name'));
                 $('.show_email').text($(this).attr('data-show-email'));
                 $('.show_phone').text($(this).attr('data-show-phone'));
@@ -153,5 +169,52 @@
                 $('.show_dome_country').text($(this).attr('data-show-dome-country'));
             });
         });
+
+
+
+        function changestatus(id, url) {
+            "use strict";
+            swalWithBootstrapButtons
+                .fire({
+                    icon: 'warning',
+                    title: are_you_sure,
+                    showCancelButton: true,
+                    allowOutsideClick: false,
+                    allowEscapeKey: false,
+                    confirmButtonText: yes,
+                    cancelButtonText: no,
+                    reverseButtons: true,
+                    showLoaderOnConfirm: true,
+                    preConfirm: function() {
+                        return new Promise(function(resolve, reject) {
+                            $.ajax({
+                                type: "GET",
+                                url: url,
+                                data: {
+                                    id: id,
+                                },
+                                dataType: "json",
+                                success: function(response) {
+                                    if (response.status == 1) {
+                                        // toastr.success(response.message);
+                                        location.reload();
+                                    } else {
+                                        swal_cancelled(wrong);
+                                        return false;
+                                    }
+                                },
+                                error: function(response) {
+                                    swal_cancelled(wrong);
+                                    return false;
+                                },
+                            });
+                        });
+                    },
+                }).then((result) => {
+                    if (!result.isConfirmed) {
+                        result.dismiss === Swal.DismissReason.cancel
+                    }
+                })
+        }
     </script>
 @endsection
