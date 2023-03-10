@@ -105,6 +105,7 @@ return [
     'free_wifi' => 'Free Wifi',
     'changing_room' => 'Changing Room',
     'parking' => 'Parking',
+    'pool' => 'Pool',
     'dome_location' => 'Dome Location',
     // Sports
     'image' => 'Image',
@@ -188,6 +189,7 @@ return [
     'comments' => 'Comments',
     'rattings' => 'Rattings',
     'reply' => 'Reply',
+    'replied' => 'Replied',
     'subject' => 'Subject',
     // Calendar
     'calendar' => 'Calendar',
@@ -212,5 +214,6 @@ return [
     'set_prices' => 'Set Prices',
     'select_day_wise_price' => 'Select Day Wise Price',
     'add_new_price' => 'Add New Price',
+    // Supports
+    'raise_ticket' => 'Raise Ticket',
 ];
-

@@ -12,4 +12,8 @@ class Enquiries extends Model
     {
         return $this->hasOne('App\Models\User', 'id', 'vendor_id')->select('id', 'name', 'email', 'phone');
     }
+    public function user_info()
+    {
+        return $this->hasOne('App\Models\User', 'email', 'email')->select('id', 'name');
+    }
 }

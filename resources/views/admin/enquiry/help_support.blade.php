@@ -56,8 +56,8 @@
                                     <span class="badge rounded-pill cursor-pointer reply-pill me-2 reply_action"
                                         data-show-name="{{ $enquiry->name }}" data-show-email="{{ $enquiry->email }}"
                                         data-show-subject="{{ $enquiry->subject }}"
-                                        data-show-message="{{ $enquiry->message }}" data-bs-target="#reply_modal"
-                                        data-bs-toggle="modal" style="height: fit-content">
+                                        data-show-message="{{ $enquiry->message }}" data-id="{{ $enquiry->id }}"
+                                        data-bs-target="#reply_modal" data-bs-toggle="modal" style="height: fit-content">
                                         <svg width="10" height="9" viewBox="0 0 10 9" fill="none"
                                             xmlns="http://www.w3.org/2000/svg">
                                             <path
@@ -82,7 +82,10 @@
                     <h5 class="modal-title" id="replymessageLabel">{{ trans('labels.reply') }}</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form action="{{ URL::to('admin/enquiries/dome-request-reply') }}" method="POST" class="modal-body">
+                <form action="{{ URL::to('admin/enquiries/help-support-reply') }}" method="POST" class="modal-body"
+                    id="reply_help_support_form">
+                    @csrf
+                    <input type="hidden" name="id" value="">
                     <div class="row">
                         <div class="col-md-12 mb-2">
                             <label for="email" class="form-label fw-bold">{{ trans('labels.email') }}</label>
@@ -99,11 +102,10 @@
                         <div class="col-md-12 mb-2">
                             <label for="reply" class="form-label fw-bold">{{ trans('labels.reply') }}</label>
                             <textarea class="form-control" name="reply" placeholder="{{ trans('labels.reply') }}" autocomplete="off"
-                                rows="4"></textarea>
+                                rows="4" required></textarea>
                         </div>
                     </div>
-                    {{-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> --}}
-                    <button type="button" class="btn btn-primary float-end">{{ trans('labels.submit') }}</button>
+                    <button type="submit" class="btn btn-primary float-end">{{ trans('labels.submit') }}</button>
                 </form>
             </div>
         </div>
@@ -111,8 +113,18 @@
 @endsection
 @section('scripts')
     <script>
+        $('#reply_help_support_form').on('submit', function() {
+            if ($('#reply_help_support_form textarea').val() == "") {
+                $('#reply_help_support_form textarea').addClass('is-invalid');
+                return false;
+            } else {
+                showpreloader();
+                $('#reply_help_support_form textarea').removeClass('is-invalid');
+            }
+        });
         $(function() {
             $(".reply_action").on('click', function() {
+                $('input[name=id]').val($(this).attr('data-id'));
                 $('.show_email').text($(this).attr('data-show-email'));
                 $('.show_subject').text($(this).attr('data-show-subject'));
                 $('.show_message').text($(this).attr('data-show-message'));

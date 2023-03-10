@@ -30,10 +30,12 @@ class AdminController extends Controller
     {
         return view('landing.contact');
     }
-
-    public function supports(Request $request)
+    public function privacy_policy(Request $request)
     {
-        $getsupportslist = Enquiries::where('type', 5)->orderByDesc('id')->get();
-        return view('admin.supports.index', compact('getsupportslist'));
+        return view('landing.privacy_policy');
+    }
+    public function terms_conditions(Request $request)
+    {
+        return view('landing.terms_conditions');
     }
 }

@@ -115,6 +115,14 @@
                                                 for="parking">{{ trans('labels.parking') }}</label>
                                         </div>
                                     </div>
+                                    <div class="col-auto">
+                                        <div class="form-check mb-0">
+                                            <input type="checkbox" id="pool" name="benefits[]" value="Pool"
+                                                class="form-check-input">
+                                            <label class="form-check-label"
+                                                for="pool">{{ trans('labels.pool') }}</label>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>

@@ -32,11 +32,11 @@ use App\Http\Controllers\admin\SettingsController;
 // Landing Page Route
 Route::get('/', [AdminController::class, 'landing']);
 Route::get('payment/{token}', [BookingController::class, 'split_payment']);
-Route::post('general-enquiries', [EnquiryController::class, 'general_enquiries']);
+Route::post('store-general-enquiries', [EnquiryController::class, 'store_general_enquiries']);
 Route::post('dome-request', [EnquiryController::class, 'dome_request']);
 Route::get('contact', [AdminController::class, 'contact']);
 Route::get('privacy-policy', [AdminController::class, 'privacy_policy']);
-Route::get('terms-condition', [AdminController::class, 'terms_condition']);
+Route::get('terms-conditions', [AdminController::class, 'terms_conditions']);
 
 
 // Authentication
@@ -77,9 +77,12 @@ Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function () {
     Route::group(['prefix' => 'enquiries'], function () {
         Route::get('dome-requests', [EnquiryController::class, 'dome_requests']);
         Route::get('dome-request-status',[EnquiryController::class,'dome_request_status']);
+        Route::get('dome-request-delete',[EnquiryController::class,'dome_request_delete']);
         Route::post('dome-request-reply',[EnquiryController::class, 'dome_request_reply']);
         Route::get('general-enquiry', [EnquiryController::class, 'general_enquiry']);
+        Route::post('general-enquiry-reply', [EnquiryController::class, 'general_enquiry_reply']);
         Route::get('help-support', [EnquiryController::class, 'help_support']);
+        Route::post('help-support-reply', [EnquiryController::class, 'help_support_reply']);
     });
     // Settings
     Route::group(['prefix' => 'settings'], function () {
@@ -103,7 +106,9 @@ Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function () {
 
     // Supports
     Route::group(['prefix' => 'supports'], function () {
-        Route::get('/', [AdminController::class, 'supports']);
+        Route::get('/', [EnquiryController::class, 'supports']);
+        Route::post('store-ticket', [EnquiryController::class, 'store_ticket']);
+        Route::post('ticket-reply', [EnquiryController::class, 'ticket_reply']);
     });
 
     // Vendors

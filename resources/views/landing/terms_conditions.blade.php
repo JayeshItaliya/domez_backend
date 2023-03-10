@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -25,6 +26,7 @@
     <!-- responsive Css -->
     <link rel="stylesheet" href="{{ url('storage/app/public/admin/css/responsive.css') }}">
 </head>
+
 <body>
     <div class="layout">
         <header class="container header-section-contact">
@@ -54,68 +56,7 @@
         </header>
         <section style="margin:100px 0">
             <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col-md-10">
-                        <form action="{{URL::to('dome-request')}}" method="POST" class="contact-us" id="contact_us">
-                            @csrf
-                            <h1 class="text-center fw-bold text-capitalize mb-3">Interested in discussing?</h1>
-                            <div class="row justify-content-center">
-                                <div class="col-lg-6 form-group">
-                                    <label for="name" class="from-label fw-semibold">Name</label>
-                                    <input type="text" id="name" name="name" value="{{old('name')}}" class="form-control" placeholder="Name" required>
-                                    @error('name')<span class="text-danger">{{ $message }}</span>@enderror
-                                </div>
-                                <div class="col-lg-6 form-group">
-                                    <label for="email" class="from-label fw-semibold">Email</label>
-                                    <div class="input-group">
-                                        <input type="email" id="email" name="email" value="{{old('email')}}" class="form-control" placeholder="Email" required>
-                                        <button class="btn btn-success dmz-button send_otp" type="button">Send Otp</button>
-                                    </div>
-                                    @error('email')<span class="text-danger">{{ $message }}</span>@enderror
-                                </div>
-                                <div class="form-group d-none" id="verify_otp">
-                                    <label for="otp" class="from-label fw-semibold">OTP</label>
-                                    <div class="input-group">
-                                        <input type="otp" id="otp" name="otp" value="{{old('otp')}}" class="form-control" placeholder="OTP" value="{{ old('otp') }}" required>
-                                        <button class="btn btn-success dmz-button verify_otp" type="button" id="button-addon2">Verify</button>
-                                    </div>
-                                    @error('otp')<span class="text-danger">{{ $message }}</span>@enderror
-                                </div>
-                                <div class="col-lg-6 form-group">
-                                    <label for="phone" class="from-label fw-semibold">Phone Number</label>
-                                    <input type="text" id="phone" name="phone" value="{{old('phone')}}" class="form-control" placeholder="Phone Number" required>
-                                    @error('phone')<span class="text-danger">{{ $message }}</span>@enderror
-                                </div>
-                                <div class="col-lg-6 form-group">
-                                    <label for="dome_name" class="from-label fw-semibold">Dome Name</label>
-                                    <input type="text" id="dome_name" name="dome_name" value="{{old('dome_name')}}" class="form-control" placeholder="Dome Name" required>
-                                    @error('dome_name')<span class="text-danger">{{ $message }}</span>@enderror
-                                </div>
-                                <div class="col-lg-6 form-group">
-                                    <label for="dome_city" class="from-label fw-semibold">Dome City</label>
-                                    <input type="text" id="dome_city" name="dome_city" value="{{old('dome_city')}}" class="form-control" placeholder="Dome City" required>
-                                    @error('dome_city')<span class="text-danger">{{ $message }}</span>@enderror
-                                </div>
-                                <div class="col-lg-6 form-group">
-                                    <label for="dome_zipcode" class="from-label fw-semibold">Dome Zipcode</label>
-                                    <input type="text" id="dome_zipcode" name="dome_zipcode" value="{{old('dome_zipcode')}}" class="form-control" placeholder="Dome Zipcode" required>
-                                    @error('dome_zipcode')<span class="text-danger">{{ $message }}</span>@enderror
-                                </div>
-                                <div class="col-lg-6 form-group">
-                                    <label for="dome_state" class="from-label fw-semibold">Dome State</label>
-                                    <input type="text" id="dome_state" name="dome_state" value="{{old('dome_state')}}" class="form-control" placeholder="Dome State" required>
-                                    @error('dome_state')<span class="text-danger">{{ $message }}</span>@enderror
-                                </div>
-                                <div class="col-lg-6 form-group">
-                                    <label for="dome_country" class="from-label fw-semibold">Dome Country</label>
-                                    <input type="text" id="dome_country" name="dome_country" value="{{old('dome_country')}}" class="form-control" placeholder="Dome Country" required>
-                                    @error('dome_country')<span class="text-danger">{{ $message }}</span>@enderror
-                                </div>
-                                <button type="submit" id="contact_us_submit" class="btn btn-success dmz-button px-4 my-2 my-sm-0 w-auto">Send Your Message</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
+                {!! Helper::cms(2) !!}
             </div>
         </section>
         <!-- Footer start -->
@@ -198,69 +139,6 @@
     <script src="{{ url('storage/app/public/admin/js/toastr/toastr.min.js') }}"></script>
     <script src="{{ url('storage/app/public/admin/js/slick/slick.min.js') }}"></script>
     <script src="{{ url('storage/app/public/admin/js/custom.js') }}"></script>
-    <script>
-        $(function(){
-            $('form, input,textarea ').attr("autocomplete", 'off');
-        });
-        $(function() {
-            $('#contact_us input:not(#name , #email, #otp) ,#contact_us_submit').prop('disabled', true);
-        });
-        $('.send_otp').click(function() {
-            $.ajax({
-                url: "{{ URL::to('dome-request') }}",
-                type: 'POST',
-                data: {
-                    '_token': "{{ csrf_token() }}",
-                    send_otp: 1,
-                    name: $('#name').val(),
-                    email: $('#email').val(),
-                },
-                beforeSend: function(response) {
-                    $('.send_otp').html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>');
-                },
-                success: function(response) {
-                    if (response.status == 1) {
-                        alert(response.message)
-                        $('.send_otp').text('Resend OTP');
-                        $('#verify_otp').removeClass('d-none');
-                    } else {
-                        alert(response.message)
-                        return false;
-                    }
-                },
-                error: function(error) {
-                    alert("Something Went Wrong...")
-                    return false;
-                }
-            });
-        });
-        $('.verify_otp').click(function() {
-            $.ajax({
-                url: "{{ URL::to('dome-request') }}",
-                type: 'POST',
-                data: {
-                    '_token': "{{ csrf_token() }}",
-                    verify_otp: 1,
-                    otp: $('#otp').val(),
-                },
-                success: function(data) {
-                    if (data.status == 1) {
-                        $('#verify_otp').addClass('d-none');
-                        $('.send_otp').attr('disabled', true);
-                        $('#email').attr('readonly', true);
-                        $('#contact_us input:not(#name , #email) ,#contact_us_submit').prop('disabled', false);
-                        alert(data.message)
-                    } else {
-                        alert(data.message)
-                        return false;
-                    }
-                },
-                error: function(error) {
-                    alert("Something Went Wrong...")
-                    return false;
-                }
-            });
-        });
-    </script>
 </body>
+
 </html>

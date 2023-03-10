@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Enquiries;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
@@ -60,22 +61,19 @@ class EnquiryController extends Controller
 
             return response()->json(['status' => 1], 200);
         } catch (\Throwable $th) {
-            dd($th);
             return response()->json(['status' => 0], 200);
         }
     }
-    public function general_enquiry(Request $request)
+    public function dome_request_delete(Request $request)
     {
-        $enquiries = Enquiries::where('type', 2)->where('is_replied', 2)->where('is_accepted', 2)->where('is_deleted', 2)->orderByDesc('id')->get();
-        return view('admin.enquiry.general_enquiry', compact('enquiries'));
+        try {
+            Enquiries::where('id', $request->id)->update(['is_deleted' => 1]);
+            return response()->json(['status' => 1], 200);
+        } catch (\Throwable $th) {
+            return response()->json(['status' => 0], 200);
+        }
     }
-    public function help_support(Request $request)
-    {
-        $enquiries = Enquiries::where('type', 1)->where('is_replied', 2)->where('is_accepted', 2)->where('is_deleted', 2)->orderByDesc('id')->get();
-        return view('admin.enquiry.help_support', compact('enquiries'));
-    }
-
-    public function general_enquiries(Request $request)
+    public function store_general_enquiries(Request $request)
     {
         $request->validate([
             'name' => 'required',
@@ -102,7 +100,48 @@ class EnquiryController extends Controller
 
         return redirect()->back()->with('success', 'Submitted Successfully');
     }
-
+    public function general_enquiry(Request $request)
+    {
+        $enquiries = Enquiries::where('type', 2)->where('is_replied', 2)->where('is_accepted', 2)->where('is_deleted', 2)->orderByDesc('id')->get();
+        return view('admin.enquiry.general_enquiry', compact('enquiries'));
+    }
+    public function general_enquiry_reply(Request $request)
+    {
+        try {
+            $enquiry_data = Enquiries::find($request->id);
+            $data = ['title' => 'Reply to Enquiry - Domez', 'type' => $enquiry_data->type, 'email' => $enquiry_data->email, 'name' => $enquiry_data->name, 'subject' => $enquiry_data->subject, 'reply' => $request->reply];
+            Mail::send('email.reply_enquiries', $data, function ($message) use ($data) {
+                $message->from(env('MAIL_USERNAME'))->subject($data['title']);
+                $message->to($data['email']);
+            });
+            $enquiry_data->is_replied = 1;
+            $enquiry_data->save();
+            return redirect()->back()->with('success', trans('messages.success'));
+        } catch (\Throwable $th) {
+            return redirect()->back()->with('error', trans('messages.wrong'));
+        }
+    }
+    public function help_support(Request $request)
+    {
+        $enquiries = Enquiries::where('type', 1)->where('is_replied', 2)->where('is_accepted', 2)->where('is_deleted', 2)->orderByDesc('id')->get();
+        return view('admin.enquiry.help_support', compact('enquiries'));
+    }
+    public function help_support_reply(Request $request)
+    {
+        try {
+            $enquiry_data = Enquiries::find($request->id);
+            $data = ['title' => 'Reply to Enquiry - Domez App', 'type' => $enquiry_data->type, 'email' => $enquiry_data->email, 'name' => $enquiry_data->user_info->name, 'subject' => $enquiry_data->subject, 'reply' => $request->reply];
+            Mail::send('email.reply_enquiries', $data, function ($message) use ($data) {
+                $message->from(env('MAIL_USERNAME'))->subject($data['title']);
+                $message->to($data['email']);
+            });
+            $enquiry_data->is_replied = 1;
+            $enquiry_data->save();
+            return redirect()->back()->with('success', trans('messages.success'));
+        } catch (\Throwable $th) {
+            return redirect()->back()->with('error', trans('messages.wrong'));
+        }
+    }
     public function dome_request(Request $request)
     {
         if ($request->send_otp == 1) {
@@ -160,5 +199,45 @@ class EnquiryController extends Controller
         $enquiry->save();
 
         return redirect('/')->with('success', 'Submitted Successfully');
+    }
+    public function supports(Request $request)
+    {
+        $getsupportslist = Enquiries::where('type', 5);
+        if (Auth::user()->type == 2) {
+            $getsupportslist = $getsupportslist->where('vendor_id', Auth::user()->id);
+        }else{
+            $getsupportslist = $getsupportslist->where('is_replied', 2);
+        }
+        $getsupportslist = $getsupportslist->orderByDesc('id')->get();
+        return view('admin.supports.index', compact('getsupportslist'));
+    }
+    public function store_ticket(Request $request)
+    {
+        $ticket = new Enquiries;
+        $ticket->vendor_id = Auth::user()->id;
+        $ticket->type = 5;
+        $ticket->name = Auth::user()->name;
+        $ticket->email = Auth::user()->email;
+        $ticket->phone = Auth::user()->phone;
+        $ticket->subject = $request->subject;
+        $ticket->message = $request->message;
+        $ticket->save();
+        return redirect()->back()->with('success', trans('messages.success'));
+    }
+    public function ticket_reply(Request $request)
+    {
+        try {
+            $enquiry_data = Enquiries::find($request->id);
+            $data = ['title' => 'Reply to Ticket - Domez Owner', 'type' => $enquiry_data->type, 'email' => $enquiry_data->email, 'name' => $enquiry_data->user_info->name, 'subject' => $enquiry_data->subject, 'reply' => $request->reply];
+            Mail::send('email.reply_enquiries', $data, function ($message) use ($data) {
+                $message->from(env('MAIL_USERNAME'))->subject($data['title']);
+                $message->to($data['email']);
+            });
+            $enquiry_data->is_replied = 1;
+            $enquiry_data->save();
+            return redirect()->back()->with('success', trans('messages.success'));
+        } catch (\Throwable $th) {
+            return redirect()->back()->with('error', trans('messages.wrong'));
+        }
     }
 }

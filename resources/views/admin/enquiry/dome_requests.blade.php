@@ -80,7 +80,8 @@
                                     @endif
                                     <i class="fa-regular fa-circle-check me-2 text-success fs-4 cursor-pointer"
                                         onclick="changestatus('{{ $enquiry->id }}','{{ URL::to('admin/enquiries/dome-request-status') }}')"></i>
-                                    <i class="fa-regular fa-circle-xmark text-danger fs-4 cursor-pointer"></i>
+                                    <i class="fa-regular fa-circle-xmark text-danger fs-4 cursor-pointer"
+                                        onclick="delete_enquiry('{{ $enquiry->id }}','{{ URL::to('admin/enquiries/dome-request-delete') }}')"></i>
                                 </td>
                             </tr>
                         @endforeach
@@ -173,6 +174,53 @@
 
 
         function changestatus(id, url) {
+            "use strict";
+            swalWithBootstrapButtons
+                .fire({
+                    icon: 'warning',
+                    title: are_you_sure,
+                    showCancelButton: true,
+                    allowOutsideClick: false,
+                    allowEscapeKey: false,
+                    confirmButtonText: yes,
+                    cancelButtonText: no,
+                    reverseButtons: true,
+                    showLoaderOnConfirm: true,
+                    preConfirm: function() {
+                        return new Promise(function(resolve, reject) {
+                            $.ajax({
+                                type: "GET",
+                                url: url,
+                                data: {
+                                    id: id,
+                                },
+                                dataType: "json",
+                                success: function(response) {
+                                    if (response.status == 1) {
+                                        // toastr.success(response.message);
+                                        location.reload();
+                                    } else {
+                                        swal_cancelled(wrong);
+                                        return false;
+                                    }
+                                },
+                                error: function(response) {
+                                    swal_cancelled(wrong);
+                                    return false;
+                                },
+                            });
+                        });
+                    },
+                }).then((result) => {
+                    if (!result.isConfirmed) {
+                        result.dismiss === Swal.DismissReason.cancel
+                    }
+                })
+        }
+
+
+
+        function delete_enquiry(id, url) {
             "use strict";
             swalWithBootstrapButtons
                 .fire({
