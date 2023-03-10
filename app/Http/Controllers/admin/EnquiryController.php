@@ -5,8 +5,11 @@ namespace App\Http\Controllers\admin;
 use App\Helper\Helper;
 use App\Http\Controllers\Controller;
 use App\Models\Enquiries;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 
 class EnquiryController extends Controller
 {
@@ -29,6 +32,36 @@ class EnquiryController extends Controller
             return redirect()->back()->with('success', trans('messages.success'));
         } catch (\Throwable $th) {
             return redirect()->back()->with('error', trans('messages.wrong'));
+        }
+    }
+    public function dome_request_status(Request $request)
+    {
+        try {
+            $password = Str::random(8);
+            $enquiry_data = Enquiries::find($request->id);
+            $data = ['title' => 'Reply: Dome Request Accepted', 'email' => $enquiry_data->email, 'name' => $enquiry_data->name, 'password' => $password, 'logo' => Helper::image_path('logo.png')];
+            Mail::send('email.accept_dome_request', $data, function ($message) use ($data) {
+                $message->from(env('MAIL_USERNAME'))->subject($data['title']);
+                $message->to($data['email']);
+            });
+
+            $user = new User;
+            $user->type = 2;
+            $user->login_type = 1;
+            $user->name = $enquiry_data->name;
+            $user->email = $enquiry_data->email;
+            $user->password = Hash::make($password);
+            $user->phone = $enquiry_data->phone;
+            $user->is_verified = 1;
+            $user->save();
+
+            $enquiry_data->is_accepted = 1;
+            $enquiry_data->save();
+
+            return response()->json(['status' => 1], 200);
+        } catch (\Throwable $th) {
+            dd($th);
+            return response()->json(['status' => 0], 200);
         }
     }
     public function general_enquiry(Request $request)

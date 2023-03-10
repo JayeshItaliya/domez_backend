@@ -76,6 +76,7 @@ Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function () {
     // Enquiry
     Route::group(['prefix' => 'enquiries'], function () {
         Route::get('dome-requests', [EnquiryController::class, 'dome_requests']);
+        Route::get('dome-request-status',[EnquiryController::class,'dome_request_status']);
         Route::post('dome-request-reply',[EnquiryController::class, 'dome_request_reply']);
         Route::get('general-enquiry', [EnquiryController::class, 'general_enquiry']);
         Route::get('help-support', [EnquiryController::class, 'help_support']);
