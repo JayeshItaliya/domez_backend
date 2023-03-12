@@ -15,6 +15,10 @@ return [
     'check_email' => 'Check Email Inbox',
     'verification' => 'Verification',
 
+    'primary_color' =>'Primary Color',
+    'secondary_color' =>'Secondary Color',
+    'change_colors' =>'Change Colors',
+
     'srno' => '#',
     'active' => 'Active',
     'inactive' => 'Inactive',

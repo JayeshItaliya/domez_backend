@@ -8,7 +8,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}" />
     <title> {{ trans('labels.website_title') }} | @yield('title')</title>
     <!-- Favicon -->
-    <link rel="icon" href="{{ Helper::image_path('preloader.gif') }}" sizes="any">
+    <link rel="icon" href="{{ Helper::image_path('preloader.gif') }}" type="image/gif" />
     <link rel="stylesheet" href="{{ url('storage/app/public/admin/css/bootstrap/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ url('storage/app/public/admin/css/fontawesome/all.min.css') }}">
     <link rel="stylesheet" href="{{ url('storage/app/public/admin/css/sweetalert/sweetalert2.min.css') }}">
@@ -27,7 +27,6 @@
             <img src="{{ Helper::image_path('preloader.gif') }}" width="150" height="150" alt="Prealoader">
         </div>
     </div>
-    {{-- <button class="btn btn-primary position-fixed top-50 end-0 fs-5" style="z-index: 99"><i class="fa-regular fa-sliders"></i></button> --}}
     <main>
         <style>
             :root {
@@ -59,6 +58,29 @@
         <div id="secondaryColor" style="color: var(--bs-secondary)"></div>
         <div id="lightSecondaryColor" style="color: rgba(var(--bs-secondary-rgb),0.75)"></div>
     </main>
+
+    <button class="btn btn-primary position-fixed top-50 end-0 fs-5" style="z-index: 99" data-bs-toggle="offcanvas"
+        data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
+        <i class="fa-regular fa-sliders"></i>
+    </button>
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+        <div class="offcanvas-header justify-content-end">
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <form action="" class="row">
+                <h5 class="text-muted mb-2">{{ trans('labels.change_colors') }}</h5>
+                <div class="form-group col-6">
+                    <label for="set_primary_color" class="form-label">{{ trans('labels.primary_color') }}</label>
+                    <input type="color" class="form-control" name="set_primary_color" id="set_primary_color">
+                </div>
+                <div class="form-group col-6">
+                    <label for="set_secondary_color" class="form-label">{{ trans('labels.secondary_color') }}</label>
+                    <input type="color" class="form-control" name="set_secondary_color" id="set_secondary_color">
+                </div>
+            </form>
+        </div>
+    </div>
 
     <!-- Javascript -->
     <script src="{{ url('storage/app/public/admin/js/jquery/jquery.min.js') }}"></script>
