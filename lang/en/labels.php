@@ -15,9 +15,9 @@ return [
     'check_email' => 'Check Email Inbox',
     'verification' => 'Verification',
 
-    'primary_color' =>'Primary Color',
-    'secondary_color' =>'Secondary Color',
-    'change_colors' =>'Change Colors',
+    'primary_color' => 'Primary Color',
+    'secondary_color' => 'Secondary Color',
+    'change_colors' => 'Change Colors',
 
     'srno' => '#',
     'active' => 'Active',
@@ -55,6 +55,8 @@ return [
     // Dashboard
     'cancelled_bookings' => 'Cancelled Bookings',
     'total_income' => 'Total Income',
+    'custom_date' => 'Custom Date',
+    'select_date' => 'Select Date',
     'revenue' => 'Revenue',
     'recent_bookings' => 'Recent Bookings',
     'user_mobile_app' => 'Users Of Mobile App',
