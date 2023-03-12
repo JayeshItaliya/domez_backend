@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 09, 2023 at 07:53 AM
+-- Generation Time: Mar 12, 2023 at 05:48 AM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -118,6 +118,14 @@ CREATE TABLE `cms` (
   `updated_at` timestamp NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Dumping data for table `cms`
+--
+
+INSERT INTO `cms` (`id`, `type`, `content`, `created_at`, `updated_at`) VALUES
+(1, 2, '<h1>Terms &amp; Conditions</h1>\n\n<h2>Agreement to Terms</h2>\n\n<p>These Terms &amp; Conditions constitute a legally binding agreement made between you, whether personally or on behalf of an entity (&ldquo;you&rdquo;) and Most Advanced Booking System For Your Dome (&amp;rd; &ldquo;our,&rdquo; or &ldquo;the company&rdquo;), concerning your access to and use of the Most Advanced Booking System For Your Dome website.</p>\n\n<p>You agree that by accessing or using our website, you have read, understood, and agree to be bound by all of these Terms &amp; Conditions. If you do not agree to all of these Terms &amp; Conditions, then you are prohibited from using the website and you must discontinue use immediately.</p>\n\n<h2>Modification of Terms</h2>\n\n<p>We reserve the right, at our sole discretion, to modify or replace these Terms &amp; Conditions at any time. If a revision is material, we will provide at least 30 days&rsquo; notice prior to any new terms taking effect. What constitutes a material change will be determined at our sole discretion.</p>\n\n<h2>Accuracy of Information</h2>\n\n<p>We do not warrant the accuracy, completeness, or usefulness of any information on our website. Any reliance you place on such information is strictly at your own risk. We disclaim all liability and responsibility arising from any reliance placed on such materials by you or any other visitor to our website, or by anyone who may be informed of any of its contents.</p>\n\n<h2>Intellectual Property</h2>\n\n<p>The website and its original content, features, and functionality are owned by Most Advanced Booking System For Your Dome and are protected by international copyright, trademark, patent, trade secret, and other intellectual property or proprietary rights laws.</p>\n\n<h2>Limitation of Liability</h2>\n\n<p>In no event shall Most Advanced Booking System For Your Dome, its directors, employees, partners, agents, suppliers, or affiliates, be liable for any indirect, incidental, special, consequential, or punitive damages, including without limitation, loss of profits, data, use, goodwill, or other intangible losses, resulting from (i) your access to or use of or inability to access or use the website; (ii) any conduct or content of any third party on the website; (iii) any content obtained from the website; and (iv) unauthorized access, use or alteration of your transmissions or content, whether based on warranty, contract, tort (including negligence) or any other legal theory, whether or not we have been informed of the possibility of such damage, and even if a remedy set forth herein is found to have failed of its essential purpose.</p>\n\n<h2>Indemnification</h2>\n\n<p>You agree to indemnify and hold Most Advanced Booking System For Your Dome, its directors, employees, partners, agents, suppliers, and affiliates, harmless from any claim or demand, including reasonable attorneys&rsquo; fees, made by any third-party due to or arising out of your breach of these Terms &amp; Conditions or your violation of any law or the rights of a third-party.</p>\n\n<h2>Governing Law</h2>\n\n<p>These Terms &amp; Conditions shall be governed and construed in accordance with the laws of the state of California, without regard to its conflict of law provisions.</p>\n\n<h2>Contacting Us</h2>\n\n<p>If you have any questions or comments about these Terms &amp; Conditions or our practices, please contact us at info@mostadvancedbooking.com.</p>\n\n<h2>Effective DateThese Terms &amp; Conditions are of January 1, 2022.</h2>', '2023-03-10 04:36:27', '2023-03-10 04:38:11'),
+(2, 1, '<h1>Privacy Policy</h1>\n\n<p>We at Most Advanced Booking System For Your Dome take your privacy seriously. This Privacy Policy outlines our practices for collecting, using, maintaining, protecting, and disclosing your information when you use our website.</p>\n\n<p>Please read this Privacy Policy carefully to understand our policies and practices regarding your information and how we will treat it. By accessing or using our website, you agree to this Privacy Policy. This Privacy Policy may change from time to time. Your continued use of our website after we make changes is deemed to be acceptance of those changes, so please check this Privacy Policy periodically for updates.</p>\n\n<h2>Information We Collect</h2>\n\n<p>We may collect personal information from you, such as your name, email address, and phone number, when you use our website. We may also collect non-personal information, such as your IP address and browser type, when you use our website.</p>\n\n<h2>How We Use Your Information</h2>\n\n<p>We may use your personal information to contact you, respond to your inquiries, and provide you with information about our services. We may also use your non-personal information to improve our website and customize your user experience.</p>\n\n<h2>How We Protect Your Information</h2>\n\n<p>We take reasonable measures to protect your information from unauthorized access, use, or disclosure. However, no method of transmission over the Internet or electronic storage is completely secure, so we cannot guarantee absolute security.</p>\n\n<h2>Disclosure of Your Information</h2>\n\n<p>We may disclose your information to third-party service providers who assist us in operating our website or providing our services. We may also disclose your information required by or we that disclosure is necessary to protect our rights, your safety, or the safety of others.</p>\n\n<h2>Links to Other Websites</h2>\n\n<p>Our website may contain links to other websites that are not owned or operated by us. We are not responsible for the privacy practices or content of these websites. We encourage you to read the privacy policies of these websites.</p>\n\n<h2>Contacting Us</h2>\n\n<p>If you have any questions or comments about this Privacy Policy or our practices, please contact us at info@mostadvancedbooking.com.</p>\n\n<h2>Effective Date</h2>\n\n<p>This Privacy Policy is effective as of January 1, 2022.</p>', '2023-03-10 04:37:12', '2023-03-10 04:37:59');
+
 -- --------------------------------------------------------
 
 --
@@ -153,7 +161,7 @@ CREATE TABLE `domes` (
 --
 
 INSERT INTO `domes` (`id`, `vendor_id`, `sport_id`, `name`, `price`, `hst`, `address`, `pin_code`, `city`, `state`, `country`, `start_time`, `end_time`, `description`, `lat`, `lng`, `benefits`, `benefits_description`, `is_deleted`, `created_at`, `updated_at`) VALUES
-(35, 2, '6,7,10', 'Kinnara', 58.00, 5.00, 'Costen Tax Solutions, Inc, Birdneck Road North, Virginia Beach, VA, USA', '23451', 'Summerside', 'Prince Edward Island', 'Canada', '6:00 AM', '5:00 PM', 'DESCRIPTION', '28.5156729', '-81.4824233', 'Free Wifi|Changing Room|Parking', 'benefits-DESCRIPTION', 2, '2023-02-20 03:57:09', '2023-02-21 05:03:45'),
+(35, 2, '6,7,10', 'Kinnara', 58.00, 5.00, 'Costen Tax Solutions, Inc, Birdneck Road North, Virginia Beach, VA, USA', '23451', 'Summerside', 'Prince Edward Island', 'Canada', '6:00 AM', '5:00 PM', 'DESCRIPTION', '28.5156729', '-81.4824233', 'Free Wifi|Changing Room|Parking|Pool', 'benefits-DESCRIPTION', 2, '2023-02-20 03:57:09', '2023-02-21 05:03:45'),
 (36, 3, '7', 'Shott', 90.00, 5.00, '511 Notre Dame St, Summerside, PE, Canada', 'C1N 1T2', 'Summerside', 'Prince Edward Island', 'Canada', '12:00 PM', '7:00 AM', 'DESCRIPTION', '46.3981555', '-63.80031419999999', 'Changing Room', 'benefits-DESCRIPTION', 2, '2023-02-20 03:57:09', '2023-02-21 05:03:55'),
 (37, 4, '8,9', 'geonardo', 80.00, 5.00, '511 Notre Dame St, Summerside, PE, Canada', 'C1N 1T2', 'Summerside', 'Prince Edward Island', 'Canada', '3:00 PM', '12:00 AM', 'DESCRIPTION', '46.3981555', '-63.80031419999999', 'Changing Room|Parking', 'benefits-DESCRIPTION', 2, '2023-02-20 03:57:09', '2023-02-21 05:04:05'),
 (38, 5, '9,10', 'Shivakar', 85.00, 5.00, '511 Notre Dame St, Summerside, PE, Canada', 'C1N 1T2', 'Summerside', 'Prince Edward Island', 'Canada', '8:00 PM', '10:00 PM', 'DESCRIPTION', '46.3981555', '-63.80031419999999', 'Free Wifi|Changing Room', 'benefits-DESCRIPTION', 2, '2023-02-20 03:57:09', '2023-02-21 05:04:16'),
@@ -242,15 +250,10 @@ CREATE TABLE `enquiries` (
 --
 
 INSERT INTO `enquiries` (`id`, `vendor_id`, `type`, `dome_name`, `dome_zipcode`, `dome_city`, `dome_state`, `dome_country`, `venue_name`, `venue_address`, `name`, `email`, `phone`, `subject`, `message`, `is_replied`, `is_accepted`, `is_deleted`, `created_at`, `updated_at`) VALUES
-(1, NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'ipsum@yopmail.comn', NULL, 'Talk About Something..', 'Lorem is ipsum data to world to tast data.', 2, 2, 2, '2023-02-19 01:13:26', '2023-02-19 01:13:26'),
-(2, NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 's@gmail.com', NULL, 'soham', 'Soham is sad', 2, 2, 2, '2023-02-20 01:26:33', '2023-02-20 01:26:33'),
-(3, NULL, 4, NULL, NULL, NULL, NULL, NULL, 'test', 'test', 'test', 'test@gmail.com', '12354679', NULL, 'test', 2, 2, 2, '2023-02-24 02:43:40', '2023-02-24 02:43:40'),
-(4, NULL, 4, NULL, NULL, NULL, NULL, NULL, 'test', 'test', 'test', 'test@gmail.com', '12354679', NULL, 'test', 2, 2, 2, '2023-02-24 09:38:18', '2023-02-24 09:38:18'),
-(5, 2, 5, NULL, NULL, NULL, NULL, NULL, 'SOh,', 'OJ', 'O', 's@gmail.com', '1234567890', 'Ipsum', 'CDSDS', 2, 2, 2, '2023-02-24 11:50:37', '2023-02-24 11:50:37'),
-(6, 2, 5, NULL, NULL, NULL, NULL, NULL, 'qws', 'qww', 'qw', 's@gmail.com', '1234567890', 'Lorem', 'qw', 2, 2, 2, '2023-02-24 11:51:12', '2023-02-24 11:51:12'),
-(7, NULL, 4, NULL, NULL, NULL, NULL, NULL, 'sads', 'asdasd', 'asda', 's@gmail.com', '1235467890', NULL, 'asd', 2, 2, 2, '2023-02-24 11:53:55', '2023-02-24 11:53:55'),
-(8, NULL, 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'test', 'test@yopmail.com', NULL, 'test', 'test', 2, 2, 2, '2023-03-02 01:10:02', '2023-03-02 01:10:02'),
-(9, NULL, 3, 'Dome 1', '394001', 'Surat', 'Gujarat', 'India', NULL, NULL, 'Domez', 'domez@yopmail.com', '1234567890', NULL, NULL, 2, 2, 2, '2023-03-02 04:47:56', '2023-03-02 04:47:56');
+(1, 2, 5, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'domez', 'domez@yopmail.com', '1234657890', 'Test', 'TestTestTestTestTest', 1, 2, 2, '2023-03-10 04:02:23', '2023-03-10 04:10:09'),
+(2, NULL, 3, 'Domez', '365490', 'Surat', 'Gujarat', 'india', NULL, NULL, 'dhrutish', 'dhrutish@yopmail.com', '0123456789', NULL, NULL, 1, 1, 2, '2023-03-10 06:27:18', '2023-03-10 06:32:16'),
+(3, NULL, 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'dhrutish', 'dhrutish@yopmail.com', NULL, 'test', 'test', 2, 2, 2, '2023-03-10 06:52:56', '2023-03-10 06:52:56'),
+(4, 2, 5, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'domez', 'domez@yopmail.com', '1234657890', 'Test', 'test', 2, 2, 2, '2023-03-10 07:06:29', '2023-03-10 07:06:29');
 
 -- --------------------------------------------------------
 
@@ -784,7 +787,7 @@ CREATE TABLE `sports` (
 --
 
 INSERT INTO `sports` (`id`, `name`, `image`, `is_available`, `is_deleted`, `created_at`, `updated_at`) VALUES
-(6, 'Soccer', 'sport-7424.png', 1, 2, '2023-02-20 03:35:39', '2023-02-20 03:35:39'),
+(6, 'Soccer', 'sport-9355.png', 1, 2, '2023-02-20 03:35:39', '2023-03-10 06:37:36'),
 (7, 'Golf', 'sport-3424.png', 1, 2, '2023-02-20 03:35:56', '2023-02-20 03:35:56'),
 (8, 'Basketball', 'sport-9595.png', 1, 2, '2023-02-20 03:37:44', '2023-02-20 03:37:44'),
 (9, 'Cricket', 'sport-1841.png', 1, 2, '2023-02-20 03:41:14', '2023-02-20 03:41:14'),
@@ -939,7 +942,7 @@ INSERT INTO `users` (`id`, `type`, `login_type`, `name`, `email`, `countrycode`,
 (3, 3, 2, 'test1', 'dummy@gmail.com', 'CA', '6359487772', NULL, NULL, NULL, NULL, NULL, NULL, 'user-8767.jpg', 1, 1, 2, '2023-02-06 00:14:06', '2023-02-20 01:27:18'),
 (4, 3, 1, 'ahmed', 's@gmail.com', 'CA', '1234567988', '$2y$10$gifxyr72bUYjB8csJ0QBTeoIX.D/nYG0rAp1PRthL9af.EkQok4dq', NULL, NULL, NULL, NULL, NULL, 'user-63f3392b4218e.png', 1, 1, 2, '2023-02-09 04:55:36', '2023-03-03 06:54:24'),
 (5, 3, 1, 'Siwakar', 'siwakar@gmail.com', 'CA', '6666666666', '$2y$10$HJpJ0YcLA8xpmy7vElmcDuwPhJKphXxvZZNsshwsKhKA73kqaDQSC', NULL, NULL, NULL, NULL, NULL, 'default.png', 1, 1, 2, '2023-02-17 05:44:14', '2023-02-17 05:44:14'),
-(6, 3, 1, 'test1', 'shiva@gmail.com', 'CA', '12345679', '$2y$10$IeoPopibjXY5aAKkxxa9bepetQY6gAF1K/316ghgG5MzAqI1.3MfK', NULL, NULL, NULL, NULL, NULL, 'default.png', 1, 1, 2, '2023-02-19 01:50:12', '2023-02-19 01:50:12'),
+(6, 3, 1, 'test1', 's@yopmail.com', 'CA', '12345679', '$2y$10$IeoPopibjXY5aAKkxxa9bepetQY6gAF1K/316ghgG5MzAqI1.3MfK', NULL, NULL, NULL, NULL, NULL, 'default.png', 1, 1, 2, '2023-02-19 01:50:12', '2023-02-19 01:50:12'),
 (7, 3, 1, 'Soham', 'domez@gmail.com', 'CA', '6359478772', '$2y$10$gtan0ZH/DCiZmnR2yLGiyeZAR0YeEu9krVXGHQfXBqk63ep0WQEEm', NULL, NULL, NULL, NULL, NULL, 'default.png', 1, 1, 2, '2023-02-19 02:22:29', '2023-02-19 05:28:51'),
 (8, 3, 1, 'Soham', 'rahul@gmail.com', 'CA', '6359478772', '$2y$10$X1zB07DVhnotX2/mINs8S.50S6zMODymJkeAESIQAFn7hN8vGS6t2', NULL, NULL, NULL, NULL, NULL, 'default.png', 1, 1, 2, '2023-02-19 04:05:29', '2023-02-19 04:05:29'),
 (9, 3, 1, 'Soham', 'dhrutish@gmail.com', 'CA', '6359478772', '$2y$10$H1yMjmp7D/3EG.8qnvFRg.XW0U9SU1u7blXZMKpKNuCI/2BBgyOFi', NULL, NULL, NULL, NULL, NULL, 'default.png', 1, 1, 2, '2023-02-19 04:08:12', '2023-02-19 04:08:12'),
@@ -949,7 +952,10 @@ INSERT INTO `users` (`id`, `type`, `login_type`, `name`, `email`, `countrycode`,
 (13, 3, 1, 'test1', 'shivdxxa@gmail.comx', 'CA', '12345679', '$2y$10$yL6EdwslUs4QaJst9tuSAOJXOv1U0JecesknmKdY0x1xgltJlCxZy', NULL, NULL, NULL, NULL, NULL, 'default.png', 1, 1, 2, '2023-02-19 06:02:37', '2023-02-19 06:02:37'),
 (14, 3, 1, NULL, 'd@gmail.com', NULL, NULL, '$2y$10$15NTmYFdh3eVBKRdTXZwNu6nsRH/0MqPs.MS6h5eg0X5Z17FFnTnO', NULL, NULL, NULL, NULL, NULL, 'default.png', 1, 1, 2, '2023-02-27 05:44:49', '2023-02-27 05:44:49'),
 (15, 3, 2, 'vraj chhatraya', 'vrajchhatraya@gmail.com', NULL, '8686532698', NULL, '107475471444076936237', NULL, NULL, NULL, NULL, 'user-63fdcf59afe4a.jpg', 1, 1, 2, '2023-02-28 04:19:38', '2023-02-28 04:24:33'),
-(16, 3, 1, 'Diwakar Tiwari', 'tdiwakarkumar@gmail.com', 'IN', '7562904785', '$2y$10$pqybuiH79pR34A6q3J0VcO08OPSME1lP8bgeT3ILjPKmaHTG.iXj.', NULL, NULL, NULL, NULL, NULL, 'user-64004901ba7c2.png', 1, 1, 2, '2023-02-28 04:28:39', '2023-03-02 01:28:09');
+(16, 3, 1, 'Diwakar Tiwari', 'tdiwakarkumar@gmail.com', 'IN', '7562904785', '$2y$10$pqybuiH79pR34A6q3J0VcO08OPSME1lP8bgeT3ILjPKmaHTG.iXj.', NULL, NULL, NULL, NULL, NULL, 'user-64004901ba7c2.png', 1, 1, 2, '2023-02-28 04:28:39', '2023-03-02 01:28:09'),
+(20, 2, 1, 'Domez', 'dhrutish.vrajtechnosys@gmail.com', NULL, '1234567890', '$2y$10$bwS1Py2ThnwVxJ4IyAjlhOhDUEq9RFY2gbEfEafpoPJS1O1oZjT5e', NULL, NULL, NULL, NULL, NULL, 'default.png', 1, 1, 2, '2023-03-09 07:41:14', '2023-03-09 07:41:14'),
+(21, 2, 1, 'Domez', 'dhrutish.vrajtechnosys@yopmail.com', NULL, '1234567890', '$2y$10$W4bh1BRmj9H7ZCRmSCIlG.EdjGwlW1.Orkz7ivN9QmI6wQ/0mpnf.', NULL, NULL, NULL, NULL, NULL, 'default.png', 1, 1, 2, '2023-03-09 23:20:21', '2023-03-09 23:20:21'),
+(22, 2, 1, 'dhrutish', 'dhrutish@yopmail.com', NULL, '0123456789', '$2y$10$XOl6r5FiysgCb2ioBdstOeFZfTsBRynCgs6xEwuyy9eQNuT7CxWNC', NULL, NULL, NULL, NULL, NULL, 'default.png', 1, 2, 2, '2023-03-10 06:32:16', '2023-03-10 06:33:14');
 
 --
 -- Indexes for dumped tables
@@ -1066,7 +1072,7 @@ ALTER TABLE `bookings`
 -- AUTO_INCREMENT for table `cms`
 --
 ALTER TABLE `cms`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `domes`
@@ -1084,7 +1090,7 @@ ALTER TABLE `dome_images`
 -- AUTO_INCREMENT for table `enquiries`
 --
 ALTER TABLE `enquiries`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `favourites`
@@ -1150,7 +1156,7 @@ ALTER TABLE `transactions`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
