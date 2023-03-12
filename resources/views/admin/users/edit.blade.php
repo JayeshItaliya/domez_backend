@@ -76,7 +76,7 @@
                             </div>
                         </div>
                         <div class="col-md-12">
-                            <button type="submit" class="btn btn-primary">Submit</button>
+                            <button type="submit" class="btn btn-primary">{{ trans('labels.submit') }}</button>
                         </div>
                     </div>
                 </div>

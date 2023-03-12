@@ -54,7 +54,7 @@
                             <div class="form-group">
                                 <label class="form-label" for="dome_hst">{{ trans('labels.hst') }}</label>
                                 <div class="input-group">
-                                    <input type="text" id="dome_hst" name="dome_hst" class="form-control"
+                                    <input type="number" id="dome_hst" name="dome_hst" class="form-control"
                                         placeholder="{{ trans('labels.hst') }}">
                                     <span class="input-group-text">%</span>
                                 </div>
@@ -282,10 +282,9 @@
     <script type="text/javascript">
         $('input[data-sport-name]').click(function() {
             if (this.checked) {
-                // var = $(this).attr("data-sport-name");
                 let html = '<div class="col mb-2" id="' + $(this).attr("data-sport-name") + '' + $(this).val() +
-                    '"><label class="form-label" for="dome_price">' + $(this).attr("data-sport-name") +
-                    ' Price</label><div class="input-group"><input type="number" class="form-control" id="dome_price" name="dome_price" placeholder="0"><span class="input-group-text" id="basic-addon1">$</span></div></div>';
+                    '"><label class="form-label" for="dome_price'+$(this).val()+'">' + $(this).attr("data-sport-name") +
+                    ' Price</label><div class="input-group"><input type="number" class="form-control" id="dome_price'+$(this).val()+'" name="dome_price[]" placeholder="Price" value="0" required><span class="input-group-text" id="basic-addon1">$</span></div></div>';
                 $('#sport_prices_input').append(html);
             } else {
                 $('#' + $(this).attr("data-sport-name") + '' + $(this).val()).remove();

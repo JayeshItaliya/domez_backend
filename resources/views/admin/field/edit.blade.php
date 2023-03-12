@@ -16,7 +16,7 @@
                         <div class="col-sm-6">
                             <label class="form-label" for="dome">Select Dome</label>
                             <select class="form-select" name="dome" id="dome">
-                                <option disabled selected>------Select------</option>
+                                <option disabled selected>{{ trans('labels.select') }}</option>
                                 @foreach ($dome as $data)
                                     <option value="{{ $data->id }}" class="text-capitalize"
                                         {{ $field->dome_id == $data->id ? 'selected' : '' }}>{{ $data->name }}</option>
@@ -43,7 +43,7 @@
                 </div>
                 <div class="mb-4 col-sm-4">
                     <label class="form-label" for="field_name">Field Name</label>
-                    <input type="text" id="field_name" name="field_name" value="{{ $field->name }}" class="form-control"
+                    <input type="number" id="field_name" name="field_name" value="{{ $field->name }}" class="form-control"
                         placeholder="Please Enter Field Name">
                     @error('field_name')
                         <span class="text-danger">{{ $message }}</span>
@@ -91,7 +91,7 @@
                     </div>
                 </div>
             </div>
-            <button type="submit" class="btn btn-primary mt-2 float-end">Submit</button>
+            <button type="submit" class="btn btn-primary mt-2 float-end">{{ trans('labels.submit') }}</button>
         </div>
     </form>
 @endsection

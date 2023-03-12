@@ -25,7 +25,7 @@
                     <div class="avatar avatar-xxl avatar-circle mb-6">
                         <img src="{{Helper::image_path($user->image)}}" alt="..." class="avatar-img">
                     </div><br>
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="submit" class="btn btn-primary">{{ trans('labels.submit') }}</button>
                 </div>
             </form>
         </div>
@@ -49,7 +49,7 @@
                     <div class="avatar avatar-xxl avatar-circle mb-6">
                         <img src="{{Helper::image_path($user->image)}}" alt="..." class="avatar-img">
                     </div><br>
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="submit" class="btn btn-primary">{{ trans('labels.submit') }}</button>
                 </div>
             </form>
         </div>

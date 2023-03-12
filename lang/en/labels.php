@@ -218,6 +218,7 @@ return [
     'set_prices' => 'Set Prices',
     'select_day_wise_price' => 'Select Day Wise Price',
     'add_new_price' => 'Add New Price',
+    'edit_set_price' => 'Edit Price',
     // Supports
     'raise_ticket' => 'Raise Ticket',
 ];

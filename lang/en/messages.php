@@ -4,11 +4,16 @@ return [
     'wrong' => 'Something Went Wrong',
     'required' => 'This Field is required.',
     'email_error' => 'Something has been wrong while sending Email',
-    // validation-error messages
+
     'email_required' => 'Please Enter Email Address',
-    'valid_email' => 'Please Enter Valid Email Address',
+    'field_name_required' => 'Please Enter Field Name',
+    'price_required' => 'Please Enter Price',
+    'name_required' => 'Please Enter Name',
+
     'email_exist' => 'Email already exist!!',
     'phone_exist' => 'Phone already exist!!',
+    'field_exist' => 'Field already exist!!',
+
     "old_password_required" => "Old password required",
     "new_password_required" => "New password required",
     "confirm_password_required" => "Confirm password required",
@@ -20,29 +25,35 @@ return [
     'email_sent' => 'Email has been Sent Successfully',
     'email_pass_invalid' => 'Email or password is invalid!!',
     'otp_required' => 'Please Enter OTP',
+    'start_time_required' => 'Start Time is Required',
+    'end_time_required' => 'End Time is Required',
+    'description_required' => 'Description Is Required',
+
+    'address_required' => 'Description Is Required',
 
     'select_dome' => 'Please Select Dome',
     'select_field' => 'Please Select Field',
     'select_sport' => 'Please Select Sport',
     'select_start_date' => 'Please Select Start date',
     'select_end_date' => 'Please Select End date',
-    'select_start_time' => 'Please Select Start time',
-    'select_end_time' => 'Please Select End time',
     'select_from_age' => 'Please Select From age',
     'select_to_age' => 'Please Select To age',
     'select_gender' => 'Please Select Gender',
     'select_min_player' => 'Please Select Min player',
     'select_max_player' => 'Please Select Max player',
     'select_team_limit' => 'Please Select Team limit',
+    'select_minimum_person' => 'Please select Minimum Person',
+    'select_maximum_person' => 'Please select Maximum Person',
 
-    'price_required' => 'Please Enter Price',
-    'name_required' => 'Please Enter Name',
+    'numbers_only' => 'Please Enter Numbers Only..',
+    'valid_email' => 'Please Enter Valid Email Address',
     'valid_time_format' => 'Please enter valid time format',
     'end_time_must_after_start_time' => 'End Time Must After Start Time',
 
     'image_required' => 'Please Enter Image',
     'valid_image' => 'The Images must be a image type of file',
     'valid_image_type' => 'The Images must be a file of type: PNG, JPG, JPEG, SVG',
+    'valid_image_size' => 'The image must not be greater than 500KB.',
 
     'invalid_email' => 'Invalid Email Address',
     'invalid_otp' => 'Invalid OTP',

@@ -54,7 +54,7 @@
                             <div class="form-group">
                                 <label class="form-label" for="dome_hst">{{ trans('labels.hst') }}</label>
                                 <div class="input-group">
-                                    <input type="text" id="dome_hst" name="dome_hst" class="form-control"
+                                    <input type="number" id="dome_hst" name="dome_hst" class="form-control"
                                         placeholder="{{ trans('labels.hst') }}" value="{{ $dome->hst }}">
                                     <span class="input-group-text">%</span>
                                 </div>

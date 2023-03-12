@@ -98,7 +98,7 @@ class EnquiryController extends Controller
         $enquiry->message = $request->message;
         $enquiry->save();
 
-        return redirect()->back()->with('success', 'Submitted Successfully');
+        return redirect()->back()->with('success', trans('messages.success'));
     }
     public function general_enquiry(Request $request)
     {
@@ -198,7 +198,7 @@ class EnquiryController extends Controller
         $enquiry->dome_country = $request->dome_country;
         $enquiry->save();
 
-        return redirect('/')->with('success', 'Submitted Successfully');
+        return redirect('/')->with('success', trans('messages.success'));
     }
     public function supports(Request $request)
     {

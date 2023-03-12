@@ -6,14 +6,16 @@ use App\Http\Controllers\Controller;
 use App\Models\Domes;
 use App\Models\SetPrices;
 use App\Models\SetPricesDaysSlots;
+use App\Models\Sports;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class DomesPriceController extends Controller
 {
     public function index(Request $request)
     {
         $getsetpriceslist = SetPrices::where('vendor_id', auth()->user()->id)->orderByDesc('id')->get();
-        return view('admin.set_prices.index',compact('getsetpriceslist'));
+        return view('admin.set_prices.index', compact('getsetpriceslist'));
     }
     public function add(Request $request)
     {
@@ -23,17 +25,21 @@ class DomesPriceController extends Controller
     public function store(Request $request)
     {
         try {
-            $set_prices = new SetPrices();
-            $set_prices->vendor_id = auth()->user()->id;
+            if ($request->has('id') && $request->id != "") {
+                SetPricesDaysSlots::where('set_prices_id', $request->id)->delete();
+                $set_prices = SetPrices::find($request->id);
+            } else {
+                $set_prices = new SetPrices();
+                $set_prices->vendor_id = auth()->user()->id;
+                $set_prices->price_type = 2;
+                // $set_prices->price = 0;
+            }
             $set_prices->dome_id = $request->dome;
             $set_prices->sport_id = $request->sport;
             $set_prices->start_date = $request->start_date;
             $set_prices->end_date = $request->end_date;
-            $set_prices->price_type = 2;
-            $set_prices->price = 0;
             $set_prices->save();
             foreach ($request->daynames as $daynamekey => $dayname) {
-
                 $starttimearray = $endtimearray = $pricearay = [];
                 foreach ($request->start_time[$dayname] as $starttimekey => $starttime) {
                     $starttimearray[] = $starttime;
@@ -54,14 +60,58 @@ class DomesPriceController extends Controller
                     $slots->save();
                 }
             }
-            return redirect('admin/set-prices')->with('success',trans('messages.success'));
+            return redirect('admin/set-prices')->with('success', trans('messages.success'));
         } catch (\Throwable $th) {
-            return redirect()->back()->with('error',trans('messages.wrong'));
+            return redirect()->back()->with('error', trans('messages.wrong'));
+        }
+    }
+    public function getsportslist(Request $request)
+    {
+        try {
+            $getdomedata = Domes::where('id', $request->id)->where('vendor_id', auth()->user()->id)->where('is_deleted', 2)->first();
+            if (!empty($getdomedata)) {
+                $getexists = SetPrices::where('dome_id',$request->id)->select('sport_id')->get()->toArray();
+                $sports = Sports::whereIn('id', explode(',', $getdomedata->sport_id))->whereNotIn('id',$getexists)->where('is_available', 1)->where('is_deleted', 2)->orderByDesc('id')->get();
+                return response()->json(['status' => 1, 'message' => trans('messages.success'), 'sportsdata' => $sports], 200);
+            }
+            return response()->json(['status' => 0, 'message' => trans('messages.invalid_dome')], 200);
+        } catch (\Throwable $th) {
+            return response()->json(['status' => 0, 'message' => trans('messages.wrong')], 200);
         }
     }
     public function edit(Request $request)
     {
-        return view('admin.set_prices.edit');
+        $getslotpricedata = SetPrices::find($request->id);
+        $getdomeslist = Domes::where('vendor_id', auth()->user()->id)->where('is_deleted', 2)->orderByDesc('id')->get();
+        $getslots = SetPricesDaysSlots::where('set_prices_id', $request->id)->select('day')->groupBy(DB::raw('day'))->orderBy('id')->get();
+        $getdaysslots = [];
+        foreach ($getslots as $key => $day) {
+            $slots = SetPricesDaysSlots::select('id', 'start_time', 'end_time', 'price')->where('set_prices_id', $request->id)->where('day', $day->day)->orderBy('id')->get();
+            $getdaysslots[] = [
+                'day' => $day->day,
+                'slots' => $slots,
+            ];
+        }
+        return view('admin.set_prices.edit', compact('getslotpricedata', 'getdaysslots', 'getdomeslist'));
+    }
+    public function deleteslot(Request $request)
+    {
+        try {
+            SetPricesDaysSlots::find($request->id)->delete();
+            return response()->json(['status' => 1, 'message' => trans('messages.success')], 200);
+        } catch (\Throwable $th) {
+            return response()->json(['status' => 0, 'message' => trans('messages.wrong')], 200);
+        }
+    }
+    public function deletesetprice(Request $request)
+    {
+        try {
+            SetPrices::find($request->id)->delete();
+            SetPricesDaysSlots::where('set_prices_id',$request->id)->delete();
+            return response()->json(['status' => 1, 'message' => trans('messages.success')], 200);
+        } catch (\Throwable $th) {
+            return response()->json(['status' => 0, 'message' => trans('messages.wrong')], 200);
+        }
     }
     public function dome_price_details(Request $request)
     {

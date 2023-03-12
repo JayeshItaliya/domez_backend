@@ -135,7 +135,7 @@
                         </div>
                         <div class="d-flex justify-content-end mt-3">
                             <button type="submit" class="btn btn-outline-primary me-3">Cancel</button>
-                            <button type="submit" class="btn btn-primary">Submit</button>
+                            <button type="submit" class="btn btn-primary">{{ trans('labels.submit') }}</button>
                         </div>
                     </div>
     </form>

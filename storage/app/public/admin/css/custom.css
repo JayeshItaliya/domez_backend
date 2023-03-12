@@ -180,8 +180,9 @@ div.dataTables_filter label {
     padding: 6px;
 }
 
-.btn-custom-danger:hover,
-.btn-custom-danger:active {
+.btn-custom-danger:not(:disabled):hover,
+.btn-custom-danger:not(:disabled):active {
+    color: var(--bs-danger);
     background-color: rgba(var(--bs-danger-rgb), 0.15);
 }
 
@@ -200,6 +201,11 @@ form span.text-danger {
 .search-input{
     margin-right: 1rem;
 }
+
+.date-range-picker::placeholder{
+    color: white;
+}
+
 /* Preloader */
 #preloader {
     position: fixed;

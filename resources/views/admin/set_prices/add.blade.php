@@ -23,28 +23,25 @@
                                 </svg>
                             </a>
                         </li>
-                        <li class="breadcrumb-item active" aria-current="page">{{ trans('labels.set_prices') }}</li>
+                        <li class="breadcrumb-item" aria-current="page">{{ trans('labels.set_prices') }}</li>
+                        <li class="breadcrumb-item active" aria-current="page">{{ trans('labels.add_new_price') }}</li>
                     </ol>
                 </nav>
             </div>
         </div>
     </div>
     <div class="card">
-        <form id="storesetprices" action="{{ URL::to('admin/set-prices/store') }}" method="post"
-            enctype="multipart/form-data">
+        <form id="storesetprices" action="{{ URL::to('admin/set-prices/store') }}" method="post">
             @csrf
             <div class="card-body">
                 <div class="row">
-                    <div class="col-md-12">
-                        <h4>{{ trans('labels.add_new_price') }}</h4>
-                    </div>
                     <div class="col-md-12 mt-4">
                         <div class="row">
                             <div class="col-md-3">
                                 <div class="mb-3">
                                     <label class="form-label">{{ trans('labels.dome') }}</label>
                                     <select class="form-select" name="dome" id="dome"
-                                        data-next="{{ URL::to('/admin/leagues/sports-fields') }}">
+                                        data-next="{{ URL::to('/admin/set-prices/getsports') }}">
                                         <option value="" disabled selected>{{ trans('labels.select') }}</option>
                                         @foreach ($getdomeslist as $dome)
                                             <option value="{{ $dome->id }}"

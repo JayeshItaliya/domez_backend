@@ -7,16 +7,17 @@ use App\Models\Sports;
 use Illuminate\Http\Request;
 use App\Models\Domes;
 use App\Models\DomeImages;
-use Illuminate\Support\Facades\Auth;
+use App\Models\SetPrices;
+use App\Models\SetPricesDaysSlots;
 
 class DomesController extends Controller
 {
     public function index(Request $request)
     {
-        if (Auth::user()->id == 1) {
+        if (auth()->user()->id == 1) {
             $domes = Domes::with('dome_image','dome_owner')->where('is_deleted', 2)->get();
         } else {
-            $domes = Domes::with('dome_image')->where('vendor_id', Auth::user()->id)->where('is_deleted', 2)->get();
+            $domes = Domes::with('dome_image')->where('vendor_id', auth()->user()->id)->where('is_deleted', 2)->get();
         }
         $sports = Sports::where('is_available', 1)->where('is_deleted', 2)->get();
         return view('admin.domes.index', compact('domes','sports'));
@@ -36,55 +37,78 @@ class DomesController extends Controller
             'dome_price' => 'required',
             'start_time' => 'required',
             'end_time' => 'required',
-            'lat' => 'required',
             'description' => 'required',
             'address' => 'required',
+            // 'lat' => 'required',
+            // 'lng' => 'required',
+            // 'pin_code' => 'required',
+            // 'city' => 'required',
+            // 'state' => 'required',
+            // 'country' => 'required',
         ], [
-            'sport_id.required' => 'Please Select Sport',
-            'dome_name.required' => 'Please Enter Dome Name',
-            'dome_price.required' => 'Please Enter Dome Price',
-            'start_time.required' => 'Please Select Dome Start Time',
-            'end_time.required' => 'Please Select Dome End Time',
-            'lat.required' => 'Please Choose Dome Location',
-            'description.required' => 'Please Enter Dome Description',
-            'address.required' => 'Please Enter Dome Address',
+            'sport_id.required' => trans('messages.select_sport'),
+            'dome_name.required' => trans('messages.name_required'),
+            'dome_price.required' => trans('messages.price_required'),
+            'start_time.required' => trans('messages.start_time_required'),
+            'end_time.required' => trans('messages.end_time_required'),
+            'description.required' => trans('messages.description_required'),
+            'address.required' => trans('messages.address_required'),
+            // 'lat.required' => 'Please Choose Dome Location',
+            // 'lng.required' => 'Please Choose Dome Location',
+            // 'pin_code.required' => 'Please Enter Pin Code',
+            // 'city.required' => 'Please Enter City',
+            // 'state.required' => 'Please Enter State',
+            // 'country.required' => 'Please Enter Country',
         ]);
+        // dd($request->input());
 
-        $dome = new Domes;
-        $dome->vendor_id = Auth::user()->id;
+        $dome = new Domes();
+        $dome->vendor_id = auth()->user()->id;
         $dome->sport_id = implode(",", $request->sport_id);
         $dome->name = $request->dome_name;
-        $dome->price = $request->dome_price;
+        $dome->price = 0;
         $dome->address = $request->address;
         $dome->start_time = $request->start_time;
         $dome->end_time = $request->end_time;
         $dome->description = $request->description;
         $dome->lat = $request->lat;
         $dome->lng = $request->lng;
+        $dome->pin_code = $request->pin_code;
+        $dome->city = $request->city;
+        $dome->state = $request->state;
+        $dome->country = $request->country;
         $dome->benefits = implode("|", $request->benefits);
-        $dome->benefits_description    = $request->benefits_description;
+        $dome->benefits_description = $request->benefits_description;
         $dome->save();
 
         if ($request->has('dome_images')) {
             $request->validate([
-                'dome_images' => 'required',
                 'dome_images.*' => 'mimes:png,jpg,jpeg,svg',
             ], [
-                'dome_images.required' => 'Please Upload Dome Images',
-                'dome_images.mimes' => 'The Dome Images must be a file of type: PNG, JPG, JPEG, SVG',
+                'dome_images.mimes' => trans('messages.valid_image_type'),
             ]);
             foreach ($request->file('dome_images') as $img) {
                 $domeimage = new DomeImages;
                 $image = 'dome-' . uniqid() . '.' . $img->getClientOriginalExtension();
                 $img->move('storage/app/public/admin/images/domes', $image);
-                $domeimage->vendor_id = Auth::user()->id;
+                $domeimage->vendor_id = auth()->user()->id;
                 $domeimage->dome_id = $dome->id;
                 $domeimage->images = $image;
                 $domeimage->save();
             }
         }
-
-        return redirect('admin/domes')->with('success', 'Added Successfully');
+        foreach ($request->sport_id as $key => $sport) {
+            $setprice = new SetPrices();
+            $setprice->vendor_id = auth()->user()->id;
+            $setprice->price_type = 1;
+            $setprice->price = $request->dome_price[$key];
+            $setprice->dome_id = $dome->id;
+            $setprice->sport_id = $sport;
+            $setprice->start_date = '';
+            $setprice->end_date = '';
+            $setprice->save();
+        }
+        return redirect('admin/domes')->with('success', trans('messages.success'));
     }
 
     public function dome_details(Request $request)
@@ -103,26 +127,36 @@ class DomesController extends Controller
 
     public function update(Request $request)
     {
-        dd($request->input());
         $request->validate([
             'sport_id' => 'required',
             'dome_name' => 'required',
             'dome_price' => 'required',
             'start_time' => 'required',
             'end_time' => 'required',
-            'lat' => 'required',
             'description' => 'required',
             'address' => 'required',
+            // 'lat' => 'required',
+            // 'lng' => 'required',
+            // 'pin_code' => 'required',
+            // 'city' => 'required',
+            // 'state' => 'required',
+            // 'country' => 'required',
         ], [
-            'sport_id.required' => 'Please Select Sport',
-            'dome_name.required' => 'Please Enter Dome Name',
-            'dome_price.required' => 'Please Enter Dome Price',
-            'start_time.required' => 'Please Select Dome Start Time',
-            'end_time.required' => 'Please Select Dome End Time',
-            'lat.required' => 'Please Choose Dome Location',
-            'description.required' => 'Please Enter Dome Description',
-            'address.required' => 'Please Enter Dome Address',
+            'sport_id.required' => trans('messages.select_sport'),
+            'dome_name.required' => trans('messages.name_required'),
+            'dome_price.required' => trans('messages.price_required'),
+            'start_time.required' => trans('messages.start_time_required'),
+            'end_time.required' => trans('messages.end_time_required'),
+            'description.required' => trans('messages.description_required'),
+            'address.required' => trans('messages.address_required'),
+            // 'lat.required' => 'Please Choose Dome Location',
+            // 'lng.required' => 'Please Choose Dome Location',
+            // 'pin_code.required' => 'Please Enter Pin Code',
+            // 'city.required' => 'Please Enter City',
+            // 'state.required' => 'Please Enter State',
+            // 'country.required' => 'Please Enter Country',
         ]);
+
         $dome = Domes::find($request->id);
         $dome->sport_id = implode(",", $request->sport_id);
         $dome->name = $request->dome_name;
@@ -143,23 +177,21 @@ class DomesController extends Controller
 
         if ($request->has('dome_images')) {
             $request->validate([
-                'dome_images' => 'required',
                 'dome_images.*' => 'mimes:png,jpg,jpeg,svg',
             ], [
-                'dome_images.required' => 'Please Upload Dome Images',
-                'dome_images.mimes' => 'The Dome Images must be a file of type: PNG, JPG, JPEG, SVG',
+                'dome_images.mimes' => trans('messages.valid_image_type'),
             ]);
             foreach ($request->file('dome_images') as $img) {
                 $domeimage = new DomeImages;
                 $image = 'dome-' . uniqid() . '.' . $img->getClientOriginalExtension();
                 $img->move('storage/app/public/admin/images/domes', $image);
-                $domeimage->vendor_id = Auth::user()->id;
+                $domeimage->vendor_id = auth()->user()->id;
                 $domeimage->dome_id = $dome->id;
                 $domeimage->images = $image;
                 $domeimage->save();
             }
         }
-        return redirect('admin/domes')->with('success', 'Updated Successfully');
+        return redirect('admin/domes')->with('success', trans('messages.success'));
     }
 
     public function delete(Request $request)
@@ -179,7 +211,6 @@ class DomesController extends Controller
         $image = DomeImages::find($request->id);
         unlink('storage/app/public/admin/images/domes/' . $image->images);
         $image->delete();
-
         return 1;
     }
 }

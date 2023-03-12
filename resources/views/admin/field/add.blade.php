@@ -26,7 +26,8 @@
                                 </svg>
                             </a>
                         </li>
-                        <li class="breadcrumb-item"><a href="{{URL::to('admin/fields')}}">{{ trans('labels.fields') }}</a></li>
+                        <li class="breadcrumb-item"><a href="{{ URL::to('admin/fields') }}">{{ trans('labels.fields') }}</a>
+                        </li>
                         <li class="breadcrumb-item active" aria-current="page">{{ trans('labels.add_field') }}</li>
                     </ol>
                 </nav>
@@ -42,7 +43,7 @@
                         <div class="col-sm-6">
                             <label class="form-label" for="dome">Select Dome</label>
                             <select class="form-select" name="dome" id="dome">
-                                <option disabled selected>------Select------</option>
+                                <option disabled selected>{{ trans('labels.select') }}</option>
                                 @foreach ($dome as $data)
                                     <option value="{{ $data->id }}" class="text-capitalize">{{ $data->name }}</option>
                                 @endforeach
@@ -55,7 +56,8 @@
                             <label class="form-label" for="sport_id">Select Sport</label>
                             <select class="form-select" name="sport_id" id="sport_id">
                                 @foreach ($getsportslist as $data)
-                                    <option value="{{ $data->id }}" class="text-capitalize">{{ $data->name }}</option>
+                                    <option value="{{ $data->id }}" class="text-capitalize">{{ $data->name }}
+                                    </option>
                                 @endforeach
                             </select>
                             @error('sport_id')
@@ -66,7 +68,7 @@
                 </div>
                 <div class="mb-4 col-sm-4">
                     <label class="form-label" for="field_name">Field Name</label>
-                    <input type="text" id="field_name" name="field_name" value="{{ old('field_name') }}"
+                    <input type="number" id="field_name" name="field_name" value="{{ old('field_name') }}"
                         class="form-control" placeholder="Please Enter Field Name">
                     @error('field_name')
                         <span class="text-danger">{{ $message }}</span>
@@ -77,9 +79,11 @@
                     <div class="row">
                         <div class="col-6">
                             <select class="form-select" name="min_person" id="min_person">
-                                <option value="" class="text-capitalize" disabled selected>Select Minimum Person</option>
+                                <option value="" class="text-capitalize" disabled selected>Select Minimum Person
+                                </option>
                                 @for ($i = 1; $i < 100; $i++)
-                                    <option value="{{ $i }}" class="text-capitalize">{{ $i }}</option>
+                                    <option value="{{ $i }}" class="text-capitalize">{{ $i }}
+                                    </option>
                                 @endfor
                             </select>
                             @error('min_person')
@@ -87,12 +91,14 @@
                             @enderror
                         </div>
                         <div class="col-6">
-                                <select class="form-select" name="max_person" id="max_person">
-                                    <option value="" class="text-capitalize" disabled selected>Select Maximum Person</option>
-                                    @for ($i = 1; $i < 100; $i++)
-                                        <option value="{{ $i }}" class="text-capitalize">{{ $i }}</option>
-                                    @endfor
-                                </select>
+                            <select class="form-select" name="max_person" id="max_person">
+                                <option value="" class="text-capitalize" disabled selected>Select Maximum Person
+                                </option>
+                                @for ($i = 1; $i < 100; $i++)
+                                    <option value="{{ $i }}" class="text-capitalize">{{ $i }}
+                                    </option>
+                                @endfor
+                            </select>
                             @error('max_person')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
@@ -101,7 +107,7 @@
                 </div>
                 <div class="col-sm-6">
                     <div class="form-group mb-4">
-                        <label class="form-label" for="field_image">Dome Images</label>
+                        <label class="form-label" for="field_image">Field Images</label>
                         <input type="file" class="form-control" id="field_image" name="field_image">
                         @error('field_image')
                             <span class="text-danger">{{ $message }}</span>
@@ -109,7 +115,7 @@
                     </div>
                 </div>
             </div>
-            <button type="submit" class="btn btn-primary mt-2">Submit</button>
+            <button type="submit" class="btn btn-primary mt-2">{{ trans('labels.submit') }}</button>
         </div>
     </form>
 @endsection

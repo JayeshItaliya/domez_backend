@@ -40,7 +40,6 @@ class LeagueController extends Controller
     }
     public function store(Request $request)
     {
-
         $request->validate([
             'dome' => 'required',
             'field' => 'required',
@@ -57,7 +56,6 @@ class LeagueController extends Controller
             'max_player' => 'required',
             'team_limit' => 'required',
             'price' => 'required',
-
             'start_time' => 'date_format:H:i A',
             'end_time' => 'date_format:H:i A|after:start_time',
         ], [
@@ -67,8 +65,8 @@ class LeagueController extends Controller
             'name.required' => 'Please Enter Name',
             'start_date.required' => trans('messages.select_start_date'),
             'end_date.required' => trans('messages.select_end_date'),
-            'start_time.required' => trans('messages.select_start_time'),
-            'end_time.required' => trans('messages.select_end_time'),
+            'start_time.required' => trans('messages.start_time_required'),
+            'end_time.required' => trans('messages.end_time_required'),
             'from_age.required' => trans('messages.select_from_age'),
             'to_age.required' => trans('messages.select_to_age'),
             'gender.required' => trans('messages.select_gender'),
@@ -76,7 +74,6 @@ class LeagueController extends Controller
             'max_player.required' => trans('messages.select_max_player'),
             'team_limit.required' => trans('messages.select_team_limit'),
             'price.required' => trans('messages.price_required'),
-
             'start_time.date_format' => trans('messages.valid_time_format'),
             'end_time.date_format' => trans('messages.valid_time_format'),
             'end_time.after' => trans('messages.end_time_must_after_start_time'),

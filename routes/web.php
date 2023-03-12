@@ -171,11 +171,14 @@ Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function () {
         Route::group(['prefix' => 'set-prices'], function () {
             Route::get('/', [DomesPriceController::class, 'index']);
             Route::get('add', [DomesPriceController::class, 'add']);
-            Route::post('store', [DomesPriceController::class, 'store']);
-            Route::get('details-{id}', [DomesPriceController::class, 'dome_price_details']);
             Route::get('edit-{id}', [DomesPriceController::class, 'edit']);
+            Route::post('store', [DomesPriceController::class, 'store']);
+            Route::get('delete', [DomesPriceController::class, 'deletesetprice']);
+            Route::get('delete-slot', [DomesPriceController::class, 'deleteslot']);
+            Route::get('getsports', [DomesPriceController::class, 'getsportslist']);
+
             Route::post('update-{id}', [DomesPriceController::class, 'update']);
-            Route::get('delete', [DomesPriceController::class, 'delete']);
+            Route::get('details-{id}', [DomesPriceController::class, 'dome_price_details']);
         });
         //  Field
         Route::group(['prefix' => 'fields'], function () {
