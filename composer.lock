@@ -3881,6 +3881,7 @@
             "time": "2023-01-26T23:11:27+00:00"
         },
         {
+<<<<<<< HEAD
             "name": "stella-maris/clock",
             "version": "0.1.7",
             "source": {
@@ -3937,6 +3938,17 @@
             },
             "dist": {
                 "type": "zip",
+=======
+            "name": "stripe/stripe-php",
+            "version": "v10.9.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/stripe/stripe-php.git",
+                "reference": "aa25c11fb08ce149d609de0f3e54d0238dc1ff98"
+            },
+            "dist": {
+                "type": "zip",
+>>>>>>> e2dae0dfd8bc738005db845ca811915c3c792a65
                 "url": "https://api.github.com/repos/stripe/stripe-php/zipball/aa25c11fb08ce149d609de0f3e54d0238dc1ff98",
                 "reference": "aa25c11fb08ce149d609de0f3e54d0238dc1ff98",
                 "shasum": ""
