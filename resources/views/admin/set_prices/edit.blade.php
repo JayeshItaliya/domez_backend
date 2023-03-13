@@ -41,7 +41,7 @@
                                 <div class="form-group">
                                     <label class="form-label">{{ trans('labels.dome') }}</label>
                                     <select class="form-select" name="dome" id="dome"
-                                        data-next="{{ URL::to('/admin/set-prices/getsports') }}">
+                                        data-next="{{ URL::to('/admin/set-prices/getsports') }}" data-from="edit">
                                         <option value="" disabled selected>{{ trans('labels.select') }}</option>
                                         @foreach ($getdomeslist as $dome)
                                             <option value="{{ $dome->id }}"
