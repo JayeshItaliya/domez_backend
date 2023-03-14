@@ -39,7 +39,7 @@ class PaymentController extends Controller
         if ($request->dome_id == "") {
             return response()->json(["status" => 0, "message" => "Please Enter Dome ID"], 200);
         }
-        if ($request->user_id == "") {
+        if (in_array($request->user_id,[0,''])) {
             if ($request->customer_email != "") {
                 $checkuser = User::where('email', $request->customer_email)->first();
                 if (empty($checkuser)) {
@@ -102,43 +102,42 @@ class PaymentController extends Controller
         // Payment Method = 1=Card, 2=Apple Pay, 3=Google Pay
         $amount = $request->payment_type == 1 ? $request->total_amount : $request->paid_amount;
         $booking_id = bin2hex(random_bytes(3));
-        if ($request->payment_method == 1) {
-            if ($request->card_number == "") {
-                return response()->json(["status" => 0, "message" => "Please Enter Card Number"], 200);
-            }
-            if ($request->card_exp_month == "") {
-                return response()->json(["status" => 0, "message" => "Please Enter Card Expire Month"], 200);
-            }
-            if ($request->card_exp_year == "") {
-                return response()->json(["status" => 0, "message" => "Please Enter Card Expire Year"], 200);
-            }
-            if ($request->card_cvv == "") {
-                return response()->json(["status" => 0, "message" => "Please Enter Card CVV"], 200);
-            }
-            try {
-                $stripe = new \Stripe\StripeClient(Helper::stripe_data()->secret_key);
-                $gettoken = $stripe->tokens->create([
-                    'card' => [
-                        'number' => $request->card_number,
-                        'exp_month' => $request->card_exp_month,
-                        'exp_year' => $request->card_exp_year,
-                        'cvc' => $request->card_cvv,
-                    ],
-                ]);
-                Stripe\Stripe::setApiKey(Helper::stripe_data()->secret_key);
-                $payment = Stripe\Charge::create([
-                    "amount" => $amount * 100,
-                    "currency" => "CAD",
-                    "source" => $gettoken->id,
-                    "description" => "Domez Payment",
-                ]);
-                $transaction_id = $payment->id;
-            } catch (\Throwable $th) {
-                return response()->json(['status' => 0, "message" => "Payment Failed"], 200);
-            }
-        } else {
-            $transaction_id = $request->transaction_id;
-        }
+        $transaction_id = $request->transaction_id;
+        // if ($request->payment_method == 1) {
+        //     if ($request->card_number == "") {
+        //         return response()->json(["status" => 0, "message" => "Please Enter Card Number"], 200);
+        //     }
+        //     if ($request->card_exp_month == "") {
+        //         return response()->json(["status" => 0, "message" => "Please Enter Card Expire Month"], 200);
+        //     }
+        //     if ($request->card_exp_year == "") {
+        //         return response()->json(["status" => 0, "message" => "Please Enter Card Expire Year"], 200);
+        //     }
+        //     if ($request->card_cvv == "") {
+        //         return response()->json(["status" => 0, "message" => "Please Enter Card CVV"], 200);
+        //     }
+        //     try {
+        //         $stripe = new \Stripe\StripeClient(Helper::stripe_data()->secret_key);
+        //         $gettoken = $stripe->tokens->create([
+        //             'card' => [
+        //                 'number' => $request->card_number,
+        //                 'exp_month' => $request->card_exp_month,
+        //                 'exp_year' => $request->card_exp_year,
+        //                 'cvc' => $request->card_cvv,
+        //             ],
+        //         ]);
+        //         Stripe\Stripe::setApiKey(Helper::stripe_data()->secret_key);
+        //         $payment = Stripe\Charge::create([
+        //             "amount" => $amount * 100,
+        //             "currency" => "CAD",
+        //             "source" => $gettoken->id,
+        //             "description" => "Domez Payment",
+        //         ]);
+        //         $transaction_id = $payment->id;
+        //     } catch (\Throwable $th) {
+        //         return response()->json(['status' => 0, "message" => "Payment Failed"], 200);
+        //     }
+        // }
         try {
             if ($request->booking_type == 1) {
                 $dome = Domes::find($request->dome_id);

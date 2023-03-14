@@ -13,24 +13,56 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\URL;
 use Stripe;
+use Carbon\Carbon;
+use Carbon\CarbonImmutable;
+use DateTime;
 
 class BookingController extends Controller
 {
     public function index(Request $request)
     {
-        if (Auth::user()->type == 1) {
-            $getbookingslist = Booking::orderByDesc('id')->get();
-        } else {
-            $getbookingslist = Booking::where('vendor_id', Auth::user()->id)->orderByDesc('id')->get();
+        $now = CarbonImmutable::today();
+        $weekStartDate = $now->startOfWeek();
+        $weekEndDate = $now->endOfWeek();
+
+        $getbookingslist = Booking::select('*');
+        if (auth()->user()->type == 2) {
+            $getbookingslist = $getbookingslist->where('vendor_id', auth()->user()->id);
         }
+        if ($request->has('type') && in_array($request->type, ['domes', 'leagues'])) {
+            if ($request->type == 'domes') {
+                $getbookingslist = $getbookingslist->where('dome_id', '!=', '');
+            }
+            if ($request->type == 'leagues') {
+                $getbookingslist = $getbookingslist->where('league_id', '!=', '');
+            }
+        }
+        if ($request->has('filter') && $request->filter != "") {
+            if ($request->filter == 'this-month') {
+                $getbookingslist = $getbookingslist->whereMonth('booking_date', Carbon::now()->month);
+            }else if ($request->filter == 'this-year') {
+                $getbookingslist = $getbookingslist->whereYear('booking_date', Carbon::now()->year);
+            }else if ($request->filter == 'custom-date') {
+                $weekStartDate = @explode(' to ', $request->dates)[0];
+                $weekEndDate = @explode(' to ', $request->dates)[1];
+                if ( $weekStartDate != "" && $weekEndDate != "" ) {
+                    $getbookingslist = $getbookingslist->whereBetween('booking_date', [$weekStartDate, $weekEndDate]);
+                }else{
+                    $getbookingslist = $getbookingslist->whereDate('booking_date', $weekStartDate);
+                }
+            }else{
+                $getbookingslist = $getbookingslist->whereBetween('booking_date', [$weekStartDate, $weekEndDate]);
+            }
+        }
+        $getbookingslist = $getbookingslist->orderByDesc('id')->get();
         return view('admin.bookings.index', compact('getbookingslist'));
     }
     public function calendar(Request $request)
     {
-        if (Auth::user()->type == 1) {
+        if (auth()->user()->type == 1) {
             $getbookingslist = Booking::orderByDesc('id')->get();
         } else {
-            $getbookingslist = Booking::where('vendor_id', Auth::user()->id)->orderByDesc('id')->get();
+            $getbookingslist = Booking::where('vendor_id', auth()->user()->id)->orderByDesc('id')->get();
         }
         // $data = [];
         // foreach ($getbookingslist as $key => $booking) {

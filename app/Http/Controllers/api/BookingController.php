@@ -21,7 +21,7 @@ class BookingController extends Controller
 {
     public function booking_list(Request $request)
     {
-        if ($request->user_id == "") {
+        if (in_array($request->user_id,[0,''])) {
             return response()->json(["status" => 0, "message" => "Please Enter User ID"], 200);
         }
         if ($request->is_active == "") {

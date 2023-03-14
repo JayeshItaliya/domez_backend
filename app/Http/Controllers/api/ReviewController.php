@@ -12,7 +12,7 @@ class ReviewController extends Controller
 {
     public function review(Request $request)
     {
-        if ($request->user_id == "") {
+        if (in_array($request->user_id,[0,''])) {
             return response()->json(["status" => 0, "message" => 'Enter Login User ID'], 200);
         }
         if ($request->dome_id == "") {

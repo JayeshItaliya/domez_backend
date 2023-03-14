@@ -22,7 +22,7 @@ class DomesController extends Controller
                 $domes_list = [];
                 //Type = 1 (Recent Bookings Dome Data)
                 if ($request->type == 1) {
-                    if ($request->user_id == "") {
+                    if (in_array($request->user_id,[0,''])) {
                         return response()->json(["status" => 0, "message" => 'Enter Login User ID'], 200);
                     }
                     if (empty(User::find($request->user_id))) {
@@ -57,7 +57,7 @@ class DomesController extends Controller
                     foreach ($popular_domes as $pdome) {
                         $dome = Domes::where('id', $pdome->dome_id)->where('is_deleted', 2)->first();
                         if (!empty($dome)) {
-                            if ($request->user_id != "") {
+                            if (!in_array($request->user_id,[0,''])) {
                                 $is_fav = Favourite::where('dome_id', $dome->id)->where('user_id', $request->user_id)->first();
                             }
                             $domes_list[] = [
@@ -106,7 +106,7 @@ class DomesController extends Controller
                     $getarounddomes = $getarounddomes->orderBy('distance')->whereIn('id', [1, 2, 3, 4])->get();
 
                     foreach ($getarounddomes as $dome) {
-                        if ($request->user_id != "") {
+                        if (!in_array($request->user_id,[0,''])) {
                             $is_fav = Favourite::where('dome_id', $dome->id)->where('user_id', $request->user_id)->first();
                         }
                         $domes_list[] = [
