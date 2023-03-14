@@ -480,6 +480,7 @@
         create_users_chart(users_labels, users_data);
 
         function create_users_chart(users_labels, users_data) {
+            console.log(users_labels, users_data);
             var options = {
                 series: [{
                     name: '{{ trans('labels.users') }}',

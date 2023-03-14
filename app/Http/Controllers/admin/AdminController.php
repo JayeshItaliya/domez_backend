@@ -53,7 +53,8 @@ class AdminController extends Controller
             $total_revenue_data = $total_revenue_data->whereMonth('created_at', Carbon::now()->month)->select(DB::raw('DATE_FORMAT(created_at, "%d-%m-%Y") as titles'), DB::raw('SUM(amount*12/100) as amount'))->groupBy('titles')->pluck('titles', 'amount');
             // For Users Chart
             $total_users_data_sum = $total_users_data->whereMonth('created_at', Carbon::now()->month)->count();
-            $total_users_data = $total_users_data->whereMonth('created_at', Carbon::now()->month)->select(DB::raw('DATE_FORMAT(created_at, "%d-%m-%Y") as titles'), DB::raw('COUNT(id) as users'))->groupBy('titles')->pluck('titles', 'users');
+            $total_users_data = $total_users_data->whereMonth('created_at', Carbon::now()->month)->select(DB::raw('DATE_FORMAT(created_at, "%d-%m-%Y") as titles'), DB::raw('COUNT(*) as users'))->groupBy(DB::raw('DATE_FORMAT(created_at,"%d-%-m-Y")'))->pluck('titles', 'users');
+            dd($total_users_data_sum, $total_users_data);
         } elseif ($request->filtertype == "this_year") {
             // For Income Chart
             $total_income_data_sum = Transaction::where('type', 1)->whereYear('created_at', Carbon::now()->year)->sum('amount');
@@ -68,6 +69,7 @@ class AdminController extends Controller
             // For Users Chart
             $total_users_data_sum = $total_users_data->whereYear('created_at', Carbon::now()->year)->count();
             $total_users_data = $total_users_data->whereYear('created_at', Carbon::now()->year)->select(DB::raw('DATE_FORMAT(created_at, "%d-%m-%Y") as titles'), DB::raw('COUNT(id) as users'))->groupBy('titles')->pluck('titles', 'users');
+            dd($total_users_data_sum, $total_users_data);
         } elseif ($request->filtertype == "custom_date") {
             $weekStartDate = explode(' to ', $request->filterdates)[0];
             $weekEndDate = explode(' to ', $request->filterdates)[1];
@@ -84,6 +86,7 @@ class AdminController extends Controller
             // For Users Chart
             $total_users_data_sum = $total_users_data->whereBetween('created_at', [$weekStartDate, $weekEndDate])->count();
             $total_users_data = $total_users_data->whereBetween('created_at', [$weekStartDate, $weekEndDate])->select(DB::raw('DATE_FORMAT(created_at, "%d-%m-%Y") as titles'), DB::raw('COUNT(id) as users'))->groupBy('titles')->pluck('titles', 'users');
+            dd($total_users_data_sum, $total_users_data);
         } else {
             // For Income Chart
             $total_income_data_sum = Transaction::where('type', 1)->whereBetween('created_at', [$weekStartDate, $weekEndDate])->sum('amount');

@@ -94,15 +94,14 @@ class FavouriteController extends Controller
                 if (count($favourite) != 0) {
                     foreach ($favourite as $league) {
                         $league_data = League::where('id', $league->league_id)->where('is_deleted', 2)->first();
-                        $dome_data = Domes::where('id', $league_data->dome_id)->where('is_deleted', 2)->first();
                         $league_list = array(
                             "id" => $league_data->id,
                             "league_name" => $league_data->name,
-                            "dome_name" => $dome_data->name,
+                            "dome_name" => $league_data->dome_info->name,
                             "image" => Helper::image_path($league_data->image),
                             "price" => $league_data->price,
-                            "city" => $dome_data->city,
-                            "state" => $dome_data->state,
+                            "city" => $league_data->dome_info->city,
+                            "state" => $league_data->dome_info->state,
                             "sports_list" => Sports::select('id', 'name', DB::raw("CONCAT('" . url('storage/app/public/admin/images/sports') . "/', image) AS image"))->whereIn('id', explode('|', $league_data->sport_id))->where('is_available', 1)->where('is_deleted', 2)->get(),
                         );
                         $league_lists[] = $league_list;
