@@ -217,7 +217,7 @@ class HomeController extends Controller
                     "image" => $image,
                     "city" => $request->type == 1 ? $data->city : $data->dome_info->city,
                     "state" => $request->type == 1 ? $data->state : $data->dome_info->state,
-                    "is_fav" => $request->user_id != "" ? (!empty(@$fav) ? true : false) : false,
+                    "is_fav" => !in_array($request->user_id,[0,'']) ? (!empty(@$fav) ? true : false) : false,
                     "sport_id" => $data->sport_id,
                     "sports_list" => Sports::select('id', 'name', DB::raw("CONCAT('" . url('storage/app/public/admin/images/sports') . "/', image) AS image"))->whereIn('id', explode('|', $data->sport_id))->where('is_available', 1)->where('is_deleted', 2)->get(),
                 ];
@@ -256,7 +256,7 @@ class HomeController extends Controller
             }
             $responsedata[] = [
                 "id" => $data->id,
-                "is_fav" => $request->user_id != "" ? Helper::is_fav($request->user_id, $dome_id, $league_id) : false,
+                "is_fav" => !in_array($request->user_id,[0,'']) ? Helper::is_fav($request->user_id, $dome_id, $league_id) : false,
                 "league_name" => $request->type == 1 ? '' : $data->name,
                 "dome_name" => $request->type == 1 ? $data->name : $data->dome_info->name,
                 "price" => $request->type == 1 ? rand(111, 999) : $data->price,

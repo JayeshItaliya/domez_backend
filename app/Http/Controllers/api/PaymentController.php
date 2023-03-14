@@ -13,13 +13,14 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Str;
 
 class PaymentController extends Controller
 {
     public function stripe_key(Request $request)
     {
-        return response()->json(["status" => 1, "message" => "Successfull", 'data'=>Helper::stripe_data()], 200);
+        return response()->json(["status" => 1, "message" => "Successfull", 'data' => Helper::stripe_data()], 200);
     }
     public function payment(Request $request)
     {
@@ -39,7 +40,7 @@ class PaymentController extends Controller
         if ($request->dome_id == "") {
             return response()->json(["status" => 0, "message" => "Please Enter Dome ID"], 200);
         }
-        if ($request->user_id == "") {
+        if (in_array($request->user_id, [0, ''])) {
             if ($request->customer_email != "") {
                 $checkuser = User::where('email', $request->customer_email)->first();
                 if (empty($checkuser)) {
@@ -78,7 +79,7 @@ class PaymentController extends Controller
         if ($request->players == "") {
             return response()->json(["status" => 0, "message" => "Please Enter Numbers Of Players"], 200);
         }
-        if ( in_array($request->payment_method, [2,3]) && $request->transaction_id == "") {
+        if (in_array($request->payment_method, [2, 3]) && $request->transaction_id == "") {
             return response()->json(["status" => 0, "message" => "Please Enter Transaction ID"], 200);
         }
         if ($request->booking_type == 2 && $request->team_name == "") {
@@ -102,49 +103,48 @@ class PaymentController extends Controller
         // Payment Method = 1=Card, 2=Apple Pay, 3=Google Pay
         $amount = $request->payment_type == 1 ? $request->total_amount : $request->paid_amount;
         $booking_id = bin2hex(random_bytes(3));
-        if ($request->payment_method == 1) {
-            if ($request->card_number == "") {
-                return response()->json(["status" => 0, "message" => "Please Enter Card Number"], 200);
-            }
-            if ($request->card_exp_month == "") {
-                return response()->json(["status" => 0, "message" => "Please Enter Card Expire Month"], 200);
-            }
-            if ($request->card_exp_year == "") {
-                return response()->json(["status" => 0, "message" => "Please Enter Card Expire Year"], 200);
-            }
-            if ($request->card_cvv == "") {
-                return response()->json(["status" => 0, "message" => "Please Enter Card CVV"], 200);
-            }
-            try {
-                $stripe = new \Stripe\StripeClient(Helper::stripe_data()->secret_key);
-                $gettoken = $stripe->tokens->create([
-                    'card' => [
-                        'number' => $request->card_number,
-                        'exp_month' => $request->card_exp_month,
-                        'exp_year' => $request->card_exp_year,
-                        'cvc' => $request->card_cvv,
-                    ],
-                ]);
-                Stripe\Stripe::setApiKey(Helper::stripe_data()->secret_key);
-                $payment = Stripe\Charge::create([
-                    "amount" => $amount * 100,
-                    "currency" => "CAD",
-                    "source" => $gettoken->id,
-                    "description" => "Domez Payment",
-                ]);
-                $transaction_id = $payment->id;
-            } catch (\Throwable $th) {
-                return response()->json(['status' => 0, "message" => "Payment Failed"], 200);
-            }
-        } else {
-            $transaction_id = $request->transaction_id;
-        }
+        $transaction_id = $request->transaction_id;
+        // if ($request->payment_method == 1) {
+        //     if ($request->card_number == "") {
+        //         return response()->json(["status" => 0, "message" => "Please Enter Card Number"], 200);
+        //     }
+        //     if ($request->card_exp_month == "") {
+        //         return response()->json(["status" => 0, "message" => "Please Enter Card Expire Month"], 200);
+        //     }
+        //     if ($request->card_exp_year == "") {
+        //         return response()->json(["status" => 0, "message" => "Please Enter Card Expire Year"], 200);
+        //     }
+        //     if ($request->card_cvv == "") {
+        //         return response()->json(["status" => 0, "message" => "Please Enter Card CVV"], 200);
+        //     }
+        //     try {
+        //         $stripe = new \Stripe\StripeClient(Helper::stripe_data()->secret_key);
+        //         $gettoken = $stripe->tokens->create([
+        //             'card' => [
+        //                 'number' => $request->card_number,
+        //                 'exp_month' => $request->card_exp_month,
+        //                 'exp_year' => $request->card_exp_year,
+        //                 'cvc' => $request->card_cvv,
+        //             ],
+        //         ]);
+        //         Stripe\Stripe::setApiKey(Helper::stripe_data()->secret_key);
+        //         $payment = Stripe\Charge::create([
+        //             "amount" => $amount * 100,
+        //             "currency" => "CAD",
+        //             "source" => $gettoken->id,
+        //             "description" => "Domez Payment",
+        //         ]);
+        //         $transaction_id = $payment->id;
+        //     } catch (\Throwable $th) {
+        //         return response()->json(['status' => 0, "message" => "Payment Failed"], 200);
+        //     }
+        // }
         try {
             if ($request->booking_type == 1) {
-                $dome = Domes::find($request->dome_id);
+                $dome = Domes::where('id', $request->dome_id)->where('is_deleted', 2)->first();
             } else {
                 $league = League::find($request->league_id);
-                $dome = Domes::find($league->dome_id);
+                $dome = Domes::where('id', $league->dome_id)->where('is_deleted', 2)->first();
             }
 
             // Payment Type = 1=Card, 2=Apple Pay, 3=Google Pay
@@ -190,7 +190,7 @@ class PaymentController extends Controller
             if ($request->booking_type == 2) {
                 $booking->start_date = League::find($request->league_id)->start_date; // Use For League Bookings Only
                 $booking->end_date = League::find($request->league_id)->end_date; // Use For League Bookings Only
-            }else{
+            } else {
                 $booking->start_date = $request->date; // Use For League Bookings Only
                 $booking->end_date = $request->date; // Use For League Bookings Only
 
@@ -204,14 +204,13 @@ class PaymentController extends Controller
             $booking->payment_status = $booking->due_amount == 0 ? 1 : 2;
             $booking->booking_status = $booking->payment_status == 1 ? 1 : 2;
             if ($request->payment_type == 2) {
-                $booking->token = str_replace(['$','/','.','|'],'',Hash::make($booking_id));
-            }else{
+                $booking->token = str_replace(['$', '/', '.', '|'], '', Hash::make($booking_id));
+            } else {
                 $booking->token = '';
             }
             $booking->save();
 
-
-            return response()->json(['status' => 1, "message" => "Successful", "transaction_id" => $transaction_id, "booking_id" => $booking->booking_id], 200);
+            return response()->json(['status' => 1, "message" => "Successful", "transaction_id" => $transaction_id, "booking_id" => $booking->booking_id, "payment_link" => URL::to('/payment/' . $booking->token),], 200);
         } catch (\Throwable $th) {
             return response()->json(['status' => 0, "message" => "Something Went Wrong"], 200);
         }

@@ -71,6 +71,7 @@ Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function () {
     //  Bookings
     Route::group(['prefix' => 'bookings'], function () {
         Route::get('/', [BookingController::class, 'index']);
+        Route::get('/filter-data', [BookingController::class, 'index']);
         Route::get('details-{booking_id}', [BookingController::class, 'details']);
     });
     // Enquiry

@@ -12,7 +12,7 @@ class ReviewController extends Controller
 {
     public function review(Request $request)
     {
-        if ($request->user_id == "") {
+        if (in_array($request->user_id, [0, ''])) {
             return response()->json(["status" => 0, "message" => 'Enter Login User ID'], 200);
         }
         if ($request->dome_id == "") {
@@ -41,7 +41,7 @@ class ReviewController extends Controller
         if ($request->id == "") {
             return response()->json(["status" => 0, "message" => 'Enter Dome ID'], 200);
         }
-        if (!empty(Domes::find($request->id))) {
+        if (!empty(Domes::where('id', $request->id)->where('is_deleted', 2)->first())) {
             $review = Review::where('dome_id', $request->id)->selectRaw('SUM(ratting)/COUNT(user_id) AS avg_rating')->first()->avg_rating;
             return response()->json(["status" => 1, "message" => "Successful", 'review' => $review], 200);
         } else {
@@ -54,7 +54,7 @@ class ReviewController extends Controller
         if ($request->dome_id == "") {
             return response()->json(["status" => 0, "message" => 'Enter Dome ID'], 200);
         }
-        if (!empty(Domes::find($request->dome_id))) {
+        if (!empty(Domes::where('id', $request->dome_id)->where('is_deleted', 2)->first())) {
             $rattinglist = Review::join('users AS users_table', function ($query) {
                 $query->on('reviews.user_id', '=', 'users_table.id')->where('users_table.type', 3);
             })

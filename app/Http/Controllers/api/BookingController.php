@@ -21,7 +21,7 @@ class BookingController extends Controller
 {
     public function booking_list(Request $request)
     {
-        if ($request->user_id == "") {
+        if (in_array($request->user_id,[0,''])) {
             return response()->json(["status" => 0, "message" => "Please Enter User ID"], 200);
         }
         if ($request->is_active == "") {
@@ -37,7 +37,7 @@ class BookingController extends Controller
         }
         $bookinglist = [];
         foreach ($bookings_list->get() as $booking) {
-            $dome = Domes::with('dome_image')->where('id', $booking->dome_id)->first();
+            $dome = Domes::with('dome_image')->where('id', $booking->dome_id)->where('is_deleted', 2)->first();
             if ($booking->league_id != '') {
                 $league = League::find($booking->league_id);
             }
@@ -60,7 +60,7 @@ class BookingController extends Controller
     {
         $booking = Booking::find($request->id);
         if (!empty($booking)) {
-            $dome = Domes::with('dome_image')->where('id', $booking->dome_id)->first();
+            $dome = Domes::with('dome_image')->where('id', $booking->dome_id)->where('is_deleted', 2)->first();
             if ($booking->league_id != '') {
                 $league = League::find($booking->league_id);
                 $datetime1 = new DateTime($league->start_date);

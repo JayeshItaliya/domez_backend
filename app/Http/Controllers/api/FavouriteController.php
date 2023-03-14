@@ -17,7 +17,7 @@ class FavouriteController extends Controller
 {
     public function favourite(Request $request)
     {
-        if ($request->user_id == "") {
+        if (in_array($request->user_id,[0,''])) {
             return response()->json(["status" => 0, "message" => 'Please Enter Login User ID'], 200);
         }
         if ($request->type == "") {
@@ -61,6 +61,9 @@ class FavouriteController extends Controller
 
     public function favourite_list(Request $request)
     {
+        if (in_array($request->user_id,[0,''])) {
+            return response()->json(["status" => 0, "message" => 'Please Enter Login User ID'], 200);
+        }
         $checkuser = User::where('id', $request->user_id)->where('type', 3)->first();
         if (!empty($checkuser)) {
             if ($request->type == 1) {

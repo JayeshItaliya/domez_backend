@@ -2,6 +2,9 @@
 @section('title')
     {{ trans('labels.bookings') }}
 @endsection
+@section('styles')
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+@endsection
 @section('contents')
     <div class="card mb-3">
         <div class="card-body py-2">
@@ -33,36 +36,59 @@
         <div class="card-body table-responsive">
             <div class="filter_content">
                 <div class="row gx-2">
+                    @php
+                        $type = request()->get('type') != '' ? request()->get('type') : '';
+                        $filter = request()->get('filter') != '' ? request()->get('filter') : '';
+                        $dates = request()->get('dates') != '' ? request()->get('dates') : '';
+                    @endphp
                     <div class="col-auto">
-                        <select class="form-select" name="" id="">
+                        <select class="form-select" name="type" id="type"
+                            onchange="location.href=$(this).find(':selected').attr('data-url')">
                             <option value="" selected disabled>{{ trans('labels.select') }}</option>
-                            <option value="all" selected>{{ trans('labels.all') }}</option>
-                            <option value="domes">{{ trans('labels.domes') }}</option>
-                            <option value="leagues">{{ trans('labels.leagues') }}</option>
+                            <option data-url="{{ URL::to('admin/bookings?type=all&filter=' . $filter) }}" value="all"
+                                {{ $type == 'all' || $type == '' ? 'selected' : '' }}>{{ trans('labels.all') }}</option>
+                            <option data-url="{{ URL::to('admin/bookings?type=domes&filter=' . $filter) }}" value="domes"
+                                {{ $type == 'domes' ? 'selected' : '' }}>{{ trans('labels.domes') }}</option>
+                            <option data-url="{{ URL::to('admin/bookings?type=leagues&filter=' . $filter) }}"
+                                value="leagues" {{ $type == 'leagues' ? 'selected' : '' }}>{{ trans('labels.leagues') }}
+                            </option>
                         </select>
                     </div>
                     <div class="col-auto">
-                        <select class="form-select" name="" id="">
-                            <option value="today" selected>{{ trans('labels.today') }}</option>
-                            <option value="last-7">{{ trans('labels.last_7_days') }}</option>
-                            <option value="this-month">{{ trans('labels.this_month') }}</option>
+                        <select class="form-select" name="filter" id="filter"
+                            onchange="$(this).val() != 'custom-date' ? location.href=$(this).find(':selected').attr('data-url') : $('.date-range-picker').show() ">
+                            <option data-url="{{ URL::to('admin/bookings?type=' . $type . '&filter=this-week') }}"
+                                value="this-week" {{ $filter == 'this-week' || $filter == '' ? 'selected' : '' }}>
+                                {{ trans('labels.this_week') }}</option>
+                            <option data-url="{{ URL::to('admin/bookings?type=' . $type . '&filter=this-month') }}"
+                                value="this-month" {{ $filter == 'this-month' ? 'selected' : '' }}>
+                                {{ trans('labels.this_month') }}</option>
+                            <option data-url="{{ URL::to('admin/bookings?type=' . $type . '&filter=this-year') }}"
+                                value="this-year" {{ $filter == 'this-year' ? 'selected' : '' }}>
+                                {{ trans('labels.this_year') }}</option>
+                            <option data-url="{{ URL::to('admin/bookings?type=' . $type . '&filter=custom-date') }}"
+                                value="custom-date" {{ $filter == 'custom-date' ? 'selected' : '' }}>
+                                {{ trans('labels.custom_date') }}</option>
                         </select>
+                    </div>
+                    <div class="col-auto">
+                        <input type="text" class="form-control date-range-picker" value="{{ $dates }}" placeholder="{{ trans('labels.select_date') }}" style="{{ $filter == 'custom-date' ? 'display:block;' : 'display:none;' }}">
                     </div>
                 </div>
             </div>
             <table class="table table-nowrap mb-0" id="bootstrapTable">
                 <thead>
                     <tr>
-                        <th> {{ trans('labels.srno') }} </th>
-                        <th> {{ trans('labels.booking_id') }} </th>
-                        <th> {{ trans('labels.dome_owner') }} </th>
-                        <th> {{ trans('labels.dome_name') }} </th>
-                        <th> {{ trans('labels.booking_date') }} </th>
-                        <th> {{ trans('labels.time') }} </th>
-                        <th> {{ trans('labels.amount') }} </th>
-                        <th> {{ trans('labels.payment_status') }} </th>
-                        <th> {{ trans('labels.status') }} </th>
-                        <th> {{ trans('labels.action') }} </th>
+                        <th data-sortable="true"> {{ trans('labels.srno') }} </th>
+                        <th data-sortable="true"> {{ trans('labels.booking_id') }} </th>
+                        <th data-sortable="true"> {{ trans('labels.dome_owner') }} </th>
+                        <th data-sortable="true"> {{ trans('labels.dome_name') }} </th>
+                        <th data-sortable="true"> {{ trans('labels.booking_date') }} </th>
+                        <th data-sortable="true"> {{ trans('labels.time') }} </th>
+                        <th data-sortable="true"> {{ trans('labels.amount') }} </th>
+                        <th data-sortable="true"> {{ trans('labels.payment_status') }} </th>
+                        <th data-sortable="true"> {{ trans('labels.status') }} </th>
+                        <th data-sortable="true"> {{ trans('labels.action') }} </th>
                     </tr>
                 </thead>
                 <tbody>
@@ -129,58 +155,27 @@
                             </td>
                         </tr>
                     @endforeach
-
                 </tbody>
             </table>
         </div>
     </div>
 @endsection
 @section('scripts')
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script>
         $(function() {
             $(".filter_content").appendTo($(".fixed-table-toolbar .float-left"));
+            $('.date-range-picker').flatpickr({
+                mode: "range",
+                // maxDate: "today",
+                placeHolder: "Select Date",
+                dateFormat: "Y-m-d",
+                onClose: function(selectedDates, dateStr, instance) {
+                    window.location.href = window.location.href.replace(window.location.search, '') +
+                        "?type=" + $('#type').val() + "&filter=" + $('#filter').val() + "&dates=" +
+                        dateStr;
+                }
+            });
         });
-        // Dome Delete
-        function dome_delete(id, status, url) {
-            "use strict";
-            swalWithBootstrapButtons
-                .fire({
-                    title: are_you_sure,
-                    icon: "warning",
-                    confirmButtonText: yes,
-                    cancelButtonText: no,
-                    showCancelButton: true,
-                    reverseButtons: true,
-                })
-                .then((result) => {
-                    showpreloader();
-                    if (result.isConfirmed) {
-                        $.ajax({
-                            type: "get",
-                            url: url,
-                            data: {
-                                id: id,
-                                status: status,
-                            },
-                            dataType: "json",
-                            success: function(response) {
-                                if (response == 1) {
-                                    hidepreloader();
-                                    toastr.success("Success");
-                                    location.reload();
-                                } else {
-                                    hidepreloader();
-                                    swal_cancelled(wrong);
-                                }
-                            },
-                            failure: function(response) {
-                                hidepreloader();
-                                swal_cancelled(wrong);
-                            },
-                        });
-                    }
-                    hidepreloader();
-                });
-        }
     </script>
 @endsection

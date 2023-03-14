@@ -28,7 +28,7 @@ class LeagueController extends Controller
                 $leagues_list = [];
                 //Type = 2 (Most Popular Leagues Data)
                 if ($request->type == 2) {
-                    if ($request->has('user_id')) {
+                    if ($request->has('user_id') && !in_array($request->user_id, [0, ''])) {
                         if (empty(User::find($request->user_id))) {
                             return response()->json(["status" => 0, "message" => 'Invalid User ID'], 200);
                         }
@@ -36,32 +36,32 @@ class LeagueController extends Controller
                     $recentbookings = Booking::where('user_id', $request->user_id)->where('type', 2)->get();
                     if (count($recentbookings) > 0) {
                         foreach ($recentbookings as $booking) {
-                        $dome = Domes::find($booking->dome_id);
-                        $league = League::where('id', $booking->league_id)->where('is_deleted', 2)->first();
-                        if (!empty($league)) {
-                            if ($request->user_id != "") {
-                                $is_fav = Favourite::where('league_id', $league->id)->where('user_id', $request->user_id)->first();
+                            $dome = Domes::where('id', $booking->dome_id)->where('is_deleted', 2)->first();
+                            $league = League::where('id', $booking->league_id)->where('is_deleted', 2)->first();
+                            if (!empty($league)) {
+                                if (!in_array($request->user_id, [0, ''])) {
+                                    $is_fav = Favourite::where('league_id', $league->id)->where('user_id', $request->user_id)->first();
+                                }
+                                $leagues_list[] = [
+                                    "id" => $league->id,
+                                    "league_name" => $league->name,
+                                    "dome_name" => $dome->name,
+                                    "image" => $league->image == "" ? "" : Helper::image_path($league->image),
+                                    "price" => $league->price,
+                                    "city" => $dome->city,
+                                    "state" => $dome->state,
+                                    "is_fav" => !empty(@$is_fav) ? true : false,
+                                    "date" => date('d M', strtotime($league->start_date)) . ' - ' . date('d M', strtotime($league->end_date)),
+                                    "sport_data" => Sports::select('id', 'name', DB::raw("CONCAT('" . url('storage/app/public/admin/images/sports') . "/', image) AS image"))->whereIn('id', explode('|', $league->sport_id))->where('is_available', 1)->where('is_deleted', 2)->get(),
+                                ];
                             }
-                            $leagues_list[] = [
-                                "id" => $league->id,
-                                "league_name" => $league->name,
-                                "dome_name" => $dome->name,
-                                "image" => $league->image == "" ? "" : Helper::image_path($league->image),
-                                "price" => $league->price,
-                                "city" => $dome->city,
-                                "state" => $dome->state,
-                                "is_fav" => !empty(@$is_fav) ? true : false,
-                                "date" => date('d M', strtotime($league->start_date)) . ' - ' . date('d M', strtotime($league->end_date)),
-                                "sport_data" => Sports::select('id', 'name', DB::raw("CONCAT('" . url('storage/app/public/admin/images/sports') . "/', image) AS image"))->whereIn('id', explode('|', $league->sport_id))->where('is_available', 1)->where('is_deleted', 2)->get(),
-                            ];
                         }
-                    }
                     } else {
                         $leagues = League::orderByDesc('id')->where('is_deleted', 2)->get();
                         foreach ($leagues as $league) {
                             if (!empty($league)) {
-                                $dome = Domes::find($league->dome_id);
-                                if ($request->user_id != "") {
+                                $dome = Domes::where('id', $league->dome_id)->where('is_deleted', 2)->first();
+                                if (!in_array($request->user_id, [0, ''])) {
                                     $is_fav = Favourite::where('league_id', $league->id)->where('user_id', $request->user_id)->first();
                                 }
                                 $leagues_list[] = [
@@ -97,7 +97,7 @@ class LeagueController extends Controller
                     * cos(radians(lng) - radians(" . $lng . "))
                     + sin(radians(" . $lat . "))
                     * sin(radians(lat))) AS distance")
-                    );
+                    )->where('domes.is_deleted', 2);
                     // The Distance Will Be in Kilometers
                     $getarounddomes = $getarounddomes->having('distance', '<=', $request->kilometer > 0 ? $request->kilometer : 1000);
 
@@ -152,7 +152,7 @@ class LeagueController extends Controller
         }
         $sports = Sports::select('id', 'name', DB::raw("CONCAT('" . url('storage/app/public/admin/images/leagues') . "/', image) AS image"))->whereIn('id', explode('|', $league->sport_id))->where('is_available', 1)->where('is_deleted', 2)->get();
 
-        $dome = Domes::where('id', $league->dome_id)->first();
+        $dome = Domes::where('id', $league->dome_id)->where('is_deleted', 2)->first();
         $benefits = [];
         foreach (explode('|', $dome->benefits) as $benefit) {
             $benefits[] = [

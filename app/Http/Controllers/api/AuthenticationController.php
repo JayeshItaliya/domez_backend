@@ -169,26 +169,26 @@ class AuthenticationController extends Controller
     }
     public function changepassword(Request $request)
     {
-        if ($request->user_id == "") {
+        if (in_array($request->user_id,[0,''])) {
             return response()->json(["status" => 0, "message" => "Please Enter Login User ID"], 200);
-        }
-        if ($request->current_password == "") {
-            return response()->json(["status" => 0, "message" => "Please Enter Current Password"], 200);
-        }
-        if ($request->current_password == $request->new_password) {
-            return response()->json(["status" => 0, "message" => "Your New Password Cannot Be The Same As Your Current Password"], 200);
-        }
-        if ($request->new_password == "") {
-            return response()->json(["status" => 0, "message" => "Please Enter New Password"], 200);
-        }
-        if ($request->confirm_password == "") {
-            return response()->json(["status" => 0, "message" => "Please Enter Confirm Password"], 200);
-        }
-        if ($request->new_password != $request->confirm_password) {
-            return response()->json(["status" => 0, "message" => "New Password and Confirm Password Does Not Match"], 200);
         }
         $checkuser = User::find($request->user_id);
         if (!empty($checkuser)) {
+            if ($request->current_password == "") {
+                return response()->json(["status" => 0, "message" => "Please Enter Current Password"], 200);
+            }
+            if ($request->current_password == $request->new_password) {
+                return response()->json(["status" => 0, "message" => "Your New Password Cannot Be The Same As Your Current Password"], 200);
+            }
+            if ($request->new_password == "") {
+                return response()->json(["status" => 0, "message" => "Please Enter New Password"], 200);
+            }
+            if ($request->confirm_password == "") {
+                return response()->json(["status" => 0, "message" => "Please Enter Confirm Password"], 200);
+            }
+            if ($request->new_password != $request->confirm_password) {
+                return response()->json(["status" => 0, "message" => "New Password and Confirm Password Does Not Match"], 200);
+            }
             if (Hash::check($request->current_password, $checkuser->password)) {
                 $checkuser->password = Hash::make($request->new_password);
                 $checkuser->save();
@@ -280,7 +280,7 @@ class AuthenticationController extends Controller
     }
     function editprofile(Request $request)
     {
-        if ($request->user_id == "") {
+        if (in_array($request->user_id,[0,''])) {
             return response()->json(["status" => 0, "message" => "Please Enter Login User ID"], 200);
         }
         $checkuser = User::where('id', $request->user_id)->where('type', 3)->where('is_deleted', 2)->first();
