@@ -13,13 +13,14 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Str;
 
 class PaymentController extends Controller
 {
     public function stripe_key(Request $request)
     {
-        return response()->json(["status" => 1, "message" => "Successfull", 'data'=>Helper::stripe_data()], 200);
+        return response()->json(["status" => 1, "message" => "Successfull", 'data' => Helper::stripe_data()], 200);
     }
     public function payment(Request $request)
     {
@@ -39,7 +40,7 @@ class PaymentController extends Controller
         if ($request->dome_id == "") {
             return response()->json(["status" => 0, "message" => "Please Enter Dome ID"], 200);
         }
-        if (in_array($request->user_id,[0,''])) {
+        if (in_array($request->user_id, [0, ''])) {
             if ($request->customer_email != "") {
                 $checkuser = User::where('email', $request->customer_email)->first();
                 if (empty($checkuser)) {
@@ -78,7 +79,7 @@ class PaymentController extends Controller
         if ($request->players == "") {
             return response()->json(["status" => 0, "message" => "Please Enter Numbers Of Players"], 200);
         }
-        if ( in_array($request->payment_method, [2,3]) && $request->transaction_id == "") {
+        if (in_array($request->payment_method, [2, 3]) && $request->transaction_id == "") {
             return response()->json(["status" => 0, "message" => "Please Enter Transaction ID"], 200);
         }
         if ($request->booking_type == 2 && $request->team_name == "") {
@@ -189,7 +190,7 @@ class PaymentController extends Controller
             if ($request->booking_type == 2) {
                 $booking->start_date = League::find($request->league_id)->start_date; // Use For League Bookings Only
                 $booking->end_date = League::find($request->league_id)->end_date; // Use For League Bookings Only
-            }else{
+            } else {
                 $booking->start_date = $request->date; // Use For League Bookings Only
                 $booking->end_date = $request->date; // Use For League Bookings Only
 
@@ -203,14 +204,13 @@ class PaymentController extends Controller
             $booking->payment_status = $booking->due_amount == 0 ? 1 : 2;
             $booking->booking_status = $booking->payment_status == 1 ? 1 : 2;
             if ($request->payment_type == 2) {
-                $booking->token = str_replace(['$','/','.','|'],'',Hash::make($booking_id));
-            }else{
+                $booking->token = str_replace(['$', '/', '.', '|'], '', Hash::make($booking_id));
+            } else {
                 $booking->token = '';
             }
             $booking->save();
 
-
-            return response()->json(['status' => 1, "message" => "Successful", "transaction_id" => $transaction_id, "booking_id" => $booking->booking_id], 200);
+            return response()->json(['status' => 1, "message" => "Successful", "transaction_id" => $transaction_id, "booking_id" => $booking->booking_id, "payment_link" => URL::to('/payment/' . $booking->token),], 200);
         } catch (\Throwable $th) {
             return response()->json(['status' => 0, "message" => "Something Went Wrong"], 200);
         }
