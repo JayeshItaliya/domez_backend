@@ -201,8 +201,8 @@
                             </div>
                         </div>
                     </div>
-                    <input type="hidden" name="lat" id="textLat" value="">
-                    <input type="hidden" name="lng" id="textLng" value="">
+                    <input type="hidden" name="lat" id="textLat" value="{{ $dome->lat }}">
+                    <input type="hidden" name="lng" id="textLng" value="{{ $dome->lng }}">
                     @error('lat')
                         <span class="text-danger">{{ $message }}</span>
                     @enderror
@@ -254,11 +254,9 @@
                                 @foreach ($getsportslist as $data)
                                     @if (in_array($data->id, $cat_id))
                                         <div class="col mb-2" id="{{ $data->name . $data->id }}">
-                                            <label class="form-label"
-                                                for="dome_price">{{ $data->name . ' ' . trans('labels.price') }}</label>
+                                            <label class="form-label" for="dome_price">{{ $data->name . ' ' . trans('labels.price') }}</label>
                                             <div class="input-group">
-                                                <input type="number" class="form-control" id="dome_price"
-                                                    name="dome_price" value="0" placeholder="0">
+                                                <input type="number" class="form-control" name="dome_price[]" value="0" placeholder="0">
                                                 <span class="input-group-text" id="basic-addon1">$</span>
                                             </div>
                                         </div>
@@ -318,7 +316,7 @@
             if (this.checked) {
                 let html = '<div class="col mb-2" id="' + $(this).attr("data-sport-name") + '' + $(this).val() +
                     '"><label class="form-label" for="dome_price">' + $(this).attr("data-sport-name") +
-                    ' Price</label><div class="input-group"><input type="number" class="form-control" id="dome_price" name="dome_price" placeholder="0"><span class="input-group-text" id="basic-addon1">$</span></div></div>';
+                    ' Price</label><div class="input-group"><input type="number" class="form-control" name="dome_price[]" placeholder="0"><span class="input-group-text" id="basic-addon1">$</span></div></div>';
                 $('#sport_prices_input').append(html);
             } else {
                 $('#' + $(this).attr("data-sport-name") + '' + $(this).val()).remove();

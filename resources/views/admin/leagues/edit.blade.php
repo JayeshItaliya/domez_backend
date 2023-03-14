@@ -1,7 +1,9 @@
 @extends('admin.layout.default')
 
 @section('styles')
-    <link rel="stylesheet" href="{{ url('storage/app/public/admin/css/timepicker/jquery.timepicker.min.css') }}">
+    <link rel="stylesheet" href="{{ url('storage\app\public\admin\plugins\multi-select\select2.min.css') }}" />
+    <link rel="stylesheet"
+        href="{{ url('storage\app\public\admin\plugins\multi-select\select2-bootstrap-5-theme.min.css') }}" />
 @endsection
 
 @section('title')
@@ -36,7 +38,8 @@
             </div>
         </div>
     </div>
-    <form class="card" action="{{ URL::to('admin/leagues/update-'.$getleaguedata->id) }}" method="post" enctype="multipart/form-data">
+    <form class="card" action="{{ URL::to('admin/leagues/update-' . $getleaguedata->id) }}" method="post"
+        enctype="multipart/form-data">
         @csrf
         <div class="card-body">
             <div class="row">
@@ -62,11 +65,11 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label class="form-label" for="field">{{ trans('labels.select_field') }}</label>
-                                <select class="form-select" required name="field" id="field">
-                                    <option value="" disabled selected>{{ trans('labels.select') }}</option>
+                                <select class="form-select" required name="field[]" id="field"
+                                    data-placeholder="{{ trans('labels.select') }}" multiple>
                                     @foreach ($fields as $field)
                                         <option value="{{ $field->id }}"
-                                            {{ $field->id == $getleaguedata->field_id ? 'selected' : '' }}>
+                                            {{ in_array($field->id, explode(',', $getleaguedata->field_id)) ? 'selected' : '' }}>
                                             {{ $field->name }}</option>
                                     @endforeach
                                 </select>
@@ -243,7 +246,8 @@
                                     <option value="" disabled selected>{{ trans('labels.select') }}</option>
                                     @for ($i = 5; $i <= 20; $i++)
                                         <option value="{{ $i }}"
-                                            {{ $i == $getleaguedata->team_limit ? 'selected' : '' }}>{{ $i }}</option>
+                                            {{ $i == $getleaguedata->team_limit ? 'selected' : '' }}>{{ $i }}
+                                        </option>
                                     @endfor
                                 </select>
                                 @error('team_limit')
@@ -274,101 +278,18 @@
                 </div>
                 <div class="col-md-12">
                     <button type="submit" class="btn btn-primary me-3">{{ trans('labels.submit') }}</button>
-                    <button type="button" class="btn btn-outline-danger">{{ trans('labels.cancel') }}</button>
+                    <a href="{{ URL::to('admin/leagues') }}"
+                        class="btn btn-outline-danger">{{ trans('labels.cancel') }}</a>
                 </div>
             </div>
         </div>
     </form>
 @endsection
 @section('scripts')
-    <script src="{{ url('storage/app/public/admin/js/timepicker/jquery.timepicker.min.js') }}" defer=""></script>
-
+    <script src="{{ url('storage\app\public\admin\plugins\multi-select\select2.min.js') }}"></script>
     <script>
-        $('#start_date').on('change', function() {
-            if ($.trim($(this).val()) != "") {
-                $('#end_date').attr('disabled', false);
-                $('#end_date').attr('min', $(this).val());
-            }
-        }).change();
-
-        $(function() {
-            $(".time_picker").timepicker({
-                interval: 60,
-            });
-        });
-        $('#from_age').on('change', function() {
-            var from_age = $(this).val();
-            $("#to_age").find("option").each(function(index, el) {
-                if ($(this).val() <= from_age) {
-                    $(this).attr('disabled', true);
-                } else {
-                    $(this).attr('disabled', false);
-                }
-            });
-        }).change();
-        $('#min_player').on('change', function() {
-            var min_player = $(this).val();
-            $("#max_player").find("option").each(function(index, el) {
-                if ($(this).val() <= min_player) {
-                    $(this).attr('disabled', true);
-                } else {
-                    $(this).attr('disabled', false);
-                }
-            });
-        }).change();
-
-        // $('.radio-editer').parent().hide();
-        $('#dome').on('change', function() {
-            $.ajax({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
-                        'content')
-                },
-                url: $(this).attr('data-next'),
-                data: {
-                    id: $(this).val(),
-                },
-                method: 'GET',
-                success: function(response) {
-                    $('.radio-editer').parent().show();
-                    if (response.status == 1) {
-                        var html = '';
-                        if (response.sportsdata.length > 0) {
-                            $.each(response.sportsdata, function(arrayIndex, elementValue) {
-                                var checked = arrayIndex == 0 ? 'checked' : '';
-                                html +=
-                                    '<div class="form-check pe-3"><input type="radio" name="sport" class="form-check-input" value="' +
-                                    elementValue.id + '" id="radio' + arrayIndex + '" ' +
-                                    checked +
-                                    ' ><label class="form-check-label" for="radio' +
-                                    arrayIndex +
-                                    '">' + elementValue.name + '</label></div>';
-                            });
-                            $('.radio-editer').html(html);
-                        } else {
-                            $('.radio-editer').html(no_data);
-                        }
-
-                        $('#field option:not(:first)').remove();
-                        if (response.fieldsdata.length > 0) {
-                            $.each(response.fieldsdata, function(arrayIndex, elementValue) {
-                                $('#field').append('<option value="' + elementValue.id + '">' +
-                                    elementValue.name + '</option>');
-                            });
-                        } else {
-                            $('#field').append('<option value="" selected disabled>' + no_data +
-                                '</option>');
-                        }
-                    } else {
-                        toastr.error(response.message);
-                        return false;
-                    }
-                },
-                error: function(e) {
-                    toastr.error(wrong);
-                    return false;
-                }
-            });
-        });
+        var validatetimeurl = {{ Js::from(URL::to('admin/validate-time')) }};
+        $('.radio-editer').parent().show();
     </script>
+    <script src="{{ url('resources/views/admin/leagues/leagues.js') }}"></script>
 @endsection

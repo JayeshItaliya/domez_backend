@@ -39,7 +39,6 @@
                             <th>{{ trans('labels.dome_owners') }}</th>
                         @endif
                         <th>{{ trans('labels.dome_name') }}</th>
-                        <th>{{ trans('labels.default_price') }}</th>
                         <th>{{ trans('labels.sports') }}</th>
                         <th>{{ trans('labels.country') }}</th>
                         <th>{{ trans('labels.start_time') }}</th>
@@ -59,7 +58,6 @@
                                 <td>{{ $dome->dome_owner->name }}</td>
                             @endif
                             <td>{{ $dome->name }}</td>
-                            <td>{{ $dome->price }}</td>
                             <td>
                                 @foreach ($sports as $sport)
                                     @foreach (explode(',', $dome->sport_id) as $sport_id)
