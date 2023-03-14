@@ -141,10 +141,10 @@ class PaymentController extends Controller
         // }
         try {
             if ($request->booking_type == 1) {
-                $dome = Domes::find($request->dome_id);
+                $dome = Domes::where('id', $request->dome_id)->where('is_deleted', 2)->first();
             } else {
                 $league = League::find($request->league_id);
-                $dome = Domes::find($league->dome_id);
+                $dome = Domes::where('id', $league->dome_id)->where('is_deleted', 2)->first();
             }
 
             // Payment Type = 1=Card, 2=Apple Pay, 3=Google Pay

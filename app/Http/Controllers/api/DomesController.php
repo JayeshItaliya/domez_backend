@@ -22,13 +22,13 @@ class DomesController extends Controller
                 $domes_list = [];
                 //Type = 1 (Recent Bookings Dome Data)
                 if ($request->type == 1) {
-                    if (in_array($request->user_id,[0,''])) {
+                    if (in_array($request->user_id, [0, ''])) {
                         return response()->json(["status" => 0, "message" => 'Enter Login User ID'], 200);
                     }
                     if (empty(User::find($request->user_id))) {
                         return response()->json(["status" => 0, "message" => 'Invalid User ID'], 200);
                     }
-                    $recentbookings = Booking::where('user_id', $request->user_id)->where('type',1)->get();
+                    $recentbookings = Booking::where('user_id', $request->user_id)->where('type', 1)->get();
                     foreach ($recentbookings as $booking) {
                         $dome = Domes::where('id', $booking->dome_id)->where('is_deleted', 2)->first();
                         if (!empty($dome)) {
@@ -39,12 +39,12 @@ class DomesController extends Controller
                                 "id" => $dome->id,
                                 "name" => $dome->name,
                                 "image" => $dome->dome_image == "" ? "" : $dome->dome_image->image,
-                                "price" => rand(11,99),
+                                "price" => rand(11, 99),
                                 "hst" => $dome->hst,
                                 "city" => $dome->city,
                                 "state" => $dome->state,
                                 "is_fav" => !empty(@$is_fav) ? true : false,
-                                "booking_date" => date('D',strtotime($booking->booking_date)).', '.date('d M',strtotime($booking->booking_date)),
+                                "booking_date" => date('D', strtotime($booking->booking_date)) . ', ' . date('d M', strtotime($booking->booking_date)),
                                 "total_fields" => Field::where('dome_id', $dome->id)->where('is_deleted', 2)->count(),
                                 "sports_list" => Sports::select('id', 'name', DB::raw("CONCAT('" . url('storage/app/public/admin/images/sports') . "/', image) AS image"))->whereIn('id', explode('|', $dome->sport_id))->where('is_available', 1)->where('is_deleted', 2)->get(),
                             ];
@@ -53,18 +53,18 @@ class DomesController extends Controller
                 }
                 //Type = 2 (Most Popular Dome Data)
                 if ($request->type == 2) {
-                    $popular_domes = Booking::select('dome_id', DB::raw('count(bookings.dome_id)as dome'))->where('type',1)->groupBy('dome_id')->orderBy('dome', 'desc')->get();
+                    $popular_domes = Booking::select('dome_id', DB::raw('count(bookings.dome_id)as dome'))->where('type', 1)->groupBy('dome_id')->orderBy('dome', 'desc')->get();
                     foreach ($popular_domes as $pdome) {
                         $dome = Domes::where('id', $pdome->dome_id)->where('is_deleted', 2)->first();
                         if (!empty($dome)) {
-                            if (!in_array($request->user_id,[0,''])) {
+                            if (!in_array($request->user_id, [0, ''])) {
                                 $is_fav = Favourite::where('dome_id', $dome->id)->where('user_id', $request->user_id)->first();
                             }
                             $domes_list[] = [
                                 "id" => $dome->id,
                                 "name" => $dome->name,
                                 "image" => $dome->dome_image == "" ? "" : $dome->dome_image->image,
-                                "price" => rand(11,99),
+                                "price" => rand(11, 99),
                                 "hst" => $dome->hst,
                                 "city" => $dome->city,
                                 "state" => $dome->state,
@@ -93,7 +93,7 @@ class DomesController extends Controller
                     * cos(radians(lng) - radians(" . $lng . "))
                     + sin(radians(" . $lat . "))
                     * sin(radians(lat))) AS distance")
-                    );
+                    )->where('domes.is_deleted', 2);
                     // The Distance Will Be in Kilometers
                     $getarounddomes = $getarounddomes->having('distance', '<=', $request->kilometer > 0 ? $request->kilometer : 1000);
 
@@ -106,14 +106,14 @@ class DomesController extends Controller
                     $getarounddomes = $getarounddomes->orderBy('distance')->whereIn('id', [1, 2, 3, 4])->get();
 
                     foreach ($getarounddomes as $dome) {
-                        if (!in_array($request->user_id,[0,''])) {
+                        if (!in_array($request->user_id, [0, ''])) {
                             $is_fav = Favourite::where('dome_id', $dome->id)->where('user_id', $request->user_id)->first();
                         }
                         $domes_list[] = [
                             "id" => $dome->id,
                             "name" => $dome->name,
                             "image" => $dome->dome_image == "" ? "" : $dome->dome_image->image,
-                            "price" => rand(11,99),
+                            "price" => rand(11, 99),
                             "hst" => $dome->hst,
                             "city" => $dome->city,
                             "state" => $dome->state,
@@ -143,7 +143,7 @@ class DomesController extends Controller
     }
     public function getdomedataobject($id)
     {
-        $dome = Domes::with('dome_images')->where('id', $id)->first();
+        $dome = Domes::with('dome_images')->where('id', $id)->where('is_deleted', 2)->first();
         if (empty($dome)) {
             return $dome_data = 1;
         }
@@ -193,7 +193,7 @@ class DomesController extends Controller
                 'id' => $dome->id,
                 'total_fields' => $fields->count(),
                 'name' => $dome->name,
-                'price' => rand(11,99),
+                'price' => rand(11, 99),
                 'hst' => $dome->hst,
                 'address' => $dome->address,
                 'city' => $dome->city,
