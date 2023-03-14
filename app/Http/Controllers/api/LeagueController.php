@@ -60,7 +60,7 @@ class LeagueController extends Controller
                         $leagues = League::orderByDesc('id')->where('is_deleted', 2)->get();
                         foreach ($leagues as $league) {
                             if (!empty($league)) {
-                                $dome = Domes::where('id', $league->dome_id)->where('is_deleted', 2)->first()
+                                $dome = Domes::where('id', $league->dome_id)->where('is_deleted', 2)->first();
                                 if (!in_array($request->user_id, [0, ''])) {
                                     $is_fav = Favourite::where('league_id', $league->id)->where('user_id', $request->user_id)->first();
                                 }
