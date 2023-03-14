@@ -1,6 +1,9 @@
 @extends('admin.layout.default')
 
 @section('styles')
+    <link rel="stylesheet" href="{{ url('storage\app\public\admin\plugins\multi-select\select2.min.css') }}" />
+    <link rel="stylesheet"
+        href="{{ url('storage\app\public\admin\plugins\multi-select\select2-bootstrap-5-theme.min.css') }}" />
 @endsection
 
 @section('title')
@@ -60,8 +63,8 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label class="form-label" for="field">{{ trans('labels.select_field') }}</label>
-                                <select class="form-select" required name="field" id="field">
-                                    <option value="" disabled selected>{{ trans('labels.select') }}</option>
+                                <select class="form-select" required name="field[]" id="field"
+                                    data-placeholder="{{ trans('labels.select') }}" multiple>
                                 </select>
                                 @error('field')
                                     <span class="text-danger"> {{ $message }} </span>
@@ -111,7 +114,7 @@
                         <div class="col-lg-3 col-md-6">
                             <div class="form-group">
                                 <label class="form-label" for="start_time">{{ trans('labels.start_time') }}</label>
-                                <input type="text" required class="form-control time_picker" name="start_time"
+                                <input type="text" required class="form-control start time_picker" name="start_time"
                                     value="{{ old('start_time') }}" placeholder="{{ trans('labels.start_time') }}"
                                     id="start_time">
                                 @error('start_time')
@@ -122,7 +125,7 @@
                         <div class="col-lg-3 col-md-6">
                             <div class="form-group">
                                 <label class="form-label" for="end_time">{{ trans('labels.end_time') }}</label>
-                                <input type="text" required class="form-control time_picker" name="end_time"
+                                <input type="text" required class="form-control end time_picker" name="end_time"
                                     value="{{ old('end_time') }}" placeholder="{{ trans('labels.end_time') }}"
                                     id="end_time">
                                 @error('end_time')
@@ -203,9 +206,12 @@
                                 <label class="form-label" for="gender">{{ trans('labels.select_gender') }}</label>
                                 <select class="form-select" required name="gender" id="gender">
                                     <option value="" disabled selected>{{ trans('labels.select') }}</option>
-                                    <option value="1">{{ trans('labels.men') }}</option>
-                                    <option value="2">{{ trans('labels.women') }}</option>
-                                    <option value="3">{{ trans('labels.other') }}</option>
+                                    <option value="1" {{ old('gender') == 1 ? 'selected' : '' }}>
+                                        {{ trans('labels.men') }}</option>
+                                    <option value="2" {{ old('gender') == 2 ? 'selected' : '' }}>
+                                        {{ trans('labels.women') }}</option>
+                                    <option value="3" {{ old('gender') == 3 ? 'selected' : '' }}>
+                                        {{ trans('labels.other') }}</option>
                                 </select>
                                 @error('gender')
                                     <span class="text-danger"> {{ $message }} </span>
@@ -250,109 +256,18 @@
                 </div>
                 <div class="col-md-12">
                     <button type="submit" class="btn btn-primary me-3">{{ trans('labels.submit') }}</button>
-                    <button type="button" class="btn btn-outline-danger">{{ trans('labels.cancel') }}</button>
+                    <a href="{{ URL::to('admin/leagues') }}"
+                        class="btn btn-outline-danger">{{ trans('labels.cancel') }}</a>
                 </div>
             </div>
         </div>
     </form>
 @endsection
 @section('scripts')
+    <script src="{{ url('storage\app\public\admin\plugins\multi-select\select2.min.js') }}"></script>
     <script>
-        $('#start_date').on('change', function() {
-            if ($.trim($(this).val()) != "") {
-                $('#end_date').attr('disabled', false);
-                $('#end_date').attr('min', $(this).val());
-            }
-        }).change();
-
-        $(function() {
-
-            $(".time_picker").timepicker({
-                interval: 60,
-            });
-            // $("#start_time.time_picker").timepicker({
-            //     interval: 60,
-            //     change: function(time) {
-            //         var time = $(this);
-            //         var picker = $("#end_time");
-            //         picker.timepicker('option', 'minTime', time);
-            //     }
-            // });
-        });
-
-        $('#from_age').on('change', function() {
-            var from_age = $(this).val();
-            $("#to_age").find("option").each(function(index, el) {
-                if ($(this).val() <= from_age) {
-                    $(this).attr('disabled', true);
-                } else {
-                    $(this).attr('disabled', false);
-                }
-            });
-        }).change();
-        $('#min_player').on('change', function() {
-            var min_player = $(this).val();
-            $("#max_player").find("option").each(function(index, el) {
-                if ($(this).val() <= min_player) {
-                    $(this).attr('disabled', true);
-                } else {
-                    $(this).attr('disabled', false);
-                }
-            });
-        }).change();
-
+        var validatetimeurl = {{ Js::from(URL::to('admin/validate-time')) }};
         $('.radio-editer').parent().hide();
-        $('#dome').on('change', function() {
-            $.ajax({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
-                        'content')
-                },
-                url: $(this).attr('data-next'),
-                data: {
-                    id: $(this).val(),
-                },
-                method: 'GET',
-                success: function(response) {
-                    $('.radio-editer').parent().show();
-                    if (response.status == 1) {
-                        var html = '';
-                        if (response.sportsdata.length > 0) {
-                            $.each(response.sportsdata, function(arrayIndex, elementValue) {
-                                var checked = arrayIndex == 0 ? 'checked' : '';
-                                html +=
-                                    '<div class="form-check pe-3"><input type="radio" name="sport" class="form-check-input" value="' +
-                                    elementValue.id + '" id="radio' + arrayIndex + '" ' +
-                                    checked +
-                                    ' ><label class="form-check-label" for="radio' +
-                                    arrayIndex +
-                                    '">' + elementValue.name + '</label></div>';
-                            });
-                            $('.radio-editer').html(html);
-                        } else {
-                            $('.radio-editer').html(no_data);
-                        }
-
-                        $('#field option:not(:first)').remove();
-                        if (response.fieldsdata.length > 0) {
-                            $.each(response.fieldsdata, function(arrayIndex, elementValue) {
-                                $('#field').append('<option value="' + elementValue.id + '">' +
-                                    elementValue.name + '</option>');
-                            });
-                        } else {
-                            $('#field').append('<option value="" selected disabled>' + no_data +
-                                '</option>');
-                        }
-                    } else {
-                        toastr.error(response.message);
-                        return false;
-                    }
-                },
-                error: function(e) {
-                    toastr.error(wrong);
-                    return false;
-                }
-            });
-        });
     </script>
+    <script src="{{ url('resources/views/admin/leagues/leagues.js') }}"></script>
 @endsection

@@ -169,7 +169,7 @@
         let start_time = {{ Js::from(trans('labels.start_time')) }};
         let end_time = {{ Js::from(trans('labels.end_time')) }};
         let price = {{ Js::from(trans('labels.price')) }};
-        var validatetimeurl = {{ Js::from(URL::to('admin/set-prices/validate-time')) }};
+        var validatetimeurl = {{ Js::from(URL::to('admin/validate-time')) }};
     </script>
     <script src="{{ url('resources/views/admin/set_prices/set_prices.js') }}"></script>
 @endsection

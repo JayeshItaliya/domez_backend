@@ -79,16 +79,16 @@
             <table class="table table-nowrap mb-0" id="bootstrapTable">
                 <thead>
                     <tr>
-                        <th data-sortable="true"> {{ trans('labels.srno') }} </th>
-                        <th data-sortable="true"> {{ trans('labels.booking_id') }} </th>
-                        <th data-sortable="true"> {{ trans('labels.dome_owner') }} </th>
-                        <th data-sortable="true"> {{ trans('labels.dome_name') }} </th>
-                        <th data-sortable="true"> {{ trans('labels.booking_date') }} </th>
-                        <th data-sortable="true"> {{ trans('labels.time') }} </th>
-                        <th data-sortable="true"> {{ trans('labels.amount') }} </th>
-                        <th data-sortable="true"> {{ trans('labels.payment_status') }} </th>
-                        <th data-sortable="true"> {{ trans('labels.status') }} </th>
-                        <th data-sortable="true"> {{ trans('labels.action') }} </th>
+                        <th> {{ trans('labels.srno') }} </th>
+                        <th> {{ trans('labels.booking_id') }} </th>
+                        <th> {{ trans('labels.dome_owner') }} </th>
+                        <th> {{ trans('labels.dome_name') }} </th>
+                        <th> {{ trans('labels.booking_date') }} </th>
+                        <th> {{ trans('labels.time') }} </th>
+                        <th> {{ trans('labels.amount') }} </th>
+                        <th> {{ trans('labels.payment_status') }} </th>
+                        <th> {{ trans('labels.status') }} </th>
+                        <th> {{ trans('labels.action') }} </th>
                     </tr>
                 </thead>
                 <tbody>

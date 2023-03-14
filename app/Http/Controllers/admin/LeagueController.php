@@ -43,6 +43,7 @@ class LeagueController extends Controller
         $request->validate([
             'dome' => 'required',
             'field' => 'required',
+            'field.*' => 'required',
             'sport' => 'required',
             'name' => 'required',
             'start_date' => 'required',
@@ -61,6 +62,7 @@ class LeagueController extends Controller
         ], [
             'dome.required' => trans('messages.select_dome'),
             'field.required' => trans('messages.select_field'),
+            'field.*.required' => trans('messages.select_field'),
             'sport.required' => trans('messages.select_sport'),
             'name.required' => 'Please Enter Name',
             'start_date.required' => trans('messages.select_start_date'),
@@ -78,7 +80,6 @@ class LeagueController extends Controller
             'end_time.date_format' => trans('messages.valid_time_format'),
             'end_time.after' => trans('messages.end_time_must_after_start_time'),
         ]);
-
         try {
             $league = League::find($request->id);
             if (empty($league)) {
@@ -86,7 +87,7 @@ class LeagueController extends Controller
             }
             $league->vendor_id = auth()->user()->id;
             $league->dome_id = $request->dome;
-            $league->field_id = $request->field;
+            $league->field_id = implode(',', $request->field);
             $league->sport_id = $request->sport;
             $league->name = $request->name;
             $league->start_date = $request->start_date;
