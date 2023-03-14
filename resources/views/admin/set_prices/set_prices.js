@@ -16,9 +16,9 @@ $(function () {
         var dayname = $(this).attr('data-day-name');
         var html =
             '<div class="row my-2" id="remove' + counter +
-            '"><div class="col-md-4"><div class="form-group"><div class="input-group"><input type="text" class="form-control time_picker border-end-0" name="start_time[' +
+            '"><div class="col-md-4"><div class="form-group"><div class="input-group"><input type="text" class="form-control start time_picker border-end-0" name="start_time[' +
             dayname + '][]" placeholder="' + start_time +
-            '" /> <span class="input-group-text bg-transparent border-start-0"><i class="fa-regular fa-clock"></i> </span> </div></div></div><div class="col-md-4"><div class="form-group"><div class="input-group"><input type="text" class="form-control time_picker border-end-0" name="end_time[' +
+            '" /> <span class="input-group-text bg-transparent border-start-0"><i class="fa-regular fa-clock"></i> </span> </div></div></div><div class="col-md-4"><div class="form-group"><div class="input-group"><input type="text" class="form-control end time_picker border-end-0" name="end_time[' +
             dayname + '][]" placeholder="' + end_time +
             '" /> <span class="input-group-text bg-transparent border-start-0"><i class="fa-regular fa-clock"></i> </span> </div></div></div><div class="col-md-3"><div class="form-group"><div class="input-group"><input type="number" value="0" class="form-control border-end-0" name="price[' +
             dayname + '][]" placeholder="' + price +
@@ -58,6 +58,7 @@ $('#dome').on('change', function () {
         url: $(this).attr('data-next'),
         data: {
             id: $(this).val(),
+            type: $(this).attr('data-from'),
         },
         method: 'GET',
         success: function (response) {
@@ -153,3 +154,41 @@ function deletedata(id, url) {
             }
         })
 }
+
+
+$('.end.time_picker').on('blur', function () {
+    "use strict";
+    var start_time = $(this).parent().parent().parent().prev().find('.start.time_picker').val();
+    if ($.trim(start_time) == '') {
+        return false;
+    }
+    var element = $(this);
+    setTimeout(() => {
+        $.ajax({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
+                    'content')
+            },
+            url: validatetimeurl,
+            data: {
+                end_time: $(this).val(),
+                start_time: start_time,
+            },
+            method: 'get',
+            success: function (response) {
+                if (response.status == 0) {
+                    $(element).addClass('is-invalid').focus().val('');
+                    if ($(element).parent().hasClass('input-group')) {
+                        $(element).next().addClass('border-danger')
+                    }
+                    toastr.error(response.message);
+                    return false;
+                }
+            },
+            error: function (e) {
+                toastr.error(wrong);
+                return false;
+            }
+        });
+    }, 100);
+});

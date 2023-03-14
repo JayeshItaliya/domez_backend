@@ -41,7 +41,7 @@
                                 <div class="mb-3">
                                     <label class="form-label">{{ trans('labels.dome') }}</label>
                                     <select class="form-select" name="dome" id="dome"
-                                        data-next="{{ URL::to('/admin/set-prices/getsports') }}">
+                                        data-next="{{ URL::to('/admin/set-prices/getsports') }}" data-from="add">
                                         <option value="" disabled selected>{{ trans('labels.select') }}</option>
                                         @foreach ($getdomeslist as $dome)
                                             <option value="{{ $dome->id }}"
@@ -105,7 +105,7 @@
                                                     <div class="form-group">
                                                         <div class="input-group">
                                                             <input type="text"
-                                                                class="form-control time_picker border-end-0"
+                                                                class="form-control start time_picker border-end-0"
                                                                 name="start_time[{{ $dayname }}][]"
                                                                 placeholder="{{ trans('labels.start_time') }}" />
                                                             <span class="input-group-text bg-transparent border-start-0"><i
@@ -117,7 +117,7 @@
                                                     <div class="form-group">
                                                         <div class="input-group">
                                                             <input type="text"
-                                                                class="form-control time_picker border-end-0"
+                                                                class="form-control end time_picker border-end-0"
                                                                 name="end_time[{{ $dayname }}][]"
                                                                 placeholder="{{ trans('labels.end_time') }}" />
                                                             <span class="input-group-text bg-transparent border-start-0"><i
@@ -169,6 +169,7 @@
         let start_time = {{ Js::from(trans('labels.start_time')) }};
         let end_time = {{ Js::from(trans('labels.end_time')) }};
         let price = {{ Js::from(trans('labels.price')) }};
+        var validatetimeurl = {{ Js::from(URL::to('admin/set-prices/validate-time')) }};
     </script>
     <script src="{{ url('resources/views/admin/set_prices/set_prices.js') }}"></script>
 @endsection

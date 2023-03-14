@@ -9,6 +9,7 @@ use App\Models\SetPricesDaysSlots;
 use App\Models\Sports;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class DomesPriceController extends Controller
 {
@@ -71,7 +72,11 @@ class DomesPriceController extends Controller
             $getdomedata = Domes::where('id', $request->id)->where('vendor_id', auth()->user()->id)->where('is_deleted', 2)->first();
             if (!empty($getdomedata)) {
                 $getexists = SetPrices::where('dome_id',$request->id)->select('sport_id')->get()->toArray();
-                $sports = Sports::whereIn('id', explode(',', $getdomedata->sport_id))->whereNotIn('id',$getexists)->where('is_available', 1)->where('is_deleted', 2)->orderByDesc('id')->get();
+                $sports = Sports::whereIn('id', explode(',', $getdomedata->sport_id));
+                if ($request->has('type') && $request->type == 'add') {
+                    $sports = $sports->whereNotIn('id',$getexists);
+                }
+                $sports = $sports->where('is_available', 1)->where('is_deleted', 2)->orderByDesc('id')->get();
                 return response()->json(['status' => 1, 'message' => trans('messages.success'), 'sportsdata' => $sports], 200);
             }
             return response()->json(['status' => 0, 'message' => trans('messages.invalid_dome')], 200);
@@ -93,6 +98,26 @@ class DomesPriceController extends Controller
             ];
         }
         return view('admin.set_prices.edit', compact('getslotpricedata', 'getdaysslots', 'getdomeslist'));
+    }
+    public function validate_start_end_time(Request $request)
+    {
+
+        $validator = Validator::make($request->input(), [
+            'start_time' => 'required|date_format:H:i A',
+            'end_time' => 'required|date_format:H:i A|after:start_time',
+        ], [
+            'start_time.required' => trans('messages.start_time_required'),
+            'end_time.required' => trans('messages.end_time_required'),
+            'start_time.date_format' => trans('messages.valid_time_format'),
+            'end_time.date_format' => trans('messages.valid_time_format'),
+            'end_time.after' => trans('messages.end_time_must_after_start_time'),
+        ]);
+        foreach ($validator->errors()->toArray() as $key => $error) {
+            return response()->json(["status" => 0, "message" => $error[0]], 200);
+            if ($key == 0)
+            break;
+        }
+        return response()->json(["status" => 1, "message" => trans('messages.success')], 200);
     }
     public function deleteslot(Request $request)
     {

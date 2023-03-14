@@ -176,6 +176,7 @@ Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function () {
             Route::get('delete', [DomesPriceController::class, 'deletesetprice']);
             Route::get('delete-slot', [DomesPriceController::class, 'deleteslot']);
             Route::get('getsports', [DomesPriceController::class, 'getsportslist']);
+            Route::get('validate-time', [DomesPriceController::class, 'validate_start_end_time']);
 
             Route::post('update-{id}', [DomesPriceController::class, 'update']);
             Route::get('details-{id}', [DomesPriceController::class, 'dome_price_details']);

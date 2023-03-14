@@ -60,7 +60,6 @@ class DomesController extends Controller
             // 'state.required' => 'Please Enter State',
             // 'country.required' => 'Please Enter Country',
         ]);
-        // dd($request->input());
 
         $dome = new Domes();
         $dome->vendor_id = auth()->user()->id;
@@ -98,8 +97,11 @@ class DomesController extends Controller
             }
         }
         foreach ($request->sport_id as $key => $sport) {
-            $setprice = new SetPrices();
-            $setprice->vendor_id = auth()->user()->id;
+            $checksportexist =  SetPrices::where('dome_id',$dome->id)->where('sport_id',$sport)->first();
+            if(empty($checksportexist)){
+                $setprice = new SetPrices();
+                $setprice->vendor_id = auth()->user()->id;
+            }
             $setprice->price_type = 1;
             $setprice->price = $request->dome_price[$key];
             $setprice->dome_id = $dome->id;
