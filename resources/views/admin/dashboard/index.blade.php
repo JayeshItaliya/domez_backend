@@ -109,12 +109,19 @@
                                 <p class="mb-2 fw-500 text-muted">{{ trans('labels.revenue') }}</p>
                                 <h4>{{ Helper::currency_format($total_revenue_data_sum) }}</h4>
                             </div>
-                            <select class="form-select w-auto" name="" id=""
-                                style="background-color: transparent;border-color:var(--bs-primary);">
-                                <option value="this-week">{{ trans('labels.this_week') }}</option>
-                                <option value="this-month">{{ trans('labels.this_month') }}</option>
-                                <option value="this-year">{{ trans('labels.this_year') }}</option>
-                            </select>
+                            <div class="d-flex">
+                                <input type="text"
+                                    class="form-control me-2 bg-transparent date-range-picker border-primary"
+                                    placeholder="{{ trans('labels.select_date') }}">
+                                <select class="form-select revenue-filter"
+                                    style="background-color: transparent;border-color:var(--bs-primary);"
+                                    data-next="{{ URL::to('admin/dashboard') }}">
+                                    <option value="this_week" selected>{{ trans('labels.this_week') }}</option>
+                                    <option value="this_month">{{ trans('labels.this_month') }}</option>
+                                    <option value="this_year">{{ trans('labels.this_year') }}</option>
+                                    <option value="custom_date">{{ trans('labels.custom_date') }}</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
                     <div id="revenue_chart"></div>
@@ -314,8 +321,8 @@
                 },
             };
             $('#total_bookings .apexcharts-canvas').remove();
-            var incomechart = new ApexCharts(document.querySelector("#total_bookings"), options);
-            incomechart.render();
+            var bookingschart = new ApexCharts(document.querySelector("#total_bookings"), options);
+            bookingschart.render();
         }
         // Total Bookings Filter
         $('.booking-filter').on('change', function() {
@@ -365,6 +372,11 @@
         create_revenue_chart(revenue_labels, revenue_data);
 
         function create_revenue_chart(revenue_labels, revenue_data) {
+            var chart_element = $('#total_revenue');
+            if (chart_element.length === 0) {
+                // Element not found, do nothing
+                return;
+            }
             var options = {
                 series: [{
                     name: '{{ trans('labels.total_revenue') }}',
@@ -403,22 +415,22 @@
                     categories: revenue_labels,
                 },
             };
-            $('#total_revenue .apexcharts-canvas').remove();
-            var incomechart = new ApexCharts(document.querySelector("#total_revenue"), options);
-            incomechart.render();
+            chart_element.find('.apexcharts-canvas').remove();
+            var revenuechart = new ApexCharts(document.querySelector("#total_revenue"), options);
+            revenuechart.render();
         }
         // Total Revenue Filter
         $('.revenue-filter').on('change', function() {
             if ($(this).val() == 'custom_date') {
-                $('.confirm-revenue-card .date-range-picker').show();
+                $('.revenue-card .date-range-picker').show();
                 return false;
             } else {
-                $('.confirm-revenue-card .date-range-picker').hide();
+                $('.revenue-card .date-range-picker').hide();
             }
-            makebookingfilter('')
+            makerevenuefilter('')
         });
 
-        function makebookingfilter(dates) {
+        function makerevenuefilter(dates) {
             $.ajax({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(

@@ -202,8 +202,11 @@ form span.text-danger {
     margin-right: 1rem;
 }
 
-.date-range-picker::placeholder{
+.date-range-picker:not(.border-primary)::placeholder{
     color: white;
+}
+.date-range-picker::placeholder{
+    color: black;
 }
 
 /* Preloader */

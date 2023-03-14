@@ -5,24 +5,26 @@ $(window).on("load", function () {
         $("#preloader").delay(500).fadeOut("slow");
 });
 
-$(function() {
+$(function () {
     $('form, input, textarea').attr("autocomplete", 'off');
 
+    if (document.getElementById('bootstrapTable')) {
 
-    $('#bootstrapTable').bootstrapTable({
-        toolbar: ".toolbar",
-        clickToSelect: false,
-        showRefresh: false,
-        search: true,
-        showToggle: false,
-        showColumns: false,
-        pagination: true,
-        searchAlign: 'right',
-        pageSize: 10,
-        clickToSelect: false,
-        pageList: [10, 25, 50, 100]
-    });
-    $('#bootstrapTable').removeClass('table-bordered');
+        $('#bootstrapTable').bootstrapTable({
+            toolbar: ".toolbar",
+            clickToSelect: false,
+            showRefresh: false,
+            search: true,
+            showToggle: false,
+            showColumns: false,
+            pagination: true,
+            searchAlign: 'right',
+            pageSize: 10,
+            clickToSelect: false,
+            pageList: [10, 25, 50, 100]
+        });
+        $('#bootstrapTable').removeClass('table-bordered');
+    }
 });
 
 // Common for all sweetalerts
