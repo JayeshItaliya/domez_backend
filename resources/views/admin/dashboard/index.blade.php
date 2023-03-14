@@ -107,7 +107,7 @@
                         <div class="d-flex align-items-center justify-content-between mb-3">
                             <div class="content">
                                 <p class="mb-2 fw-500 text-muted">{{ trans('labels.revenue') }}</p>
-                                <h4>{{ Helper::currency_format($total_revenue_data_sum) }}</h4>
+                                <h4 class="total-revenue">{{ Helper::currency_format($total_revenue_data_sum) }}</h4>
                             </div>
                             <div class="d-flex">
                                 <input type="text"
@@ -372,11 +372,7 @@
         create_revenue_chart(revenue_labels, revenue_data);
 
         function create_revenue_chart(revenue_labels, revenue_data) {
-            var chart_element = $('#total_revenue');
-            if (chart_element.length === 0) {
-                // Element not found, do nothing
-                return;
-            }
+            console.log(revenue_data);
             var options = {
                 series: [{
                     name: '{{ trans('labels.total_revenue') }}',
@@ -407,7 +403,7 @@
                     width: 2,
                     curve: 'smooth'
                 },
-                colors: ['#fff'],
+                colors: [primary_color],
                 fill: {
                     opacity: 1,
                 },
@@ -415,8 +411,8 @@
                     categories: revenue_labels,
                 },
             };
-            chart_element.find('.apexcharts-canvas').remove();
-            var revenuechart = new ApexCharts(document.querySelector("#total_revenue"), options);
+            $('#revenue_chart .apexcharts-canvas').remove();
+            var revenuechart = new ApexCharts(document.querySelector("#revenue_chart"), options);
             revenuechart.render();
         }
         // Total Revenue Filter
@@ -447,7 +443,7 @@
                 },
                 success: function(response) {
                     hidepreloader();
-                    $('.total-revenue').html(response.total_bookings_count);
+                    $('.total-revenue').html(response.total_revenue_data_sum);
                     create_revenue_chart(response.revenue_labels, response.revenue_data);
                 },
                 error: function(e) {
@@ -481,50 +477,6 @@
 
 
     <script>
-        // Total Revenue Chart
-        var options = {
-            series: [{
-                name: '{{ trans('labels.revenue') }}',
-                data: [10, 41, 35, 99, 26, 75, 15]
-            }],
-            chart: {
-                group: 'sparklines',
-                type: 'area',
-                height: 300,
-                sparkline: {
-                    enabled: true
-                },
-            },
-            responsive: [{
-                breakpoint: 480,
-                options: {
-                    legend: {
-                        position: 'bottom',
-                        offsetX: -10,
-                        offsetY: 0
-                    }
-                }
-            }],
-            dataLabels: {
-                enabled: false
-            },
-            stroke: {
-                width: 2,
-                curve: 'smooth'
-            },
-            colors: [primary_color],
-            fill: {
-                opacity: 1,
-            },
-            xaxis: {
-                type: 'days',
-                categories: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
-            },
-        };
-        var chart = new ApexCharts(document.querySelector("#revenue_chart"), options);
-        chart.render();
-
-
         // Total Users Of Mobile Chart
         var options = {
             series: [{

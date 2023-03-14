@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
+use Carbon\Carbon;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Transaction>
@@ -17,6 +18,7 @@ class TransactionFactory extends Factory
      */
     public function definition()
     {
+        $randomDate = Carbon::now()->subDays(rand(1, 365));
         return [
             "type" => 1,
             "vendor_id" => 1,
@@ -27,6 +29,7 @@ class TransactionFactory extends Factory
             "payment_method" => $this->faker->numberBetween(1,3),
             "transaction_id" => Str::random(10),
             "amount" => $this->faker->numberBetween(99,999),
+            "created_at" => $this->faker->dateTimeBetween($randomDate, 'now')->format('Y-m-d H:i:s'),
         ];
     }
 }
