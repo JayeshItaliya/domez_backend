@@ -8,6 +8,7 @@ use App\Models\Domes;
 use App\Models\Booking;
 use App\Models\Field;
 use App\Models\League;
+use App\Models\SetPrices;
 use App\Models\Transaction;
 use App\Models\User;
 use Carbon\Carbon;
@@ -21,7 +22,7 @@ class BookingController extends Controller
 {
     public function booking_list(Request $request)
     {
-        if (in_array($request->user_id,[0,''])) {
+        if (in_array($request->user_id, [0, ''])) {
             return response()->json(["status" => 0, "message" => "Please Enter User ID"], 200);
         }
         if ($request->is_active == "") {
@@ -77,9 +78,13 @@ class BookingController extends Controller
                 $query->on('transactions.user_id', '=', 'user.id');
                 // ->where('user_id','!=','')->where('user_id','>',0);
             })
-            ->where('transactions.booking_id', $booking->booking_id)->select('transactions.user_id','transactions.contributor_name','transactions.amount', DB::raw('(CASE WHEN transactions.user_id IS NULL THEN "https://via.placeholder.com/150" ELSE "" END) AS contributor_image_url'),
-            DB::raw("CONCAT('" . url('storage/app/public/admin/images/users') . "/', user.image) AS user_image")
-            )->get()->toArray();
+                ->where('transactions.booking_id', $booking->booking_id)->select(
+                    'transactions.user_id',
+                    'transactions.contributor_name',
+                    'transactions.amount',
+                    DB::raw('(CASE WHEN transactions.user_id IS NULL THEN "https://via.placeholder.com/150" ELSE "" END) AS contributor_image_url'),
+                    DB::raw("CONCAT('" . url('storage/app/public/admin/images/users') . "/', user.image) AS user_image")
+                )->get()->toArray();
 
             $booking_details = [
                 "type" => $booking->type,
@@ -115,85 +120,156 @@ class BookingController extends Controller
     }
     public function timeslots(Request $request)
     {
-        if ($request->date == "") {
-            return response()->json(["status" => 0, "message" => 'Please Enter Date'], 200);
-        }
-        if ($request->sport_id == "") {
-            return response()->json(["status" => 0, "message" => 'Please Enter Sport ID'], 200);
-        }
         if ($request->dome_id == "") {
             return response()->json(["status" => 0, "message" => 'Please Enter Dome ID'], 200);
         }
         $getdomedata = Domes::where('id', $request->dome_id)->where('is_deleted', 2)->first();
         if (!empty($getdomedata)) {
+            if ($request->date == "") {
+                return response()->json(["status" => 0, "message" => 'Please Enter Date'], 200);
+            }
+            if ($request->sport_id == "") {
+                return response()->json(["status" => 0, "message" => 'Please Enter Sport ID'], 200);
+            }
 
             date_default_timezone_set('Asia/Kolkata');
 
-            // $start_time = $getdomedata->start_time;  //start time as string
-            // $end_time = $getdomedata->end_time;  //end time as string
-            // $booked = array('12:20-12:40','13:00-13:20');    //booked slots as arrays
-            // $start = DateTime::createFromFormat('Y-m-d H:i:s',$start_time);  //create date time objects
-            // $end = DateTime::createFromFormat('Y-m-d H:i:s',$end_time);  //create date time objects
-            // $count = 0;  //number of slots
-            // $out = array();   //array of slots
-            // for($i = $start; $i<$end;)  //for loop
-            // {
-            //     $avoid = false;   //booked slot?
-            //     $time1 = $i->format('H:i');   //take hour and minute
-            //     $i->modify("+20 minutes");      //add 20 minutes
-            //     $time2 = $i->format('H:i');     //take hour and minute
-            //     $slot = $time1."-".$time2;      //create a format 12:40-13:00 etc
-            //     for($k=0;$k<sizeof($booked);$k++)  //if booked hour
-            //     {
-            //         if($booked[$k] == $slot)  //check
-            //         $avoid = true;   //yes. booked
-            //     }
-            //     if(!$avoid && $i<$end)  //if not booked and less than end time
-            //     {
-            //         $count++;           //add count
-            //         $slots = ['start'=>$time1, 'stop'=>$time2];         //add count
-            //         array_push($out,$slots); //add slot to array
-            //     }
-            // }
+            $getsetprices = SetPrices::where('dome_id', $getdomedata->id)->where('sport_id', $request->sport_id)->count();
+            if ($getsetprices > 1) {
 
-            // for create use 24 hours format later change format
-            $period = new CarbonPeriod(date('h:i A', strtotime($getdomedata->start_time)), '60 minutes', date('h:i A', strtotime($getdomedata->end_time)));
-            $slots = [];
-            foreach ($period as $item) {
+                // Can be multiple prices
 
-                $slot = $item->format("h:i A") . ' - ' . $item->addMinutes(60)->format("h:i A");
+                $dateToCheck = date('Y-m-d', strtotime($request->date));
 
-                $today =  Carbon::now(new \DateTimeZone('Asia/Kolkata'));
-                $last = Carbon::parse($item->format("h:i A"));
-                if (date('Y-m-d') == date('Y-m-d', strtotime($request->date))) {
-                    if ($today->lt($last)) {
-                        $status = 1;
-                    } else {
-                        $status = 0;
-                        // $slot = '';
-                    }
-                } elseif (date('Y-m-d', strtotime($request->date)) < date('Y-m-d')) {
-                    $status = 0;
-                } else {
-                    $status = 1;
+                $checkpricetype = SetPrices::where('dome_id', $getdomedata->id)->where('sport_id', $request->sport_id)->whereRaw('? BETWEEN start_date AND end_date', [$dateToCheck])->first();
+                if (empty($checkpricetype)) {
+                    $checkpricetype = SetPrices::where('dome_id', $getdomedata->id)->where('sport_id', $request->sport_id)->where('price_type', 1)->first();
                 }
-
-                $checkslotexist = Booking::where('dome_id', $request->dome_id)->where('sport_id', $request->sport_id)->where('booking_date', date('Y-m-d', strtotime($request->date)))->whereRaw("find_in_set('" . $slot . "',slots)")->first();
-                if (!empty($checkslotexist)) {
-                    $status = 0;
-                }
-
-                $slots[] = [
-                    'slot' => $slot,
-                    'price' => rand(111, 999),
-                    'status' => $status,
-                ];
+            } else {
+                $checkpricetype = SetPrices::where('dome_id', $getdomedata->id)->where('sport_id', $request->sport_id)->where('price_type', 1)->first();
             }
 
-            return response()->json(["status" => 1, "message" => "Successful", 'data' => $slots], 200);
+            if ($checkpricetype->price_type == 1) {
+                // for create use 24 hours format later change format
+                // $period = new CarbonPeriod(date('h:i A', strtotime($getdomedata->start_time)), '60 minutes', date('h:i A', strtotime($getdomedata->end_time)));
+                $period = new CarbonPeriod(date('h:i A', strtotime($getdomedata->start_time)), '60 minutes', date("h:i A", strtotime("-60 minutes", strtotime($getdomedata->end_time))));
+
+                $slots = [];
+                foreach ($period as $item) {
+                    // dump($item->format("h:i A"),' -- '.$getdomedata->end_time);
+                    $slot = $item->format("h:i A") . ' - ' . $item->addMinutes(60)->format("h:i A");
+                    $today =  Carbon::now(new \DateTimeZone('Asia/Kolkata'));
+                    $last = Carbon::parse($item->format("h:i A"));
+                    if (date('Y-m-d') == date('Y-m-d', strtotime($request->date))) {
+                        if ($today->lt($last)) {
+                            $status = 1;
+                        } else {
+                            $status = 0;
+                            // $slot = '';
+                        }
+                    } elseif (date('Y-m-d', strtotime($request->date)) < date('Y-m-d')) {
+                        $status = 0;
+                    } else {
+                        $status = 1;
+                    }
+                    $checkslotexist = Booking::where('dome_id', $request->dome_id)->where('sport_id', $request->sport_id)->where('booking_date', date('Y-m-d', strtotime($request->date)))->whereRaw("find_in_set('" . $slot . "',slots)")->first();
+                    if (!empty($checkslotexist)) {
+                        $status = 0;
+                    }
+                    $slots[] = [
+                        'slot' => $slot,
+                        'price' => $checkpricetype->price,
+                        'status' => $status,
+                    ];
+                }
+                return response()->json(["status" => 1, "message" => "Successful", 'data' => $slots], 200);
+            } else {
+                # code...
+            }
         }
         return response()->json(["status" => 0, "message" => 'Dome Not Found'], 200);
     }
+    // public function timeslots(Request $request)
+    // {
+    //     if ($request->date == "") {
+    //         return response()->json(["status" => 0, "message" => 'Please Enter Date'], 200);
+    //     }
+    //     if ($request->sport_id == "") {
+    //         return response()->json(["status" => 0, "message" => 'Please Enter Sport ID'], 200);
+    //     }
+    //     if ($request->dome_id == "") {
+    //         return response()->json(["status" => 0, "message" => 'Please Enter Dome ID'], 200);
+    //     }
+    //     $getdomedata = Domes::where('id', $request->dome_id)->where('is_deleted', 2)->first();
+    //     if (!empty($getdomedata)) {
+
+    //         date_default_timezone_set('Asia/Kolkata');
+
+    //         // $start_time = $getdomedata->start_time;  //start time as string
+    //         // $end_time = $getdomedata->end_time;  //end time as string
+    //         // $booked = array('12:20-12:40','13:00-13:20');    //booked slots as arrays
+    //         // $start = DateTime::createFromFormat('Y-m-d H:i:s',$start_time);  //create date time objects
+    //         // $end = DateTime::createFromFormat('Y-m-d H:i:s',$end_time);  //create date time objects
+    //         // $count = 0;  //number of slots
+    //         // $out = array();   //array of slots
+    //         // for($i = $start; $i<$end;)  //for loop
+    //         // {
+    //         //     $avoid = false;   //booked slot?
+    //         //     $time1 = $i->format('H:i');   //take hour and minute
+    //         //     $i->modify("+20 minutes");      //add 20 minutes
+    //         //     $time2 = $i->format('H:i');     //take hour and minute
+    //         //     $slot = $time1."-".$time2;      //create a format 12:40-13:00 etc
+    //         //     for($k=0;$k<sizeof($booked);$k++)  //if booked hour
+    //         //     {
+    //         //         if($booked[$k] == $slot)  //check
+    //         //         $avoid = true;   //yes. booked
+    //         //     }
+    //         //     if(!$avoid && $i<$end)  //if not booked and less than end time
+    //         //     {
+    //         //         $count++;           //add count
+    //         //         $slots = ['start'=>$time1, 'stop'=>$time2];         //add count
+    //         //         array_push($out,$slots); //add slot to array
+    //         //     }
+    //         // }
+
+    //         // for create use 24 hours format later change format
+    //         $period = new CarbonPeriod(date('h:i A', strtotime($getdomedata->start_time)), '60 minutes', date('h:i A', strtotime($getdomedata->end_time)));
+    //         $slots = [];
+    //         foreach ($period as $item) {
+
+    //             $slot = $item->format("h:i A") . ' - ' . $item->addMinutes(60)->format("h:i A");
+
+    //             $today =  Carbon::now(new \DateTimeZone('Asia/Kolkata'));
+    //             $last = Carbon::parse($item->format("h:i A"));
+    //             if (date('Y-m-d') == date('Y-m-d', strtotime($request->date))) {
+    //                 if ($today->lt($last)) {
+    //                     $status = 1;
+    //                 } else {
+    //                     $status = 0;
+    //                     // $slot = '';
+    //                 }
+    //             } elseif (date('Y-m-d', strtotime($request->date)) < date('Y-m-d')) {
+    //                 $status = 0;
+    //             } else {
+    //                 $status = 1;
+    //             }
+
+    //             $checkslotexist = Booking::where('dome_id', $request->dome_id)->where('sport_id', $request->sport_id)->where('booking_date', date('Y-m-d', strtotime($request->date)))->whereRaw("find_in_set('" . $slot . "',slots)")->first();
+    //             if (!empty($checkslotexist)) {
+    //                 $status = 0;
+    //             }
+
+    //             $slots[] = [
+    //                 'slot' => $slot,
+    //                 'price' => rand(111, 999),
+    //                 'status' => $status,
+    //             ];
+    //         }
+
+    //         return response()->json(["status" => 1, "message" => "Successful", 'data' => $slots], 200);
+    //     }
+    //     return response()->json(["status" => 0, "message" => 'Dome Not Found'], 200);
+    // }
     public function avl_fields(Request $request)
     {
         if ($request->dome_id == "") {
