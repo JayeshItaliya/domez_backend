@@ -6,6 +6,7 @@ use App\Helper\Helper;
 use App\Http\Controllers\Controller;
 use App\Models\Booking;
 use App\Models\Transaction;
+use App\Models\User;
 use Carbon\Carbon;
 use Carbon\CarbonImmutable;
 use Illuminate\Http\Request;
@@ -33,6 +34,7 @@ class AdminController extends Controller
 
         $total_income_data = Transaction::where('type', 1)->orderBy('created_at');
         $total_revenue_data = Transaction::where('type', 1)->orderBy('created_at');
+        $total_users_data = User::where('type', 3);
         if (Auth::user()->type == 2) {
             $total_income_data = $total_income_data->where('vendor_id', Auth::user()->id);
             $total_revenue_data = $total_revenue_data->where('vendor_id', Auth::user()->id);
@@ -49,6 +51,10 @@ class AdminController extends Controller
             // For Revenue Chart
             $total_revenue_data_sum = $total_revenue_data->whereMonth('created_at', Carbon::now()->month)->sum('amount') * 12 / 100;
             $total_revenue_data = $total_revenue_data->whereMonth('created_at', Carbon::now()->month)->select(DB::raw('DATE_FORMAT(created_at, "%d-%m-%Y") as titles'), DB::raw('SUM(amount*12/100) as amount'))->groupBy('titles')->pluck('titles', 'amount');
+            // For Users Chart
+            $total_users_data_sum = $total_users_data->whereMonth('created_at', Carbon::now()->month)->count();
+            $total_users_data = $total_users_data->whereMonth('created_at', Carbon::now()->month)->select(DB::raw('DATE_FORMAT(created_at, "%d-%m-%Y") as titles'), DB::raw('COUNT(*) as users'))->groupBy(DB::raw('DATE_FORMAT(created_at,"%d-%-m-Y")'))->pluck('titles', 'users');
+            dd($total_users_data_sum, $total_users_data);
         } elseif ($request->filtertype == "this_year") {
             // For Income Chart
             $total_income_data_sum = Transaction::where('type', 1)->whereYear('created_at', Carbon::now()->year)->sum('amount');
@@ -60,6 +66,10 @@ class AdminController extends Controller
             // For Revenue Chart
             $total_revenue_data_sum = $total_revenue_data->where('type', 1)->whereYear('created_at', Carbon::now()->year)->sum('amount') * 12 / 100;
             $total_revenue_data = $total_revenue_data->whereYear('created_at', Carbon::now()->year)->select(DB::raw("MONTHNAME(created_at) as titles"), DB::raw('SUM(amount*12/100) as amount'))->groupBy('titles')->pluck('titles', 'amount');
+            // For Users Chart
+            $total_users_data_sum = $total_users_data->whereYear('created_at', Carbon::now()->year)->count();
+            $total_users_data = $total_users_data->whereYear('created_at', Carbon::now()->year)->select(DB::raw('DATE_FORMAT(created_at, "%d-%m-%Y") as titles'), DB::raw('COUNT(id) as users'))->groupBy('titles')->pluck('titles', 'users');
+            dd($total_users_data_sum, $total_users_data);
         } elseif ($request->filtertype == "custom_date") {
             $weekStartDate = explode(' to ', $request->filterdates)[0];
             $weekEndDate = explode(' to ', $request->filterdates)[1];
@@ -73,6 +83,10 @@ class AdminController extends Controller
             // For Revenue Chart
             $total_revenue_data_sum = $total_revenue_data->whereBetween('created_at', [$weekStartDate, $weekEndDate])->sum('amount') * 12 / 100;
             $total_revenue_data = $total_revenue_data->whereBetween('created_at', [$weekStartDate, $weekEndDate])->select(DB::raw('DATE_FORMAT(created_at, "%d-%m-%Y") as titles'), DB::raw('SUM(amount*12/100) as amount'))->groupBy('titles')->pluck('titles', 'amount');
+            // For Users Chart
+            $total_users_data_sum = $total_users_data->whereBetween('created_at', [$weekStartDate, $weekEndDate])->count();
+            $total_users_data = $total_users_data->whereBetween('created_at', [$weekStartDate, $weekEndDate])->select(DB::raw('DATE_FORMAT(created_at, "%d-%m-%Y") as titles'), DB::raw('COUNT(id) as users'))->groupBy('titles')->pluck('titles', 'users');
+            dd($total_users_data_sum, $total_users_data);
         } else {
             // For Income Chart
             $total_income_data_sum = Transaction::where('type', 1)->whereBetween('created_at', [$weekStartDate, $weekEndDate])->sum('amount');
@@ -84,6 +98,9 @@ class AdminController extends Controller
             // For Revenue Chart
             $total_revenue_data_sum = $total_revenue_data->whereBetween('created_at', [$weekStartDate, $weekEndDate])->sum('amount') * 12 / 100;
             $total_revenue_data = $total_revenue_data->whereBetween('created_at', [$weekStartDate, $weekEndDate])->select(DB::raw('DATE_FORMAT(created_at, "%d-%m-%Y") as titles'), DB::raw('SUM(amount*12/100) as amount'))->groupBy('titles')->pluck('titles', 'amount');
+            // For Users Chart
+            $total_users_data_sum = $total_users_data->whereBetween('created_at', [$weekStartDate, $weekEndDate])->count();
+            $total_users_data = $total_users_data->whereBetween('created_at', [$weekStartDate, $weekEndDate])->select(DB::raw('DATE_FORMAT(created_at, "%d-%m-%Y") as titles'), DB::raw('COUNT(id) as users'))->groupBy('titles')->pluck('titles', 'users');
         }
         $income_labels = $total_income_data->keys();
         $income_data = $total_income_data->values();
@@ -91,10 +108,12 @@ class AdminController extends Controller
         $booking_data = $total_bookings_data->values();
         $revenue_labels = $total_revenue_data->values();
         $revenue_data = $total_revenue_data->keys();
+        $users_labels = $total_users_data->values();
+        $users_data = $total_users_data->keys();
         if ($request->ajax()) {
-            return response()->json(['total_income_data_sum' => Helper::currency_format($total_income_data_sum), 'income_labels' => $income_labels, 'income_data' => $income_data, 'total_bookings_count' => $total_bookings_count, 'booking_labels' => $booking_labels, 'booking_data' => $booking_data, 'total_revenue_data_sum' => Helper::currency_format($total_revenue_data_sum), 'revenue_labels' => $revenue_labels, 'revenue_data' => $revenue_data]);
+            return response()->json(['total_income_data_sum' => Helper::currency_format($total_income_data_sum), 'income_labels' => $income_labels, 'income_data' => $income_data, 'total_bookings_count' => $total_bookings_count, 'booking_labels' => $booking_labels, 'booking_data' => $booking_data, 'total_revenue_data_sum' => Helper::currency_format($total_revenue_data_sum), 'revenue_labels' => $revenue_labels, 'revenue_data' => $revenue_data, 'total_users_data_sum' => $total_users_data_sum, 'users_labels' => $users_labels, 'users_data' => $users_data]);
         } else {
-            return view('admin.dashboard.index', compact('total_income_data_sum', 'income_labels', 'income_data', 'total_bookings_count', 'booking_labels', 'booking_data', 'total_revenue_data_sum', 'revenue_labels', 'revenue_data'));
+            return view('admin.dashboard.index', compact('total_income_data_sum', 'income_labels', 'income_data', 'total_bookings_count', 'booking_labels', 'booking_data', 'total_revenue_data_sum', 'revenue_labels', 'revenue_data', 'total_users_data_sum', 'users_labels', 'users_data'));
         }
     }
     public function landing(Request $request)
