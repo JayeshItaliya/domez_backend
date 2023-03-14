@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
@@ -17,12 +18,14 @@ class UserFactory extends Factory
      */
     public function definition()
     {
+        $randomDate = Carbon::now()->subDays(rand(1, 365));
         return [
-            'type' => $this->faker->numberBetween(2,3),
-            'login_type' => $this->faker->numberBetween(1,4),
+            'type' => 3,
+            'login_type' => $this->faker->numberBetween(1, 4),
             'name' => fake()->name(),
             'email' => fake()->unique()->safeEmail(),
             'password' => '$2y$10$sjwS7ysqH0.aT8QWO497n.INzh99C7Tq.0YmpUceMOCr/2udPGFl2', // 12345678
+            "created_at" => $this->faker->dateTimeBetween($randomDate, 'now')->format('Y-m-d H:i:s'),
         ];
     }
 

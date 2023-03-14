@@ -58,7 +58,6 @@ return [
     'custom_date' => 'Custom Date',
     'select_date' => 'Select Date',
     'revenue' => 'Revenue',
-    'total_revenue' => 'Total Revenue',
     'recent_bookings' => 'Recent Bookings',
     'user_mobile_app' => 'Users Of Mobile App',
     // Users

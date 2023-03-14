@@ -130,18 +130,22 @@
         </div>
         <div class="row mb-3">
             <div class="col-md-6">
-                <div class="card h-100">
+                <div class="card h-100 users-card">
                     <div class="card-body">
                         <div class="d-flex align-items-center justify-content-between mb-3">
                             <div class="content">
                                 <p class="mb-2 fw-500 text-muted">{{ trans('labels.user_mobile_app') }}</p>
-                                <h4>6874</h4>
+                                <h4 class="total-users">{{ $total_users_data_sum }}</h4>
                             </div>
-                            <select class="form-select w-auto" name="" id="">
-                                <option value="this-week">{{ trans('labels.this_week') }}</option>
-                                <option value="this-month">{{ trans('labels.this_month') }}</option>
-                                <option value="this-year">{{ trans('labels.this_year') }}</option>
-                            </select>
+                            <div class="d-flex">
+                                <input type="text" class="form-control date-range-picker" placeholder="{{ trans('labels.select_date') }}">
+                                <select class="form-select w-auto users-filter" data-next="{{ URL::to('admin/dashboard') }}">
+                                    <option value="this_week" selected>{{ trans('labels.this_week') }}</option>
+                                    <option value="this_month">{{ trans('labels.this_month') }}</option>
+                                    <option value="this_year">{{ trans('labels.this_year') }}</option>
+                                    <option value="custom_date">{{ trans('labels.custom_date') }}</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
                     <div id="users_chart"></div>
@@ -228,6 +232,13 @@
                 xaxis: {
                     categories: income_labels,
                 },
+                tooltip: {
+                    y: {
+                        formatter: function(income_data) {
+                            return "$" + income_data.toFixed(2);
+                        }
+                    }
+                }
             };
             $('#total_income .apexcharts-canvas').remove();
             var incomechart = new ApexCharts(document.querySelector("#total_income"), options);
@@ -372,16 +383,15 @@
         create_revenue_chart(revenue_labels, revenue_data);
 
         function create_revenue_chart(revenue_labels, revenue_data) {
-            console.log(revenue_data);
             var options = {
                 series: [{
-                    name: '{{ trans('labels.total_revenue') }}',
+                    name: '{{ trans('labels.revenue') }}',
                     data: revenue_data
                 }],
                 chart: {
                     group: 'sparklines',
                     type: 'line',
-                    height: 100,
+                    height: 350,
                     sparkline: {
                         enabled: true
                     },
@@ -409,6 +419,13 @@
                 },
                 xaxis: {
                     categories: revenue_labels,
+                },
+                tooltip: {
+                    y: {
+                        formatter: function(revenue_data) {
+                            return "$" + revenue_data.toFixed(2);
+                        }
+                    }
                 },
             };
             $('#revenue_chart .apexcharts-canvas').remove();
@@ -456,6 +473,90 @@
     </script>
 
 
+    <script>
+        // Total Users Chart
+        var users_labels = {{ Js::from($users_labels) }}
+        var users_data = {{ Js::from($users_data) }}
+        create_users_chart(users_labels, users_data);
+
+        function create_users_chart(users_labels, users_data) {
+            var options = {
+                series: [{
+                    name: '{{ trans('labels.users') }}',
+                    data: users_data
+                }],
+                chart: {
+                    type: 'bar',
+                    height: 350
+                },
+                plotOptions: {
+                    bar: {
+                        horizontal: false,
+                        borderRadius: 4,
+                        endingShape: 'rounded'
+                    },
+                },
+                dataLabels: {
+                    enabled: false
+                },
+                colors: ['#57A70040'],
+                stroke: {
+                    show: true,
+                    width: 2,
+                    colors: [secondary_color]
+                },
+                xaxis: {
+                    categories: users_labels,
+                },
+                fill: {
+                    opacity: 1
+                }
+            };
+            $('#users_chart .apexcharts-canvas').remove();
+            var userschart = new ApexCharts(document.querySelector("#users_chart"), options);
+            userschart.render();
+        }
+        // Total Users Filter
+        $('.users-filter').on('change', function() {
+            if ($(this).val() == 'custom_date') {
+                $('.users-card .date-range-picker').show();
+                return false;
+            } else {
+                $('.users-card .date-range-picker').hide();
+            }
+            makeusersfilter('')
+        });
+
+        function makeusersfilter(dates) {
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
+                        'content')
+                },
+                url: $(this).attr('data-next'),
+                data: {
+                    filtertype: $('.users-filter').val(),
+                    filterdates: dates,
+                },
+                method: 'GET',
+                beforeSend: function() {
+                    showpreloader();
+                },
+                success: function(response) {
+                    hidepreloader();
+                    $('.total-users').html(response.total_users_data_sum);
+                    create_users_chart(response.users_labels, response.users_data);
+                },
+                error: function(e) {
+                    hidepreloader();
+                    toastr.error(wrong);
+                    return false;
+                }
+            });
+        }
+    </script>
+
+
 
 
 
@@ -477,43 +578,6 @@
 
 
     <script>
-        // Total Users Of Mobile Chart
-        var options = {
-            series: [{
-                name: 'Users',
-                data: [35, 41, 36, 26, 45, 48, 52, 53, 41]
-            }],
-            chart: {
-                type: 'bar',
-                height: 350
-            },
-            plotOptions: {
-                bar: {
-                    horizontal: false,
-                    borderRadius: 4,
-                    endingShape: 'rounded'
-                },
-            },
-            dataLabels: {
-                enabled: false
-            },
-            colors: ['#57A70040'],
-            stroke: {
-                show: true,
-                width: 2,
-                colors: [secondary_color]
-            },
-            xaxis: {
-                categories: ['Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct'],
-            },
-            fill: {
-                opacity: 1
-            }
-        };
-        var chart = new ApexCharts(document.querySelector("#users_chart"), options);
-        chart.render();
-
-
         // Total Dome Owner Chart
         $('#dome_owner_filter').on('change', function() {
             alert(123);
