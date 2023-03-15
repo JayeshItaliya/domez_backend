@@ -160,8 +160,8 @@ class DomesPriceController extends Controller
             return response()->json(['status' => 0, 'message' => trans('messages.wrong')], 200);
         }
     }
-    public function dome_price_details(Request $request)
-    {
-        return view('admin.set_prices.view');
-    }
+    // public function dome_price_details(Request $request)
+    // {
+    //     return view('admin.set_prices.view');
+    // }
 }

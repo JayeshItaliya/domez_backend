@@ -232,7 +232,7 @@
                                     <option value="2" {{ $getleaguedata->gender == 2 ? 'selected' : '' }}>
                                         {{ trans('labels.women') }}</option>
                                     <option value="3" {{ $getleaguedata->gender == 3 ? 'selected' : '' }}>
-                                        {{ trans('labels.other') }}</option>
+                                        {{ trans('labels.mixed') }}</option>
                                 </select>
                                 @error('gender')
                                     <span class="text-danger"> {{ $message }} </span>

@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -16,6 +17,7 @@ class BookingFactory extends Factory
      */
     public function definition()
     {
+        $randomDate = Carbon::now()->subDays(rand(1, 365));
         // For Domes Booking Only
         // return [
         //     "type" => 1,
@@ -52,7 +54,7 @@ class BookingFactory extends Factory
             "sport_id" => 7,
             "field_id" => 5,
             "booking_id" => $this->faker->numberBetween(111111, 999999),
-            "booking_date" => '2023-02-21',
+            "booking_date" => $this->faker->dateTimeBetween($randomDate, 'now')->format('Y-m-d'),
             "customer_name" => $this->faker->name(),
             "customer_email" => $this->faker->safeEmail,
             "customer_mobile" => $this->faker->phoneNumber,

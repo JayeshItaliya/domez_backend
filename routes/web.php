@@ -179,8 +179,8 @@ Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function () {
             Route::get('delete-slot', [DomesPriceController::class, 'deleteslot']);
             Route::get('getsports', [DomesPriceController::class, 'getsportslist']);
 
-            Route::post('update-{id}', [DomesPriceController::class, 'update']);
-            Route::get('details-{id}', [DomesPriceController::class, 'dome_price_details']);
+            // Route::post('update-{id}', [DomesPriceController::class, 'update']);
+            // Route::get('details-{id}', [DomesPriceController::class, 'dome_price_details']);
         });
         //  Field
         Route::group(['prefix' => 'fields'], function () {

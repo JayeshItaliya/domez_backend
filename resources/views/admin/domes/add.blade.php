@@ -123,6 +123,14 @@
                                                 for="pool">{{ trans('labels.pool') }}</label>
                                         </div>
                                     </div>
+                                    <div class="col-auto">
+                                        <div class="form-check mb-0">
+                                            <input type="checkbox" id="others" name="benefits[]" value="Others"
+                                                class="form-check-input">
+                                            <label class="form-check-label"
+                                                for="others">{{ trans('labels.others') }}</label>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>

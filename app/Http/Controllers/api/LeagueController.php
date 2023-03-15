@@ -157,7 +157,7 @@ class LeagueController extends Controller
         foreach (explode('|', $dome->benefits) as $benefit) {
             $benefits[] = [
                 'benefit' => $benefit,
-                'benefit_image' => 'https://via.placeholder.com/150',
+                'benefit_image' => '',
             ];
         }
         if (!empty($league)) {

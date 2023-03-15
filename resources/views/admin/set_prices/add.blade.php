@@ -91,7 +91,7 @@
                         @php
                             $days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
                         @endphp
-                        <div class="row mb-3">
+                        <div class="row mb-5">
                             @foreach ($days as $dayname)
                                 <div class="col-md-6">
                                     <input type="hidden" name="daynames[]" value="{{ $dayname }}">
