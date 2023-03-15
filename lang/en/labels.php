@@ -141,7 +141,7 @@ return [
     'gender' => 'Gender',
     'men' => 'Men',
     'women' => 'Women',
-    'other' => 'Other',
+    'other' => 'Mixed',
     'age' => ' Age',
     'from_age' => 'From Age',
     'to_age' => 'To Age',

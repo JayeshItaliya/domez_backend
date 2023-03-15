@@ -49,6 +49,7 @@ return [
     'valid_email' => 'Please Enter Valid Email Address',
     'valid_time_format' => 'Please enter valid time format',
     'end_time_must_after_start_time' => 'End Time Must After Start Time',
+    'start_time_afterequal_dome_start_time' => 'Start Time Must After Dome Start Time',
 
     'image_required' => 'Please Enter Image',
     'valid_image' => 'The Images must be a image type of file',
