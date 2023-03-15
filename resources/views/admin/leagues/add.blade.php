@@ -139,7 +139,7 @@
                     <div class="row">
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label class="form-label" for="from_age">{{ trans('labels.from_age') }}</label>
+                                <label class="form-label" for="from_age">{{ trans('labels.age') }}</label>
                                 <select class="form-select" required id="from_age" name="from_age">
                                     <option value="" disabled selected>{{ trans('labels.from_age') }}</option>
                                     @for ($i = 12; $i <= 50; $i++)

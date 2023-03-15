@@ -344,7 +344,7 @@ class AuthenticationController extends Controller
     {
         $provider = 'apple';
         $token = $request->bearerToken();
-        dd(Socialite::driver($provider));
+        // dd(Socialite::driver($provider));
         $socialUser = Socialite::driver($provider)->userFromToken($token);
         $user = $this->getLocalUser($socialUser);
 
