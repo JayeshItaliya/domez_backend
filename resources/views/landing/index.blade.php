@@ -25,6 +25,9 @@
     <link rel="stylesheet" href="{{ url('storage/app/public/admin/css/landing.css') }}">
     <!-- responsive Css -->
     <link rel="stylesheet" href="{{ url('storage/app/public/admin/css/responsive.css') }}">
+
+    <link rel="stylesheet" href="{{ url('storage/app/public/admin/plugins/owl_carousel/owl.carousel.min.css') }}">
+    <link rel="stylesheet" href="{{ url('storage/app/public/admin/plugins/owl_carousel/owl.theme.default.min.css') }}">
 </head>
 
 <body>
@@ -81,40 +84,45 @@
                 <h1 class="heading-title wow fadeInDown delay-0-2s animated">Most Popular Sports</h1>
                 <p class="mb-4 text-center text-muted fw-semibold">List the Sports and Games That Your Dome Offers on
                     the DOMEZ Mobile App!</p>
-                <div class="row justify-content-center py-5">
-                    <div class="col-lg-3 col-md-6 col-auto mb-3">
-                        <div class="most-games-box position-relative" data-wow-duration="1s">
-                            <div class="game-info m-auto">
-                                <img src="{{ url('storage/app/public/admin/images/landing/game-1.png') }}" />
-                                <h5>Soccer</h5>
+                <div id="popular_sports" class="owl-carousel mt-2 owl-loaded">
+                    <div class="owl-stage-outer py-5">
+                        <div class="owl-stage">
+                            <div class="owl-item">
+                                <div class="most-games-box position-relative" data-wow-duration="1s">
+                                    <div class="game-info m-auto">
+                                        <img src="{{ url('storage/app/public/admin/images/landing/game-1.png') }}" />
+                                        <h5>Soccer</h5>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6 col-auto mb-3">
-                        <div class="most-games-box position-relative" data-wow-duration="1s">
-                            <div class="game-info m-auto">
-                                <img src="{{ url('storage/app/public/admin/images/landing/game-2.png') }}" />
-                                <h5>Volleyball</h5>
+                            <div class="owl-item">
+                                <div class="most-games-box position-relative" data-wow-duration="1s">
+                                    <div class="game-info m-auto">
+                                        <img src="{{ url('storage/app/public/admin/images/landing/game-2.png') }}" />
+                                        <h5>Volleyball</h5>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6 col-auto mb-3">
-                        <div class="most-games-box position-relative" data-wow-duration="1s">
-                            <div class="game-info m-auto">
-                                <img src="{{ url('storage/app/public/admin/images/landing/game-3.png') }}" />
-                                <h5>Tennis</h5>
+                            <div class="owl-item">
+                                <div class="most-games-box position-relative" data-wow-duration="1s">
+                                    <div class="game-info m-auto">
+                                        <img src="{{ url('storage/app/public/admin/images/landing/game-3.png') }}" />
+                                        <h5>Tennis</h5>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6 col-auto mb-3">
-                        <div class="most-games-box position-relative" data-wow-duration="1s">
-                            <div class="game-info m-auto">
-                                <img src="{{ url('storage/app/public/admin/images/landing/game-4.png') }}" />
-                                <h5>Golf</h5>
+                            <div class="owl-item">
+                                <div class="most-games-box position-relative" data-wow-duration="1s">
+                                    <div class="game-info m-auto">
+                                        <img src="{{ url('storage/app/public/admin/images/landing/game-4.png') }}" />
+                                        <h5>Golf</h5>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
+
             </div>
         </section>
         {{-- Most Popular Sports Area End --}}
@@ -174,7 +182,7 @@
         </section>
         <section class="book-sports">
             <div class="container">
-                <div class="row align-items-center ">
+                <div class="row align-items-center">
                     <div
                         class="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 right-column m-0 align-items-center text-md-start text-center ps-3 pe-3">
                         <div class="game-details-img" data-wow-duration="2s">
@@ -486,6 +494,7 @@
     </div>
     <!-- Javascript -->
     <script src="{{ url('storage/app/public/admin/js/jquery/jquery.min.js') }}"></script>
+    <script src="{{ url('storage/app/public/admin/plugins/owl_carousel/owl.carousel.js') }}"></script>
     <script src="{{ url('storage/app/public/admin/js/bootstrap/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ url('storage/app/public/admin/js/sweetalert/sweetalert2.min.js') }}"></script>
     <script src="{{ url('storage/app/public/admin/js/toastr/toastr.min.js') }}"></script>
@@ -508,6 +517,49 @@
     <script>
         const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
         const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+    </script>
+    <script>
+        $("#popular_sports").owlCarousel({
+            rtl: false,
+            loop: true,
+            responsiveClass: true,
+            responsive: {
+                0: {
+                    items: 2,
+                    nav: false,
+                    dots: false,
+                    arrow: true,
+                    margin: 10,
+                },
+                400: {
+                    items: 3,
+                    nav: false,
+                    dots: false,
+                    arrow: true,
+                    margin: 65,
+                },
+                600: {
+                    items: 4,
+                    nav: false,
+                    dots: false,
+                    margin: 38,
+                },
+                800: {
+                    items: 5,
+                    nav: false,
+                    dots: false,
+                    margin: 45,
+                },
+                1000: {
+                    items: 4,
+                    dots: false,
+                    nav: false,
+                    loop: false,
+                    arrows: true,
+                    margin: 35,
+                },
+            }
+        });
     </script>
     <script>
         var rev = $('.rev_slider');

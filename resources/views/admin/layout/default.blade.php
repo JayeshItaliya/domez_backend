@@ -18,6 +18,11 @@
     <link rel="stylesheet" href="{{ url('storage/app/public/admin/css/custom.css') }}">
     <link rel="stylesheet" href="{{ url('storage/app/public/admin/css/responsive.css') }}">
     @yield('styles')
+    <style>
+        :root {
+            --root-color: #000000;
+        }
+    </style>
 </head>
 
 <body>
@@ -96,12 +101,13 @@
             <form action="" class="row">
                 <h5 class="text-muted mb-2">{{ trans('labels.change_colors') }}</h5>
                 <div class="form-group col-6">
-                    <label for="set_primary_color" class="form-label">{{ trans('labels.primary_color') }}</label>
-                    <input type="color" class="form-control" name="set_primary_color" id="set_primary_color">
+                    <label for="primary_color" class="form-label">{{ trans('labels.primary_color') }}</label>
+                    <input type="color" class="form-control" name="primary_color"
+                        onkeyup="set_cookie('primary_color',this)" id="primary_color">
                 </div>
                 <div class="form-group col-6">
-                    <label for="set_secondary_color" class="form-label">{{ trans('labels.secondary_color') }}</label>
-                    <input type="color" class="form-control" name="set_secondary_color" id="set_secondary_color">
+                    <label for="secondary_color" class="form-label">{{ trans('labels.secondary_color') }}</label>
+                    <input type="color" class="form-control" name="secondary_color" id="secondary_color">
                 </div>
             </form>
         </div>
@@ -141,6 +147,51 @@
         @if (Session::has('warning'))
             toastr.warning("{{ session('warning') }}");
         @endif
+    </script>
+    <script>
+        var primarycolor = $('input[type="color"]#primary_color');
+        primarycolor.change(function() {
+            var selectedColor = $(this).val();
+            set_cookie('primary_color', selectedColor);
+        });
+        var secondarycolor = $('input[type="color"]#secondary_color');
+        secondarycolor.change(function() {
+            var selectedColor = $(this).val();
+            set_cookie('secondary_color', selectedColor);
+        });
+
+        function set_cookie(name, selectedColor) {
+            "use strict";
+            $("#preloader , #status").show();
+            var date = new Date();
+            date.setTime(date.getTime() + (365 * 24 * 60 * 60 * 1000));
+            var expires = "; expires=" + date.toUTCString();
+            document.cookie = name + " = " + (selectedColor || "") + expires + "; path=/";
+            location.reload();
+        }
+
+        function getCookie(name) {
+            "use strict";
+            var cookie_name = name + "=";
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var c = cookies[i];
+                while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+                if (c.indexOf(cookie_name) == 0) return c.substring(cookie_name.length, c.length);
+            }
+            return;
+        }
+        $(window).on('load', function() {
+            "use strict";
+            if ( $.trim(getCookie("primary_color")) != "") {
+                document.documentElement.style.setProperty('--bs-primary', getCookie("primary_color"));
+                $('#primary_color').val(getCookie("primary_color"));
+            }
+            if ( $.trim(getCookie("secondary_color")) != "") {
+                document.documentElement.style.setProperty('--bs-secondary', getCookie("secondary_color"));
+                $('#secondary_color').val(getCookie("secondary_color"));
+            }
+        });
     </script>
     <script src="{{ url('storage/app/public/admin/js/custom.js') }}"></script>
     @yield('scripts')
