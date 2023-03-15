@@ -211,7 +211,7 @@
                                     <option value="2" {{ old('gender') == 2 ? 'selected' : '' }}>
                                         {{ trans('labels.women') }}</option>
                                     <option value="3" {{ old('gender') == 3 ? 'selected' : '' }}>
-                                        {{ trans('labels.other') }}</option>
+                                        {{ trans('labels.mixed') }}</option>
                                 </select>
                                 @error('gender')
                                     <span class="text-danger"> {{ $message }} </span>
