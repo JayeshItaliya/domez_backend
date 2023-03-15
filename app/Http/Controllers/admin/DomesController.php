@@ -179,8 +179,9 @@ class DomesController extends Controller
 
         if ($request->has('dome_images')) {
             $request->validate([
-                'dome_images.*' => 'mimes:png,jpg,jpeg,svg',
+                'dome_images.*' => 'image|mimes:png,jpg,jpeg,svg',
             ], [
+                'dome_images.image' => trans('messages.valid_image'),
                 'dome_images.mimes' => trans('messages.valid_image_type'),
             ]);
             foreach ($request->file('dome_images') as $img) {

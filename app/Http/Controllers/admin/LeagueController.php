@@ -106,6 +106,12 @@ class LeagueController extends Controller
             $league->is_deleted = 2;
             $league->save();
             if ($request->has('images')) {
+                $request->validate([
+                    'images.*' => 'image|mimes:png,jpg,jpeg,svg',
+                ], [
+                    'images.image' => trans('messages.valid_image'),
+                    'images.mimes' => trans('messages.valid_image_type'),
+                ]);
                 foreach ($request->file('images') as $img) {
                     $domeimage = new DomeImages();
                     $image = 'league-' . uniqid() . '.' . $img->getClientOriginalExtension();
