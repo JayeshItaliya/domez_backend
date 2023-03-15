@@ -71,7 +71,7 @@ class DomesPriceController extends Controller
         try {
             $getdomedata = Domes::where('id', $request->id)->where('vendor_id', auth()->user()->id)->where('is_deleted', 2)->first();
             if (!empty($getdomedata)) {
-                $getexists = SetPrices::where('dome_id', $request->id)->select('sport_id')->get()->toArray();
+                $getexists = SetPrices::where('dome_id', $request->id)->where('price_type',2)->select('sport_id')->get()->toArray();
                 $sports = Sports::whereIn('id', explode(',', $getdomedata->sport_id));
                 if ($request->has('type') && $request->type == 'add') {
                     $sports = $sports->whereNotIn('id', $getexists);
