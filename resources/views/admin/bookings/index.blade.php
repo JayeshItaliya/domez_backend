@@ -3,7 +3,7 @@
     {{ trans('labels.bookings') }}
 @endsection
 @section('styles')
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link rel="stylesheet" href={{url('storage/app/public/admin/plugins/flatpickr/flatpickr.min.css')}}>
 @endsection
 @section('contents')
     <div class="card mb-3">
@@ -161,7 +161,7 @@
     </div>
 @endsection
 @section('scripts')
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src={{url('storage/app/public/admin/plugins/flatpickr/flatpickr.js')}}></script>
     <script>
         $(function() {
             $(".filter_content").appendTo($(".fixed-table-toolbar .float-left"));

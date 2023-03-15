@@ -3,7 +3,7 @@
     {{ trans('labels.dashboard') }}
 @endsection
 @section('styles')
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link rel="stylesheet" href={{ url('storage/app/public/admin/plugins/flatpickr/flatpickr.min.css') }}>
 @endsection
 @section('contents')
     <div class="dashboard">
@@ -101,6 +101,48 @@
             </div>
         </div>
         <div class="row mb-3">
+            <style>
+                :root {
+                    --fc-event-bg-color: var(--bs-primary);
+                    --fc-event-border-color: var(--bs-primary);
+                    --fc-today-bg-color: rgba(var(--bs-secondary-rgb), .15);
+                }
+
+                .fc-button {
+                    background-color: transparent !important;
+                    color: var(--bs-primary) !important;
+                    border-color: var(--bs-primary) !important;
+                }
+
+                .fc-button.fc-button-active {
+                    background-color: var(--bs-primary) !important;
+                    color: white !important;
+                    border-color: var(--bs-primary) !important;
+                }
+
+                .fc-prev-button,
+                .fc-next-button {
+                    background-color: transparent !important;
+                    color: black !important;
+                    border-color: transparent !important;
+                }
+
+                .fc-event-title {
+                    font-size: 12px;
+                    line-height: 1;
+                }
+
+                .fc-daygrid-event {
+                    padding: 0 3px;
+                }
+            </style>
+            <div class="col-12 mb-3">
+                <div class="card">
+                    <div class="card-body table-responsive">
+                        <div id='calendar'></div>
+                    </div>
+                </div>
+            </div>
             <div class="col-12">
                 <div class="card revenue-card" style="background: rgba(var(--bs-secondary-rgb),0.1)">
                     <div class="card-body">
@@ -138,8 +180,10 @@
                                 <h4 class="total-users">{{ $total_users_data_sum }}</h4>
                             </div>
                             <div class="d-flex">
-                                <input type="text" class="form-control date-range-picker" placeholder="{{ trans('labels.select_date') }}">
-                                <select class="form-select w-auto users-filter" data-next="{{ URL::to('admin/dashboard') }}">
+                                <input type="text" class="form-control date-range-picker"
+                                    placeholder="{{ trans('labels.select_date') }}">
+                                <select class="form-select w-auto users-filter"
+                                    data-next="{{ URL::to('admin/dashboard') }}">
                                     <option value="this_week" selected>{{ trans('labels.this_week') }}</option>
                                     <option value="this_month">{{ trans('labels.this_month') }}</option>
                                     <option value="this_year">{{ trans('labels.this_year') }}</option>
@@ -152,28 +196,34 @@
                 </div>
             </div>
             <div class="col-md-6">
-                <div class="card h-100">
+                <div class="card h-100 dome-owners-card">
                     <div class="card-body">
                         <div class="d-flex align-items-center justify-content-between mb-3">
                             <div class="content">
                                 <p class="mb-2 fw-500 text-muted">{{ trans('labels.dome_owners') }}</p>
-                                <h4>685</h4>
+                                <h4 class="total-dome-owner">{{ $total_dome_owners_data_sum }}</h4>
                             </div>
-                            <select class="form-select w-auto" id="dome_owner_filter">
-                                <option value="this-week">{{ trans('labels.this_week') }}</option>
-                                <option value="this-month">{{ trans('labels.this_month') }}</option>
-                                <option value="this-year">{{ trans('labels.this_year') }}</option>
-                            </select>
+                            <div class="d-flex">
+                                <input type="text" class="form-control date-range-picker"
+                                    placeholder="{{ trans('labels.select_date') }}">
+                                <select class="form-select w-auto dome-owners-filter"
+                                    data-next="{{ URL::to('admin/dashboard') }}">
+                                    <option value="this_week" selected>{{ trans('labels.this_week') }}</option>
+                                    <option value="this_month">{{ trans('labels.this_month') }}</option>
+                                    <option value="this_year">{{ trans('labels.this_year') }}</option>
+                                    <option value="custom_date">{{ trans('labels.custom_date') }}</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
-                    <div id="dome_owner_chart"></div>
+                    <div id="dome_owners_chart"></div>
                 </div>
             </div>
         </div>
     </div>
 @endsection
 @section('scripts')
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src={{ url('storage/app/public/admin/plugins/flatpickr/flatpickr.js') }}></script>
     <script src="{{ url('storage/app/public/admin/js/charts/apexchart/apexcharts.js') }}"></script>
     <script>
         $(function() {
@@ -188,6 +238,83 @@
             });
         })
     </script>
+
+
+    <script src={{ url('storage/app/public/admin/plugins/fullcalendar/index.global.min.js') }}></script>
+    <script>
+        $(function() {
+            var calendarEl = document.getElementById('calendar');
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                // initialDate: '2024-05-05',
+                // initialView: 'multiMonthYear',
+                // eventDisplay: 'list-item',
+                dayMaxEvents: true,
+                headerToolbar: {
+                    left: 'prev next today',
+                    center: 'title',
+                    right: 'dayGridMonth timeGridWeek timeGridDay listWeek'
+                },
+                events: [
+                    @foreach ($getbookingslist as $booking)
+                        {
+                            title: "#{{ $booking->booking_id }}",
+                            start: "{{ $booking->booking_date }}",
+                            url: "{{ URL::to('admin/bookings/details-' . $booking->booking_id) }}",
+                            dome_name: '{{ $booking->dome_name != '' ? Str::limit($booking->dome_name->name, 20) : '' }}',
+                            league_name: '{{ $booking->league_id != '' ? Str::limit($booking->league_info->name, 20) : '' }}',
+                            color: "{{ $booking->league_id != '' ? 'var(--bs-secondary)' : '' }}",
+                        },
+                    @endforeach
+                ],
+                eventContent: function(info) {
+                    var title = '';
+                    if (info.event.extendedProps.dome_name != "") {
+                        title = '<b>{{ trans('labels.dome') }}</b> : ' + info.event.extendedProps
+                            .dome_name;
+                    }
+                    if (info.event.extendedProps.league_name != "") {
+                        title += '<br><b>{{ trans('labels.league') }}</b> : ' + info.event
+                            .extendedProps.league_name;
+                    }
+                    return {
+                        html: '<b> {{ trans('labels.booking_id') }} : ' + info.event.title +
+                            '</b><br>' + title
+                        // 'Start: ' + info.event.start.toLocaleString() + '<br>' +
+                        // 'End: ' + info.event.end.toLocaleString() + '<br>' +
+                    };
+                }
+            });
+            calendar.render();
+            fcChangeIconsPositions();
+            $('button.fc-button').on('click', function() {
+                fcChangeIconsPositions();
+            });
+        });
+
+        function fcChangeIconsPositions() {
+
+            $(".fc-event-main").addClass('text-wrap');
+            $(".fc-toolbar-title").addClass('mx-3');
+            $(".fc-toolbar-title").parent().addClass('d-flex align-items-center');
+            $(".fc-toolbar-title").before($(".fc-prev-button"));
+            $(".fc-toolbar-title").after($(".fc-next-button"));
+            $(".fc-next-button").addClass('m-0');
+
+            $('.fc-dayGridMonth-button').html('<i class="fa-light fa-grid-2"></i>');
+            $('.fc-timeGridWeek-button').html('<i class="fa-sharp fa-regular fa-chart-tree-map"></i>');
+            $('.fc-timeGridDay-button').html('<i class="fa-solid fa-grip-lines"></i>');
+            $('.fc-listWeek-button').html('<i class="fa-regular fa-list-ol"></i>');
+            $('.fc-today-button').text('Today');
+        }
+    </script>
+
+
+
+
+
+
+
+
     <script>
         // Total Income Chart
         var income_labels = {{ Js::from($income_labels) }}
@@ -390,7 +517,7 @@
                 }],
                 chart: {
                     group: 'sparklines',
-                    type: 'line',
+                    type: 'area',
                     height: 350,
                     sparkline: {
                         enabled: true
@@ -413,7 +540,7 @@
                     width: 2,
                     curve: 'smooth'
                 },
-                colors: [primary_color],
+                colors: [secondary_color],
                 fill: {
                     opacity: 1,
                 },
@@ -480,7 +607,6 @@
         create_users_chart(users_labels, users_data);
 
         function create_users_chart(users_labels, users_data) {
-            console.log(users_labels, users_data);
             var options = {
                 series: [{
                     name: '{{ trans('labels.users') }}',
@@ -493,8 +619,7 @@
                 plotOptions: {
                     bar: {
                         horizontal: false,
-                        borderRadius: 4,
-                        endingShape: 'rounded'
+                        borderRadius: 4
                     },
                 },
                 dataLabels: {
@@ -558,62 +683,85 @@
     </script>
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     <script>
-        // Total Dome Owner Chart
-        $('#dome_owner_filter').on('change', function() {
-            alert(123);
-        });
-        var options = {
-            series: [{
-                name: 'Dome Owners',
-                data: [400, 430, 448, 470, 540, 580, 690, 1100, 1200, 1380]
-            }],
-            chart: {
-                type: 'bar',
-                height: 350
-            },
-            plotOptions: {
-                bar: {
-                    borderRadius: 4,
-                    horizontal: true,
+        // Total Dome Owners Chart
+        var dome_owners_labels = {{ Js::from($dome_owners_labels) }}
+        var dome_owners_data = {{ Js::from($dome_owners_data) }}
+        create_dome_owners_chart(dome_owners_labels, dome_owners_data);
+
+        function create_dome_owners_chart(dome_owners_labels, dome_owners_data) {
+            var options = {
+                series: [{
+                    name: '{{ trans('labels.dome_owners') }}',
+                    data: dome_owners_data
+                }],
+                chart: {
+                    type: 'bar',
+                    height: 350
+                },
+                plotOptions: {
+                    bar: {
+                        horizontal: true,
+                        borderRadius: 4,
+                    },
+                },
+                dataLabels: {
+                    enabled: false
+                },
+                colors: ['#57A70040'],
+                stroke: {
+                    show: true,
+                    width: 2,
+                    colors: [secondary_color]
+                },
+                xaxis: {
+                    categories: dome_owners_labels,
+                },
+                fill: {
+                    opacity: 1
                 }
-            },
-            colors: ['#468F7240'],
-            stroke: {
-                show: true,
-                width: 2,
-                colors: ['#468F72']
-            },
-            dataLabels: {
-                enabled: false
-            },
-            xaxis: {
-                categories: ['South Korea', 'Canada', 'United Kingdom', 'Netherlands', 'Italy', 'France', 'Japan',
-                    'United States', 'China', 'Germany'
-                ],
+            };
+            $('#dome_owners_chart .apexcharts-canvas').remove();
+            var dome_ownerschart = new ApexCharts(document.querySelector("#dome_owners_chart"), options);
+            dome_ownerschart.render();
+        }
+        // Total Dome Owners Filter
+        $('.dome-owners-filter').on('change', function() {
+            if ($(this).val() == 'custom_date') {
+                $('.dome-owners-card .date-range-picker').show();
+                return false;
+            } else {
+                $('.dome-owners-card .date-range-picker').hide();
             }
-        };
-        var chart = new ApexCharts(document.querySelector("#dome_owner_chart"), options);
-        chart.render();
+            makedomeownersfilter('')
+        });
+
+        function makedomeownersfilter(dates) {
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
+                        'content')
+                },
+                url: $(this).attr('data-next'),
+                data: {
+                    filtertype: $('.dome-owners-filter').val(),
+                    filterdates: dates,
+                },
+                method: 'GET',
+                beforeSend: function() {
+                    showpreloader();
+                },
+                success: function(response) {
+                    hidepreloader();
+                    $('.total_dome_owners').html(response.total_dome_owners_data_sum);
+                    create_dome_owners_chart(response.dome_owners_labels, response.dome_owners_data);
+                },
+                error: function(e) {
+                    hidepreloader();
+                    toastr.error(wrong);
+                    return false;
+                }
+            });
+        }
     </script>
 @endsection

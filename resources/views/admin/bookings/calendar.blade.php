@@ -4,6 +4,12 @@
 @endsection
 @section('contents')
     <style>
+        :root {
+            --fc-event-bg-color: var(--bs-primary);
+            --fc-event-border-color: var(--bs-primary);
+            --fc-today-bg-color: rgba(var(--bs-secondary-rgb), .15);
+        }
+
         .fc-button {
             background-color: transparent !important;
             color: var(--bs-primary) !important;
@@ -26,6 +32,10 @@
         .fc-event-title {
             font-size: 12px;
             line-height: 1;
+        }
+
+        .fc-daygrid-event {
+            padding: 0 3px;
         }
     </style>
     <div class="card mb-3">
@@ -61,7 +71,7 @@
     </div>
 @endsection
 @section('scripts')
-    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.4/index.global.min.js'></script>
+    <script src={{url('storage/app/public/admin/plugins/fullcalendar/index.global.min.js')}}></script>
     <script>
         $(function() {
             var calendarEl = document.getElementById('calendar');
@@ -81,22 +91,25 @@
                             title: "#{{ $booking->booking_id }}",
                             start: "{{ $booking->booking_date }}",
                             url: "{{ URL::to('admin/bookings/details-' . $booking->booking_id) }}",
-                            dome_name: '{{ $booking->dome_name != '' ? Str::limit($booking->dome_name->name,20) : '' }}',
-                            league_name: '{{ $booking->league_id != '' ? Str::limit($booking->league_info->name,20) : '' }}',
-                            color: "{{ $booking->league_id != '' ? 'gray' : '' }}",
+                            dome_name: '{{ $booking->dome_name != '' ? Str::limit($booking->dome_name->name, 20) : '' }}',
+                            league_name: '{{ $booking->league_id != '' ? Str::limit($booking->league_info->name, 20) : '' }}',
+                            color: "{{ $booking->league_id != '' ? 'var(--bs-secondary)' : '' }}",
                         },
                     @endforeach
                 ],
                 eventContent: function(info) {
                     var title = '';
                     if (info.event.extendedProps.dome_name != "") {
-                        title = '<b>{{ trans("labels.dome") }}</b> : ' + info.event.extendedProps.dome_name;
+                        title = '<b>{{ trans('labels.dome') }}</b> : ' + info.event.extendedProps
+                            .dome_name;
                     }
                     if (info.event.extendedProps.league_name != "") {
-                        title += '<br><b>{{ trans("labels.league") }}</b> : ' + info.event.extendedProps.league_name;
+                        title += '<br><b>{{ trans('labels.league') }}</b> : ' + info.event
+                            .extendedProps.league_name;
                     }
                     return {
-                        html: '<b> {{ trans("labels.booking_id") }} : ' + info.event.title + '</b><br>' + title
+                        html: '<b> {{ trans('labels.booking_id') }} : ' + info.event.title +
+                            '</b><br>' + title
                         // 'Start: ' + info.event.start.toLocaleString() + '<br>' +
                         // 'End: ' + info.event.end.toLocaleString() + '<br>' +
                     };

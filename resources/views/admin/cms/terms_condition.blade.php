@@ -47,7 +47,7 @@
     </div>
 @endsection
 @section('scripts')
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/ckeditor/4.12.1/ckeditor.js"></script>
+    <script src={{url('storage/app/public/admin/plugins/ckeditor/ckeditor.js')}}></script>
     <script type="text/javascript">
         CKEDITOR.replace('ckeditor', {
             height: '500',

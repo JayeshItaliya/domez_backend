@@ -20,7 +20,7 @@ class UserFactory extends Factory
     {
         $randomDate = Carbon::now()->subDays(rand(1, 365));
         return [
-            'type' => 3,
+            'type' => 2,
             'login_type' => $this->faker->numberBetween(1, 4),
             'name' => fake()->name(),
             'email' => fake()->unique()->safeEmail(),
