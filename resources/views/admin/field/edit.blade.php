@@ -2,9 +2,6 @@
 @section('title')
     Edit Field
 @endsection
-@section('styles')
-    <link href="https://cdn.rawgit.com/harvesthq/chosen/gh-pages/chosen.min.css" rel="stylesheet" />
-@endsection
 @section('contents')
     <h1 class="h2">Edit Field</h1>
     <form class="card" action="{{ URL::to('admin/field/update-' . $field->id) }}" method="post" enctype="multipart/form-data">
@@ -95,12 +92,3 @@
         </div>
     </form>
 @endsection
-{{-- @section('scripts')
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-    <script src="https://cdn.rawgit.com/harvesthq/chosen/gh-pages/chosen.jquery.min.js"></script>
-    <script>
-        $(".chosen-select").chosen({
-            no_results_text: "Oops, nothing found!"
-        })
-    </script>
-@endsection --}}

@@ -2,9 +2,6 @@
 @section('title')
     {{ trans('labels.add_field') }}
 @endsection
-@section('styles')
-    <link href="https://cdn.rawgit.com/harvesthq/chosen/gh-pages/chosen.min.css" rel="stylesheet" />
-@endsection
 @section('contents')
     <div class="card mb-3">
         <div class="card-body py-2">
@@ -119,12 +116,3 @@
         </div>
     </form>
 @endsection
-{{-- @section('scripts')
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-    <script src="https://cdn.rawgit.com/harvesthq/chosen/gh-pages/chosen.jquery.min.js"></script>
-    <script>
-        $(".chosen-select").chosen({
-            no_results_text: "Oops, nothing found!"
-        })
-    </script>
-@endsection --}}

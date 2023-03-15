@@ -53,7 +53,6 @@ class FavouriteController extends Controller
             } else {
                 $favourite->league_id = $request->league_id;
             }
-
             $favourite->save();
             return response()->json(["status" => 1, "message" => $request->type . ' Favourite Successfully'], 200);
         }
