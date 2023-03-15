@@ -174,7 +174,7 @@ $('body').on('blur', '.end.time_picker', function () {
     }
     setTimeout(() => {
         var end_time = $(this).val();
-        var dome_id = '';
+        var dome_id = $('#dome').val();
         var validate_start_time = '';
         var element = $(this);
         validatetime(start_time, end_time, dome_id, validate_start_time, element);
@@ -183,6 +183,7 @@ $('body').on('blur', '.end.time_picker', function () {
 
 function validatetime(start_time, end_time, dome_id, validate_start_time, element) {
     "use strict";
+    showpreloader();
     $.ajax({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
@@ -197,6 +198,7 @@ function validatetime(start_time, end_time, dome_id, validate_start_time, elemen
         },
         method: 'get',
         success: function (response) {
+            hidepreloader();
             if (response.status == 0) {
                 $(element).addClass('is-invalid').val('');
                 if ($(element).parent().hasClass('input-group')) {
@@ -213,6 +215,7 @@ function validatetime(start_time, end_time, dome_id, validate_start_time, elemen
             }
         },
         error: function (e) {
+            hidepreloader();
             toastr.error(wrong);
             return false;
         }

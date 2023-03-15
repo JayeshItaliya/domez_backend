@@ -240,14 +240,14 @@
                         <div class="col-md-12">
                             <label class="form-label">{{ trans('labels.select_sports') }}</label>
                             <div class="row">
-                                @php $cat_id = explode(',', $dome->sport_id) @endphp
+                                @php $sport_id = explode(',', $dome->sport_id) @endphp
                                 @foreach ($getsportslist as $data)
                                     <div class="col-auto">
                                         <div class="form-check">
                                             <input type="checkbox" id="{{ $data->name }}" name="sport_id[]"
                                                 class="form-check-input" value="{{ $data->id }}"
                                                 data-sport-name="{{ $data->name }}"
-                                                {{ in_array($data->id, $cat_id) ? 'checked' : '' }}>
+                                                {{ in_array($data->id, $sport_id) ? 'checked' : '' }}>
                                             <label class="form-check-label"
                                                 for="{{ $data->name }}">{{ $data->name }}</label>
                                         </div>
@@ -261,7 +261,7 @@
                         <div class="col-md-12 mb-3">
                             <div class="row row-cols-lg-5 row-cols-md-4" id="sport_prices_input">
                                 @foreach ($getsportslist as $data)
-                                    @if (in_array($data->id, $cat_id))
+                                    @if (in_array($data->id, $sport_id))
                                         <div class="col mb-2" id="{{ $data->name . $data->id }}">
                                             <label class="form-label" for="dome_price">{{ $data->name . ' ' . trans('labels.price') }}</label>
                                             <div class="input-group">
@@ -344,8 +344,8 @@
             var lat = -33.8688197;
             var lng = 151.2092955;
         } else {
-            var lat = $('#textLat').val();
-            var lng = $('#textLng').val();
+            var lat = parseFloat($('#textLat').val());
+            var lng = parseFloat($('#textLng').val());
         }
 
         function initMap() {

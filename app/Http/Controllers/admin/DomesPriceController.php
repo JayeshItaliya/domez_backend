@@ -71,7 +71,7 @@ class DomesPriceController extends Controller
         try {
             $getdomedata = Domes::where('id', $request->id)->where('vendor_id', auth()->user()->id)->where('is_deleted', 2)->first();
             if (!empty($getdomedata)) {
-                $getexists = SetPrices::where('dome_id', $request->id)->where('price_type',2)->select('sport_id')->get()->toArray();
+                $getexists = SetPrices::where('dome_id', $request->id)->where('price_type', 2)->select('sport_id')->get()->toArray();
                 $sports = Sports::whereIn('id', explode(',', $getdomedata->sport_id));
                 if ($request->has('type') && $request->type == 'add') {
                     $sports = $sports->whereNotIn('id', $getexists);
@@ -101,18 +101,18 @@ class DomesPriceController extends Controller
     }
     public function validate_start_end_time(Request $request)
     {
-        if ($request->has('validate_start_time') && $request->validate_start_time == 1) {
-            if ($request->dome_id == "") {
-                return response()->json(["status" => 0, "message" => trans('messages.select_dome')], 200);
-            }
-            $checkdome = Domes::where('id', $request->dome_id)->where('is_deleted', 2)->first();
-            if (!empty($checkdome)) {
+        if ($request->dome_id == "") {
+            return response()->json(["status" => 0, "message" => trans('messages.select_dome')], 200);
+        }
+        $checkdome = Domes::where('id', $request->dome_id)->where('is_deleted', 2)->first();
+        if (!empty($checkdome)) {
+            if ($request->has('validate_start_time') && $request->validate_start_time == 1) {
                 $validator = Validator::make($request->input(), [
                     'start_time' => 'required|date_format:h:i A|after_or_equal:' . $checkdome->start_time,
                 ], [
                     'start_time.required' => trans('messages.start_time_required'),
                     'start_time.date_format' => trans('messages.valid_time_format'),
-                    'start_time.after_or_equal' => trans('messages.start_time_afterequal_dome_start_time').' : '.$checkdome->start_time,
+                    'start_time.after_or_equal' => trans('messages.start_time_afterequal_dome_start_time') . ' : ' . $checkdome->start_time,
                 ]);
                 foreach ($validator->errors()->toArray() as $key => $error) {
                     return response()->json(["status" => 0, "message" => $error[0]], 200);
@@ -120,24 +120,25 @@ class DomesPriceController extends Controller
                         break;
                 }
             } else {
-                return response()->json(["status" => 1, "message" => trans('messages.success')], 200);
+                $validator = Validator::make($request->input(), [
+                    'start_time' => 'required|date_format:h:i A',
+                    'end_time' => 'required|date_format:h:i A|after:start_time|before:'.$checkdome->end_time,
+                ], [
+                    'start_time.required' => trans('messages.start_time_required'),
+                    'end_time.required' => trans('messages.end_time_required'),
+                    'start_time.date_format' => trans('messages.valid_time_format'),
+                    'end_time.date_format' => trans('messages.valid_time_format'),
+                    'end_time.after' => trans('messages.end_time_must_after_start_time'),
+                    'end_time.before' => trans('messages.end_time_must_before_dome_end') . ' : ' . $checkdome->end_time,
+                ]);
+                foreach ($validator->errors()->toArray() as $key => $error) {
+                    return response()->json(["status" => 0, "message" => $error[0]], 200);
+                    if ($key == 0)
+                        break;
+                }
             }
         } else {
-            $validator = Validator::make($request->input(), [
-                'start_time' => 'required|date_format:h:i A',
-                'end_time' => 'required|date_format:h:i A|after:start_time',
-            ], [
-                'start_time.required' => trans('messages.start_time_required'),
-                'end_time.required' => trans('messages.end_time_required'),
-                'start_time.date_format' => trans('messages.valid_time_format').' -- start_time',
-                'end_time.date_format' => trans('messages.valid_time_format').' -- end_time',
-                'end_time.after' => trans('messages.end_time_must_after_start_time'),
-            ]);
-            foreach ($validator->errors()->toArray() as $key => $error) {
-                return response()->json(["status" => 0, "message" => $error[0]], 200);
-                if ($key == 0)
-                    break;
-            }
+            return response()->json(["status" => 0, "message" => trans('messages.invalid_dome')], 200);
         }
         return response()->json(["status" => 1, "message" => trans('messages.success')], 200);
     }

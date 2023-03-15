@@ -176,7 +176,7 @@ class PaymentController extends Controller
             $booking->sport_id = $request->sport_id;
             $booking->field_id = $request->field_id;
             $booking->booking_id = $booking_id;
-            $booking->booking_date = Carbon::today()->format('Y-m-d');
+            $booking->booking_date = $request->date;
             $booking->customer_name = $user->name != "" ? $user->name : null;
             $booking->customer_email = $user->email;
             $booking->customer_mobile = $user->phone != "" ? $user->phone : null;
@@ -191,9 +191,8 @@ class PaymentController extends Controller
                 $booking->start_date = League::find($request->league_id)->start_date; // Use For League Bookings Only
                 $booking->end_date = League::find($request->league_id)->end_date; // Use For League Bookings Only
             } else {
-                $booking->start_date = $request->date; // Use For League Bookings Only
-                $booking->end_date = $request->date; // Use For League Bookings Only
-
+                // $booking->start_date = '';
+                // $booking->end_date = '';
             }
             $booking->start_time = $request->booking_type == 1 ? $request->start_time : League::find($request->league_id)->start_time;
             $booking->end_time = $request->booking_type == 1 ? $request->end_time : League::find($request->league_id)->end_time;
