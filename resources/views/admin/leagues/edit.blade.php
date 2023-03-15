@@ -156,9 +156,9 @@
                     <div class="row">
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label class="form-label" for="from_age">{{ trans('labels.from_age') }}</label>
+                                <label class="form-label" for="from_age">{{ trans('labels.age') }}</label>
                                 <select class="form-select" required id="from_age" name="from_age">
-                                    <option value="" disabled selected>{{ trans('labels.select') }}</option>
+                                    <option value="" disabled selected>{{ trans('labels.from_age') }}</option>
                                     @for ($i = 12; $i <= 50; $i++)
                                         <option value="{{ $i }}"
                                             {{ $i == $getleaguedata->from_age ? 'selected' : '' }}>{{ $i }}
@@ -172,9 +172,9 @@
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label class="form-label" for="to_age">{{ trans('labels.to_age') }}</label>
+                                <label class="form-label" for="to_age"></label>
                                 <select class="form-select" required id="to_age" name="to_age">
-                                    <option value="" disabled selected>{{ trans('labels.select') }}</option>
+                                    <option value="" disabled selected>{{ trans('labels.to_age') }}</option>
                                     @for ($i = 12; $i <= 50; $i++)
                                         <option value="{{ $i }}"
                                             {{ $i == $getleaguedata->to_age ? 'selected' : '' }}>
@@ -188,9 +188,9 @@
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label class="form-label" for="min_player">{{ trans('labels.min_player') }}</label>
+                                <label class="form-label" for="min_player">{{ trans('labels.players') }}</label>
                                 <select class="form-select" required id="min_player" name="min_player">
-                                    <option value="" disabled selected>{{ trans('labels.select') }}</option>
+                                    <option value="" disabled selected>{{ trans('labels.min_player') }}</option>
                                     @for ($i = 1; $i <= 30; $i++)
                                         <option value="{{ $i }}"
                                             {{ $i == $getleaguedata->min_player ? 'selected' : '' }}>{{ $i }}
@@ -204,9 +204,9 @@
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label class="form-label" for="max_player">{{ trans('labels.max_player') }}</label>
+                                <label class="form-label" for="max_player"></label>
                                 <select class="form-select" required id="max_player" name="max_player">
-                                    <option value="" disabled selected>{{ trans('labels.select') }}</option>
+                                    <option value="" disabled selected>{{ trans('labels.max_player') }}</option>
                                     @for ($i = 1; $i <= 30; $i++)
                                         <option value="{{ $i }}"
                                             {{ $i == $getleaguedata->max_player ? 'selected' : '' }}>{{ $i }}

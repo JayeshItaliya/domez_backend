@@ -75,6 +75,7 @@ class BookingController extends Controller
                 }
             }
 
+            $defaultimagebaseurl = url('storage/app/public/admin/images/profiles');
             $gettransaction = Transaction::leftJoin('users AS user', function ($query) {
                 $query->on('transactions.user_id', '=', 'user.id');
                 // ->where('user_id','!=','')->where('user_id','>',0);
@@ -83,8 +84,9 @@ class BookingController extends Controller
                     'transactions.user_id',
                     'transactions.contributor_name',
                     'transactions.amount',
-                    DB::raw('(CASE WHEN transactions.user_id IS NULL THEN "https://via.placeholder.com/150" ELSE "" END) AS contributor_image_url'),
-                    DB::raw("CONCAT('" . url('storage/app/public/admin/images/users') . "/', user.image) AS user_image")
+                    DB::raw("CASE WHEN transactions.user_id IS NULL THEN '{$defaultimagebaseurl}/default.png' ELSE '' END as contributor_image_url"),
+                    DB::raw("CONCAT('" . url('storage/app/public/admin/images/profiles') . "/', user.image) AS user_image")
+
                 )->get()->toArray();
 
             $booking_details = [
@@ -180,7 +182,7 @@ class BookingController extends Controller
                 return response()->json(["status" => 1, "message" => "Successful", 'data' => $slots], 200);
             } else {
 
-                // Get Day's all slots 
+                // Get Day's all slots
                 $data = SetPricesDaysSlots::where('set_prices_id', $checkpricetype->id)->where('day', strtolower(date('l', strtotime($request->date))))->get();
 
                 $slots = [];

@@ -40,6 +40,7 @@ class LeagueController extends Controller
     }
     public function store(Request $request)
     {
+        $checkdome = Domes::where('id', $request->dome)->where('is_deleted', 2)->first();
         $request->validate([
             'dome' => 'required',
             'field' => 'required',
@@ -48,8 +49,6 @@ class LeagueController extends Controller
             'name' => 'required',
             'start_date' => 'required',
             'end_date' => 'required',
-            'start_time' => 'required',
-            'end_time' => 'required',
             'from_age' => 'required',
             'to_age' => 'required',
             'gender' => 'required',
@@ -57,18 +56,16 @@ class LeagueController extends Controller
             'max_player' => 'required',
             'team_limit' => 'required',
             'price' => 'required',
-            'start_time' => 'date_format:H:i A',
-            'end_time' => 'date_format:H:i A|after:start_time',
+            'start_time' => 'required|date_format:h:i A|after_or_equal:' . @$checkdome->start_time,
+            'end_time' => 'required|date_format:h:i A|after:start_time',
         ], [
             'dome.required' => trans('messages.select_dome'),
             'field.required' => trans('messages.select_field'),
             'field.*.required' => trans('messages.select_field'),
             'sport.required' => trans('messages.select_sport'),
-            'name.required' => 'Please Enter Name',
+            'name.required' => trans('messages.name_required'),
             'start_date.required' => trans('messages.select_start_date'),
             'end_date.required' => trans('messages.select_end_date'),
-            'start_time.required' => trans('messages.start_time_required'),
-            'end_time.required' => trans('messages.end_time_required'),
             'from_age.required' => trans('messages.select_from_age'),
             'to_age.required' => trans('messages.select_to_age'),
             'gender.required' => trans('messages.select_gender'),
@@ -76,7 +73,12 @@ class LeagueController extends Controller
             'max_player.required' => trans('messages.select_max_player'),
             'team_limit.required' => trans('messages.select_team_limit'),
             'price.required' => trans('messages.price_required'),
+
+            'start_time.required' => trans('messages.start_time_required'),
             'start_time.date_format' => trans('messages.valid_time_format'),
+            'start_time.after_or_equal' => trans('messages.start_time_afterequal_dome_start_time').' : '.$checkdome->start_time,
+
+            'end_time.required' => trans('messages.end_time_required'),
             'end_time.date_format' => trans('messages.valid_time_format'),
             'end_time.after' => trans('messages.end_time_must_after_start_time'),
         ]);
