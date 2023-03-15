@@ -72,7 +72,7 @@
                     @enderror
                 </div>
                 <div class="mb-4 col-sm-6">
-                    <label class="form-label">Capicity</label>
+                    <label class="form-label">Players</label>
                     <div class="row">
                         <div class="col-6">
                             <select class="form-select" name="min_person" id="min_person">
