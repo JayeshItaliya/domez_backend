@@ -45,6 +45,8 @@ class DomesController extends Controller
                                 "state" => $dome->state,
                                 "is_fav" => !empty(@$is_fav) ? true : false,
                                 "booking_id" => $request->type == 1 ? $booking->id : '',
+                                "booking_type" => $request->type == 1 ? $booking->type : '',
+                                "booking_payment_type" => $request->type == 1 ? $booking->payment_type : '',
                                 "booking_date" => date('D', strtotime($booking->booking_date)) . ', ' . date('d M', strtotime($booking->booking_date)),
                                 "total_fields" => Field::where('dome_id', $dome->id)->where('is_deleted', 2)->count(),
                                 "sports_list" => Sports::select('id', 'name', DB::raw("CONCAT('" . url('storage/app/public/admin/images/sports') . "/', image) AS image"))->whereIn('id', explode('|', $dome->sport_id))->where('is_available', 1)->where('is_deleted', 2)->get(),
