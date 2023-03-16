@@ -169,7 +169,7 @@
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label class="form-label" for="min_player">{{ trans('labels.players') }}</label>
+                                <label class="form-label" for="min_player">{{ trans('labels.players_per_team') }}</label>
                                 <select class="form-select" required id="min_player" name="min_player">
                                     <option value="" disabled selected>{{ trans('labels.min_player') }}</option>
                                     @for ($i = 1; $i <= 30; $i++)
