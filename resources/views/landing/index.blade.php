@@ -90,7 +90,7 @@
                             <div class="owl-item">
                                 <div class="most-games-box position-relative" data-wow-duration="1s">
                                     <div class="game-info m-auto">
-                                        <img src="{{ url('storage/app/public/admin/images/landing/game-1.png') }}" />
+                                        <img src="{{ url('storage/app/public/admin/images/landing/game-soccer.png') }}" />
                                         <h5>Soccer</h5>
                                     </div>
                                 </div>
@@ -98,7 +98,7 @@
                             <div class="owl-item">
                                 <div class="most-games-box position-relative" data-wow-duration="1s">
                                     <div class="game-info m-auto">
-                                        <img src="{{ url('storage/app/public/admin/images/landing/game-2.png') }}" />
+                                        <img src="{{ url('storage/app/public/admin/images/landing/game-volleyball.png') }}" />
                                         <h5>Volleyball</h5>
                                     </div>
                                 </div>
@@ -106,7 +106,7 @@
                             <div class="owl-item">
                                 <div class="most-games-box position-relative" data-wow-duration="1s">
                                     <div class="game-info m-auto">
-                                        <img src="{{ url('storage/app/public/admin/images/landing/game-3.png') }}" />
+                                        <img src="{{ url('storage/app/public/admin/images/landing/game-tennis.png') }}" />
                                         <h5>Tennis</h5>
                                     </div>
                                 </div>
@@ -114,8 +114,24 @@
                             <div class="owl-item">
                                 <div class="most-games-box position-relative" data-wow-duration="1s">
                                     <div class="game-info m-auto">
-                                        <img src="{{ url('storage/app/public/admin/images/landing/game-4.png') }}" />
+                                        <img src="{{ url('storage/app/public/admin/images/landing/game-golf.png') }}" />
                                         <h5>Golf</h5>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="owl-item">
+                                <div class="most-games-box position-relative" data-wow-duration="1s">
+                                    <div class="game-info m-auto">
+                                        <img src="{{ url('storage/app/public/admin/images/landing/game-frisbee.png') }}" />
+                                        <h5>Frisbee</h5>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="owl-item">
+                                <div class="most-games-box position-relative" data-wow-duration="1s">
+                                    <div class="game-info m-auto">
+                                        <img src="{{ url('storage/app/public/admin/images/landing/game-hockey.png') }}" />
+                                        <h5>Hockey</h5>
                                     </div>
                                 </div>
                             </div>

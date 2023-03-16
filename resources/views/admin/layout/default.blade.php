@@ -98,18 +98,30 @@
             <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div class="offcanvas-body">
-            <form action="" class="row">
-                <h5 class="text-muted mb-2">{{ trans('labels.change_colors') }}</h5>
-                <div class="form-group col-6">
-                    <label for="primary_color" class="form-label">{{ trans('labels.primary_color') }}</label>
-                    <input type="color" class="form-control" name="primary_color"
-                        onkeyup="set_cookie('primary_color',this)" id="primary_color">
+
+            <div class="card">
+                <div class="card-header bg-transparent">
+                    <h5>{{ trans('labels.change_colors') }}</h5>
                 </div>
-                <div class="form-group col-6">
-                    <label for="secondary_color" class="form-label">{{ trans('labels.secondary_color') }}</label>
-                    <input type="color" class="form-control" name="secondary_color" id="secondary_color">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="form-group col-6">
+                            <label for="primary_color" class="form-label">{{ trans('labels.primary_color') }}</label>
+                            <input type="color" class="form-control" name="primary_color" id="primary_color"
+                                value="#468F72">
+                        </div>
+                        <div class="form-group col-6">
+                            <label for="secondary_color"
+                                class="form-label">{{ trans('labels.secondary_color') }}</label>
+                            <input type="color" class="form-control" name="secondary_color" id="secondary_color">
+                        </div>
+                    </div>
                 </div>
-            </form>
+                <div class="card-footer bg-transparent">
+                    <button type="button" class="btn btn-primary btn-change-color w-100"> Save Changes </button>
+                </div>
+            </div>
+
         </div>
     </div>
 
@@ -147,51 +159,6 @@
         @if (Session::has('warning'))
             toastr.warning("{{ session('warning') }}");
         @endif
-    </script>
-    <script>
-        var primarycolor = $('input[type="color"]#primary_color');
-        primarycolor.change(function() {
-            var selectedColor = $(this).val();
-            set_cookie('primary_color', selectedColor);
-        });
-        var secondarycolor = $('input[type="color"]#secondary_color');
-        secondarycolor.change(function() {
-            var selectedColor = $(this).val();
-            set_cookie('secondary_color', selectedColor);
-        });
-
-        function set_cookie(name, selectedColor) {
-            "use strict";
-            $("#preloader , #status").show();
-            var date = new Date();
-            date.setTime(date.getTime() + (365 * 24 * 60 * 60 * 1000));
-            var expires = "; expires=" + date.toUTCString();
-            document.cookie = name + " = " + (selectedColor || "") + expires + "; path=/";
-            location.reload();
-        }
-
-        function getCookie(name) {
-            "use strict";
-            var cookie_name = name + "=";
-            var cookies = document.cookie.split(';');
-            for (var i = 0; i < cookies.length; i++) {
-                var c = cookies[i];
-                while (c.charAt(0) == ' ') c = c.substring(1, c.length);
-                if (c.indexOf(cookie_name) == 0) return c.substring(cookie_name.length, c.length);
-            }
-            return;
-        }
-        $(window).on('load', function() {
-            "use strict";
-            if ( $.trim(getCookie("primary_color")) != "") {
-                document.documentElement.style.setProperty('--bs-primary', getCookie("primary_color"));
-                $('#primary_color').val(getCookie("primary_color"));
-            }
-            if ( $.trim(getCookie("secondary_color")) != "") {
-                document.documentElement.style.setProperty('--bs-secondary', getCookie("secondary_color"));
-                $('#secondary_color').val(getCookie("secondary_color"));
-            }
-        });
     </script>
     <script src="{{ url('storage/app/public/admin/js/custom.js') }}"></script>
     @yield('scripts')
