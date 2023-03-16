@@ -1854,7 +1854,7 @@ progress {
     }
 }
 .form-label {
-    font-size: 14px;
+    font-size: 16px;
     margin-bottom: 0.25rem;
     color: var(--bs-gray-700);
     font-weight: 500;
