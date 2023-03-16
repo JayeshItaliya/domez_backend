@@ -1,9 +1,35 @@
 @extends('admin.layout.default')
 @section('title')
-    Edit Field
+    {{ trans('labels.edit_field') }}
 @endsection
 @section('contents')
-    <h1 class="h2">Edit Field</h1>
+    <div class="card mb-3">
+        <div class="card-body py-2">
+            <div class="d-flex align-items-center justify-content-between">
+                <p class="text-secondary fw-semibold">{{ trans('labels.set_prices') }}</p>
+                <nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='%236c757d'/%3E%3C/svg%3E&#34;);"
+                    aria-label="breadcrumb">
+                    <ol class="breadcrumb m-0">
+                        <li class="breadcrumb-item">
+                            <a href="{{ URL::to('admin/dashboard') }}">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home"
+                                    width="20" height="20" viewBox="0 0 24 24" stroke-width="2"
+                                    stroke="var(--bs-secondary)" fill="none" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                    <polyline points="5 12 3 12 12 3 21 12 19 12" />
+                                    <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+                                    <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+                                </svg>
+                            </a>
+                        </li>
+                        <li class="breadcrumb-item" aria-current="page"><a href="{{ URL::to('admin/fields') }}">{{ trans('labels.fields') }}</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">{{ trans('labels.edit_field') }}</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
     <form class="card" action="{{ URL::to('admin/fields/update-' . $field->id) }}" method="post" enctype="multipart/form-data">
         @csrf
         <div class="card-body">
@@ -11,7 +37,7 @@
                 <div class="mb-4 col-sm-8">
                     <div class="row">
                         <div class="col-sm-6">
-                            <label class="form-label" for="dome">Select Dome</label>
+                            <label class="form-label" for="dome">{{ trans('labels.select_dome') }}</label>
                             <select class="form-select" name="dome" id="dome">
                                 <option disabled selected>{{ trans('labels.select') }}</option>
                                 @foreach ($dome as $data)
@@ -24,7 +50,7 @@
                             @enderror
                         </div>
                         <div class="col-sm-6">
-                            <label class="form-label" for="sport_id">Select Sport</label>
+                            <label class="form-label" for="sport_id">{{ trans('labels.select_sport') }}</label>
                             <select class="form-select" name="sport_id" id="sport_id">
                                 @foreach ($getsportslist as $data)
                                     <option value="{{ $data->id }}" class="text-capitalize"
@@ -39,19 +65,18 @@
                     </div>
                 </div>
                 <div class="mb-4 col-sm-4">
-                    <label class="form-label" for="field_name">Field Name</label>
-                    <input type="number" id="field_name" name="field_name" value="{{ $field->name }}" class="form-control"
-                        placeholder="Please Enter Field Name">
+                    <label class="form-label" for="field_name">{{ trans('labels.field_name') }}</label>
+                    <input type="number" id="field_name" name="field_name" value="{{ $field->name }}" class="form-control" placeholder="{{ trans('labels.field_name') }}">
                     @error('field_name')
                         <span class="text-danger">{{ $message }}</span>
                     @enderror
                 </div>
                 <div class="mb-4 col-sm-6">
-                    <label class="form-label">Players</label>
+                    <label class="form-label">{{ trans('labels.players') }}</label>
                     <div class="row">
                         <div class="col-6">
                             <select class="form-select" name="min_person" id="min_person">
-                                <option value="" class="text-capitalize" disabled>Select Minimum Person</option>
+                                <option value="" class="text-capitalize" disabled>{{ trans('labels.min_player') }}</option>
                                 @for ($i = 1; $i < 100; $i++)
                                     <option value="{{ $i }}" class="text-capitalize"
                                         {{ $field->min_person == $i ? 'selected' : '' }}>{{ $i }}</option>
@@ -63,7 +88,7 @@
                         </div>
                         <div class="col-6">
                             <select class="form-select" name="max_person" id="max_person">
-                                <option value="" class="text-capitalize" disabled>Select Maximum Person</option>
+                                <option value="" class="text-capitalize" disabled>{{ trans('labels.max_player') }}</option>
                                 @for ($i = 1; $i < 100; $i++)
                                     <option value="{{ $i }}" class="text-capitalize"
                                         {{ $field->max_person == $i ? 'selected' : '' }}>{{ $i }}</option>
@@ -77,18 +102,21 @@
                 </div>
                 <div class="col-sm-6">
                     <div class="form-group mb-4">
-                        <label class="form-label" for="field_image">Dome Images</label>
+                        <label class="form-label" for="field_image">{{ trans('labels.field_images') }}</label>
                         <input type="file" class="form-control" id="field_image" name="field_image">
                         @error('field_image')
                             <span class="text-danger">{{ $message }}</span>
                         @enderror
                         <div class="avatar avatar-lg mt-4">
-                            <img src="{{ Helper::image_path($field->image) }}" alt="..." class="avatar-img">
+                            <img src="{{ Helper::image_path($field->image) }}" alt="..." width="100" height="60" class="rounded">
                         </div>
                     </div>
                 </div>
+                <div class="col-md-12">
+                    <button type="submit" class="btn btn-primary me-3">{{ trans('labels.submit') }}</button>
+                    <a href="{{ URL::to('admin/fields') }}" class="btn btn-outline-danger">{{ trans('labels.cancel') }}</a>
+                </div>
             </div>
-            <button type="submit" class="btn btn-primary mt-2 float-end">{{ trans('labels.submit') }}</button>
         </div>
     </form>
 @endsection

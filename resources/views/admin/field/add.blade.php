@@ -38,7 +38,7 @@
                 <div class="mb-4 col-sm-8">
                     <div class="row">
                         <div class="col-sm-6">
-                            <label class="form-label" for="dome">Select Dome</label>
+                            <label class="form-label" for="dome">{{ trans('labels.select_dome') }}</label>
                             <select class="form-select" name="dome" id="dome">
                                 <option disabled selected>{{ trans('labels.select') }}</option>
                                 @foreach ($dome as $data)
@@ -50,7 +50,7 @@
                             @enderror
                         </div>
                         <div class="col-sm-6">
-                            <label class="form-label" for="sport_id">Select Sport</label>
+                            <label class="form-label" for="sport_id">{{ trans('labels.select_sport') }}</label>
                             <select class="form-select" name="sport_id" id="sport_id">
                                 @foreach ($getsportslist as $data)
                                     <option value="{{ $data->id }}" class="text-capitalize">{{ $data->name }}
@@ -64,20 +64,18 @@
                     </div>
                 </div>
                 <div class="mb-4 col-sm-4">
-                    <label class="form-label" for="field_name">Field Name</label>
-                    <input type="number" id="field_name" name="field_name" value="{{ old('field_name') }}"
-                        class="form-control" placeholder="Please Enter Field Name">
+                    <label class="form-label" for="field_name">{{ trans('labels.field_name') }}</label>
+                    <input type="number" id="field_name" name="field_name" value="{{ old('field_name') }}" class="form-control" placeholder="{{ trans('labels.field_name') }}">
                     @error('field_name')
                         <span class="text-danger">{{ $message }}</span>
                     @enderror
                 </div>
                 <div class="mb-4 col-sm-6">
-                    <label class="form-label">Players</label>
+                    <label class="form-label">{{ trans('labels.players') }}</label>
                     <div class="row">
                         <div class="col-6">
                             <select class="form-select" name="min_person" id="min_person">
-                                <option value="" class="text-capitalize" disabled selected>Select Minimum Person
-                                </option>
+                                <option value="" class="text-capitalize" disabled selected>{{ trans('labels.min_player') }}</option>
                                 @for ($i = 1; $i < 100; $i++)
                                     <option value="{{ $i }}" class="text-capitalize">{{ $i }}
                                     </option>
@@ -89,7 +87,7 @@
                         </div>
                         <div class="col-6">
                             <select class="form-select" name="max_person" id="max_person">
-                                <option value="" class="text-capitalize" disabled selected>Select Maximum Person
+                                <option value="" class="text-capitalize" disabled selected>{{ trans('labels.max_player') }}
                                 </option>
                                 @for ($i = 1; $i < 100; $i++)
                                     <option value="{{ $i }}" class="text-capitalize">{{ $i }}
@@ -104,15 +102,18 @@
                 </div>
                 <div class="col-sm-6">
                     <div class="form-group mb-4">
-                        <label class="form-label" for="field_image">Field Images</label>
+                        <label class="form-label" for="field_image">{{ trans('labels.field_images') }}</label>
                         <input type="file" class="form-control" id="field_image" name="field_image">
                         @error('field_image')
                             <span class="text-danger">{{ $message }}</span>
                         @enderror
                     </div>
                 </div>
+                <div class="col-md-12">
+                    <button type="submit" class="btn btn-primary me-3">{{ trans('labels.submit') }}</button>
+                    <a href="{{ URL::to('admin/fields') }}" class="btn btn-outline-danger">{{ trans('labels.cancel') }}</a>
+                </div>
             </div>
-            <button type="submit" class="btn btn-primary mt-2">{{ trans('labels.submit') }}</button>
         </div>
     </form>
 @endsection
