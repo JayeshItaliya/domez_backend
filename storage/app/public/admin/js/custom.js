@@ -4,7 +4,14 @@ $(window).on("load", function () {
     $("#status").delay(500).fadeOut("slow"),
         $("#preloader").delay(500).fadeOut("slow");
 });
- // ------- CUSTOM COLOR --- START ----------------
+// ------- CUSTOM FONT FAMILY --- START ----------------
+$('input[name=font_family]').on('change', function () {
+    var font_family = $(this).val();
+    set_cookie('font_family', font_family);
+});
+// ------- CUSTOM FONT FAMILY --- End ----------------
+
+// ------- CUSTOM COLOR --- START ----------------
 $('.btn-change-color').on('click', function () {
     var primary_color = $('input[type="color"]#primary_color').val();
     var secondary_color = $('input[type="color"]#secondary_color').val();
@@ -50,6 +57,14 @@ $(window).on('load', function () {
     } else {
         $('#secondary_color').val($.trim(bodyStyles.getPropertyValue('--bs-secondary')));
     }
+    if ($.trim(getCookie("font_family")) != "") {
+        document.documentElement.style.setProperty('--bs-font-sans-serif', getCookie("font_family"));
+        document.documentElement.style.setProperty('--bs-font-sans-serif',  "'"+getCookie("font_family")+"', sans-serif");
+        $("input[name=font_family][value=" + getCookie('font_family') + "]").prop("checked", true);
+
+    } else {
+        $('#font_family').val($.trim(bodyStyles.getPropertyValue('--bs-font-sans-serif')));
+    }
 });
 
 function hexToRgb(hex) {
@@ -61,6 +76,7 @@ function hexToRgb(hex) {
     return red + ", " + green + ", " + blue;
 }
 // ------- CUSTOM COLOR --- END ----------------
+
 $(function () {
     $('form, input, textarea').attr("autocomplete", 'off');
     if (document.getElementById('bootstrapTable')) {

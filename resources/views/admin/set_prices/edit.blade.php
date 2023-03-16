@@ -42,7 +42,7 @@
                                     <label class="form-label">{{ trans('labels.dome') }}</label>
                                     <select class="form-select" name="dome" id="dome"
                                         data-next="{{ URL::to('/admin/set-prices/getsports') }}" data-from="edit">
-                                        <option value="" disabled selected>{{ trans('labels.select') }}</option>
+
                                         @foreach ($getdomeslist as $dome)
                                             <option value="{{ $dome->id }}"
                                                 {{ $getslotpricedata->dome_id == $dome->id ? 'selected' : '' }}>
@@ -59,7 +59,7 @@
                                     <label class="form-label">{{ trans('labels.select_sports') }}</label>
                                     <select class="form-select" name="sport" id="sport"
                                         data-sport-selected="{{ $getslotpricedata->sport_id }}">
-                                        <option value="" disabled selected>{{ trans('labels.select') }}</option>
+
                                     </select>
                                     @error('sport')
                                         <span class="text-danger"> {{ $message }} </span>

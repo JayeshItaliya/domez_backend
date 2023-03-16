@@ -50,7 +50,7 @@
                                 <label class="form-label" for="dome">{{ trans('labels.select_dome') }}</label>
                                 <select class="form-select" required name="dome" id="dome"
                                     data-next="{{ URL::to('/admin/leagues/sports-fields') }}">
-                                    <option value="" disabled selected>{{ trans('labels.select') }}</option>
+
                                     @foreach ($domes as $dome)
                                         <option value="{{ $dome->id }}"
                                             {{ $dome->id == $getleaguedata->dome_id ? 'selected' : '' }}>
@@ -226,7 +226,7 @@
                             <div class="form-group">
                                 <label class="form-label" for="gender">{{ trans('labels.select_gender') }}</label>
                                 <select class="form-select" required name="gender" id="gender">
-                                    <option value="" disabled selected>{{ trans('labels.select') }}</option>
+
                                     <option value="1" {{ $getleaguedata->gender == 1 ? 'selected' : '' }}>
                                         {{ trans('labels.men') }}</option>
                                     <option value="2" {{ $getleaguedata->gender == 2 ? 'selected' : '' }}>
@@ -243,7 +243,7 @@
                             <div class="form-group">
                                 <label class="form-label">{{ trans('labels.team_limit') }}</label>
                                 <select class="form-select" required id="team_limit" name="team_limit">
-                                    <option value="" disabled selected>{{ trans('labels.select') }}</option>
+
                                     @for ($i = 5; $i <= 20; $i++)
                                         <option value="{{ $i }}"
                                             {{ $i == $getleaguedata->team_limit ? 'selected' : '' }}>{{ $i }}

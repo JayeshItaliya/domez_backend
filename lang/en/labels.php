@@ -18,6 +18,13 @@ return [
     'primary_color' => 'Primary Color',
     'secondary_color' => 'Secondary Color',
     'change_colors' => 'Change Colors',
+    'font_family' => 'Font Family',
+    'save_changes' => 'Save Changes',
+    'roboto' => 'Roboto',
+    'inter' => 'Inter',
+    'lato' => 'Lato',
+    'open_sans' => 'Open Sans',
+    'poppins' => 'Poppins',
 
     'srno' => '#',
     'active' => 'Active',
