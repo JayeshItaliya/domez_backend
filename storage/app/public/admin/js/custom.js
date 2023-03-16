@@ -4,12 +4,66 @@ $(window).on("load", function () {
     $("#status").delay(500).fadeOut("slow"),
         $("#preloader").delay(500).fadeOut("slow");
 });
+ // ------- CUSTOM COLOR --- START ----------------
+$('.btn-change-color').on('click', function () {
+    var primary_color = $('input[type="color"]#primary_color').val();
+    var secondary_color = $('input[type="color"]#secondary_color').val();
+    set_cookie('primary_color', primary_color, 'secondary_color', secondary_color);
+})
 
+function set_cookie(primary_color_name, primary_color, secondary_color_name, secondary_color) {
+    "use strict";
+    showpreloader();
+    var date = new Date();
+    date.setTime(date.getTime() + (365 * 24 * 60 * 60 * 1000));
+    var expires = "; expires=" + date.toUTCString();
+    document.cookie = primary_color_name + " = " + primary_color + expires + "; path=/";
+    document.cookie = secondary_color_name + " = " + secondary_color + expires + "; path=/";
+    location.reload();
+}
+
+function getCookie(name) {
+    "use strict";
+    var cookie_name = name + "=";
+    var cookies = document.cookie.split(';');
+    for (var i = 0; i < cookies.length; i++) {
+        var c = cookies[i];
+        while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+        if (c.indexOf(cookie_name) == 0) return c.substring(cookie_name.length, c.length);
+    }
+    return;
+}
+$(window).on('load', function () {
+    "use strict";
+    var bodyStyles = window.getComputedStyle(document.body);
+    if ($.trim(getCookie("primary_color")) != "") {
+        document.documentElement.style.setProperty('--bs-primary', getCookie("primary_color"));
+        document.documentElement.style.setProperty('--bs-primary-rgb', hexToRgb(getCookie("primary_color")));
+        $('#primary_color').val(getCookie("primary_color"));
+    } else {
+        $('#primary_color').val($.trim(bodyStyles.getPropertyValue('--bs-primary')));
+    }
+    if ($.trim(getCookie("secondary_color")) != "") {
+        document.documentElement.style.setProperty('--bs-secondary', getCookie("secondary_color"));
+        document.documentElement.style.setProperty('--bs-secondary-rgb', hexToRgb(getCookie("secondary_color")));
+        $('#secondary_color').val(getCookie("secondary_color"));
+    } else {
+        $('#secondary_color').val($.trim(bodyStyles.getPropertyValue('--bs-secondary')));
+    }
+});
+
+function hexToRgb(hex) {
+    var hexString = (hex.charAt(0) == "#") ? hex.substring(1, 7) : hex;
+    var hexInt = parseInt(hexString, 16);
+    var red = (hexInt >> 16) & 255;
+    var green = (hexInt >> 8) & 255;
+    var blue = hexInt & 255;
+    return red + ", " + green + ", " + blue;
+}
+// ------- CUSTOM COLOR --- END ----------------
 $(function () {
     $('form, input, textarea').attr("autocomplete", 'off');
-
     if (document.getElementById('bootstrapTable')) {
-
         $('#bootstrapTable').bootstrapTable({
             toolbar: ".toolbar",
             clickToSelect: false,
@@ -25,9 +79,7 @@ $(function () {
         });
         $('#bootstrapTable').removeClass('table-bordered');
     }
-});
-
-// Common for all sweetalerts
+}); // Common for all sweetalerts
 const swalWithBootstrapButtons = Swal.mixin({
     customClass: {
         confirmButton: "btn btn-success mx-2",
