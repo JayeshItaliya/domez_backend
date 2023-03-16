@@ -142,4 +142,15 @@ class LeagueController extends Controller
         $fields = Field::whereIn('id', explode('|', $getleaguedata->field_id))->where('is_available', 1)->where('is_deleted', 2)->get();
         return view('admin.leagues.view', compact('getleaguedata', 'fields'));
     }
+    public function delete(Request $request)
+    {
+        try {
+            $field = League::find($request->id);
+            $field->is_deleted = 1;
+            $field->save();
+            return response()->json(['status' => 1, 'message' => trans('messages.success')], 200);
+        } catch (\Throwable $th) {
+            return response()->json(['status' => 0, 'message' => trans('messages.wrong')], 200);
+        }
+    }
 }
