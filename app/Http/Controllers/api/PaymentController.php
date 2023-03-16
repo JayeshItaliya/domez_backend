@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\api;
 
 use App\Helper\Helper;
-use Stripe;
 use App\Http\Controllers\Controller;
 use App\Models\Booking;
 use App\Models\Domes;
@@ -79,11 +78,8 @@ class PaymentController extends Controller
         if ($request->players == "") {
             return response()->json(["status" => 0, "message" => "Please Enter Numbers Of Players"], 200);
         }
-        if (in_array($request->payment_method, [2, 3]) && $request->transaction_id == "") {
+        if ($request->transaction_id == "") {
             return response()->json(["status" => 0, "message" => "Please Enter Transaction ID"], 200);
-        }
-        if ($request->booking_type == 2 && $request->team_name == "") {
-            return response()->json(["status" => 0, "message" => "Please Enter Team Name For League"], 200);
         }
         if ($request->booking_type == 1 && $request->slots == "") {
             return response()->json(["status" => 0, "message" => "Please Select Time Slots For Dome Booking"], 200);
@@ -104,55 +100,21 @@ class PaymentController extends Controller
         $amount = $request->payment_type == 1 ? $request->total_amount : $request->paid_amount;
         $booking_id = bin2hex(random_bytes(3));
         $transaction_id = $request->transaction_id;
-        // if ($request->payment_method == 1) {
-        //     if ($request->card_number == "") {
-        //         return response()->json(["status" => 0, "message" => "Please Enter Card Number"], 200);
-        //     }
-        //     if ($request->card_exp_month == "") {
-        //         return response()->json(["status" => 0, "message" => "Please Enter Card Expire Month"], 200);
-        //     }
-        //     if ($request->card_exp_year == "") {
-        //         return response()->json(["status" => 0, "message" => "Please Enter Card Expire Year"], 200);
-        //     }
-        //     if ($request->card_cvv == "") {
-        //         return response()->json(["status" => 0, "message" => "Please Enter Card CVV"], 200);
-        //     }
-        //     try {
-        //         $stripe = new \Stripe\StripeClient(Helper::stripe_data()->secret_key);
-        //         $gettoken = $stripe->tokens->create([
-        //             'card' => [
-        //                 'number' => $request->card_number,
-        //                 'exp_month' => $request->card_exp_month,
-        //                 'exp_year' => $request->card_exp_year,
-        //                 'cvc' => $request->card_cvv,
-        //             ],
-        //         ]);
-        //         Stripe\Stripe::setApiKey(Helper::stripe_data()->secret_key);
-        //         $payment = Stripe\Charge::create([
-        //             "amount" => $amount * 100,
-        //             "currency" => "CAD",
-        //             "source" => $gettoken->id,
-        //             "description" => "Domez Payment",
-        //         ]);
-        //         $transaction_id = $payment->id;
-        //     } catch (\Throwable $th) {
-        //         return response()->json(['status' => 0, "message" => "Payment Failed"], 200);
-        //     }
-        // }
         try {
             if ($request->booking_type == 1) {
                 $dome = Domes::where('id', $request->dome_id)->where('is_deleted', 2)->first();
             } else {
                 $league = League::find($request->league_id);
-                $dome = Domes::where('id', $league->dome_id)->where('is_deleted', 2)->first();
+                $dome = $league->dome_info;
             }
 
-            // Payment Type = 1=Card, 2=Apple Pay, 3=Google Pay
+            // Payment Type = 1=Full Payment, 2=Split Payment
             $transaction = new Transaction;
             $transaction->vendor_id = $dome->vendor_id;
             if ($request->booking_type == 1) {
                 $transaction->dome_id = $dome->id;
             } else {
+                $transaction->dome_id = $dome->id;
                 $transaction->league_id = $league->id;
             }
             $transaction->field_id = $request->field_id;
@@ -190,9 +152,6 @@ class PaymentController extends Controller
             if ($request->booking_type == 2) {
                 $booking->start_date = League::find($request->league_id)->start_date; // Use For League Bookings Only
                 $booking->end_date = League::find($request->league_id)->end_date; // Use For League Bookings Only
-            } else {
-                // $booking->start_date = '';
-                // $booking->end_date = '';
             }
             $booking->start_time = $request->booking_type == 1 ? $request->start_time : League::find($request->league_id)->start_time;
             $booking->end_time = $request->booking_type == 1 ? $request->end_time : League::find($request->league_id)->end_time;
@@ -204,8 +163,6 @@ class PaymentController extends Controller
             $booking->booking_status = $booking->payment_status == 1 ? 1 : 2;
             if ($request->payment_type == 2) {
                 $booking->token = str_replace(['$', '/', '.', '|'], '', Hash::make($booking_id));
-            } else {
-                $booking->token = '';
             }
             $booking->save();
 
@@ -213,5 +170,40 @@ class PaymentController extends Controller
         } catch (\Throwable $th) {
             return response()->json(['status' => 0, "message" => "Something Went Wrong"], 200);
         }
+        // if ($request->payment_method == 1) {
+        //     if ($request->card_number == "") {
+        //         return response()->json(["status" => 0, "message" => "Please Enter Card Number"], 200);
+        //     }
+        //     if ($request->card_exp_month == "") {
+        //         return response()->json(["status" => 0, "message" => "Please Enter Card Expire Month"], 200);
+        //     }
+        //     if ($request->card_exp_year == "") {
+        //         return response()->json(["status" => 0, "message" => "Please Enter Card Expire Year"], 200);
+        //     }
+        //     if ($request->card_cvv == "") {
+        //         return response()->json(["status" => 0, "message" => "Please Enter Card CVV"], 200);
+        //     }
+        //     try {
+        //         $stripe = new \Stripe\StripeClient(Helper::stripe_data()->secret_key);
+        //         $gettoken = $stripe->tokens->create([
+        //             'card' => [
+        //                 'number' => $request->card_number,
+        //                 'exp_month' => $request->card_exp_month,
+        //                 'exp_year' => $request->card_exp_year,
+        //                 'cvc' => $request->card_cvv,
+        //             ],
+        //         ]);
+        //         Stripe\Stripe::setApiKey(Helper::stripe_data()->secret_key);
+        //         $payment = Stripe\Charge::create([
+        //             "amount" => $amount * 100,
+        //             "currency" => "CAD",
+        //             "source" => $gettoken->id,
+        //             "description" => "Domez Payment",
+        //         ]);
+        //         $transaction_id = $payment->id;
+        //     } catch (\Throwable $th) {
+        //         return response()->json(['status' => 0, "message" => "Payment Failed"], 200);
+        //     }
+        // }
     }
 }
