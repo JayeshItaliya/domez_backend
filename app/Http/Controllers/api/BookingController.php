@@ -32,10 +32,10 @@ class BookingController extends Controller
         $bookings_list = Booking::where('user_id', $request->user_id)->orderByDesc('booking_date');
 
         if ($request->is_active == 1) {
-            $bookings_list = $bookings_list->where('end_date', '>=', Carbon::today()->format('Y-m-d'));
+            $bookings_list = $bookings_list->where('booking_date', '>=', Carbon::today()->format('Y-m-d'));
         }
         if ($request->is_active == 2) {
-            $bookings_list = $bookings_list->where('end_date', '<=', Carbon::today()->format('Y-m-d'));
+            $bookings_list = $bookings_list->where('booking_date', '<=', Carbon::today()->format('Y-m-d'));
         }
         $bookinglist = [];
         foreach ($bookings_list->get() as $booking) {

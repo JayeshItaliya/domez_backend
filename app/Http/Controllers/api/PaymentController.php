@@ -117,7 +117,7 @@ class PaymentController extends Controller
                 $transaction->dome_id = $dome->id;
                 $transaction->league_id = $league->id;
             }
-            $transaction->field_id = $request->field_id;
+            $transaction->field_id = $request->booking_type == 1 ? $request->field_id : $league->field_id;
             $transaction->user_id = $user->id;
             $transaction->booking_id = $booking_id;
             $transaction->payment_method = $request->payment_method;
@@ -135,8 +135,8 @@ class PaymentController extends Controller
                 $booking->league_id = $league->id;
             }
             $booking->user_id = $user->id;
-            $booking->sport_id = $request->sport_id;
-            $booking->field_id = $request->field_id;
+            $booking->sport_id = $request->booking_type == 1 ? $request->sport_id : $league->sport_id;
+            $booking->field_id = $request->booking_type == 1 ? $request->field_id : $league->field_id;
             $booking->booking_id = $booking_id;
             $booking->booking_date = $request->date;
             $booking->customer_name = $user->name != "" ? $user->name : null;
@@ -150,11 +150,11 @@ class PaymentController extends Controller
                 $booking->slots = $request->slots; // Use For Domes Bookings Only
             }
             if ($request->booking_type == 2) {
-                $booking->start_date = League::find($request->league_id)->start_date; // Use For League Bookings Only
-                $booking->end_date = League::find($request->league_id)->end_date; // Use For League Bookings Only
+                $booking->start_date = $league->start_date; // Use For League Bookings Only
+                $booking->end_date = $league->end_date; // Use For League Bookings Only
             }
-            $booking->start_time = $request->booking_type == 1 ? $request->start_time : League::find($request->league_id)->start_time;
-            $booking->end_time = $request->booking_type == 1 ? $request->end_time : League::find($request->league_id)->end_time;
+            $booking->start_time = $request->booking_type == 1 ? $request->start_time : $league->start_time;
+            $booking->end_time = $request->booking_type == 1 ? $request->end_time : $league->end_time;
             $booking->total_amount = $request->total_amount;
             $booking->paid_amount = $request->payment_type == 1 ? 0 : $request->paid_amount;
             $booking->due_amount = $request->payment_type == 1 ? 0 : $request->total_amount - $request->paid_amount;
