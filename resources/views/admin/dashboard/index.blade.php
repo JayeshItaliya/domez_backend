@@ -827,7 +827,6 @@
                 },
                 success: function(response) {
                     hidepreloader();
-                    alert(response.total_dome_owners_data_sum)
                     $('.total-dome-owner').text(response.total_dome_owners_data_sum);
                     create_dome_owners_chart(response.dome_owners_labels, response.dome_owners_data);
                 },
