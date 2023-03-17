@@ -245,6 +245,7 @@ class HomeController extends Controller
             $getsearchlist = $getsearchlist->where('name', 'like', '%' . $request->name . '%');
         }
         $getsearchlist = $getsearchlist->paginate(10);
+        $responsedata = [];
         foreach ($getsearchlist as $data) {
             $dome_id = "";
             if ($request->type == 1) {
