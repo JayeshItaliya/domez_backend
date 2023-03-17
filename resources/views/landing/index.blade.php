@@ -90,7 +90,8 @@
                             <div class="owl-item">
                                 <div class="most-games-box position-relative" data-wow-duration="1s">
                                     <div class="game-info m-auto">
-                                        <img src="{{ url('storage/app/public/admin/images/landing/game-soccer.png') }}" />
+                                        <img
+                                            src="{{ url('storage/app/public/admin/images/landing/game-soccer.png') }}" />
                                         <h5>Soccer</h5>
                                     </div>
                                 </div>
@@ -98,7 +99,8 @@
                             <div class="owl-item">
                                 <div class="most-games-box position-relative" data-wow-duration="1s">
                                     <div class="game-info m-auto">
-                                        <img src="{{ url('storage/app/public/admin/images/landing/game-volleyball.png') }}" />
+                                        <img
+                                            src="{{ url('storage/app/public/admin/images/landing/game-volleyball.png') }}" />
                                         <h5>Volleyball</h5>
                                     </div>
                                 </div>
@@ -106,7 +108,8 @@
                             <div class="owl-item">
                                 <div class="most-games-box position-relative" data-wow-duration="1s">
                                     <div class="game-info m-auto">
-                                        <img src="{{ url('storage/app/public/admin/images/landing/game-tennis.png') }}" />
+                                        <img
+                                            src="{{ url('storage/app/public/admin/images/landing/game-tennis.png') }}" />
                                         <h5>Tennis</h5>
                                     </div>
                                 </div>
@@ -114,7 +117,8 @@
                             <div class="owl-item">
                                 <div class="most-games-box position-relative" data-wow-duration="1s">
                                     <div class="game-info m-auto">
-                                        <img src="{{ url('storage/app/public/admin/images/landing/game-golf.png') }}" />
+                                        <img
+                                            src="{{ url('storage/app/public/admin/images/landing/game-golf.png') }}" />
                                         <h5>Golf</h5>
                                     </div>
                                 </div>
@@ -122,7 +126,8 @@
                             <div class="owl-item">
                                 <div class="most-games-box position-relative" data-wow-duration="1s">
                                     <div class="game-info m-auto">
-                                        <img src="{{ url('storage/app/public/admin/images/landing/game-frisbee.png') }}" />
+                                        <img
+                                            src="{{ url('storage/app/public/admin/images/landing/game-frisbee.png') }}" />
                                         <h5>Frisbee</h5>
                                     </div>
                                 </div>
@@ -130,7 +135,8 @@
                             <div class="owl-item">
                                 <div class="most-games-box position-relative" data-wow-duration="1s">
                                     <div class="game-info m-auto">
-                                        <img src="{{ url('storage/app/public/admin/images/landing/game-hockey.png') }}" />
+                                        <img
+                                            src="{{ url('storage/app/public/admin/images/landing/game-hockey.png') }}" />
                                         <h5>Hockey</h5>
                                     </div>
                                 </div>
@@ -510,11 +516,11 @@
     </div>
     <!-- Javascript -->
     <script src="{{ url('storage/app/public/admin/js/jquery/jquery.min.js') }}"></script>
-    <script src="{{ url('storage/app/public/admin/plugins/owl_carousel/owl.carousel.js') }}"></script>
     <script src="{{ url('storage/app/public/admin/js/bootstrap/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ url('storage/app/public/admin/js/sweetalert/sweetalert2.min.js') }}"></script>
     <script src="{{ url('storage/app/public/admin/js/toastr/toastr.min.js') }}"></script>
     <script src="{{ url('storage/app/public/admin/js/slick/slick.min.js') }}"></script>
+    <script src="{{ url('storage/app/public/admin/plugins/owl_carousel/owl.carousel.js') }}"></script>
     <script src="{{ url('storage/app/public/admin/js/custom.js') }}"></script>
     <script>
         @if (Session::has('success'))
@@ -537,9 +543,11 @@
     <script>
         $("#popular_sports").owlCarousel({
             loop: true,
+            nav: true,
             dots: true,
             autoplay: true,
-            autoplayTimeout: 1500,
+            autoplayHoverPause: true,
+            autoplayTimeout: 2000,
             // responsiveClass: true,
             responsive: {
                 0: {
