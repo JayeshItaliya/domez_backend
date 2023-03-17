@@ -151,7 +151,7 @@
                                 <p class="mb-2 fw-500 text-muted">{{ trans('labels.revenue') }}</p>
                                 <h4 class="total-revenue">{{ Helper::currency_format($total_revenue_data_sum) }}</h4>
                             </div>
-                            <div class="d-flex">
+                            <div class="d-flex gap-2">
                                 <input type="text"
                                     class="form-control me-2 bg-transparent date-range-picker border-primary"
                                     placeholder="{{ trans('labels.select_date') }}">
@@ -179,8 +179,8 @@
                                 <p class="mb-2 fw-500 text-muted">{{ trans('labels.user_mobile_app') }}</p>
                                 <h4 class="total-users">{{ $total_users_data_sum }}</h4>
                             </div>
-                            <div class="d-flex">
-                                <input type="text" class="form-control date-range-picker"
+                            <div class="d-flex gap-2">
+                                <input type="text" class="form-control users-date-range-picker"
                                     placeholder="{{ trans('labels.select_date') }}">
                                 <select class="form-select w-auto users-filter"
                                     data-next="{{ URL::to('admin/dashboard') }}">
@@ -203,8 +203,8 @@
                                 <p class="mb-2 fw-500 text-muted">{{ trans('labels.dome_owners') }}</p>
                                 <h4 class="total-dome-owner">{{ $total_dome_owners_data_sum }}</h4>
                             </div>
-                            <div class="d-flex">
-                                <input type="text" class="form-control date-range-picker"
+                            <div class="d-flex gap-2">
+                                <input type="text" class="form-control domez-date-range-picker"
                                     placeholder="{{ trans('labels.select_date') }}">
                                 <select class="form-select w-auto dome-owners-filter"
                                     data-next="{{ URL::to('admin/dashboard') }}">
@@ -227,27 +227,41 @@
     <script src="{{ url('storage/app/public/admin/js/charts/apexchart/apexcharts.js') }}"></script>
     <script>
         $(function() {
-            $('.date-range-picker').hide();
+            $('.date-range-picker,.users-date-range-picker,.domez-date-range-picker').hide();
             $('.date-range-picker').flatpickr({
                 mode: "range",
                 maxDate: "today",
                 dateFormat: "Y-m-d",
                 onClose: function(selectedDates, dateStr, instance) {
-                    makeincomefilter(dateStr)
+                    makeincomefilter(dateStr);
+                }
+            });
+            $('.users-date-range-picker').flatpickr({
+                mode: "range",
+                maxDate: "today",
+                dateFormat: "Y-m-d",
+                onClose: function(selectedDates, dateStr, instance) {
+                    makeusersfilter(dateStr);
+                }
+            });
+            $('.domez-date-range-picker').flatpickr({
+                mode: "range",
+                maxDate: "today",
+                dateFormat: "Y-m-d",
+                onClose: function(selectedDates, dateStr, instance) {
+                    makedomeownersfilter(dateStr);
                 }
             });
         })
     </script>
-
-
     <script src={{ url('storage/app/public/admin/plugins/fullcalendar/index.global.min.js') }}></script>
     <script>
         $(function() {
             var calendarEl = document.getElementById('calendar');
             var calendar = new FullCalendar.Calendar(calendarEl, {
                 // initialDate: '2024-05-05',
-                // initialView: 'multiMonthYear',
                 // eventDisplay: 'list-item',
+                initialView: 'timeGridWeek',
                 dayMaxEvents: true,
                 headerToolbar: {
                     left: 'prev next today',
@@ -259,6 +273,7 @@
                         {
                             title: "#{{ $booking->booking_id }}",
                             start: "{{ $booking->booking_date }}",
+                            end: "{{ $booking->booking_date }}",
                             url: "{{ URL::to('admin/bookings/details-' . $booking->booking_id) }}",
                             dome_name: '{{ $booking->dome_name != '' ? Str::limit($booking->dome_name->name, 20) : '' }}',
                             league_name: '{{ $booking->league_id != '' ? Str::limit($booking->league_info->name, 20) : '' }}',
@@ -292,14 +307,12 @@
         });
 
         function fcChangeIconsPositions() {
-
             $(".fc-event-main").addClass('text-wrap');
             $(".fc-toolbar-title").addClass('mx-3');
             $(".fc-toolbar-title").parent().addClass('d-flex align-items-center');
             $(".fc-toolbar-title").before($(".fc-prev-button"));
             $(".fc-toolbar-title").after($(".fc-next-button"));
             $(".fc-next-button").addClass('m-0');
-
             $('.fc-dayGridMonth-button').html('<i class="fa-light fa-grid-2"></i>');
             $('.fc-timeGridWeek-button').html('<i class="fa-sharp fa-regular fa-chart-tree-map"></i>');
             $('.fc-timeGridDay-button').html('<i class="fa-solid fa-grip-lines"></i>');
@@ -307,16 +320,8 @@
             $('.fc-today-button').text('Today');
         }
     </script>
-
-
-
-
-
-
-
-
+    {{-- Total Income Chart --}}
     <script>
-        // Total Income Chart
         var income_labels = {{ Js::from($income_labels) }}
         var income_data = {{ Js::from($income_data) }}
         create_income_chart(income_labels, income_data);
@@ -411,10 +416,8 @@
             });
         }
     </script>
-
-
+    {{-- Total Bookings Chart --}}
     <script>
-        // Total Bookings Chart
         var booking_labels = {{ Js::from($booking_labels) }}
         var booking_data = {{ Js::from($booking_data) }}
         create_booking_chart(booking_labels, booking_data);
@@ -457,6 +460,13 @@
                 xaxis: {
                     categories: booking_labels,
                 },
+                tooltip: {
+                    y: {
+                        formatter: function(val) {
+                            return val;
+                        }
+                    }
+                }
             };
             $('#total_bookings .apexcharts-canvas').remove();
             var bookingschart = new ApexCharts(document.querySelector("#total_bookings"), options);
@@ -501,10 +511,8 @@
             });
         }
     </script>
-
-
+    {{-- Total Revenue Chart --}}
     <script>
-        // Total Revenue Chart
         var revenue_labels = {{ Js::from($revenue_labels) }}
         var revenue_data = {{ Js::from($revenue_data) }}
         create_revenue_chart(revenue_labels, revenue_data);
@@ -513,7 +521,8 @@
             var options = {
                 series: [{
                     name: '{{ trans('labels.revenue') }}',
-                    data: revenue_data
+                    // data: revenue_data
+                    data: [45, 52, 38, 45, 19, 23, 2]
                 }],
                 chart: {
                     group: 'sparklines',
@@ -545,7 +554,16 @@
                     opacity: 1,
                 },
                 xaxis: {
-                    categories: revenue_labels,
+                    // categories: revenue_labels,
+                    categories: [
+                        "01 Jan",
+                        "02 Jan",
+                        "03 Jan",
+                        "04 Jan",
+                        "05 Jan",
+                        "06 Jan",
+                        "07 Jan"
+                    ]
                 },
                 tooltip: {
                     y: {
@@ -598,10 +616,8 @@
             });
         }
     </script>
-
-
+    {{-- Total Users Chart --}}
     <script>
-        // Total Users Chart
         var users_labels = {{ Js::from($users_labels) }}
         var users_data = {{ Js::from($users_data) }}
         create_users_chart(users_labels, users_data);
@@ -645,10 +661,10 @@
         // Total Users Filter
         $('.users-filter').on('change', function() {
             if ($(this).val() == 'custom_date') {
-                $('.users-card .date-range-picker').show();
+                $('.users-card .users-date-range-picker').show();
                 return false;
             } else {
-                $('.users-card .date-range-picker').hide();
+                $('.users-card .users-date-range-picker').hide();
             }
             makeusersfilter('')
         });
@@ -681,10 +697,8 @@
             });
         }
     </script>
-
-
+    {{-- Total Dome Owners Chart --}}
     <script>
-        // Total Dome Owners Chart
         var dome_owners_labels = {{ Js::from($dome_owners_labels) }}
         var dome_owners_data = {{ Js::from($dome_owners_data) }}
         create_dome_owners_chart(dome_owners_labels, dome_owners_data);
@@ -717,6 +731,14 @@
                 xaxis: {
                     categories: dome_owners_labels,
                 },
+                tooltip: {
+                    enabled: true,
+                    y: {
+                        formatter: function(val) {
+                            return val
+                        }
+                    }
+                },
                 fill: {
                     opacity: 1
                 }
@@ -728,10 +750,10 @@
         // Total Dome Owners Filter
         $('.dome-owners-filter').on('change', function() {
             if ($(this).val() == 'custom_date') {
-                $('.dome-owners-card .date-range-picker').show();
+                $('.dome-owners-card .domez-date-range-picker').show();
                 return false;
             } else {
-                $('.dome-owners-card .date-range-picker').hide();
+                $('.dome-owners-card .domez-date-range-picker').hide();
             }
             makedomeownersfilter('')
         });
@@ -753,7 +775,8 @@
                 },
                 success: function(response) {
                     hidepreloader();
-                    $('.total_dome_owners').html(response.total_dome_owners_data_sum);
+                    alert(response.total_dome_owners_data_sum)
+                    $('.total-dome-owner').text(response.total_dome_owners_data_sum);
                     create_dome_owners_chart(response.dome_owners_labels, response.dome_owners_data);
                 },
                 error: function(e) {
