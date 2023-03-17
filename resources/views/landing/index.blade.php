@@ -536,9 +536,11 @@
     </script>
     <script>
         $("#popular_sports").owlCarousel({
-            rtl: false,
             loop: true,
-            responsiveClass: true,
+            dots: true,
+            autoplay: true,
+            autoplayTimeout: 1500,
+            // responsiveClass: true,
             responsive: {
                 0: {
                     items: 2,

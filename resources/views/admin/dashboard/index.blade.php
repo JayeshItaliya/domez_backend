@@ -143,7 +143,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-12">
+            <div class="{{ Auth::user()->type == 2 ? 'col-lg-6' : 'col-12' }}">
                 <div class="card revenue-card" style="background: rgba(var(--bs-secondary-rgb),0.1)">
                     <div class="card-body">
                         <div class="d-flex align-items-center justify-content-between mb-3">
@@ -169,6 +169,33 @@
                     <div id="revenue_chart"></div>
                 </div>
             </div>
+            @if (Auth::user()->type == 2)
+                <div class="col-lg-6">
+                    <div class="card revenue-card" style="background: rgba(var(--bs-secondary-rgb),0.1)">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center justify-content-between mb-3">
+                                <div class="content">
+                                    <p class="mb-2 fw-500 text-muted">Bookings Overview</p>
+                                    <h4 class="total-revenue">{{ Helper::currency_format($total_revenue_data_sum) }}</h4>
+                                </div>
+                                <div class="d-flex gap-2">
+                                    <input type="text" class="form-control me-2 bg-transparent border-primary date-range-picker"
+                                        placeholder="{{ trans('labels.select_date') }}">
+                                    <select class="form-select"
+                                        style="background-color: transparent;border-color:var(--bs-primary);"
+                                        data-next="{{ URL::to('admin/dashboard') }}">
+                                        <option value="this_week" selected>{{ trans('labels.this_week') }}</option>
+                                        <option value="this_month">{{ trans('labels.this_month') }}</option>
+                                        <option value="this_year">{{ trans('labels.this_year') }}</option>
+                                        <option value="custom_date">{{ trans('labels.custom_date') }}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="bookings_overview_chart"></div>
+                    </div>
+                </div>
+            @endif
         </div>
         <div class="row mb-3">
             <div class="col-md-6">
@@ -263,6 +290,7 @@
                 // eventDisplay: 'list-item',
                 initialView: 'timeGridWeek',
                 dayMaxEvents: true,
+                contentHeight: '700px',
                 headerToolbar: {
                     left: 'prev next today',
                     center: 'title',
@@ -415,6 +443,30 @@
                 }
             });
         }
+    </script>
+    <script>
+        var options = {
+            chart: {
+                type: 'donut',
+                height: 350,
+            },
+            series: [50, 35, 15],
+            labels: ['Confirmed', 'Pending', 'Cancelled'],
+            colors: [secondary_color, primary_color, danger_color],
+            responsive: [{
+                breakpoint: 480,
+                options: {
+                    chart: {
+                        width: 200
+                    },
+                    legend: {
+                        position: 'bottom'
+                    }
+                }
+            }]
+        };
+        var chart = new ApexCharts(document.querySelector("#bookings_overview_chart"), options);
+        chart.render();
     </script>
     {{-- Total Bookings Chart --}}
     <script>

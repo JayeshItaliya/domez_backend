@@ -87,6 +87,7 @@
         @endif
         <div id="primaryColor" style="color: var(--bs-primary)"></div>
         <div id="secondaryColor" style="color: var(--bs-secondary)"></div>
+        <div id="danger_color" style="color: var(--bs-danger)"></div>
         <div id="lightSecondaryColor" style="color: rgba(var(--bs-secondary-rgb),0.75)"></div>
     </main>
 
@@ -187,6 +188,7 @@
         let is_vendor = {{ Js::from(Auth::user()->type == 2 ? true : false) }};
         let primary_color = $('#primaryColor').css('color');
         let secondary_color = $('#secondaryColor').css('color');
+        let danger_color = $('#danger_color').css('color');
         let light_secondary_color = $('#lightSecondaryColor').css('color');
         toastr.options = {
             "closeButton": true
