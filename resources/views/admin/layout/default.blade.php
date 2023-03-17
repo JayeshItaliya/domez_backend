@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="{{ url('storage/app/public/admin/css/sweetalert/sweetalert2.min.css') }}">
     <link rel="stylesheet" href="{{ url('storage/app/public/admin/css/toastr/toastr.min.css') }}">
     <link rel="stylesheet" href="{{ url('storage/app/public/admin/css/timepicker/jquery.timepicker.min.css') }}">
-    <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.21.2/dist/bootstrap-table.min.css">
+    <link rel="stylesheet" href="{{ url('storage/app/public/admin/plugins/bootstrap_table/bootstrap-table.min.css') }}">
     <link rel="stylesheet" href="{{ url('storage/app/public/admin/css/custom.css') }}">
     <link rel="stylesheet" href="{{ url('storage/app/public/admin/css/responsive.css') }}">
     @yield('styles')
@@ -35,6 +35,7 @@
     <main>
         <style>
             :root {
+                --bs-font-sans-serif: 'Roboto', sans-serif;
                 --border-radius: 6px;
                 --bs-primary: #468F72;
                 --bs-secondary: #57A700;
@@ -93,13 +94,13 @@
         data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
         <i class="fa-regular fa-sliders"></i>
     </button>
-    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel"
+        style="width: 330px">
         <div class="offcanvas-header justify-content-end">
             <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div class="offcanvas-body">
-
-            <div class="card">
+            <div class="card mb-5">
                 <div class="card-header bg-transparent">
                     <h5>{{ trans('labels.change_colors') }}</h5>
                 </div>
@@ -118,7 +119,50 @@
                     </div>
                 </div>
                 <div class="card-footer bg-transparent">
-                    <button type="button" class="btn btn-primary btn-change-color w-100"> Save Changes </button>
+                    <button type="button"
+                        class="btn btn-primary btn-change-color w-100">{{ trans('labels.save_changes') }}</button>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header bg-transparent">
+                    <h5>{{ trans('labels.font_family') }}</h5>
+                </div>
+                <div class="card-body">
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="font_family" id="roboto"
+                            value="Roboto">
+                        <label class="form-check-label" for="roboto">
+                            {{ trans('labels.roboto') }}
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="font_family" id="inter"
+                            value="Inter">
+                        <label class="form-check-label" for="inter">
+                            {{ trans('labels.inter') }}
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="font_family" id="lato"
+                            value="Lato">
+                        <label class="form-check-label" for="lato">
+                            {{ trans('labels.lato') }}
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="font_family" id="poppins"
+                            value="Poppins">
+                        <label class="form-check-label" for="poppins">
+                            {{ trans('labels.poppins') }}
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="font_family" id="open_sans"
+                            value="Open Sans">
+                        <label class="form-check-label" for="open_sans">
+                            {{ trans('labels.open_sans') }}
+                        </label>
+                    </div>
                 </div>
             </div>
 
@@ -132,7 +176,7 @@
     <script src="{{ url('storage/app/public/admin/js/toastr/toastr.min.js') }}"></script>
     <script src="{{ url('storage/app/public/admin/js/datatable/jquery.dataTables.min.js') }}"></script>
     <script src="{{ url('storage/app/public/admin/js/timepicker/jquery.timepicker.min.js') }}" defer=""></script>
-    <script src="https://unpkg.com/bootstrap-table@1.21.2/dist/bootstrap-table.min.js"></script>
+    <script src="{{ url('storage/app/public/admin/plugins/bootstrap_table/bootstrap-table.min.js') }}"></script>
     <script>
         let are_you_sure = {{ Js::from(trans('messages.are_you_sure')) }};
         let yes = {{ Js::from(trans('messages.yes')) }};
