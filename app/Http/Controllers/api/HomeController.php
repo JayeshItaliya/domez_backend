@@ -213,13 +213,13 @@ class HomeController extends Controller
                     "league_name" => $request->type == 1 ? '' : $data->name,
                     "dome_id" => $request->type == 1 ? '' : $data->dome_id,
                     "dome_name" => $request->type == 1 ? $data->name : $data->dome_info->name,
-                    "price" => $request->type == 1 ? rand(111, 999) : $data->price,
+                    "price" => $request->type == 1 ? Helper::get_dome_price($data->id->id,explode(',', $data->sport_id)[0]) : $data->price,
                     "image" => $image,
                     "city" => $request->type == 1 ? $data->city : $data->dome_info->city,
                     "state" => $request->type == 1 ? $data->state : $data->dome_info->state,
                     "is_fav" => !in_array($request->user_id,[0,'']) ? (!empty(@$fav) ? true : false) : false,
                     "sport_id" => $data->sport_id,
-                    "sports_list" => Sports::select('id', 'name', DB::raw("CONCAT('" . url('storage/app/public/admin/images/sports') . "/', image) AS image"))->whereIn('id', explode('|', $data->sport_id))->where('is_available', 1)->where('is_deleted', 2)->get(),
+                    "sports_list" => Sports::select('id', 'name', DB::raw("CONCAT('" . url('storage/app/public/admin/images/sports') . "/', image) AS image"))->whereIn('id', explode(',', $data->sport_id))->where('is_available', 1)->where('is_deleted', 2)->get(),
                 ];
             }
             return response()->json(['status' => 1, 'message' => 'Successfull', 'data' => $responsedata, 'pagination' => $getfilterlist->toArray()['links']], 200);
@@ -260,11 +260,11 @@ class HomeController extends Controller
                 "is_fav" => !in_array($request->user_id,[0,'']) ? Helper::is_fav($request->user_id, $dome_id, $league_id) : false,
                 "league_name" => $request->type == 1 ? '' : $data->name,
                 "dome_name" => $request->type == 1 ? $data->name : $data->dome_info->name,
-                "price" => $request->type == 1 ? rand(111, 999) : $data->price,
+                "price" => $request->type == 1 ? Helper::get_dome_price($data->id,explode(',', $data->sport_id)[0]) : $data->price,
                 "image" => $image,
                 "city" => $request->type == 1 ? $data->city : $data->dome_info->city,
                 "state" => $request->type == 1 ? $data->state : $data->dome_info->state,
-                "sports_list" => Sports::select('id', 'name', DB::raw("CONCAT('" . url('storage/app/public/admin/images/sports') . "/', image) AS image"))->whereIn('id', explode('|', $data->sport_id))->where('is_available', 1)->where('is_deleted', 2)->get(),
+                "sports_list" => Sports::select('id', 'name', DB::raw("CONCAT('" . url('storage/app/public/admin/images/sports') . "/', image) AS image"))->whereIn('id', explode(',', $data->sport_id))->where('is_available', 1)->where('is_deleted', 2)->get(),
             ];
         }
         return response()->json(['status' => 1, 'message' => 'Successfull', 'data' => $responsedata, 'pagination' => $getsearchlist->toArray()['links']], 200);

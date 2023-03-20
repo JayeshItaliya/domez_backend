@@ -104,7 +104,7 @@ class PaymentController extends Controller
             if ($request->booking_type == 1) {
                 $dome = Domes::where('id', $request->dome_id)->where('is_deleted', 2)->first();
             } else {
-                $league = League::find($request->league_id);
+                $league = League::where('id', $request->league_id)->where('is_deleted', 2)->first();
                 $dome = $league->dome_info;
             }
 

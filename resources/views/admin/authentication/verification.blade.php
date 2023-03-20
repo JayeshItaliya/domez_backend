@@ -57,7 +57,6 @@
 @section('scripts')
     <script>
         let digitValidate = function(ele) {
-            console.log(ele.value);
             ele.value = ele.value.replace(/[^0-9]/g, "");
         };
         let tabChange = function(val) {

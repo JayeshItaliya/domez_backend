@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\api;
 
+use App\Helper\Helper;
 use App\Http\Controllers\Controller;
 use App\Models\Booking;
 use App\Models\Sports;
@@ -12,6 +13,7 @@ use App\Models\Review;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class DomesController extends Controller
 {
@@ -30,6 +32,10 @@ class DomesController extends Controller
                     }
                     $recentbookings = Booking::where('user_id', $request->user_id)->where('type', 1)->orderByDesc('created_at')->take(10)->get();
                     foreach ($recentbookings as $booking) {
+
+                        $date1 = Carbon::createFromFormat('Y-m-d', $booking->start_date);
+                        $date2 = Carbon::today()->format('Y-m-d');
+
                         $dome = Domes::where('id', $booking->dome_id)->where('is_deleted', 2)->first();
                         if (!empty($dome)) {
                             if ($request->user_id != "") {
@@ -39,28 +45,28 @@ class DomesController extends Controller
                                 "id" => $dome->id,
                                 "name" => $dome->name,
                                 "image" => $dome->dome_image == "" ? "" : $dome->dome_image->image,
-                                "price" => rand(11, 99),
+                                "price" => Helper::get_dome_price($dome->id, explode(',', $dome->sport_id)[0]),
                                 "hst" => $dome->hst,
                                 "city" => $dome->city,
                                 "state" => $dome->state,
+                                "is_active" => $date1->lt($date2) ? 2 : 1,
                                 "is_fav" => !empty(@$is_fav) ? true : false,
                                 "booking_id" => $request->type == 1 ? $booking->id : 0,
                                 "booking_type" => $request->type == 1 ? $booking->type : 0,
                                 "booking_payment_type" => $request->type == 1 ? $booking->payment_type : 0,
                                 "booking_date" => date('D, d M', strtotime($booking->start_date)),
-                                "booking_status" => $booking->booking_status,
+                                // "booking_status" => $booking->booking_status,
                                 "total_fields" => Field::where('dome_id', $dome->id)->where('is_deleted', 2)->count(),
                                 "sports_list" => Sports::select('id', 'name', DB::raw("CONCAT('" . url('storage/app/public/admin/images/sports') . "/', image) AS image"))->whereIn('id', explode('|', $dome->sport_id))->where('is_available', 1)->where('is_deleted', 2)->get(),
                             ];
                         }
-                        
                     }
                 }
                 //Type = 2 (Most Popular Dome Data)
                 if ($request->type == 2) {
                     $popular_domes = Booking::select('dome_id', DB::raw('count(bookings.dome_id)as dome'))->where('type', 1)->groupBy('dome_id')->orderBy('dome', 'desc')->get();
                     foreach ($popular_domes as $pdome) {
-                        $dome = Domes::where('id', $pdome->dome_id)->where('is_deleted', 2)->first();
+                        $dome = Domes::where('id', $pdome->dome_id)->where('is_deleted', 2)->whereRaw("find_in_set('" . $request->sport_id . "',sport_id)")->first();
                         if (!empty($dome)) {
                             if (!in_array($request->user_id, [0, ''])) {
                                 $is_fav = Favourite::where('dome_id', $dome->id)->where('user_id', $request->user_id)->first();
@@ -69,7 +75,7 @@ class DomesController extends Controller
                                 "id" => $dome->id,
                                 "name" => $dome->name,
                                 "image" => $dome->dome_image == "" ? "" : $dome->dome_image->image,
-                                "price" => rand(11, 99),
+                                "price" => Helper::get_dome_price($dome->id, explode(',', $dome->sport_id)[0]),
                                 "hst" => $dome->hst,
                                 "city" => $dome->city,
                                 "state" => $dome->state,
@@ -78,9 +84,9 @@ class DomesController extends Controller
                                 "booking_type" => 0,
                                 "booking_payment_type" => 0,
                                 "booking_date" => "",
-                                "booking_status" => "",
+                                // "booking_status" => "",
                                 "total_fields" => Field::where('dome_id', $dome->id)->where('is_deleted', 2)->count(),
-                                "sports_list" => Sports::select('id', 'name', DB::raw("CONCAT('" . url('storage/app/public/admin/images/sports') . "/', image) AS image"))->whereIn('id', explode('|', $dome->sport_id))->where('is_available', 1)->where('is_deleted', 2)->get(),
+                                "sports_list" => Sports::select('id', 'name', DB::raw("CONCAT('" . url('storage/app/public/admin/images/sports') . "/', image) AS image"))->whereIn('id', explode(',', $dome->sport_id))->where('is_available', 1)->where('is_deleted', 2)->get(),
                             ];
                         }
                     }
@@ -112,7 +118,7 @@ class DomesController extends Controller
                     if ($request->max_price > 0) {
                         $getarounddomes = $getarounddomes->whereBetween('price', [$request->min_price, $request->max_price]);
                     }
-                    $getarounddomes = $getarounddomes->orderBy('distance')->whereIn('id', [1, 2, 3, 4])->get();
+                    $getarounddomes = $getarounddomes->orderBy('distance')->get();
 
                     foreach ($getarounddomes as $dome) {
                         if (!in_array($request->user_id, [0, ''])) {
@@ -122,7 +128,7 @@ class DomesController extends Controller
                             "id" => $dome->id,
                             "name" => $dome->name,
                             "image" => $dome->dome_image == "" ? "" : $dome->dome_image->image,
-                            "price" => rand(11, 99),
+                            "price" => Helper::get_dome_price($dome->id, explode(',', $dome->sport_id)[0]),
                             "hst" => $dome->hst,
                             "city" => $dome->city,
                             "state" => $dome->state,
@@ -131,9 +137,9 @@ class DomesController extends Controller
                             "booking_type" => 0,
                             "booking_payment_type" => 0,
                             "booking_date" => "",
-                            "booking_status" => "",
+                            // "booking_status" => "",
                             "total_fields" => Field::where('dome_id', $dome->id)->where('is_deleted', 2)->count(),
-                            "sports_list" => Sports::select('id', 'name', DB::raw("CONCAT('" . url('storage/app/public/admin/images/sports') . "/', image) AS image"))->whereIn('id', explode('|', $dome->sport_id))->where('is_available', 1)->where('is_deleted', 2)->get(),
+                            "sports_list" => Sports::select('id', 'name', DB::raw("CONCAT('" . url('storage/app/public/admin/images/sports') . "/', image) AS image"))->whereIn('id', explode(',', $dome->sport_id))->where('is_available', 1)->where('is_deleted', 2)->get(),
                         ];
                     }
                 }
@@ -206,7 +212,7 @@ class DomesController extends Controller
                 'id' => $dome->id,
                 'total_fields' => $fields->count(),
                 'name' => $dome->name,
-                'price' => rand(11, 99),
+                'price' => Helper::get_dome_price($dome->id, explode(',', $dome->sport_id)[0]),
                 'hst' => $dome->hst,
                 'address' => $dome->address,
                 'city' => $dome->city,

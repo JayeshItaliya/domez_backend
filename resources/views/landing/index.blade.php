@@ -600,10 +600,7 @@
             slick.$prev = prev;
             slick.$next = next;
         }).on('beforeChange', function(event, slick, currentSlide, nextSlide) {
-            //console.log('beforeChange');
-            var
-                cur = $(slick.$slides[nextSlide]);
-            //console.log(slick.$prev, slick.$next);
+            var cur = $(slick.$slides[nextSlide]);
             slick.$prev.removeClass('slick-sprev');
             slick.$next.removeClass('slick-snext');
             next = cur.next(),

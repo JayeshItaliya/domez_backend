@@ -168,7 +168,6 @@
     <script>
         let dome_count = {{ Js::from($domes_count) }};
         let dome_limit = {{ Js::from(Auth::user()->dome_limit) }};
-        console.log(dome_count < dome_limit);
 
         if (is_vendor && dome_limit < dome_count) {
             $(document).ready(function() {

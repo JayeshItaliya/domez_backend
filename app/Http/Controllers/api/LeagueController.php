@@ -107,7 +107,7 @@ class LeagueController extends Controller
                     if ($request->max_price > 0) {
                         $getarounddomes = $getarounddomes->whereBetween('price', [$request->min_price, $request->max_price]);
                     }
-                    $getarounddomes = $getarounddomes->orderBy('distance')->whereIn('id', [1, 2, 3, 4])->get();
+                    $getarounddomes = $getarounddomes->orderBy('distance')->get();
 
                     foreach ($getarounddomes as $dome) {
                         if ($request->user_id != "") {
@@ -146,7 +146,7 @@ class LeagueController extends Controller
     }
     public function getleaguedataobject($id)
     {
-        $league = League::find($id);
+        $league = League::where('id', $id)->where('is_deleted', 2)->first();
         if (empty($league)) {
             return $league_data = 1;
         }
@@ -193,23 +193,7 @@ class LeagueController extends Controller
                 'lat' => $dome->lat,
                 'lng' => $dome->lng,
                 'amenities_description' => $dome->benefits_description,
-                'league_images' => [
-                    [
-                        "id" => '',
-                        "league_id" => $league->id,
-                        "image" => 'https://www.playall.in/images/gallery/orbitMall_box_cricket_2.png',
-                    ],
-                    [
-                        "id" => '',
-                        "league_id" => $league->id,
-                        "image" => 'https://cdn.xxl.thumbs.canstockphoto.com/3d-render-of-a-round-cricket-stadium-with-black-seats-and-vip-boxes-3d-render-of-a-beautiful-modern-clipart_csp46450310.jpg',
-                    ],
-                    [
-                        "id" => '',
-                        "league_id" => $league->id,
-                        "image" => 'https://thumbs.dreamstime.com/b/indoor-stadium-view-behind-wicket-cricket-160851985.jpg',
-                    ],
-                ],
+                'league_images' => $league->league_images,
                 'amenities' => $benefits,
             );
         }

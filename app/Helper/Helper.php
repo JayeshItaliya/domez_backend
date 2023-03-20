@@ -5,6 +5,7 @@ namespace App\Helper;
 use App\Models\CMS;
 use App\Models\Favourite;
 use App\Models\PaymentGateway;
+use App\Models\SetPrices;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Mail;
 use Twilio\Rest\Client;
@@ -149,5 +150,9 @@ class Helper
         } catch (\Throwable $th) {
             return 0;
         }
+    }
+    public static function get_dome_price($dome_id,$sport_id){
+        $checkpricetype = SetPrices::where('dome_id', $dome_id)->where('sport_id', $sport_id)->where('price_type', 1)->first();
+        return $checkpricetype->price;
     }
 }

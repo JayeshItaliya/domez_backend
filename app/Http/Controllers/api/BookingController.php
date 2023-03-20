@@ -32,10 +32,10 @@ class BookingController extends Controller
         $bookings_list = Booking::where('user_id', $request->user_id)->orderByDesc('start_date');
 
         if ($request->is_active == 1) {
-            $bookings_list = $bookings_list->where('start_date', '>=', Carbon::today()->format('Y-m-d'));
+            $bookings_list = $bookings_list->whereDate('start_date', '>=', Carbon::today()->format('Y-m-d'));
         }
         if ($request->is_active == 2) {
-            $bookings_list = $bookings_list->where('start_date', '<=', Carbon::today()->format('Y-m-d'));
+            $bookings_list = $bookings_list->whereDate('start_date', '<=', Carbon::today()->format('Y-m-d'));
         }
         $bookinglist = [];
         foreach ($bookings_list->get() as $booking) {
@@ -156,7 +156,6 @@ class BookingController extends Controller
             if ($checkpricetype->price_type == 1) {
                 $period = new CarbonPeriod(date('h:i A', strtotime($getdomedata->start_time)), '60 minutes', date("h:i A", strtotime("-60 minutes", strtotime($getdomedata->end_time))));
                 foreach ($period as $item) {
-                    // dump($item->format("h:i A"),' -- '.$getdomedata->end_time);
                     $slot = $item->format("h:i A") . ' - ' . $item->addMinutes(60)->format("h:i A");
                     $today = Carbon::now(new \DateTimeZone('Asia/Kolkata'));
                     $last = Carbon::parse($item->format("h:i A"));
@@ -172,7 +171,7 @@ class BookingController extends Controller
                     } else {
                         $status = 1;
                     }
-                    $checkslotexist = Booking::where('dome_id', $request->dome_id)->where('sport_id', $request->sport_id)->where('start_date', date('Y-m-d', strtotime($request->date)))->whereRaw("find_in_set('" . $slot . "',slots)")->first();
+                    $checkslotexist = Booking::where('dome_id', $request->dome_id)->where('sport_id', $request->sport_id)->whereDate('start_date', date('Y-m-d', strtotime($request->date)))->whereRaw("find_in_set('" . $slot . "',slots)")->first();
                     if (!empty($checkslotexist)) {
                         $status = 0;
                     }
@@ -204,7 +203,7 @@ class BookingController extends Controller
                         } else {
                             $status = 1;
                         }
-                        $checkslotexist = Booking::where('dome_id', $request->dome_id)->where('sport_id', $request->sport_id)->where('start_date', date('Y-m-d', strtotime($request->date)))->whereRaw("find_in_set('" . $new_slot . "',slots)")->first();
+                        $checkslotexist = Booking::where('dome_id', $request->dome_id)->where('sport_id', $request->sport_id)->whereDate('start_date', date('Y-m-d', strtotime($request->date)))->whereRaw("find_in_set('" . $new_slot . "',slots)")->first();
                         if (!empty($checkslotexist)) {
                             $status = 0;
                         }
@@ -285,7 +284,7 @@ class BookingController extends Controller
     //                 $status = 1;
     //             }
 
-    //             $checkslotexist = Booking::where('dome_id', $request->dome_id)->where('sport_id', $request->sport_id)->where('start_date', date('Y-m-d', strtotime($request->date)))->whereRaw("find_in_set('" . $slot . "',slots)")->first();
+    //             $checkslotexist = Booking::where('dome_id', $request->dome_id)->where('sport_id', $request->sport_id)->whereDate('start_date', date('Y-m-d', strtotime($request->date)))->whereRaw("find_in_set('" . $slot . "',slots)")->first();
     //             if (!empty($checkslotexist)) {
     //                 $status = 0;
     //             }
@@ -381,7 +380,7 @@ class BookingController extends Controller
     //     }
     //     $available_fields = Field::with('sport_data')->select('id', 'dome_id', 'sport_id', 'name', 'min_person', 'max_person', DB::raw("CONCAT('" . url('storage/app/public/admin/images/fields') . "/', image) AS image"))->where('dome_id', $request->dome_id)->whereRaw("find_in_set('" . $request->sport_id . "',sport_id)")->whereRaw($request->players . ' between min_person and max_person')->where('is_available', 1)->where('is_deleted', 2);
 
-    //     $bookedfield = Booking::where('dome_id', $request->dome_id)->where('sport_id', $request->sport_id)->where('start_date', $request->date)->where('slots', $request->slots)->where('booking_status', 1)->select('field_id')->get()->pluck('field_id')->toArray();
+    //     $bookedfield = Booking::where('dome_id', $request->dome_id)->where('sport_id', $request->sport_id)->whereDate('start_date', $request->date)->where('slots', $request->slots)->where('booking_status', 1)->select('field_id')->get()->pluck('field_id')->toArray();
     //     if (!empty($bookedfield)) {
     //         $available_fields = $available_fields->whereNotIn('id', $bookedfield);
     //     }
