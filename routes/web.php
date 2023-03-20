@@ -31,12 +31,13 @@ use App\Http\Controllers\admin\SettingsController;
 
 // Landing Page Route
 Route::get('/', [AdminController::class, 'landing']);
-Route::get('payment/{token}', [BookingController::class, 'split_payment']);
 Route::post('store-general-enquiries', [EnquiryController::class, 'store_general_enquiries']);
 Route::post('dome-request', [EnquiryController::class, 'dome_request']);
 Route::get('contact', [AdminController::class, 'contact']);
 Route::get('privacy-policy', [AdminController::class, 'privacy_policy']);
 Route::get('terms-conditions', [AdminController::class, 'terms_conditions']);
+
+Route::get('payment/{token}', [BookingController::class, 'split_payment']);
 
 
 // Authentication

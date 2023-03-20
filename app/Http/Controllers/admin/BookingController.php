@@ -39,19 +39,19 @@ class BookingController extends Controller
         }
         if ($request->has('filter') && $request->filter != "") {
             if ($request->filter == 'this-month') {
-                $getbookingslist = $getbookingslist->whereMonth('booking_date', Carbon::now()->month);
+                $getbookingslist = $getbookingslist->whereMonth('start_date', Carbon::now()->month);
             } else if ($request->filter == 'this-year') {
-                $getbookingslist = $getbookingslist->whereYear('booking_date', Carbon::now()->year);
+                $getbookingslist = $getbookingslist->whereYear('start_date', Carbon::now()->year);
             } else if ($request->filter == 'custom-date') {
                 $weekStartDate = @explode(' to ', $request->dates)[0];
                 $weekEndDate = @explode(' to ', $request->dates)[1];
                 if ($weekStartDate != "" && $weekEndDate != "") {
-                    $getbookingslist = $getbookingslist->whereBetween('booking_date', [$weekStartDate, $weekEndDate]);
+                    $getbookingslist = $getbookingslist->whereBetween('start_date', [$weekStartDate, $weekEndDate]);
                 } else {
-                    $getbookingslist = $getbookingslist->whereDate('booking_date', $weekStartDate);
+                    $getbookingslist = $getbookingslist->whereDate('start_date', $weekStartDate);
                 }
             } else {
-                $getbookingslist = $getbookingslist->whereBetween('booking_date', [$weekStartDate, $weekEndDate]);
+                $getbookingslist = $getbookingslist->whereBetween('start_date', [$weekStartDate, $weekEndDate]);
             }
         }
         $getbookingslist = $getbookingslist->orderByDesc('id')->get();
@@ -68,7 +68,7 @@ class BookingController extends Controller
         // foreach ($getbookingslist as $key => $booking) {
         //     $data[] = [
         //         "title" => $booking->booking_id . ' - ' . $booking->dome_name->name,
-        //         "start" => $booking->booking_date,
+        //         "start" => $booking->start_date,
         //         "url" => URL::to('admin/bookings/details-' . $booking->booking_id),
         //     ];
         // }
@@ -100,7 +100,7 @@ class BookingController extends Controller
         if ($request->players == "") {
             return response()->json(['status' => 0, 'message' => 'Enter Players'], 200);
         }
-        if ($request->booking_date == "") {
+        if ($request->start_date == "") {
             return response()->json(['status' => 0, 'message' => 'Select Booking Date'], 200);
         }
         if ($request->start_time == "") {
@@ -231,7 +231,7 @@ class BookingController extends Controller
     }
     public function check_booking(Request $request)
     {
-        $checkbooking = Booking::where('booking_date', $request->booking_date)->where('start_time', '!=', $request->start_time)->where('end_time', '!=', $request->end_time)->get();
+        $checkbooking = Booking::where('start_date', $request->start_date)->where('start_time', '!=', $request->start_time)->where('end_time', '!=', $request->end_time)->get();
         return response()->json($checkbooking, 200);
     }
     public function split_payment(Request $request)

@@ -280,12 +280,12 @@ class HomeController extends Controller
         if ($request->name == "") {
             return response()->json(["status" => 0, "message" => "Enter Name"], 200);
         }
-        if ($request->email == "") {
-            return response()->json(["status" => 0, "message" => "Enter Email"], 200);
-        }
-        if ($request->phone == "") {
-            return response()->json(["status" => 0, "message" => "Enter Phone"], 200);
-        }
+        // if ($request->email == "") {
+        //     return response()->json(["status" => 0, "message" => "Enter Email"], 200);
+        // }
+        // if ($request->phone == "") {
+        //     return response()->json(["status" => 0, "message" => "Enter Phone"], 200);
+        // }
         $comment  = $request->comment != '' ? $request->comment : '';
         $send_mail = Helper::invite_dome($request->venue_name, $request->venue_address, $request->name, $request->email, $request->phone, $comment);
         if ($send_mail == 1) {

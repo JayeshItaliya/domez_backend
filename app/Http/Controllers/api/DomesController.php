@@ -47,11 +47,13 @@ class DomesController extends Controller
                                 "booking_id" => $request->type == 1 ? $booking->id : 0,
                                 "booking_type" => $request->type == 1 ? $booking->type : 0,
                                 "booking_payment_type" => $request->type == 1 ? $booking->payment_type : 0,
-                                "booking_date" => date('D', strtotime($booking->booking_date)) . ', ' . date('d M', strtotime($booking->booking_date)),
+                                "booking_date" => date('D, d M', strtotime($booking->start_date)),
+                                "booking_status" => $booking->booking_status,
                                 "total_fields" => Field::where('dome_id', $dome->id)->where('is_deleted', 2)->count(),
                                 "sports_list" => Sports::select('id', 'name', DB::raw("CONCAT('" . url('storage/app/public/admin/images/sports') . "/', image) AS image"))->whereIn('id', explode('|', $dome->sport_id))->where('is_available', 1)->where('is_deleted', 2)->get(),
                             ];
                         }
+                        
                     }
                 }
                 //Type = 2 (Most Popular Dome Data)
@@ -76,6 +78,7 @@ class DomesController extends Controller
                                 "booking_type" => 0,
                                 "booking_payment_type" => 0,
                                 "booking_date" => "",
+                                "booking_status" => "",
                                 "total_fields" => Field::where('dome_id', $dome->id)->where('is_deleted', 2)->count(),
                                 "sports_list" => Sports::select('id', 'name', DB::raw("CONCAT('" . url('storage/app/public/admin/images/sports') . "/', image) AS image"))->whereIn('id', explode('|', $dome->sport_id))->where('is_available', 1)->where('is_deleted', 2)->get(),
                             ];
@@ -128,6 +131,7 @@ class DomesController extends Controller
                             "booking_type" => 0,
                             "booking_payment_type" => 0,
                             "booking_date" => "",
+                            "booking_status" => "",
                             "total_fields" => Field::where('dome_id', $dome->id)->where('is_deleted', 2)->count(),
                             "sports_list" => Sports::select('id', 'name', DB::raw("CONCAT('" . url('storage/app/public/admin/images/sports') . "/', image) AS image"))->whereIn('id', explode('|', $dome->sport_id))->where('is_available', 1)->where('is_deleted', 2)->get(),
                         ];

@@ -303,8 +303,8 @@
                     @foreach ($getbookingslist as $booking)
                         {
                             title: "#{{ $booking->booking_id }}",
-                            start: "{{ $booking->booking_date }}",
-                            end: "{{ $booking->booking_date }}",
+                            start: "{{ $booking->start_date }}",
+                            end: "{{ $booking->end_date }}",
                             url: "{{ URL::to('admin/bookings/details-' . $booking->booking_id) }}",
                             dome_name: '{{ $booking->dome_name != '' ? Str::limit($booking->dome_name->name, 20) : '' }}',
                             league_name: '{{ $booking->league_id != '' ? Str::limit($booking->league_info->name, 20) : '' }}',
@@ -447,8 +447,8 @@
             });
         }
     </script>
-    @if (Auth::user()->type == 2)
-        <script>
+    <script>
+        if (document.getElementById("bookings_overview_chart")) {
             var options = {
                 chart: {
                     type: 'donut',
@@ -471,9 +471,8 @@
             };
             var chart = new ApexCharts(document.querySelector("#bookings_overview_chart"), options);
             chart.render();
-        </script>
-    @endif
-    {{-- Total Bookings Chart --}}
+        }
+    </script>
     <script>
         var booking_labels = {{ Js::from($booking_labels) }}
         var booking_data = {{ Js::from($booking_data) }}

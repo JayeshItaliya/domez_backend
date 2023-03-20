@@ -67,48 +67,41 @@ class FavouriteController extends Controller
         if (!empty($checkuser)) {
             if ($request->type == 1) {
                 $favourite = Favourite::where('user_id', $checkuser->id)->where('dome_id', '!=', '')->select('dome_id')->get();
-                if (count($favourite) != 0) {
-                    foreach ($favourite as $dome) {
-                        $dome_data = Domes::where('id', $dome->dome_id)->where('is_deleted', 2)->first();
-                        $dome_image = DomeImages::where('dome_id', $dome->dome_id)->first();
-                        $dome_list = array(
+                foreach ($favourite as $dome) {
+                    $dome_data = Domes::where('id', $dome->dome_id)->where('is_deleted', 2)->first();
+                    if (!empty($dome_data)) {
+                        $dome_lists[] = [
                             "id" => $dome_data->id,
                             "league_name" => '',
                             "dome_name" => $dome_data->name,
-                            "image" => Helper::image_path($dome_image->images),
+                            "image" => $dome_data->dome_image == "" ? "" : $dome_data->dome_image->image,
                             "price" => $dome_data->price,
                             "city" => $dome_data->city,
                             "state" => $dome_data->state,
                             "sports_list" => Sports::select('id', 'name', DB::raw("CONCAT('" . url('storage/app/public/admin/images/sports') . "/', image) AS image"))->whereIn('id', explode('|', $dome_data->sport_id))->where('is_available', 1)->where('is_deleted', 2)->get(),
-                        );
-                        $dome_lists[] = $dome_list;
+                        ];
                     }
-                    return response()->json(["status" => 1, "message" => "Successful", 'total_favourite_domes' => $favourite->count(), 'data_list' => $dome_lists], 200);
-                } else {
-                    return response()->json(["status" => 0, "message" => 'No Data Found'], 200);
                 }
+                return response()->json(["status" => 1, "message" => "Successful", 'total_favourite_domes' => $favourite->count(), 'data_list' => $dome_lists], 200);
             }
             if ($request->type == 2) {
                 $favourite = Favourite::where('user_id', $checkuser->id)->where('league_id', '!=', '')->select('league_id')->get();
-                if (count($favourite) != 0) {
-                    foreach ($favourite as $league) {
-                        $league_data = League::where('id', $league->league_id)->where('is_deleted', 2)->first();
-                        $league_list = array(
-                            "id" => $league_data->id,
-                            "league_name" => $league_data->name,
-                            "dome_name" => $league_data->dome_info->name,
-                            "image" => Helper::image_path($league_data->image),
-                            "price" => $league_data->price,
-                            "city" => $league_data->dome_info->city,
-                            "state" => $league_data->dome_info->state,
-                            "sports_list" => Sports::select('id', 'name', DB::raw("CONCAT('" . url('storage/app/public/admin/images/sports') . "/', image) AS image"))->whereIn('id', explode('|', $league_data->sport_id))->where('is_available', 1)->where('is_deleted', 2)->get(),
-                        );
-                        $league_lists[] = $league_list;
+                foreach ($favourite as $league) {
+                    $checkleague = League::where('id', $league->league_id)->where('is_deleted', 2)->first();
+                    if (!empty($checkleague)) {
+                        $league_lists[] = [
+                            "id" => $checkleague->id,
+                            "league_name" => $checkleague->name,
+                            "dome_name" => $checkleague->dome_info->name,
+                            "image" => $checkleague->league_image == "" ? "" : $checkleague->league_image->image,
+                            "price" => $checkleague->price,
+                            "city" => $checkleague->dome_info->city,
+                            "state" => $checkleague->dome_info->state,
+                            "sports_list" => Sports::select('id', 'name', DB::raw("CONCAT('" . url('storage/app/public/admin/images/sports') . "/', image) AS image"))->whereIn('id', explode('|', $checkleague->sport_id))->where('is_available', 1)->where('is_deleted', 2)->get(),
+                        ];
                     }
-                    return response()->json(["status" => 1, "message" => "Successful", 'total_favourite_leagues' => $favourite->count(), 'data_list' => $league_lists], 200);
-                } else {
-                    return response()->json(["status" => 0, "message" => 'No Data Found'], 200);
                 }
+                return response()->json(["status" => 1, "message" => "Successful", 'total_favourite_leagues' => $favourite->count(), 'data_list' => $league_lists], 200);
             }
         } else {
             return response()->json(["status" => 0, "message" => 'Invalid User ID'], 200);

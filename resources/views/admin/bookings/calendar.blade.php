@@ -89,7 +89,7 @@
                     @foreach ($getbookingslist as $booking)
                         {
                             title: "#{{ $booking->booking_id }}",
-                            start: "{{ $booking->booking_date }}",
+                            start: "{{ $booking->start_date }}",
                             url: "{{ URL::to('admin/bookings/details-' . $booking->booking_id) }}",
                             dome_name: '{{ $booking->dome_name != '' ? Str::limit($booking->dome_name->name, 20) : '' }}',
                             league_name: '{{ $booking->league_id != '' ? Str::limit($booking->league_info->name, 20) : '' }}',

@@ -130,15 +130,14 @@
                 </div>
                 <div class="card-body">
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="font_family" id="roboto"
-                            value="Roboto" checked>
+                        <input class="form-check-input" type="radio" name="font_family" id="roboto" value="Roboto"
+                            checked>
                         <label class="form-check-label" for="roboto">
                             {{ trans('labels.roboto') }}
                         </label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="font_family" id="inter"
-                            value="Inter">
+                        <input class="form-check-input" type="radio" name="font_family" id="inter" value="Inter">
                         <label class="form-check-label" for="inter">
                             {{ trans('labels.inter') }}
                         </label>
@@ -188,8 +187,61 @@
         let is_vendor = {{ Js::from(Auth::user()->type == 2 ? true : false) }};
         let primary_color = $('#primaryColor').css('color');
         let secondary_color = $('#secondaryColor').css('color');
-        let danger_color = $('#danger_color').css('color');
         let light_secondary_color = $('#lightSecondaryColor').css('color');
+        let danger_color = $('#danger_color').css('color');
+
+        function getCookie(name) {
+            "use strict";
+            var cookie_name = name + "=";
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var c = cookies[i];
+                while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+                if (c.indexOf(cookie_name) == 0) return c.substring(cookie_name.length, c.length);
+            }
+            return;
+        }
+
+        function hexToRgb(hex) {
+            var hexString = (hex.charAt(0) == "#") ? hex.substring(1, 7) : hex;
+            var hexInt = parseInt(hexString, 16);
+            var red = (hexInt >> 16) & 255;
+            var green = (hexInt >> 8) & 255;
+            var blue = hexInt & 255;
+            return red + ", " + green + ", " + blue;
+        }
+        var bodyStyles = window.getComputedStyle(document.body);
+        if ($.trim(getCookie("primary_color")) != "") {
+            primary_color = getCookie("primary_color");
+            document.documentElement.style.setProperty('--bs-primary', primary_color);
+            document.documentElement.style.setProperty('--bs-primary-rgb', hexToRgb(primary_color));
+            $('#primary_color').val(primary_color);
+            $('#primaryColor').css('color', primary_color);
+        } else {
+            $('#primary_color').val($.trim(bodyStyles.getPropertyValue('--bs-primary')));
+        }
+        if ($.trim(getCookie("secondary_color")) != "") {
+            secondary_color = getCookie("secondary_color");
+            document.documentElement.style.setProperty('--bs-secondary', secondary_color);
+            document.documentElement.style.setProperty('--bs-secondary-rgb', hexToRgb(secondary_color));
+            $('#secondary_color').val(secondary_color);
+            $('#secondaryColor').css('color', secondary_color);
+            $('#lightSecondaryColor').attr('style', 'color: rgba(' + hexToRgb(secondary_color) + ',0.75)');
+            light_secondary_color = $('#lightSecondaryColor').css('color');
+        } else {
+            $('#secondary_color').val($.trim(bodyStyles.getPropertyValue('--bs-secondary')));
+        }
+
+        if ($.trim(getCookie("font_family")) != "") {
+            document.documentElement.style.setProperty('--bs-font-sans-serif', getCookie("font_family"));
+            document.documentElement.style.setProperty('--bs-font-sans-serif', "'" + getCookie("font_family") +
+                "', sans-serif");
+            $("input[name=font_family][value=" + getCookie('font_family') + "]").prop("checked", true);
+
+        } else {
+            $('#font_family').val($.trim(bodyStyles.getPropertyValue('--bs-font-sans-serif')));
+        }
+
         toastr.options = {
             "closeButton": true
         }
