@@ -121,6 +121,11 @@ return [
     'parking' => 'Parking',
     'pool' => 'Pool',
     'dome_location' => 'Dome Location',
+    'new_dome_request' => 'Request New Dome',
+    'dome_city' => 'Dome City',
+    'dome_zipcode' => 'Dome Postal Code',
+    'dome_state' => 'Dome State/Province',
+    'dome_country' => 'Dome Country',
     // Sports
     'image' => 'Image',
     'sport_name' => 'Sport Name',

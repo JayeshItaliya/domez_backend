@@ -77,8 +77,8 @@
             var calendarEl = document.getElementById('calendar');
             var calendar = new FullCalendar.Calendar(calendarEl, {
                 // initialDate: '2024-05-05',
-                // initialView: 'multiMonthYear',
                 // eventDisplay: 'list-item',
+                initialView: 'timeGridWeek',
                 dayMaxEvents: true,
                 headerToolbar: {
                     left: 'prev next today',

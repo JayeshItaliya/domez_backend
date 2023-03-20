@@ -118,16 +118,72 @@
             </table>
         </div>
     </div>
+    <!-- New Dome Request Modal -->
+    <div class="modal fade" id="new_dome_request" tabindex="-1" aria-labelledby="new_dome_requestLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <form action="{{ URL::to('admin/domes/new-request') }}" class="modal-content">
+                @csrf
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="new_dome_requestLabel">{{ trans('labels.new_dome_request') }}</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="dome_name" class="form-label">{{ trans('labels.dome_name') }}</label>
+                        <input type="text" class="form-control" name="dome_name" id="dome_name"
+                            placeholder="{{ trans('labels.dome_name') }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="dome_city" class="form-label">{{ trans('labels.dome_city') }}</label>
+                        <input type="text" class="form-control" name="dome_city" id="dome_city"
+                            placeholder="{{ trans('labels.dome_city') }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="dome_zipcode" class="form-label">{{ trans('labels.dome_zipcode') }}</label>
+                        <input type="text" class="form-control" name="dome_zipcode" id="dome_zipcode"
+                            placeholder="{{ trans('labels.dome_zipcode') }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="dome_state" class="form-label">{{ trans('labels.dome_state') }}</label>
+                        <input type="text" class="form-control" name="dome_state" id="dome_state"
+                            placeholder="{{ trans('labels.dome_state') }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="dome_country" class="form-label">{{ trans('labels.dome_country') }}</label>
+                        <input type="text" class="form-control" name="dome_country" id="dome_country"
+                            placeholder="{{ trans('labels.dome_country') }}">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary"
+                        data-bs-dismiss="modal">{{ trans('labels.cancel') }}</button>
+                    <button type="submit" class="btn btn-primary">{{ trans('labels.submit') }}</button>
+                </div>
+            </form>
+        </div>
+    </div>
 @endsection
 @section('scripts')
     <script>
-        if (is_vendor) {
+        let dome_count = {{ Js::from($domes_count) }};
+        let dome_limit = {{ Js::from(Auth::user()->dome_limit) }};
+        console.log(dome_count < dome_limit);
+
+        if (is_vendor && dome_limit < dome_count) {
             $(document).ready(function() {
                 let html =
                     '<a href="{{ URL::to('admin/domes/add') }}" class="btn-custom-primary"><svg xmlns="http://www.w3.org/2000/svg" class="icon-tabler icon-tabler-plus" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="var(--bs-primary)" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" /></svg></a>';
                 $('.fixed-table-toolbar .btn-group').append(html);
             })
+        } else {
+            $(document).ready(function() {
+                let html =
+                    '<a data-bs-toggle="modal" data-bs-target="#new_dome_request" class="btn-custom-primary cursor-pointer"><svg xmlns="http://www.w3.org/2000/svg" class="icon-tabler icon-tabler-plus" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="var(--bs-primary)" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" /></svg></a>';
+                $('.fixed-table-toolbar .btn-group').append(html);
+            })
         }
+
         function deletedata(id, url) {
             "use strict";
             swalWithBootstrapButtons

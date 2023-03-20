@@ -179,7 +179,8 @@
                                     <h4 class="total-revenue">{{ Helper::currency_format($total_revenue_data_sum) }}</h4>
                                 </div>
                                 <div class="d-flex gap-2">
-                                    <input type="text" class="form-control me-2 bg-transparent border-primary date-range-picker"
+                                    <input type="text"
+                                        class="form-control me-2 bg-transparent border-primary date-range-picker"
                                         placeholder="{{ trans('labels.select_date') }}">
                                     <select class="form-select"
                                         style="background-color: transparent;border-color:var(--bs-primary);"
@@ -197,56 +198,58 @@
                 </div>
             @endif
         </div>
-        <div class="row mb-3">
-            <div class="col-md-6">
-                <div class="card h-100 users-card">
-                    <div class="card-body">
-                        <div class="d-flex align-items-center justify-content-between mb-3">
-                            <div class="content">
-                                <p class="mb-2 fw-500 text-muted">{{ trans('labels.user_mobile_app') }}</p>
-                                <h4 class="total-users">{{ $total_users_data_sum }}</h4>
+        @if (Auth::user()->type == 1)
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <div class="card h-100 users-card">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center justify-content-between mb-3">
+                                <div class="content">
+                                    <p class="mb-2 fw-500 text-muted">{{ trans('labels.user_mobile_app') }}</p>
+                                    <h4 class="total-users">{{ $total_users_data_sum }}</h4>
+                                </div>
+                                <div class="d-flex gap-2">
+                                    <input type="text" class="form-control users-date-range-picker"
+                                        placeholder="{{ trans('labels.select_date') }}">
+                                    <select class="form-select w-auto users-filter"
+                                        data-next="{{ URL::to('admin/dashboard') }}">
+                                        <option value="this_week" selected>{{ trans('labels.this_week') }}</option>
+                                        <option value="this_month">{{ trans('labels.this_month') }}</option>
+                                        <option value="this_year">{{ trans('labels.this_year') }}</option>
+                                        <option value="custom_date">{{ trans('labels.custom_date') }}</option>
+                                    </select>
+                                </div>
                             </div>
-                            <div class="d-flex gap-2">
-                                <input type="text" class="form-control users-date-range-picker"
-                                    placeholder="{{ trans('labels.select_date') }}">
-                                <select class="form-select w-auto users-filter"
-                                    data-next="{{ URL::to('admin/dashboard') }}">
-                                    <option value="this_week" selected>{{ trans('labels.this_week') }}</option>
-                                    <option value="this_month">{{ trans('labels.this_month') }}</option>
-                                    <option value="this_year">{{ trans('labels.this_year') }}</option>
-                                    <option value="custom_date">{{ trans('labels.custom_date') }}</option>
-                                </select>
-                            </div>
+                            <div id="users_chart"></div>
                         </div>
                     </div>
-                    <div id="users_chart"></div>
                 </div>
-            </div>
-            <div class="col-md-6">
-                <div class="card h-100 dome-owners-card">
-                    <div class="card-body">
-                        <div class="d-flex align-items-center justify-content-between mb-3">
-                            <div class="content">
-                                <p class="mb-2 fw-500 text-muted">{{ trans('labels.dome_owners') }}</p>
-                                <h4 class="total-dome-owner">{{ $total_dome_owners_data_sum }}</h4>
+                <div class="col-md-6">
+                    <div class="card h-100 dome-owners-card">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center justify-content-between mb-3">
+                                <div class="content">
+                                    <p class="mb-2 fw-500 text-muted">{{ trans('labels.dome_owners') }}</p>
+                                    <h4 class="total-dome-owner">{{ $total_dome_owners_data_sum }}</h4>
+                                </div>
+                                <div class="d-flex gap-2">
+                                    <input type="text" class="form-control domez-date-range-picker"
+                                        placeholder="{{ trans('labels.select_date') }}">
+                                    <select class="form-select w-auto dome-owners-filter"
+                                        data-next="{{ URL::to('admin/dashboard') }}">
+                                        <option value="this_week" selected>{{ trans('labels.this_week') }}</option>
+                                        <option value="this_month">{{ trans('labels.this_month') }}</option>
+                                        <option value="this_year">{{ trans('labels.this_year') }}</option>
+                                        <option value="custom_date">{{ trans('labels.custom_date') }}</option>
+                                    </select>
+                                </div>
                             </div>
-                            <div class="d-flex gap-2">
-                                <input type="text" class="form-control domez-date-range-picker"
-                                    placeholder="{{ trans('labels.select_date') }}">
-                                <select class="form-select w-auto dome-owners-filter"
-                                    data-next="{{ URL::to('admin/dashboard') }}">
-                                    <option value="this_week" selected>{{ trans('labels.this_week') }}</option>
-                                    <option value="this_month">{{ trans('labels.this_month') }}</option>
-                                    <option value="this_year">{{ trans('labels.this_year') }}</option>
-                                    <option value="custom_date">{{ trans('labels.custom_date') }}</option>
-                                </select>
-                            </div>
+                            <div id="dome_owners_chart"></div>
                         </div>
                     </div>
-                    <div id="dome_owners_chart"></div>
                 </div>
             </div>
-        </div>
+        @endif
     </div>
 @endsection
 @section('scripts')
@@ -444,30 +447,32 @@
             });
         }
     </script>
-    <script>
-        var options = {
-            chart: {
-                type: 'donut',
-                height: 350,
-            },
-            series: [50, 35, 15],
-            labels: ['Confirmed', 'Pending', 'Cancelled'],
-            colors: [secondary_color, primary_color, danger_color],
-            responsive: [{
-                breakpoint: 480,
-                options: {
-                    chart: {
-                        width: 200
-                    },
-                    legend: {
-                        position: 'bottom'
+    @if (Auth::user()->type == 2)
+        <script>
+            var options = {
+                chart: {
+                    type: 'donut',
+                    height: 350,
+                },
+                series: [50, 35, 15],
+                labels: ['Confirmed', 'Pending', 'Cancelled'],
+                colors: [secondary_color, primary_color, danger_color],
+                responsive: [{
+                    breakpoint: 480,
+                    options: {
+                        chart: {
+                            width: 200
+                        },
+                        legend: {
+                            position: 'bottom'
+                        }
                     }
-                }
-            }]
-        };
-        var chart = new ApexCharts(document.querySelector("#bookings_overview_chart"), options);
-        chart.render();
-    </script>
+                }]
+            };
+            var chart = new ApexCharts(document.querySelector("#bookings_overview_chart"), options);
+            chart.render();
+        </script>
+    @endif
     {{-- Total Bookings Chart --}}
     <script>
         var booking_labels = {{ Js::from($booking_labels) }}

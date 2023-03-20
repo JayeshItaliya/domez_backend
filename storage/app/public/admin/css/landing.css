@@ -121,7 +121,7 @@
     float: left;
 }
 
-.most-games-box{
+.most-games-box {
     transform: rotate(0deg);
     animation: rotate3 10s ease infinite;
 }
@@ -1106,7 +1106,7 @@ img.footer-logo {
     width: 30%;
 }
 
-.form-group{
+.form-group {
     margin-bottom: 1rem;
 }
 
@@ -1116,19 +1116,41 @@ img.footer-logo {
 .header-section-contact nav {
     width: 100%;
 }
+
 .header-section-contact .logo-img img {
     max-width: 200px;
     width: 100%;
 }
+
 .header-section-contact .nav-link {
     font-weight: 500;
     font-size: 18px;
     line-height: 22px;
     color: #616161 !important;
 }
+
 .contact-us {
     box-shadow: 19px 17px 10px rgba(0, 0, 0, 0.01), 11px 10px 9px rgba(0, 0, 0, 0.03), 5px 4px 6px rgba(0, 0, 0, 0.05), 1px 1px 3px rgba(0, 0, 0, 0.06), 0px 0px 0px rgba(0, 0, 0, 0.06);
     padding: 3rem;
     border-radius: 6px;
 }
+
 /*  contact  page end  */
+
+
+
+
+
+
+
+
+
+
+.partial-pill {
+    color: rgba(94, 53, 177, 1) !important;
+    background-color: #EDE7F6 !important;
+}
+.complete-pill {
+    color: rgba(33, 150, 243, 1) !important;
+    background-color: #E3F2FD !important;
+}

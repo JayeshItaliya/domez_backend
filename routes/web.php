@@ -168,6 +168,7 @@ Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function () {
             Route::get('image_delete', [DomesController::class, 'image_delete']);
             Route::post('update-{id}', [DomesController::class, 'update']);
             Route::get('delete', [DomesController::class, 'delete']);
+            Route::get('new-request', [DomesController::class, 'new_request']);
         });
         // Set Prices
         Route::group(['prefix' => 'set-prices'], function () {

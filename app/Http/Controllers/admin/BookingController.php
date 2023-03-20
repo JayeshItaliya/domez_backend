@@ -40,17 +40,17 @@ class BookingController extends Controller
         if ($request->has('filter') && $request->filter != "") {
             if ($request->filter == 'this-month') {
                 $getbookingslist = $getbookingslist->whereMonth('booking_date', Carbon::now()->month);
-            }else if ($request->filter == 'this-year') {
+            } else if ($request->filter == 'this-year') {
                 $getbookingslist = $getbookingslist->whereYear('booking_date', Carbon::now()->year);
-            }else if ($request->filter == 'custom-date') {
+            } else if ($request->filter == 'custom-date') {
                 $weekStartDate = @explode(' to ', $request->dates)[0];
                 $weekEndDate = @explode(' to ', $request->dates)[1];
-                if ( $weekStartDate != "" && $weekEndDate != "" ) {
+                if ($weekStartDate != "" && $weekEndDate != "") {
                     $getbookingslist = $getbookingslist->whereBetween('booking_date', [$weekStartDate, $weekEndDate]);
-                }else{
+                } else {
                     $getbookingslist = $getbookingslist->whereDate('booking_date', $weekStartDate);
                 }
-            }else{
+            } else {
                 $getbookingslist = $getbookingslist->whereBetween('booking_date', [$weekStartDate, $weekEndDate]);
             }
         }
@@ -236,10 +236,9 @@ class BookingController extends Controller
     }
     public function split_payment(Request $request)
     {
-        dd($request->token);
         $checkbooking = Booking::where('token', $request->token)->first();
         if (!empty($checkbooking)) {
-            dd($checkbooking);
+            return view('landing.split_payment', compact('checkbooking'));
         } else {
             abort(404);
         }

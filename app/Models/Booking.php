@@ -25,4 +25,8 @@ class Booking extends Model
     {
         return $this->hasOne('App\Models\League', 'id', 'league_id')->select('id', 'name');
     }
+    public function dome_info()
+    {
+        return $this->hasOne('App\Models\Domes', 'id', 'dome_id')->select('id', 'name', 'sport_id', 'address', 'state', 'city');
+    }
 }

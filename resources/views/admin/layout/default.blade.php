@@ -131,7 +131,7 @@
                 <div class="card-body">
                     <div class="form-check">
                         <input class="form-check-input" type="radio" name="font_family" id="roboto"
-                            value="Roboto">
+                            value="Roboto" checked>
                         <label class="form-check-label" for="roboto">
                             {{ trans('labels.roboto') }}
                         </label>
