@@ -4,12 +4,35 @@ $(window).on("load", function () {
     $("#status").delay(500).fadeOut("slow"),
         $("#preloader").delay(500).fadeOut("slow");
 });
+// ------- CUSTOM FONT FAMILY --- START ----------------
+$('input[name=font_family]').on('change', function () {
+    var font_family = $(this).val();
+    set_cookie('font_family', font_family);
+});
+// ------- CUSTOM FONT FAMILY --- End ----------------
+
+// ------- CUSTOM COLOR --- START ----------------
+$('.btn-change-color').on('click', function () {
+    var primary_color = $('input[type="color"]#primary_color').val();
+    var secondary_color = $('input[type="color"]#secondary_color').val();
+    set_cookie('primary_color', primary_color, 'secondary_color', secondary_color);
+})
+
+function set_cookie(primary_color_name, primary_color, secondary_color_name, secondary_color) {
+    "use strict";
+    showpreloader();
+    var date = new Date();
+    date.setTime(date.getTime() + (365 * 24 * 60 * 60 * 1000));
+    var expires = "; expires=" + date.toUTCString();
+    document.cookie = primary_color_name + " = " + primary_color + expires + "; path=/";
+    document.cookie = secondary_color_name + " = " + secondary_color + expires + "; path=/";
+    location.reload();
+}
+// ------- CUSTOM COLOR --- END ----------------
 
 $(function () {
     $('form, input, textarea').attr("autocomplete", 'off');
-
     if (document.getElementById('bootstrapTable')) {
-
         $('#bootstrapTable').bootstrapTable({
             toolbar: ".toolbar",
             clickToSelect: false,
@@ -25,9 +48,7 @@ $(function () {
         });
         $('#bootstrapTable').removeClass('table-bordered');
     }
-});
-
-// Common for all sweetalerts
+}); // Common for all sweetalerts
 const swalWithBootstrapButtons = Swal.mixin({
     customClass: {
         confirmButton: "btn btn-success mx-2",

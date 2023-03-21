@@ -14,10 +14,15 @@
     <link rel="stylesheet" href="{{ url('storage/app/public/admin/css/sweetalert/sweetalert2.min.css') }}">
     <link rel="stylesheet" href="{{ url('storage/app/public/admin/css/toastr/toastr.min.css') }}">
     <link rel="stylesheet" href="{{ url('storage/app/public/admin/css/timepicker/jquery.timepicker.min.css') }}">
-    <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.21.2/dist/bootstrap-table.min.css">
+    <link rel="stylesheet" href="{{ url('storage/app/public/admin/plugins/bootstrap_table/bootstrap-table.min.css') }}">
     <link rel="stylesheet" href="{{ url('storage/app/public/admin/css/custom.css') }}">
     <link rel="stylesheet" href="{{ url('storage/app/public/admin/css/responsive.css') }}">
     @yield('styles')
+    <style>
+        :root {
+            --root-color: #000000;
+        }
+    </style>
 </head>
 
 <body>
@@ -30,6 +35,7 @@
     <main>
         <style>
             :root {
+                --bs-font-sans-serif: 'Roboto', sans-serif;
                 --border-radius: 6px;
                 --bs-primary: #468F72;
                 --bs-secondary: #57A700;
@@ -81,6 +87,7 @@
         @endif
         <div id="primaryColor" style="color: var(--bs-primary)"></div>
         <div id="secondaryColor" style="color: var(--bs-secondary)"></div>
+        <div id="danger_color" style="color: var(--bs-danger)"></div>
         <div id="lightSecondaryColor" style="color: rgba(var(--bs-secondary-rgb),0.75)"></div>
     </main>
 
@@ -88,22 +95,77 @@
         data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
         <i class="fa-regular fa-sliders"></i>
     </button>
-    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel"
+        style="width: 330px">
         <div class="offcanvas-header justify-content-end">
             <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div class="offcanvas-body">
-            <form action="" class="row">
-                <h5 class="text-muted mb-2">{{ trans('labels.change_colors') }}</h5>
-                <div class="form-group col-6">
-                    <label for="set_primary_color" class="form-label">{{ trans('labels.primary_color') }}</label>
-                    <input type="color" class="form-control" name="set_primary_color" id="set_primary_color">
+            <div class="card mb-5">
+                <div class="card-header bg-transparent">
+                    <h5>{{ trans('labels.change_colors') }}</h5>
                 </div>
-                <div class="form-group col-6">
-                    <label for="set_secondary_color" class="form-label">{{ trans('labels.secondary_color') }}</label>
-                    <input type="color" class="form-control" name="set_secondary_color" id="set_secondary_color">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="form-group col-6">
+                            <label for="primary_color" class="form-label">{{ trans('labels.primary_color') }}</label>
+                            <input type="color" class="form-control" name="primary_color" id="primary_color"
+                                value="#468F72">
+                        </div>
+                        <div class="form-group col-6">
+                            <label for="secondary_color"
+                                class="form-label">{{ trans('labels.secondary_color') }}</label>
+                            <input type="color" class="form-control" name="secondary_color" id="secondary_color">
+                        </div>
+                    </div>
                 </div>
-            </form>
+                <div class="card-footer bg-transparent">
+                    <button type="button"
+                        class="btn btn-primary btn-change-color w-100">{{ trans('labels.save_changes') }}</button>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header bg-transparent">
+                    <h5>{{ trans('labels.font_family') }}</h5>
+                </div>
+                <div class="card-body">
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="font_family" id="roboto" value="Roboto"
+                            checked>
+                        <label class="form-check-label" for="roboto">
+                            {{ trans('labels.roboto') }}
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="font_family" id="inter" value="Inter">
+                        <label class="form-check-label" for="inter">
+                            {{ trans('labels.inter') }}
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="font_family" id="lato"
+                            value="Lato">
+                        <label class="form-check-label" for="lato">
+                            {{ trans('labels.lato') }}
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="font_family" id="poppins"
+                            value="Poppins">
+                        <label class="form-check-label" for="poppins">
+                            {{ trans('labels.poppins') }}
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="font_family" id="open_sans"
+                            value="Open Sans">
+                        <label class="form-check-label" for="open_sans">
+                            {{ trans('labels.open_sans') }}
+                        </label>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 
@@ -114,7 +176,7 @@
     <script src="{{ url('storage/app/public/admin/js/toastr/toastr.min.js') }}"></script>
     <script src="{{ url('storage/app/public/admin/js/datatable/jquery.dataTables.min.js') }}"></script>
     <script src="{{ url('storage/app/public/admin/js/timepicker/jquery.timepicker.min.js') }}" defer=""></script>
-    <script src="https://unpkg.com/bootstrap-table@1.21.2/dist/bootstrap-table.min.js"></script>
+    <script src="{{ url('storage/app/public/admin/plugins/bootstrap_table/bootstrap-table.min.js') }}"></script>
     <script>
         let are_you_sure = {{ Js::from(trans('messages.are_you_sure')) }};
         let yes = {{ Js::from(trans('messages.yes')) }};
@@ -126,6 +188,60 @@
         let primary_color = $('#primaryColor').css('color');
         let secondary_color = $('#secondaryColor').css('color');
         let light_secondary_color = $('#lightSecondaryColor').css('color');
+        let danger_color = $('#danger_color').css('color');
+
+        function getCookie(name) {
+            "use strict";
+            var cookie_name = name + "=";
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var c = cookies[i];
+                while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+                if (c.indexOf(cookie_name) == 0) return c.substring(cookie_name.length, c.length);
+            }
+            return;
+        }
+
+        function hexToRgb(hex) {
+            var hexString = (hex.charAt(0) == "#") ? hex.substring(1, 7) : hex;
+            var hexInt = parseInt(hexString, 16);
+            var red = (hexInt >> 16) & 255;
+            var green = (hexInt >> 8) & 255;
+            var blue = hexInt & 255;
+            return red + ", " + green + ", " + blue;
+        }
+        var bodyStyles = window.getComputedStyle(document.body);
+        if ($.trim(getCookie("primary_color")) != "") {
+            primary_color = getCookie("primary_color");
+            document.documentElement.style.setProperty('--bs-primary', primary_color);
+            document.documentElement.style.setProperty('--bs-primary-rgb', hexToRgb(primary_color));
+            $('#primary_color').val(primary_color);
+            $('#primaryColor').css('color', primary_color);
+        } else {
+            $('#primary_color').val($.trim(bodyStyles.getPropertyValue('--bs-primary')));
+        }
+        if ($.trim(getCookie("secondary_color")) != "") {
+            secondary_color = getCookie("secondary_color");
+            document.documentElement.style.setProperty('--bs-secondary', secondary_color);
+            document.documentElement.style.setProperty('--bs-secondary-rgb', hexToRgb(secondary_color));
+            $('#secondary_color').val(secondary_color);
+            $('#secondaryColor').css('color', secondary_color);
+            $('#lightSecondaryColor').attr('style', 'color: rgba(' + hexToRgb(secondary_color) + ',0.75)');
+            light_secondary_color = $('#lightSecondaryColor').css('color');
+        } else {
+            $('#secondary_color').val($.trim(bodyStyles.getPropertyValue('--bs-secondary')));
+        }
+
+        if ($.trim(getCookie("font_family")) != "") {
+            document.documentElement.style.setProperty('--bs-font-sans-serif', getCookie("font_family"));
+            document.documentElement.style.setProperty('--bs-font-sans-serif', "'" + getCookie("font_family") +
+                "', sans-serif");
+            $("input[name=font_family][value=" + getCookie('font_family') + "]").prop("checked", true);
+
+        } else {
+            $('#font_family').val($.trim(bodyStyles.getPropertyValue('--bs-font-sans-serif')));
+        }
+
         toastr.options = {
             "closeButton": true
         }

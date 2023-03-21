@@ -109,7 +109,7 @@
                                 <label>{{ trans('labels.booking_date') }}</label>
                             </div>
                             <div class="col-md-8">
-                                <span class="text-muted fs-7 mx-3">{{ Helper::date_format($bookingdata->booking_date) }}</span>
+                                <span class="text-muted fs-7 mx-3">{{ Helper::date_format($bookingdata->start_date) }}</span>
                             </div>
                         </div>
                     </div>

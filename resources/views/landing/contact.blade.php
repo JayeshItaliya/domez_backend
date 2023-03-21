@@ -220,16 +220,13 @@
                 },
                 success: function(response) {
                     if (response.status == 1) {
-                        alert(response.message)
                         $('.send_otp').text('Resend OTP');
                         $('#verify_otp').removeClass('d-none');
                     } else {
-                        alert(response.message)
                         return false;
                     }
                 },
                 error: function(error) {
-                    alert("Something Went Wrong...")
                     return false;
                 }
             });
@@ -249,14 +246,11 @@
                         $('.send_otp').attr('disabled', true);
                         $('#email').attr('readonly', true);
                         $('#contact_us input:not(#name , #email) ,#contact_us_submit').prop('disabled', false);
-                        alert(data.message)
                     } else {
-                        alert(data.message)
                         return false;
                     }
                 },
                 error: function(error) {
-                    alert("Something Went Wrong...")
                     return false;
                 }
             });

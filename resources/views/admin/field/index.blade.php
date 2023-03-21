@@ -56,8 +56,7 @@
                             <td>{{ $i++ }}</td>
                             <td>
                                 <div class="avatar avatar-lg">
-                                    <img src="{{ Helper::image_path($data->image) }}" alt="..." class="rounded"
-                                        style="width: 100px">
+                                    <img src="{{ Helper::image_path($data->image) }}" alt="..." width="100" height="60" class="rounded">
                                 </div>
                             </td>
                             @if (Auth::user()->type == 1)
@@ -70,7 +69,7 @@
                             <td>{{ $data->max_person }}</td>
                             @if (Auth::user()->type == 2)
                                 <td>
-                                    <a href="{{ URL::to('admin/field/edit-') . $data->id }}"
+                                    <a href="{{ URL::to('admin/fields/edit-') . $data->id }}"
                                         class="text-secondary me-2 fs-3" data-bs-toggle="tooltip" data-bs-placement="bottom"
                                         data-bs-title="Edit">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-edit"
@@ -83,7 +82,7 @@
                                             <line x1="16" y1="5" x2="19" y2="8" />
                                         </svg>
                                     </a>
-                                    <a onclick="field_delete('{{ $data->id }}','{{ $data->is_deleted == 2 ? 1 : 2 }}','{{ URL::to('admin/field/delete') }}')"
+                                    <a onclick="deletedata('{{ $data->id }}','{{ URL::to('admin/fields/delete') }}')"
                                         class="text-danger me-2 fs-3" data-bs-toggle="tooltip" data-bs-placement="bottom"
                                         data-bs-title="Delete">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash"
@@ -109,55 +108,5 @@
 @endsection
 
 @section('scripts')
-    <script>
-        if (is_vendor) {
-            $(document).ready(function() {
-                let html =
-                    '<a href="{{ URL::to('admin/fields/add') }}" class="btn-custom-primary"><svg xmlns="http://www.w3.org/2000/svg" class="icon-tabler icon-tabler-plus" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="var(--bs-primary)" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" /></svg></a>';
-                $('.fixed-table-toolbar .btn-group').append(html);
-            })
-        }
-        // Field Delete
-        function field_delete(id, status, url) {
-            "use strict";
-            swalWithBootstrapButtons
-                .fire({
-                    title: are_you_sure,
-                    icon: "warning",
-                    confirmButtonText: yes,
-                    cancelButtonText: no,
-                    showCancelButton: true,
-                    reverseButtons: true,
-                })
-                .then((result) => {
-                    showpreloader();
-                    if (result.isConfirmed) {
-                        $.ajax({
-                            type: "get",
-                            url: url,
-                            data: {
-                                id: id,
-                                status: status,
-                            },
-                            dataType: "json",
-                            success: function(response) {
-                                if (response == 1) {
-                                    hidepreloader();
-                                    toastr.success("Success");
-                                    location.reload();
-                                } else {
-                                    hidepreloader();
-                                    swal_cancelled(wrong);
-                                }
-                            },
-                            failure: function(response) {
-                                hidepreloader();
-                                swal_cancelled(wrong);
-                            },
-                        });
-                    }
-                    hidepreloader();
-                });
-        }
-    </script>
+    <script src="{{ url('resources/views/admin/field/field.js') }}"></script>
 @endsection

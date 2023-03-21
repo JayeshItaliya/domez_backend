@@ -46,15 +46,19 @@ class EnquiryController extends Controller
                 $message->to($data['email']);
             });
 
-            $user = new User;
-            $user->type = 2;
-            $user->login_type = 1;
-            $user->name = $enquiry_data->name;
-            $user->email = $enquiry_data->email;
-            $user->password = Hash::make($password);
-            $user->phone = $enquiry_data->phone;
-            $user->is_verified = 1;
-            $user->save();
+            if (!empty(User::where('type', 2)->where('email', $enquiry_data->email)->first())) {
+                User::where('type', 2)->where('email', $enquiry_data->email)->increment('dome_limit');
+            } else {
+                $user = new User;
+                $user->type = 2;
+                $user->login_type = 1;
+                $user->name = $enquiry_data->name;
+                $user->email = $enquiry_data->email;
+                $user->password = Hash::make($password);
+                $user->phone = $enquiry_data->phone;
+                $user->is_verified = 1;
+                $user->save();
+            }
 
             $enquiry_data->is_accepted = 1;
             $enquiry_data->save();
@@ -205,7 +209,7 @@ class EnquiryController extends Controller
         $getsupportslist = Enquiries::where('type', 5);
         if (Auth::user()->type == 2) {
             $getsupportslist = $getsupportslist->where('vendor_id', Auth::user()->id);
-        }else{
+        } else {
             $getsupportslist = $getsupportslist->where('is_replied', 2);
         }
         $getsupportslist = $getsupportslist->orderByDesc('id')->get();

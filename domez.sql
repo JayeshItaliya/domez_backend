@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 15, 2023 at 11:58 AM
+-- Generation Time: Mar 21, 2023 at 05:18 AM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -65,10 +65,21 @@ CREATE TABLE `bookings` (
 --
 
 INSERT INTO `bookings` (`id`, `type`, `vendor_id`, `dome_id`, `league_id`, `user_id`, `sport_id`, `field_id`, `booking_id`, `booking_date`, `customer_name`, `customer_email`, `customer_mobile`, `team_name`, `players`, `slots`, `start_date`, `end_date`, `start_time`, `end_time`, `total_amount`, `paid_amount`, `due_amount`, `payment_mode`, `payment_type`, `payment_status`, `booking_status`, `token`, `created_at`, `updated_at`) VALUES
-(22, 1, 2, 35, NULL, 7, 6, '2', '554611', '2023-03-15', 'Prof. Geovany Kuhn', 'arno.mayert@example.com', '+14809074204', NULL, 17, '06:30 AM - 07:30 AM', NULL, NULL, '1:41 PM', '11:35 AM', 87.00, 23.00, 26.00, 1, 2, 1, 1, NULL, '2023-02-16 04:57:41', '2023-02-20 04:57:41'),
-(30, 1, 2, 35, NULL, 7, 7, '14', '642194', '1989-11-13', 'Verona Marks MD', 'deshawn.abshire@example.com', '+1.918.990.4786', NULL, 14, '06:30 AM - 07:30 AM', NULL, NULL, '1:24 AM', '3:56 AM', 74.00, 34.00, 19.00, 1, 2, 1, 1, NULL, '2023-02-20 04:57:41', '2023-02-20 04:57:41'),
-(63, 1, 2, 35, NULL, 7, 10, '20', '554611', '2023-04-10', 'james Carter', 'james123@example.com', '+14809074204', NULL, 17, '08:00 PM - 09:00 PM', NULL, NULL, '08:00 PM', '09:00 PM', 87.00, 23.00, 26.00, 1, 2, 1, 1, NULL, '2023-02-16 04:57:41', '2023-02-20 04:57:41'),
-(67, 1, 2, 35, NULL, 7, 10, '8', '42db01', '2023-05-10', 'Soham', 'domez@gmail.com', '6359478772', NULL, 20, '07:00 AM - 08:00 AM', NULL, NULL, '07:00 AM', '08:00 AM', 1000.00, 0.00, 0.00, 1, 1, 1, 1, '', '2023-03-15 05:28:18', '2023-03-15 05:28:18');
+(22, 1, 2, 35, NULL, 7, 6, '2', '554611', '2023-03-15', 'Prof. Geovany Kuhn', 'arno.mayert@example.com', '+14809074204', NULL, 17, '06:30 AM - 07:30 AM', '2023-03-22', NULL, '1:41 PM', '11:35 AM', 87.00, 23.00, 26.00, 1, 2, 1, 1, NULL, '2023-02-16 04:57:41', '2023-02-20 04:57:41'),
+(63, 1, 2, 35, NULL, 7, 10, '20,2', '565454', '2023-04-10', 'james Carter', 'james123@example.com', '+14809074204', NULL, 17, '02:00 AM - 03:00 AM,03:00 AM - 04:00 AM,04:00 AM - 05:00 AM', '2023-03-24', NULL, '08:00 PM', '09:00 PM', 87.00, 23.00, 26.00, 1, 2, 1, 1, NULL, '2023-02-16 04:57:41', '2023-02-20 04:57:41'),
+(68, 1, 2, 35, NULL, 7, 8, '12,13', '325689', '2023-05-13', 'james Carter', 'james123@example.com', '+14809074204', NULL, 17, '02:00 AM - 03:00 AM,03:00 AM - 04:00 AM', '2023-03-09', NULL, '08:00 PM', '09:00 PM', 180.00, 23.00, 26.00, 1, 2, 1, 1, NULL, '2023-02-16 04:57:41', '2023-02-20 04:57:41'),
+(69, 1, 2, 35, NULL, 7, 8, '11', '457856', '2023-05-08', 'james Carter', 'james123@example.com', '+14809074204', NULL, 17, '03:00 AM - 04:00 AM', '2023-03-30', NULL, '03:00 AM', '04:00 AM', 250.00, 23.00, 26.00, 1, 2, 1, 1, NULL, '2023-02-16 04:57:41', '2023-02-20 04:57:41'),
+(70, 1, 2, 35, NULL, 7, 9, '5', '458923', '2023-03-04', 'james Carter', 'james123@example.com', '+14809074204', NULL, 17, '03:00 AM - 04:00 AM,04:00 AM - 05:00 AM', '2023-04-20', NULL, '03:00 AM', '05:00 AM', 87.00, 23.00, 26.00, 1, 2, 1, 1, NULL, '2023-02-25 04:57:41', '2023-02-20 04:57:41'),
+(71, 1, 2, 35, NULL, 7, 7, '3', '458978', '2023-05-16', 'Lorem Ipsum', 'loremipsum@example.com', '+14809074204', NULL, 17, '03:00 AM - 04:00 AM,04:00 AM - 05:00 AM', '2023-03-21', NULL, '03:00 AM', '05:00 AM', 87.00, 23.00, 26.00, 1, 2, 1, 1, NULL, '2023-02-25 04:57:41', '2023-02-20 04:57:41'),
+(72, 1, 2, 35, NULL, 7, 9, '4', '458923', '2023-03-16', 'james Carter', 'james123@example.com', '+14809074204', NULL, 17, '03:00 AM - 04:00 AM,04:00 AM - 05:00 AM', '2023-03-30', NULL, '03:00 AM', '05:00 AM', 87.00, 23.00, 26.00, 1, 2, 1, 1, NULL, '2023-02-25 04:57:41', '2023-02-20 04:57:41'),
+(73, 1, 2, 35, NULL, 7, 9, '6', '458923', '2023-05-16', 'james Carter', 'james123@example.com', '+14809074204', NULL, 17, '03:00 AM - 04:00 AM,04:00 AM - 05:00 AM', '2023-03-07', NULL, '03:00 AM', '05:00 AM', 87.00, 23.00, 26.00, 1, 2, 1, 1, NULL, '2023-02-25 04:57:41', '2023-02-20 04:57:41'),
+(74, 1, 2, 35, NULL, 7, 7, '3', '458978', '2023-04-16', 'Lorem Ipsum', 'loremipsum@example.com', '+14809074204', NULL, 17, '03:00 AM - 04:00 AM,04:00 AM - 05:00 AM', '2023-03-22', NULL, '03:00 AM', '05:00 AM', 87.00, 23.00, 26.00, 1, 2, 1, 1, NULL, '2023-02-25 04:57:41', '2023-02-20 04:57:41'),
+(75, 1, 2, 35, NULL, 7, 6, '30', 'feb086', '2023-03-17', 'Soham', 'domez@gmail.com', '6359478772', NULL, 12, '06:00 AM - 07:00 AM', '2023-03-28', NULL, '06:00 AM', '07:00 AM', 880.00, 90.00, 790.00, 1, 2, 2, 2, '2y10AJCTI10ZEfbzvBqVVuRAepCbXKs2i4PegQuVtQaht7IwSNstsWG', '2023-03-16 23:05:13', '2023-03-16 23:05:13'),
+(76, 1, 2, 35, NULL, 7, 6, '30', '34b86f', '2023-03-18', 'Soham', 'domez@gmail.com', '6359478772', NULL, 12, '03:00 PM - 04:00 PM', '2023-03-30', NULL, '03:00 PM', '04:00 PM', 880.00, 90.00, 790.00, 1, 2, 2, 2, '2y10wTO0zKtivVjQnUHaSZsO3yBMqREEWrAbvj7HQUojipynJD0y7W', '2023-03-16 23:09:25', '2023-03-16 23:09:25'),
+(77, 1, 2, 35, NULL, 7, 6, '31', '2a248b', '2023-03-18', 'Soham', 'domez@gmail.com', '6359478772', NULL, 12, '06:00 AM - 07:00 AM', '2023-03-31', NULL, '06:00 AM', '07:00 AM', 2640.00, 220.00, 2420.00, 1, 2, 2, 2, '2y10FyAjLVLx4YhsVQzePNGctuGVjobiCj72PsFRgdKT3YqxMfopL0Ra', '2023-03-17 00:02:37', '2023-03-17 00:02:37'),
+(78, 1, 2, 35, NULL, 7, 6, '30', '6420c7', '2023-03-21', 'Soham', 'domez@gmail.com', '6359478772', NULL, 12, '10:00 AM - 11:00 AM', '2023-03-12', NULL, '10:00 AM', '11:00 AM', 880.00, 90.00, 790.00, 1, 2, 2, 2, '2y10btNPJ2idHcjrfEOGY16n5OKEkRGNIUoLHgXO50zjQ9jBFu2bnm', '2023-03-17 00:05:38', '2023-03-17 00:05:38'),
+(79, 1, 2, 35, NULL, 7, 6, '33', 'bc3167', '2023-03-18', 'Soham', 'domez@gmail.com', '6359478772', NULL, 12, '07:00 AM - 08:00 AM', '2023-03-06', NULL, '07:00 AM', '08:00 AM', 880.00, 80.00, 800.00, 1, 2, 2, 2, '2y10IZ3pc3IVKlrmpvjF6rqfePRKePgG4v31mBesjram1rpyUXD4y5m', '2023-03-17 07:00:54', '2023-03-17 07:00:54'),
+(80, 1, 2, 35, NULL, 7, 6, '30', '71299e', '2023-03-24', 'Soham', 'domez@gmail.com', '6359478772', NULL, 12, '06:00 AM - 07:00 AM,05:00 PM - 06:00 PM', '2023-04-27', NULL, '05:00 PM', '06:00 PM', 1760.00, 147.00, 1613.00, 1, 2, 2, 2, '2y1071VD3QNZ5NdyupeW4PQ6oeTzAQTRstmq5e7wfujvseV8diaYqJ3C', '2023-03-17 08:01:33', '2023-03-17 08:01:33');
 
 -- --------------------------------------------------------
 
@@ -117,7 +128,7 @@ CREATE TABLE `domes` (
   `lng` varchar(255) NOT NULL,
   `benefits` varchar(255) NOT NULL,
   `benefits_description` text NOT NULL,
-  `is_deleted` tinyint(4) NOT NULL DEFAULT 2 COMMENT '1=yes,2=no',
+  `is_deleted` tinyint(1) NOT NULL DEFAULT 2 COMMENT '1=yes,2=no',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -137,7 +148,6 @@ INSERT INTO `domes` (`id`, `vendor_id`, `sport_id`, `name`, `price`, `hst`, `add
 
 CREATE TABLE `dome_images` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `vendor_id` int(11) NOT NULL,
   `dome_id` int(11) DEFAULT NULL,
   `league_id` int(11) DEFAULT NULL,
   `images` varchar(255) NOT NULL,
@@ -149,12 +159,12 @@ CREATE TABLE `dome_images` (
 -- Dumping data for table `dome_images`
 --
 
-INSERT INTO `dome_images` (`id`, `vendor_id`, `dome_id`, `league_id`, `images`, `created_at`, `updated_at`) VALUES
-(17, 1, 35, NULL, 'dome-63f33f137daf5.png', '2023-02-20 04:06:19', '2023-02-20 04:06:19'),
-(34, 1, NULL, 4, 'dome-63f34d19b1b0f.png', '2023-02-20 05:06:09', '2023-02-20 05:06:09'),
-(35, 1, NULL, 5, 'dome-63f34d3c32dad.png', '2023-02-20 05:06:44', '2023-02-20 05:06:44'),
-(36, 1, NULL, 2, 'dome-63f34e0d03fad.jpg', '2023-02-20 05:10:13', '2023-02-20 05:10:13'),
-(37, 2, NULL, 21, 'league-64048d5489032.jpg', '2023-03-05 07:08:44', '2023-03-05 07:08:44');
+INSERT INTO `dome_images` (`id`, `dome_id`, `league_id`, `images`, `created_at`, `updated_at`) VALUES
+(17, 35, NULL, 'dome-63f33f137daf5.png', '2023-02-20 04:06:19', '2023-02-20 04:06:19'),
+(34, NULL, 4, 'dome-63f34d19b1b0f.png', '2023-02-20 05:06:09', '2023-02-20 05:06:09'),
+(35, NULL, 5, 'dome-63f34d3c32dad.png', '2023-02-20 05:06:44', '2023-02-20 05:06:44'),
+(36, NULL, 2, 'dome-63f34e0d03fad.jpg', '2023-02-20 05:10:13', '2023-02-20 05:10:13'),
+(37, NULL, 21, 'league-64048d5489032.jpg', '2023-03-05 07:08:44', '2023-03-05 07:08:44');
 
 -- --------------------------------------------------------
 
@@ -221,12 +231,10 @@ CREATE TABLE `favourites` (
 --
 
 INSERT INTO `favourites` (`id`, `user_id`, `dome_id`, `league_id`, `created_at`, `updated_at`) VALUES
-(8, 7, NULL, 16, '2023-02-22 00:38:11', '2023-02-22 00:38:11'),
 (9, 7, NULL, 21, '2023-02-22 00:38:11', '2023-02-22 00:38:11'),
-(10, 7, NULL, 1, '2023-02-22 00:38:11', '2023-02-22 00:38:11'),
-(25, 7, 35, NULL, '2023-02-23 01:05:07', '2023-02-23 01:05:07'),
 (82, 7, NULL, 6, '2023-03-01 02:41:00', '2023-03-01 02:41:00'),
-(83, 7, NULL, 11, '2023-03-01 02:41:00', '2023-03-01 02:41:00');
+(106, 7, NULL, 1, '2023-03-20 07:26:31', '2023-03-20 07:26:31'),
+(111, 7, 35, NULL, '2023-03-20 07:28:18', '2023-03-20 07:28:18');
 
 -- --------------------------------------------------------
 
@@ -255,10 +263,36 @@ CREATE TABLE `fields` (
 --
 
 INSERT INTO `fields` (`id`, `vendor_id`, `dome_id`, `sport_id`, `name`, `area`, `min_person`, `max_person`, `image`, `is_available`, `is_deleted`, `created_at`, `updated_at`) VALUES
-(2, 2, 35, '6', '2', 452.00, 5, 30, 'field-1135.jpg', 1, 2, '2023-02-20 05:57:52', '2023-02-20 05:57:52'),
-(8, 2, 35, '6', '3', 452.00, 5, 30, 'field-1135.jpg', 1, 2, '2023-02-20 05:57:52', '2023-02-20 05:57:52'),
-(14, 2, 35, '6', '4', 452.00, 5, 30, 'field-1135.jpg', 1, 2, '2023-02-20 05:57:52', '2023-02-20 05:57:52'),
-(20, 2, 35, '6', '5', 452.00, 5, 30, 'field-1135.jpg', 1, 2, '2023-02-20 05:57:52', '2023-02-20 05:57:52');
+(2, 2, 35, '10', '2', 452.00, 5, 30, 'field-6712.jpg', 1, 2, '2023-02-20 05:57:52', '2023-03-16 06:04:23'),
+(8, 2, 35, '10', '3', 452.00, 10, 20, 'field-3851.jpg', 1, 2, '2023-02-20 05:57:52', '2023-03-16 06:06:21'),
+(14, 2, 35, '10', '4', 452.00, 5, 30, 'field-8856.jpg', 1, 2, '2023-02-20 05:57:52', '2023-03-16 06:11:51'),
+(20, 2, 35, '10', '5', 452.00, 10, 20, 'field-4042.jpg', 1, 2, '2023-02-20 05:57:52', '2023-03-16 06:12:09'),
+(26, 2, 35, '10', '6', 452.00, 5, 30, 'field-9648.jpg', 1, 2, '2023-02-20 05:57:52', '2023-03-16 06:14:23'),
+(30, 2, 35, '6', '2', 452.00, 5, 30, 'field-8878.jpg', 1, 2, '2023-02-20 05:57:52', '2023-03-16 06:14:53'),
+(31, 2, 35, '6', '3', 452.00, 5, 30, 'field-1132.jpg', 1, 2, '2023-02-20 05:57:52', '2023-03-16 06:15:04'),
+(32, 2, 35, '6', '4', 452.00, 5, 30, 'field-930.jpg', 1, 2, '2023-02-20 05:57:52', '2023-03-16 06:15:17'),
+(33, 2, 35, '6', '5', 452.00, 5, 30, 'field-3042.jpg', 1, 2, '2023-02-20 05:57:52', '2023-03-16 06:15:30'),
+(35, 2, 35, '6', '6', 452.00, 5, 30, 'field-6425.jpg', 1, 2, '2023-02-20 05:57:52', '2023-03-16 06:15:45'),
+(36, 2, 35, '7', '2', 452.00, 5, 30, 'field-1765.jpg', 1, 2, '2023-02-20 05:57:52', '2023-03-16 06:16:24'),
+(37, 2, 35, '7', '3', 452.00, 5, 30, 'field-8646.jpg', 1, 2, '2023-02-20 05:57:52', '2023-03-16 06:16:20'),
+(38, 2, 35, '7', '4', 452.00, 5, 30, 'field-6651.jpg', 1, 2, '2023-02-20 05:57:52', '2023-03-16 06:16:15'),
+(39, 2, 35, '7', '5', 452.00, 5, 30, 'field-7202.jpg', 1, 2, '2023-02-20 05:57:52', '2023-03-16 06:17:00'),
+(41, 2, 35, '7', '6', 452.00, 5, 30, 'field-7972.jpg', 1, 2, '2023-02-20 05:57:52', '2023-03-16 06:16:03'),
+(42, 2, 35, '9', '2', 452.00, 5, 30, 'field-2421.jpg', 1, 2, '2023-02-20 05:57:52', '2023-03-16 06:18:12'),
+(43, 2, 35, '9', '3', 452.00, 5, 30, 'field-8043.jpg', 1, 2, '2023-02-20 05:57:52', '2023-03-16 06:18:20'),
+(44, 2, 35, '9', '4', 452.00, 5, 30, 'field-4164.jpg', 1, 2, '2023-02-20 05:57:52', '2023-03-16 06:18:36'),
+(45, 2, 35, '9', '5', 452.00, 5, 30, 'field-5229.jpg', 1, 2, '2023-02-20 05:57:52', '2023-03-16 06:18:42'),
+(47, 2, 35, '9', '6', 452.00, 5, 30, 'field-9338.jpg', 1, 2, '2023-02-20 05:57:52', '2023-03-16 06:18:47'),
+(48, 2, 35, '8', '11', 452.00, 15, 30, 'field-6519.jpg', 1, 2, '2023-02-20 05:57:52', '2023-03-16 06:21:55'),
+(49, 2, 35, '8', '12', 452.00, 18, 30, 'field-9539.jpg', 1, 2, '2023-02-20 05:57:52', '2023-03-16 06:22:01'),
+(50, 2, 35, '8', '13', 452.00, 5, 30, 'field-4828.jpg', 1, 2, '2023-02-20 05:57:52', '2023-03-16 06:22:04'),
+(51, 2, 35, '8', '14', 452.00, 20, 30, 'field-4585.jpg', 1, 2, '2023-02-20 05:57:52', '2023-03-16 06:22:08'),
+(52, 2, 35, '8', '15', 452.00, 25, 30, 'field-9362.jpg', 1, 2, '2023-02-20 05:57:52', '2023-03-16 06:22:12'),
+(53, 2, 35, '8', '16', 452.00, 5, 30, 'field-897.jpg', 1, 2, '2023-02-20 05:57:52', '2023-03-16 06:22:39'),
+(54, 2, 35, '11', '21', 0.00, 5, 15, 'field-530.jpg', 1, 2, '2023-03-16 06:38:44', '2023-03-16 06:38:44'),
+(55, 2, 35, '11', '22', 0.00, 10, 20, 'field-4067.jpg', 1, 2, '2023-03-16 06:39:54', '2023-03-16 06:39:54'),
+(56, 2, 35, '12', '4', 0.00, 20, 40, 'field-7168.jpg', 1, 2, '2023-03-16 06:42:14', '2023-03-16 06:42:14'),
+(57, 2, 35, '12', '5', 0.00, 10, 20, 'field-8987.jpg', 1, 2, '2023-03-16 06:43:04', '2023-03-16 06:43:04');
 
 -- --------------------------------------------------------
 
@@ -294,11 +328,9 @@ CREATE TABLE `leagues` (
 --
 
 INSERT INTO `leagues` (`id`, `vendor_id`, `dome_id`, `field_id`, `sport_id`, `name`, `start_date`, `end_date`, `start_time`, `end_time`, `from_age`, `to_age`, `gender`, `min_player`, `max_player`, `team_limit`, `price`, `is_deleted`, `created_at`, `updated_at`) VALUES
-(1, 2, 35, '2,8', 7, 'Regular Old Football League', '2023-03-10', '2023-04-10', '09:00 AM', '05:00 PM', 16, 28, 1, 12, 17, 13, 1489, 2, '2023-02-20 06:56:50', '2023-02-20 06:56:50'),
-(6, 2, 35, '2,14', 6, 'Regular Old Football League', '2023-03-10', '2023-04-10', '09:00 AM', '05:00 PM', 16, 28, 1, 12, 17, 13, 1489, 2, '2023-02-20 06:56:50', '2023-02-20 06:56:50'),
-(11, 2, 35, '2', 8, 'Regular Old Football League', '2023-03-10', '2023-04-10', '09:00 AM', '05:00 PM', 16, 28, 1, 12, 17, 13, 1489, 2, '2023-02-20 06:56:50', '2023-02-20 06:56:50'),
-(16, 2, 35, '2,20', 9, 'Regular Old Football League', '2023-03-10', '2023-04-10', '09:00 AM', '05:00 PM', 16, 28, 1, 12, 17, 13, 1489, 2, '2023-02-20 06:56:50', '2023-02-20 06:56:50'),
-(21, 2, 35, '2', 10, 'Ipsum League', '2023-03-14', '2023-03-31', '01:00 AM', '04:00 AM', 14, 18, 2, 3, 6, 6, 120, 2, '2023-03-05 07:08:44', '2023-03-14 04:37:02');
+(1, 2, 35, '8,2', 7, 'The Golf League', '2023-03-16', '2023-04-10', '09:00 AM', '05:00 PM', 16, 28, 1, 12, 17, 13, 1489, 2, '2023-02-20 06:56:50', '2023-03-16 07:08:09'),
+(11, 2, 35, '2', 6, 'The Soccer League', '2023-03-16', '2023-04-10', '09:00 AM', '05:00 PM', 16, 28, 1, 12, 17, 13, 1489, 2, '2023-02-20 06:56:50', '2023-03-16 07:03:19'),
+(16, 2, 35, '20,2', 10, 'The Volleyball League', '2023-03-16', '2023-04-10', '09:00 AM', '05:00 PM', 16, 28, 1, 12, 17, 13, 1489, 2, '2023-02-20 06:56:50', '2023-03-16 07:02:49');
 
 -- --------------------------------------------------------
 
@@ -464,45 +496,45 @@ CREATE TABLE `set_prices_days_slots` (
 --
 
 INSERT INTO `set_prices_days_slots` (`id`, `set_prices_id`, `start_time`, `end_time`, `day`, `price`, `created_at`, `updated_at`) VALUES
-(31, 5, '01:00 AM', '03:00 AM', 'monday', 120, '2023-03-12 05:30:16', '2023-03-12 05:30:16'),
-(32, 5, '03:00 AM', '06:00 AM', 'monday', 150, '2023-03-12 05:30:16', '2023-03-12 05:30:16'),
-(33, 5, '07:00 AM', '12:00 PM', 'monday', 170, '2023-03-12 05:30:16', '2023-03-12 05:30:16'),
-(34, 5, '04:00 PM', '11:00 PM', 'monday', 190, '2023-03-12 05:30:16', '2023-03-12 05:30:16'),
-(35, 5, '06:00 AM', '11:00 AM', 'tuesday', 50, '2023-03-12 05:30:16', '2023-03-12 05:30:16'),
-(36, 5, '01:00 PM', '07:00 AM', 'tuesday', 40, '2023-03-12 05:30:16', '2023-03-12 05:30:16'),
-(37, 5, '10:00 AM', '12:00 PM', 'wednesday', 120, '2023-03-12 05:30:16', '2023-03-12 05:30:16'),
-(38, 5, '01:00 PM', '02:00 PM', 'thursday', 80, '2023-03-12 05:30:16', '2023-03-12 05:30:16'),
-(39, 5, '05:00 PM', '11:00 PM', 'thursday', 100, '2023-03-12 05:30:16', '2023-03-12 05:30:16'),
-(40, 5, '07:00 PM', '09:00 PM', 'friday', 50, '2023-03-12 05:30:16', '2023-03-12 05:30:16'),
-(41, 5, '01:00 AM', '06:00 AM', 'saturday', 120, '2023-03-12 05:30:16', '2023-03-12 05:30:16'),
-(42, 5, '03:00 PM', '09:00 PM', 'saturday', 200, '2023-03-12 05:30:16', '2023-03-12 05:30:16'),
-(43, 5, '06:00 PM', '10:00 PM', 'sunday', 1100, '2023-03-12 05:30:16', '2023-03-12 05:30:16'),
-(44, 15, '01:00 AM', '03:00 AM', 'monday', 120, '2023-03-12 05:30:16', '2023-03-12 05:30:16'),
-(45, 15, '03:00 AM', '06:00 AM', 'monday', 150, '2023-03-12 05:30:16', '2023-03-12 05:30:16'),
-(46, 15, '07:00 AM', '12:00 PM', 'monday', 170, '2023-03-12 05:30:16', '2023-03-12 05:30:16'),
-(47, 15, '04:00 PM', '11:00 PM', 'monday', 190, '2023-03-12 05:30:16', '2023-03-12 05:30:16'),
-(48, 15, '06:00 AM', '11:00 AM', 'tuesday', 50, '2023-03-12 05:30:16', '2023-03-12 05:30:16'),
-(49, 15, '01:00 PM', '07:00 AM', 'tuesday', 40, '2023-03-12 05:30:16', '2023-03-12 05:30:16'),
-(50, 15, '10:00 AM', '12:00 PM', 'wednesday', 120, '2023-03-12 05:30:16', '2023-03-12 05:30:16'),
-(51, 15, '01:00 PM', '02:00 PM', 'thursday', 80, '2023-03-12 05:30:16', '2023-03-12 05:30:16'),
-(52, 15, '05:00 PM', '11:00 PM', 'thursday', 100, '2023-03-12 05:30:16', '2023-03-12 05:30:16'),
-(53, 15, '07:00 PM', '09:00 PM', 'friday', 50, '2023-03-12 05:30:16', '2023-03-12 05:30:16'),
-(54, 15, '01:00 AM', '06:00 AM', 'saturday', 120, '2023-03-12 05:30:16', '2023-03-12 05:30:16'),
-(55, 15, '03:00 PM', '09:00 PM', 'saturday', 200, '2023-03-12 05:30:16', '2023-03-12 05:30:16'),
-(56, 15, '06:00 PM', '10:00 PM', 'sunday', 1100, '2023-03-12 05:30:16', '2023-03-12 05:30:16'),
-(57, 16, '01:00 AM', '03:00 AM', 'monday', 120, '2023-03-12 05:30:16', '2023-03-12 05:30:16'),
-(58, 16, '03:00 AM', '06:00 AM', 'monday', 150, '2023-03-12 05:30:16', '2023-03-12 05:30:16'),
-(59, 16, '07:00 AM', '12:00 PM', 'monday', 170, '2023-03-12 05:30:16', '2023-03-12 05:30:16'),
-(60, 16, '04:00 PM', '11:00 PM', 'monday', 190, '2023-03-12 05:30:16', '2023-03-12 05:30:16'),
-(61, 16, '06:00 AM', '11:00 AM', 'tuesday', 50, '2023-03-12 05:30:16', '2023-03-12 05:30:16'),
-(62, 16, '01:00 PM', '07:00 AM', 'tuesday', 40, '2023-03-12 05:30:16', '2023-03-12 05:30:16'),
-(63, 16, '10:00 AM', '12:00 PM', 'wednesday', 120, '2023-03-12 05:30:16', '2023-03-12 05:30:16'),
-(64, 16, '01:00 PM', '02:00 PM', 'thursday', 80, '2023-03-12 05:30:16', '2023-03-12 05:30:16'),
-(65, 16, '05:00 PM', '11:00 PM', 'thursday', 100, '2023-03-12 05:30:16', '2023-03-12 05:30:16'),
-(66, 16, '07:00 PM', '09:00 PM', 'friday', 50, '2023-03-12 05:30:16', '2023-03-12 05:30:16'),
-(67, 16, '01:00 AM', '06:00 AM', 'saturday', 120, '2023-03-12 05:30:16', '2023-03-12 05:30:16'),
-(68, 16, '03:00 PM', '09:00 PM', 'saturday', 200, '2023-03-12 05:30:16', '2023-03-12 05:30:16'),
-(69, 16, '06:00 PM', '10:00 PM', 'sunday', 1100, '2023-03-12 05:30:16', '2023-03-12 05:30:16');
+(70, 16, '01:00 AM', '03:00 AM', 'monday', 120, '2023-03-16 21:45:53', '2023-03-16 21:45:53'),
+(71, 16, '03:00 AM', '06:00 AM', 'monday', 150, '2023-03-16 21:45:53', '2023-03-16 21:45:53'),
+(72, 16, '07:00 AM', '12:00 PM', 'monday', 170, '2023-03-16 21:45:53', '2023-03-16 21:45:53'),
+(73, 16, '04:00 PM', '11:00 PM', 'monday', 190, '2023-03-16 21:45:53', '2023-03-16 21:45:53'),
+(74, 16, '06:00 AM', '11:00 AM', 'tuesday', 50, '2023-03-16 21:45:53', '2023-03-16 21:45:53'),
+(75, 16, '01:00 PM', '07:00 AM', 'tuesday', 40, '2023-03-16 21:45:53', '2023-03-16 21:45:53'),
+(76, 16, '04:00 AM', '11:00 PM', 'wednesday', 120, '2023-03-16 21:45:53', '2023-03-16 21:45:53'),
+(77, 16, '01:00 PM', '02:00 PM', 'thursday', 80, '2023-03-16 21:45:53', '2023-03-16 21:45:53'),
+(78, 16, '05:00 PM', '11:00 PM', 'thursday', 100, '2023-03-16 21:45:53', '2023-03-16 21:45:53'),
+(79, 16, '04:00 PM', '11:00 PM', 'friday', 50, '2023-03-16 21:45:53', '2023-03-16 21:45:53'),
+(80, 16, '01:00 AM', '06:00 AM', 'saturday', 120, '2023-03-16 21:45:53', '2023-03-16 21:45:53'),
+(81, 16, '03:00 PM', '09:00 PM', 'saturday', 200, '2023-03-16 21:45:53', '2023-03-16 21:45:53'),
+(82, 16, '09:00 AM', '09:00 PM', 'sunday', 1100, '2023-03-16 21:45:53', '2023-03-16 21:45:53'),
+(83, 15, '01:00 AM', '03:00 AM', 'monday', 120, '2023-03-16 21:48:44', '2023-03-16 21:48:44'),
+(84, 15, '03:00 AM', '06:00 AM', 'monday', 150, '2023-03-16 21:48:44', '2023-03-16 21:48:44'),
+(85, 15, '07:00 AM', '12:00 PM', 'monday', 170, '2023-03-16 21:48:44', '2023-03-16 21:48:44'),
+(86, 15, '04:00 PM', '11:00 PM', 'monday', 190, '2023-03-16 21:48:44', '2023-03-16 21:48:44'),
+(87, 15, '06:00 AM', '11:00 AM', 'tuesday', 50, '2023-03-16 21:48:44', '2023-03-16 21:48:44'),
+(88, 15, '01:00 PM', '07:00 AM', 'tuesday', 40, '2023-03-16 21:48:44', '2023-03-16 21:48:44'),
+(89, 15, '10:00 AM', '10:00 PM', 'wednesday', 120, '2023-03-16 21:48:44', '2023-03-16 21:48:44'),
+(90, 15, '01:00 PM', '02:00 PM', 'thursday', 80, '2023-03-16 21:48:44', '2023-03-16 21:48:44'),
+(91, 15, '05:00 PM', '11:00 PM', 'thursday', 100, '2023-03-16 21:48:44', '2023-03-16 21:48:44'),
+(92, 15, '04:00 AM', '09:00 PM', 'friday', 50, '2023-03-16 21:48:44', '2023-03-16 21:48:44'),
+(93, 15, '01:00 AM', '06:00 AM', 'saturday', 120, '2023-03-16 21:48:44', '2023-03-16 21:48:44'),
+(94, 15, '03:00 PM', '09:00 PM', 'saturday', 200, '2023-03-16 21:48:44', '2023-03-16 21:48:44'),
+(95, 15, '03:00 AM', '10:00 PM', 'sunday', 1100, '2023-03-16 21:48:44', '2023-03-16 21:48:44'),
+(96, 5, '01:00 AM', '03:00 AM', 'monday', 120, '2023-03-16 21:49:19', '2023-03-16 21:49:19'),
+(97, 5, '03:00 AM', '06:00 AM', 'monday', 150, '2023-03-16 21:49:19', '2023-03-16 21:49:19'),
+(98, 5, '07:00 AM', '12:00 PM', 'monday', 170, '2023-03-16 21:49:19', '2023-03-16 21:49:19'),
+(99, 5, '04:00 PM', '11:00 PM', 'monday', 190, '2023-03-16 21:49:19', '2023-03-16 21:49:19'),
+(100, 5, '06:00 AM', '11:00 AM', 'tuesday', 50, '2023-03-16 21:49:19', '2023-03-16 21:49:19'),
+(101, 5, '01:00 PM', '07:00 AM', 'tuesday', 40, '2023-03-16 21:49:19', '2023-03-16 21:49:19'),
+(102, 5, '10:00 AM', '10:00 PM', 'wednesday', 120, '2023-03-16 21:49:19', '2023-03-16 21:49:19'),
+(103, 5, '01:00 PM', '02:00 PM', 'thursday', 80, '2023-03-16 21:49:19', '2023-03-16 21:49:19'),
+(104, 5, '05:00 PM', '11:00 PM', 'thursday', 100, '2023-03-16 21:49:19', '2023-03-16 21:49:19'),
+(105, 5, '05:00 AM', '09:00 PM', 'friday', 50, '2023-03-16 21:49:19', '2023-03-16 21:49:19'),
+(106, 5, '01:00 AM', '06:00 AM', 'saturday', 120, '2023-03-16 21:49:19', '2023-03-16 21:49:19'),
+(107, 5, '03:00 PM', '09:00 PM', 'saturday', 200, '2023-03-16 21:49:19', '2023-03-16 21:49:19'),
+(108, 5, '02:00 AM', '10:00 PM', 'sunday', 1100, '2023-03-16 21:49:19', '2023-03-16 21:49:19');
 
 -- --------------------------------------------------------
 
@@ -526,10 +558,12 @@ CREATE TABLE `sports` (
 
 INSERT INTO `sports` (`id`, `name`, `image`, `is_available`, `is_deleted`, `created_at`, `updated_at`) VALUES
 (6, 'Soccer', 'sport-9355.png', 1, 2, '2023-02-20 03:35:39', '2023-03-10 06:37:36'),
-(7, 'Golf', 'sport-3424.png', 1, 2, '2023-02-20 03:35:56', '2023-02-20 03:35:56'),
-(8, 'Basketball', 'sport-9595.png', 1, 2, '2023-02-20 03:37:44', '2023-02-20 03:37:44'),
-(9, 'Cricket', 'sport-1841.png', 1, 2, '2023-02-20 03:41:14', '2023-02-20 03:41:14'),
-(10, 'Vollyball', 'sport-2840.png', 1, 2, '2023-02-20 03:43:02', '2023-02-20 03:43:02');
+(7, 'Golf', 'sport-4980.png', 1, 2, '2023-02-20 03:35:56', '2023-03-16 06:23:56'),
+(8, 'Basketball', 'sport-8484.png', 1, 2, '2023-02-20 03:37:44', '2023-03-16 06:24:04'),
+(9, 'Cricket', 'sport-9539.png', 1, 2, '2023-02-20 03:41:14', '2023-03-16 06:24:15'),
+(10, 'Vollyball', 'sport-7688.png', 1, 2, '2023-02-20 03:43:02', '2023-03-16 06:24:29'),
+(11, 'Frisbee', 'sport-6527.png', 1, 2, '2023-03-16 06:24:52', '2023-03-16 06:24:52'),
+(12, 'Hockey', 'sport-8189.png', 1, 2, '2023-03-16 06:25:13', '2023-03-16 06:25:13');
 
 -- --------------------------------------------------------
 
@@ -559,10 +593,20 @@ CREATE TABLE `transactions` (
 --
 
 INSERT INTO `transactions` (`id`, `type`, `vendor_id`, `dome_id`, `league_id`, `field_id`, `user_id`, `booking_id`, `contributor_name`, `payment_method`, `transaction_id`, `amount`, `created_at`, `updated_at`) VALUES
-(1, 0, 2, 35, NULL, '8', 7, 'b98541', NULL, 1, '1c2132121c1132ee1ee21e2e1edw', 1000.00, '2023-03-15 05:20:57', '2023-03-15 05:20:57'),
-(2, 0, 2, 35, NULL, '8', 7, 'f8da0d', NULL, 1, '1c2132121c1132ee1ee21e2e1edw', 1000.00, '2023-03-15 05:27:20', '2023-03-15 05:27:20'),
-(3, 0, 2, 35, NULL, '8', 7, 'c3200a', NULL, 1, '1c2132121c1132ee1ee21e2e1edw', 1000.00, '2023-03-15 05:28:00', '2023-03-15 05:28:00'),
-(4, 0, 2, 35, NULL, '8', 7, '42db01', NULL, 1, '1c2132121c1132ee1ee21e2e1edw', 1000.00, '2023-03-15 05:28:18', '2023-03-15 05:28:18');
+(1, 1, 2, 35, NULL, '8', 7, 'b98541', NULL, 1, '1c2132121c1132ee1ee21e2e1edw', 1000.00, '2023-03-15 05:20:57', '2023-03-15 05:20:57'),
+(2, 1, 2, 35, NULL, '8', 7, 'f8da0d', NULL, 1, '1c2132121c1132ee1ee21e2e1edw', 1000.00, '2023-03-15 05:27:20', '2023-03-15 05:27:20'),
+(3, 1, 2, 35, NULL, '8', 7, 'c3200a', NULL, 1, '1c2132121c1132ee1ee21e2e1edw', 1000.00, '2023-03-15 05:28:00', '2023-03-15 05:28:00'),
+(4, 1, 2, 35, NULL, '8', 7, '42db01', NULL, 1, '1c2132121c1132ee1ee21e2e1edw', 1000.00, '2023-03-15 05:28:18', '2023-03-15 05:28:18'),
+(5, 1, 2, 35, NULL, '8', 7, 'b98541', NULL, 1, '1c2132121c1132ee1ee21e2e1edw', 120.00, '2023-03-08 05:20:57', '2023-03-15 05:20:57'),
+(6, 1, 2, 35, NULL, '8', 7, 'f8da0d', NULL, 1, '1c2132121c1132ee1ee21e2e1edw', 150.00, '2023-02-08 05:27:20', '2023-03-15 05:27:20'),
+(7, 1, 2, 35, NULL, '8', 7, 'c3200a', NULL, 1, '1c2132121c1132ee1ee21e2e1edw', 200.00, '2023-02-15 05:28:00', '2023-03-15 05:28:00'),
+(8, 1, 2, 35, NULL, '8', 7, '42db01', NULL, 1, '1c2132121c1132ee1ee21e2e1edw', 350.00, '2023-02-14 05:28:18', '2023-03-15 05:28:18'),
+(9, 0, 2, 35, NULL, '30', 7, 'feb086', NULL, 1, 'pi_3MmV0GFysF0okTxJ0kGziJSH', 90.00, '2023-03-16 23:05:13', '2023-03-16 23:05:13'),
+(10, 0, 2, 35, NULL, '30', 7, '34b86f', NULL, 1, 'pi_3MmV4NFysF0okTxJ1n3TgWGT', 90.00, '2023-03-16 23:09:25', '2023-03-16 23:09:25'),
+(11, 0, 2, 35, NULL, '31', 7, '2a248b', NULL, 1, 'pi_3MmVtlFysF0okTxJ04yXLIzF', 220.00, '2023-03-17 00:02:37', '2023-03-17 00:02:37'),
+(12, 0, 2, 35, NULL, '30', 7, '6420c7', NULL, 1, 'pi_3MmVwlFysF0okTxJ1yp8ZZRp', 90.00, '2023-03-17 00:05:38', '2023-03-17 00:05:38'),
+(13, 0, 2, 35, NULL, '33', 7, 'bc3167', NULL, 1, 'pi_3MmcQbFysF0okTxJ0VqbZG0E', 80.00, '2023-03-17 07:00:54', '2023-03-17 07:00:54'),
+(14, 0, 2, 35, NULL, '30', 7, '71299e', NULL, 1, 'pi_3MmdNKFysF0okTxJ0LLPnqhl', 147.00, '2023-03-17 08:01:33', '2023-03-17 08:01:33');
 
 -- --------------------------------------------------------
 
@@ -574,6 +618,7 @@ CREATE TABLE `users` (
   `id` int(10) UNSIGNED NOT NULL,
   `type` int(11) NOT NULL COMMENT '1=Admin, 2=Dome Owner, 3=User',
   `login_type` int(11) NOT NULL DEFAULT 1 COMMENT '1=Email, 2=Google, 3=Apple, 4=Facebook',
+  `dome_limit` tinyint(4) DEFAULT NULL COMMENT 'Only For Dome Owqner',
   `name` varchar(255) DEFAULT NULL,
   `email` varchar(255) DEFAULT NULL,
   `countrycode` varchar(255) DEFAULT NULL,
@@ -596,10 +641,43 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `type`, `login_type`, `name`, `email`, `countrycode`, `phone`, `password`, `google_id`, `apple_id`, `facebook_id`, `fcm_token`, `otp`, `image`, `is_verified`, `is_available`, `is_deleted`, `created_at`, `updated_at`) VALUES
-(1, 1, 1, 'Admin', 'admin@gmail.com', 'CA', '1234567890', '$2y$10$z0eXm5BtjQQP77GHRvJAGOIp1osY2Lx0NvMvmkpTgPzpiTUvnIlri', NULL, NULL, NULL, NULL, NULL, 'default.png', 1, 1, 2, '2023-02-06 05:11:02', '2023-02-06 05:11:02'),
-(2, 2, 1, 'domez', 'domez@yopmail.com', 'CA', '1234657890', '$2y$10$z0eXm5BtjQQP77GHRvJAGOIp1osY2Lx0NvMvmkpTgPzpiTUvnIlri', NULL, NULL, NULL, NULL, NULL, 'default.png', 1, 1, 2, '2023-02-06 00:03:03', '2023-02-22 04:12:48'),
-(7, 3, 1, 'Soham', 'domez@gmail.com', 'CA', '6359478772', '$2y$10$gtan0ZH/DCiZmnR2yLGiyeZAR0YeEu9krVXGHQfXBqk63ep0WQEEm', NULL, NULL, NULL, NULL, NULL, 'default.png', 1, 1, 2, '2023-02-19 02:22:29', '2023-02-19 05:28:51');
+INSERT INTO `users` (`id`, `type`, `login_type`, `dome_limit`, `name`, `email`, `countrycode`, `phone`, `password`, `google_id`, `apple_id`, `facebook_id`, `fcm_token`, `otp`, `image`, `is_verified`, `is_available`, `is_deleted`, `created_at`, `updated_at`) VALUES
+(1, 1, 1, NULL, 'Admin', 'admin@gmail.com', 'CA', '1234567890', '$2y$10$z0eXm5BtjQQP77GHRvJAGOIp1osY2Lx0NvMvmkpTgPzpiTUvnIlri', NULL, NULL, NULL, NULL, NULL, 'default.png', 1, 1, 2, '2023-02-06 05:11:02', '2023-02-06 05:11:02'),
+(2, 2, 1, NULL, 'domez', 'domez@yopmail.com', 'CA', '1234657890', '$2y$10$z0eXm5BtjQQP77GHRvJAGOIp1osY2Lx0NvMvmkpTgPzpiTUvnIlri', NULL, NULL, NULL, NULL, NULL, 'default.png', 1, 1, 2, '2023-02-06 00:03:03', '2023-02-22 04:12:48'),
+(35, 3, 1, NULL, 'Mona Vosa', 'mona@gmail.com', 'CA', '8946555414', '$2y$10$gtan0ZH/DCiZmnR2yLGiyeZAR0YeEu9krVXGHQfXBqk63ep0WQEEm', NULL, NULL, NULL, NULL, NULL, 'default.png', 1, 1, 2, '2023-05-19 02:22:29', '2023-05-19 05:28:51'),
+(34, 3, 1, NULL, 'Docote Voho', 'docote@gmail.com', 'CA', '54654154654', '$2y$10$gtan0ZH/DCiZmnR2yLGiyeZAR0YeEu9krVXGHQfXBqk63ep0WQEEm', NULL, NULL, NULL, NULL, NULL, 'default.png', 1, 1, 2, '2023-05-19 02:22:29', '2023-05-19 05:28:51'),
+(7, 3, 1, NULL, 'Soham', 'domez@gmail.com', 'CA', '6359478772', '$2y$10$gtan0ZH/DCiZmnR2yLGiyeZAR0YeEu9krVXGHQfXBqk63ep0WQEEm', NULL, NULL, NULL, NULL, NULL, 'default.png', 1, 1, 2, '2023-02-19 02:22:29', '2023-02-19 05:28:51'),
+(33, 3, 1, NULL, 'Emmilia vice', 'emmilia@gmail.com', 'CA', '54654154654', '$2y$10$gtan0ZH/DCiZmnR2yLGiyeZAR0YeEu9krVXGHQfXBqk63ep0WQEEm', NULL, NULL, NULL, NULL, NULL, 'default.png', 1, 1, 2, '2023-04-19 02:22:29', '2023-05-19 05:28:51'),
+(30, 3, 1, NULL, 'Wirag Wilow', 'wirag@gmail.com', 'CA', '684651616553', '$2y$10$gtan0ZH/DCiZmnR2yLGiyeZAR0YeEu9krVXGHQfXBqk63ep0WQEEm', NULL, NULL, NULL, NULL, NULL, 'default.png', 1, 1, 2, '2023-03-15 02:22:29', '2023-02-19 05:28:51'),
+(29, 3, 1, NULL, 'Wirag Wilow', 'wirag@gmail.com', 'CA', '684651616553', '$2y$10$gtan0ZH/DCiZmnR2yLGiyeZAR0YeEu9krVXGHQfXBqk63ep0WQEEm', NULL, NULL, NULL, NULL, NULL, 'default.png', 1, 1, 2, '2023-03-19 02:22:29', '2023-02-19 05:28:51'),
+(28, 3, 1, NULL, 'Lorem Ipsum', 'lorem@gmail.com', 'CA', '15646516541', '$2y$10$gtan0ZH/DCiZmnR2yLGiyeZAR0YeEu9krVXGHQfXBqk63ep0WQEEm', NULL, NULL, NULL, NULL, NULL, 'default.png', 1, 1, 2, '2023-01-19 02:22:29', '2023-02-19 05:28:51'),
+(27, 3, 1, NULL, 'Jessy Carter', 'jessy@gmail.com', 'CA', '6546484516541', '$2y$10$gtan0ZH/DCiZmnR2yLGiyeZAR0YeEu9krVXGHQfXBqk63ep0WQEEm', NULL, NULL, NULL, NULL, NULL, 'default.png', 1, 1, 2, '2023-01-19 02:22:29', '2023-02-19 05:28:51'),
+(26, 3, 1, NULL, 'Clara Demosy', 'clara@gmail.com', 'CA', '184651541', '$2y$10$gtan0ZH/DCiZmnR2yLGiyeZAR0YeEu9krVXGHQfXBqk63ep0WQEEm', NULL, NULL, NULL, NULL, NULL, 'default.png', 1, 1, 2, '2023-02-19 02:22:29', '2023-02-19 05:28:51'),
+(25, 3, 1, NULL, 'Chrie Bovotie', 'chriee@gmail.com', 'CA', '896546416541', '$2y$10$gtan0ZH/DCiZmnR2yLGiyeZAR0YeEu9krVXGHQfXBqk63ep0WQEEm', NULL, NULL, NULL, NULL, NULL, 'default.png', 1, 1, 2, '2023-02-19 02:22:29', '2023-02-19 05:28:51'),
+(24, 3, 1, NULL, 'Jessica Wislson', 'jessica@gmail.com', 'CA', '865465454', '$2y$10$gtan0ZH/DCiZmnR2yLGiyeZAR0YeEu9krVXGHQfXBqk63ep0WQEEm', NULL, NULL, NULL, NULL, NULL, 'default.png', 1, 1, 2, '2023-02-19 02:22:29', '2023-02-19 05:28:51'),
+(23, 3, 1, NULL, 'James Carter', 'james@gmail.com', 'CA', '21321231231', '$2y$10$gtan0ZH/DCiZmnR2yLGiyeZAR0YeEu9krVXGHQfXBqk63ep0WQEEm', NULL, NULL, NULL, NULL, NULL, 'default.png', 1, 1, 2, '2023-02-19 02:22:29', '2023-02-19 05:28:51'),
+(46, 2, 1, NULL, 'doMEZ 123', 'domez123@yopmail.com', 'CA', '1234657890', '$2y$10$z0eXm5BtjQQP77GHRvJAGOIp1osY2Lx0NvMvmkpTgPzpiTUvnIlri', NULL, NULL, NULL, NULL, NULL, 'default.png', 1, 1, 2, '2023-02-06 00:03:03', '2023-02-22 04:12:48'),
+(38, 3, 1, NULL, 'Monna', 'monna@gmail.com', 'CA', '894165161', '$2y$10$gtan0ZH/DCiZmnR2yLGiyeZAR0YeEu9krVXGHQfXBqk63ep0WQEEm', NULL, NULL, NULL, NULL, NULL, 'default.png', 1, 1, 2, '2023-03-13 02:22:29', '2023-05-19 05:28:51'),
+(39, 3, 1, NULL, 'Monnalisssa', 'monnalisssa@gmail.com', 'CA', '894165161', '$2y$10$gtan0ZH/DCiZmnR2yLGiyeZAR0YeEu9krVXGHQfXBqk63ep0WQEEm', NULL, NULL, NULL, NULL, NULL, 'default.png', 1, 1, 2, '2023-03-15 02:22:29', '2023-05-19 05:28:51'),
+(40, 3, 1, NULL, 'Jerry', 'jerry@gmail.com', 'CA', '894165161', '$2y$10$gtan0ZH/DCiZmnR2yLGiyeZAR0YeEu9krVXGHQfXBqk63ep0WQEEm', NULL, NULL, NULL, NULL, NULL, 'default.png', 1, 1, 2, '2023-03-16 02:22:29', '2023-05-19 05:28:51'),
+(41, 3, 1, NULL, 'Jerry', 'jerry@gmail.com', 'CA', '894165161', '$2y$10$gtan0ZH/DCiZmnR2yLGiyeZAR0YeEu9krVXGHQfXBqk63ep0WQEEm', NULL, NULL, NULL, NULL, NULL, 'default.png', 1, 1, 2, '2023-03-17 02:22:29', '2023-05-19 05:28:51'),
+(42, 3, 1, NULL, 'Jerry', 'jerry@gmail.com', 'CA', '894165161', '$2y$10$gtan0ZH/DCiZmnR2yLGiyeZAR0YeEu9krVXGHQfXBqk63ep0WQEEm', NULL, NULL, NULL, NULL, NULL, 'default.png', 1, 1, 2, '2023-03-14 02:22:29', '2023-05-19 05:28:51'),
+(43, 3, 1, NULL, 'Jemis', 'jemis@gmail.com', 'CA', '894165161', '$2y$10$gtan0ZH/DCiZmnR2yLGiyeZAR0YeEu9krVXGHQfXBqk63ep0WQEEm', NULL, NULL, NULL, NULL, NULL, 'default.png', 1, 1, 2, '2023-03-17 02:22:29', '2023-05-19 05:28:51'),
+(44, 3, 1, NULL, 'Ipsum carter', 'ipsum@gmail.com', 'CA', '894165161', '$2y$10$gtan0ZH/DCiZmnR2yLGiyeZAR0YeEu9krVXGHQfXBqk63ep0WQEEm', NULL, NULL, NULL, NULL, NULL, 'default.png', 1, 1, 2, '2023-03-17 02:22:29', '2023-05-19 05:28:51'),
+(47, 2, 1, NULL, 'doMEZ 123', 'domez1234@yopmail.com', 'CA', '1234657890', '$2y$10$z0eXm5BtjQQP77GHRvJAGOIp1osY2Lx0NvMvmkpTgPzpiTUvnIlri', NULL, NULL, NULL, NULL, NULL, 'default.png', 1, 1, 2, '2023-02-06 00:03:03', '2023-02-22 04:12:48'),
+(48, 2, 1, NULL, 'doMEZ 123', 'domez1234@yopmail.com', 'CA', '1234657890', '$2y$10$z0eXm5BtjQQP77GHRvJAGOIp1osY2Lx0NvMvmkpTgPzpiTUvnIlri', NULL, NULL, NULL, NULL, NULL, 'default.png', 1, 1, 2, '2023-02-06 00:03:03', '2023-02-22 04:12:48'),
+(49, 2, 1, NULL, 'Lorem Ipsum Dome', 'loremipsumdome@yopmail.com', 'CA', '655454490', '$2y$10$z0eXm5BtjQQP77GHRvJAGOIp1osY2Lx0NvMvmkpTgPzpiTUvnIlri', NULL, NULL, NULL, NULL, NULL, 'default.png', 1, 1, 2, '2023-01-06 00:03:03', '2023-02-22 04:12:48'),
+(50, 2, 1, NULL, 'Ipsum Dome', 'ipsumdome@yopmail.com', 'CA', '897854654', '$2y$10$z0eXm5BtjQQP77GHRvJAGOIp1osY2Lx0NvMvmkpTgPzpiTUvnIlri', NULL, NULL, NULL, NULL, NULL, 'default.png', 1, 1, 2, '2023-03-14 00:03:03', '2023-02-22 04:12:48'),
+(51, 2, 1, NULL, 'Lorem Dome', 'loremdome@yopmail.com', 'CA', '8945454546', '$2y$10$z0eXm5BtjQQP77GHRvJAGOIp1osY2Lx0NvMvmkpTgPzpiTUvnIlri', NULL, NULL, NULL, NULL, NULL, 'default.png', 1, 1, 2, '2023-03-17 00:03:03', '2023-02-22 04:12:48'),
+(52, 2, 1, NULL, 'Carter Dome', 'carterdome@yopmail.com', 'CA', '123890', '$2y$10$z0eXm5BtjQQP77GHRvJAGOIp1osY2Lx0NvMvmkpTgPzpiTUvnIlri', NULL, NULL, NULL, NULL, NULL, 'default.png', 1, 1, 2, '2023-04-06 00:03:03', '2023-02-22 04:12:48'),
+(53, 2, 1, NULL, 'Shotty Dome', 'shottydome@yopmail.com', 'CA', '4651651', '$2y$10$z0eXm5BtjQQP77GHRvJAGOIp1osY2Lx0NvMvmkpTgPzpiTUvnIlri', NULL, NULL, NULL, NULL, NULL, 'default.png', 1, 1, 2, '2023-05-06 00:03:03', '2023-02-22 04:12:48'),
+(54, 2, 1, NULL, 'Jecky\"s Dome', 'jeckydome@yopmail.com', 'CA', '1237890', '$2y$10$z0eXm5BtjQQP77GHRvJAGOIp1osY2Lx0NvMvmkpTgPzpiTUvnIlri', NULL, NULL, NULL, NULL, NULL, 'default.png', 1, 1, 2, '2023-07-06 00:03:03', '2023-02-22 04:12:48'),
+(55, 2, 1, NULL, 'Domaz Domez', 'domazdomez@yopmail.com', 'CA', '894651651', '$2y$10$z0eXm5BtjQQP77GHRvJAGOIp1osY2Lx0NvMvmkpTgPzpiTUvnIlri', NULL, NULL, NULL, NULL, NULL, 'default.png', 1, 1, 2, '2023-07-06 00:03:03', '2023-02-22 04:12:48'),
+(56, 2, 1, NULL, 'Lomar Dome', 'lomardome@yopmail.com', 'CA', '894546515', '$2y$10$z0eXm5BtjQQP77GHRvJAGOIp1osY2Lx0NvMvmkpTgPzpiTUvnIlri', NULL, NULL, NULL, NULL, NULL, 'default.png', 1, 1, 2, '2023-08-06 00:03:03', '2023-02-22 04:12:48'),
+(57, 2, 1, NULL, 'Ikara Dome', 'ikaradome@yopmail.com', 'CA', '4545151', '$2y$10$z0eXm5BtjQQP77GHRvJAGOIp1osY2Lx0NvMvmkpTgPzpiTUvnIlri', NULL, NULL, NULL, NULL, NULL, 'default.png', 1, 1, 2, '2023-08-06 00:03:03', '2023-02-22 04:12:48'),
+(58, 2, 1, NULL, 'Sitara Domez', 'sitaradome@yopmail.com', 'CA', '84651151', '$2y$10$z0eXm5BtjQQP77GHRvJAGOIp1osY2Lx0NvMvmkpTgPzpiTUvnIlri', NULL, NULL, NULL, NULL, NULL, 'default.png', 1, 1, 2, '2023-09-06 00:03:03', '2023-02-22 04:12:48'),
+(59, 2, 1, NULL, 'Coras Domez', 'corasdomez@yopmail.com', 'CA', '654565615', '$2y$10$z0eXm5BtjQQP77GHRvJAGOIp1osY2Lx0NvMvmkpTgPzpiTUvnIlri', NULL, NULL, NULL, NULL, NULL, 'default.png', 1, 1, 2, '2023-10-06 00:03:03', '2023-02-22 04:12:48'),
+(60, 2, 1, NULL, 'Just Play Domez', 'justplaydomez@yopmail.com', 'CA', '5854854', '$2y$10$z0eXm5BtjQQP77GHRvJAGOIp1osY2Lx0NvMvmkpTgPzpiTUvnIlri', NULL, NULL, NULL, NULL, NULL, 'default.png', 1, 1, 2, '2023-10-06 00:03:03', '2023-02-22 04:12:48');
 
 --
 -- Indexes for dumped tables
@@ -710,7 +788,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `bookings`
 --
 ALTER TABLE `bookings`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=68;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=81;
 
 --
 -- AUTO_INCREMENT for table `cms`
@@ -740,13 +818,13 @@ ALTER TABLE `enquiries`
 -- AUTO_INCREMENT for table `favourites`
 --
 ALTER TABLE `favourites`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=99;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=112;
 
 --
 -- AUTO_INCREMENT for table `fields`
 --
 ALTER TABLE `fields`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
 
 --
 -- AUTO_INCREMENT for table `leagues`
@@ -782,25 +860,25 @@ ALTER TABLE `set_prices`
 -- AUTO_INCREMENT for table `set_prices_days_slots`
 --
 ALTER TABLE `set_prices_days_slots`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=70;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=109;
 
 --
 -- AUTO_INCREMENT for table `sports`
 --
 ALTER TABLE `sports`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `transactions`
 --
 ALTER TABLE `transactions`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

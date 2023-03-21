@@ -101,7 +101,7 @@
                             <td>{{ $bookingdata->booking_id }}</td>
                             <td>{{ $bookingdata['dome_owner']->name }}</td>
                             <td>{{ $bookingdata['dome_name']->name }}</td>
-                            <td>{{ Helper::date_format($bookingdata->booking_date) }}</td>
+                            <td>{{ Helper::date_format($bookingdata->start_date) }}</td>
                             <td>{{ Helper::time_format($bookingdata->start_time) }} -
                                 {{ Helper::time_format($bookingdata->end_time) }}</td>
                             <td>{{ Helper::currency_format($bookingdata->total_amount) }}</td>

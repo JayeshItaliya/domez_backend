@@ -7,20 +7,22 @@ use App\Models\Sports;
 use Illuminate\Http\Request;
 use App\Models\Domes;
 use App\Models\DomeImages;
+use App\Models\Enquiries;
 use App\Models\SetPrices;
-use App\Models\SetPricesDaysSlots;
+use Illuminate\Support\Facades\Auth;
 
 class DomesController extends Controller
 {
     public function index(Request $request)
     {
         if (auth()->user()->id == 1) {
-            $domes = Domes::with('dome_image','dome_owner')->where('is_deleted', 2)->get();
+            $domes = Domes::with('dome_image', 'dome_owner')->where('is_deleted', 2)->get();
         } else {
             $domes = Domes::with('dome_image')->where('vendor_id', auth()->user()->id)->where('is_deleted', 2)->get();
+            $domes_count = Domes::where('vendor_id', Auth::user()->id)->count();
         }
         $sports = Sports::where('is_available', 1)->where('is_deleted', 2)->get();
-        return view('admin.domes.index', compact('domes','sports'));
+        return view('admin.domes.index', compact('domes', 'sports', 'domes_count'));
     }
 
     public function add(Request $request)
@@ -97,8 +99,8 @@ class DomesController extends Controller
             }
         }
         foreach ($request->sport_id as $key => $sport) {
-            $checksportexist =  SetPrices::where('dome_id',$dome->id)->where('sport_id',$sport)->first();
-            if(empty($checksportexist)){
+            $checksportexist =  SetPrices::where('dome_id', $dome->id)->where('sport_id', $sport)->first();
+            if (empty($checksportexist)) {
                 $setprice = new SetPrices();
                 $setprice->vendor_id = auth()->user()->id;
             }
@@ -117,7 +119,7 @@ class DomesController extends Controller
     {
         $dome = Domes::with('dome_images')->find($request->id);
         $sports = Sports::where('is_available', 1)->where('is_deleted', 2)->get();
-        return view('admin.domes.view' , compact('dome' ,'sports'));
+        return view('admin.domes.view', compact('dome', 'sports'));
     }
 
     public function edit(Request $request)
@@ -203,9 +205,9 @@ class DomesController extends Controller
             $checkdome = Domes::find($request->id);
             $checkdome->is_deleted = 1;
             $checkdome->save();
-            return response()->json(['status' => 1, 'message' => trans('messages.success')],200);
+            return response()->json(['status' => 1, 'message' => trans('messages.success')], 200);
         } catch (\Throwable $th) {
-            return response()->json(['status' => 0, 'message' => trans('messages.wrong')],200);
+            return response()->json(['status' => 0, 'message' => trans('messages.wrong')], 200);
         }
     }
 
@@ -215,5 +217,24 @@ class DomesController extends Controller
         unlink('storage/app/public/admin/images/domes/' . $image->images);
         $image->delete();
         return 1;
+    }
+    public function new_request(Request $request)
+    {
+        try {
+            $enquiry = new Enquiries;
+            $enquiry->type = 3;
+            $enquiry->name = Auth::user()->name;
+            $enquiry->email = Auth::user()->email;
+            $enquiry->phone = Auth::user()->phone;
+            $enquiry->dome_name = $request->dome_name;
+            $enquiry->dome_zipcode = $request->dome_zipcode;
+            $enquiry->dome_city = $request->dome_city;
+            $enquiry->dome_state = $request->dome_state;
+            $enquiry->dome_country = $request->dome_country;
+            $enquiry->save();
+            return redirect()->back()->with('success', trans('messages.success'));
+        } catch (\Throwable $th) {
+            return redirect()->back()->with('error', trans('messages.error'));
+        }
     }
 }

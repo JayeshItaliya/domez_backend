@@ -109,6 +109,7 @@
                     <line x1="4" y1="11" x2="20" y2="11" />
                     <rect x="8" y="15" width="2" height="2" />
                 </svg>
+                {{-- <i class="fa-light fa-calendar-day"></i> --}}
                 <span class="mx-3">{{ trans('labels.bookings') }}</span>
             </a>
             <a href="{{ URL::to('admin/transactions') }}"

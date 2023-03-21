@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\api;
 
 use App\Helper\Helper;
-use Stripe;
 use App\Http\Controllers\Controller;
 use App\Models\Booking;
 use App\Models\Domes;
@@ -79,11 +78,8 @@ class PaymentController extends Controller
         if ($request->players == "") {
             return response()->json(["status" => 0, "message" => "Please Enter Numbers Of Players"], 200);
         }
-        if (in_array($request->payment_method, [2, 3]) && $request->transaction_id == "") {
+        if ($request->transaction_id == "") {
             return response()->json(["status" => 0, "message" => "Please Enter Transaction ID"], 200);
-        }
-        if ($request->booking_type == 2 && $request->team_name == "") {
-            return response()->json(["status" => 0, "message" => "Please Enter Team Name For League"], 200);
         }
         if ($request->booking_type == 1 && $request->slots == "") {
             return response()->json(["status" => 0, "message" => "Please Select Time Slots For Dome Booking"], 200);
@@ -104,6 +100,78 @@ class PaymentController extends Controller
         $amount = $request->payment_type == 1 ? $request->total_amount : $request->paid_amount;
         $booking_id = bin2hex(random_bytes(3));
         $transaction_id = $request->transaction_id;
+        try {
+            if ($request->booking_type == 1) {
+                $dome = Domes::where('id', $request->dome_id)->where('is_deleted', 2)->first();
+            } else {
+                $league = League::where('id', $request->league_id)->where('is_deleted', 2)->first();
+                $dome = $league->dome_info;
+            }
+
+            // Payment Type = 1=Full Payment, 2=Split Payment
+            $transaction = new Transaction;
+            $transaction->vendor_id = $dome->vendor_id;
+            if ($request->booking_type == 1) {
+                $transaction->dome_id = $dome->id;
+            } else {
+                $transaction->dome_id = $dome->id;
+                $transaction->league_id = $league->id;
+            }
+            $transaction->field_id = $request->booking_type == 1 ? $request->field_id : $league->field_id;
+            $transaction->user_id = $user->id;
+            $transaction->booking_id = $booking_id;
+            $transaction->payment_method = $request->payment_method;
+            $transaction->transaction_id = $transaction_id;
+            $transaction->amount = $amount;
+            $transaction->save();
+
+            $booking = new Booking;
+            $booking->type = $request->booking_type;
+            $booking->vendor_id = $dome->vendor_id;
+            if ($request->booking_type == 1) {
+                $booking->dome_id = $dome->id;
+            } else {
+                $booking->dome_id = $dome->id;
+                $booking->league_id = $league->id;
+            }
+            $booking->user_id = $user->id;
+            $booking->sport_id = $request->booking_type == 1 ? $request->sport_id : $league->sport_id;
+            $booking->field_id = $request->booking_type == 1 ? $request->field_id : $league->field_id;
+            $booking->booking_id = $booking_id;
+            // $booking->booking_date = $request->date;
+            $booking->customer_name = $user->name != "" ? $user->name : null;
+            $booking->customer_email = $user->email;
+            $booking->customer_mobile = $user->phone != "" ? $user->phone : null;
+            if ($request->booking_type == 2) {
+                $booking->team_name = $request->team_name; // Use For Leagues Bookings Only
+            }
+            $booking->players = $request->players;
+            if ($request->booking_type == 1) {
+                $booking->slots = $request->slots; // Use For Domes Bookings Only
+            }
+            if ($request->booking_type == 2) {
+                $booking->start_date = $league->start_date; // Use For League Bookings Only
+                $booking->end_date = $league->end_date; // Use For League Bookings Only
+            }else{
+                $booking->start_date = $request->date; // Use For DOme Bookings Only
+            }
+            $booking->start_time = $request->booking_type == 1 ? $request->start_time : $league->start_time;
+            $booking->end_time = $request->booking_type == 1 ? $request->end_time : $league->end_time;
+            $booking->total_amount = $request->total_amount;
+            $booking->paid_amount = $request->payment_type == 1 ? 0 : $request->paid_amount;
+            $booking->due_amount = $request->payment_type == 1 ? 0 : $request->total_amount - $request->paid_amount;
+            $booking->payment_type = $request->payment_type;
+            $booking->payment_status = $booking->due_amount == 0 ? 1 : 2;
+            $booking->booking_status = $booking->payment_status == 1 ? 1 : 2;
+            if ($request->payment_type == 2) {
+                $booking->token = str_replace(['$', '/', '.', '|'], '', Hash::make($booking_id));
+            }
+            $booking->save();
+
+            return response()->json(['status' => 1, "message" => "Successful", "transaction_id" => $transaction_id, "booking_id" => $booking->booking_id, "payment_link" => URL::to('/payment/' . $booking->token),], 200);
+        } catch (\Throwable $th) {
+            return response()->json(['status' => 0, "message" => "Something Went Wrong"], 200);
+        }
         // if ($request->payment_method == 1) {
         //     if ($request->card_number == "") {
         //         return response()->json(["status" => 0, "message" => "Please Enter Card Number"], 200);
@@ -139,79 +207,5 @@ class PaymentController extends Controller
         //         return response()->json(['status' => 0, "message" => "Payment Failed"], 200);
         //     }
         // }
-        try {
-            if ($request->booking_type == 1) {
-                $dome = Domes::where('id', $request->dome_id)->where('is_deleted', 2)->first();
-            } else {
-                $league = League::find($request->league_id);
-                $dome = Domes::where('id', $league->dome_id)->where('is_deleted', 2)->first();
-            }
-
-            // Payment Type = 1=Card, 2=Apple Pay, 3=Google Pay
-            $transaction = new Transaction;
-            $transaction->vendor_id = $dome->vendor_id;
-            if ($request->booking_type == 1) {
-                $transaction->dome_id = $dome->id;
-            } else {
-                $transaction->league_id = $league->id;
-            }
-            $transaction->field_id = $request->field_id;
-            $transaction->user_id = $user->id;
-            $transaction->booking_id = $booking_id;
-            $transaction->payment_method = $request->payment_method;
-            $transaction->transaction_id = $transaction_id;
-            $transaction->amount = $amount;
-            $transaction->save();
-
-            $booking = new Booking;
-            $booking->type = $request->booking_type;
-            $booking->vendor_id = $dome->vendor_id;
-            if ($request->booking_type == 1) {
-                $booking->dome_id = $dome->id;
-            } else {
-                $booking->dome_id = $dome->id;
-                $booking->league_id = $league->id;
-            }
-            $booking->user_id = $user->id;
-            $booking->sport_id = $request->sport_id;
-            $booking->field_id = $request->field_id;
-            $booking->booking_id = $booking_id;
-            $booking->booking_date = $request->date;
-            $booking->customer_name = $user->name != "" ? $user->name : null;
-            $booking->customer_email = $user->email;
-            $booking->customer_mobile = $user->phone != "" ? $user->phone : null;
-            if ($request->booking_type == 2) {
-                $booking->team_name = $request->team_name; // Use For Leagues Bookings Only
-            }
-            $booking->players = $request->players;
-            if ($request->booking_type == 1) {
-                $booking->slots = $request->slots; // Use For Domes Bookings Only
-            }
-            if ($request->booking_type == 2) {
-                $booking->start_date = League::find($request->league_id)->start_date; // Use For League Bookings Only
-                $booking->end_date = League::find($request->league_id)->end_date; // Use For League Bookings Only
-            } else {
-                // $booking->start_date = '';
-                // $booking->end_date = '';
-            }
-            $booking->start_time = $request->booking_type == 1 ? $request->start_time : League::find($request->league_id)->start_time;
-            $booking->end_time = $request->booking_type == 1 ? $request->end_time : League::find($request->league_id)->end_time;
-            $booking->total_amount = $request->total_amount;
-            $booking->paid_amount = $request->payment_type == 1 ? 0 : $request->paid_amount;
-            $booking->due_amount = $request->payment_type == 1 ? 0 : $request->total_amount - $request->paid_amount;
-            $booking->payment_type = $request->payment_type;
-            $booking->payment_status = $booking->due_amount == 0 ? 1 : 2;
-            $booking->booking_status = $booking->payment_status == 1 ? 1 : 2;
-            if ($request->payment_type == 2) {
-                $booking->token = str_replace(['$', '/', '.', '|'], '', Hash::make($booking_id));
-            } else {
-                $booking->token = '';
-            }
-            $booking->save();
-
-            return response()->json(['status' => 1, "message" => "Successful", "transaction_id" => $transaction_id, "booking_id" => $booking->booking_id, "payment_link" => URL::to('/payment/' . $booking->token),], 200);
-        } catch (\Throwable $th) {
-            return response()->json(['status' => 0, "message" => "Something Went Wrong"], 200);
-        }
     }
 }

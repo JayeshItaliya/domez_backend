@@ -104,7 +104,7 @@
                         <td>{{ $booking->booking_id }}</td>
                         <td>{{ $booking->dome_owner->name }}</td>
                         <td>{{ $booking->dome_name->name }}</td>
-                        <td>{{ Helper::date_format($booking->booking_date) }}</td>
+                        <td>{{ Helper::date_format($booking->start_date) }}</td>
                         <td>{{ Helper::currency_format($booking->total_amount) }}</td>
                         <td>
                             @if ($booking->payment_status == 1)
