@@ -137,7 +137,8 @@
                         </label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="font_family" id="inter" value="Inter">
+                        <input class="form-check-input" type="radio" name="font_family" id="inter"
+                            value="Inter">
                         <label class="form-check-label" for="inter">
                             {{ trans('labels.inter') }}
                         </label>

@@ -153,7 +153,7 @@
                                     location.reload();
                                 } else {
                                     hidepreloader();
-                                   swal_cancelled(wrong);
+                                    swal_cancelled(wrong);
                                 }
                             },
                             failure: function(response) {

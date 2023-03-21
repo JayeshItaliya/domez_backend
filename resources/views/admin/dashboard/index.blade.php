@@ -697,7 +697,7 @@
                 dataLabels: {
                     enabled: false
                 },
-                colors: ['#57A70040'],
+                colors: [secondary_color + '40'],
                 stroke: {
                     show: true,
                     width: 2,
@@ -778,7 +778,7 @@
                 dataLabels: {
                     enabled: false
                 },
-                colors: ['#57A70040'],
+                colors: [secondary_color + '40'],
                 stroke: {
                     show: true,
                     width: 2,

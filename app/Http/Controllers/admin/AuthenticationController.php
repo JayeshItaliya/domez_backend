@@ -10,8 +10,6 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use App\Helper\Helper;
 use Illuminate\Support\Str;
-use Laravel\Socialite\Facades\Socialite;
-use Illuminate\Support\Facades\Storage;
 
 class AuthenticationController extends Controller
 {
@@ -32,7 +30,7 @@ class AuthenticationController extends Controller
             'password.min' => trans('messages.password_min_length'),
         ]);
         if (Auth::attempt($request->only('email', 'password'))) {
-            if (in_array(Auth::user()->type,[1,2])) {
+            if (in_array(Auth::user()->type,[1,2,4])) {
                 if (Auth::user()->is_verified == 1) {
                     if (Auth::user()->is_available == 1) {
                         if (Auth::user()->is_deleted == 2) {
