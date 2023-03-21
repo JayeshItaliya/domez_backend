@@ -23,8 +23,8 @@ class FavouriteFactory extends Factory
 
 
             // For League
-            "user_id" => $this->faker->numberBetween(3,13),
-            "league_id" => $this->faker->numberBetween(1,5),
+            "user_id" => $this->faker->numberBetween(3,16),
+            "league_id" => 2,
         ];
     }
 }
