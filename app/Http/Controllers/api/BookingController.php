@@ -11,16 +11,18 @@ use App\Models\League;
 use App\Models\SetPrices;
 use App\Models\SetPricesDaysSlots;
 use App\Models\Transaction;
-use App\Models\User;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
 use DateTime;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\URL;
 
 class BookingController extends Controller
 {
+    public function __construct()
+    {
+        date_default_timezone_set('Asia/Kolkata');
+    }
     public function booking_list(Request $request)
     {
         if (in_array($request->user_id, [0, ''])) {
@@ -29,32 +31,58 @@ class BookingController extends Controller
         if ($request->is_active == "") {
             return response()->json(["status" => 0, "message" => "Please Enter Booking Type"], 200);
         }
-        $bookings_list = Booking::where('user_id', $request->user_id)->orderByDesc('start_date');
-
-        if ($request->is_active == 1) {
-            $bookings_list = $bookings_list->whereDate('start_date', '>=', Carbon::today()->format('Y-m-d'));
-        }
-        if ($request->is_active == 2) {
-            $bookings_list = $bookings_list->whereDate('start_date', '<=', Carbon::today()->format('Y-m-d'));
-        }
+        $bookings_list = Booking::where('user_id', $request->user_id)->orderByDesc('start_date')->get();
+        // if ($request->is_active == 1) {
+        //     $bookings_list = $bookings_list->whereDate('start_date', '>=', Carbon::today()->format('Y-m-d'));
+        // }
+        // if ($request->is_active == 2) {
+        //     $bookings_list = $bookings_list->whereDate('start_date', '<=', Carbon::today()->format('Y-m-d'));
+        // }
         $bookinglist = [];
-        foreach ($bookings_list->get() as $booking) {
-            $dome = Domes::with('dome_image')->where('id', $booking->dome_id)->where('is_deleted', 2)->first();
-            if ($booking->league_id != '') {
-                $league = League::find($booking->league_id);
-            }
-            $bookinglist[] = [
-                "booking_id" => $booking->id,
-                "type" => $booking->type,
-                "field" => $booking->field_id,
-                "dome_name" => $dome->name,
-                "league_name" => $booking->league_id != '' ? $league->name : '',
-                "date" => $booking->type != 2 ? date('d M', strtotime($booking->start_date)) : date('d M', strtotime($booking->start_date)) . ' To ' . date('d M', strtotime($booking->end_date)),
-                "price" => $booking->total_amount,
-                'image' => $dome->dome_image->image,
-                'payment_type' => $booking->payment_type,
+        foreach ($bookings_list as $booking) {
 
-            ];
+            $start_date_time = Carbon::createFromFormat('Y-m-d h:i A', $booking->start_date . ' ' . $booking->end_time);
+            $current_date_time = Carbon::now();
+            // $start_date_time->lessThan($current_date_time) == true ? 2 : 1;
+
+            if ($request->is_active == 1) {
+                if ($start_date_time->lessThan($current_date_time) == false) {
+                    $dome = Domes::with('dome_image')->where('id', $booking->dome_id)->where('is_deleted', 2)->first();
+                    if ($booking->league_id != '') {
+                        $league = League::find($booking->league_id);
+                    }
+                    $bookinglist[] = [
+                        "booking_id" => $booking->id,
+                        "type" => $booking->type,
+                        "field" => $booking->field_id,
+                        "dome_name" => $dome->name,
+                        "league_name" => $booking->league_id != '' ? $league->name : '',
+                        "date" => $booking->type != 2 ? date('d M', strtotime($booking->start_date)) : date('d M', strtotime($booking->start_date)) . ' To ' . date('d M', strtotime($booking->end_date)),
+                        "price" => $booking->total_amount,
+                        'image' => $dome->dome_image->image,
+                        'payment_type' => $booking->payment_type,
+                    ];
+                }
+            } else {
+                if ($start_date_time->lessThan($current_date_time) == true) {
+                    $dome = Domes::with('dome_image')->where('id', $booking->dome_id)->where('is_deleted', 2)->first();
+                    if ($booking->league_id != '') {
+                        $league = League::find($booking->league_id);
+                    }
+                    $bookinglist[] = [
+                        "booking_id" => $booking->id,
+                        "type" => $booking->type,
+                        "field" => $booking->field_id,
+                        "dome_name" => $dome->name,
+                        "league_name" => $booking->league_id != '' ? $league->name : '',
+                        "date" => $booking->type != 2 ? date('d M', strtotime($booking->start_date)) : date('d M', strtotime($booking->start_date)) . ' To ' . date('d M', strtotime($booking->end_date)),
+                        "price" => $booking->total_amount,
+                        'image' => $dome->dome_image->image,
+                        'payment_type' => $booking->payment_type,
+                    ];
+                }
+            }
+
         }
         return response()->json(["status" => 1, "message" => "Success", 'bookings_list' => $bookinglist], 200);
     }
@@ -138,8 +166,6 @@ class BookingController extends Controller
             if ($request->sport_id == "") {
                 return response()->json(["status" => 0, "message" => 'Please Enter Sport ID'], 200);
             }
-
-            date_default_timezone_set('Asia/Kolkata');
 
             $getsetprices = SetPrices::where('dome_id', $getdomedata->id)->where('sport_id', $request->sport_id)->count();
             if ($getsetprices > 1) {
@@ -232,8 +258,6 @@ class BookingController extends Controller
     //     }
     //     $getdomedata = Domes::where('id', $request->dome_id)->where('is_deleted', 2)->first();
     //     if (!empty($getdomedata)) {
-
-    //         date_default_timezone_set('Asia/Kolkata');
 
     //         // $start_time = $getdomedata->start_time;  //start time as string
     //         // $end_time = $getdomedata->end_time;  //end time as string

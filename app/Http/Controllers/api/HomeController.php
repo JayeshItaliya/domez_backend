@@ -28,16 +28,7 @@ class HomeController extends Controller
     }
     public function sportslist(Request $request)
     {
-        $getsportslist = Sports::where('is_available', 1)->where('is_deleted', 2)->get();
-        $sportslist = [];
-        foreach ($getsportslist as $sports) {
-            $sportslist[] = [
-                "id" => $sports->id,
-                "name" => $sports->name,
-                "image" => Helper::image_path($sports->image),
-            ];
-        }
-        return response()->json(["status" => 1, "message" => "Successful", 'sportslist' => $sportslist], 200);
+        return response()->json(["status" => 1, "message" => "Successful", 'sportslist' => Helper::get_sports_list('')], 200);
     }
     public function helpcenter(Request $request)
     {
@@ -219,7 +210,7 @@ class HomeController extends Controller
                     "state" => $request->type == 1 ? $data->state : $data->dome_info->state,
                     "is_fav" => !in_array($request->user_id,[0,'']) ? (!empty(@$fav) ? true : false) : false,
                     "sport_id" => $data->sport_id,
-                    "sports_list" => Sports::select('id', 'name', DB::raw("CONCAT('" . url('storage/app/public/admin/images/sports') . "/', image) AS image"))->whereIn('id', explode(',', $data->sport_id))->where('is_available', 1)->where('is_deleted', 2)->get(),
+                    "sports_list" => Helper::get_sports_list($data->sport_id),
                 ];
             }
             return response()->json(['status' => 1, 'message' => 'Successfull', 'data' => $responsedata, 'pagination' => $getfilterlist->toArray()['links']], 200);
@@ -264,7 +255,7 @@ class HomeController extends Controller
                 "image" => $image,
                 "city" => $request->type == 1 ? $data->city : $data->dome_info->city,
                 "state" => $request->type == 1 ? $data->state : $data->dome_info->state,
-                "sports_list" => Sports::select('id', 'name', DB::raw("CONCAT('" . url('storage/app/public/admin/images/sports') . "/', image) AS image"))->whereIn('id', explode(',', $data->sport_id))->where('is_available', 1)->where('is_deleted', 2)->get(),
+                "sports_list" => Helper::get_sports_list($data->sport_id),
             ];
         }
         return response()->json(['status' => 1, 'message' => 'Successfull', 'data' => $responsedata, 'pagination' => $getsearchlist->toArray()['links']], 200);

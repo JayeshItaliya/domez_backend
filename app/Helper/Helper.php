@@ -6,6 +6,8 @@ use App\Models\CMS;
 use App\Models\Favourite;
 use App\Models\PaymentGateway;
 use App\Models\SetPrices;
+use App\Models\Sports;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Mail;
 use Twilio\Rest\Client;
@@ -117,42 +119,54 @@ class Helper
             return @CMS::where('type', 2)->select('content')->first()->content;
         }
     }
-    public static function verificationsms($mobile, $otp)
+    // public static function verificationsms($mobile, $otp)
+    // {
+    //     try {
+    //         $getconfiguration = OTPConfiguration::where('status', 1)->first();
+    //         if (!empty($getconfiguration)) {
+    //             if ($getconfiguration->name == "twilio") {
+    //                 $sid    = env('TWILIO_SID');
+    //                 $token  = env('TWILIO_AUTH_TOKEN');
+    //                 $twilio = new Client($sid, $token);
+    //                 $message = $twilio->messages->create($mobile, array("from" => env('TWILIO_PHONE_NUMBER'), "body" => "Your Verification Code is : " . $otp));
+    //             }
+    //             if ($getconfiguration->name == "msg91") {
+    //                 $curl = curl_init();
+    //                 curl_setopt_array($curl, array(
+    //                     CURLOPT_URL => "https://api.msg91.com/api/v5/otp?template_id=" . $getconfiguration->msg_template_id . "&mobile=" . $mobile . "&authkey=" . $getconfiguration->msg_authkey . "",
+    //                     CURLOPT_RETURNTRANSFER => true,
+    //                     CURLOPT_ENCODING => "",
+    //                     CURLOPT_MAXREDIRS => 10,
+    //                     CURLOPT_TIMEOUT => 30,
+    //                     CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+    //                     CURLOPT_CUSTOMREQUEST => "GET",
+    //                     CURLOPT_HTTPHEADER => array("content-type: application/json"),
+    //                 ));
+    //                 $response = curl_exec($curl);
+    //                 $err = curl_error($curl);
+    //                 curl_close($curl);
+    //             }
+    //             return 1;
+    //         }
+    //         return 0;
+    //     } catch (\Throwable $th) {
+    //         return 0;
+    //     }
+    // }
+    public static function get_dome_price($dome_id, $sport_id)
     {
-        try {
-            $getconfiguration = OTPConfiguration::where('status', 1)->first();
-            if (!empty($getconfiguration)) {
-                if ($getconfiguration->name == "twilio") {
-                    $sid    = env('TWILIO_SID');
-                    $token  = env('TWILIO_AUTH_TOKEN');
-                    $twilio = new Client($sid, $token);
-                    $message = $twilio->messages->create($mobile, array("from" => env('TWILIO_PHONE_NUMBER'), "body" => "Your Verification Code is : " . $otp));
-                }
-                if ($getconfiguration->name == "msg91") {
-                    $curl = curl_init();
-                    curl_setopt_array($curl, array(
-                        CURLOPT_URL => "https://api.msg91.com/api/v5/otp?template_id=" . $getconfiguration->msg_template_id . "&mobile=" . $mobile . "&authkey=" . $getconfiguration->msg_authkey . "",
-                        CURLOPT_RETURNTRANSFER => true,
-                        CURLOPT_ENCODING => "",
-                        CURLOPT_MAXREDIRS => 10,
-                        CURLOPT_TIMEOUT => 30,
-                        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                        CURLOPT_CUSTOMREQUEST => "GET",
-                        CURLOPT_HTTPHEADER => array("content-type: application/json"),
-                    ));
-                    $response = curl_exec($curl);
-                    $err = curl_error($curl);
-                    curl_close($curl);
-                }
-                return 1;
-            }
-            return 0;
-        } catch (\Throwable $th) {
-            return 0;
-        }
-    }
-    public static function get_dome_price($dome_id,$sport_id){
         $checkpricetype = SetPrices::where('dome_id', $dome_id)->where('sport_id', $sport_id)->where('price_type', 1)->first();
         return $checkpricetype->price;
+    }
+    public static function get_sports_list($sports_id)
+    {
+        // SPORTS_ID : WILL BE IN COMMA SAPERATED FORMAT
+        if ($sports_id == "") {
+            $sportslist = Sports::select('id', 'name', DB::raw("CONCAT('" . url('storage/app/public/admin/images/sports') . "/', image) AS image"))->where('is_available', 1)->where('is_deleted', 2)->get();
+        } else {
+            $sportslist = Sports::select('id', 'name', DB::raw("CONCAT('" . url('storage/app/public/admin/images/sports') . "/', image) AS image"))->whereIn('id', explode(',', $sports_id))->where('is_available', 1)->where('is_deleted', 2)->get();
+        }
+
+        return $sportslist;
     }
 }
