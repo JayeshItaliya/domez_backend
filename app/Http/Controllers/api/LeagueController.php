@@ -6,15 +6,8 @@ use App\Helper\Helper;
 use App\Http\Controllers\Controller;
 use App\Models\Booking;
 use App\Models\Domes;
-use App\Models\Favourite;
-use App\Models\Field;
 use App\Models\League;
-use App\Models\Review;
-use App\Models\Sports;
 use App\Models\User;
-use Carbon\CarbonPeriod;
-use DateInterval;
-use DatePeriod;
 use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -33,52 +26,42 @@ class LeagueController extends Controller
                             return response()->json(["status" => 0, "message" => 'Invalid User ID'], 200);
                         }
                     }
-                    $recentbookings = Booking::where('user_id', $request->user_id)->where('type', 2)->get();
-                    if (count($recentbookings) > 0) {
-                        foreach ($recentbookings as $booking) {
-                            $dome = Domes::where('id', $booking->dome_id)->where('is_deleted', 2)->first();
-                            $league = League::where('id', $booking->league_id)->where('is_deleted', 2)->first();
-                            if (!empty($league)) {
-                                if (!in_array($request->user_id, [0, ''])) {
-                                    $is_fav = Favourite::where('league_id', $league->id)->where('user_id', $request->user_id)->first();
-                                }
-                                $leagues_list[] = [
-                                    "id" => $league->id,
-                                    "league_name" => $league->name,
-                                    "dome_name" => $dome->name,
-                                    "image" => $league->image == "" ? "" : Helper::image_path($league->image),
-                                    "price" => $league->price,
-                                    "city" => $dome->city,
-                                    "state" => $dome->state,
-                                    "is_fav" => !empty(@$is_fav) ? true : false,
-                                    "date" => date('d M', strtotime($league->start_date)) . ' - ' . date('d M', strtotime($league->end_date)),
-                                    "sport_data" => Sports::select('id', 'name', DB::raw("CONCAT('" . url('storage/app/public/admin/images/sports') . "/', image) AS image"))->whereIn('id', explode('|', $league->sport_id))->where('is_available', 1)->where('is_deleted', 2)->get(),
-                                ];
-                            }
-                        }
-                    } else {
-                        $leagues = League::orderByDesc('id')->where('is_deleted', 2)->get();
+                    // $recentbookings = Booking::where('user_id', $request->user_id)->where('type', 2)->get();
+                    // if (count($recentbookings) > 0) {
+                    //     foreach ($recentbookings as $booking) {
+                    //         $league = League::where('id', $booking->league_id)->where('sport_id', $request->sport_id)->where('is_deleted', 2)->first();
+                    //         if (!empty($league)) {
+                    //             $leagues_list[] = [
+                    //                 "id" => $league->id,
+                    //                 "league_name" => $league->name,
+                    //                 "dome_name" => $league->dome_info->name,
+                    //                 "image" => $league->league_image == "" ? "" : $league->league_image->image,
+                    //                 "price" => $league->price,
+                    //                 "city" => $league->dome_info->city,
+                    //                 "state" => $league->dome_info->state,
+                    //                 "is_fav" => Helper::is_fav($request->user_id, '', $league->id),
+                    //                 "date" => date('d M', strtotime($league->start_date)) . ' - ' . date('d M', strtotime($league->end_date)),
+                    //                 "sport_data" => Helper::get_sports_list($league->sport_id),
+                    //             ];
+                    //         }
+                    //     }
+                    // } else {
+                        $leagues = League::orderByDesc('id')->where('sport_id', $request->sport_id)->where('is_deleted', 2)->get();
                         foreach ($leagues as $league) {
-                            if (!empty($league)) {
-                                $dome = Domes::where('id', $league->dome_id)->where('is_deleted', 2)->first();
-                                if (!in_array($request->user_id, [0, ''])) {
-                                    $is_fav = Favourite::where('league_id', $league->id)->where('user_id', $request->user_id)->first();
-                                }
-                                $leagues_list[] = [
-                                    "id" => $league->id,
-                                    "league_name" => $league->name,
-                                    "dome_name" => $dome->name,
-                                    "image" => $league->image == "" ? "" : Helper::image_path($league->image),
-                                    "price" => $league->price,
-                                    "city" => $dome->city,
-                                    "state" => $dome->state,
-                                    "is_fav" => !empty(@$is_fav) ? true : false,
-                                    "date" => date('d M', strtotime($league->start_date)) . ' - ' . date('d M', strtotime($league->end_date)),
-                                    "sport_data" => Sports::select('id', 'name', DB::raw("CONCAT('" . url('storage/app/public/admin/images/sports') . "/', image) AS image"))->whereIn('id', explode('|', $league->sport_id))->where('is_available', 1)->where('is_deleted', 2)->get(),
-                                ];
-                            }
+                            $leagues_list[] = [
+                                "id" => $league->id,
+                                "league_name" => $league->name,
+                                "dome_name" => $league->dome_info->name,
+                                "image" => $league->league_image == "" ? "" : $league->league_image->image,
+                                "price" => $league->price,
+                                "city" => $league->dome_info->city,
+                                "state" => $league->dome_info->state,
+                                "is_fav" => Helper::is_fav($request->user_id, '', $league->id),
+                                "date" => date('d M', strtotime($league->start_date)) . ' - ' . date('d M', strtotime($league->end_date)),
+                                "sport_data" => Helper::get_sports_list($league->sport_id),
+                            ];
                         }
-                    }
+                    // }
                 }
                 //Type = 3 (Leagues Around You)
                 if ($request->type == 3) {
@@ -100,7 +83,6 @@ class LeagueController extends Controller
                     )->where('domes.is_deleted', 2);
                     // The Distance Will Be in Kilometers
                     $getarounddomes = $getarounddomes->having('distance', '<=', $request->kilometer > 0 ? $request->kilometer : 1000);
-
                     if ($request->sport_id != "") {
                         $getarounddomes = $getarounddomes->whereRaw("find_in_set('" . $request->sport_id . "',sport_id)");
                     }
@@ -108,23 +90,23 @@ class LeagueController extends Controller
                         $getarounddomes = $getarounddomes->whereBetween('price', [$request->min_price, $request->max_price]);
                     }
                     $getarounddomes = $getarounddomes->orderBy('distance')->get();
-
                     foreach ($getarounddomes as $dome) {
-                        if ($request->user_id != "") {
-                            $is_fav = Favourite::where('dome_id', $dome->id)->where('user_id', $request->user_id)->first();
+                        $leagues = League::where('dome_id',$dome->id)->where('sport_id', $request->sport_id)->where('is_deleted', 2)->orderByDesc('id')->get();
+                        foreach ($leagues as $league) {
+                            $leagues_list[] = [
+                                "id" => $league->id,
+                                "league_name" => $league->name,
+                                "dome_name" => $league->dome_info->name,
+                                "image" => $league->league_image == "" ? "" : $league->league_image->image,
+                                "price" => $league->price,
+                                "city" => $league->dome_info->city,
+                                "state" => $league->dome_info->state,
+                                "is_fav" => Helper::is_fav($request->user_id, '', $league->id),
+                                "date" => date('d M', strtotime($league->start_date)) . ' - ' . date('d M', strtotime($league->end_date)),
+                                "sport_data" => Helper::get_sports_list($league->sport_id),
+                            ];
                         }
-                        $leagues_list[] = [
-                            "id" => $dome->id,
-                            "name" => $dome->name,
-                            "image" => $dome->dome_image == "" ? "" : $dome->dome_image->image,
-                            "price" => $dome->price,
-                            "city" => $dome->city,
-                            "state" => $dome->state,
-                            "is_fav" => !empty(@$is_fav) ? true : false,
-                            "booking_date" => "",
-                            "total_fields" => Field::where('dome_id', $dome->id)->where('is_deleted', 2)->count(),
-                            "sports_list" => Sports::select('id', 'name', DB::raw("CONCAT('" . url('storage/app/public/admin/images/sports') . "/', image) AS image"))->whereIn('id', explode('|', $dome->sport_id))->where('is_available', 1)->where('is_deleted', 2)->get(),
-                        ];
+
                     }
                 }
                 return response()->json(["status" => 1, "message" => "Successful", 'leagues_list' => $leagues_list], 200);
@@ -150,53 +132,47 @@ class LeagueController extends Controller
         if (empty($league)) {
             return $league_data = 1;
         }
-        $sports = Sports::select('id', 'name', DB::raw("CONCAT('" . url('storage/app/public/admin/images/leagues') . "/', image) AS image"))->whereIn('id', explode('|', $league->sport_id))->where('is_available', 1)->where('is_deleted', 2)->get();
-
-        $dome = Domes::where('id', $league->dome_id)->where('is_deleted', 2)->first();
         $benefits = [];
-        foreach (explode('|', $dome->benefits) as $benefit) {
+        foreach (explode('|', $league->dome_info->benefits) as $benefit) {
             $benefits[] = [
                 'benefit' => $benefit,
                 'benefit_image' => '',
             ];
         }
-        if (!empty($league)) {
-            $datetime1 = new DateTime($league->start_date);
-            $datetime2 = new DateTime($league->end_date);
-            $interval = $datetime1->diff($datetime2);
-            $startDate2 = new \DateTime(date('m/d'));
-            $endDate2 = new \DateTime(date('m/d', strtotime("+7 day")));
-            for ($date = $startDate2; $date < $endDate2; $date->modify('+1 day')) {
-                $daylist[] = $date->format('D');
-            }
-            $league_data = array(
-                'id' => $league->id,
-                'league_name' => $league->name,
-                'dome_name' => $dome->name,
-                "fields" => '1 & 3',
-                "days" => implode(' | ', $daylist),
-                "total_games" => $interval->format('%a'),
-                "time" => $league->start_time . ' To ' . $league->end_time,
-                "date" => date('d/m/Y', strtotime($league->start_date)) . ' To ' . date('d/m/Y', strtotime($league->end_date)),
-                'gender' => $league->gender == 1 ? 'Men' : ($league->gender == 2 ? 'Women' : 'Mixed'),
-                'age' => $league->from_age . ' Years' . ' To ' . $league->to_age . ' Years',
-                'sport' => Sports::find($league->sport_id)->name,
-                'team_limit' => $league->team_limit . ' Teams ',
-                'min_player' => $league->min_player . ' Players ',
-                'max_player' => $league->max_player . ' Players ',
-                'price' => $league->price,
-                'price' => $league->price,
-                'hst' => $dome->hst,
-                'address' => $dome->address,
-                'city' => $dome->city,
-                'state' => $dome->state,
-                'lat' => $dome->lat,
-                'lng' => $dome->lng,
-                'amenities_description' => $dome->benefits_description,
-                'league_images' => $league->league_images,
-                'amenities' => $benefits,
-            );
+        $datetime1 = new DateTime($league->start_date);
+        $datetime2 = new DateTime($league->end_date);
+        $interval = $datetime1->diff($datetime2);
+        $startDate2 = new \DateTime(date('m/d'));
+        $endDate2 = new \DateTime(date('m/d', strtotime("+7 day")));
+        for ($date = $startDate2; $date < $endDate2; $date->modify('+1 day')) {
+            $daylist[] = $date->format('D');
         }
+        $league_data = array(
+            'id' => $league->id,
+            'league_name' => $league->name,
+            'dome_name' => $league->dome_info->name,
+            "fields" => (string)count(explode(',', $league->field_id)),
+            "days" => implode(' | ', $daylist),
+            "total_games" => $interval->format('%a'),
+            "time" => $league->start_time . ' To ' . $league->end_time,
+            "date" => date('d/m/Y', strtotime($league->start_date)) . ' To ' . date('d/m/Y', strtotime($league->end_date)),
+            'gender' => $league->gender == 1 ? 'Men' : ($league->gender == 2 ? 'Women' : 'Mixed'),
+            'age' => $league->from_age . ' Years' . ' To ' . $league->to_age . ' Years',
+            'sport' => $league->sport_info->name,
+            'team_limit' => $league->team_limit . ' Teams ',
+            'min_player' => $league->min_player . ' Players ',
+            'max_player' => $league->max_player . ' Players ',
+            'price' => $league->price,
+            'hst' => $league->dome_info->hst,
+            'address' => $league->dome_info->address,
+            'city' => $league->dome_info->city,
+            'state' => $league->dome_info->state,
+            'lat' => $league->dome_info->lat,
+            'lng' => $league->dome_info->lng,
+            'amenities_description' => $league->dome_info->benefits_description,
+            'league_images' => $league->league_images,
+            'amenities' => $benefits,
+        );
         return $league_data;
     }
 }

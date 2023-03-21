@@ -5,7 +5,6 @@ namespace App\Http\Controllers\api;
 use App\Helper\Helper;
 use App\Http\Controllers\Controller;
 use App\Models\Booking;
-use App\Models\Sports;
 use App\Models\Domes;
 use App\Models\Favourite;
 use App\Models\Field;
@@ -17,8 +16,13 @@ use Carbon\Carbon;
 
 class DomesController extends Controller
 {
+    public function __construct()
+    {
+        date_default_timezone_set('Asia/Kolkata');
+    }
     public function domes_list(Request $request)
     {
+
         if ($request->type != "") {
             if (in_array($request->type, [1, 2, 3])) {
                 $domes_list = [];
@@ -32,15 +36,15 @@ class DomesController extends Controller
                     }
                     $recentbookings = Booking::where('user_id', $request->user_id)->where('type', 1)->orderByDesc('created_at')->take(10)->get();
                     foreach ($recentbookings as $booking) {
-
-                        $date1 = Carbon::createFromFormat('Y-m-d', $booking->start_date);
-                        $date2 = Carbon::today()->format('Y-m-d');
-
                         $dome = Domes::where('id', $booking->dome_id)->where('is_deleted', 2)->first();
                         if (!empty($dome)) {
-                            if ($request->user_id != "") {
-                                $is_fav = Favourite::where('dome_id', $dome->id)->where('user_id', $request->user_id)->first();
-                            }
+
+                            $start_date_time = Carbon::createFromFormat('Y-m-d h:i A', $booking->start_date.' '.$booking->end_time);
+                            $current_date_time = Carbon::now();
+
+                            // dd($start_date_time,$booking->start_date.' '.$booking->end_time,$current_date_time);
+                            // dd($start_date_time->lessThan($current_date_time),$booking->id,$booking->start_date,$booking->end_time);
+
                             $domes_list[] = [
                                 "id" => $dome->id,
                                 "name" => $dome->name,
@@ -49,15 +53,14 @@ class DomesController extends Controller
                                 "hst" => $dome->hst,
                                 "city" => $dome->city,
                                 "state" => $dome->state,
-                                "is_active" => $date1->lt($date2) ? 2 : 1,
-                                "is_fav" => !empty(@$is_fav) ? true : false,
+                                "is_active" => $start_date_time->lessThan($current_date_time) == true ? 2 : 1,
+                                "is_fav" => Helper::is_fav($request->user_id, $dome->id, ''),
                                 "booking_id" => $request->type == 1 ? $booking->id : 0,
                                 "booking_type" => $request->type == 1 ? $booking->type : 0,
                                 "booking_payment_type" => $request->type == 1 ? $booking->payment_type : 0,
                                 "booking_date" => date('D, d M', strtotime($booking->start_date)),
-                                // "booking_status" => $booking->booking_status,
                                 "total_fields" => Field::where('dome_id', $dome->id)->where('is_deleted', 2)->count(),
-                                "sports_list" => Sports::select('id', 'name', DB::raw("CONCAT('" . url('storage/app/public/admin/images/sports') . "/', image) AS image"))->whereIn('id', explode('|', $dome->sport_id))->where('is_available', 1)->where('is_deleted', 2)->get(),
+                                "sports_list" => Helper::get_sports_list($dome->sport_id),
                             ];
                         }
                     }
@@ -68,9 +71,6 @@ class DomesController extends Controller
                     foreach ($popular_domes as $pdome) {
                         $dome = Domes::where('id', $pdome->dome_id)->where('is_deleted', 2)->whereRaw("find_in_set('" . $request->sport_id . "',sport_id)")->first();
                         if (!empty($dome)) {
-                            if (!in_array($request->user_id, [0, ''])) {
-                                $is_fav = Favourite::where('dome_id', $dome->id)->where('user_id', $request->user_id)->first();
-                            }
                             $domes_list[] = [
                                 "id" => $dome->id,
                                 "name" => $dome->name,
@@ -79,14 +79,13 @@ class DomesController extends Controller
                                 "hst" => $dome->hst,
                                 "city" => $dome->city,
                                 "state" => $dome->state,
-                                "is_fav" => !empty(@$is_fav) ? true : false,
+                                "is_fav" => Helper::is_fav($request->user_id, $dome->id, ''),
                                 "booking_id" => 0,
                                 "booking_type" => 0,
                                 "booking_payment_type" => 0,
                                 "booking_date" => "",
-                                // "booking_status" => "",
                                 "total_fields" => Field::where('dome_id', $dome->id)->where('is_deleted', 2)->count(),
-                                "sports_list" => Sports::select('id', 'name', DB::raw("CONCAT('" . url('storage/app/public/admin/images/sports') . "/', image) AS image"))->whereIn('id', explode(',', $dome->sport_id))->where('is_available', 1)->where('is_deleted', 2)->get(),
+                                "sports_list" => Helper::get_sports_list($dome->sport_id),
                             ];
                         }
                     }
@@ -121,9 +120,6 @@ class DomesController extends Controller
                     $getarounddomes = $getarounddomes->orderBy('distance')->get();
 
                     foreach ($getarounddomes as $dome) {
-                        if (!in_array($request->user_id, [0, ''])) {
-                            $is_fav = Favourite::where('dome_id', $dome->id)->where('user_id', $request->user_id)->first();
-                        }
                         $domes_list[] = [
                             "id" => $dome->id,
                             "name" => $dome->name,
@@ -132,14 +128,13 @@ class DomesController extends Controller
                             "hst" => $dome->hst,
                             "city" => $dome->city,
                             "state" => $dome->state,
-                            "is_fav" => !empty(@$is_fav) ? true : false,
+                            "is_fav" => Helper::is_fav($request->user_id, $dome->id, ''),
                             "booking_id" => 0,
                             "booking_type" => 0,
                             "booking_payment_type" => 0,
                             "booking_date" => "",
-                            // "booking_status" => "",
                             "total_fields" => Field::where('dome_id', $dome->id)->where('is_deleted', 2)->count(),
-                            "sports_list" => Sports::select('id', 'name', DB::raw("CONCAT('" . url('storage/app/public/admin/images/sports') . "/', image) AS image"))->whereIn('id', explode(',', $dome->sport_id))->where('is_available', 1)->where('is_deleted', 2)->get(),
+                            "sports_list" => Helper::get_sports_list($dome->sport_id),
                         ];
                     }
                 }
@@ -166,9 +161,9 @@ class DomesController extends Controller
         if (empty($dome)) {
             return $dome_data = 1;
         }
-        $categories = explode('|', $dome->sport_id);
+        $categories = explode(',', $dome->sport_id);
 
-        $categoriess = Sports::select('id', 'name', DB::raw("CONCAT('" . url('storage/app/public/admin/images/sports') . "/', image) AS image"))->whereIn('id', explode('|', $dome->sport_id))->where('is_available', 1)->where('is_deleted', 2)->get();
+        $categoriess = Helper::get_sports_list($dome->sport_id);
         foreach ($categoriess as $cat) {
             $fields = Field::where('dome_id', $id)->whereIn('sport_id', $categories)->where('is_available', 1)->where('is_deleted', 2)->get();
             $field_data = [];

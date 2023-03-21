@@ -4,14 +4,11 @@ namespace App\Http\Controllers\api;
 
 use App\Helper\Helper;
 use App\Http\Controllers\Controller;
-use App\Models\DomeImages;
 use App\Models\Domes;
 use App\Models\Favourite;
 use App\Models\League;
-use App\Models\Sports;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class FavouriteController extends Controller
 {
@@ -75,10 +72,10 @@ class FavouriteController extends Controller
                             "league_name" => '',
                             "dome_name" => $dome_data->name,
                             "image" => $dome_data->dome_image == "" ? "" : $dome_data->dome_image->image,
-                            "price" => $dome_data->price,
+                            "price" => Helper::get_dome_price($dome_data->id, explode(',', $dome_data->sport_id)[0]),
                             "city" => $dome_data->city,
                             "state" => $dome_data->state,
-                            "sports_list" => Sports::select('id', 'name', DB::raw("CONCAT('" . url('storage/app/public/admin/images/sports') . "/', image) AS image"))->whereIn('id', explode('|', $dome_data->sport_id))->where('is_available', 1)->where('is_deleted', 2)->get(),
+                            "sports_list" => Helper::get_sports_list($dome_data->sport_id),
                         ];
                     }
                 }
@@ -97,7 +94,7 @@ class FavouriteController extends Controller
                             "price" => $checkleague->price,
                             "city" => $checkleague->dome_info->city,
                             "state" => $checkleague->dome_info->state,
-                            "sports_list" => Sports::select('id', 'name', DB::raw("CONCAT('" . url('storage/app/public/admin/images/sports') . "/', image) AS image"))->whereIn('id', explode('|', $checkleague->sport_id))->where('is_available', 1)->where('is_deleted', 2)->get(),
+                            "sports_list" => Helper::get_sports_list($checkleague->sport_id),
                         ];
                     }
                 }
