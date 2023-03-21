@@ -17,6 +17,7 @@ use App\Http\Controllers\admin\FieldController;
 use App\Http\Controllers\admin\LeagueController;
 use App\Http\Controllers\admin\ReviewController;
 use App\Http\Controllers\admin\SettingsController;
+use App\Http\Controllers\admin\WorkersController;
 
 /*
 |--------------------------------------------------------------------------
@@ -54,7 +55,7 @@ Route::get('resend-otp', [AuthenticationController::class, 'resend']);
 Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function () {
 
     // Development Purpose
-    Route::get('login-dev', [AdminController::class,'login_dev']);
+    Route::get('login-dev', [AdminController::class, 'login_dev']);
     // Common
     Route::get('validate-time', [DomesPriceController::class, 'validate_start_end_time']);
     Route::get('dashboard', [AdminController::class, 'dashboard']);
@@ -79,9 +80,9 @@ Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function () {
     // Enquiry
     Route::group(['prefix' => 'enquiries'], function () {
         Route::get('dome-requests', [EnquiryController::class, 'dome_requests']);
-        Route::get('dome-request-status',[EnquiryController::class,'dome_request_status']);
-        Route::get('dome-request-delete',[EnquiryController::class,'dome_request_delete']);
-        Route::post('dome-request-reply',[EnquiryController::class, 'dome_request_reply']);
+        Route::get('dome-request-status', [EnquiryController::class, 'dome_request_status']);
+        Route::get('dome-request-delete', [EnquiryController::class, 'dome_request_delete']);
+        Route::post('dome-request-reply', [EnquiryController::class, 'dome_request_reply']);
         Route::get('general-enquiry', [EnquiryController::class, 'general_enquiry']);
         Route::post('general-enquiry-reply', [EnquiryController::class, 'general_enquiry_reply']);
         Route::get('help-support', [EnquiryController::class, 'help_support']);
@@ -151,6 +152,13 @@ Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function () {
         });
     });
     Route::group(['middleware' => 'VendorMiddleware'], function () {
+        //  Workers
+        Route::group(['prefix' => 'workers'], function () {
+            Route::get('/', [WorkersController::class, 'index']);
+            Route::post('store-worker', [WorkersController::class, 'store_worker']);
+            Route::get('change_status', [WorkersController::class, 'change_status']);
+            Route::get('delete', [WorkersController::class, 'delete']);
+        });
         //  Leagues
         Route::group(['prefix' => 'leagues'], function () {
             Route::get('add', [LeagueController::class, 'add']);

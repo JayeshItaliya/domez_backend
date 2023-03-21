@@ -52,7 +52,7 @@
                         @csrf
                         <div class="form-floating">
                             <input type="email" name="email" id="email" class="form-control"
-                                placeholder="{{ trans('messages.enter_email_address') }}">
+                                placeholder="{{ trans('labels.email_address') }}">
                             <label for="email">{{ trans('labels.email_address') }}</label>
                         </div>
                         <button type="submit"

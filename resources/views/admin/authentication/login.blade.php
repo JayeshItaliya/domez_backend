@@ -50,7 +50,7 @@
                         @csrf
                         <div class="form-floating">
                             <input type="email" name="email" id="email" class="form-control"
-                                placeholder="{{ trans('messages.enter_email_address') }}">
+                                placeholder="{{ trans('labels.email_address') }}">
                             <label for="email">{{ trans('labels.email_address') }}</label>
                             @error('email')
                                 <span class="text-danger">{{ $message }}</span>
@@ -58,7 +58,7 @@
                         </div>
                         <div class="form-floating">
                             <input type="password" name="password" id="password" class="form-control"
-                                placeholder="{{ trans('messages.enter_password') }}">
+                                placeholder="{{ trans('labels.password') }}">
                             <label for="password">{{ trans('labels.password') }}</label>
                             @error('password')
                                 <span class="text-danger">{{ $message }}</span>

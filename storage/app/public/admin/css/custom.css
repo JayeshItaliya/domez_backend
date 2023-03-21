@@ -198,16 +198,25 @@ form span.text-danger {
     object-position: center;
 }
 
-.search-input{
+.search-input {
     margin-right: 1rem;
 }
 
-.date-range-picker:not(.border-primary)::placeholder{
+.date-range-picker:not(.border-primary)::placeholder {
     color: white;
 }
-.date-range-picker::placeholder{
+
+.date-range-picker::placeholder {
     color: black;
 }
+
+/* input[type='email']:invalid {
+    border-color: rgb(var(--bs-danger));
+}
+
+input[type='email']:not(:invalid) {
+    border-color: rgb(var(--bs-success));
+} */
 
 /* Preloader */
 #preloader {

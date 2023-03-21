@@ -40,7 +40,7 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="name" class="form-label">{{ trans('labels.name') }}</label>
-                        <input type="text" id="name" name="name" placeholder="{{ trans('messages.enter_name') }}"
+                        <input type="text" id="name" name="name" placeholder="{{ trans('labels.name') }}"
                             class="form-control">
                         @error('name')
                             <span class="text-danger">{{ $message }}</span>
@@ -51,7 +51,7 @@
                     <div class="form-group">
                         <label for="email" class="form-label">{{ trans('labels.email') }}</label>
                         <input type="text" id="email" name="email"
-                            placeholder="{{ trans('messages.enter_email_address') }}" class="form-control">
+                            placeholder="{{ trans('labels.email_address') }}" class="form-control">
                         @error('email')
                             <span class="text-danger">{{ $message }}</span>
                         @enderror

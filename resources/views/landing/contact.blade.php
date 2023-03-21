@@ -69,7 +69,7 @@
                                     <label for="email" class="from-label fw-semibold">Email</label>
                                     <div class="input-group">
                                         <input type="email" id="email" name="email" value="{{old('email')}}" class="form-control" placeholder="Email" required>
-                                        <button class="btn btn-success dmz-button send_otp" type="button">Send Otp</button>
+                                        <button class="btn btn-success dmz-button send_otp" type="button">Verify</button>
                                     </div>
                                     @error('email')<span class="text-danger">{{ $message }}</span>@enderror
                                 </div>
