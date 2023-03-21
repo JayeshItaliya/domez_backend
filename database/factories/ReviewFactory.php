@@ -18,7 +18,7 @@ class ReviewFactory extends Factory
     {
         return [
             "vendor_id" => 2,
-            "dome_id" => $this->faker->numberBetween(35,40),
+            "dome_id" => 51,
             "user_id" => $this->faker->numberBetween(3,16),
             "ratting" => $this->faker->numberBetween(1,5),
             "comment" => 'Very Good Experience',
