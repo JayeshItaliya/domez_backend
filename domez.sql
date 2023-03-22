@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 21, 2023 at 04:09 PM
+-- Generation Time: Mar 22, 2023 at 12:06 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -84,7 +84,7 @@ INSERT INTO `bookings` (`id`, `type`, `vendor_id`, `dome_id`, `league_id`, `user
 (83, 1, 2, 35, NULL, 7, 6, '30', '27b51d', 'Soham', 'domez@gmail.com', '6359478772', NULL, 12, '06:00 PM - 07:00 PM,06:00 AM - 07:00 AM', '2023-03-22', NULL, '06:00 AM', '07:00 AM', 880.00, 73.35, 806.65, 1, 2, 2, 2, '2y106RRpSanIckeXhPVsJA6tuRyeLv5Z4gVytBWhiSaVQKzfm7S', '2023-03-21 06:22:42', '2023-03-21 06:22:42'),
 (84, 1, 2, 35, NULL, 7, 6, '31', '7c9636', 'Soham', 'domez@gmail.com', '6359478772', NULL, 12, '10:00 AM - 11:00 AM', '2023-03-22', NULL, '10:00 AM', '11:00 AM', 880.00, 80.00, 800.00, 1, 2, 2, 2, '2y104tPHhfXtAvbCZDUegyyMYuXS3mSUDWxMsgTXZk6sZYtbNKp8srRq', '2023-03-21 11:56:09', '2023-03-21 11:56:09'),
 (85, 1, 2, 35, NULL, 7, 6, '30', '0756ad', 'Soham', 'domez@gmail.com', '6359478772', NULL, 12, '07:00 AM - 08:00 AM', '2023-03-21', NULL, '07:00 AM', '07:15 PM', 880.00, 875.00, 5.00, 1, 2, 2, 2, '2y10r21zOHumVKlVjkn02DBeCObJFvVfhON5ywVcIKzF2KyJcblKA9k8', '2023-03-21 11:59:51', '2023-03-21 11:59:51'),
-(86, 1, 2, 35, NULL, 7, 6, '32', '7c975a', 'Soham', 'domez@gmail.com', '6359478772', NULL, 12, '01:00 PM - 02:00 PM', '2023-03-22', NULL, '01:00 PM', '02:00 PM', 880.00, 73.45, 806.55, 1, 2, 2, 2, '2y10GmKhpL2PCKVNdeVx7gcE2OYg6bcIFRjjX2ROwVI40Bx3h98smdXm', '2023-03-21 07:36:51', '2023-03-21 07:36:51');
+(86, 1, 2, 35, NULL, 7, 6, '32', '7c975a', 'Soham', 'domez@gmail.com', '6359478772', NULL, 12, '01:00 PM - 02:00 PM', '2023-03-22', NULL, '01:00 PM', '02:00 PM', 880.00, 104.55, 0.00, 1, 2, 2, 1, '2y10GmKhpL2PCKVNdeVx7gcE2OYg6bcIFRjjX2ROwVI40Bx3h98smdXm', '2023-03-21 07:36:51', '2023-03-22 05:33:20');
 
 -- --------------------------------------------------------
 
@@ -567,7 +567,7 @@ INSERT INTO `sports` (`id`, `name`, `image`, `is_available`, `is_deleted`, `crea
 (7, 'Golf', 'sport-4980.png', 1, 2, '2023-02-20 03:35:56', '2023-03-16 06:23:56'),
 (8, 'Basketball', 'sport-8484.png', 1, 2, '2023-02-20 03:37:44', '2023-03-16 06:24:04'),
 (9, 'Cricket', 'sport-9539.png', 1, 2, '2023-02-20 03:41:14', '2023-03-16 06:24:15'),
-(10, 'Vollyball', 'sport-7688.png', 1, 2, '2023-02-20 03:43:02', '2023-03-16 06:24:29'),
+(10, 'Volleyball', 'sport-7688.png', 1, 2, '2023-02-20 03:43:02', '2023-03-22 01:14:50'),
 (11, 'Frisbee', 'sport-6527.png', 1, 2, '2023-03-16 06:24:52', '2023-03-16 06:24:52'),
 (12, 'Hockey', 'sport-8189.png', 1, 2, '2023-03-16 06:25:13', '2023-03-16 06:25:13');
 
@@ -583,7 +583,6 @@ CREATE TABLE `transactions` (
   `vendor_id` int(11) NOT NULL,
   `dome_id` int(11) DEFAULT NULL,
   `league_id` int(11) DEFAULT NULL,
-  `field_id` varchar(255) NOT NULL,
   `user_id` int(11) DEFAULT NULL,
   `booking_id` varchar(255) NOT NULL,
   `contributor_name` varchar(255) DEFAULT NULL,
@@ -598,27 +597,31 @@ CREATE TABLE `transactions` (
 -- Dumping data for table `transactions`
 --
 
-INSERT INTO `transactions` (`id`, `type`, `vendor_id`, `dome_id`, `league_id`, `field_id`, `user_id`, `booking_id`, `contributor_name`, `payment_method`, `transaction_id`, `amount`, `created_at`, `updated_at`) VALUES
-(1, 1, 2, 35, NULL, '8', 7, 'b98541', NULL, 1, '1c2132121c1132ee1ee21e2e1edw', 1000.00, '2023-03-15 05:20:57', '2023-03-15 05:20:57'),
-(2, 1, 2, 35, NULL, '8', 7, 'f8da0d', NULL, 1, '1c2132121c1132ee1ee21e2e1edw', 1000.00, '2023-03-15 05:27:20', '2023-03-15 05:27:20'),
-(3, 1, 2, 35, NULL, '8', 7, 'c3200a', NULL, 1, '1c2132121c1132ee1ee21e2e1edw', 1000.00, '2023-03-15 05:28:00', '2023-03-15 05:28:00'),
-(4, 1, 2, 35, NULL, '8', 7, '42db01', NULL, 1, '1c2132121c1132ee1ee21e2e1edw', 1000.00, '2023-03-15 05:28:18', '2023-03-15 05:28:18'),
-(5, 1, 2, 35, NULL, '8', 7, 'b98541', NULL, 1, '1c2132121c1132ee1ee21e2e1edw', 120.00, '2023-03-08 05:20:57', '2023-03-15 05:20:57'),
-(6, 1, 2, 35, NULL, '8', 7, 'f8da0d', NULL, 1, '1c2132121c1132ee1ee21e2e1edw', 150.00, '2023-02-08 05:27:20', '2023-03-15 05:27:20'),
-(7, 1, 2, 35, NULL, '8', 7, 'c3200a', NULL, 1, '1c2132121c1132ee1ee21e2e1edw', 200.00, '2023-02-15 05:28:00', '2023-03-15 05:28:00'),
-(8, 1, 2, 35, NULL, '8', 7, '42db01', NULL, 1, '1c2132121c1132ee1ee21e2e1edw', 350.00, '2023-02-14 05:28:18', '2023-03-15 05:28:18'),
-(9, 0, 2, 35, NULL, '30', 7, 'feb086', NULL, 1, 'pi_3MmV0GFysF0okTxJ0kGziJSH', 90.00, '2023-03-16 23:05:13', '2023-03-16 23:05:13'),
-(10, 0, 2, 35, NULL, '30', 7, '34b86f', NULL, 1, 'pi_3MmV4NFysF0okTxJ1n3TgWGT', 90.00, '2023-03-16 23:09:25', '2023-03-16 23:09:25'),
-(11, 0, 2, 35, NULL, '31', 7, '2a248b', NULL, 1, 'pi_3MmVtlFysF0okTxJ04yXLIzF', 220.00, '2023-03-17 00:02:37', '2023-03-17 00:02:37'),
-(12, 0, 2, 35, NULL, '30', 7, '6420c7', NULL, 1, 'pi_3MmVwlFysF0okTxJ1yp8ZZRp', 90.00, '2023-03-17 00:05:38', '2023-03-17 00:05:38'),
-(13, 0, 2, 35, NULL, '33', 7, 'bc3167', NULL, 1, 'pi_3MmcQbFysF0okTxJ0VqbZG0E', 80.00, '2023-03-17 07:00:54', '2023-03-17 07:00:54'),
-(14, 0, 2, 35, NULL, '30', 7, '71299e', NULL, 1, 'pi_3MmdNKFysF0okTxJ0LLPnqhl', 147.00, '2023-03-17 08:01:33', '2023-03-17 08:01:33'),
-(15, 0, 2, 35, NULL, '30', 7, 'd728dc', NULL, 1, 'pi_3Mo2ZhFysF0okTxJ18cO9X50', 80.00, '2023-03-21 05:08:07', '2023-03-21 05:08:07'),
-(16, 0, 2, 35, NULL, '30', 7, '13e3f3', NULL, 1, 'pi_3Mo37CFysF0okTxJ00jv8dy9', 150.00, '2023-03-21 05:42:43', '2023-03-21 05:42:43'),
-(17, 0, 2, 35, NULL, '30', 7, '27b51d', NULL, 1, 'pi_3Mo3jrFysF0okTxJ1relo4nB', 73.35, '2023-03-21 06:22:42', '2023-03-21 06:22:42'),
-(18, 0, 2, 35, NULL, '31', 7, '7c9636', NULL, 1, 'pi_3Mo3nFFysF0okTxJ1KxbBCJl', 80.00, '2023-03-21 11:56:09', '2023-03-21 11:56:09'),
-(19, 0, 2, 35, NULL, '30', 7, '0756ad', NULL, 1, 'pi_3Mo3qpFysF0okTxJ1ZSJHyGn', 875.00, '2023-03-21 11:59:51', '2023-03-21 11:59:51'),
-(20, 0, 2, 35, NULL, '32', 7, '7c975a', NULL, 1, 'pi_3Mo4tbFysF0okTxJ0TBhi5eH', 73.45, '2023-03-21 07:36:51', '2023-03-21 07:36:51');
+INSERT INTO `transactions` (`id`, `type`, `vendor_id`, `dome_id`, `league_id`, `user_id`, `booking_id`, `contributor_name`, `payment_method`, `transaction_id`, `amount`, `created_at`, `updated_at`) VALUES
+(1, 1, 2, 35, NULL, 7, 'b98541', NULL, 1, '1c2132121c1132ee1ee21e2e1edw', 1000.00, '2023-03-15 05:20:57', '2023-03-15 05:20:57'),
+(2, 1, 2, 35, NULL, 7, 'f8da0d', NULL, 1, '1c2132121c1132ee1ee21e2e1edw', 1000.00, '2023-03-15 05:27:20', '2023-03-15 05:27:20'),
+(3, 1, 2, 35, NULL, 7, 'c3200a', NULL, 1, '1c2132121c1132ee1ee21e2e1edw', 1000.00, '2023-03-15 05:28:00', '2023-03-15 05:28:00'),
+(4, 1, 2, 35, NULL, 7, '42db01', NULL, 1, '1c2132121c1132ee1ee21e2e1edw', 1000.00, '2023-03-15 05:28:18', '2023-03-15 05:28:18'),
+(5, 1, 2, 35, NULL, 7, 'b98541', NULL, 1, '1c2132121c1132ee1ee21e2e1edw', 120.00, '2023-03-08 05:20:57', '2023-03-15 05:20:57'),
+(6, 1, 2, 35, NULL, 7, 'f8da0d', NULL, 1, '1c2132121c1132ee1ee21e2e1edw', 150.00, '2023-02-08 05:27:20', '2023-03-15 05:27:20'),
+(7, 1, 2, 35, NULL, 7, 'c3200a', NULL, 1, '1c2132121c1132ee1ee21e2e1edw', 200.00, '2023-02-15 05:28:00', '2023-03-15 05:28:00'),
+(8, 1, 2, 35, NULL, 7, '42db01', NULL, 1, '1c2132121c1132ee1ee21e2e1edw', 350.00, '2023-02-14 05:28:18', '2023-03-15 05:28:18'),
+(9, 0, 2, 35, NULL, 7, 'feb086', NULL, 1, 'pi_3MmV0GFysF0okTxJ0kGziJSH', 90.00, '2023-03-16 23:05:13', '2023-03-16 23:05:13'),
+(10, 0, 2, 35, NULL, 7, '34b86f', NULL, 1, 'pi_3MmV4NFysF0okTxJ1n3TgWGT', 90.00, '2023-03-16 23:09:25', '2023-03-16 23:09:25'),
+(11, 0, 2, 35, NULL, 7, '2a248b', NULL, 1, 'pi_3MmVtlFysF0okTxJ04yXLIzF', 220.00, '2023-03-17 00:02:37', '2023-03-17 00:02:37'),
+(12, 0, 2, 35, NULL, 7, '6420c7', NULL, 1, 'pi_3MmVwlFysF0okTxJ1yp8ZZRp', 90.00, '2023-03-17 00:05:38', '2023-03-17 00:05:38'),
+(13, 0, 2, 35, NULL, 7, 'bc3167', NULL, 1, 'pi_3MmcQbFysF0okTxJ0VqbZG0E', 80.00, '2023-03-17 07:00:54', '2023-03-17 07:00:54'),
+(14, 0, 2, 35, NULL, 7, '71299e', NULL, 1, 'pi_3MmdNKFysF0okTxJ0LLPnqhl', 147.00, '2023-03-17 08:01:33', '2023-03-17 08:01:33'),
+(15, 0, 2, 35, NULL, 7, 'd728dc', NULL, 1, 'pi_3Mo2ZhFysF0okTxJ18cO9X50', 80.00, '2023-03-21 05:08:07', '2023-03-21 05:08:07'),
+(16, 0, 2, 35, NULL, 7, '13e3f3', NULL, 1, 'pi_3Mo37CFysF0okTxJ00jv8dy9', 150.00, '2023-03-21 05:42:43', '2023-03-21 05:42:43'),
+(17, 0, 2, 35, NULL, 7, '27b51d', NULL, 1, 'pi_3Mo3jrFysF0okTxJ1relo4nB', 73.35, '2023-03-21 06:22:42', '2023-03-21 06:22:42'),
+(18, 0, 2, 35, NULL, 7, '7c9636', NULL, 1, 'pi_3Mo3nFFysF0okTxJ1KxbBCJl', 80.00, '2023-03-21 11:56:09', '2023-03-21 11:56:09'),
+(19, 0, 2, 35, NULL, 7, '0756ad', NULL, 1, 'pi_3Mo3qpFysF0okTxJ1ZSJHyGn', 875.00, '2023-03-21 11:59:51', '2023-03-21 11:59:51'),
+(20, 0, 2, 35, NULL, 7, '7c975a', NULL, 1, 'pi_3Mo4tbFysF0okTxJ0TBhi5eH', 73.45, '2023-03-21 07:36:51', '2023-03-21 07:36:51'),
+(21, 1, 2, 35, NULL, NULL, '7c975a', 'James', 1, 'pi_3MoOeXFysF0okTxJ1wf2GWqy', 3.00, '2023-03-22 04:43:35', '2023-03-22 04:43:35'),
+(22, 1, 2, 35, NULL, NULL, '7c975a', 'James', 1, 'pi_3MoPE0FysF0okTxJ0PbXNjb6', 7.00, '2023-03-22 05:19:29', '2023-03-22 05:19:29'),
+(23, 1, 2, 35, NULL, NULL, '7c975a', 'James', 1, 'pi_3MoPKJFysF0okTxJ1I7Vp8RK', 6.55, '2023-03-22 05:26:31', '2023-03-22 05:26:31'),
+(24, 1, 2, 35, NULL, NULL, '7c975a', 'james', 1, 'pi_3MoPRUFysF0okTxJ1xj4BiPn', 8.00, '2023-03-22 05:33:20', '2023-03-22 05:33:20');
 
 -- --------------------------------------------------------
 
@@ -884,7 +887,7 @@ ALTER TABLE `sports`
 -- AUTO_INCREMENT for table `transactions`
 --
 ALTER TABLE `transactions`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT for table `users`
