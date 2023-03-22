@@ -51,10 +51,10 @@ class PaymentController extends Controller
             if ($request->field_id == "") {
                 return response()->json(["status" => 0, "message" => "Please Enter Field ID"], 200);
             }
-            if ($request->booking_type == 1 && $request->date == "") {
+            if ($request->date == "") {
                 return response()->json(["status" => 0, "message" => "Please Enter Booking Date"], 200);
             }
-            if ($request->booking_type == 1 && $request->slots == "") {
+            if ($request->slots == "") {
                 return response()->json(["status" => 0, "message" => "Please Select Time Slots For Dome Booking"], 200);
             }
             $dome_id = $request->dome_id;
