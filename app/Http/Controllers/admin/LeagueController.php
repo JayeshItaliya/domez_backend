@@ -115,7 +115,7 @@ class LeagueController extends Controller
                 foreach ($request->file('images') as $img) {
                     $domeimage = new DomeImages();
                     $image = 'league-' . uniqid() . '.' . $img->getClientOriginalExtension();
-                    $img->move('storage/app/public/admin/images/leagues', $image);
+                    $img->move('storage/app/public/admin/images/league', $image);
                     $domeimage->vendor_id = Auth::user()->id;
                     $domeimage->league_id = $league->id;
                     $domeimage->images = $image;
