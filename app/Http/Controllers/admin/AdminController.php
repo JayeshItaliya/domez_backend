@@ -44,7 +44,6 @@ class AdminController extends Controller
             $getbookingslist = $bookings->where('vendor_id', auth()->user()->id)->get();
         }
 
-
         if ($request->filtertype == "this_month") {
 
             // For Income Chart
@@ -63,8 +62,7 @@ class AdminController extends Controller
             // For Users Chart
             $total_users_data_sum = $total_users_data->whereMonth('created_at', Carbon::now()->month)->count();
             $total_users_data = $total_users_data->whereMonth('created_at', Carbon::now()->month)->select(DB::raw('MONTHNAME(created_at) as titles'), DB::raw('COUNT(*) as users'))
-            // ->groupBy(DB::raw('DATE_FORMAT(created_at,"%d-%-m-Y")'))
-            ->pluck('titles', 'users');
+                ->pluck('titles', 'users');
 
             // For Dome Owners Chart
             $total_dome_owners_data_sum = $total_dome_owners_data->whereMonth('created_at', Carbon::now()->month)->count();
@@ -91,7 +89,6 @@ class AdminController extends Controller
             // For Dome Owners Chart
             $total_dome_owners_data_sum = $total_dome_owners_data->whereYear('created_at', Carbon::now()->year)->count();
             $total_dome_owners_data = $total_dome_owners_data->whereYear('created_at', Carbon::now()->year)->select(DB::raw('MONTHNAME(created_at) as titles'), DB::raw('COUNT(id) as users'))->groupBy('titles')->pluck('titles', 'users');
-
         } elseif ($request->filtertype == "custom_date") {
 
             $weekStartDate = explode(' to ', $request->filterdates)[0];

@@ -156,7 +156,6 @@ class PaymentController extends Controller
         $amount = $request->payment_type == 1 ? $request->total_amount : $request->paid_amount;
         $booking_id = bin2hex(random_bytes(3));
         $transaction_id = $request->transaction_id;
-        // dd($dome, $league);
         try {
             // Payment Type = 1=Full Payment, 2=Split Payment
             $transaction = new Transaction;
