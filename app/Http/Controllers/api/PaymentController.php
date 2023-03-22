@@ -65,7 +65,7 @@ class PaymentController extends Controller
             if ($request->team_name == "") {
                 return response()->json(["status" => 0, "message" => "Please Enter Team Name For League"], 200);
             }
-            if ($request->payment_type == 2 && $request->paid_amount == "") {
+            if ($request->paid_amount == "") {
                 return response()->json(["status" => 0, "message" => "Please Enter Paid Amount"], 200);
             }
             $dome_id = $request->dome_id;
