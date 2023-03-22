@@ -167,7 +167,6 @@ class PaymentController extends Controller
             } else {
                 $transaction->league_id = $league->id;
             }
-            $transaction->field_id = $field_id;
             $transaction->user_id = $user->id;
             $transaction->booking_id = $booking_id;
             $transaction->payment_method = $request->payment_method;
