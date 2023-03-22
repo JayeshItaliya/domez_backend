@@ -293,7 +293,7 @@
                 // eventDisplay: 'list-item',
                 initialView: 'timeGridWeek',
                 dayMaxEvents: true,
-                contentHeight: '700px',
+                contentHeight: '800px',
                 headerToolbar: {
                     left: 'prev next today',
                     center: 'title',
@@ -307,6 +307,7 @@
                             end: "{{ $booking->end_date }}",
                             url: "{{ URL::to('admin/bookings/details-' . $booking->booking_id) }}",
                             dome_name: '{{ $booking->dome_name != '' ? Str::limit($booking->dome_name->name, 20) : '' }}',
+                            users_name: '{{ $booking->customer_name != '' ? Str::limit($booking->customer_name, 20) : '' }}',
                             league_name: '{{ $booking->league_id != '' ? Str::limit($booking->league_info->name, 20) : '' }}',
                             color: "{{ $booking->league_id != '' ? 'var(--bs-secondary)' : '' }}",
                         },
@@ -317,6 +318,10 @@
                     if (info.event.extendedProps.dome_name != "") {
                         title = '<b>{{ trans('labels.dome') }}</b> : ' + info.event.extendedProps
                             .dome_name;
+                    }
+                    if (info.event.extendedProps.users_name != "") {
+                        title += '<br><b>{{ trans('labels.user') }}</b> : ' + info.event.extendedProps
+                            .users_name;
                     }
                     if (info.event.extendedProps.league_name != "") {
                         title += '<br><b>{{ trans('labels.league') }}</b> : ' + info.event

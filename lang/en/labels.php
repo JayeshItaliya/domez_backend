@@ -67,10 +67,11 @@ return [
     'revenue' => 'Revenue',
     'recent_bookings' => 'Recent Bookings',
     'user_mobile_app' => 'Users Of Mobile App',
+    'user' => 'User',
     // Workers
-    'workers' => 'Workers',
-    'workers_list' => 'Workers List',
-    'add_worker' => 'Add Worker',
+    'workers' => 'Employees',
+    'workers_list' => 'Employees List',
+    'add_worker' => 'Add Employee',
     // Users
     'users' => 'Users',
     'user_details' => 'User Details',
