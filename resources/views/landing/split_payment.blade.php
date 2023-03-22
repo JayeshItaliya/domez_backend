@@ -460,139 +460,144 @@
         },
     };
     $('#mysubmit, .new-payment, .my-spinner').hide();
-    checkStatus();
-    async function checkStatus() {
-        const clientSecret = new URLSearchParams(window.location.search).get(
-            "payment_intent_client_secret"
-        );
-        const amount = new URLSearchParams(window.location.search).get(
-            "amount"
-        );
-        const receipt_name = new URLSearchParams(window.location.search).get(
-            "receipt_name"
-        );
-        if (!clientSecret) {
-            return;
-        }
-        $('.form-inputs').hide();
-        $('.my-spinner').show();
-        try {
-            const {
-                paymentIntent
-            } = await stripe.retrievePaymentIntent(clientSecret);
-            switch (paymentIntent.status) {
-                case "succeeded":
-                    changeStatus(paymentIntent.id, amount, receipt_name);
-                    break;
-                case "processing":
-                    changeStatus(paymentIntent.id, amount, receipt_name);
-                    break;
-                case "requires_payment_method":
-                    $('#payment-message').removeClass('d-none').addClass('text-danger').html(
-                        "Your payment was not successful, please try again.");
-                    break;
-                default:
-                    $('#payment-message').removeClass('d-none').addClass('text-danger').html(
-                        "Something went wrong.");
-                    break;
+    if ({{ Js::from($checkbooking->due_amount) }} <= 0) {
+        $('.success-card').show();
+        $('#payment-form').hide();
+    } else {
+        checkStatus();
+        async function checkStatus() {
+            const clientSecret = new URLSearchParams(window.location.search).get(
+                "payment_intent_client_secret"
+            );
+            const amount = new URLSearchParams(window.location.search).get(
+                "amount"
+            );
+            const receipt_name = new URLSearchParams(window.location.search).get(
+                "receipt_name"
+            );
+            if (!clientSecret) {
+                return;
             }
-        } catch (error) {
-            $('#payment-message').removeClass('d-none').addClass('text-danger').html("Something went wrong.");
-            $('#payment-form').hide();
-            return false;
-        }
-    }
-
-    function changeStatus(transaction_id, amount, contributor_name) {
-        $.ajax({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
-                    'content')
-            },
-            type: "post",
-            url: process_url,
-            data: {
-                contributor_name: contributor_name,
-                amount: amount,
-                booking_token: booking_token,
-                transaction_id: transaction_id
-            },
-            beforeSend: function(response) {
-                $('.form-inputs, #payment-form').hide();
-                $('.my-spinner').show();
-            },
-            success: function(response) {
-                if (response.status == 1) {
-                    $('.my-spinner').hide();
-                    $('.success-card, .new-payment').show();
-                }else{
-                    $('#payment-message').removeClass('d-none').addClass('text-danger').html(response.message);
+            $('.form-inputs').hide();
+            $('.my-spinner').show();
+            try {
+                const {
+                    paymentIntent
+                } = await stripe.retrievePaymentIntent(clientSecret);
+                switch (paymentIntent.status) {
+                    case "succeeded":
+                        changeStatus(paymentIntent.id, amount, receipt_name);
+                        break;
+                    case "processing":
+                        changeStatus(paymentIntent.id, amount, receipt_name);
+                        break;
+                    case "requires_payment_method":
+                        $('#payment-message').removeClass('d-none').addClass('text-danger').html(
+                            "Your payment was not successful, please try again.");
+                        break;
+                    default:
+                        $('#payment-message').removeClass('d-none').addClass('text-danger').html(
+                            "Something went wrong.");
+                        break;
                 }
-                return false;
-            },
-            error: function(response) {
+            } catch (error) {
                 $('#payment-message').removeClass('d-none').addClass('text-danger').html("Something went wrong.");
-                $('#btnamount').attr('disabled', false);
-            },
+                $('#payment-form').hide();
+                return false;
+            }
+        }
+
+        function changeStatus(transaction_id, amount, contributor_name) {
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
+                        'content')
+                },
+                type: "post",
+                url: process_url,
+                data: {
+                    contributor_name: contributor_name,
+                    amount: amount,
+                    booking_token: booking_token,
+                    transaction_id: transaction_id
+                },
+                beforeSend: function(response) {
+                    $('.form-inputs, #payment-form').hide();
+                    $('.my-spinner').show();
+                },
+                success: function(response) {
+                    if (response.status == 1) {
+                        $('.my-spinner').hide();
+                        $('.success-card, .new-payment').show();
+                    }else{
+                        $('#payment-message').removeClass('d-none').addClass('text-danger').html(response.message);
+                    }
+                    return false;
+                },
+                error: function(response) {
+                    $('#payment-message').removeClass('d-none').addClass('text-danger').html("Something went wrong.");
+                    $('#btnamount').attr('disabled', false);
+                },
+            });
+        }
+        $('#btnamount').on('click', function() {
+            if ($.trim($('#receipt_name').val()) == "") {
+                $('#receipt_name').addClass('is-invalid');
+                return false;
+            } else if ($.trim($('#receipt_email').val()) == "") {
+                $('#receipt_email').addClass('is-invalid');
+                return false;
+            } else if ($.trim($('#amount').val()) == "" || $('#amount').val() == 0 || $('#amount').val() > {{ Js::from($checkbooking->due_amount) }}) {
+                $('#amount').addClass('is-invalid');
+                return false;
+            } else {
+                $('#amount, #receipt_email, #receipt_name').removeClass('is-invalid');
+            }
+            $.ajax({
+                type: "get",
+                url: page_url,
+                data: {
+                    amount: $('#amount').val()
+                },
+                beforeSend: function(response) {
+                    $('#btnamount, #amount, #receipt_name, #receipt_email').attr('disabled', true);
+                    $('.my-spinner').show();
+                },
+                success: function(response) {
+                    $('.my-spinner').hide();
+                    var clientSecret = response.client_secret;
+                    var elements = stripe.elements({
+                        clientSecret,
+                        appearance
+                    });
+                    var paymentElement = elements.create('payment', {
+                        layout: {
+                            type: 'tabs',
+                            defaultCollapsed: false,
+                        }
+                    });
+                    paymentElement.mount('#payment-element');
+                    $('#mysubmit').show();
+                    $('#mysubmit').on('click', function() {
+                        stripe.confirmPayment({
+                            elements,
+                            confirmParams: {
+                                return_url: page_url + '?amount=' + $('#amount').val() +
+                                    '&receipt_email=' + $('#receipt_email').val() +
+                                    '&receipt_name=' +
+                                    $('#receipt_name').val(),
+                                receipt_email: $('#receipt_email').val(),
+                            },
+                        });
+                        return false;
+                    });
+                },
+                error: function(response) {
+                    $('#btnamount').attr('disabled', false);
+                },
+            });
         });
     }
-    $('#btnamount').on('click', function() {
-        if ($.trim($('#receipt_name').val()) == "") {
-            $('#receipt_name').addClass('is-invalid');
-            return false;
-        } else if ($.trim($('#receipt_email').val()) == "") {
-            $('#receipt_email').addClass('is-invalid');
-            return false;
-        } else if ($.trim($('#amount').val()) == "" || $('#amount').val() == 0 || $('#amount').val() > {{ Js::from($checkbooking->due_amount) }}) {
-            $('#amount').addClass('is-invalid');
-            return false;
-        } else {
-            $('#amount, #receipt_email, #receipt_name').removeClass('is-invalid');
-        }
-        $.ajax({
-            type: "get",
-            url: page_url,
-            data: {
-                amount: $('#amount').val()
-            },
-            beforeSend: function(response) {
-                $('#btnamount, #amount, #receipt_name, #receipt_email').attr('disabled', true);
-                $('.my-spinner').show();
-            },
-            success: function(response) {
-                $('.my-spinner').hide();
-                var clientSecret = response.client_secret;
-                var elements = stripe.elements({
-                    clientSecret,
-                    appearance
-                });
-                var paymentElement = elements.create('payment', {
-                    layout: {
-                        type: 'tabs',
-                        defaultCollapsed: false,
-                    }
-                });
-                paymentElement.mount('#payment-element');
-                $('#mysubmit').show();
-                $('#mysubmit').on('click', function() {
-                    stripe.confirmPayment({
-                        elements,
-                        confirmParams: {
-                            return_url: page_url + '?amount=' + $('#amount').val() +
-                                '&receipt_email=' + $('#receipt_email').val() +
-                                '&receipt_name=' +
-                                $('#receipt_name').val(),
-                            receipt_email: $('#receipt_email').val(),
-                        },
-                    });
-                    return false;
-                });
-            },
-            error: function(response) {
-                $('#btnamount').attr('disabled', false);
-            },
-        });
-    });
 </script>
 
 </html>
