@@ -24,7 +24,7 @@ class League extends Model
     }
     public function dome_info()
     {
-        return $this->hasOne('App\Models\Domes', 'id', 'dome_id')->select('id', 'name', 'sport_id', 'address', 'state', 'city', 'lat', 'lng', 'hst', 'benefits', 'benefits_description');
+        return $this->hasOne('App\Models\Domes', 'id', 'dome_id')->select('id', 'vendor_id', 'name', 'sport_id', 'address', 'state', 'city', 'lat', 'lng', 'hst', 'benefits', 'benefits_description');
     }
     public function dome_owner()
     {
