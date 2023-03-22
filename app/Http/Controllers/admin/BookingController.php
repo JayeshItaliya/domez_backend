@@ -238,9 +238,65 @@ class BookingController extends Controller
     {
         $checkbooking = Booking::where('token', $request->token)->first();
         if (!empty($checkbooking)) {
-            return view('landing.split_payment', compact('checkbooking'));
+            $page_url = URL::to('/payment/' . $request->token);
+            $booking_token = $request->token;
+            if ($request->ajax()) {
+                \Stripe\Stripe::setApiKey(Helper::stripe_data()->secret_key);
+                $intent = \Stripe\PaymentIntent::create([
+                    'amount' => $request->amount * 100,
+                    'currency' => 'cad',
+                    'payment_method_types' => [
+                        'card',
+                        // 'bancontact',
+                        // 'eps',
+                        // 'giropay',
+                        // 'ideal',
+                        // 'p24',
+                        // 'sepa_debit',
+                        // 'sofort',
+                    ],
+                ]);
+                return response()->json(['client_secret' => $intent->client_secret]);
+            }
+            return view('landing.split_payment', compact('checkbooking', 'page_url', 'booking_token'));
         } else {
             abort(404);
+        }
+    }
+    public function split_payment_process(Request $request)
+    {
+        try {
+            $checktransaction = Transaction::where('transaction_id', $request->transaction_id)->first();
+            if (empty($checktransaction)) {
+
+                $checkbooking = Booking::where('token', $request->booking_token)->first();
+                $checkbooking->due_amount -= $request->amount;
+                $checkbooking->paid_amount += $request->amount;
+                $checkbooking->save();
+
+                $newcheckbooking = Booking::where('token', $request->booking_token)->first();
+                if ($newcheckbooking->due_amount == 0) {
+                    $newcheckbooking->booking_status = 1;
+                    $newcheckbooking->save();
+                }
+
+                $checkbooking1 = Booking::where('token', $request->booking_token)->first();
+
+                $transaction = new Transaction();
+                $transaction->type = 1;
+                $transaction->vendor_id = $checkbooking1->vendor_id;
+                $transaction->dome_id = $checkbooking1->dome_id;
+                $transaction->league_id = $checkbooking1->league_id;
+                $transaction->booking_id = $checkbooking1->booking_id;
+                $transaction->contributor_name = $request->contributor_name;
+                $transaction->payment_method = 1;
+                $transaction->transaction_id = $request->transaction_id;
+                $transaction->amount = $request->amount;
+                $transaction->save();
+            }
+            return response()->json(['status' => 1, 'message' => 'Payment Successfull'], 200);
+        } catch (\Throwable $th) {
+            return response()->json(['status' => 0, 'message' => trans('messages.wrong')], 200);
         }
     }
 }

@@ -56,7 +56,7 @@ class SportsController extends Controller
         $user = Sports::find($request->id);
         $user->is_deleted = $request->status;
         $user->save();
-        
+
         return 1;
     }
 
@@ -89,10 +89,10 @@ class SportsController extends Controller
             $new_name = 'sport-' . rand(0000, 9999) . '.' . $request->image->getClientOriginalExtension();
             $path = storage_path('app\public\admin\images\sports');
             $request->image->move($path, $new_name);
+            $checksport->image = $new_name;
         }
 
         $checksport->name = $request->name;
-        $checksport->image = $new_name;
         $checksport->save();
 
         return redirect('admin/sports')->with('success', 'Updated Successfully');

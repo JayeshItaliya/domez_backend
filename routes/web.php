@@ -39,6 +39,7 @@ Route::get('privacy-policy', [AdminController::class, 'privacy_policy']);
 Route::get('terms-conditions', [AdminController::class, 'terms_conditions']);
 
 Route::get('payment/{token}', [BookingController::class, 'split_payment']);
+Route::post('payment/process', [BookingController::class, 'split_payment_process']);
 
 
 // Authentication
