@@ -68,7 +68,7 @@ class AuthenticationController extends Controller
     public function logout(Request $request)
     {
         Auth::logout();
-        return redirect('login')->with('success', trans('messages.success'));
+        return redirect('/')->with('success', trans('messages.success'));
     }
 
     public function verification(Request $request)
