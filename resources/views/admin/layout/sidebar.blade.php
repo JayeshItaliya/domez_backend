@@ -98,6 +98,8 @@
                             <span
                                 class="nav-link {{ request()->is('admin/field*') ? 'active' : '' }}">{{ trans('labels.fields') }}</span>
                         </a>
+                    @endif
+                    @if (in_array(Auth::user()->type, [2, 4]))
                         <a href="{{ URL::to('admin/set-prices') }}" class="nav-item">
                             <span
                                 class="nav-link {{ request()->is('admin/set-prices*') ? 'active' : '' }}">{{ trans('labels.set_prices') }}</span>
@@ -127,17 +129,19 @@
                 {{-- <i class="fa-light fa-calendar-day"></i> --}}
                 <span class="mx-3">{{ trans('labels.bookings') }}</span>
             </a>
-            <a href="{{ URL::to('admin/transactions') }}"
-                class="nav-item {{ request()->is('admin/transactions*') ? 'active' : '' }}">
-                <i class="fa-light fa-file-invoice-dollar"></i>
-                <span class="mx-3">{{ trans('labels.transactions') }}</span>
-            </a>
+            @if (in_array(Auth::user()->type, [1, 2]))
+                <a href="{{ URL::to('admin/transactions') }}"
+                    class="nav-item {{ request()->is('admin/transactions*') ? 'active' : '' }}">
+                    <i class="fa-light fa-file-invoice-dollar"></i>
+                    <span class="mx-3">{{ trans('labels.transactions') }}</span>
+                </a>
+            @endif
             <a href="{{ URL::to('admin/calendar') }}"
                 class="nav-item {{ request()->is('admin/calendar*') ? 'active' : '' }}">
                 <i class="fa-light fa-calendar-range"></i>
                 <span class="mx-3">{{ trans('labels.calendar') }}</span>
             </a>
-            @if (Auth::user()->type == 2)
+            @if (in_array(Auth::user()->type, [2, 4]))
                 <a href="{{ URL::to('admin/reviews') }}"
                     class="nav-item {{ request()->is('admin/reviews*') ? 'active' : '' }}">
                     <i class="fa-light fa-message-smile"></i>

@@ -6,6 +6,7 @@ use App\Helper\Helper;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 
@@ -21,6 +22,7 @@ class WorkersController extends Controller
         $workers = new User;
         $workers->type = 4;
         $workers->login_type = 1;
+        $workers->vendor_id = Auth::user()->id;
         $workers->name = $request->name;
         $workers->email = $request->email;
         $workers->is_verified = 1;

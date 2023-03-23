@@ -18,8 +18,8 @@ class DomesController extends Controller
         if (auth()->user()->id == 1) {
             $domes = Domes::with('dome_image', 'dome_owner')->where('is_deleted', 2)->get();
         } else {
-            $domes = Domes::with('dome_image')->where('vendor_id', auth()->user()->id)->where('is_deleted', 2)->get();
-            $domes_count = Domes::where('vendor_id', Auth::user()->id)->count();
+            $domes = Domes::with('dome_image')->where('vendor_id', Auth::user()->type == 2 ? Auth::user()->id : Auth::user()->vendor_id)->where('is_deleted', 2)->get();
+            $domes_count = Domes::where('vendor_id', Auth::user()->type == 2 ? Auth::user()->id : Auth::user()->vendor_id)->count();
         }
         $sports = Sports::where('is_available', 1)->where('is_deleted', 2)->get();
         return view('admin.domes.index', compact('domes', 'sports', 'domes_count'));

@@ -62,7 +62,7 @@ class BookingController extends Controller
         if (auth()->user()->type == 1) {
             $getbookingslist = Booking::orderByDesc('id')->get();
         } else {
-            $getbookingslist = Booking::where('vendor_id', auth()->user()->id)->orderByDesc('id')->get();
+            $getbookingslist = Booking::where('vendor_id', Auth::user()->type == 2 ? Auth::user()->id : Auth::user()->vendor_id)->orderByDesc('id')->get();
         }
         // $data = [];
         // foreach ($getbookingslist as $key => $booking) {

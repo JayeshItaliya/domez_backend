@@ -203,7 +203,7 @@
                             <label>{{ trans('labels.sports') }}</label>
                         </div>
                         <div class="col-lg-8 col-md-10">
-                            <ul class="d-flex">
+                            <ul class="d-flex flex-wrap">
                                 @foreach ($sports as $sport)
                                     <li class="text-muted fs-7 me-3 " style="list-style: inside">{{ $sport->name }}</li>
                                 @endforeach
@@ -229,7 +229,7 @@
                             <label>{{ trans('labels.sports_price') }}</label>
                         </div>
                         <div class="col-md-8">
-                            <ul class="d-flex">
+                            <ul class="d-flex flex-wrap">
                                 @foreach ($sports as $sport)
                                     <li class="text-muted fs-7 me-3 me-mb-0" style="list-style: inside">
                                         {{ $sport->name }}</li>
@@ -257,7 +257,7 @@
             <div class="px-3 py-2 d-flex">
                 @foreach ($dome['dome_images'] as $images)
                     <div class="col-auto me-3">
-                        <img src="{{ Helper::image_path($images->images) }}" alt="" width="100"
+                        <img src="{{ $images->image }}" alt="" width="100"
                             height="60" class="rounded" style="object-fit: cover; object-position:center;">
                     </div>
                 @endforeach

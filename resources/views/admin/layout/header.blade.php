@@ -35,10 +35,17 @@
         </div>
         <ul class="nav-icons">
             {{-- Only use for development purpose --}}
-            <li class="dropdown">
-                <a href="{{ URL::to('admin/login-dev') }}"
-                    class="btn btn-primary">{{ Auth::user()->type == 1 ? 'Login as Dome Owner' : 'Login as Admin' }}</a>
-            </li>
+            @if (in_array(Auth::user()->typ, [1, 2]))
+                <li class="dropdown">
+                    <a href="{{ URL::to('admin/login-dev') }}"
+                        class="btn btn-primary">{{ Auth::user()->type == 1 ? 'Login as Dome Owner' : 'Login as Admin' }}</a>
+                </li>
+            @endif
+            @if (Auth::user()->type == 2)
+                <li class="dropdown ms-3">
+                    <a href="{{ URL::to('admin/login-emp') }}" class="btn btn-primary">Login as Employee</a>
+                </li>
+            @endif
             {{-- Only use for development purpose --}}
             <li class="dropdown">
                 <a href="#" class="nav-item currency-icon" role="button" data-bs-toggle="dropdown"

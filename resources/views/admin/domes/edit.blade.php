@@ -260,12 +260,15 @@
                         </div>
                         <div class="col-md-12 mb-3">
                             <div class="row row-cols-lg-5 row-cols-md-4" id="sport_prices_input">
-                                @foreach ($getsportslist as $data)
-                                    @if (in_array($data->id, $sport_id))
-                                        <div class="col mb-2" id="{{ $data->name . $data->id }}">
-                                            <label class="form-label" for="dome_price">{{ $data->name . ' ' . trans('labels.price') }}</label>
+                                @foreach ($getsportslist as $sport)
+                                    @if (in_array($sport->id, $sport_id))
+                                        <div class="col mb-2" id="{{ $sport->name . $sport->id }}">
+                                            <label class="form-label"
+                                                for="dome_price">{{ $sport->name . ' ' . trans('labels.price') }}</label>
                                             <div class="input-group">
-                                                <input type="number" class="form-control" name="dome_price[]" value="0" placeholder="0">
+                                                <input type="number" class="form-control" name="dome_price[]"
+                                                    value="{{ Helper::get_dome_price($dome->id, $sport->id) }}"
+                                                    placeholder="0">
                                                 <span class="input-group-text" id="basic-addon1">$</span>
                                             </div>
                                         </div>
@@ -297,11 +300,11 @@
                         <div class="position-relative">
                             <img src="{{ $demoimages->image }}" alt="..." class="mb-3 rounded"
                                 style="width:120px; height:70px;">
-                            <div class="img-overlay">
+                            {{-- <div class="img-overlay">
                                 <a onclick="dome_delete('{{ $demoimages->id }}','{{ URL::to('admin/domes/image_delete') }}')"
                                     class="text-bg-danger-soft fs-3 rounded-circle py-2 px-3"><i
                                         class="fa-light fa-trash-can"></i></a>
-                            </div>
+                            </div> --}}
                         </div>
                     </div>
                 @endforeach

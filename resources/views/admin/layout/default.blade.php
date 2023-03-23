@@ -137,8 +137,7 @@
                         </label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="font_family" id="inter"
-                            value="Inter">
+                        <input class="form-check-input" type="radio" name="font_family" id="inter" value="Inter">
                         <label class="form-check-label" for="inter">
                             {{ trans('labels.inter') }}
                         </label>
@@ -186,6 +185,7 @@
         let oops = {{ Js::from(trans('messages.oops')) }};
         let no_data = {{ Js::from(trans('messages.no_data')) }};
         let is_vendor = {{ Js::from(Auth::user()->type == 2 ? true : false) }};
+        let is_employee = {{ Js::from(Auth::user()->type == 4 ? true : false) }};
         let primary_color = $('#primaryColor').css('color');
         let secondary_color = $('#secondaryColor').css('color');
         let light_secondary_color = $('#lightSecondaryColor').css('color');
