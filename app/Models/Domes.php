@@ -15,10 +15,14 @@ class Domes extends Model
     }
     public function dome_images()
     {
-        return $this->hasMany('App\Models\DomeImages', 'dome_id','id')->select('id','dome_id', DB::raw("CONCAT('" . url('storage/app/public/admin/images/domes') . "/', images) AS image"));
+        return $this->hasMany('App\Models\DomeImages', 'dome_id', 'id')->select('id', 'dome_id', DB::raw("CONCAT('" . url('storage/app/public/admin/images/domes') . "/', images) AS image"));
     }
     public function dome_owner()
     {
-        return $this->hasOne('App\Models\User', 'id', 'vendor_id')->select('id','name','email','is_available');
+        return $this->hasOne('App\Models\User', 'id', 'vendor_id')->select('id', 'name', 'email', 'is_available');
+    }
+    public function sport_price()
+    {
+        return $this->hasMany('App\Models\SetPrices', 'dome_id', 'id')->where('price_type', 1)->select('sport_id', 'price');
     }
 }

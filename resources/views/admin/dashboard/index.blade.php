@@ -7,99 +7,105 @@
 @endsection
 @section('contents')
     <div class="dashboard">
-        <div class="row mb-3">
-            <div class="col-md-6 mb-3 h-100">
-                <div class="card earning-card">
-                    <div class="card-body">
-                        <div class="row justify-content-between">
-                            <div class="col-auto mb-3">
-                                <div class="earning-icon">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-briefcase"
-                                        width="25" height="25" viewBox="0 0 24 24" stroke-width="1.5" stroke="white"
-                                        fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                        <rect x="3" y="7" width="18" height="13" rx="2" />
-                                        <path d="M8 7v-2a2 2 0 0 1 2 -2h4a2 2 0 0 1 2 2v2" />
-                                        <line x1="12" y1="12" x2="12" y2="12.01" />
-                                        <path d="M3 13a20 20 0 0 0 18 0" />
-                                    </svg>
+        @if (in_array(Auth::user()->type, [1, 2]))
+            <div class="row mb-3">
+                <div class="col-md-6 mb-3 h-100">
+                    <div class="card earning-card">
+                        <div class="card-body">
+                            <div class="row justify-content-between">
+                                <div class="col-auto mb-3">
+                                    <div class="earning-icon">
+                                        <svg xmlns="http://www.w3.org/2000/svg"
+                                            class="icon icon-tabler icon-tabler-briefcase" width="25" height="25"
+                                            viewBox="0 0 24 24" stroke-width="1.5" stroke="white" fill="none"
+                                            stroke-linecap="round" stroke-linejoin="round">
+                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                            <rect x="3" y="7" width="18" height="13"
+                                                rx="2" />
+                                            <path d="M8 7v-2a2 2 0 0 1 2 -2h4a2 2 0 0 1 2 2v2" />
+                                            <line x1="12" y1="12" x2="12" y2="12.01" />
+                                            <path d="M3 13a20 20 0 0 0 18 0" />
+                                        </svg>
+                                    </div>
+                                </div>
+                                <div class="col-auto mb-3" style="z-index:9;">
+                                    <div class="d-flex">
+                                        <input type="text"
+                                            class="form-control me-2 bg-transparent date-range-picker text-white"
+                                            placeholder="{{ trans('labels.select_date') }}">
+                                        <select class="form-select income-filter"
+                                            data-next="{{ URL::to('admin/dashboard') }}">
+                                            <option value="this_week" selected>{{ trans('labels.this_week') }}</option>
+                                            <option value="this_month">{{ trans('labels.this_month') }}</option>
+                                            <option value="this_year">{{ trans('labels.this_year') }}</option>
+                                            <option value="custom_date">{{ trans('labels.custom_date') }}</option>
+                                        </select>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-auto mb-3" style="z-index:9;">
-                                <div class="d-flex">
-                                    <input type="text"
-                                        class="form-control me-2 bg-transparent date-range-picker text-white"
-                                        placeholder="{{ trans('labels.select_date') }}">
-                                    <select class="form-select income-filter" data-next="{{ URL::to('admin/dashboard') }}">
-                                        <option value="this_week" selected>{{ trans('labels.this_week') }}</option>
-                                        <option value="this_month">{{ trans('labels.this_month') }}</option>
-                                        <option value="this_year">{{ trans('labels.this_year') }}</option>
-                                        <option value="custom_date">{{ trans('labels.custom_date') }}</option>
-                                    </select>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h1 class="text-white mb-2 total-income">
+                                        {{ Helper::currency_format($total_income_data_sum) }}</h1>
+                                    <p class="text-white text-opacity-75">{{ trans('labels.total_income') }}</p>
+                                </div>
+                                <div class="col-md-6" style="z-index: 9;">
+                                    <div id="total_income"></div>
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <h1 class="text-white mb-2 total-income">
-                                    {{ Helper::currency_format($total_income_data_sum) }}</h1>
-                                <p class="text-white text-opacity-75">{{ trans('labels.total_income') }}</p>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3 h-100">
+                    <div class="card confirm-booking-card">
+                        <div class="card-body">
+                            <div class="row justify-content-between">
+                                <div class="col-auto mb-3">
+                                    <div class="confirm-booking-icon">
+                                        <svg xmlns="http://www.w3.org/2000/svg"
+                                            class="icon icon-tabler icon-tabler-calendar-stats" width="25"
+                                            height="25" viewBox="0 0 24 24" stroke-width="1.5" stroke="white"
+                                            fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                            <path
+                                                d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+                                            <path d="M18 14v4h4" />
+                                            <circle cx="18" cy="18" r="4" />
+                                            <path d="M15 3v4" />
+                                            <path d="M7 3v4" />
+                                            <path d="M3 11h16" />
+                                        </svg>
+                                    </div>
+                                </div>
+                                <div class="col-auto mb-3" style="z-index:9;">
+                                    <div class="d-flex">
+                                        <input type="text"
+                                            class="form-control me-2 bg-transparent date-range-picker text-white"
+                                            placeholder="{{ trans('labels.select_date') }}">
+                                        <select class="form-select booking-filter"
+                                            data-next="{{ URL::to('admin/dashboard') }}">
+                                            <option value="this_week" selected>{{ trans('labels.this_week') }}</option>
+                                            <option value="this_month">{{ trans('labels.this_month') }}</option>
+                                            <option value="this_year">{{ trans('labels.this_year') }}</option>
+                                            <option value="custom_date">{{ trans('labels.custom_date') }}</option>
+                                        </select>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="col-md-6" style="z-index: 9;">
-                                <div id="total_income"></div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h1 class="text-white mb-2 total-booking">{{ $total_bookings_count }}</h1>
+                                    <p class="text-white text-opacity-75">{{ trans('labels.total_bookings') }}</p>
+                                </div>
+                                <div class="col-md-6" style="z-index: 9;">
+                                    <div id="total_bookings"></div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-md-6 mb-3 h-100">
-                <div class="card confirm-booking-card">
-                    <div class="card-body">
-                        <div class="row justify-content-between">
-                            <div class="col-auto mb-3">
-                                <div class="confirm-booking-icon">
-                                    <svg xmlns="http://www.w3.org/2000/svg"
-                                        class="icon icon-tabler icon-tabler-calendar-stats" width="25" height="25"
-                                        viewBox="0 0 24 24" stroke-width="1.5" stroke="white" fill="none"
-                                        stroke-linecap="round" stroke-linejoin="round">
-                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                        <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
-                                        <path d="M18 14v4h4" />
-                                        <circle cx="18" cy="18" r="4" />
-                                        <path d="M15 3v4" />
-                                        <path d="M7 3v4" />
-                                        <path d="M3 11h16" />
-                                    </svg>
-                                </div>
-                            </div>
-                            <div class="col-auto mb-3" style="z-index:9;">
-                                <div class="d-flex">
-                                    <input type="text"
-                                        class="form-control me-2 bg-transparent date-range-picker text-white"
-                                        placeholder="{{ trans('labels.select_date') }}">
-                                    <select class="form-select booking-filter"
-                                        data-next="{{ URL::to('admin/dashboard') }}">
-                                        <option value="this_week" selected>{{ trans('labels.this_week') }}</option>
-                                        <option value="this_month">{{ trans('labels.this_month') }}</option>
-                                        <option value="this_year">{{ trans('labels.this_year') }}</option>
-                                        <option value="custom_date">{{ trans('labels.custom_date') }}</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <h1 class="text-white mb-2 total-booking">{{ $total_bookings_count }}</h1>
-                                <p class="text-white text-opacity-75">{{ trans('labels.total_bookings') }}</p>
-                            </div>
-                            <div class="col-md-6" style="z-index: 9;">
-                                <div id="total_bookings"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        @endif
         <div class="row mb-3">
             <style>
                 :root {
@@ -143,34 +149,36 @@
                     </div>
                 </div>
             </div>
-            <div class="{{ Auth::user()->type == 2 ? 'col-lg-6' : 'col-12' }}">
-                <div class="card revenue-card" style="background: rgba(var(--bs-secondary-rgb),0.1)">
-                    <div class="card-body">
-                        <div class="d-flex align-items-center justify-content-between mb-3">
-                            <div class="content">
-                                <p class="mb-2 fw-500 text-muted">{{ trans('labels.revenue') }}</p>
-                                <h4 class="total-revenue">{{ Helper::currency_format($total_revenue_data_sum) }}</h4>
-                            </div>
-                            <div class="d-flex gap-2">
-                                <input type="text"
-                                    class="form-control me-2 bg-transparent date-range-picker border-primary"
-                                    placeholder="{{ trans('labels.select_date') }}">
-                                <select class="form-select revenue-filter"
-                                    style="background-color: transparent;border-color:var(--bs-primary);"
-                                    data-next="{{ URL::to('admin/dashboard') }}">
-                                    <option value="this_week" selected>{{ trans('labels.this_week') }}</option>
-                                    <option value="this_month">{{ trans('labels.this_month') }}</option>
-                                    <option value="this_year">{{ trans('labels.this_year') }}</option>
-                                    <option value="custom_date">{{ trans('labels.custom_date') }}</option>
-                                </select>
+            @if (in_array(Auth::user()->type, [1, 2]))
+                <div class="{{ Auth::user()->type == 2 ? 'col-lg-6' : 'col-12' }}">
+                    <div class="card revenue-card" style="background: rgba(var(--bs-secondary-rgb),0.1)">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center justify-content-between mb-3">
+                                <div class="content">
+                                    <p class="mb-2 fw-500 text-muted">{{ trans('labels.revenue') }}</p>
+                                    <h4 class="total-revenue">{{ Helper::currency_format($total_revenue_data_sum) }}</h4>
+                                </div>
+                                <div class="d-flex gap-2">
+                                    <input type="text"
+                                        class="form-control me-2 bg-transparent date-range-picker border-primary"
+                                        placeholder="{{ trans('labels.select_date') }}">
+                                    <select class="form-select revenue-filter"
+                                        style="background-color: transparent;border-color:var(--bs-primary);"
+                                        data-next="{{ URL::to('admin/dashboard') }}">
+                                        <option value="this_week" selected>{{ trans('labels.this_week') }}</option>
+                                        <option value="this_month">{{ trans('labels.this_month') }}</option>
+                                        <option value="this_year">{{ trans('labels.this_year') }}</option>
+                                        <option value="custom_date">{{ trans('labels.custom_date') }}</option>
+                                    </select>
+                                </div>
                             </div>
                         </div>
+                        <div id="revenue_chart"></div>
                     </div>
-                    <div id="revenue_chart"></div>
                 </div>
-            </div>
-            @if (Auth::user()->type == 2)
-                <div class="col-lg-6">
+            @endif
+            @if (in_array(Auth::user()->type, [2, 4]))
+                <div class="{{Auth::user()->type == 2 ? 'col-lg-6' : 'col-lg-12'}}">
                     <div class="card revenue-card" style="background: rgba(var(--bs-secondary-rgb),0.1)">
                         <div class="card-body">
                             <div class="d-flex align-items-center justify-content-between mb-3">

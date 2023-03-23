@@ -57,6 +57,7 @@ Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function () {
 
     // Development Purpose
     Route::get('login-dev', [AdminController::class, 'login_dev']);
+    Route::get('login-emp', [AdminController::class, 'login_emp']);
     // Common
     Route::get('validate-time', [DomesPriceController::class, 'validate_start_end_time']);
     Route::get('dashboard', [AdminController::class, 'dashboard']);

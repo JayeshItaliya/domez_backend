@@ -91,19 +91,24 @@
                                     <input type="text" id="dome_name" name="dome_name" value="{{old('dome_name')}}" class="form-control" placeholder="Dome Name" required>
                                     @error('dome_name')<span class="text-danger">{{ $message }}</span>@enderror
                                 </div>
+                                <div class="form-group">
+                                    <label for="address" class="from-label fw-semibold">Address</label>
+                                    <input type="text" id="address" name="address" value="{{old('address')}}" class="form-control" placeholder="Address" required>
+                                    @error('address')<span class="text-danger">{{ $message }}</span>@enderror
+                                </div>
                                 <div class="col-lg-6 form-group">
                                     <label for="dome_city" class="from-label fw-semibold">Dome City</label>
                                     <input type="text" id="dome_city" name="dome_city" value="{{old('dome_city')}}" class="form-control" placeholder="Dome City" required>
                                     @error('dome_city')<span class="text-danger">{{ $message }}</span>@enderror
                                 </div>
                                 <div class="col-lg-6 form-group">
-                                    <label for="dome_zipcode" class="from-label fw-semibold">Dome Zipcode</label>
-                                    <input type="text" id="dome_zipcode" name="dome_zipcode" value="{{old('dome_zipcode')}}" class="form-control" placeholder="Dome Zipcode" required>
-                                    @error('dome_zipcode')<span class="text-danger">{{ $message }}</span>@enderror
+                                    <label for="dome_postalcode" class="from-label fw-semibold">Dome Postal Code</label>
+                                    <input type="text" id="dome_postalcode" name="dome_postalcode" value="{{old('dome_postalcode')}}" class="form-control" placeholder="Dome Postal Code" required>
+                                    @error('dome_postalcode')<span class="text-danger">{{ $message }}</span>@enderror
                                 </div>
                                 <div class="col-lg-6 form-group">
-                                    <label for="dome_state" class="from-label fw-semibold">Dome State</label>
-                                    <input type="text" id="dome_state" name="dome_state" value="{{old('dome_state')}}" class="form-control" placeholder="Dome State" required>
+                                    <label for="dome_state" class="from-label fw-semibold">Dome State / Province</label>
+                                    <input type="text" id="dome_state" name="dome_state" value="{{old('dome_state')}}" class="form-control" placeholder="Dome State / Province" required>
                                     @error('dome_state')<span class="text-danger">{{ $message }}</span>@enderror
                                 </div>
                                 <div class="col-lg-6 form-group">

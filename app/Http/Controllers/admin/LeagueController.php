@@ -124,6 +124,7 @@ class LeagueController extends Controller
             }
             return redirect('/admin/leagues')->with('success', trans('messages.success'));
         } catch (\Throwable $th) {
+            dd($th);
             return redirect()->back()->with('error', trans('messages.wrong'));
         }
     }
