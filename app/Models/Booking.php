@@ -9,6 +9,38 @@ use Illuminate\Support\Facades\DB;
 class Booking extends Model
 {
     use HasFactory;
+    protected $fillable = [
+        'id',
+        'type',
+        'vendor_id',
+        'dome_id',
+        'league_id',
+        'user_id',
+        'sport_id',
+        'field_id',
+        'booking_id',
+        'customer_name',
+        'customer_email',
+        'customer_mobile',
+        'team_name',
+        'players',
+        'slots',
+        'start_date',
+        'end_date',
+        'start_time',
+        'end_time',
+        'total_amount',
+        'paid_amount',
+        'due_amount',
+        'payment_mode',
+        'payment_type',
+        'payment_status',
+        'booking_status',
+        'token',
+        'created_at',
+        'updated_at'
+    ];
+
     public function user_info()
     {
         return $this->hasOne('App\Models\User', 'id', 'user_id')->select('id', 'name', 'phone', 'email', DB::raw("CONCAT('" . url('storage/app/public/admin/images/users') . "/', image) AS user_image"));

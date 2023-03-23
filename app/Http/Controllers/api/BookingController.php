@@ -197,7 +197,7 @@ class BookingController extends Controller
                     } else {
                         $status = 1;
                     }
-                    $checkslotexist = Booking::where('dome_id', $request->dome_id)->where('sport_id', $request->sport_id)->whereDate('start_date', date('Y-m-d', strtotime($request->date)))->whereRaw("find_in_set('" . $slot . "',slots)")->first();
+                    $checkslotexist = Booking::where('dome_id', $request->dome_id)->where('sport_id', $request->sport_id)->whereDate('start_date', date('Y-m-d', strtotime($request->date)))->whereRaw("find_in_set('" . $slot . "',slots)")->where('booking_status','!=',3)->first();
                     if (!empty($checkslotexist)) {
                         $status = 0;
                     }
@@ -229,7 +229,7 @@ class BookingController extends Controller
                         } else {
                             $status = 1;
                         }
-                        $checkslotexist = Booking::where('dome_id', $request->dome_id)->where('sport_id', $request->sport_id)->whereDate('start_date', date('Y-m-d', strtotime($request->date)))->whereRaw("find_in_set('" . $new_slot . "',slots)")->first();
+                        $checkslotexist = Booking::where('dome_id', $request->dome_id)->where('sport_id', $request->sport_id)->whereDate('start_date', date('Y-m-d', strtotime($request->date)))->whereRaw("find_in_set('" . $new_slot . "',slots)")->where('booking_status','!=',3)->first();
                         if (!empty($checkslotexist)) {
                             $status = 0;
                         }
@@ -355,7 +355,7 @@ class BookingController extends Controller
             $checkslotexist = Booking::where('dome_id', $request->dome_id)
                 ->where('sport_id', $request->sport_id)
                 ->whereDate('start_date', $request->date)
-                ->whereRaw("find_in_set('" . $new_slot . "',slots)")
+                ->whereRaw("find_in_set('" . $new_slot . "',slots)")->where('booking_status','!=',3)
                 // ->whereRaw("find_in_set('" . $request->field_id . "',field_id)")
                 ->first();
             // dd($checkslotexist);
