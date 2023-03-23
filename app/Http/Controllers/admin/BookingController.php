@@ -255,6 +255,17 @@ class BookingController extends Controller
                         // 'sepa_debit',
                         // 'sofort',
                     ],
+                    // 'country' => 'CA',
+                    // 'payment_method_data' => [
+                    //     'card' => [
+                    //         'country' => 'CA',
+                    //     ],
+                    // ],
+                    // 'billing_details' => [
+                    //     'address' => [
+                    //         'country' => 'CA',
+                    //     ],
+                    // ],
                 ]);
                 return response()->json(['client_secret' => $intent->client_secret]);
             }

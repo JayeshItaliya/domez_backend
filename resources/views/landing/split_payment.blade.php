@@ -313,19 +313,22 @@
                                     <div class="row form-inputs">
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <input type="text" class="form-control" name="name" id="receipt_name" placeholder="Enter Your name">
+                                                <input type="text" class="form-control" name="name"
+                                                    id="receipt_name" placeholder="Enter Your name">
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <input type="email" class="form-control" name="email" id="receipt_email" placeholder="Enter Email">
+                                                <input type="email" class="form-control" name="email"
+                                                    id="receipt_email" placeholder="Enter Email">
                                             </div>
                                         </div>
 
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <input type="number" class="form-control" name="amount"
-                                                    id="amount" placeholder="Enter amount" max="{{$checkbooking->due_amount}}">
+                                                    id="amount" placeholder="Enter amount"
+                                                    max="{{ $checkbooking->due_amount }}">
                                             </div>
                                         </div>
                                         <div class="col-auto">
@@ -346,7 +349,8 @@
 
                                 <div class="row my-2 new-payment">
                                     <div class="col-md-12 text-center">
-                                        <a href="{{ $page_url }}" class="btn btn-sm btn-outline-primary">Make A New Payment</a>
+                                        <a href="{{ $page_url }}" class="btn btn-sm btn-outline-primary">Make A
+                                            New Payment</a>
                                     </div>
                                 </div>
                             </div>
@@ -459,6 +463,9 @@
             borderRadius: '5px',
         },
     };
+    var options = {
+        country: 'CA',
+    };
     $('#mysubmit, .new-payment, .my-spinner').hide();
     if ({{ Js::from($checkbooking->due_amount) }} <= 0) {
         $('.success-card').show();
@@ -529,13 +536,15 @@
                     if (response.status == 1) {
                         $('.my-spinner').hide();
                         $('.success-card, .new-payment').show();
-                    }else{
-                        $('#payment-message').removeClass('d-none').addClass('text-danger').html(response.message);
+                    } else {
+                        $('#payment-message').removeClass('d-none').addClass('text-danger').html(response
+                            .message);
                     }
                     return false;
                 },
                 error: function(response) {
-                    $('#payment-message').removeClass('d-none').addClass('text-danger').html("Something went wrong.");
+                    $('#payment-message').removeClass('d-none').addClass('text-danger').html(
+                        "Something went wrong.");
                     $('#btnamount').attr('disabled', false);
                 },
             });
@@ -544,14 +553,21 @@
             if ($.trim($('#receipt_name').val()) == "") {
                 $('#receipt_name').addClass('is-invalid');
                 return false;
-            } else if ($.trim($('#receipt_email').val()) == "") {
+            } else {
+                $('#receipt_name').removeClass('is-invalid');
+            }
+            if ($.trim($('#receipt_email').val()) == "" || !isValidEmail($('#receipt_email').val())) {
                 $('#receipt_email').addClass('is-invalid');
                 return false;
-            } else if ($.trim($('#amount').val()) == "" || $('#amount').val() == 0 || $('#amount').val() > {{ Js::from($checkbooking->due_amount) }}) {
+            } else {
+                $('#receipt_email').removeClass('is-invalid');
+            }
+            if ($.trim($('#amount').val()) == "" || $('#amount').val() == 0 || $('#amount').val() >
+                {{ Js::from($checkbooking->due_amount) }}) {
                 $('#amount').addClass('is-invalid');
                 return false;
             } else {
-                $('#amount, #receipt_email, #receipt_name').removeClass('is-invalid');
+                $('#amount').removeClass('is-invalid');
             }
             $.ajax({
                 type: "get",
@@ -568,21 +584,23 @@
                     var clientSecret = response.client_secret;
                     var elements = stripe.elements({
                         clientSecret,
-                        appearance
+                        appearance,
                     });
-                    var paymentElement = elements.create('payment', {
-                        layout: {
-                            type: 'tabs',
-                            defaultCollapsed: false,
-                        }
-                    });
+                    // var paymentElement = elements.create('payment', {
+                    //     layout: {
+                    //         type: 'tabs',
+                    //         defaultCollapsed: false,
+                    //     },
+                    // });
+                    var paymentElement = elements.create('payment', options);
                     paymentElement.mount('#payment-element');
-                    $('#mysubmit').show();
+                    $('#mysubmit').fadeIn(4000);
                     $('#mysubmit').on('click', function() {
                         stripe.confirmPayment({
                             elements,
                             confirmParams: {
-                                return_url: page_url + '?amount=' + $('#amount').val() +
+                                return_url: page_url + '?amount=' + $('#amount')
+                                    .val() +
                                     '&receipt_email=' + $('#receipt_email').val() +
                                     '&receipt_name=' +
                                     $('#receipt_name').val(),
@@ -597,6 +615,12 @@
                 },
             });
         });
+
+        function isValidEmail(email) {
+            var emailRegex =
+                /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            return emailRegex.test(email);
+        }
     }
 </script>
 
