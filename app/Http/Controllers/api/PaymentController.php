@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Str;
+use Stripe\Charge;
 
 class PaymentController extends Controller
 {
@@ -156,6 +157,11 @@ class PaymentController extends Controller
         $amount = $request->payment_type == 1 ? $request->total_amount : $request->paid_amount;
         $booking_id = bin2hex(random_bytes(3));
         $transaction_id = $request->transaction_id;
+
+        // ---- Verify Transaction From Stripe ----
+        // $charge = Charge::retrieve($transaction_id);
+        // $charge->status == 'succeeded';
+
         try {
             // Payment Type = 1=Full Payment, 2=Split Payment
             $transaction = new Transaction;
