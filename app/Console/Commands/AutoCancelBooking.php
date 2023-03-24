@@ -29,15 +29,15 @@ class AutoCancelBooking extends Command
      */
     public function handle()
     {
+        date_default_timezone_set('Asia/Kolkata');
         $getbookings = Booking::where('payment_type', '2')->get();
-        // return $getbookings;
         foreach ($getbookings as $booking) {
 
             // payment_status == 1 == Complete
             // payment_status == 2 == Partial
 
             $createdTime = Carbon::parse($booking->created_at);
-            $currentTime = Carbon::parse($booking->start_date);
+            $currentTime = Carbon::parse($booking->start_date . ' ' . $booking->start_time);
 
             $hoursDiff = $createdTime->diffInHours($currentTime);
 
@@ -48,14 +48,14 @@ class AutoCancelBooking extends Command
 
             if ($hoursDiff <= 24) {
                 $start_date_time = Carbon::createFromFormat('Y-m-d h:i A', $booking->start_date . ' ' . $booking->start_time);
-                $current_date_time = Carbon::now();
+                $now = Carbon::now();
+                $current_date_time = $now->format('Y-m-d h:i A');
                 if ($start_date_time->lessThan($current_date_time) == true && $booking->payment_status == 2) {
-                    $booking->booking_status = 3441;
+                    $booking->booking_status = 3;
                     $booking->save();
                 }
-                $booking->team_name = $start_date_time.'--'.$current_date_time;
-                // $booking->team_name = $start_date_time->lessThan($current_date_time) == true ? $hoursDiff.'--111' : $hoursDiff.'--222' ;
-                $booking->save();
+                // $booking->team_name = $start_date_time.' -- '.$current_date_time.' == '.$start_date_time->diffInHours($current_date_time). ' ____ '.$start_date_time->lessThan($current_date_time);
+                // $booking->save();
             }
         }
         $this->info('Updated ' . $getbookings->count() . ' bookings.');

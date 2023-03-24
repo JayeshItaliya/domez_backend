@@ -467,12 +467,22 @@
         country: 'CA',
     };
     $('#mysubmit, .new-payment, .my-spinner').hide();
-    if ({{ Js::from($checkbooking->due_amount) }} <= 0) {
+
+    // booking_status == 1 == Confirmed
+    // booking_status == 2 == Pending
+    // booking_status == 3 == Cancelled
+
+    if({{ Js::from($checkbooking->booking_status) }} == 1){
         $('.success-card').show();
         $('#payment-form').hide();
+    }else if ({{ Js::from($checkbooking->booking_status) }} == 3) {
+        $('.card').find('.col-md-6').eq(1).remove();
+        $('.card').find('.col-md-6').eq(0).addClass('col-12').removeClass('col-md-6');
     } else {
         checkStatus();
         async function checkStatus() {
+
+
             const clientSecret = new URLSearchParams(window.location.search).get(
                 "payment_intent_client_secret"
             );
@@ -485,12 +495,18 @@
             if (!clientSecret) {
                 return;
             }
+            // var urlWithoutParams = window.location.href.split('?')[0];
+            // var queryParams = window.location.href.split('?')[1];
+            // history.replaceState(null, null, urlWithoutParams);
+
             $('.form-inputs').hide();
             $('.my-spinner').show();
             try {
                 const {
                     paymentIntent
                 } = await stripe.retrievePaymentIntent(clientSecret);
+                // console.table('---');
+                // console.table(paymentIntent);
                 switch (paymentIntent.status) {
                     case "succeeded":
                         changeStatus(paymentIntent.id, amount, receipt_name);

@@ -62,6 +62,7 @@ class FavouriteController extends Controller
         }
         $checkuser = User::where('id', $request->user_id)->where('type', 3)->first();
         if (!empty($checkuser)) {
+            $league_lists = $dome_lists = [];
             if ($request->type == 1) {
                 $favourite = Favourite::where('user_id', $checkuser->id)->where('dome_id', '!=', '')->select('dome_id')->get();
                 foreach ($favourite as $dome) {
