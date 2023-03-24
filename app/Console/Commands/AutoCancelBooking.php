@@ -58,6 +58,6 @@ class AutoCancelBooking extends Command
                 // $booking->save();
             }
         }
-        $this->info('Updated ' . $getbookings->count() . ' bookings.');
+        $this->info('Updated (' . $getbookings->count() . ') Bookings. --> ' . implode(',', $getbookings->pluck('booking_id')->toArray()));
     }
 }
