@@ -155,7 +155,7 @@
                             <label>{{ trans('labels.amenities') }}</label>
                         </div>
                         <div class="col-lg-8">
-                            <ul class="d-flex">
+                            <ul class="d-flex flex-wrap">
                                 @foreach (explode('|', $dome->benefits) as $data)
                                     <li class="text-muted fs-7 me-3" style="list-style: inside">{{ $data }}</li>
                                 @endforeach
