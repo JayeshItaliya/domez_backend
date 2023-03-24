@@ -72,7 +72,7 @@
                                 <a class="cursor-pointer me-2"
                                     href="{{ URL::to('admin/vendors/dome-owner-details-' . $vendor->id) }}">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-eye"
-                                        width="24" height="24" viewBox="0 0 24 24" stroke-width="1" stroke="#2c3e50"
+                                        width="24" height="24" viewBox="0 0 24 24" stroke-width="1" stroke="var(--bs-info)"
                                         fill="none" stroke-linecap="round" stroke-linejoin="round">
                                         <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                                         <path d="M12 12m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"></path>
@@ -83,7 +83,7 @@
                                 </a>
                                 <a class="cursor-pointer me-2" href="{{ URL::to('admin/vendors/edit-' . $vendor->id) }}">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-edit"
-                                        width="25" height="25" viewBox="0 0 24 24" stroke-width="1" stroke="#2c3e50"
+                                        width="25" height="25" viewBox="0 0 24 24" stroke-width="1" stroke="var(--bs-warning)"
                                         fill="none" stroke-linecap="round" stroke-linejoin="round">
                                         <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                                         <path d="M9 7h-3a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-3" />
@@ -95,7 +95,7 @@
                                     onclick="vendor_delete('{{ $vendor->id }}','{{ $vendor->is_deleted == 2 ? 1 : 2 }}','{{ URL::to('admin/vendors/delete') }}')"
                                     class="mx-2">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash"
-                                        width="25" height="25" viewBox="0 0 24 24" stroke-width="1" stroke="#2c3e50"
+                                        width="25" height="25" viewBox="0 0 24 24" stroke-width="1" stroke="var(--bs-danger)"
                                         fill="none" stroke-linecap="round" stroke-linejoin="round">
                                         <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                                         <line x1="4" y1="7" x2="20" y2="7" />
