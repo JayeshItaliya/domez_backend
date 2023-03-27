@@ -178,13 +178,13 @@
                 </div>
             @endif
             @if (in_array(Auth::user()->type, [2, 4]))
-                <div class="{{Auth::user()->type == 2 ? 'col-lg-6' : 'col-lg-12'}}">
+                <div class="{{ Auth::user()->type == 2 ? 'col-lg-6' : 'col-lg-12' }}">
                     <div class="card revenue-card" style="background: rgba(var(--bs-secondary-rgb),0.1)">
                         <div class="card-body">
                             <div class="d-flex align-items-center justify-content-between mb-3">
                                 <div class="content">
                                     <p class="mb-2 fw-500 text-muted">Bookings Overview</p>
-                                    <h4 class="total-revenue">{{ Helper::currency_format($total_revenue_data_sum) }}</h4>
+                                    <h4 class="total-revenue">{{ $total_bookings_overview }}</h4>
                                 </div>
                                 <div class="d-flex gap-2">
                                     <input type="text"
@@ -294,6 +294,7 @@
     </script>
     <script src={{ url('storage/app/public/admin/plugins/fullcalendar/index.global.min.js') }}></script>
     <script>
+        // FUll CALENDAR
         $(function() {
             var calendarEl = document.getElementById('calendar');
             var calendar = new FullCalendar.Calendar(calendarEl, {
@@ -417,8 +418,10 @@
                 }
             };
             $('#total_income .apexcharts-canvas').remove();
-            var incomechart = new ApexCharts(document.querySelector("#total_income"), options);
-            incomechart.render();
+            if (document.getElementById("total_income")) {
+                var incomechart = new ApexCharts(document.getElementById("total_income"), options);
+                incomechart.render();
+            }
         }
         // Total Income Filter
         $('.income-filter').on('change', function() {
@@ -450,7 +453,6 @@
                     hidepreloader();
                     $('.total-income').html(response.total_income_data_sum);
                     create_income_chart(response.income_labels, response.income_data)
-                    console.table(income_labels);
                 },
                 error: function(e) {
                     hidepreloader();
@@ -477,9 +479,9 @@
                     type: 'donut',
                     height: 350,
                 },
-                series: [50, 35, 15],
-                labels: [confirmed, pending, cancelled],
-                colors: [secondary_color, primary_color, danger_color],
+                series: bookings_overview_data,
+                labels: bookings_overview_labels,
+                colors: [primary_color, secondary_color, danger_color],
                 responsive: [{
                     breakpoint: 480,
                     options: {
@@ -493,8 +495,10 @@
                 }]
             };
             $('#bookings_overview_chart .apexcharts-canvas').remove();
-            var bookingsoverviewchart = new ApexCharts(document.querySelector("#bookings_overview_chart"), options);
-            bookingsoverviewchart.render();
+            if (document.getElementById("bookings_overview_chart")) {
+                var bookingsoverviewchart = new ApexCharts(document.getElementById("bookings_overview_chart"), options);
+                bookingsoverviewchart.render();
+            }
         }
         // Total Income Filter
         $('.income-filter').on('change', function() {
@@ -526,7 +530,6 @@
                     hidepreloader();
                     $('.total-income').html(response.bookings_overview_data_sum);
                     bookings_overview_chart(response.bookings_overview_labels, response.bookings_overview_data)
-                    console.table(bookings_overview_labels);
                 },
                 error: function(e) {
                     hidepreloader();
@@ -536,42 +539,6 @@
             });
         }
     </script>
-
-{{-- 
-
-
-
-    <script>
-        let confirmed = {{ Js::from(trans('labels.confirmed')) }};
-        let pending = {{ Js::from(trans('labels.pending')) }};
-        let cancelled = {{ Js::from(trans('labels.cancelled')) }};
-        if (document.getElementById("bookings_overview_chart")) {
-            var options = {
-                chart: {
-                    type: 'donut',
-                    height: 350,
-                },
-                series: [50, 35, 15],
-                labels: [confirmed, pending, cancelled],
-                colors: [secondary_color, primary_color, danger_color],
-                responsive: [{
-                    breakpoint: 480,
-                    options: {
-                        chart: {
-                            width: 200
-                        },
-                        legend: {
-                            position: 'bottom'
-                        }
-                    }
-                }]
-            };
-            var chart = new ApexCharts(document.querySelector("#bookings_overview_chart"), options);
-            chart.render();
-        }
-    </script>
- --}}
-
 
     <script>
         var booking_labels = {{ Js::from($booking_labels) }}
@@ -625,8 +592,10 @@
                 }
             };
             $('#total_bookings .apexcharts-canvas').remove();
-            var bookingschart = new ApexCharts(document.querySelector("#total_bookings"), options);
-            bookingschart.render();
+            if (document.getElementById("total_bookings")) {
+                var bookingschart = new ApexCharts(document.getElementById("total_bookings"), options);
+                bookingschart.render();
+            }
         }
         // Total Bookings Filter
         $('.booking-filter').on('change', function() {
@@ -730,8 +699,10 @@
                 },
             };
             $('#revenue_chart .apexcharts-canvas').remove();
-            var revenuechart = new ApexCharts(document.querySelector("#revenue_chart"), options);
-            revenuechart.render();
+            if (document.getElementById("revenue_chart")) {
+                var revenuechart = new ApexCharts(document.getElementById("revenue_chart"), options);
+                revenuechart.render();
+            }
         }
         // Total Revenue Filter
         $('.revenue-filter').on('change', function() {
@@ -811,8 +782,10 @@
                 }
             };
             $('#users_chart .apexcharts-canvas').remove();
-            var userschart = new ApexCharts(document.querySelector("#users_chart"), options);
-            userschart.render();
+            if (document.getElementById("users_chart")) {
+                var userschart = new ApexCharts(document.getElementById("users_chart"), options);
+                userschart.render();
+            }
         }
         // Total Users Filter
         $('.users-filter').on('change', function() {
@@ -900,8 +873,10 @@
                 }
             };
             $('#dome_owners_chart .apexcharts-canvas').remove();
-            var dome_ownerschart = new ApexCharts(document.querySelector("#dome_owners_chart"), options);
-            dome_ownerschart.render();
+            if (document.getElementById("dome_owners_chart")) {
+                var dome_ownerschart = new ApexCharts(document.getElementById("dome_owners_chart"), options);
+                dome_ownerschart.render();
+            }
         }
         // Total Dome Owners Filter
         $('.dome-owners-filter').on('change', function() {

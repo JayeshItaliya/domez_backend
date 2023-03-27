@@ -16,10 +16,6 @@ use Carbon\Carbon;
 
 class DomesController extends Controller
 {
-    // public function __construct()
-    // {
-    //     date_default_timezone_set('Asia/Kolkata');
-    // }
     public function domes_list(Request $request)
     {
 
@@ -40,7 +36,8 @@ class DomesController extends Controller
                         if (!empty($dome)) {
 
                             $start_date_time = Carbon::createFromFormat('Y-m-d h:i A', $booking->start_date.' '.$booking->end_time);
-                            $current_date_time = Carbon::now();
+                            $now = Carbon::now();
+                            $current_date_time = $now->format('Y-m-d h:i A');
 
                             // dd($start_date_time,$booking->start_date.' '.$booking->end_time,$current_date_time);
                             // dd($start_date_time->lessThan($current_date_time),$booking->id,$booking->start_date,$booking->end_time);

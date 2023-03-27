@@ -147,9 +147,17 @@ class AdminController extends Controller
             $otherformatfordomez = 1;
 
             // For Bookings Overview Chart
-            $total_bookings_overview = $total_bookings->count();
-            $total_bookings_overview_data = Booking::select(DB::raw('count(*) as bookings'), DB::raw('SUM(CASE WHEN booking_status = 1 THEN 1 ELSE 0 END) as confirm_bookings'), DB::raw('SUM(CASE WHEN booking_status = 2 THEN 1 ELSE 0 END) as pending_bookings'), DB::raw('SUM(CASE WHEN booking_status = 3 THEN 1 ELSE 0 END) as cancelled_bookings'))->groupBy('booking_status')->get()->toArray();
+            $total_bookings_overview = Booking::whereBetween('created_at', [$weekStartDate, $weekEndDate])->count();
+            $total_bookings_overview_data = Booking::selectRaw('CASE WHEN booking_status = "1" THEN "Confirmed Bookings" WHEN booking_status = "2" THEN "Pending Bookings" WHEN booking_status = "3" THEN "Cancelled Bookings" ELSE "Unknown" END as status, COUNT(*) as total')->whereBetween('created_at', [$weekStartDate, $weekEndDate])->groupBy('booking_status')->orderBy('booking_status')->get();
+            $bokingsoverviewchartdata = [];
+            foreach ($total_bookings_overview_data as $d) {
+                $bokingsoverviewchartdata[] = [
+                    'name' => $d->status,
+                    'data' => $d->total
+                ];
+            }
         }
+
         $income_labels = $total_income_data->keys();
         $income_data = $total_income_data->values();
 
@@ -164,14 +172,14 @@ class AdminController extends Controller
 
         $dome_owners_labels = @$otherformatfordomez == 1 ? collect($total_dome_owners_data)->pluck('titles') : $total_dome_owners_data->values();
         $dome_owners_data = @$otherformatfordomez == 1 ? collect($total_dome_owners_data)->pluck('users') : $total_dome_owners_data->keys();
-        dd($total_bookings_overview_data);
-        $bookings_overview_labels = $total_bookings_overview_data->keys();
-        $bookings_overview_data = $total_bookings_overview_data->values();
+
+        $bookings_overview_labels = collect($bokingsoverviewchartdata)->pluck('name');
+        $bookings_overview_data = collect($bokingsoverviewchartdata)->pluck('data');
 
         if ($request->ajax()) {
             return response()->json(['total_income_data_sum' => Helper::currency_format($total_income_data_sum), 'income_labels' => $income_labels, 'income_data' => $income_data, 'total_bookings_count' => $total_bookings_count, 'booking_labels' => $booking_labels, 'booking_data' => $booking_data, 'total_revenue_data_sum' => Helper::currency_format($total_revenue_data_sum), 'revenue_labels' => $revenue_labels, 'revenue_data' => $revenue_data, 'total_users_data_sum' => $total_users_data_sum, 'users_labels' => $users_labels, 'users_data' => $users_data, 'total_dome_owners_data_sum' => $total_dome_owners_data_sum, 'dome_owners_labels' => $dome_owners_labels, 'dome_owners_data' => $dome_owners_data, 'total_bookings_overview' => $total_bookings_overview, 'bookings_overview_labels' => $bookings_overview_labels, 'bookings_overview_data' => $bookings_overview_data]);
         } else {
-            return view('admin.dashboard.index', compact('getbookingslist', 'total_income_data_sum', 'income_labels', 'income_data', 'total_bookings_count', 'booking_labels', 'booking_data', 'total_revenue_data_sum', 'revenue_labels', 'revenue_data', 'total_users_data_sum', 'users_labels', 'users_data', 'total_dome_owners_data_sum', 'dome_owners_labels', 'dome_owners_data', 'bookings_overview_labels', 'bookings_overview_data'));
+            return view('admin.dashboard.index', compact('getbookingslist', 'total_income_data_sum', 'income_labels', 'income_data', 'total_bookings_count', 'booking_labels', 'booking_data', 'total_revenue_data_sum', 'revenue_labels', 'revenue_data', 'total_users_data_sum', 'users_labels', 'users_data', 'total_dome_owners_data_sum', 'dome_owners_labels', 'dome_owners_data', 'total_bookings_overview','bookings_overview_labels', 'bookings_overview_data'));
         }
     }
     public function landing(Request $request)

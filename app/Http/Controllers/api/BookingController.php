@@ -38,7 +38,8 @@ class BookingController extends Controller
         foreach ($bookings_list as $booking) {
 
             $start_date_time = Carbon::createFromFormat('Y-m-d h:i A', $booking->start_date . ' ' . $booking->end_time);
-            $current_date_time = Carbon::now();
+            $now = Carbon::now();
+            $current_date_time = $now->format('Y-m-d h:i A');
             // $start_date_time->lessThan($current_date_time) == true ? 2 : 1;
 
             if ($request->is_active == 1) {

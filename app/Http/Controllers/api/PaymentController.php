@@ -24,7 +24,6 @@ class PaymentController extends Controller
     }
     public function payment(Request $request)
     {
-        date_default_timezone_set('Asia/Kolkata');
         // booking_type == 1 == Dome
         // booking_type == 2 == League
         if ($request->booking_type == "") {
