@@ -19,10 +19,6 @@ use Illuminate\Support\Facades\URL;
 
 class BookingController extends Controller
 {
-    public function __construct()
-    {
-        date_default_timezone_set('Asia/Kolkata');
-    }
     public function booking_list(Request $request)
     {
         if (in_array($request->user_id, [0, ''])) {
@@ -61,6 +57,7 @@ class BookingController extends Controller
                         "price" => $booking->total_amount,
                         'image' => $dome->dome_image->image,
                         'payment_type' => $booking->payment_type,
+                        'created_at' => $booking->created_at,
                     ];
                 }
             } else {
@@ -132,14 +129,15 @@ class BookingController extends Controller
                 "address" => $dome->address,
                 "city" => $dome->city,
                 "state" => $dome->state,
-                "sub_total" => $booking->total_amount,
-                "service_fee" => $booking->total_amount * 5 / 100,
-                "hst" => $booking->total_amount * $dome->hst / 100,
+                "sub_total" => $booking->sub_total,
+                "service_fee" => $booking->service_fee,
+                "hst" => $booking->hst,
                 "total_amount" => $booking->total_amount,
-                // "total_amount" => $booking->total_amount + $booking->total_amount * 5 / 100 + $booking->total_amount * $dome->hst / 100,
                 "paid_amount" => $booking->paid_amount,
                 "due_amount" => $booking->due_amount,
+
                 "image" => $dome->dome_image->image,
+
                 "payment_status" => $booking->payment_status == 1 ? 'Paid' : 'Pending',
                 "booking_created_at" => $booking->created_at,
                 "user_info" => $booking->user_info,
@@ -230,6 +228,9 @@ class BookingController extends Controller
                         } else {
                             $status = 1;
                         }
+                        // booking_status = 1 = Confirmed
+                        // booking_status = 2 = Pending
+                        // booking_status = 3 = Cancelled
                         $checkslotexist = Booking::where('dome_id', $request->dome_id)->where('sport_id', $request->sport_id)->whereDate('start_date', date('Y-m-d', strtotime($request->date)))->whereRaw("find_in_set('" . $new_slot . "',slots)")->where('booking_status','!=',3)->first();
                         if (!empty($checkslotexist)) {
                             $status = 0;
@@ -359,7 +360,6 @@ class BookingController extends Controller
                 ->whereRaw("find_in_set('" . $new_slot . "',slots)")->where('booking_status','!=',3)
                 // ->whereRaw("find_in_set('" . $request->field_id . "',field_id)")
                 ->first();
-            // dd($checkslotexist);
             if (!empty($checkslotexist)) {
                 foreach (explode(',', $checkslotexist->field_id) as $key => $field_id) {
                     $bookedfields[] = $field_id;

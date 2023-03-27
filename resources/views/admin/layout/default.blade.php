@@ -96,7 +96,7 @@
         <i class="fa-regular fa-sliders"></i>
     </button>
     <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel"
-        style="width: 330px">
+        style="width: 400px">
         <div class="offcanvas-header justify-content-end">
             <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
@@ -132,37 +132,37 @@
                     <div class="form-check">
                         <input class="form-check-input" type="radio" name="font_family" id="roboto" value="Roboto"
                             checked>
-                        <label class="form-check-label" for="roboto">
+                        <label class="form-check-label cursor-pointer" for="roboto">
                             {{ trans('labels.roboto') }}
                         </label>
                     </div>
                     <div class="form-check">
                         <input class="form-check-input" type="radio" name="font_family" id="inter" value="Inter">
-                        <label class="form-check-label" for="inter">
+                        <label class="form-check-label cursor-pointer" for="inter">
                             {{ trans('labels.inter') }}
                         </label>
                     </div>
                     <div class="form-check">
                         <input class="form-check-input" type="radio" name="font_family" id="lato"
                             value="Lato">
-                        <label class="form-check-label" for="lato">
+                        <label class="form-check-label cursor-pointer" for="lato">
                             {{ trans('labels.lato') }}
                         </label>
                     </div>
                     <div class="form-check">
                         <input class="form-check-input" type="radio" name="font_family" id="poppins"
                             value="Poppins">
-                        <label class="form-check-label" for="poppins">
+                        <label class="form-check-label cursor-pointer" for="poppins">
                             {{ trans('labels.poppins') }}
                         </label>
                     </div>
-                    <div class="form-check">
+                    {{-- <div class="form-check">
                         <input class="form-check-input" type="radio" name="font_family" id="open_sans"
                             value="Open Sans">
-                        <label class="form-check-label" for="open_sans">
+                        <label class="form-check-label cursor-pointer" for="open_sans">
                             {{ trans('labels.open_sans') }}
                         </label>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
 

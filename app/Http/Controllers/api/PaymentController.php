@@ -24,10 +24,9 @@ class PaymentController extends Controller
     }
     public function payment(Request $request)
     {
-
+        date_default_timezone_set('Asia/Kolkata');
         // booking_type == 1 == Dome
         // booking_type == 2 == League
-
         if ($request->booking_type == "") {
             return response()->json(["status" => 0, "message" => "Please Enter Booking Type"], 200);
         }
@@ -165,11 +164,10 @@ class PaymentController extends Controller
         try {
             // Payment Type = 1=Full Payment, 2=Split Payment
             $transaction = new Transaction;
+            $transaction->type = 1;
             $transaction->vendor_id = $dome->vendor_id;
             $transaction->dome_id = $dome_id;
-            if ($request->booking_type == 1) {
-                $transaction->dome_id = $dome->id;
-            } else {
+            if ($request->booking_type == 2) {
                 $transaction->league_id = $league->id;
             }
             $transaction->user_id = $user->id;
@@ -208,9 +206,15 @@ class PaymentController extends Controller
             }
             $booking->start_time = $request->booking_type == 1 ? $request->start_time : $league->start_time;
             $booking->end_time = $request->booking_type == 1 ? $request->end_time : $league->end_time;
+
+            $booking->sub_total = $request->sub_total;
+            $booking->service_fee = $request->service_fee;
+            $booking->hst = $request->hst;
+
             $booking->total_amount = $request->total_amount;
-            $booking->paid_amount = $request->payment_type == 1 ? 0 : $request->paid_amount;
-            $booking->due_amount = $request->payment_type == 1 ? 0 : $request->total_amount - $request->paid_amount;
+            $booking->paid_amount = $request->paid_amount;
+            $booking->due_amount = $request->due_amount;
+
             $booking->payment_type = $request->payment_type;
             $booking->payment_status = $booking->due_amount == 0 ? 1 : 2;
             $booking->booking_status = $booking->payment_status == 1 ? 1 : 2;

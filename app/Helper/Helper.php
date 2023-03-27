@@ -113,11 +113,7 @@ class Helper
     }
     public static function cms($type)
     {
-        if ($type == 1) {
-            return @CMS::where('type', 1)->select('content')->first()->content;
-        } else {
-            return @CMS::where('type', 2)->select('content')->first()->content;
-        }
+        return @CMS::where('type', $type == 1 ? 1 : 2)->select('content')->first()->content;
     }
     // public static function verificationsms($mobile, $otp)
     // {
@@ -156,11 +152,11 @@ class Helper
     public static function get_dome_price($dome_id, $sport_id)
     {
         $checkpricetype = SetPrices::where('dome_id', $dome_id)->where('sport_id', $sport_id)->where('price_type', 1)->first();
-        return $checkpricetype->price;
+        return !empty($checkpricetype) ? $checkpricetype->price : 0;
     }
     public static function get_sports_list($sports_id)
     {
-        // SPORTS_ID : WILL BE IN COMMA SAPERATED FORMAT
+        // SPORTS_ID : CAN BE IN COMMA SAPERATED FORMAT
         if ($sports_id == "") {
             $sportslist = Sports::select('id', 'name', DB::raw("CONCAT('" . url('storage/app/public/admin/images/sports') . "/', image) AS image"))->where('is_available', 1)->where('is_deleted', 2)->get();
         } else {

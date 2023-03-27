@@ -220,9 +220,9 @@ class BookingController extends Controller
         }
         // Payment Type = 1=Card, 2=Apple Pay, 3=Google Pay
         $transaction = new Transaction;
+        $transaction->type = 1;
         $transaction->vendor_id = $request->vendor_id;
         $transaction->dome_id = $request->dome_id;
-        $transaction->field_id = $request->field_id;
         $transaction->user_id = $request->user_id;
         $transaction->payment_type = $request->payment_type;
         $transaction->transaction_id = $transaction_id;

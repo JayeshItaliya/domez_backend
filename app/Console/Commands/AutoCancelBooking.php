@@ -29,7 +29,6 @@ class AutoCancelBooking extends Command
      */
     public function handle()
     {
-        date_default_timezone_set('Asia/Kolkata');
         $getbookings = Booking::where('payment_type', '2')->get();
         foreach ($getbookings as $booking) {
 
@@ -58,6 +57,6 @@ class AutoCancelBooking extends Command
                 // $booking->save();
             }
         }
-        $this->info('Updated (' . $getbookings->count() . ') Bookings. --> ' . implode(',', $getbookings->pluck('booking_id')->toArray()));
+        $this->info('Bookings. --> ' . implode(',', $getbookings->pluck('booking_id')->toArray()));
     }
 }
