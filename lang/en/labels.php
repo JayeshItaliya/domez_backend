@@ -68,6 +68,7 @@ return [
     'recent_bookings' => 'Recent Bookings',
     'user_mobile_app' => 'Users Of Mobile App',
     'user' => 'User',
+    'bookings_overview' => 'Bookings Overview',
     // Workers
     'workers' => 'Employees',
     'workers_list' => 'Employees List',

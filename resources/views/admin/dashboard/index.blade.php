@@ -183,14 +183,14 @@
                         <div class="card-body">
                             <div class="d-flex align-items-center justify-content-between mb-3">
                                 <div class="content">
-                                    <p class="mb-2 fw-500 text-muted">Bookings Overview</p>
-                                    <h4 class="total-revenue">{{ $total_bookings_overview }}</h4>
+                                    <p class="mb-2 fw-500 text-muted">{{ trans('labels.bookings_overview') }}</p>
+                                    <h4 class="total-bookings-overview-revenue">{{ $total_bookings_overview }}</h4>
                                 </div>
                                 <div class="d-flex gap-2">
                                     <input type="text"
-                                        class="form-control me-2 bg-transparent border-primary date-range-picker"
+                                        class="form-control me-2 bg-transparent border-primary bookings-overview-range-picker"
                                         placeholder="{{ trans('labels.select_date') }}">
-                                    <select class="form-select"
+                                    <select class="form-select bookings-overview-filter"
                                         style="background-color: transparent;border-color:var(--bs-primary);"
                                         data-next="{{ URL::to('admin/dashboard') }}">
                                         <option value="this_week" selected>{{ trans('labels.this_week') }}</option>
@@ -265,7 +265,8 @@
     <script src="{{ url('storage/app/public/admin/js/charts/apexchart/apexcharts.js') }}"></script>
     <script>
         $(function() {
-            $('.date-range-picker,.users-date-range-picker,.domez-date-range-picker').hide();
+            $('.date-range-picker,.users-date-range-picker,.domez-date-range-picker,.bookings-overview-range-picker')
+                .hide();
             $('.date-range-picker').flatpickr({
                 mode: "range",
                 maxDate: "today",
@@ -290,11 +291,19 @@
                     makedomeownersfilter(dateStr);
                 }
             });
+            $('.bookings-overview-range-picker').flatpickr({
+                mode: "range",
+                maxDate: "today",
+                dateFormat: "Y-m-d",
+                onClose: function(selectedDates, dateStr, instance) {
+                    makebookingsoverviewfilter(dateStr);
+                }
+            });
         })
     </script>
+    {{-- FUll CALENDAR --}}
     <script src={{ url('storage/app/public/admin/plugins/fullcalendar/index.global.min.js') }}></script>
     <script>
-        // FUll CALENDAR
         $(function() {
             var calendarEl = document.getElementById('calendar');
             var calendar = new FullCalendar.Calendar(calendarEl, {
@@ -365,7 +374,7 @@
             $('.fc-today-button').text('Today');
         }
     </script>
-    {{-- Total Income Chart --}}
+    {{-- Income Chart(Small) --}}
     <script>
         var income_labels = {{ Js::from($income_labels) }}
         var income_data = {{ Js::from($income_data) }}
@@ -423,7 +432,6 @@
                 incomechart.render();
             }
         }
-        // Total Income Filter
         $('.income-filter').on('change', function() {
             if ($(this).val() == 'custom_date') {
                 $('.earning-card .date-range-picker').show();
@@ -462,85 +470,9 @@
             });
         }
     </script>
-
-
-
+    {{-- Bookings Chart(Small) --}}
     <script>
-        let confirmed = {{ Js::from(trans('labels.confirmed')) }};
-        let pending = {{ Js::from(trans('labels.pending')) }};
-        let cancelled = {{ Js::from(trans('labels.cancelled')) }};
-        var bookings_overview_labels = {{ Js::from($bookings_overview_labels) }}
-        var bookings_overview_data = {{ Js::from($bookings_overview_data) }}
-        bookings_overview_chart(bookings_overview_labels, bookings_overview_data);
-
-        function bookings_overview_chart(bookings_overview_labels, bookings_overview_data) {
-            var options = {
-                chart: {
-                    type: 'donut',
-                    height: 350,
-                },
-                series: bookings_overview_data,
-                labels: bookings_overview_labels,
-                colors: [primary_color, secondary_color, danger_color],
-                responsive: [{
-                    breakpoint: 480,
-                    options: {
-                        chart: {
-                            width: 200
-                        },
-                        legend: {
-                            position: 'bottom'
-                        }
-                    }
-                }]
-            };
-            $('#bookings_overview_chart .apexcharts-canvas').remove();
-            if (document.getElementById("bookings_overview_chart")) {
-                var bookingsoverviewchart = new ApexCharts(document.getElementById("bookings_overview_chart"), options);
-                bookingsoverviewchart.render();
-            }
-        }
-        // Total Income Filter
-        $('.income-filter').on('change', function() {
-            if ($(this).val() == 'custom_date') {
-                $('.earning-card .date-range-picker').show();
-                return false;
-            } else {
-                $('.earning-card .date-range-picker').hide();
-            }
-            makeincomefilter('')
-        });
-
-        function makeincomefilter(dates) {
-            $.ajax({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
-                        'content')
-                },
-                url: $(this).attr('data-next'),
-                data: {
-                    filtertype: $('.income-filter').val(),
-                    filterdates: dates,
-                },
-                method: 'GET',
-                beforeSend: function() {
-                    showpreloader();
-                },
-                success: function(response) {
-                    hidepreloader();
-                    $('.total-income').html(response.bookings_overview_data_sum);
-                    bookings_overview_chart(response.bookings_overview_labels, response.bookings_overview_data)
-                },
-                error: function(e) {
-                    hidepreloader();
-                    toastr.error(wrong);
-                    return false;
-                }
-            });
-        }
-    </script>
-
-    <script>
+        var total_bookings_title = {{ js::from(trans('labels.total_bookings')) }};
         var booking_labels = {{ Js::from($booking_labels) }}
         var booking_data = {{ Js::from($booking_data) }}
         create_booking_chart(booking_labels, booking_data);
@@ -548,7 +480,7 @@
         function create_booking_chart(booking_labels, booking_data) {
             var options = {
                 series: [{
-                    name: '{{ trans('labels.total_bookings') }}',
+                    name: total_bookings_title,
                     data: booking_data
                 }],
                 chart: {
@@ -597,7 +529,6 @@
                 bookingschart.render();
             }
         }
-        // Total Bookings Filter
         $('.booking-filter').on('change', function() {
             if ($(this).val() == 'custom_date') {
                 $('.confirm-booking-card .date-range-picker').show();
@@ -636,8 +567,83 @@
             });
         }
     </script>
+    {{-- Bookings Overview Chart --}}
+    <script>
+        // let confirmed = {{ Js::from(trans('labels.confirmed')) }};
+        // let pending = {{ Js::from(trans('labels.pending')) }};
+        // let cancelled = {{ Js::from(trans('labels.cancelled')) }};
+        var bookings_overview_labels = {{ Js::from($bookings_overview_labels) }}
+        var bookings_overview_data = {{ Js::from($bookings_overview_data) }}
+        bookings_overview_chart(bookings_overview_labels, bookings_overview_data);
+
+        function bookings_overview_chart(bookings_overview_labels, bookings_overview_data) {
+            var options = {
+                chart: {
+                    type: 'donut',
+                    height: 350,
+                },
+                series: bookings_overview_data,
+                labels: bookings_overview_labels,
+                colors: [primary_color, secondary_color, danger_color],
+                responsive: [{
+                    breakpoint: 480,
+                    options: {
+                        chart: {
+                            width: 200
+                        },
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
+                }]
+            };
+            $('#bookings_overview_chart .apexcharts-canvas').remove();
+            if (document.getElementById("bookings_overview_chart")) {
+                var bookingsoverviewchart = new ApexCharts(document.getElementById("bookings_overview_chart"), options);
+                bookingsoverviewchart.render();
+            }
+        }
+        $('.bookings-overview-filter').on('change', function() {
+            if ($(this).val() == 'custom_date') {
+                $('.bookings-overview-range-picker').show();
+                return false;
+            } else {
+                $('.bookings-overview-range-picker').hide();
+            }
+            makebookingsoverviewfilter('')
+        });
+
+        function makebookingsoverviewfilter(dates) {
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
+                        'content')
+                },
+                url: $(this).attr('data-next'),
+                data: {
+                    filtertype: $('.bookings-overview-filter').val(),
+                    filterdates: dates,
+                },
+                method: 'GET',
+                beforeSend: function() {
+                    showpreloader();
+                },
+                success: function(response) {
+                    hidepreloader();
+                    $('.total-bookings-overview-revenue').html(response.total_bookings_overview);
+                    bookings_overview_chart(response.bookings_overview_labels, response.bookings_overview_data)
+                },
+                error: function(e) {
+                    hidepreloader();
+                    toastr.error(wrong);
+                    return false;
+                }
+            });
+        }
+    </script>
     {{-- Total Revenue Chart --}}
     <script>
+        var revenue_title = {{ Js::from(trans('labels.revenue')) }};
         var revenue_labels = {{ Js::from($revenue_labels) }}
         var revenue_data = {{ Js::from($revenue_data) }}
         create_revenue_chart(revenue_labels, revenue_data);
@@ -645,7 +651,7 @@
         function create_revenue_chart(revenue_labels, revenue_data) {
             var options = {
                 series: [{
-                    name: '{{ trans('labels.revenue') }}',
+                    name: revenue_title,
                     // data: revenue_data
                     data: [45, 52, 38, 45, 19, 23, 2]
                 }],
@@ -704,7 +710,6 @@
                 revenuechart.render();
             }
         }
-        // Total Revenue Filter
         $('.revenue-filter').on('change', function() {
             if ($(this).val() == 'custom_date') {
                 $('.revenue-card .date-range-picker').show();
