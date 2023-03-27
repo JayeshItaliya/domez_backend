@@ -93,7 +93,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="address" class="from-label fw-semibold">Address</label>
-                                    <input type="text" id="address" name="address" value="{{old('address')}}" class="form-control" placeholder="Address" required>
+                                    <input type="text" id="address" name="dome_address" value="{{old('address')}}" class="form-control" placeholder="Address" required>
                                     @error('address')<span class="text-danger">{{ $message }}</span>@enderror
                                 </div>
                                 <div class="col-lg-6 form-group">
@@ -204,13 +204,26 @@
     <script src="{{ url('storage/app/public/admin/js/slick/slick.min.js') }}"></script>
     <script src="{{ url('storage/app/public/admin/js/custom.js') }}"></script>
     <script>
+        toastr.options = {
+            "closeButton": true
+        }
         $(function(){
             $('form, input,textarea ').attr("autocomplete", 'off');
-        });
-        $(function() {
             $('#contact_us input:not(#name , #email, #otp) ,#contact_us_submit').prop('disabled', true);
         });
         $('.send_otp').click(function() {
+            if ($.trim($('#name').val()) == "") {
+                $('#name').addClass('is-invalid');
+                return false;
+            } else {
+                $('#name').removeClass('is-invalid');
+            }
+            if ($.trim($('#email').val()) == "") {
+                $('#email').addClass('is-invalid');
+                return false;
+            } else {
+                $('#email').removeClass('is-invalid');
+            }
             $.ajax({
                 url: "{{ URL::to('dome-request') }}",
                 type: 'POST',
@@ -227,16 +240,27 @@
                     if (response.status == 1) {
                         $('.send_otp').text('Resend OTP');
                         $('#verify_otp').removeClass('d-none');
+                        toastr.success(response.message);
                     } else {
+                        toastr.error(response.message);
+                        $('.send_otp').text('Verify');
                         return false;
                     }
                 },
                 error: function(error) {
+                    toastr.error('Something went wrong while sending OTP to Email');
+                    $('.send_otp').text('Verify');
                     return false;
                 }
             });
         });
         $('.verify_otp').click(function() {
+            if ($.trim($('#otp').val()) == "") {
+                $('#otp').addClass('is-invalid');
+                return false;
+            } else {
+                $('#otp').removeClass('is-invalid');
+            }
             $.ajax({
                 url: "{{ URL::to('dome-request') }}",
                 type: 'POST',
@@ -245,20 +269,80 @@
                     verify_otp: 1,
                     otp: $('#otp').val(),
                 },
-                success: function(data) {
-                    if (data.status == 1) {
+                success: function(response) {
+                    if (response.status == 1) {
+                        toastr.success(response.message);
                         $('#verify_otp').addClass('d-none');
                         $('.send_otp').attr('disabled', true);
                         $('#email').attr('readonly', true);
                         $('#contact_us input:not(#name , #email) ,#contact_us_submit').prop('disabled', false);
                     } else {
+                        toastr.error(response.message);
                         return false;
                     }
                 },
                 error: function(error) {
+                    toastr.error('Something went wrong!');
                     return false;
                 }
             });
+        });
+        $('#contact_us').submit(function (e) {
+            // e.preventDefault();
+            if ($.trim($('#name').val()) == "") {
+                $('#name').addClass('is-invalid');
+                return false;
+            } else {
+                $('#name').removeClass('is-invalid');
+            }
+            if ($.trim($('#email').val()) == "") {
+                $('#email').addClass('is-invalid');
+                return false;
+            } else {
+                $('#email').removeClass('is-invalid');
+            }
+            if ($.trim($('#phone').val()) == "") {
+                $('#phone').addClass('is-invalid');
+                return false;
+            } else {
+                $('#phone').removeClass('is-invalid');
+            }
+            if ($.trim($('#dome_name').val()) == "") {
+                $('#dome_name').addClass('is-invalid');
+                return false;
+            } else {
+                $('#dome_name').removeClass('is-invalid');
+            }
+            if ($.trim($('#address').val()) == "") {
+                $('#address').addClass('is-invalid');
+                return false;
+            } else {
+                $('#address').removeClass('is-invalid');
+            }
+            if ($.trim($('#dome_city').val()) == "") {
+                $('#dome_city').addClass('is-invalid');
+                return false;
+            } else {
+                $('#dome_city').removeClass('is-invalid');
+            }
+            if ($.trim($('#dome_postalcode').val()) == "") {
+                $('#dome_postalcode').addClass('is-invalid');
+                return false;
+            } else {
+                $('#dome_postalcode').removeClass('is-invalid');
+            }
+            if ($.trim($('#dome_state').val()) == "") {
+                $('#dome_state').addClass('is-invalid');
+                return false;
+            } else {
+                $('#dome_state').removeClass('is-invalid');
+            }
+            if ($.trim($('#dome_country').val()) == "") {
+                $('#dome_country').addClass('is-invalid');
+                return false;
+            } else {
+                $('#dome_country').removeClass('is-invalid');
+            }
         });
     </script>
 </body>
