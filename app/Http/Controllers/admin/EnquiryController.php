@@ -169,7 +169,6 @@ class EnquiryController extends Controller
             }
         }
 
-
         $request->validate([
             'name' => 'required',
             'email' => 'required|email',
@@ -178,6 +177,7 @@ class EnquiryController extends Controller
             'dome_city' => 'required',
             'dome_state' => 'required',
             'dome_country' => 'required',
+            'dome_address' => 'required',
         ], [
             'name.required' => 'Name is required.',
             'email.required' => 'Email is required.',
@@ -188,6 +188,7 @@ class EnquiryController extends Controller
             'dome_city.required' => 'Dome City is required.',
             'dome_state.required' => 'Dome State is required.',
             'dome_country.required' => 'Dome Country is required.',
+            'dome_address.required' => 'Dome Address is required.',
         ]);
 
         $enquiry = new Enquiries;
@@ -200,6 +201,7 @@ class EnquiryController extends Controller
         $enquiry->dome_city = $request->dome_city;
         $enquiry->dome_state = $request->dome_state;
         $enquiry->dome_country = $request->dome_country;
+        $enquiry->venue_address = $request->dome_address;
         $enquiry->save();
 
         return redirect('/')->with('success', trans('messages.success'));
