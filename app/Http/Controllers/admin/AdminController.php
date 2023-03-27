@@ -56,9 +56,9 @@ class AdminController extends Controller
             $total_income_data = $total_income_data->whereMonth('created_at', Carbon::now()->month)->select(DB::raw('DATE_FORMAT(created_at, "%d-%m-%Y") as titles'), DB::raw('SUM(amount) as amount'))->groupBy('titles')->pluck('amount', 'titles');
 
             // For Booking Chart
-            $total_bookings = Booking::whereMonth('start_date', Carbon::now()->month);
+            $total_bookings = Booking::whereMonth('created_at', Carbon::now()->month);
             $total_bookings_count = $total_bookings->count();
-            $total_bookings_data = $total_bookings->select('start_date', DB::raw('count(*) as bookings'))->groupBy('start_date')->pluck('bookings', 'start_date');
+            $total_bookings_data = $total_bookings->select(DB::raw('DATE_FORMAT(created_at, "%d-%m-%Y") as titles'), DB::raw('count(*) as bookings'))->groupBy('titles')->pluck('bookings', 'titles');
 
             // For Revenue Chart
             $total_revenue_data_sum = $total_revenue_data->whereMonth('created_at', Carbon::now()->month)->sum('amount') * 12 / 100;
@@ -79,9 +79,9 @@ class AdminController extends Controller
             $total_income_data = $total_income_data->whereYear('created_at', Carbon::now()->year)->select(DB::raw("MONTHNAME(created_at) as titles"), DB::raw('SUM(amount) as amount'))->groupBy('titles')->groupBy('titles')->pluck('amount', 'titles');
 
             // For Booking Chart
-            $total_bookings = Booking::whereYear('start_date', Carbon::now()->year);
+            $total_bookings = Booking::whereYear('created_at', Carbon::now()->year);
             $total_bookings_count = $total_bookings->count();
-            $total_bookings_data = $total_bookings->select(DB::raw("MONTHNAME(start_date) as month_name"), DB::raw('count(*) as bookings'))->orderBy('start_date')->groupBy('month_name')->pluck('bookings', 'month_name');
+            $total_bookings_data = $total_bookings->select(DB::raw("MONTHNAME(created_at) as month_name"), DB::raw('count(*) as bookings'))->orderBy('created_at')->groupBy('month_name')->pluck('bookings', 'month_name');
 
             // For Revenue Chart
             $total_revenue_data_sum = $total_revenue_data->where('type', 1)->whereYear('created_at', Carbon::now()->year)->sum('amount') * 12 / 100;
@@ -89,7 +89,7 @@ class AdminController extends Controller
 
             // For Users Chart
             $total_users_data_sum = $total_users_data->whereYear('created_at', Carbon::now()->year)->count();
-            $total_users_data = $total_users_data->whereYear('created_at', Carbon::now()->year)->select(DB::raw('MONTHNAME(created_at) as titles'), DB::raw('COUNT(id) as users'))->groupBy('titles')->orderBy('created_at')->pluck('titles', 'users');
+            $total_users_data = $total_users_data->whereYear('created_at', Carbon::now()->year)->select(DB::raw('MONTHNAME(created_at) as titles'), DB::raw('COUNT(id) as users'))->groupBy('titles')->pluck('titles', 'users');
 
             // For Dome Owners Chart
             $total_dome_owners_data_sum = $total_dome_owners_data->whereYear('created_at', Carbon::now()->year)->count();
@@ -104,9 +104,9 @@ class AdminController extends Controller
             $total_income_data = $total_income_data->whereBetween('created_at', [$weekStartDate, $weekEndDate])->select(DB::raw('DATE_FORMAT(created_at, "%d-%m-%Y") as titles'), DB::raw('SUM(amount) as amount'))->pluck('amount', 'titles');
 
             // For Booking Chart
-            $total_bookings = Booking::whereBetween('start_date', [$weekStartDate, $weekEndDate]);
+            $total_bookings = Booking::whereBetween('created_at', [$weekStartDate, $weekEndDate]);
             $total_bookings_count = $total_bookings->count();
-            $total_bookings_data = $total_bookings->select('start_date', DB::raw('count(*) as bookings'))->groupBy('start_date')->pluck('bookings', 'start_date');
+            $total_bookings_data = $total_bookings->select(DB::raw('DATE_FORMAT(created_at, "%d-%m-%Y") as titles'), DB::raw('count(*) as bookings'))->groupBy('titles')->pluck('bookings', 'start_date');
 
             // For Revenue Chart
             $total_revenue_data_sum = $total_revenue_data->whereBetween('created_at', [$weekStartDate, $weekEndDate])->sum('amount') * 12 / 100;
@@ -128,9 +128,9 @@ class AdminController extends Controller
             $total_income_data = $total_income_data->whereBetween('created_at', [$weekStartDate, $weekEndDate])->select(DB::raw('DATE_FORMAT(created_at, "%d-%m-%Y") as titles'), DB::raw('SUM(amount) as amount'))->groupBy('titles')->pluck('amount', 'titles');
 
             // For Booking Chart
-            $total_bookings = Booking::whereBetween('start_date', [$weekStartDate, $weekEndDate]);
+            $total_bookings = Booking::whereBetween('created_at', [$weekStartDate, $weekEndDate]);
             $total_bookings_count = $total_bookings->count();
-            $total_bookings_data = $total_bookings->select('start_date', DB::raw('count(*) as bookings'))->groupBy('start_date')->pluck('bookings', 'start_date');
+            $total_bookings_data = $total_bookings->select(DB::raw('DATE_FORMAT(created_at, "%d-%m-%Y") as created_at'), DB::raw('count(*) as bookings'))->groupBy('created_at')->pluck('bookings', 'created_at');
 
             // For Revenue Chart
             $total_revenue_data_sum = $total_revenue_data->whereBetween('created_at', [$weekStartDate, $weekEndDate])->sum('amount') * 12 / 100;
@@ -145,6 +145,10 @@ class AdminController extends Controller
             $total_dome_owners_data_sum = $total_dome_owners_data->whereBetween('created_at', [$weekStartDate, $weekEndDate])->count();
             $total_dome_owners_data = $total_dome_owners_data->whereBetween('created_at', [$weekStartDate, $weekEndDate])->select(DB::raw('DATE_FORMAT(created_at, "%d-%m-%Y") as titles'), DB::raw('COUNT(id) as users'))->groupBy('created_at')->get();
             $otherformatfordomez = 1;
+
+            // For Bookings Overview Chart
+            $total_bookings_overview = $total_bookings->count();
+            $total_bookings_overview_data = Booking::select(DB::raw('count(*) as bookings'), DB::raw('SUM(CASE WHEN booking_status = 1 THEN 1 ELSE 0 END) as confirm_bookings'), DB::raw('SUM(CASE WHEN booking_status = 2 THEN 1 ELSE 0 END) as pending_bookings'), DB::raw('SUM(CASE WHEN booking_status = 3 THEN 1 ELSE 0 END) as cancelled_bookings'))->groupBy('booking_status')->get()->toArray();
         }
         $income_labels = $total_income_data->keys();
         $income_data = $total_income_data->values();
@@ -160,10 +164,14 @@ class AdminController extends Controller
 
         $dome_owners_labels = @$otherformatfordomez == 1 ? collect($total_dome_owners_data)->pluck('titles') : $total_dome_owners_data->values();
         $dome_owners_data = @$otherformatfordomez == 1 ? collect($total_dome_owners_data)->pluck('users') : $total_dome_owners_data->keys();
+        dd($total_bookings_overview_data);
+        $bookings_overview_labels = $total_bookings_overview_data->keys();
+        $bookings_overview_data = $total_bookings_overview_data->values();
+
         if ($request->ajax()) {
-            return response()->json(['total_income_data_sum' => Helper::currency_format($total_income_data_sum), 'income_labels' => $income_labels, 'income_data' => $income_data, 'total_bookings_count' => $total_bookings_count, 'booking_labels' => $booking_labels, 'booking_data' => $booking_data, 'total_revenue_data_sum' => Helper::currency_format($total_revenue_data_sum), 'revenue_labels' => $revenue_labels, 'revenue_data' => $revenue_data, 'total_users_data_sum' => $total_users_data_sum, 'users_labels' => $users_labels, 'users_data' => $users_data, 'total_dome_owners_data_sum' => $total_dome_owners_data_sum, 'dome_owners_labels' => $dome_owners_labels, 'dome_owners_data' => $dome_owners_data]);
+            return response()->json(['total_income_data_sum' => Helper::currency_format($total_income_data_sum), 'income_labels' => $income_labels, 'income_data' => $income_data, 'total_bookings_count' => $total_bookings_count, 'booking_labels' => $booking_labels, 'booking_data' => $booking_data, 'total_revenue_data_sum' => Helper::currency_format($total_revenue_data_sum), 'revenue_labels' => $revenue_labels, 'revenue_data' => $revenue_data, 'total_users_data_sum' => $total_users_data_sum, 'users_labels' => $users_labels, 'users_data' => $users_data, 'total_dome_owners_data_sum' => $total_dome_owners_data_sum, 'dome_owners_labels' => $dome_owners_labels, 'dome_owners_data' => $dome_owners_data, 'total_bookings_overview' => $total_bookings_overview, 'bookings_overview_labels' => $bookings_overview_labels, 'bookings_overview_data' => $bookings_overview_data]);
         } else {
-            return view('admin.dashboard.index', compact('getbookingslist', 'total_income_data_sum', 'income_labels', 'income_data', 'total_bookings_count', 'booking_labels', 'booking_data', 'total_revenue_data_sum', 'revenue_labels', 'revenue_data', 'total_users_data_sum', 'users_labels', 'users_data', 'total_dome_owners_data_sum', 'dome_owners_labels', 'dome_owners_data'));
+            return view('admin.dashboard.index', compact('getbookingslist', 'total_income_data_sum', 'income_labels', 'income_data', 'total_bookings_count', 'booking_labels', 'booking_data', 'total_revenue_data_sum', 'revenue_labels', 'revenue_data', 'total_users_data_sum', 'users_labels', 'users_data', 'total_dome_owners_data_sum', 'dome_owners_labels', 'dome_owners_data', 'bookings_overview_labels', 'bookings_overview_data'));
         }
     }
     public function landing(Request $request)

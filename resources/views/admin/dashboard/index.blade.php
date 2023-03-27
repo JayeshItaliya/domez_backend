@@ -460,7 +460,91 @@
             });
         }
     </script>
+
+
+
     <script>
+        let confirmed = {{ Js::from(trans('labels.confirmed')) }};
+        let pending = {{ Js::from(trans('labels.pending')) }};
+        let cancelled = {{ Js::from(trans('labels.cancelled')) }};
+        var bookings_overview_labels = {{ Js::from($bookings_overview_labels) }}
+        var bookings_overview_data = {{ Js::from($bookings_overview_data) }}
+        bookings_overview_chart(bookings_overview_labels, bookings_overview_data);
+
+        function bookings_overview_chart(bookings_overview_labels, bookings_overview_data) {
+            var options = {
+                chart: {
+                    type: 'donut',
+                    height: 350,
+                },
+                series: [50, 35, 15],
+                labels: [confirmed, pending, cancelled],
+                colors: [secondary_color, primary_color, danger_color],
+                responsive: [{
+                    breakpoint: 480,
+                    options: {
+                        chart: {
+                            width: 200
+                        },
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
+                }]
+            };
+            $('#bookings_overview_chart .apexcharts-canvas').remove();
+            var bookingsoverviewchart = new ApexCharts(document.querySelector("#bookings_overview_chart"), options);
+            bookingsoverviewchart.render();
+        }
+        // Total Income Filter
+        $('.income-filter').on('change', function() {
+            if ($(this).val() == 'custom_date') {
+                $('.earning-card .date-range-picker').show();
+                return false;
+            } else {
+                $('.earning-card .date-range-picker').hide();
+            }
+            makeincomefilter('')
+        });
+
+        function makeincomefilter(dates) {
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
+                        'content')
+                },
+                url: $(this).attr('data-next'),
+                data: {
+                    filtertype: $('.income-filter').val(),
+                    filterdates: dates,
+                },
+                method: 'GET',
+                beforeSend: function() {
+                    showpreloader();
+                },
+                success: function(response) {
+                    hidepreloader();
+                    $('.total-income').html(response.bookings_overview_data_sum);
+                    bookings_overview_chart(response.bookings_overview_labels, response.bookings_overview_data)
+                    console.table(bookings_overview_labels);
+                },
+                error: function(e) {
+                    hidepreloader();
+                    toastr.error(wrong);
+                    return false;
+                }
+            });
+        }
+    </script>
+
+{{-- 
+
+
+
+    <script>
+        let confirmed = {{ Js::from(trans('labels.confirmed')) }};
+        let pending = {{ Js::from(trans('labels.pending')) }};
+        let cancelled = {{ Js::from(trans('labels.cancelled')) }};
         if (document.getElementById("bookings_overview_chart")) {
             var options = {
                 chart: {
@@ -468,7 +552,7 @@
                     height: 350,
                 },
                 series: [50, 35, 15],
-                labels: ['Confirmed', 'Pending', 'Cancelled'],
+                labels: [confirmed, pending, cancelled],
                 colors: [secondary_color, primary_color, danger_color],
                 responsive: [{
                     breakpoint: 480,
@@ -486,6 +570,9 @@
             chart.render();
         }
     </script>
+ --}}
+
+
     <script>
         var booking_labels = {{ Js::from($booking_labels) }}
         var booking_data = {{ Js::from($booking_data) }}
