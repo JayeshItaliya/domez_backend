@@ -16,10 +16,10 @@ use Carbon\Carbon;
 
 class DomesController extends Controller
 {
-    public function __construct()
-    {
-        date_default_timezone_set('Asia/Kolkata');
-    }
+    // public function __construct()
+    // {
+    //     date_default_timezone_set('Asia/Kolkata');
+    // }
     public function domes_list(Request $request)
     {
 
