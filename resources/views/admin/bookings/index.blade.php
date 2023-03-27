@@ -3,7 +3,7 @@
     {{ trans('labels.bookings') }}
 @endsection
 @section('styles')
-    <link rel="stylesheet" href={{url('storage/app/public/admin/plugins/flatpickr/flatpickr.min.css')}}>
+    <link rel="stylesheet" href={{ url('storage/app/public/admin/plugins/flatpickr/flatpickr.min.css') }}>
 @endsection
 @section('contents')
     <div class="card mb-3">
@@ -72,7 +72,9 @@
                         </select>
                     </div>
                     <div class="col-auto">
-                        <input type="text" class="form-control date-range-picker" value="{{ $dates }}" placeholder="{{ trans('labels.select_date') }}" style="{{ $filter == 'custom-date' ? 'display:block;' : 'display:none;' }}">
+                        <input type="text" class="form-control date-range-picker" value="{{ $dates }}"
+                            placeholder="{{ trans('labels.select_date') }}"
+                            style="{{ $filter == 'custom-date' ? 'display:block;' : 'display:none;' }}">
                     </div>
                 </div>
             </div>
@@ -130,8 +132,9 @@
                                 <a class="cursor-pointer me-2"
                                     href="{{ URL::to('admin/bookings/details-' . $bookingdata->booking_id) }}">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-eye"
-                                        width="24" height="24" viewBox="0 0 24 24" stroke-width="1" stroke="var(--bs-info)"
-                                        fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                        width="24" height="24" viewBox="0 0 24 24" stroke-width="1"
+                                        stroke="var(--bs-info)" fill="none" stroke-linecap="round"
+                                        stroke-linejoin="round">
                                         <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                                         <path d="M12 12m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"></path>
                                         <path
@@ -140,15 +143,16 @@
                                     </svg>
                                 </a>
                                 @if (Auth::user()->type == 2)
-                                    <a class="cursor-pointer me-2"
-                                        href="{{ URL::to('admin/bookings/details-' . $bookingdata->booking_id) }}">
+                                    <a class="cursor-pointer me-2" href="javascript:void(0)"
+                                        onclick="deletedata('{{ $bookingdata->id }}','{{ URL::to('admin/bookings/delete') }}')">
                                         <svg width="18" height="18" viewBox="0 0 18 18" fill="none"
                                             xmlns="http://www.w3.org/2000/svg">
                                             <path
                                                 d="M8.99964 16.6364C13.2171 16.6364 16.636 13.2175 16.636 9.00001C16.636 4.78256 13.2171 1.36365 8.99964 1.36365C4.7822 1.36365 1.36328 4.78256 1.36328 9.00001C1.36328 13.2175 4.7822 16.6364 8.99964 16.6364Z"
                                                 stroke="var(--bs-danger)" stroke-linecap="round" stroke-linejoin="round" />
                                             <path d="M7.30273 7.30304L10.6967 10.697M10.6967 7.30304L7.30273 10.697"
-                                                stroke="var(--bs-danger)" stroke-linecap="round" stroke-linejoin="round" />
+                                                stroke="var(--bs-danger)" stroke-linecap="round"
+                                                stroke-linejoin="round" />
                                         </svg>
                                     </a>
                                 @endif
@@ -161,7 +165,7 @@
     </div>
 @endsection
 @section('scripts')
-    <script src={{url('storage/app/public/admin/plugins/flatpickr/flatpickr.js')}}></script>
+    <script src={{ url('storage/app/public/admin/plugins/flatpickr/flatpickr.js') }}></script>
     <script>
         $(function() {
             $(".filter_content").appendTo($(".fixed-table-toolbar .float-left"));
@@ -177,5 +181,50 @@
                 }
             });
         });
+
+        function deletedata(id, url) {
+            "use strict";
+            swalWithBootstrapButtons
+                .fire({
+                    icon: 'warning',
+                    title: are_you_sure,
+                    showCancelButton: true,
+                    allowOutsideClick: false,
+                    allowEscapeKey: false,
+                    confirmButtonText: yes,
+                    cancelButtonText: no,
+                    reverseButtons: true,
+                    showLoaderOnConfirm: true,
+                    preConfirm: function() {
+                        return new Promise(function(resolve, reject) {
+                            $.ajax({
+                                type: "GET",
+                                url: url,
+                                data: {
+                                    id: id,
+                                },
+                                dataType: "json",
+                                success: function(response) {
+                                    if (response.status == 1) {
+                                        // toastr.success(response.message);
+                                        location.reload();
+                                    } else {
+                                        swal_cancelled(wrong);
+                                        return false;
+                                    }
+                                },
+                                error: function(response) {
+                                    swal_cancelled(wrong);
+                                    return false;
+                                },
+                            });
+                        });
+                    },
+                }).then((result) => {
+                    if (!result.isConfirmed) {
+                        result.dismiss === Swal.DismissReason.cancel
+                    }
+                })
+        }
     </script>
 @endsection
