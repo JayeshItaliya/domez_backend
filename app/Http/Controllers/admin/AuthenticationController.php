@@ -30,7 +30,7 @@ class AuthenticationController extends Controller
             'password.min' => trans('messages.password_min_length'),
         ]);
         if (Auth::attempt($request->only('email', 'password'))) {
-            if (in_array(Auth::user()->type,[1,2,4])) {
+            if (in_array(Auth::user()->type, [1, 2, 4])) {
                 if (Auth::user()->is_verified == 1) {
                     if (Auth::user()->is_available == 1) {
                         if (Auth::user()->is_deleted == 2) {
@@ -96,10 +96,10 @@ class AuthenticationController extends Controller
             if ($send_mail == 1) {
                 $checkuser->password = Hash::make($password);
                 $checkuser->save();
-                return redirect('check-mail')->with('success',trans('messages.email_sent'));
+                return redirect('check-mail')->with('success', trans('messages.email_sent'));
             }
         } else {
-            return redirect()->back()->with('error', trans('messages.invalid_email') );
+            return redirect()->back()->with('error', trans('messages.invalid_email'));
         }
     }
 
@@ -119,7 +119,7 @@ class AuthenticationController extends Controller
         if ($send_mail == 1) {
             return redirect()->back()->with('success', trans('messages.email_sent'));
         } else {
-            return redirect()->back()->with('error', trans('messages.email_error') );
+            return redirect()->back()->with('error', trans('messages.email_error'));
         }
     }
 

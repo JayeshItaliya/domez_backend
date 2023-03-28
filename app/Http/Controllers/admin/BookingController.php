@@ -27,7 +27,7 @@ class BookingController extends Controller
 
         $getbookingslist = Booking::select('*');
         if (in_array(auth()->user()->type, [2, 4])) {
-            $getbookingslist = $getbookingslist->where('vendor_id', Auth::user()->type == 2 ? Auth::user()->id : Auth::user()->vendor_id);
+            $getbookingslist = $getbookingslist->where('vendor_id', auth()->user()->type == 2 ? auth()->user()->id : auth()->user()->vendor_id);
         }
         if ($request->has('type') && in_array($request->type, ['domes', 'leagues'])) {
             if ($request->type == 'domes') {
@@ -62,7 +62,7 @@ class BookingController extends Controller
         if (auth()->user()->type == 1) {
             $getbookingslist = Booking::orderByDesc('id')->get();
         } else {
-            $getbookingslist = Booking::where('vendor_id', Auth::user()->type == 2 ? Auth::user()->id : Auth::user()->vendor_id)->orderByDesc('id')->get();
+            $getbookingslist = Booking::where('vendor_id', auth()->user()->type == 2 ? auth()->user()->id : auth()->user()->vendor_id)->orderByDesc('id')->get();
         }
         // $data = [];
         // foreach ($getbookingslist as $key => $booking) {

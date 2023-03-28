@@ -9,7 +9,6 @@ use App\Models\Domes;
 use App\Models\DomeImages;
 use App\Models\Enquiries;
 use App\Models\SetPrices;
-use Illuminate\Support\Facades\Auth;
 
 class DomesController extends Controller
 {
@@ -19,8 +18,8 @@ class DomesController extends Controller
             $domes = Domes::with('dome_image', 'dome_owner')->where('is_deleted', 2)->get();
             $domes_count = 0;
         } else {
-            $domes = Domes::with('dome_image')->where('vendor_id', Auth::user()->type == 2 ? Auth::user()->id : Auth::user()->vendor_id)->where('is_deleted', 2)->get();
-            $domes_count = Domes::where('vendor_id', Auth::user()->type == 2 ? Auth::user()->id : Auth::user()->vendor_id)->count();
+            $domes = Domes::with('dome_image')->where('vendor_id', auth()->user()->type == 2 ? auth()->user()->id : auth()->user()->vendor_id)->where('is_deleted', 2)->get();
+            $domes_count = Domes::where('vendor_id', auth()->user()->type == 2 ? auth()->user()->id : auth()->user()->vendor_id)->count();
         }
         $sports = Sports::where('is_available', 1)->where('is_deleted', 2)->get();
         return view('admin.domes.index', compact('domes', 'sports', 'domes_count'));
@@ -224,9 +223,9 @@ class DomesController extends Controller
         try {
             $enquiry = new Enquiries;
             $enquiry->type = 3;
-            $enquiry->name = Auth::user()->name;
-            $enquiry->email = Auth::user()->email;
-            $enquiry->phone = Auth::user()->phone;
+            $enquiry->name = auth()->user()->name;
+            $enquiry->email = auth()->user()->email;
+            $enquiry->phone = auth()->user()->phone;
             $enquiry->dome_name = $request->dome_name;
             $enquiry->dome_zipcode = $request->dome_zipcode;
             $enquiry->dome_city = $request->dome_city;

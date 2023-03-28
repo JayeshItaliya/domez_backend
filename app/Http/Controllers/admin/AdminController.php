@@ -37,23 +37,23 @@ class AdminController extends Controller
         $weekStartDate = $now->startOfWeek();
         $weekEndDate = $now->endOfWeek();
 
-        $percentage = Auth::user()->type == 1 ? 12 : 88;
+        $percentage = auth()->user()->type == 1 ? 12 : 88;
 
         $bookings = Booking::whereDate('start_date', '>=', $now)->orderByDesc('id');
 
         $total_income_data = Transaction::where('type', 1)->orderBy('created_at');
         $total_revenue_data = Booking::where('booking_status', 1);
 
-        $paidAmtQuery_RevChart = Auth::user()->type == 1 ? DB::raw('SUM(paid_amount*12/100) as amount') : DB::raw('SUM(paid_amount*88/100) as amount');
+        $paidAmtQuery_RevChart = auth()->user()->type == 1 ? DB::raw('SUM(paid_amount*12/100) as amount') : DB::raw('SUM(paid_amount*88/100) as amount');
 
         $total_users_data = User::where('type', 3);
         $total_dome_owners_data = User::where('type', 2);
-        if (Auth::user()->type == 1) {
+        if (auth()->user()->type == 1) {
             $getbookingslist = $bookings->get();
         } else {
-            $total_income_data = $total_income_data->where('vendor_id', Auth::user()->type == 2 ? Auth::user()->id : Auth::user()->vendor_id);
-            $total_revenue_data = $total_revenue_data->where('vendor_id', Auth::user()->type == 2 ? Auth::user()->id : Auth::user()->vendor_id);
-            $getbookingslist = $bookings->where('vendor_id', Auth::user()->type == 2 ? Auth::user()->id : Auth::user()->vendor_id)->get();
+            $total_income_data = $total_income_data->where('vendor_id', auth()->user()->type == 2 ? auth()->user()->id : auth()->user()->vendor_id);
+            $total_revenue_data = $total_revenue_data->where('vendor_id', auth()->user()->type == 2 ? auth()->user()->id : auth()->user()->vendor_id);
+            $getbookingslist = $bookings->where('vendor_id', auth()->user()->type == 2 ? auth()->user()->id : auth()->user()->vendor_id)->get();
         }
 
         if ($request->filtertype == "this_month") {
@@ -234,12 +234,12 @@ class AdminController extends Controller
     //     $total_revenue_data = Transaction::where('type', 1)->orderBy('created_at');
     //     $total_users_data = User::where('type', 3);
     //     $total_dome_owners_data = User::where('type', 2);
-    //     if (Auth::user()->type == 1) {
+    //     if (auth()->user()->type == 1) {
     //         $getbookingslist = $bookings->get();
     //     } else {
-    //         $total_income_data = $total_income_data->where('vendor_id', Auth::user()->type == 2 ? Auth::user()->id : Auth::user()->vendor_id);
-    //         $total_revenue_data = $total_revenue_data->where('vendor_id', Auth::user()->type == 2 ? Auth::user()->id : Auth::user()->vendor_id);
-    //         $getbookingslist = $bookings->where('vendor_id', Auth::user()->type == 2 ? Auth::user()->id : Auth::user()->vendor_id)->get();
+    //         $total_income_data = $total_income_data->where('vendor_id', auth()->user()->type == 2 ? auth()->user()->id : auth()->user()->vendor_id);
+    //         $total_revenue_data = $total_revenue_data->where('vendor_id', auth()->user()->type == 2 ? auth()->user()->id : auth()->user()->vendor_id);
+    //         $getbookingslist = $bookings->where('vendor_id', auth()->user()->type == 2 ? auth()->user()->id : auth()->user()->vendor_id)->get();
     //     }
 
     //     if ($request->filtertype == "this_month") {

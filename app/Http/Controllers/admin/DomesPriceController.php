@@ -8,7 +8,6 @@ use App\Models\SetPrices;
 use App\Models\SetPricesDaysSlots;
 use App\Models\Sports;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
@@ -16,12 +15,12 @@ class DomesPriceController extends Controller
 {
     public function index(Request $request)
     {
-        $getsetpriceslist = SetPrices::where('vendor_id', Auth::user()->type == 2 ? Auth::user()->id : Auth::user()->vendor_id)->orderByDesc('id')->get();
+        $getsetpriceslist = SetPrices::where('vendor_id', auth()->user()->type == 2 ? auth()->user()->id : auth()->user()->vendor_id)->orderByDesc('id')->get();
         return view('admin.set_prices.index', compact('getsetpriceslist'));
     }
     public function add(Request $request)
     {
-        $getdomeslist = Domes::where('vendor_id', Auth::user()->type == 2 ? Auth::user()->id : Auth::user()->vendor_id)->where('is_deleted', 2)->orderByDesc('id')->get();
+        $getdomeslist = Domes::where('vendor_id', auth()->user()->type == 2 ? auth()->user()->id : auth()->user()->vendor_id)->where('is_deleted', 2)->orderByDesc('id')->get();
         return view('admin.set_prices.add', compact('getdomeslist'));
     }
     public function store(Request $request)
@@ -32,7 +31,7 @@ class DomesPriceController extends Controller
                 $set_prices = SetPrices::find($request->id);
             } else {
                 $set_prices = new SetPrices();
-                $set_prices->vendor_id = Auth::user()->type == 2 ? Auth::user()->id : Auth::user()->vendor_id;
+                $set_prices->vendor_id = auth()->user()->type == 2 ? auth()->user()->id : auth()->user()->vendor_id;
                 $set_prices->price_type = 2;
                 // $set_prices->price = 0;
             }
@@ -70,7 +69,7 @@ class DomesPriceController extends Controller
     public function getsportslist(Request $request)
     {
         try {
-            $getdomedata = Domes::where('id', $request->id)->where('vendor_id', Auth::user()->type == 2 ? Auth::user()->id : Auth::user()->vendor_id)->where('is_deleted', 2)->first();
+            $getdomedata = Domes::where('id', $request->id)->where('vendor_id', auth()->user()->type == 2 ? auth()->user()->id : auth()->user()->vendor_id)->where('is_deleted', 2)->first();
             if (!empty($getdomedata)) {
                 $getexists = SetPrices::where('dome_id', $request->id)->where('price_type', 2)->select('sport_id')->get()->toArray();
                 $sports = Sports::whereIn('id', explode(',', $getdomedata->sport_id));
@@ -88,7 +87,7 @@ class DomesPriceController extends Controller
     public function edit(Request $request)
     {
         $getslotpricedata = SetPrices::find($request->id);
-        $getdomeslist = Domes::where('vendor_id', Auth::user()->type == 2 ? Auth::user()->id : Auth::user()->vendor_id)->where('is_deleted', 2)->orderByDesc('id')->get();
+        $getdomeslist = Domes::where('vendor_id', auth()->user()->type == 2 ? auth()->user()->id : auth()->user()->vendor_id)->where('is_deleted', 2)->orderByDesc('id')->get();
         $getslots = SetPricesDaysSlots::where('set_prices_id', $request->id)->select('day')->groupBy(DB::raw('day'))->orderBy('id')->get();
         $getdaysslots = [];
         foreach ($getslots as $key => $day) {

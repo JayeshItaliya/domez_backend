@@ -7,7 +7,6 @@ use App\Http\Controllers\Controller;
 use App\Models\CMS;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
@@ -130,10 +129,10 @@ class SettingsController extends Controller
         }
         try {
             $otp = rand(1000, 9999);
-            $user = User::where('email', Auth::user()->email)->first();
+            $user = User::where('email', auth()->user()->email)->first();
             $user->otp = $otp;
             $user->save();
-            $sendemail = Helper::verificationemail($request->email, Auth::user()->name, $otp);
+            $sendemail = Helper::verificationemail($request->email, auth()->user()->name, $otp);
             if ($sendemail == 1) {
                 return response()->json(["status" => 1, "message" => trans('messages.success')], 200);
             }
@@ -203,8 +202,8 @@ class SettingsController extends Controller
             'confirm_password.required' => trans('messages.confirm_password_required'),
             'confirm_password.same' => trans('messages.confirm_password_same')
         ]);
-        if (Hash::check($request->current_password, Auth::user()->password)) {
-            User::where('id', Auth::user()->id)->update(['password' => Hash::make($request->new_password)]);
+        if (Hash::check($request->current_password, auth()->user()->password)) {
+            User::where('id', auth()->user()->id)->update(['password' => Hash::make($request->new_password)]);
             return redirect()->back()->with('success', trans('messages.success'));
         } else {
             return redirect()->back()->with('error', trans('messages.old_password_invalid'));

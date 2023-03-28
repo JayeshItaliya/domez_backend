@@ -7,22 +7,21 @@ use App\Models\Sports;
 use App\Models\Domes;
 use App\Models\Field;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class FieldController extends Controller
 {
     public function index(Request $request)
     {
-        if (Auth::user()->id == 1) {
+        if (auth()->user()->id == 1) {
             $fields = Field::where('is_available', 1)->where('is_deleted', 2)->get();
         } else {
-            $fields = Field::where('vendor_id', Auth::user()->id)->where('is_available', 1)->where('is_deleted', 2)->get();
+            $fields = Field::where('vendor_id', auth()->user()->id)->where('is_available', 1)->where('is_deleted', 2)->get();
         }
         return view('admin.field.index', compact('fields'));
     }
     public function add(Request $request)
     {
-        $dome = Domes::where('vendor_id', Auth::user()->id)->where('is_deleted', 2)->get();
+        $dome = Domes::where('vendor_id', auth()->user()->id)->where('is_deleted', 2)->get();
         $getsportslist = Sports::where('is_available', 1)->where('is_deleted', 2)->get();
         return view('admin.field.add', compact('dome', 'getsportslist'));
     }
@@ -51,7 +50,7 @@ class FieldController extends Controller
         $path = storage_path('app\public\admin\images\fields');
         $request->field_image->move($path, $new_name);
         $field = new Field;
-        $field->vendor_id = Auth::user()->id;
+        $field->vendor_id = auth()->user()->id;
         $field->dome_id = $request->dome;
         $field->sport_id = $request->sport_id;
         $field->name = $request->field_name;
@@ -64,7 +63,7 @@ class FieldController extends Controller
     public function edit(Request $request)
     {
         $field = Field::find($request->id);
-        $dome = Domes::where('vendor_id', Auth::user()->id)->where('is_deleted', 2)->get();
+        $dome = Domes::where('vendor_id', auth()->user()->id)->where('is_deleted', 2)->get();
         $getsportslist = Sports::where('is_available', 1)->where('is_deleted', 2)->select('id', 'name')->get();
         return view('admin.field.edit', compact('dome', 'getsportslist', 'field'));
     }
@@ -89,7 +88,7 @@ class FieldController extends Controller
             'field_image.max' => trans('messages.valid_image_size'),
         ]);
         $field = Field::find($request->id);
-        $field->vendor_id = Auth::user()->id;
+        $field->vendor_id = auth()->user()->id;
         $field->dome_id = $request->dome;
         $field->sport_id = $request->sport_id;
         $field->name = $request->field_name;

@@ -7,7 +7,6 @@ use App\Http\Controllers\Controller;
 use App\Models\Enquiries;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
@@ -209,8 +208,8 @@ class EnquiryController extends Controller
     public function supports(Request $request)
     {
         $getsupportslist = Enquiries::where('type', 5);
-        if (Auth::user()->type == 2) {
-            $getsupportslist = $getsupportslist->where('vendor_id', Auth::user()->id);
+        if (auth()->user()->type == 2) {
+            $getsupportslist = $getsupportslist->where('vendor_id', auth()->user()->id);
         } else {
             $getsupportslist = $getsupportslist->where('is_replied', 2);
         }
@@ -220,11 +219,11 @@ class EnquiryController extends Controller
     public function store_ticket(Request $request)
     {
         $ticket = new Enquiries;
-        $ticket->vendor_id = Auth::user()->id;
+        $ticket->vendor_id = auth()->user()->id;
         $ticket->type = 5;
-        $ticket->name = Auth::user()->name;
-        $ticket->email = Auth::user()->email;
-        $ticket->phone = Auth::user()->phone;
+        $ticket->name = auth()->user()->name;
+        $ticket->email = auth()->user()->email;
+        $ticket->phone = auth()->user()->phone;
         $ticket->subject = $request->subject;
         $ticket->message = $request->message;
         $ticket->save();
