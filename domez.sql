@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 24, 2023 at 02:32 PM
+-- Generation Time: Mar 28, 2023 at 12:06 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -42,6 +42,9 @@ CREATE TABLE `bookings` (
   `end_date` date DEFAULT NULL COMMENT 'For Leagues Booking Only	',
   `start_time` text NOT NULL,
   `end_time` text NOT NULL,
+  `sub_total` double NOT NULL DEFAULT 0,
+  `service_fee` double NOT NULL DEFAULT 0,
+  `hst` double NOT NULL DEFAULT 0,
   `total_amount` double(8,2) NOT NULL,
   `paid_amount` double(8,2) NOT NULL DEFAULT 0.00,
   `due_amount` double(8,2) NOT NULL DEFAULT 0.00,
@@ -63,36 +66,48 @@ CREATE TABLE `bookings` (
 -- Dumping data for table `bookings`
 --
 
-INSERT INTO `bookings` (`id`, `type`, `vendor_id`, `dome_id`, `league_id`, `user_id`, `sport_id`, `field_id`, `booking_id`, `slots`, `start_date`, `end_date`, `start_time`, `end_time`, `total_amount`, `paid_amount`, `due_amount`, `payment_mode`, `payment_type`, `payment_status`, `booking_status`, `token`, `players`, `customer_name`, `customer_email`, `customer_mobile`, `team_name`, `created_at`, `updated_at`) VALUES
-(22, 1, 2, 35, NULL, 7, 6, '2', '554611', '06:30 AM - 07:30 AM', '2023-03-24', NULL, '8:00 AM', '11:35 AM', 87.00, 23.00, 26.00, 1, 2, 2, 3, NULL, 17, 'Prof. Geovany Kuhn', 'arno.mayert@example.com', '+14809074204', 'Lorem Ipsum League', '2023-03-23 04:30:00', '2023-03-24 08:54:00'),
-(63, 1, 2, 35, NULL, 7, 10, '20,2', '565454', '02:00 AM - 03:00 AM,03:00 AM - 04:00 AM,04:00 AM - 05:00 AM', '2023-03-16', NULL, '08:00 PM', '09:00 PM', 87.00, 23.00, 26.00, 1, 2, 1, 1, NULL, 17, 'james Carter', 'james123@example.com', '+14809074204', 'Lorem Ipsum League', '2023-02-16 04:57:41', '2023-03-24 08:54:00'),
-(68, 1, 2, 35, NULL, 7, 8, '12,13', '325689', '02:00 AM - 03:00 AM,03:00 AM - 04:00 AM', '2023-03-09', NULL, '08:00 PM', '09:00 PM', 180.00, 23.00, 26.00, 1, 2, 1, 1, NULL, 17, 'james Carter', 'james123@example.com', '+14809074204', 'Lorem Ipsum League', '2023-02-16 04:57:41', '2023-03-24 08:54:00'),
-(69, 1, 2, 35, NULL, 7, 8, '11', '457856', '03:00 AM - 04:00 AM', '2023-03-30', NULL, '03:00 AM', '04:00 AM', 250.00, 23.00, 26.00, 1, 2, 1, 1, NULL, 17, 'james Carter', 'james123@example.com', '+14809074204', 'Lorem Ipsum League', '2023-02-16 04:57:41', '2023-03-24 08:54:00'),
-(70, 1, 2, 35, NULL, 7, 9, '5', '458923', '03:00 AM - 04:00 AM,04:00 AM - 05:00 AM', '2023-04-20', NULL, '03:00 AM', '05:00 AM', 87.00, 23.00, 26.00, 1, 2, 1, 1, NULL, 17, 'james Carter', 'james123@example.com', '+14809074204', 'Lorem Ipsum League', '2023-02-25 04:57:41', '2023-03-24 08:54:00'),
-(71, 2, 2, 35, 11, 7, 7, '3', '458978', '03:00 AM - 04:00 AM,04:00 AM - 05:00 AM', '2023-03-21', NULL, '03:00 AM', '05:00 AM', 87.00, 23.00, 26.00, 1, 2, 1, 1, NULL, 17, 'Lorem Ipsum', 'loremipsum@example.com', '+14809074204', 'Lorem Ipsum League', '2023-02-25 04:57:41', '2023-03-24 08:54:00'),
-(72, 1, 2, 35, NULL, 7, 9, '4', '458923', '03:00 AM - 04:00 AM,04:00 AM - 05:00 AM', '2023-03-06', NULL, '03:00 AM', '05:00 AM', 87.00, 23.00, 26.00, 1, 2, 1, 1, NULL, 17, 'james Carter', 'james123@example.com', '+14809074204', 'Lorem Ipsum League', '2023-02-25 04:57:41', '2023-03-24 08:54:00'),
-(73, 1, 2, 35, NULL, 7, 9, '6', '458923', '03:00 AM - 04:00 AM,04:00 AM - 05:00 AM', '2023-03-07', NULL, '03:00 AM', '05:00 AM', 87.00, 23.00, 26.00, 1, 2, 1, 1, NULL, 17, 'james Carter', 'james123@example.com', '+14809074204', 'Lorem Ipsum League', '2023-02-25 04:57:41', '2023-03-24 08:54:00'),
-(74, 1, 2, 35, NULL, 7, 7, '3', '458978', '03:00 AM - 04:00 AM,04:00 AM - 05:00 AM', '2023-03-22', NULL, '03:00 AM', '05:00 AM', 87.00, 23.00, 26.00, 1, 2, 1, 1, NULL, 17, 'Lorem Ipsum', 'loremipsum@example.com', '+14809074204', 'Lorem Ipsum League', '2023-02-25 04:57:41', '2023-03-24 08:54:00'),
-(75, 1, 2, 35, NULL, 7, 6, '30', 'feb086', '06:00 AM - 07:00 AM', '2023-03-28', NULL, '06:00 AM', '07:00 AM', 880.00, 90.00, 790.00, 1, 2, 2, 3, '2y10AJCTI10ZEfbzvBqVVuRAepCbXKs2i4PegQuVtQaht7IwSNstsWG', 12, 'Soham', 'domez@gmail.com', '6359478772', 'Lorem Ipsum League', '2023-03-16 23:05:13', '2023-03-24 08:54:00'),
-(76, 1, 2, 35, NULL, 7, 6, '30', '34b86f', '03:00 PM - 04:00 PM', '2023-03-01', NULL, '03:00 PM', '04:00 PM', 880.00, 90.00, 790.00, 1, 2, 2, 3, '2y10wTO0zKtivVjQnUHaSZsO3yBMqREEWrAbvj7HQUojipynJD0y7W', 12, 'Soham', 'domez@gmail.com', '6359478772', 'Lorem Ipsum League', '2023-03-16 23:09:25', '2023-03-24 08:54:00'),
-(77, 1, 2, 35, NULL, 7, 6, '31', '2a248b', '06:00 AM - 07:00 AM', '2023-03-31', NULL, '06:00 AM', '07:00 AM', 2640.00, 220.00, 2420.00, 1, 2, 2, 3, '2y10FyAjLVLx4YhsVQzePNGctuGVjobiCj72PsFRgdKT3YqxMfopL0Ra', 12, 'Soham', 'domez@gmail.com', '6359478772', 'Lorem Ipsum League', '2023-03-17 00:02:37', '2023-03-24 08:54:00'),
-(78, 1, 2, 35, NULL, 7, 6, '30', '6420c7', '10:00 AM - 11:00 AM', '2023-03-12', NULL, '10:00 AM', '11:00 AM', 880.00, 110.00, 770.00, 1, 2, 2, 3, '2y10btNPJ2idHcjrfEOGY16n5OKEkRGNIUoLHgXO50zjQ9jBFu2bnm', 12, 'Soham', 'domez@gmail.com', '6359478772', 'Lorem Ipsum League', '2023-03-17 00:05:38', '2023-03-24 08:54:00'),
-(79, 1, 2, 35, NULL, 7, 6, '33', 'bc3167', '07:00 AM - 08:00 AM', '2023-03-08', NULL, '07:00 AM', '08:00 AM', 880.00, 80.00, 800.00, 1, 2, 2, 3, '2y10IZ3pc3IVKlrmpvjF6rqfePRKePgG4v31mBesjram1rpyUXD4y5m', 12, 'Soham', 'domez@gmail.com', '6359478772', 'Lorem Ipsum League', '2023-03-17 07:00:54', '2023-03-24 08:54:00'),
-(80, 1, 2, 35, NULL, 7, 6, '30', '71299e', '06:00 AM - 07:00 AM,05:00 PM - 06:00 PM', '2023-04-27', NULL, '05:00 PM', '06:00 PM', 1760.00, 147.00, 1613.00, 1, 2, 2, 3, '2y1071VD3QNZ5NdyupeW4PQ6oeTzAQTRstmq5e7wfujvseV8diaYqJ3C', 12, 'Soham', 'domez@gmail.com', '6359478772', 'Lorem Ipsum League', '2023-03-17 08:01:33', '2023-03-24 08:54:00'),
-(81, 1, 2, 35, NULL, 7, 6, '30', 'd728dc', '05:00 PM - 06:00 PM', '2023-03-21', NULL, '04:00 PM', '05:00 PM', 880.00, 80.00, 800.00, 1, 2, 2, 3, '2y10Sn6kV40myt3Mztn7nFW7ux4FDRXYAqgQDr1QA3V7CNiVGXfoK', 12, 'Soham', 'domez@gmail.com', '6359478772', 'Lorem Ipsum League', '2023-03-21 05:08:07', '2023-03-24 08:54:00'),
-(82, 1, 2, 35, NULL, 7, 6, '30', '13e3f3', '09:00 AM - 10:00 AM,06:00 AM - 07:00 AM', '2023-03-21', NULL, '06:00 AM', '08:03 PM', 1760.00, 150.00, 1610.00, 1, 2, 2, 3, '2y10e7iF5tY9OKaqOrJOYFoc7wo1coyPzU9gVGNLXOiLAusWXmBiE', 12, 'Soham', 'domez@gmail.com', '6359478772', 'Lorem Ipsum League', '2023-03-21 05:42:44', '2023-03-24 08:54:00'),
-(83, 1, 2, 35, NULL, 7, 6, '30', '27b51d', '06:00 PM - 07:00 PM,06:00 AM - 07:00 AM', '2023-03-22', NULL, '06:00 AM', '07:00 AM', 880.00, 73.35, 806.65, 1, 2, 2, 3, '2y106RRpSanIckeXhPVsJA6tuRyeLv5Z4gVytBWhiSaVQKzfm7S', 12, 'Soham', 'domez@gmail.com', '6359478772', 'Lorem Ipsum League', '2023-03-21 06:22:42', '2023-03-24 08:54:00'),
-(84, 1, 2, 35, NULL, 7, 6, '31', '7c9636', '10:00 AM - 11:00 AM', '2023-03-22', NULL, '10:00 AM', '11:00 AM', 880.00, 80.00, 800.00, 1, 2, 2, 3, '2y104tPHhfXtAvbCZDUegyyMYuXS3mSUDWxMsgTXZk6sZYtbNKp8srRq', 12, 'Soham', 'domez@gmail.com', '6359478772', 'Lorem Ipsum League', '2023-03-21 11:56:09', '2023-03-24 08:54:00'),
-(85, 1, 2, 35, NULL, 7, 6, '30', '0756ad', '07:00 AM - 08:00 AM', '2023-03-21', NULL, '07:00 AM', '07:15 PM', 880.00, 875.00, 5.00, 1, 2, 2, 3, '2y10r21zOHumVKlVjkn02DBeCObJFvVfhON5ywVcIKzF2KyJcblKA9k8', 12, 'Soham', 'domez@gmail.com', '6359478772', 'Lorem Ipsum League', '2023-03-21 11:59:51', '2023-03-24 08:54:00'),
-(86, 1, 2, 35, NULL, 7, 6, '32', '7c975a', '01:00 PM - 02:00 PM', '2023-03-22', NULL, '01:00 PM', '02:00 PM', 880.00, 104.55, 0.00, 1, 2, 2, 3, '2y10GmKhpL2PCKVNdeVx7gcE2OYg6bcIFRjjX2ROwVI40Bx3h98smdXm', 12, 'Soham', 'domez@gmail.com', '6359478772', 'Lorem Ipsum League', '2023-03-21 07:36:51', '2023-03-24 08:54:00'),
-(87, 1, 2, 35, NULL, 7, 7, '36,37', '312a52', '11:00 AM - 12:00 PM,12:00 PM - 01:00 PM', '2023-03-24', NULL, '11:00 AM', '01:00 PM', 3520.00, 0.00, 0.00, 1, 1, 1, 1, NULL, 21, 'Soham', 'domez@gmail.com', '6359478772', '', '2023-03-23 23:44:11', '2023-03-23 23:44:11'),
-(88, 1, 2, 35, NULL, 7, 6, '30', 'eda29f', '06:00 AM - 07:00 AM,07:00 AM - 08:00 AM,08:00 AM - 09:00 AM', '2023-03-25', NULL, '07:00 AM', '09:00 AM', 2640.00, 155.29, 2484.71, 1, 2, 2, 2, '2y10Hcmevo7Cpe2kgJoJktACJOP2vY2kFaEQPuxdZS9k8MtnxuMdnMzma', 17, 'Soham', 'domez@gmail.com', '6359478772', '', '2023-03-24 03:52:05', '2023-03-24 03:52:05'),
-(89, 2, 2, 35, 11, 7, 6, '2,8', '97305d', NULL, '2023-03-16', '2023-04-10', '09:00 AM', '05:00 PM', 2640.00, 0.00, 0.00, 1, 1, 1, 1, NULL, 17, 'Soham', 'domez@gmail.com', '6359478772', 'fd', '2023-03-24 03:53:23', '2023-03-24 03:53:23'),
-(90, 1, 2, 35, NULL, 7, 10, '2', '0f7fc8', '04:00 PM - 05:00 PM', '2023-03-24', NULL, '04:00 PM', '05:00 PM', 132.00, 132.00, 0.00, 1, 2, 2, 3, '2y10JGDTKpMJyqtdDoGRyhu7OuG2oblDXsvpDATme6K2f1efQwGZ46q', 12, 'Soham', 'domez@gmail.com', '6359478772', '', '2023-03-24 04:27:37', '2023-03-24 10:31:00'),
-(91, 1, 2, 35, NULL, 7, 6, '30', '852d8a', '06:00 PM - 07:00 PM', '2023-03-24', NULL, '06:00 PM', '07:00 PM', 880.00, 80.00, 800.00, 1, 2, 2, 3, '2y10nqjPenB11cj2ContQd4UuOhfOQU6ngaND8h8zTWcvkHT8MoAhioS', 12, 'Soham', 'domez@gmail.com', '6359478772', '', '2023-03-24 04:36:57', '2023-03-24 12:31:00'),
-(92, 1, 2, 35, NULL, 7, 10, '2', '78c912', '06:00 PM - 07:00 PM,05:00 PM - 06:00 PM,06:00 PM - 07:00 PM', '2023-03-24', NULL, '05:00 PM', '07:00 PM', 264.00, 0.00, 0.00, 1, 1, 1, 1, NULL, 12, 'Soham', 'domez@gmail.com', '6359478772', '', '2023-03-24 04:48:11', '2023-03-24 04:48:11'),
-(93, 2, 2, 35, 16, 7, 6, '8,11', 'b64ef1', NULL, '2023-03-16', '2023-04-10', '09:00 AM', '05:00 PM', 1637.90, 0.00, 0.00, 1, 1, 1, 1, NULL, 6, 'Soham', 'domez@gmail.com', '6359478772', 'Ty', '2023-03-24 05:08:25', '2023-03-24 05:08:25'),
-(94, 2, 2, 35, 16, 7, 6, '8,11', 'ff954a', NULL, '2023-03-16', '2023-04-10', '09:00 AM', '05:00 PM', 1637.90, 0.00, 0.00, 1, 1, 1, 1, NULL, 99, 'Soham', 'domez@gmail.com', '6359478772', 'Ty', '2023-03-24 05:10:25', '2023-03-24 05:10:25');
+INSERT INTO `bookings` (`id`, `type`, `vendor_id`, `dome_id`, `league_id`, `user_id`, `sport_id`, `field_id`, `booking_id`, `slots`, `start_date`, `end_date`, `start_time`, `end_time`, `sub_total`, `service_fee`, `hst`, `total_amount`, `paid_amount`, `due_amount`, `payment_mode`, `payment_type`, `payment_status`, `booking_status`, `token`, `players`, `customer_name`, `customer_email`, `customer_mobile`, `team_name`, `created_at`, `updated_at`) VALUES
+(22, 1, 2, 35, NULL, 7, 6, '2', '554611', '06:30 AM - 07:30 AM', '2023-03-24', NULL, '8:00 AM', '11:35 AM', 0, 0, 0, 87.00, 23.00, 26.00, 1, 2, 2, 3, NULL, 17, 'Prof. Geovany Kuhn', 'arno.mayert@example.com', '+14809074204', 'Lorem Ipsum League', '2023-03-23 04:30:00', '2023-03-24 08:54:00'),
+(63, 1, 2, 35, NULL, 7, 10, '20,2', '565454', '02:00 AM - 03:00 AM,03:00 AM - 04:00 AM,04:00 AM - 05:00 AM', '2023-03-16', NULL, '08:00 PM', '09:00 PM', 0, 0, 0, 87.00, 23.00, 26.00, 1, 2, 1, 1, NULL, 17, 'james Carter', 'james123@example.com', '+14809074204', 'Lorem Ipsum League', '2023-02-16 04:57:41', '2023-03-24 08:54:00'),
+(68, 1, 2, 35, NULL, 7, 8, '12,13', '325689', '02:00 AM - 03:00 AM,03:00 AM - 04:00 AM', '2023-03-09', NULL, '08:00 PM', '09:00 PM', 0, 0, 0, 180.00, 23.00, 26.00, 1, 2, 1, 1, NULL, 17, 'james Carter', 'james123@example.com', '+14809074204', 'Lorem Ipsum League', '2023-02-16 04:57:41', '2023-03-24 08:54:00'),
+(69, 1, 2, 35, NULL, 7, 8, '11', '457856', '03:00 AM - 04:00 AM', '2023-03-30', NULL, '03:00 AM', '04:00 AM', 0, 0, 0, 250.00, 23.00, 26.00, 1, 2, 1, 1, NULL, 17, 'james Carter', 'james123@example.com', '+14809074204', 'Lorem Ipsum League', '2023-02-16 04:57:41', '2023-03-24 08:54:00'),
+(70, 1, 2, 35, NULL, 7, 9, '5', '458923', '03:00 AM - 04:00 AM,04:00 AM - 05:00 AM', '2023-04-20', NULL, '03:00 AM', '05:00 AM', 0, 0, 0, 87.00, 23.00, 26.00, 1, 2, 1, 1, NULL, 17, 'james Carter', 'james123@example.com', '+14809074204', 'Lorem Ipsum League', '2023-02-25 04:57:41', '2023-03-24 08:54:00'),
+(71, 2, 2, 35, 11, 7, 7, '3', '458978', '03:00 AM - 04:00 AM,04:00 AM - 05:00 AM', '2023-03-21', NULL, '03:00 AM', '05:00 AM', 0, 0, 0, 87.00, 23.00, 26.00, 1, 2, 1, 1, NULL, 17, 'Lorem Ipsum', 'loremipsum@example.com', '+14809074204', 'Lorem Ipsum League', '2023-02-25 04:57:41', '2023-03-24 08:54:00'),
+(72, 1, 2, 35, NULL, 7, 9, '4', '458923', '03:00 AM - 04:00 AM,04:00 AM - 05:00 AM', '2023-03-06', NULL, '03:00 AM', '05:00 AM', 0, 0, 0, 87.00, 23.00, 26.00, 1, 2, 1, 1, NULL, 17, 'james Carter', 'james123@example.com', '+14809074204', 'Lorem Ipsum League', '2023-02-25 04:57:41', '2023-03-24 08:54:00'),
+(73, 1, 2, 35, NULL, 7, 9, '6', '458923', '03:00 AM - 04:00 AM,04:00 AM - 05:00 AM', '2023-03-07', NULL, '03:00 AM', '05:00 AM', 0, 0, 0, 87.00, 23.00, 26.00, 1, 2, 1, 1, NULL, 17, 'james Carter', 'james123@example.com', '+14809074204', 'Lorem Ipsum League', '2023-02-25 04:57:41', '2023-03-24 08:54:00'),
+(74, 1, 2, 35, NULL, 7, 7, '3', '458978', '03:00 AM - 04:00 AM,04:00 AM - 05:00 AM', '2023-03-22', NULL, '03:00 AM', '05:00 AM', 0, 0, 0, 87.00, 23.00, 26.00, 1, 2, 1, 1, NULL, 17, 'Lorem Ipsum', 'loremipsum@example.com', '+14809074204', 'Lorem Ipsum League', '2023-02-25 04:57:41', '2023-03-24 08:54:00'),
+(75, 1, 2, 35, NULL, 7, 6, '30', 'feb086', '06:00 AM - 07:00 AM', '2023-03-28', NULL, '06:00 AM', '07:00 AM', 0, 0, 0, 880.00, 90.00, 790.00, 1, 2, 2, 3, '2y10AJCTI10ZEfbzvBqVVuRAepCbXKs2i4PegQuVtQaht7IwSNstsWG', 12, 'Soham', 'domez@gmail.com', '6359478772', 'Lorem Ipsum League', '2023-03-16 23:05:13', '2023-03-24 08:54:00'),
+(76, 1, 2, 35, NULL, 7, 6, '30', '34b86f', '03:00 PM - 04:00 PM', '2023-03-01', NULL, '03:00 PM', '04:00 PM', 0, 0, 0, 880.00, 90.00, 790.00, 1, 2, 2, 3, '2y10wTO0zKtivVjQnUHaSZsO3yBMqREEWrAbvj7HQUojipynJD0y7W', 12, 'Soham', 'domez@gmail.com', '6359478772', 'Lorem Ipsum League', '2023-03-16 23:09:25', '2023-03-24 08:54:00'),
+(77, 1, 2, 35, NULL, 7, 6, '31', '2a248b', '06:00 AM - 07:00 AM', '2023-03-31', NULL, '06:00 AM', '07:00 AM', 0, 0, 0, 2640.00, 220.00, 2420.00, 1, 2, 2, 3, '2y10FyAjLVLx4YhsVQzePNGctuGVjobiCj72PsFRgdKT3YqxMfopL0Ra', 12, 'Soham', 'domez@gmail.com', '6359478772', 'Lorem Ipsum League', '2023-03-17 00:02:37', '2023-03-24 08:54:00'),
+(78, 1, 2, 35, NULL, 7, 6, '30', '6420c7', '10:00 AM - 11:00 AM', '2023-03-12', NULL, '10:00 AM', '11:00 AM', 0, 0, 0, 880.00, 110.00, 770.00, 1, 2, 2, 3, '2y10btNPJ2idHcjrfEOGY16n5OKEkRGNIUoLHgXO50zjQ9jBFu2bnm', 12, 'Soham', 'domez@gmail.com', '6359478772', 'Lorem Ipsum League', '2023-03-17 00:05:38', '2023-03-24 08:54:00'),
+(79, 1, 2, 35, NULL, 7, 6, '33', 'bc3167', '07:00 AM - 08:00 AM', '2023-03-08', NULL, '07:00 AM', '08:00 AM', 0, 0, 0, 880.00, 80.00, 800.00, 1, 2, 2, 3, '2y10IZ3pc3IVKlrmpvjF6rqfePRKePgG4v31mBesjram1rpyUXD4y5m', 12, 'Soham', 'domez@gmail.com', '6359478772', 'Lorem Ipsum League', '2023-03-17 07:00:54', '2023-03-24 08:54:00'),
+(80, 1, 2, 35, NULL, 7, 6, '30', '71299e', '06:00 AM - 07:00 AM,05:00 PM - 06:00 PM', '2023-04-27', NULL, '05:00 PM', '06:00 PM', 0, 0, 0, 1760.00, 147.00, 1613.00, 1, 2, 2, 3, '2y1071VD3QNZ5NdyupeW4PQ6oeTzAQTRstmq5e7wfujvseV8diaYqJ3C', 12, 'Soham', 'domez@gmail.com', '6359478772', 'Lorem Ipsum League', '2023-03-17 08:01:33', '2023-03-24 08:54:00'),
+(81, 1, 2, 35, NULL, 7, 6, '30', 'd728dc', '05:00 PM - 06:00 PM', '2023-03-21', NULL, '04:00 PM', '05:00 PM', 0, 0, 0, 880.00, 80.00, 800.00, 1, 2, 2, 3, '2y10Sn6kV40myt3Mztn7nFW7ux4FDRXYAqgQDr1QA3V7CNiVGXfoK', 12, 'Soham', 'domez@gmail.com', '6359478772', 'Lorem Ipsum League', '2023-03-21 05:08:07', '2023-03-24 08:54:00'),
+(82, 1, 2, 35, NULL, 7, 6, '30', '13e3f3', '09:00 AM - 10:00 AM,06:00 AM - 07:00 AM', '2023-03-21', NULL, '06:00 AM', '08:03 PM', 0, 0, 0, 1760.00, 150.00, 1610.00, 1, 2, 2, 3, '2y10e7iF5tY9OKaqOrJOYFoc7wo1coyPzU9gVGNLXOiLAusWXmBiE', 12, 'Soham', 'domez@gmail.com', '6359478772', 'Lorem Ipsum League', '2023-03-21 05:42:44', '2023-03-24 08:54:00'),
+(83, 1, 2, 35, NULL, 7, 6, '30', '27b51d', '06:00 PM - 07:00 PM,06:00 AM - 07:00 AM', '2023-03-22', NULL, '06:00 AM', '07:00 AM', 0, 0, 0, 880.00, 73.35, 806.65, 1, 2, 2, 3, '2y106RRpSanIckeXhPVsJA6tuRyeLv5Z4gVytBWhiSaVQKzfm7S', 12, 'Soham', 'domez@gmail.com', '6359478772', 'Lorem Ipsum League', '2023-03-21 06:22:42', '2023-03-24 08:54:00'),
+(84, 1, 2, 35, NULL, 7, 6, '31', '7c9636', '10:00 AM - 11:00 AM', '2023-03-22', NULL, '10:00 AM', '11:00 AM', 0, 0, 0, 880.00, 80.00, 800.00, 1, 2, 2, 3, '2y104tPHhfXtAvbCZDUegyyMYuXS3mSUDWxMsgTXZk6sZYtbNKp8srRq', 12, 'Soham', 'domez@gmail.com', '6359478772', 'Lorem Ipsum League', '2023-03-21 11:56:09', '2023-03-24 08:54:00'),
+(85, 1, 2, 35, NULL, 7, 6, '30', '0756ad', '07:00 AM - 08:00 AM', '2023-03-21', NULL, '07:00 AM', '07:15 PM', 0, 0, 0, 880.00, 875.00, 5.00, 1, 2, 2, 3, '2y10r21zOHumVKlVjkn02DBeCObJFvVfhON5ywVcIKzF2KyJcblKA9k8', 12, 'Soham', 'domez@gmail.com', '6359478772', 'Lorem Ipsum League', '2023-03-21 11:59:51', '2023-03-24 08:54:00'),
+(86, 1, 2, 35, NULL, 7, 6, '32', '7c975a', '01:00 PM - 02:00 PM', '2023-03-22', NULL, '01:00 PM', '02:00 PM', 0, 0, 0, 880.00, 104.55, 0.00, 1, 2, 2, 3, '2y10GmKhpL2PCKVNdeVx7gcE2OYg6bcIFRjjX2ROwVI40Bx3h98smdXm', 12, 'Soham', 'domez@gmail.com', '6359478772', 'Lorem Ipsum League', '2023-03-21 07:36:51', '2023-03-24 08:54:00'),
+(87, 1, 2, 35, NULL, 7, 7, '36,37', '312a52', '11:00 AM - 12:00 PM,12:00 PM - 01:00 PM', '2023-03-24', NULL, '11:00 AM', '01:00 PM', 0, 0, 0, 3520.00, 0.00, 0.00, 1, 1, 1, 1, NULL, 21, 'Soham', 'domez@gmail.com', '6359478772', '', '2023-03-23 23:44:11', '2023-03-23 23:44:11'),
+(88, 1, 2, 35, NULL, 7, 6, '30', 'eda29f', '06:00 AM - 07:00 AM,07:00 AM - 08:00 AM,08:00 AM - 09:00 AM', '2023-03-25', NULL, '07:00 AM', '09:00 AM', 0, 0, 0, 2640.00, 155.29, 2484.71, 1, 2, 2, 3, '2y10Hcmevo7Cpe2kgJoJktACJOP2vY2kFaEQPuxdZS9k8MtnxuMdnMzma', 17, 'Soham', 'domez@gmail.com', '6359478772', '', '2023-03-24 03:52:05', '2023-03-27 04:23:01'),
+(89, 2, 2, 35, 11, 7, 6, '2,8', '97305d', NULL, '2023-03-16', '2023-04-10', '09:00 AM', '05:00 PM', 0, 0, 0, 2640.00, 0.00, 0.00, 1, 1, 1, 1, NULL, 17, 'Soham', 'domez@gmail.com', '6359478772', 'fd', '2023-03-24 03:53:23', '2023-03-24 03:53:23'),
+(90, 1, 2, 35, NULL, 7, 10, '2', '0f7fc8', '04:00 PM - 05:00 PM', '2023-03-24', NULL, '04:00 PM', '05:00 PM', 0, 0, 0, 132.00, 132.00, 0.00, 1, 2, 2, 3, '2y10JGDTKpMJyqtdDoGRyhu7OuG2oblDXsvpDATme6K2f1efQwGZ46q', 12, 'Soham', 'domez@gmail.com', '6359478772', '', '2023-03-24 04:27:37', '2023-03-24 10:31:00'),
+(91, 1, 2, 35, NULL, 7, 6, '30', '852d8a', '06:00 PM - 07:00 PM', '2023-03-24', NULL, '06:00 PM', '07:00 PM', 0, 0, 0, 880.00, 80.00, 800.00, 1, 2, 2, 3, '2y10nqjPenB11cj2ContQd4UuOhfOQU6ngaND8h8zTWcvkHT8MoAhioS', 12, 'Soham', 'domez@gmail.com', '6359478772', '', '2023-03-24 04:36:57', '2023-03-24 12:31:00'),
+(92, 1, 2, 35, NULL, 7, 10, '2', '78c912', '06:00 PM - 07:00 PM,05:00 PM - 06:00 PM,06:00 PM - 07:00 PM', '2023-03-24', NULL, '05:00 PM', '07:00 PM', 0, 0, 0, 264.00, 0.00, 0.00, 1, 1, 1, 1, NULL, 12, 'Soham', 'domez@gmail.com', '6359478772', '', '2023-03-24 04:48:11', '2023-03-24 04:48:11'),
+(93, 2, 2, 35, 16, 7, 6, '8,11', 'b64ef1', NULL, '2023-03-16', '2023-04-10', '09:00 AM', '05:00 PM', 0, 0, 0, 1637.90, 0.00, 0.00, 1, 1, 1, 1, NULL, 6, 'Soham', 'domez@gmail.com', '6359478772', 'Ty', '2023-03-24 05:08:25', '2023-03-24 05:08:25'),
+(94, 2, 2, 35, 16, 7, 6, '8,11', 'ff954a', NULL, '2023-03-16', '2023-04-10', '09:00 AM', '05:00 PM', 0, 0, 0, 1637.90, 0.00, 0.00, 1, 1, 1, 1, NULL, 99, 'Soham', 'domez@gmail.com', '6359478772', 'Ty', '2023-03-24 05:10:25', '2023-03-24 05:10:25'),
+(95, 1, 2, 35, NULL, 7, 6, '30,31', '0a1dd7', '05:00 AM - 06:00 AM', '2023-04-07', NULL, '05:00 AM', '06:00 AM', 0, 0, 0, 110.00, 8.46, 101.54, 1, 2, 2, 3, '2y10YfFTHGExP3WfX2X2JPJ3cngiQd1yAi1bPdiOU53k4oHk7I0C', 13, 'Soham', 'domez@gmail.com', '6359478772', '', '2023-03-26 23:13:51', '2023-03-28 01:11:01'),
+(96, 1, 2, 35, NULL, 7, 6, '30', '704fae', '02:00 PM - 03:00 PM', '2023-03-27', NULL, '02:00 PM', '03:00 PM', 0, 0, 0, 880.00, 0.00, 0.00, 1, 1, 1, 1, NULL, 12, 'Soham', 'domez@gmail.com', '6359478772', '', '2023-03-27 05:08:41', '2023-03-27 05:08:41'),
+(97, 1, 2, 35, NULL, 7, 6, '31', '76c8b6', '12:00 PM - 01:00 PM', '2023-03-27', NULL, '12:00 PM', '01:00 PM', 0, 0, 0, 880.00, 73.33, 806.67, 1, 2, 2, 3, '2y10Gn37U4FUFTqZqA1eyBuHlTqsVLI5CUZAv4W3tpH5nXym9vAER5G', 12, 'Soham', 'domez@gmail.com', '6359478772', '', '2023-03-26 23:45:52', '2023-03-28 04:33:49'),
+(98, 1, 2, 35, NULL, 7, 6, '32', '0c23ae', '04:00 PM - 05:00 PM', '2023-03-27', NULL, '04:00 PM', '05:00 PM', 0, 0, 0, 880.00, 73.33, 0.00, 1, 2, 1, 1, '2y10lHIfsOVhtTf0sx7w7GSdUuuf2jp8oehqyBgokCQIMX1mCaBbwVzsS', 12, 'Soham', 'domez@gmail.com', '6359478772', '', '2023-03-27 04:10:42', '2023-03-27 04:10:42'),
+(99, 1, 2, 35, NULL, 7, 6, '33', '5224da', '05:00 PM - 06:00 PM', '2023-03-27', NULL, '05:00 PM', '06:00 PM', 0, 0, 0, 880.00, 67.69, 0.00, 1, 2, 1, 1, '2y108vQ8r7CrfzmdInIWGfVXweaHcrRbIPahpV8e7AQy54DLOq7vrS4nq', 13, 'Soham', 'domez@gmail.com', '6359478772', '', '2023-03-27 04:35:42', '2023-03-27 04:35:42'),
+(100, 1, 2, 35, NULL, 7, 6, '35', '0e6a68', '06:00 PM - 07:00 PM', '2023-03-27', NULL, '06:00 PM', '07:00 PM', 0, 0, 0, 880.00, 73.33, 0.00, 1, 2, 1, 1, '2y103T4tSq7XOvTaxgBLGGYMK6jKmoWiuneaDBWz4sEo7HNqch7e', 12, 'Soham', 'domez@gmail.com', '6359478772', '', '2023-03-27 04:41:53', '2023-03-27 04:41:53'),
+(101, 1, 2, 35, NULL, 7, 6, '30', '8f0247', '06:00 AM - 07:00 AM', '2023-03-29', NULL, '06:00 AM', '07:00 AM', 800, 40, 40, 880.00, 333.00, 547.00, 1, 2, 2, 2, '2y10qsQgPTBt9dHDlasmqLIDOkDYlEXSiwQHPZJmvraJVC8EBS0eukC', 12, 'Soham', 'domez@gmail.com', '6359478772', '', '2023-03-27 04:52:28', '2023-03-28 01:11:01'),
+(102, 1, 2, 35, NULL, 7, 6, '30', '2af076', '06:00 AM - 07:00 AM', '2023-03-31', NULL, '06:00 AM', '07:00 AM', 800, 40, 40, 880.00, 73.33, 806.67, 1, 2, 2, 3, '2y10e20kCmEZNLR9JHvyzu4KuTKvuDLfNpbVBa98ASYhrk8gfftrJjJq', 12, 'Soham', 'domez@gmail.com', '6359478772', '', '2023-03-27 04:58:15', '2023-03-28 01:11:01'),
+(103, 1, 2, 35, NULL, 7, 7, '37', '61de2e', '04:00 PM - 05:00 PM,04:00 PM - 05:00 PM', '2023-03-27', NULL, '04:00 PM', '05:00 PM', 800, 40, 40, 880.00, 0.00, 0.00, 1, 1, 1, 1, NULL, 12, 'Soham', 'domez@gmail.com', '6359478772', '', '2023-03-27 04:59:33', '2023-03-27 04:59:33'),
+(104, 1, 2, 35, NULL, 7, 10, '2', '19f0a4', '05:00 PM - 06:00 PM', '2023-03-27', NULL, '05:00 PM', '06:00 PM', 120, 6, 6, 132.00, 0.00, 0.00, 1, 1, 1, 1, NULL, 12, 'Soham', 'domez@gmail.com', '6359478772', '', '2023-03-27 05:02:11', '2023-03-27 05:02:11'),
+(105, 1, 2, 35, NULL, 7, 6, '30', 'fb7764', '12:00 PM - 01:00 PM', '2023-03-28', NULL, '12:00 PM', '01:00 PM', 800, 40, 40, 880.00, 80.00, 800.00, 1, 2, 2, 2, '2y10D26Y6q5SP5VlQiMaDBCtzOXn0nEuu0RGSiEubhMO3Nv9tdb36hIXi', 12, 'Soham', 'domez@gmail.com', '6359478772', '', '2023-03-28 00:50:28', '2023-03-28 07:02:00'),
+(106, 1, 2, 35, NULL, 7, 6, '30', 'b3a5d8', '02:00 PM - 03:00 PM', '2023-03-28', NULL, '02:00 PM', '03:00 PM', 800, 40, 40, 880.00, 73.33, 806.67, 1, 2, 2, 2, '2y10CxpoAUmFFE1CSFIz4euG9e6ZmAJNku4maMSl4R4tDj8YZsD0MgMS', 12, 'Soham', 'domez@gmail.com', '6359478772', '', '2023-03-28 08:28:27', '2023-03-28 08:31:00');
 
 -- --------------------------------------------------------
 
@@ -611,32 +626,48 @@ INSERT INTO `transactions` (`id`, `type`, `vendor_id`, `dome_id`, `league_id`, `
 (6, 1, 2, 35, NULL, 7, 'f8da0d', NULL, 1, '1c2132121c1132ee1ee21e2e1edw', 150.00, '2023-02-08 05:27:20', '2023-03-15 05:27:20'),
 (7, 1, 2, 35, NULL, 7, 'c3200a', NULL, 1, '1c2132121c1132ee1ee21e2e1edw', 200.00, '2023-02-15 05:28:00', '2023-03-15 05:28:00'),
 (8, 1, 2, 35, NULL, 7, '42db01', NULL, 1, '1c2132121c1132ee1ee21e2e1edw', 350.00, '2023-02-14 05:28:18', '2023-03-15 05:28:18'),
-(9, 0, 2, 35, NULL, 7, 'feb086', NULL, 1, 'pi_3MmV0GFysF0okTxJ0kGziJSH', 90.00, '2023-03-16 23:05:13', '2023-03-16 23:05:13'),
-(10, 0, 2, 35, NULL, 7, '34b86f', NULL, 1, 'pi_3MmV4NFysF0okTxJ1n3TgWGT', 90.00, '2023-03-16 23:09:25', '2023-03-16 23:09:25'),
-(11, 0, 2, 35, NULL, 7, '2a248b', NULL, 1, 'pi_3MmVtlFysF0okTxJ04yXLIzF', 220.00, '2023-03-17 00:02:37', '2023-03-17 00:02:37'),
-(12, 0, 2, 35, NULL, 7, '6420c7', NULL, 1, 'pi_3MmVwlFysF0okTxJ1yp8ZZRp', 90.00, '2023-03-17 00:05:38', '2023-03-17 00:05:38'),
-(13, 0, 2, 35, NULL, 7, 'bc3167', NULL, 1, 'pi_3MmcQbFysF0okTxJ0VqbZG0E', 80.00, '2023-03-17 07:00:54', '2023-03-17 07:00:54'),
-(14, 0, 2, 35, NULL, 7, '71299e', NULL, 1, 'pi_3MmdNKFysF0okTxJ0LLPnqhl', 147.00, '2023-03-17 08:01:33', '2023-03-17 08:01:33'),
-(15, 0, 2, 35, NULL, 7, 'd728dc', NULL, 1, 'pi_3Mo2ZhFysF0okTxJ18cO9X50', 80.00, '2023-03-21 05:08:07', '2023-03-21 05:08:07'),
-(16, 0, 2, 35, NULL, 7, '13e3f3', NULL, 1, 'pi_3Mo37CFysF0okTxJ00jv8dy9', 150.00, '2023-03-21 05:42:43', '2023-03-21 05:42:43'),
-(17, 0, 2, 35, NULL, 7, '27b51d', NULL, 1, 'pi_3Mo3jrFysF0okTxJ1relo4nB', 73.35, '2023-03-21 06:22:42', '2023-03-21 06:22:42'),
-(18, 0, 2, 35, NULL, 7, '7c9636', NULL, 1, 'pi_3Mo3nFFysF0okTxJ1KxbBCJl', 80.00, '2023-03-21 11:56:09', '2023-03-21 11:56:09'),
-(19, 0, 2, 35, NULL, 7, '0756ad', NULL, 1, 'pi_3Mo3qpFysF0okTxJ1ZSJHyGn', 875.00, '2023-03-21 11:59:51', '2023-03-21 11:59:51'),
-(20, 0, 2, 35, NULL, 7, '7c975a', NULL, 1, 'pi_3Mo4tbFysF0okTxJ0TBhi5eH', 73.45, '2023-03-21 07:36:51', '2023-03-21 07:36:51'),
+(9, 1, 2, 35, NULL, 7, 'feb086', NULL, 1, 'pi_3MmV0GFysF0okTxJ0kGziJSH', 90.00, '2023-03-16 23:05:13', '2023-03-16 23:05:13'),
+(10, 1, 2, 35, NULL, 7, '34b86f', NULL, 1, 'pi_3MmV4NFysF0okTxJ1n3TgWGT', 90.00, '2023-03-16 23:09:25', '2023-03-16 23:09:25'),
+(11, 1, 2, 35, NULL, 7, '2a248b', NULL, 1, 'pi_3MmVtlFysF0okTxJ04yXLIzF', 220.00, '2023-03-17 00:02:37', '2023-03-17 00:02:37'),
+(12, 1, 2, 35, NULL, 7, '6420c7', NULL, 1, 'pi_3MmVwlFysF0okTxJ1yp8ZZRp', 90.00, '2023-03-17 00:05:38', '2023-03-17 00:05:38'),
+(13, 1, 2, 35, NULL, 7, 'bc3167', NULL, 1, 'pi_3MmcQbFysF0okTxJ0VqbZG0E', 80.00, '2023-03-17 07:00:54', '2023-03-17 07:00:54'),
+(14, 1, 2, 35, NULL, 7, '71299e', NULL, 1, 'pi_3MmdNKFysF0okTxJ0LLPnqhl', 147.00, '2023-03-17 08:01:33', '2023-03-17 08:01:33'),
+(15, 1, 2, 35, NULL, 7, 'd728dc', NULL, 1, 'pi_3Mo2ZhFysF0okTxJ18cO9X50', 80.00, '2023-03-21 05:08:07', '2023-03-21 05:08:07'),
+(16, 1, 2, 35, NULL, 7, '13e3f3', NULL, 1, 'pi_3Mo37CFysF0okTxJ00jv8dy9', 150.00, '2023-03-21 05:42:43', '2023-03-21 05:42:43'),
+(17, 1, 2, 35, NULL, 7, '27b51d', NULL, 1, 'pi_3Mo3jrFysF0okTxJ1relo4nB', 73.35, '2023-03-21 06:22:42', '2023-03-21 06:22:42'),
+(18, 1, 2, 35, NULL, 7, '7c9636', NULL, 1, 'pi_3Mo3nFFysF0okTxJ1KxbBCJl', 80.00, '2023-03-21 11:56:09', '2023-03-21 11:56:09'),
+(19, 1, 2, 35, NULL, 7, '0756ad', NULL, 1, 'pi_3Mo3qpFysF0okTxJ1ZSJHyGn', 875.00, '2023-03-21 11:59:51', '2023-03-21 11:59:51'),
+(20, 1, 2, 35, NULL, 7, '7c975a', NULL, 1, 'pi_3Mo4tbFysF0okTxJ0TBhi5eH', 73.45, '2023-03-21 07:36:51', '2023-03-21 07:36:51'),
 (21, 1, 2, 35, NULL, NULL, '7c975a', 'James', 1, 'pi_3MoOeXFysF0okTxJ1wf2GWqy', 3.00, '2023-03-22 04:43:35', '2023-03-22 04:43:35'),
 (22, 1, 2, 35, NULL, NULL, '7c975a', 'James', 1, 'pi_3MoPE0FysF0okTxJ0PbXNjb6', 7.00, '2023-03-22 05:19:29', '2023-03-22 05:19:29'),
 (23, 1, 2, 35, NULL, NULL, '7c975a', 'James', 1, 'pi_3MoPKJFysF0okTxJ1I7Vp8RK', 6.55, '2023-03-22 05:26:31', '2023-03-22 05:26:31'),
 (24, 1, 2, 35, NULL, NULL, '7c975a', 'james', 1, 'pi_3MoPRUFysF0okTxJ1xj4BiPn', 8.00, '2023-03-22 05:33:20', '2023-03-22 05:33:20'),
 (25, 1, 2, 35, NULL, NULL, '6420c7', 'James', 1, 'pi_3MojmCHSYZd3efX11KjqM8JT', 20.00, '2023-03-23 03:16:36', '2023-03-23 03:16:36'),
-(26, 0, 2, 35, NULL, 7, '312a52', NULL, 1, 'pi_3Mp2wfFysF0okTxJ14llCllb', 3520.00, '2023-03-23 23:44:11', '2023-03-23 23:44:11'),
-(27, 0, 2, 35, NULL, 7, 'eda29f', NULL, 1, 'pi_3MoQ10FysF0okTxJ0yYjf201', 155.29, '2023-03-24 03:52:05', '2023-03-24 03:52:05'),
-(28, 0, 2, 35, 11, 7, '97305d', NULL, 1, 'pi_3MoQ10FysF0okTxJ0yYjf201', 2640.00, '2023-03-24 03:53:23', '2023-03-24 03:53:23'),
-(29, 0, 2, 35, NULL, 7, '0f7fc8', NULL, 1, 'pi_3Mp7MgFysF0okTxJ02K3F0HA', 11.00, '2023-03-24 04:27:37', '2023-03-24 04:27:37'),
+(26, 1, 2, 35, NULL, 7, '312a52', NULL, 1, 'pi_3Mp2wfFysF0okTxJ14llCllb', 3520.00, '2023-03-23 23:44:11', '2023-03-23 23:44:11'),
+(27, 1, 2, 35, NULL, 7, 'eda29f', NULL, 1, 'pi_3MoQ10FysF0okTxJ0yYjf201', 155.29, '2023-03-24 03:52:05', '2023-03-24 03:52:05'),
+(28, 1, 2, 35, 11, 7, '97305d', NULL, 1, 'pi_3MoQ10FysF0okTxJ0yYjf201', 2640.00, '2023-03-24 03:53:23', '2023-03-24 03:53:23'),
+(29, 1, 2, 35, NULL, 7, '0f7fc8', NULL, 1, 'pi_3Mp7MgFysF0okTxJ02K3F0HA', 11.00, '2023-03-24 04:27:37', '2023-03-24 04:27:37'),
 (30, 1, 2, 35, NULL, NULL, '0f7fc8', 'Soham', 1, 'pi_3Mp7SuFysF0okTxJ1RqZYq4t', 121.00, '2023-03-24 04:34:02', '2023-03-24 04:34:02'),
-(31, 0, 2, 35, NULL, 7, '852d8a', NULL, 1, 'pi_3Mp7VxFysF0okTxJ1V5Eqj3d', 80.00, '2023-03-24 04:36:57', '2023-03-24 04:36:57'),
-(32, 0, 2, 35, NULL, 7, '78c912', NULL, 1, 'pi_3Mp7gyFysF0okTxJ0XQqPF0K', 264.00, '2023-03-24 04:48:11', '2023-03-24 04:48:11'),
-(33, 0, 2, 35, 16, 7, 'b64ef1', NULL, 1, 'pi_3Mp80XFysF0okTxJ1WRxUoGk', 1637.90, '2023-03-24 05:08:25', '2023-03-24 05:08:25'),
-(34, 0, 2, 35, 16, 7, 'ff954a', NULL, 1, 'pi_3Mp82UFysF0okTxJ1grHcptz', 1637.90, '2023-03-24 05:10:25', '2023-03-24 05:10:25');
+(31, 1, 2, 35, NULL, 7, '852d8a', NULL, 1, 'pi_3Mp7VxFysF0okTxJ1V5Eqj3d', 80.00, '2023-03-24 04:36:57', '2023-03-24 04:36:57'),
+(32, 1, 2, 35, NULL, 7, '78c912', NULL, 1, 'pi_3Mp7gyFysF0okTxJ0XQqPF0K', 264.00, '2023-03-24 04:48:11', '2023-03-24 04:48:11'),
+(33, 1, 2, 35, 16, 7, 'b64ef1', NULL, 1, 'pi_3Mp80XFysF0okTxJ1WRxUoGk', 1637.90, '2023-03-24 05:08:25', '2023-03-24 05:08:25'),
+(34, 1, 2, 35, 16, 7, 'ff954a', NULL, 1, 'pi_3Mp82UFysF0okTxJ1grHcptz', 1637.90, '2023-03-24 05:10:25', '2023-03-24 05:10:25'),
+(35, 1, 2, 35, NULL, 7, '0a1dd7', NULL, 1, 'pi_3Mq7soFysF0okTxJ007pJWvh', 8.46, '2023-03-26 23:13:51', '2023-03-26 23:13:51'),
+(36, 1, 2, 35, NULL, 7, '704fae', NULL, 1, 'pi_3Mq8IDFysF0okTxJ1x3B9MBG', 880.00, '2023-03-27 05:08:41', '2023-03-27 05:08:41'),
+(37, 1, 2, 35, NULL, 7, '76c8b6', NULL, 1, 'pi_3Mq8OxFysF0okTxJ0ZewZyHA', 73.33, '2023-03-26 23:45:52', '2023-03-26 23:45:52'),
+(38, 1, 2, 35, NULL, 7, 'ef5355', NULL, 1, 'pi_3Mq8jCFysF0okTxJ04EdubQc', 880.00, '2023-03-27 05:36:34', '2023-03-27 05:36:34'),
+(39, 1, 2, 35, NULL, 7, 'b482cb', NULL, 1, 'pi_3Mq8kgFysF0okTxJ1Jp1cOaR', 73.33, '2023-03-27 05:38:32', '2023-03-27 05:38:32'),
+(40, 1, 2, 35, NULL, 7, 'd7444d', NULL, 1, 'pi_3Mq8qhFysF0okTxJ1Wrog6Os', 73.33, '2023-03-27 05:44:20', '2023-03-27 05:44:20'),
+(41, 1, 2, 35, NULL, 7, 'ce9d6a', NULL, 1, 'pi_3Mq9x0FysF0okTxJ0wqTpJ0M', 73.33, '2023-03-27 06:55:33', '2023-03-27 06:55:33'),
+(42, 1, 2, 35, NULL, 7, '0c23ae', NULL, 1, 'pi_3MqCXCFysF0okTxJ0UZNpu8A', 73.33, '2023-03-27 04:10:42', '2023-03-27 04:10:42'),
+(43, 1, 2, 35, NULL, 7, '5224da', NULL, 1, 'pi_3MqCvJFysF0okTxJ0xEl2sCV', 67.69, '2023-03-27 04:35:42', '2023-03-27 04:35:42'),
+(44, 1, 2, 35, NULL, 7, '0e6a68', NULL, 1, 'pi_3MqD1KFysF0okTxJ0TXNkc83', 73.33, '2023-03-27 04:41:53', '2023-03-27 04:41:53'),
+(45, 1, 2, 35, NULL, 7, '8f0247', NULL, 1, 'pi_3MqDBRFysF0okTxJ0GcxVqO2', 333.00, '2023-03-27 04:52:28', '2023-03-27 04:52:28'),
+(46, 1, 2, 35, NULL, 7, '2af076', NULL, 1, 'pi_3MqDHPFysF0okTxJ0QRGNOVz', 73.33, '2023-03-27 04:58:14', '2023-03-27 04:58:14'),
+(47, 1, 2, 35, NULL, 7, '61de2e', NULL, 1, 'pi_3MqDIjFysF0okTxJ03rbCRBa', 880.00, '2023-03-27 04:59:33', '2023-03-27 04:59:33'),
+(48, 1, 2, 35, NULL, 7, '19f0a4', NULL, 1, 'pi_3MqDLCFysF0okTxJ0aq6U1n4', 132.00, '2023-03-27 05:02:11', '2023-03-27 05:02:11'),
+(49, 1, 2, 35, NULL, 7, 'fb7764', NULL, 1, 'pi_3MqVtDFysF0okTxJ1MIvhIKg', 80.00, '2023-03-28 00:50:28', '2023-03-28 00:50:28'),
+(50, 1, 2, 35, NULL, 7, 'b3a5d8', NULL, 1, 'pi_3MqXt1FysF0okTxJ1X5KWY7W', 73.33, '2023-03-28 08:28:27', '2023-03-28 08:28:27');
 
 -- --------------------------------------------------------
 
@@ -819,7 +850,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `bookings`
 --
 ALTER TABLE `bookings`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=95;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=107;
 
 --
 -- AUTO_INCREMENT for table `cms`
@@ -903,7 +934,7 @@ ALTER TABLE `sports`
 -- AUTO_INCREMENT for table `transactions`
 --
 ALTER TABLE `transactions`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
 
 --
 -- AUTO_INCREMENT for table `users`
