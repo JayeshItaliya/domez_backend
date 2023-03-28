@@ -136,10 +136,9 @@ class BookingController extends Controller
                 "total_amount" => $booking->total_amount,
                 "paid_amount" => $booking->paid_amount,
                 "due_amount" => $booking->due_amount,
-
+                "booking_status" => $booking->booking_status == 3 ? 'Cancelled' : '',
                 "image" => $dome->dome_image->image,
-
-                "payment_status" => $booking->payment_status == 1 ? 'Paid' : 'Pending',
+                "payment_status" => $booking->payment_status == 1 ? 'Paid' : 'In Progress',
                 "booking_created_at" => $booking->created_at,
                 "user_info" => $booking->user_info,
                 "payment_link" => URL::to('/payment/' . $booking->token),

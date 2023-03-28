@@ -26,8 +26,8 @@ class BookingController extends Controller
         $weekEndDate = $now->endOfWeek();
 
         $getbookingslist = Booking::select('*');
-        if (auth()->user()->type == 2) {
-            $getbookingslist = $getbookingslist->where('vendor_id', auth()->user()->id);
+        if (in_array(auth()->user()->type, [2, 4])) {
+            $getbookingslist = $getbookingslist->where('vendor_id', Auth::user()->type == 2 ? Auth::user()->id : Auth::user()->vendor_id);
         }
         if ($request->has('type') && in_array($request->type, ['domes', 'leagues'])) {
             if ($request->type == 'domes') {
@@ -241,22 +241,27 @@ class BookingController extends Controller
             $page_url = URL::to('/payment/' . $request->token);
             $booking_token = $request->token;
             if ($request->ajax()) {
-                \Stripe\Stripe::setApiKey(Helper::stripe_data()->secret_key);
-                $intent = \Stripe\PaymentIntent::create([
-                    'amount' => $request->amount * 100,
-                    'currency' => 'cad',
-                    'payment_method_types' => [
-                        'card',
-                        // 'bancontact',
-                        // 'eps',
-                        // 'giropay',
-                        // 'ideal',
-                        // 'p24',
-                        // 'sepa_debit',
-                        // 'sofort',
-                    ],
-                ]);
-                return response()->json(['client_secret' => $intent->client_secret]);
+                if ($checkbooking->due_amount > 0) {
+
+                    \Stripe\Stripe::setApiKey(Helper::stripe_data()->secret_key);
+                    $intent = \Stripe\PaymentIntent::create([
+                        'amount' => $request->amount * 100,
+                        'currency' => 'cad',
+                        'payment_method_types' => [
+                            'card',
+                            // 'bancontact',
+                            // 'eps',
+                            // 'giropay',
+                            // 'ideal',
+                            // 'p24',
+                            // 'sepa_debit',
+                            // 'sofort',
+                        ],
+                    ]);
+                    return response()->json(['client_secret' => $intent->client_secret]);
+                } else {
+                    return response()->json(['status' => 0, 'message' => 'All Payment has been successfully paid'], 200);
+                }
             }
             return view('landing.split_payment', compact('checkbooking', 'page_url', 'booking_token'));
         } else {
@@ -277,6 +282,7 @@ class BookingController extends Controller
                 $newcheckbooking = Booking::where('token', $request->booking_token)->first();
                 if ($newcheckbooking->due_amount == 0) {
                     $newcheckbooking->booking_status = 1;
+                    $newcheckbooking->payment_status = 1;
                     $newcheckbooking->save();
                 }
 
@@ -302,7 +308,9 @@ class BookingController extends Controller
     public function deletedata(Request $request)
     {
         try {
-            // Booking::find($request->id)->delete();
+            $checkbooking = Booking::find($request->id);
+            $checkbooking->booking_status = 3;
+            $checkbooking->save();
             return response()->json(['status' => 1, 'message' => trans('messages.success')], 200);
         } catch (\Throwable $th) {
             return response()->json(['status' => 0, 'message' => trans('messages.wrong')], 200);

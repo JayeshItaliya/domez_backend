@@ -31,14 +31,20 @@ class AdminController extends Controller
     }
     public function dashboard(Request $request)
     {
+        // DB::raw('(SELECT SUM(paid_amount * ? / 100) FROM bookings) as amount'), [$percentage]
+
         $now = CarbonImmutable::today();
         $weekStartDate = $now->startOfWeek();
         $weekEndDate = $now->endOfWeek();
+
+        $percentage = Auth::user()->type == 1 ? 12 : 88;
 
         $bookings = Booking::whereDate('start_date', '>=', $now)->orderByDesc('id');
 
         $total_income_data = Transaction::where('type', 1)->orderBy('created_at');
         $total_revenue_data = Booking::where('booking_status', 1);
+
+        $paidAmtQuery_RevChart = Auth::user()->type == 1 ? DB::raw('SUM(paid_amount*12/100) as amount') : DB::raw('SUM(paid_amount*88/100) as amount');
 
         $total_users_data = User::where('type', 3);
         $total_dome_owners_data = User::where('type', 2);
@@ -62,8 +68,8 @@ class AdminController extends Controller
             $total_bookings_data = $total_bookings->select(DB::raw('DATE_FORMAT(created_at, "%d-%m-%Y") as titles'), DB::raw('count(*) as bookings'))->groupBy('titles')->pluck('bookings', 'titles');
 
             // For Revenue Chart
-            $total_revenue_data_sum = $total_revenue_data->whereMonth('created_at', Carbon::now()->month)->sum('paid_amount') * 12 / 100;
-            $total_revenue_data = $total_revenue_data->whereMonth('created_at', Carbon::now()->month)->select(DB::raw('DATE_FORMAT(created_at, "%d-%m-%Y") as titles'), DB::raw('SUM(paid_amount*12/100) as amount'))->groupBy('titles')->pluck('titles', 'amount');
+            $total_revenue_data_sum = $total_revenue_data->whereMonth('created_at', Carbon::now()->month)->sum('paid_amount') * $percentage / 100;
+            $total_revenue_data = $total_revenue_data->whereMonth('created_at', Carbon::now()->month)->select(DB::raw('DATE_FORMAT(created_at, "%d-%m-%Y") as titles'), $paidAmtQuery_RevChart)->groupBy('titles')->pluck('titles', 'amount');
 
             // For Users Chart
             $total_users_data_sum = $total_users_data->whereMonth('created_at', Carbon::now()->month)->count();
@@ -96,8 +102,8 @@ class AdminController extends Controller
             $total_bookings_data = $total_bookings->select(DB::raw("MONTHNAME(created_at) as month_name"), DB::raw('count(*) as bookings'))->orderBy('created_at')->groupBy('month_name')->pluck('bookings', 'month_name');
 
             // For Revenue Chart
-            $total_revenue_data_sum = $total_revenue_data->whereYear('created_at', Carbon::now()->year)->sum('paid_amount') * 12 / 100;
-            $total_revenue_data = $total_revenue_data->whereYear('created_at', Carbon::now()->year)->select(DB::raw("MONTHNAME(created_at) as titles"), DB::raw('SUM(paid_amount*12/100) as amount'))->groupBy('titles')->pluck('titles', 'amount');
+            $total_revenue_data_sum = $total_revenue_data->whereYear('created_at', Carbon::now()->year)->sum('paid_amount') * $percentage / 100;
+            $total_revenue_data = $total_revenue_data->whereYear('created_at', Carbon::now()->year)->select(DB::raw("MONTHNAME(created_at) as titles"), $paidAmtQuery_RevChart)->groupBy('titles')->pluck('titles', 'amount');
 
             // For Users Chart
             $total_users_data_sum = $total_users_data->whereYear('created_at', Carbon::now()->year)->count();
@@ -132,8 +138,8 @@ class AdminController extends Controller
             $total_bookings_data = $total_bookings->select(DB::raw('DATE_FORMAT(created_at, "%d-%m-%Y") as titles'), DB::raw('count(*) as bookings'))->groupBy('titles')->pluck('bookings', 'titles');
 
             // For Revenue Chart
-            $total_revenue_data_sum = $total_revenue_data->whereBetween('created_at', [$weekStartDate, $weekEndDate])->sum('paid_amount') * 12 / 100;
-            $total_revenue_data = $total_revenue_data->whereBetween('created_at', [$weekStartDate, $weekEndDate])->select(DB::raw('DATE_FORMAT(created_at, "%d-%m-%Y") as titles'), DB::raw('SUM(paid_amount*12/100) as amount'))->groupBy('titles')->pluck('titles', 'amount');
+            $total_revenue_data_sum = $total_revenue_data->whereBetween('created_at', [$weekStartDate, $weekEndDate])->sum('paid_amount') * $percentage / 100;
+            $total_revenue_data = $total_revenue_data->whereBetween('created_at', [$weekStartDate, $weekEndDate])->select(DB::raw('DATE_FORMAT(created_at, "%d-%m-%Y") as titles'), $paidAmtQuery_RevChart)->groupBy('titles')->pluck('titles', 'amount');
 
             // For Users Chart
             $total_users_data_sum = $total_users_data->whereBetween('created_at', [$weekStartDate, $weekEndDate])->count();
@@ -167,8 +173,8 @@ class AdminController extends Controller
             $total_bookings_data = $total_bookings->select(DB::raw('DATE_FORMAT(created_at, "%d-%m-%Y") as created_at'), DB::raw('count(*) as bookings'))->groupBy('created_at')->pluck('bookings', 'created_at');
 
             // For Revenue Chart
-            $total_revenue_data_sum = $total_revenue_data->whereBetween('created_at', [$weekStartDate, $weekEndDate])->sum('paid_amount') * 12 / 100;
-            $total_revenue_data = $total_revenue_data->whereBetween('created_at', [$weekStartDate, $weekEndDate])->select(DB::raw('DATE_FORMAT(created_at, "%d-%m-%Y") as titles'), DB::raw('SUM(paid_amount*12/100) as amount'))->groupBy('titles')->pluck('titles', 'amount');
+            $total_revenue_data_sum = $total_revenue_data->whereBetween('created_at', [$weekStartDate, $weekEndDate])->sum('paid_amount') * $percentage / 100;
+            $total_revenue_data = $total_revenue_data->whereBetween('created_at', [$weekStartDate, $weekEndDate])->select(DB::raw('DATE_FORMAT(created_at, "%d-%m-%Y") as titles'), $paidAmtQuery_RevChart)->groupBy('titles')->pluck('titles', 'amount');
 
             // For Users Chart
             $total_users_data_sum = $total_users_data->whereBetween('created_at', [$weekStartDate, $weekEndDate])->count();

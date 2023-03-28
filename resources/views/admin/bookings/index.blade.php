@@ -142,7 +142,7 @@
                                         </path>
                                     </svg>
                                 </a>
-                                @if (Auth::user()->type == 2)
+                                @if (in_array(Auth::user()->type, [2, 4]) && $bookingdata->booking_status == 2)
                                     <a class="cursor-pointer me-2" href="javascript:void(0)"
                                         onclick="deletedata('{{ $bookingdata->id }}','{{ URL::to('admin/bookings/delete') }}')">
                                         <svg width="18" height="18" viewBox="0 0 18 18" fill="none"

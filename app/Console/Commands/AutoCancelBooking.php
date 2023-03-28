@@ -29,6 +29,7 @@ class AutoCancelBooking extends Command
      */
     public function handle()
     {
+        
         $getbookings = Booking::where('payment_type', '2')->get();
         foreach ($getbookings as $booking) {
 
@@ -52,6 +53,7 @@ class AutoCancelBooking extends Command
                 if ($start_date_time->lessThan($current_date_time) == true && $booking->payment_status == 2) {
                     $booking->booking_status = 3;
                     $booking->save();
+                    $this->info('Bookings =====> ' . $booking->booking_id);
                 }
                 // $booking->team_name = $start_date_time.' -- '.$current_date_time.' == '.$start_date_time->diffInHours($current_date_time). ' ____ '.$start_date_time->lessThan($current_date_time);
                 // $booking->save();
