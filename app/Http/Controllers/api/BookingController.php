@@ -80,7 +80,6 @@ class BookingController extends Controller
                     ];
                 }
             }
-
         }
         return response()->json(["status" => 1, "message" => "Success", 'bookings_list' => $bookinglist], 200);
     }
@@ -118,6 +117,7 @@ class BookingController extends Controller
                 )->get()->toArray();
 
             $booking_details = [
+                "id" => $booking->id,
                 "type" => $booking->type,
                 "field" => $booking->field_id,
                 "dome_name" => $dome->name,
@@ -143,7 +143,6 @@ class BookingController extends Controller
                 "user_info" => $booking->user_info,
                 "payment_link" => URL::to('/payment/' . $booking->token),
                 "other_contributors" => $gettransaction,
-
                 "start_date" => $booking->start_date == "" ? "" : $booking->start_date,
                 "end_date" => $booking->end_date == "" ? "" : $booking->end_date,
             ];
@@ -196,7 +195,7 @@ class BookingController extends Controller
                     } else {
                         $status = 1;
                     }
-                    $checkslotexist = Booking::where('dome_id', $request->dome_id)->where('sport_id', $request->sport_id)->whereDate('start_date', date('Y-m-d', strtotime($request->date)))->whereRaw("find_in_set('" . $slot . "',slots)")->where('booking_status','!=',3)->first();
+                    $checkslotexist = Booking::where('dome_id', $request->dome_id)->where('sport_id', $request->sport_id)->whereDate('start_date', date('Y-m-d', strtotime($request->date)))->whereRaw("find_in_set('" . $slot . "',slots)")->where('booking_status', '!=', 3)->first();
                     if (!empty($checkslotexist)) {
                         $status = 0;
                     }
@@ -231,7 +230,7 @@ class BookingController extends Controller
                         // booking_status = 1 = Confirmed
                         // booking_status = 2 = Pending
                         // booking_status = 3 = Cancelled
-                        $checkslotexist = Booking::where('dome_id', $request->dome_id)->where('sport_id', $request->sport_id)->whereDate('start_date', date('Y-m-d', strtotime($request->date)))->whereRaw("find_in_set('" . $new_slot . "',slots)")->where('booking_status','!=',3)->first();
+                        $checkslotexist = Booking::where('dome_id', $request->dome_id)->where('sport_id', $request->sport_id)->whereDate('start_date', date('Y-m-d', strtotime($request->date)))->whereRaw("find_in_set('" . $new_slot . "',slots)")->where('booking_status', '!=', 3)->first();
                         if (!empty($checkslotexist)) {
                             $status = 0;
                         }
@@ -357,7 +356,7 @@ class BookingController extends Controller
             $checkslotexist = Booking::where('dome_id', $request->dome_id)
                 ->where('sport_id', $request->sport_id)
                 ->whereDate('start_date', $request->date)
-                ->whereRaw("find_in_set('" . $new_slot . "',slots)")->where('booking_status','!=',3)
+                ->whereRaw("find_in_set('" . $new_slot . "',slots)")->where('booking_status', '!=', 3)
                 // ->whereRaw("find_in_set('" . $request->field_id . "',field_id)")
                 ->first();
             if (!empty($checkslotexist)) {
@@ -413,4 +412,29 @@ class BookingController extends Controller
 
     //     return response()->json(["status" => 1, "message" => "Successful", 'fields' => $available_fields], 200);
     // }
+    public function cancelbooking(Request $request)
+    {
+        if ($request->booking_id == "") {
+            return response()->json(["status" => 0, "message" => "Booking ID Required"], 200);
+        }
+        $checkbooking = Booking::find($request->booking_id);
+        if (!empty($checkbooking)) {
+            if ($checkbooking->booking_status == 3) {
+                return response()->json(["status" => 0, "message" => "Invalid Request!!"], 200);
+            }
+            // if ($request->cancellation_reason == "") {
+            //     return response()->json(["status" => 0, "message" => "Cancellation Reason is Required"], 200);
+            // }
+            try {
+                $checkbooking->booking_status = 3;
+                $checkbooking->cancellation_reason = $request->cancellation_reason ?? '';
+                $checkbooking->save();
+                return response()->json(['status' => 1, 'message' => 'Booking Has Been Successfully Cancelled'], 200);
+            } catch (\Throwable $th) {
+                return response()->json(['status' => 0, 'message' => 'Something Went Wrong!!'], 200);
+            }
+        } else {
+            return response()->json(["status" => 0, "message" => "Booking Not Found"], 200);
+        }
+    }
 }
