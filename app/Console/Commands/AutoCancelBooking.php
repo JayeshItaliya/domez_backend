@@ -61,6 +61,7 @@ class AutoCancelBooking extends Command
                 $this->info('Booking =====> ' . $booking->id . ' ** ' . $start_date_time . ' -- ' . $current_date_time . ' == ' . $start_date_time->diffInHours($current_date_time) . ' ____ ' . $islessthen);
             }
         }
+        // $getbookings = Booking::where('status', 'pending')->where('created_at', '<', now()->subMinutes(10))->get();
         // $this->info('Bookings. --> ' . implode(',', $getbookings->pluck('booking_id')->toArray()));
     }
 }
