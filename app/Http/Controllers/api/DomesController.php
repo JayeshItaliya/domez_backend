@@ -35,7 +35,7 @@ class DomesController extends Controller
                         $dome = Domes::where('id', $booking->dome_id)->where('is_deleted', 2)->first();
                         if (!empty($dome)) {
 
-                            $start_date_time = Carbon::createFromFormat('Y-m-d h:i A', $booking->start_date.' '.$booking->end_time);
+                            $start_date_time = Carbon::createFromFormat('Y-m-d h:i A', $booking->start_date . ' ' . date('h:i A', strtotime($booking->end_time)));
                             $now = Carbon::now();
                             $current_date_time = $now->format('Y-m-d h:i A');
 
@@ -65,9 +65,31 @@ class DomesController extends Controller
                 //Type = 2 (Most Popular Dome Data)
                 if ($request->type == 2) {
                     $popular_domes = Booking::select('dome_id', DB::raw('count(bookings.dome_id)as dome'))->where('type', 1)->groupBy('dome_id')->orderBy('dome', 'desc')->get();
-                    foreach ($popular_domes as $pdome) {
-                        $dome = Domes::where('id', $pdome->dome_id)->where('is_deleted', 2)->whereRaw("find_in_set('" . $request->sport_id . "',sport_id)")->first();
-                        if (!empty($dome)) {
+                    if (count($popular_domes) > 0) {
+                        foreach ($popular_domes as $pdome) {
+                            $dome = Domes::where('id', $pdome->dome_id)->where('is_deleted', 2)->whereRaw("find_in_set('" . $request->sport_id . "',sport_id)")->first();
+                            if (!empty($dome)) {
+                                $domes_list[] = [
+                                    "id" => $dome->id,
+                                    "name" => $dome->name,
+                                    "image" => $dome->dome_image == "" ? "" : $dome->dome_image->image,
+                                    "price" => Helper::get_dome_price($dome->id, explode(',', $dome->sport_id)[0]),
+                                    "hst" => $dome->hst,
+                                    "city" => $dome->city,
+                                    "state" => $dome->state,
+                                    "is_fav" => Helper::is_fav($request->user_id, $dome->id, ''),
+                                    "booking_id" => 0,
+                                    "booking_type" => 0,
+                                    "booking_payment_type" => 0,
+                                    "booking_date" => "",
+                                    "total_fields" => Field::where('dome_id', $dome->id)->where('is_deleted', 2)->count(),
+                                    "sports_list" => Helper::get_sports_list($dome->sport_id),
+                                ];
+                            }
+                        }
+                    } else {
+                        $popular_domes = Domes::where('is_deleted', 2)->whereRaw("find_in_set('" . $request->sport_id . "',sport_id)")->orderByDesc('id')->get();
+                        foreach ($popular_domes as $dome) {
                             $domes_list[] = [
                                 "id" => $dome->id,
                                 "name" => $dome->name,
@@ -97,7 +119,7 @@ class DomesController extends Controller
                     }
                     $lat = $request->lat;
                     $lng = $request->lng;
-                    $getarounddomes = Domes::with('dome_image')->select(
+                    $getarounddomes = Domes::select(
                         'domes.*',
                         DB::raw("6371 * acos(cos(radians(" . $lat . "))
                     * cos(radians(lat))

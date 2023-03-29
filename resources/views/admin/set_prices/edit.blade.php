@@ -119,7 +119,7 @@
                                                                 <input type="text"
                                                                     class="form-control time_picker border-end-0"
                                                                     name="start_time[{{ $dayname['day'] }}][]"
-                                                                    value="{{ date('g:i A', strtotime($slot->start_time)) }}"
+                                                                    value="{{ date('h:i A', strtotime($slot->start_time)) }}"
                                                                     placeholder="{{ trans('labels.start_time') }}" />
                                                                 <span
                                                                     class="input-group-text bg-transparent border-start-0"><i
@@ -133,7 +133,7 @@
                                                                 <input type="text"
                                                                     class="form-control time_picker border-end-0"
                                                                     name="end_time[{{ $dayname['day'] }}][]"
-                                                                    value="{{ date('g:i A', strtotime($slot->end_time)) }}"
+                                                                    value="{{ date('h:i A', strtotime($slot->end_time)) }}"
                                                                     placeholder="{{ trans('labels.end_time') }}" />
                                                                 <span
                                                                     class="input-group-text bg-transparent border-start-0"><i

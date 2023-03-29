@@ -203,8 +203,8 @@ class PaymentController extends Controller
             } else {
                 $booking->start_date = $request->date; // Use For Dome Bookings Only
             }
-            $booking->start_time = $request->booking_type == 1 ? $request->start_time : $league->start_time;
-            $booking->end_time = $request->booking_type == 1 ? $request->end_time : $league->end_time;
+            $booking->start_time = Carbon::createFromFormat('h:i A', $request->booking_type == 1 ? $request->start_time : $league->start_time)->format('H:i');
+            $booking->end_time = Carbon::createFromFormat('h:i A', $request->booking_type == 1 ? $request->end_time : $league->end_time)->format('H:i');;
 
             $booking->sub_total = $request->sub_total;
             $booking->service_fee = $request->service_fee;

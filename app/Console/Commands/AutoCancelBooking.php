@@ -29,15 +29,15 @@ class AutoCancelBooking extends Command
      */
     public function handle()
     {
-        
-        $getbookings = Booking::where('payment_type', '2')->get();
+        // date_default_timezone_set('Asia/Kolkata');
+        $getbookings = Booking::where('payment_type', '2')->where('booking_status', 2)->get();
         foreach ($getbookings as $booking) {
 
             // payment_status == 1 == Complete
             // payment_status == 2 == Partial
 
             $createdTime = Carbon::parse($booking->created_at);
-            $currentTime = Carbon::parse($booking->start_date . ' ' . $booking->start_time);
+            $currentTime = Carbon::parse($booking->start_date . ' ' . date('h:i A', strtotime($booking->start_time)));
 
             $hoursDiff = $createdTime->diffInHours($currentTime);
 
@@ -47,18 +47,20 @@ class AutoCancelBooking extends Command
             }
 
             if ($hoursDiff <= 24) {
-                $start_date_time = Carbon::createFromFormat('Y-m-d h:i A', $booking->start_date . ' ' . $booking->start_time);
+                $start_date_time = Carbon::createFromFormat('Y-m-d h:i A', $booking->start_date . ' ' . date('h:i A', strtotime($booking->start_time)));
                 $now = Carbon::now();
                 $current_date_time = $now->format('Y-m-d h:i A');
                 if ($start_date_time->lessThan($current_date_time) == true && $booking->payment_status == 2) {
                     $booking->booking_status = 3;
                     $booking->save();
-                    $this->info('Bookings =====> ' . $booking->booking_id);
+                    $this->info('---------');
+                    $this->info('Booking Updated =====> ' . $booking->id);
+                    $this->info('---------');
                 }
-                // $booking->team_name = $start_date_time.' -- '.$current_date_time.' == '.$start_date_time->diffInHours($current_date_time). ' ____ '.$start_date_time->lessThan($current_date_time);
-                // $booking->save();
+                $islessthen = $start_date_time->lessThan($current_date_time) == true ? "true" : 'false' ;
+                $this->info('Booking =====> ' . $booking->id . ' ** ' . $start_date_time . ' -- ' . $current_date_time . ' == ' . $start_date_time->diffInHours($current_date_time) . ' ____ ' . $islessthen);
             }
         }
-        $this->info('Bookings. --> ' . implode(',', $getbookings->pluck('booking_id')->toArray()));
+        // $this->info('Bookings. --> ' . implode(',', $getbookings->pluck('booking_id')->toArray()));
     }
 }
