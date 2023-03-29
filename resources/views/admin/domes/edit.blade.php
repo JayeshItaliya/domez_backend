@@ -352,6 +352,9 @@
         }
 
         function initMap() {
+            if (!document.getElementById('map_canvas')) {
+                return false;
+            }
             var myLatLng = {
                 lat: lat,
                 lng: lng

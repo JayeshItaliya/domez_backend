@@ -14,7 +14,7 @@ class DomesController extends Controller
 {
     public function index(Request $request)
     {
-        if (auth()->user()->id == 1) {
+        if (auth()->user()->type == 1) {
             $domes = Domes::with('dome_image', 'dome_owner')->where('is_deleted', 2)->get();
             $domes_count = 0;
         } else {
@@ -117,9 +117,12 @@ class DomesController extends Controller
 
     public function dome_details(Request $request)
     {
-        $dome = Domes::with('dome_images')->find($request->id);
-        $sports = Sports::where('is_available', 1)->where('is_deleted', 2)->get();
-        return view('admin.domes.view', compact('dome', 'sports'));
+        $getdomedata = Domes::find($request->id);
+        if (!empty($getdomedata)) {
+            $getsportslist = Sports::whereIn('id', explode(',', $getdomedata->sport_id))->where('is_available', 1)->where('is_deleted', 2)->get();
+            return view('admin.domes.view', compact('getdomedata', 'getsportslist'));
+        }
+        return redirect('/admin/domes');
     }
 
     public function edit(Request $request)

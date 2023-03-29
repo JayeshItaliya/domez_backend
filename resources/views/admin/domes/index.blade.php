@@ -175,19 +175,18 @@
         let dome_limit = {{ Js::from(Auth::user()->dome_limit) }};
 
         if (is_vendor) {
-            if (dome_limit < dome_count) {
-                $(document).ready(function() {
+            $(document).ready(function() {
+                if (dome_limit < dome_count) {
                     let html =
-                        '<a href="{{ URL::to('admin/domes/add') }}" class="btn-custom-primary"><svg xmlns="http://www.w3.org/2000/svg" class="icon-tabler icon-tabler-plus" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="var(--bs-primary)" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" /></svg></a>';
+                        '<a href="' + window.location.href.replace(window.location.search, '') +
+                        '/add" class="btn-custom-primary"><svg xmlns="http://www.w3.org/2000/svg" class="icon-tabler icon-tabler-plus" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="var(--bs-primary)" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" /></svg></a>';
                     $('.fixed-table-toolbar .btn-group').append(html);
-                })
-            } else {
-                $(document).ready(function() {
+                } else {
                     let html =
                         '<a data-bs-toggle="modal" data-bs-target="#new_dome_request" class="btn-custom-primary cursor-pointer"><svg xmlns="http://www.w3.org/2000/svg" class="icon-tabler icon-tabler-plus" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="var(--bs-primary)" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" /></svg></a>';
                     $('.fixed-table-toolbar .btn-group').append(html);
-                })
-            }
+                }
+            })
         }
 
         function deletedata(id, url) {

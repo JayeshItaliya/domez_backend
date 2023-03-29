@@ -10,6 +10,7 @@ use App\Models\Sports;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use Carbon\Carbon;
 
 class DomesPriceController extends Controller
 {
@@ -54,8 +55,8 @@ class DomesPriceController extends Controller
                 foreach ($starttimearray as $key => $data) {
                     $slots = new SetPricesDaysSlots();
                     $slots->set_prices_id = $set_prices->id;
-                    $slots->start_time = $data;
-                    $slots->end_time = $endtimearray[$key];
+                    $slots->start_time = Carbon::createFromFormat('h:i A', $data)->format('H:i');;
+                    $slots->end_time = Carbon::createFromFormat('h:i A', $endtimearray[$key])->format('H:i');;
                     $slots->day = $dayname;
                     $slots->price = $pricearay[$key];
                     $slots->save();
@@ -122,7 +123,7 @@ class DomesPriceController extends Controller
             } else {
                 $validator = Validator::make($request->input(), [
                     'start_time' => 'required|date_format:h:i A',
-                    'end_time' => 'required|date_format:h:i A|after:start_time|before:'.$checkdome->end_time,
+                    'end_time' => 'required|date_format:h:i A|after:start_time|before:' . $checkdome->end_time,
                 ], [
                     'start_time.required' => trans('messages.start_time_required'),
                     'end_time.required' => trans('messages.end_time_required'),

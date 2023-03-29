@@ -41,7 +41,7 @@
                                 <label>{{ trans('labels.name') }}</label>
                             </div>
                             <div class="col-md-8">
-                                <span class="text-muted fs-7">{{ $dome->dome_owner->name }}</span>
+                                <span class="text-muted fs-7">{{ $getdomedata->dome_owner->name }}</span>
                             </div>
                         </div>
                     </div>
@@ -52,8 +52,8 @@
                             </div>
                             <div class="col-md-8">
                                 <span
-                                    class="badge rounded-pill cursor-pointer text-bg-{{ $dome->dome_owner->is_available == 1 ? 'success' : 'danger' }}"
-                                    onclick="change_status('{{ $dome->dome_owner->id }}','{{ $dome->dome_owner->is_available == 1 ? 2 : 1 }}','{{ URL::to('admin/vendors/change_status') }}')">{{ $dome->dome_owner->is_available == 1 ? trans('labels.active') : trans('labels.inactive') }}</span>
+                                    class="badge rounded-pill cursor-pointer text-bg-{{ $getdomedata->dome_owner->is_available == 1 ? 'success' : 'danger' }}"
+                                    onclick="change_status('{{ $getdomedata->dome_owner->id }}','{{ $getdomedata->dome_owner->is_available == 1 ? 2 : 1 }}','{{ URL::to('admin/vendors/change_status') }}')">{{ $getdomedata->dome_owner->is_available == 1 ? trans('labels.active') : trans('labels.inactive') }}</span>
                             </div>
                         </div>
                     </div>
@@ -65,7 +65,7 @@
                                 <label>{{ trans('labels.email') }}</label>
                             </div>
                             <div class="col-md-8">
-                                <span class="text-muted fs-7">{{ $dome->dome_owner->email }}</span>
+                                <span class="text-muted fs-7">{{ $getdomedata->dome_owner->email }}</span>
                             </div>
                         </div>
                     </div>
@@ -75,7 +75,7 @@
                                 <label>{{ trans('labels.phone_number') }}</label>
                             </div>
                             <div class="col-md-8">
-                                <span class="text-muted fs-7">{{ $dome->dome_owner->phone }}</span>
+                                <span class="text-muted fs-7">{{ $getdomedata->dome_owner->phone }}</span>
                             </div>
                         </div>
                     </div>
@@ -89,7 +89,7 @@
                             <label>{{ trans('labels.dome_name') }}</label>
                         </div>
                         <div class="col-md-8">
-                            <span class="text-muted fs-7">{{ $dome->name }}</span>
+                            <span class="text-muted fs-7">{{ $getdomedata->name }}</span>
                         </div>
                     </div>
                 </div>
@@ -99,7 +99,7 @@
                             <label>{{ trans('labels.hst') }}</label>
                         </div>
                         <div class="col-md-8">
-                            <span class="text-muted fs-7">{{ $dome->hst }}</span>
+                            <span class="text-muted fs-7">{{ $getdomedata->hst }}</span>
                         </div>
                     </div>
                 </div>
@@ -111,7 +111,7 @@
                             <label>{{ trans('labels.start_time') }}</label>
                         </div>
                         <div class="col-md-8">
-                            <span class="text-muted fs-7">{{ $dome->start_time }}</span>
+                            <span class="text-muted fs-7">{{ $getdomedata->start_time }}</span>
                         </div>
                     </div>
                 </div>
@@ -121,7 +121,7 @@
                             <label>{{ trans('labels.dome_address') }}</label>
                         </div>
                         <div class="col-md-8">
-                            <span class="text-muted fs-7">{{ $dome->address }}</span>
+                            <span class="text-muted fs-7">{{ $getdomedata->address }}</span>
                         </div>
                     </div>
                 </div>
@@ -133,7 +133,7 @@
                             <label>{{ trans('labels.end_time') }}</label>
                         </div>
                         <div class="col-md-8">
-                            <span class="text-muted fs-7">{{ $dome->end_time }}</span>
+                            <span class="text-muted fs-7">{{ $getdomedata->end_time }}</span>
                         </div>
                     </div>
                 </div>
@@ -143,7 +143,7 @@
                             <label>{{ trans('labels.dome_description') }}</label>
                         </div>
                         <div class="col-md-8">
-                            <span class="text-muted fs-7">{{ Str::limit($dome->description, 50, '...') }}</span>
+                            <span class="text-muted fs-7">{{ Str::limit($getdomedata->description, 50, '...') }}</span>
                         </div>
                     </div>
                 </div>
@@ -156,7 +156,7 @@
                         </div>
                         <div class="col-lg-8">
                             <ul class="d-flex flex-wrap">
-                                @foreach (explode('|', $dome->benefits) as $data)
+                                @foreach (explode('|', $getdomedata->benefits) as $data)
                                     <li class="text-muted fs-7 me-3" style="list-style: inside">{{ $data }}</li>
                                 @endforeach
                             </ul>
@@ -169,7 +169,7 @@
                             <label>{{ trans('labels.city') }}</label>
                         </div>
                         <div class="col-md-8">
-                            <span class="text-muted fs-7">{{ $dome->city }}</span>
+                            <span class="text-muted fs-7">{{ $getdomedata->city }}</span>
                         </div>
                     </div>
                 </div>
@@ -181,7 +181,7 @@
                             <label>{{ trans('labels.amenities_description') }}</label>
                         </div>
                         <div class="col-md-8">
-                            <span class="text-muted fs-7">{{ Str::limit($dome->benefits_description, 50, '...') }}</span>
+                            <span class="text-muted fs-7">{{ Str::limit($getdomedata->benefits_description, 50, '...') }}</span>
                         </div>
                     </div>
                 </div>
@@ -191,7 +191,7 @@
                             <label>{{ trans('labels.pincode') }}</label>
                         </div>
                         <div class="col-md-8">
-                            <span class="text-muted fs-7">{{ $dome->pin_code }}</span>
+                            <span class="text-muted fs-7">{{ $getdomedata->pin_code }}</span>
                         </div>
                     </div>
                 </div>
@@ -204,7 +204,7 @@
                         </div>
                         <div class="col-lg-8 col-md-10">
                             <ul class="d-flex flex-wrap">
-                                @foreach ($sports as $sport)
+                                @foreach ($getsportslist as $sport)
                                     <li class="text-muted fs-7 me-3 " style="list-style: inside">{{ $sport->name }}</li>
                                 @endforeach
                             </ul>
@@ -217,7 +217,7 @@
                             <label>{{ trans('labels.state') }}</label>
                         </div>
                         <div class="col-md-8">
-                            <span class="text-muted fs-7">{{ $dome->state }}</span>
+                            <span class="text-muted fs-7">{{ $getdomedata->state }}</span>
                         </div>
                     </div>
                 </div>
@@ -230,9 +230,9 @@
                         </div>
                         <div class="col-md-8">
                             <ul class="d-flex flex-wrap">
-                                @foreach ($sports as $sport)
+                                @foreach ($getsportslist as $sport)
                                     <li class="text-muted fs-7 me-3 me-mb-0" style="list-style: inside">
-                                        {{ $sport->name }}</li>
+                                        {{ Helper::currency_format(Helper::get_dome_price($getdomedata->id,$sport->id)) }}</li>
                                 @endforeach
                             </ul>
                         </div>
@@ -244,7 +244,7 @@
                             <label>{{ trans('labels.country') }}</label>
                         </div>
                         <div class="col-md-8">
-                            <span class="text-muted fs-7">{{ $dome->country }}</span>
+                            <span class="text-muted fs-7">{{ $getdomedata->country }}</span>
                         </div>
                     </div>
                 </div>
@@ -255,10 +255,10 @@
                 </div>
             </div>
             <div class="px-3 py-2 d-flex">
-                @foreach ($dome['dome_images'] as $images)
+                @foreach ($getdomedata['dome_images'] as $images)
                     <div class="col-auto me-3">
-                        <img src="{{ $images->image }}" alt="" width="100"
-                            height="60" class="rounded" style="object-fit: cover; object-position:center;">
+                        <img src="{{ $images->image }}" alt="" width="100" height="60" class="rounded"
+                            style="object-fit: cover; object-position:center;">
                     </div>
                 @endforeach
             </div>

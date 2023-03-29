@@ -291,8 +291,11 @@
         $('input[data-sport-name]').click(function() {
             if (this.checked) {
                 let html = '<div class="col mb-2" id="' + $(this).attr("data-sport-name") + '' + $(this).val() +
-                    '"><label class="form-label" for="dome_price'+$(this).val()+'">' + $(this).attr("data-sport-name") +
-                    ' Price</label><div class="input-group"><input type="number" class="form-control" id="dome_price'+$(this).val()+'" name="dome_price[]" placeholder="Price" value="0" required><span class="input-group-text" id="basic-addon1">$</span></div></div>';
+                    '"><label class="form-label" for="dome_price' + $(this).val() + '">' + $(this).attr(
+                        "data-sport-name") +
+                    ' Price</label><div class="input-group"><input type="number" class="form-control" id="dome_price' +
+                    $(this).val() +
+                    '" name="dome_price[]" placeholder="Price" value="0" required><span class="input-group-text" id="basic-addon1">$</span></div></div>';
                 $('#sport_prices_input').append(html);
             } else {
                 $('#' + $(this).attr("data-sport-name") + '' + $(this).val()).remove();
@@ -316,6 +319,9 @@
         }
 
         function initMap() {
+            if (!document.getElementById('map_canvas')) {
+                return false;
+            }
             var myLatLng = {
                 lat: lat,
                 lng: lng
@@ -380,6 +386,7 @@
                 });
 
         }
+
         function getZipCode(lat, lng) {
             var zipcode = '';
             $.ajax({
