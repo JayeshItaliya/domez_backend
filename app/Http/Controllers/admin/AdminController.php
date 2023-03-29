@@ -31,8 +31,6 @@ class AdminController extends Controller
     }
     public function dashboard(Request $request)
     {
-        // DB::raw('(SELECT SUM(paid_amount * ? / 100) FROM bookings) as amount'), [$percentage]
-
         $now = CarbonImmutable::today();
         $weekStartDate = $now->startOfWeek();
         $weekEndDate = $now->endOfWeek();
@@ -222,6 +220,9 @@ class AdminController extends Controller
             return view('admin.dashboard.index', compact('getbookingslist', 'total_income_data_sum', 'income_labels', 'income_data', 'total_bookings_count', 'booking_labels', 'booking_data', 'total_revenue_data_sum', 'revenue_labels', 'revenue_data', 'total_users_data_sum', 'users_labels', 'users_data', 'total_dome_owners_data_sum', 'dome_owners_labels', 'dome_owners_data', 'total_bookings_overview', 'bookings_overview_labels', 'bookings_overview_data'));
         }
     }
+
+    // DB::raw('(SELECT SUM(paid_amount * ? / 100) FROM bookings) as amount'), [$percentage]
+
     // public function dashboard(Request $request)
     // {
     //     $now = CarbonImmutable::today();
@@ -411,20 +412,4 @@ class AdminController extends Controller
     //         return view('admin.dashboard.index', compact('getbookingslist', 'total_income_data_sum', 'income_labels', 'income_data', 'total_bookings_count', 'booking_labels', 'booking_data', 'total_revenue_data_sum', 'revenue_labels', 'revenue_data', 'total_users_data_sum', 'users_labels', 'users_data', 'total_dome_owners_data_sum', 'dome_owners_labels', 'dome_owners_data', 'total_bookings_overview', 'bookings_overview_labels', 'bookings_overview_data'));
     //     }
     // }
-    public function landing(Request $request)
-    {
-        return view('landing.index');
-    }
-    public function contact(Request $request)
-    {
-        return view('landing.contact');
-    }
-    public function privacy_policy(Request $request)
-    {
-        return view('landing.privacy_policy');
-    }
-    public function terms_conditions(Request $request)
-    {
-        return view('landing.terms_conditions');
-    }
 }

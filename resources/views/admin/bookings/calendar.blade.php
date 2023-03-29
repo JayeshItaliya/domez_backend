@@ -78,6 +78,7 @@
             var calendar = new FullCalendar.Calendar(calendarEl, {
                 // initialDate: '2024-05-05',
                 // eventDisplay: 'list-item',
+                // timeFormat: 'h:mm a',
                 initialView: 'timeGridWeek',
                 dayMaxEvents: true,
                 headerToolbar: {

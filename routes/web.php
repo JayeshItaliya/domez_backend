@@ -31,16 +31,14 @@ use App\Http\Controllers\admin\WorkersController;
 */
 
 // Landing Page Route
-Route::get('/', [AdminController::class, 'landing']);
-Route::post('store-general-enquiries', [EnquiryController::class, 'store_general_enquiries']);
-Route::post('dome-request', [EnquiryController::class, 'dome_request']);
-Route::get('contact', [AdminController::class, 'contact']);
-Route::get('privacy-policy', [AdminController::class, 'privacy_policy']);
-Route::get('terms-conditions', [AdminController::class, 'terms_conditions']);
-
-Route::get('payment/{token}', [BookingController::class, 'split_payment']);
-Route::post('payment/process', [BookingController::class, 'split_payment_process']);
-
+Route::get('/', [LandingPagesController::class, 'landing']);
+Route::get('contact', [LandingPagesController::class, 'contact']);
+Route::get('privacy-policy', [LandingPagesController::class, 'privacy_policy']);
+Route::get('terms-conditions', [LandingPagesController::class, 'terms_conditions']);
+Route::post('store-general-enquiries', [LandingPagesController::class, 'store_general_enquiries']);
+Route::post('dome-request', [LandingPagesController::class, 'dome_request']);
+Route::get('payment/{token}', [LandingPagesController::class, 'split_payment']);
+Route::post('payment/process', [LandingPagesController::class, 'split_payment_process']);
 
 // Authentication
 Route::get('login', [AuthenticationController::class, 'index']);
