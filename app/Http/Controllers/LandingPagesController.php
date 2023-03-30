@@ -82,6 +82,7 @@ class LandingPagesController extends Controller
             'email' => 'required|email',
             'phone' => 'required',
             'dome_name' => 'required',
+            'dome_address' => 'required',
             'dome_city' => 'required',
             'dome_state' => 'required',
             'dome_country' => 'required',
@@ -92,6 +93,7 @@ class LandingPagesController extends Controller
             'email.email' => 'Invalid Email Address.',
             'phone.required' => 'Phone is required.',
             'dome_name.required' => 'Dome Name is required.',
+            'dome_address.required' => 'Dome Name is required.',
             'dome_zipcode.required' => 'Dome Zipcode is required.',
             'dome_city.required' => 'Dome City is required.',
             'dome_state.required' => 'Dome State is required.',
@@ -105,6 +107,7 @@ class LandingPagesController extends Controller
         $enquiry->email = $request->email;
         $enquiry->phone = $request->phone;
         $enquiry->dome_name = $request->dome_name;
+        $enquiry->venue_address = $request->dome_address;
         $enquiry->dome_zipcode = $request->dome_zipcode;
         $enquiry->dome_city = $request->dome_city;
         $enquiry->dome_state = $request->dome_state;

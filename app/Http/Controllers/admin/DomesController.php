@@ -339,6 +339,7 @@ class DomesController extends Controller
             $enquiry->email = auth()->user()->email;
             $enquiry->phone = auth()->user()->phone;
             $enquiry->dome_name = $request->dome_name;
+            $enquiry->venue_address = $request->dome_address;
             $enquiry->dome_zipcode = $request->dome_zipcode;
             $enquiry->dome_city = $request->dome_city;
             $enquiry->dome_state = $request->dome_state;
