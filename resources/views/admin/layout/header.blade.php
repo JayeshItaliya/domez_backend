@@ -78,8 +78,8 @@
                     </svg>
                 </a>
                 <ul class="dropdown-menu box-shadow border-0 my-3">
-                    <li><a class="dropdown-item" href="{{ URL::to('change-lang-en') }}">English</a></li>
-                    <li><a class="dropdown-item" href="{{ URL::to('change-lang-es') }}">Spanish</a></li>
+                    <li><a class="dropdown-item" href="{{ URL::to('admin/change-lang-en') }}">English</a></li>
+                    <li><a class="dropdown-item" href="{{ URL::to('admin/change-lang-es') }}">Spanish</a></li>
                 </ul>
             </li>
             <li class="dropdown">
