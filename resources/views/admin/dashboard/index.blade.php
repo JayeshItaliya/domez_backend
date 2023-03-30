@@ -655,6 +655,10 @@
                     data: revenue_data
                     // data: [45, 52, 38, 45, 19, 23, 2]
                 }],
+                markers:{
+                    size : 6,
+                    colors : [secondary_color],
+                },
                 chart: {
                     group: 'sparklines',
                     type: 'area',
