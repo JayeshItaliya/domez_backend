@@ -56,7 +56,7 @@ Route::get('verification', [AuthenticationController::class, 'verification']);
 Route::post('verify', [AuthenticationController::class, 'verify']);
 Route::get('resend-otp', [AuthenticationController::class, 'resend']);
 
-Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function () {
+Route::group(['middleware' => ['LanguageMiddleware', 'auth'], 'prefix' => 'admin'], function () {
 
     // Development Purpose
     Route::get('login-dev', [AdminController::class, 'login_dev']);
