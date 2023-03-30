@@ -16,7 +16,7 @@
 
 .header-section .logo-img img {
     max-width: 200px;
-    width: 100%;
+    /* width: 100%; */
 }
 
 .btn-success {
@@ -1119,7 +1119,7 @@ img.footer-logo {
 
 .header-section-contact .logo-img img {
     max-width: 200px;
-    width: 100%;
+    /* width: 100%; */
 }
 
 .header-section-contact .nav-link {

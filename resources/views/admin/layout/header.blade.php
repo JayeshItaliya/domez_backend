@@ -1,7 +1,7 @@
 <header>
     <div class="right-side-wrapper">
         <div class="logo">
-            <a href="#">
+            <a href="{{URL::to('admin/dashboard')}}">
                 <img src="{{ Helper::image_path('preloader.gif') }}" height="50" alt="">
                 <img src="{{ Helper::image_path('logo_dark.png') }}" width="100" alt="">
             </a>

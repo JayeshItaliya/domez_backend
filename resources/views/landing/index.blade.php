@@ -35,8 +35,10 @@
         {{-- Header Area Start  --}}
         <header class="container header-section">
             <nav class="navbar navbar-expand-lg navbar-light">
-                <a class="navbar-brand logo-img" href="{{ URL::to('/') }}"><img
-                        src="{{ url('storage/app/public/admin/images/landing/logo.png') }}" /></a>
+                <a class="navbar-brand logo-img" href="{{ URL::to('/') }}">
+                    <img src="{{ Helper::image_path('preloader.gif') }}" height="50">
+                    <img src="{{ url('storage/app/public/admin/images/landing/logo_dark.png') }}">
+                </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse"
                     data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
                     aria-label="Toggle navigation">
