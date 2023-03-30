@@ -95,7 +95,6 @@ class DomesController extends Controller
                 $domeimage = new DomeImages;
                 $image = 'dome-' . uniqid() . '.' . $img->getClientOriginalExtension();
                 $img->move('storage/app/public/admin/images/domes', $image);
-                $domeimage->vendor_id = auth()->user()->id;
                 $domeimage->dome_id = $dome->id;
                 $domeimage->images = $image;
                 $domeimage->save();
@@ -302,7 +301,6 @@ class DomesController extends Controller
                 $domeimage = new DomeImages;
                 $image = 'dome-' . uniqid() . '.' . $img->getClientOriginalExtension();
                 $img->move('storage/app/public/admin/images/domes', $image);
-                $domeimage->vendor_id = auth()->user()->id;
                 $domeimage->dome_id = $dome->id;
                 $domeimage->images = $image;
                 $domeimage->save();
@@ -325,10 +323,16 @@ class DomesController extends Controller
 
     public function image_delete(Request $request)
     {
-        $image = DomeImages::find($request->id);
-        unlink('storage/app/public/admin/images/domes/' . $image->images);
-        $image->delete();
-        return 1;
+        try {
+            $image = DomeImages::find($request->id);
+            if (file_exists('storage/app/public/admin/images/domes/' . $image->images)) {
+                unlink('storage/app/public/admin/images/domes/' . $image->images);
+            }
+            $image->delete();
+            return response()->json(['status' => 1, 'message' => trans('messages.success')], 200);
+        } catch (\Throwable $th) {
+            return response()->json(['status' => 0, 'message' => trans('messages.wrong')], 200);
+        }
     }
     public function new_request(Request $request)
     {

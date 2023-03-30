@@ -296,15 +296,14 @@
             </div>
             <div class="row mb-4">
                 @foreach ($dome['dome_images'] as $demoimages)
-                    <div class="avatar avatar-xl">
-                        <div class="position-relative">
-                            <img src="{{ $demoimages->image }}" alt="..." class="mb-3 rounded"
-                                style="width:120px; height:70px;">
-                            {{-- <div class="img-overlay">
-                                <a onclick="dome_delete('{{ $demoimages->id }}','{{ URL::to('admin/domes/image_delete') }}')"
-                                    class="text-bg-danger-soft fs-3 rounded-circle py-2 px-3"><i
+                    <div class="avatar avatar-xl col-auto">
+                        <div class="dome-img">
+                            <img src="{{ $demoimages->image }}" alt="..." class="mb-3 rounded d-block">
+                            <div class="dome-img-overlay rounded">
+                                <a onclick="deletedata('{{ $demoimages->id }}','{{ URL::to('admin/domes/image_delete') }}')"
+                                    class="delete-icon fs-5 rounded-circle py-2 px-3"><i
                                         class="fa-light fa-trash-can"></i></a>
-                            </div> --}}
+                            </div>
                         </div>
                     </div>
                 @endforeach
@@ -438,6 +437,51 @@
                 }
             });
             return zipcode;
+        }
+
+
+        function deletedata(id, url) {
+            "use strict";
+            swalWithBootstrapButtons
+                .fire({
+                    icon: 'warning',
+                    title: are_you_sure,
+                    showCancelButton: true,
+                    allowOutsideClick: false,
+                    allowEscapeKey: false,
+                    confirmButtonText: yes,
+                    cancelButtonText: no,
+                    reverseButtons: true,
+                    showLoaderOnConfirm: true,
+                    preConfirm: function() {
+                        return new Promise(function(resolve, reject) {
+                            $.ajax({
+                                type: "GET",
+                                url: url,
+                                data: {
+                                    id: id,
+                                },
+                                dataType: "json",
+                                success: function(response) {
+                                    if (response.status == 1) {
+                                        location.reload();
+                                    } else {
+                                        swal_cancelled(wrong);
+                                        return false;
+                                    }
+                                },
+                                error: function(response) {
+                                    swal_cancelled(wrong);
+                                    return false;
+                                },
+                            });
+                        });
+                    },
+                }).then((result) => {
+                    if (!result.isConfirmed) {
+                        result.dismiss === Swal.DismissReason.cancel
+                    }
+                })
         }
     </script>
 @endsection
