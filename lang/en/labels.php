@@ -35,7 +35,8 @@ return [
     'add_new' => 'Add New',
     'name' => 'Name',
     'email' => 'Email',
-
+    'usd' => 'USD',
+    'cad' => 'CAD',
     // Sidebar
     'dashboard' => 'Dashboard',
     'dome_owners' => 'Dome Owners',
@@ -179,6 +180,7 @@ return [
     'banner_images' => 'Banner Images',
     'price_per_team' => 'Price Per Team',
     'years' => 'Years',
+    'last_date_registation' => 'Last Date of Registation',
     // Enquiry
     'dome_requests' => 'Dome Requests',
     'general_enquiry' => 'General Enquiry',

@@ -2,7 +2,7 @@
 return [
 
     'website_title' => 'Domez',
-    
+
     'hi' => 'Hola',
     'welcome_back' => 'Bienvenido de vuelta',
     'email_address' => 'Dirección de correo electrónico',
@@ -33,6 +33,8 @@ return [
     'add_new' => 'Añadir nuevo',
     'name' => 'Nombre',
     'email' => 'Correo electrónico',
+    'usd' => 'USD',
+    'cad' => 'CAD',
     // Sidebar
     'dashboard' => 'Tablero',
     'dome_owners' => 'Propietarios de domos',
@@ -173,6 +175,7 @@ return [
     'banner_images' => 'Imágenes del Banner',
     'price_per_team' => 'Precio por Equipo',
     'years' => 'Años',
+    'last_date_registation' => 'Última fecha de registro',
     // Enquiry
     'dome_requests' => 'Solicitudes de Domo',
     'general_enquiry' => 'Consulta General',

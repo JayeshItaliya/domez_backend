@@ -40,7 +40,7 @@ class AdminController extends Controller
         $bookings = Booking::whereDate('start_date', '>=', $now)->orderByDesc('id');
 
         $total_income_data = Transaction::where('type', 1)->orderBy('created_at');
-        $total_revenue_data = Booking::where('booking_status', 1);
+        $total_revenue_data = Booking::where('booking_status', 1)->orderBy('created_at');
 
         $paidAmtQuery_RevChart = auth()->user()->type == 1 ? DB::raw('SUM(paid_amount*12/100) as amount') : DB::raw('SUM(paid_amount*88/100) as amount');
 

@@ -59,8 +59,8 @@
                     </svg>
                 </a>
                 <ul class="dropdown-menu box-shadow border-0 my-3">
-                    <li><a class="dropdown-item" href="#">USD - <small>(US Dollar)</small></a></li>
-                    <li><a class="dropdown-item" href="#">CAD - <small>(Canadian Dollar)</small></a></li>
+                    <li><a class="dropdown-item" href="#">{{ trans('labels.usd') }}</a></li>
+                    <li><a class="dropdown-item" href="#">{{ trans('labels.cad') }}</a></li>
                 </ul>
             </li>
             <li class="dropdown">
