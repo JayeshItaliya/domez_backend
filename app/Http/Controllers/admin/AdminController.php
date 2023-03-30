@@ -113,8 +113,18 @@ class AdminController extends Controller
             $total_dome_owners_data = $total_dome_owners_data->whereYear('created_at', Carbon::now()->year)->select(DB::raw('MONTHNAME(created_at) as titles'), DB::raw('COUNT(id) as users'))->groupBy('titles')->pluck('titles', 'users');
 
             // For Bookings Overview Chart
+            $confirmed_bookings = "Confirmed Bookings";
+            $pending_bookings = "Pending Bookings";
+            $cancelled_bookings = "Cancelled Bookings";
             $total_bookings_overview = Booking::whereYear('created_at', Carbon::now()->year)->count();
-            $total_bookings_overview_data = Booking::selectRaw('CASE WHEN booking_status = "1" THEN "Confirmed Bookings" WHEN booking_status = "2" THEN "Pending Bookings" WHEN booking_status = "3" THEN "Cancelled Bookings" ELSE "Unknown" END as status, COUNT(*) as total')->whereYear('created_at', Carbon::now()->year)->groupBy('booking_status')->orderBy('booking_status')->get();
+            $total_bookings_overview_data = Booking::selectRaw("
+            CASE
+                WHEN booking_status = '1' THEN '{$confirmed_bookings}'
+                WHEN booking_status = '2' THEN '{$pending_bookings}'
+                WHEN booking_status = '3' THEN '{$cancelled_bookings}'
+                ELSE 'Unknown'
+            END as status,
+            COUNT(*) as total")->whereYear('created_at', Carbon::now()->year)->groupBy('booking_status')->orderBy('booking_status')->get();
             $bokingsoverviewchartdata = [];
             foreach ($total_bookings_overview_data as $d) {
                 $bokingsoverviewchartdata[] = [
