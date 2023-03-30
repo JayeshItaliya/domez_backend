@@ -10,9 +10,9 @@ return [
     'price_required' => 'Please Enter Price',
     'name_required' => 'Please Enter Name',
 
-    'email_exist' => 'Email already exist!!',
-    'phone_exist' => 'Phone already exist!!',
-    'field_exist' => 'Field already exist!!',
+    'email_exist' => 'Email already exists!!',
+    'phone_exist' => 'Phone already exists!!',
+    'field_exist' => 'Field already exists!!',
 
     "old_password_required" => "Old password required",
     "new_password_required" => "New password required",
