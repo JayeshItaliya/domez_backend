@@ -886,3 +886,45 @@ header .nav-icons .dropdown-menu .notifications:hover {
     color: rgba(94, 53, 177, 1) !important;
     background-color: #EDE7F6 !important;
 }
+
+.dome-img {
+    position: relative;
+    display: inline-block;
+}
+
+.dome-img img {
+    width: 120px;
+    height: 70px;
+}
+
+.dome-img-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 70px;
+    background-color: rgba(var(--bs-secondary-rgb), 0.5);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.dome-img:hover .dome-img-overlay {
+    opacity: 1;
+}
+
+.delete-icon {
+    display: inline-block;
+    color: #fff;
+    text-decoration: none;
+    padding: 10px;
+    transition: transform 0.3s ease;
+}
+
+.delete-icon:hover {
+    color: white;
+    transform: scale(1.4);
+}

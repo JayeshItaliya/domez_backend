@@ -75,7 +75,7 @@ class LeagueController extends Controller
 
             'start_time.required' => trans('messages.start_time_required'),
             'start_time.date_format' => trans('messages.valid_time_format'),
-            'start_time.after_or_equal' => trans('messages.start_time_afterequal_dome_start_time').' : '.$checkdome->start_time,
+            'start_time.after_or_equal' => trans('messages.start_time_afterequal_dome_start_time') . ' : ' . $checkdome->start_time,
 
             'end_time.required' => trans('messages.end_time_required'),
             'end_time.date_format' => trans('messages.valid_time_format'),
@@ -149,6 +149,20 @@ class LeagueController extends Controller
             $field->save();
             return response()->json(['status' => 1, 'message' => trans('messages.success')], 200);
         } catch (\Throwable $th) {
+            return response()->json(['status' => 0, 'message' => trans('messages.wrong')], 200);
+        }
+    }
+    public function image_delete(Request $request)
+    {
+        try {
+            $image = DomeImages::find($request->id);
+            if (file_exists('storage/app/public/admin/images/league/' . $image->images)) {
+                unlink('storage/app/public/admin/images/domes/' . $image->images);
+            }
+            $image->delete();
+            return response()->json(['status' => 1, 'message' => trans('messages.success')], 200);
+        } catch (\Throwable $th) {
+            dd($th);
             return response()->json(['status' => 0, 'message' => trans('messages.wrong')], 200);
         }
     }

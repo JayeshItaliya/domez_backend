@@ -1,4 +1,4 @@
-@extends('admin.layout.default')
+    @extends('admin.layout.default')
 
 @section('styles')
     <link rel="stylesheet" href="{{ url('storage\app\public\admin\plugins\multi-select\select2.min.css') }}" />
@@ -275,6 +275,20 @@
                             <span class="text-danger">{{ $errors->first('images') }}</span>
                         @endif
                     </div>
+                </div>
+                <div class="row mb-4">
+                    @foreach ($getleaguedata['league_images'] as $leagueimages)
+                        <div class="avatar avatar-xl col-auto">
+                            <div class="dome-img">
+                                <img src="{{ $leagueimages->image }}" alt="..." class="mb-3 rounded d-block">
+                                <div class="dome-img-overlay rounded">
+                                    <a onclick="deletedata('{{ $leagueimages->id }}','{{ URL::to('admin/leagues/image_delete') }}')"
+                                        class="delete-icon fs-5 rounded-circle py-2 px-3"><i
+                                            class="fa-light fa-trash-can"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
                 </div>
                 <div class="col-md-12">
                     <button type="submit" class="btn btn-primary me-3">{{ trans('labels.submit') }}</button>

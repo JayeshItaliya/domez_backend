@@ -176,6 +176,7 @@ Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function () {
             Route::get('add', [LeagueController::class, 'add']);
             Route::post('store', [LeagueController::class, 'store']);
             Route::get('edit-{id}', [LeagueController::class, 'edit']);
+            Route::get('image_delete', [LeagueController::class, 'image_delete']);
             Route::post('update-{id}', [LeagueController::class, 'store']);
             Route::get('change_status', [LeagueController::class, 'change_status']);
             Route::get('delete', [LeagueController::class, 'delete']);
