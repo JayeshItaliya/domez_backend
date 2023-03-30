@@ -18,6 +18,7 @@ use App\Http\Controllers\admin\LeagueController;
 use App\Http\Controllers\admin\ReviewController;
 use App\Http\Controllers\admin\SettingsController;
 use App\Http\Controllers\admin\WorkersController;
+use App\Http\Controllers\LandingPagesController;
 
 /*
 |--------------------------------------------------------------------------
