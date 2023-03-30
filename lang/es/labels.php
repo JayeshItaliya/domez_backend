@@ -2,6 +2,7 @@
 return [
 
     'website_title' => 'Domez',
+    
     'hi' => 'Hola',
     'welcome_back' => 'Bienvenido de vuelta',
     'email_address' => 'Dirección de correo electrónico',
