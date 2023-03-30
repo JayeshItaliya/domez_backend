@@ -348,8 +348,8 @@
                     return {
                         html: '<b> {{ trans('labels.booking_id') }} : ' + info.event.title +
                             '</b><br>' + title
-                        // 'Start: ' + info.event.start.toLocaleString() + '<br>' +
-                        // 'End: ' + info.event.end.toLocaleString() + '<br>' +
+                        // + 'Start: ' + info.event.start.toLocaleString() + '<br>' +
+                        // + 'End: ' + info.event.end.toLocaleString() + '<br>' +
                     };
                 }
             });
@@ -569,14 +569,23 @@
     </script>
     {{-- Bookings Overview Chart --}}
     <script>
-        // let confirmed = {{ Js::from(trans('labels.confirmed')) }};
-        // let pending = {{ Js::from(trans('labels.pending')) }};
-        // let cancelled = {{ Js::from(trans('labels.cancelled')) }};
         var bookings_overview_labels = {{ Js::from($bookings_overview_labels) }}
         var bookings_overview_data = {{ Js::from($bookings_overview_data) }}
-        bookings_overview_chart(bookings_overview_labels, bookings_overview_data);
+        var arr = {{ Js::from($bookings_data_colors) }}
+        bookings_overview_chart(bookings_overview_labels, bookings_overview_data, arr);
 
-        function bookings_overview_chart(bookings_overview_labels, bookings_overview_data) {
+        function bookings_overview_chart(bookings_overview_labels, bookings_overview_data, arr) {
+            var bookings_data_colors = $.map(arr, function(val, i) {
+                if (val == 'primary_color') {
+                    return primary_color;
+                } else if (val == 'secondary_color') {
+                    return secondary_color;
+                } else if (val == 'danger_color') {
+                    return danger_color;
+                } else {
+                    return val;
+                }
+            });
             var options = {
                 chart: {
                     type: 'donut',
@@ -584,7 +593,7 @@
                 },
                 series: bookings_overview_data,
                 labels: bookings_overview_labels,
-                colors: [primary_color, secondary_color, danger_color],
+                colors: bookings_data_colors,
                 responsive: [{
                     breakpoint: 480,
                     options: {
@@ -631,7 +640,8 @@
                 success: function(response) {
                     hidepreloader();
                     $('.total-bookings-overview-revenue').html(response.total_bookings_overview);
-                    bookings_overview_chart(response.bookings_overview_labels, response.bookings_overview_data)
+                    bookings_overview_chart(response.bookings_overview_labels, response.bookings_overview_data,
+                        response.bookings_data_colors)
                 },
                 error: function(e) {
                     hidepreloader();
@@ -655,9 +665,9 @@
                     data: revenue_data
                     // data: [45, 52, 38, 45, 19, 23, 2]
                 }],
-                markers:{
-                    size : 6,
-                    colors : [secondary_color],
+                markers: {
+                    size: 6,
+                    colors: [secondary_color],
                 },
                 chart: {
                     group: 'sparklines',

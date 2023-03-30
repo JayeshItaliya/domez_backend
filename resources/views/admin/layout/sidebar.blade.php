@@ -180,6 +180,38 @@
                         </a>
                     </ul>
                 </div>
+
+                <a href="#cms" class="nav-item {{ request()->is('admin/cms*') ? 'active' : '' }}"
+                    data-bs-toggle="collapse" role="button"
+                    aria-expanded="{{ request()->is('admin/cms*') ? 'true' : 'false' }}" aria-controls="cms">
+                    <i class="fa-light fa-shield-check"></i>
+                    <div class="ms-3 d-flex align-items-center justify-content-between w-100">
+                        <span>{{ trans('labels.cms') }}</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-down"
+                            width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50"
+                            fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                            <polyline points="6 9 12 15 18 9" />
+                        </svg>
+                    </div>
+                </a>
+                <div class="collapse {{ request()->is('admin/cms*') ? 'show' : '' }}" id="cms">
+                    <ul class="nav d-grid">
+                        <a href="{{ URL::to('admin/cms/terms-conditions') }}" class="nav-item"> <span
+                                class="nav-link {{ request()->is('admin/cms/terms-conditions') ? 'active' : '' }}">{{ trans('labels.terms_conditions') }}</span>
+                        </a>
+                        <a href="{{ URL::to('admin/cms/privacy-policy') }}" class="nav-item"> <span
+                                class="nav-link {{ request()->is('admin/cms/privacy-policy') ? 'active' : '' }}">{{ trans('labels.privacy_policy') }}</span>
+                        </a>
+                        <a href="{{ URL::to('admin/cms/cancellation-policies') }}" class="nav-item"> <span
+                                class="nav-link {{ request()->is('admin/cms/cancellation-policies') ? 'active' : '' }}">{{ trans('labels.cancellation_policy') }}</span>
+                        </a>
+                        <a href="{{ URL::to('admin/cms/refund-policies') }}" class="nav-item"> <span
+                                class="nav-link {{ request()->is('admin/cms/refund-policies') ? 'active' : '' }}">{{ trans('labels.refund_policy') }}</span>
+                        </a>
+                    </ul>
+                </div>
+
                 <a href="#generalsettings" class="nav-item {{ request()->is('admin/settings*') ? 'active' : '' }}"
                     data-bs-toggle="collapse" role="button"
                     aria-expanded="{{ request()->is('admin/settings*') ? 'true' : 'false' }}"
@@ -197,14 +229,6 @@
                 </a>
                 <div class="collapse {{ request()->is('admin/settings*') ? 'show' : '' }}" id="generalsettings">
                     <ul class="nav d-grid">
-                        <a href="{{ URL::to('admin/settings/privacy-policy') }}" class="nav-item">
-                            <span
-                                class="nav-link {{ request()->is('admin/settings/privacy-policy') ? 'active' : '' }}">{{ trans('labels.privacy_policy') }}</span>
-                        </a>
-                        <a href="{{ URL::to('admin/settings/terms-conditions') }}" class="nav-item">
-                            <span
-                                class="nav-link {{ request()->is('admin/settings/terms-conditions') ? 'active' : '' }}">{{ trans('labels.terms_conditions') }}</span>
-                        </a>
                         <a href="{{ URL::to('admin/settings/edit-profile') }}" class="nav-item">
                             <span
                                 class="nav-link {{ request()->is('admin/settings/edit-profile') ? 'active' : '' }}">{{ trans('labels.edit_profile') }}</span>

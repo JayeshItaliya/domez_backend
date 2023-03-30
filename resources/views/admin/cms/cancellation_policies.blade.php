@@ -1,12 +1,12 @@
 @extends('admin.layout.default')
 @section('title')
-    {{ trans('labels.terms_conditions') }}
+    {{ trans('labels.cancellation_policy') }}
 @endsection
 @section('contents')
     <div class="card mb-3">
         <div class="card-body py-2">
             <div class="d-flex align-items-center justify-content-between">
-                <p class="text-secondary fw-semibold">{{ trans('labels.terms_conditions') }}</p>
+                <p class="text-secondary fw-semibold">{{ trans('labels.cancellation_policy') }}</p>
                 <nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='%236c757d'/%3E%3C/svg%3E&#34;);"
                     aria-label="breadcrumb">
                     <ol class="breadcrumb m-0">
@@ -24,18 +24,22 @@
                             </a>
                         </li>
                         <li class="breadcrumb-item">{{ trans('labels.cms') }}</li>
-                        <li class="breadcrumb-item active" aria-current="page">{{ trans('labels.terms_conditions') }}</li>
+                        <li class="breadcrumb-item active" aria-current="page">{{ trans('labels.cancellation_policy') }}
+                        </li>
                     </ol>
                 </nav>
             </div>
         </div>
     </div>
-    <div class="card">
-        <div class="card-body">
-            <form action="{{ URL::to('admin/settings/store-cms') }}" method="post">
+    <div class="row">
+        <div class="card">
+            <form class="card-body" action="{{ URL::to('admin/cms/store-refund-policy') }}" method="post">
                 @csrf
-                <textarea name="content" id="ckeditor">{{ Helper::cms(2) }}</textarea>
-                <button type="submit" name="terms_conditions"
+                @error('content')
+                    <span class="text-danger mb-3">{{ $message }}</span>
+                @enderror
+                <textarea id="ckeditor" name="content">{{ Helper::cms(4) }}</textarea>
+                <button type="submit" name="cancellation_policy"
                     class="btn btn-primary mt-3">{{ trans('labels.submit') }}</button>
             </form>
         </div>

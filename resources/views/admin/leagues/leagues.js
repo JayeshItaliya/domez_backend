@@ -91,7 +91,7 @@ $('#dome').on('change', function () {
             return false;
         }
     });
-});
+}).change();
 
 $('body').on('blur', '.start.time_picker', function () {
     "use strict";

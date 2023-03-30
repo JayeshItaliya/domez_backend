@@ -58,7 +58,7 @@
         </header>
         <section style="margin:100px 0">
             <div class="container">
-                {!! Helper::cms(2) !!}
+                {!! Helper::cms(3) !!}
             </div>
         </section>
         <!-- Footer start -->

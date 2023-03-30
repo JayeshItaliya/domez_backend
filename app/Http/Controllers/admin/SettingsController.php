@@ -14,13 +14,19 @@ class SettingsController extends Controller
 {
     public function privacy_policy(Request $request)
     {
-        $content = CMS::where('type', 1)->first();
-        return view('admin.cms.privacy_policy', compact('content'));
+        return view('admin.cms.privacy_policy');
     }
     public function terms_conditions(Request $request)
     {
-        $content = CMS::where('type', 2)->first();
-        return view('admin.cms.terms_condition', compact('content'));
+        return view('admin.cms.terms_condition');
+    }
+    public function cancellation_policies(Request $request)
+    {
+        return view('admin.cms.cancellation_policies');
+    }
+    public function refund_policy(Request $request)
+    {
+        return view('admin.cms.refund_policy');
     }
     public function store_cms(Request $request)
     {
@@ -35,6 +41,24 @@ class SettingsController extends Controller
         }
         if ($request->has('terms_conditions')) {
             $data = CMS::where('type', 2)->first();
+            if (empty($data)) {
+                $data = new CMS;
+                $data->type = 2;
+            }
+            $data->content = $request->content;
+            $data->save();
+        }
+        if ($request->has('refund_policy')) {
+            $data = CMS::where('type', 3)->first();
+            if (empty($data)) {
+                $data = new CMS;
+                $data->type = 2;
+            }
+            $data->content = $request->content;
+            $data->save();
+        }
+        if ($request->has('cancellation_policy')) {
+            $data = CMS::where('type', 4)->first();
             if (empty($data)) {
                 $data = new CMS;
                 $data->type = 2;

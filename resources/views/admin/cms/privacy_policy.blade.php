@@ -1,11 +1,6 @@
 @extends('admin.layout.default')
-@section('styles')
-@endsection
 @section('title')
     {{ trans('labels.privacy_policy') }}
-@endsection
-@section('styles')
-    <link rel="stylesheet" href="{{ url('storage/app/public/admin/plugins/richtexteditor/rte_theme_default.css') }}" />
 @endsection
 @section('contents')
     <div class="card mb-3">
@@ -28,7 +23,7 @@
                                 </svg>
                             </a>
                         </li>
-                        <li class="breadcrumb-item">{{ trans('labels.general_settings') }}</li>
+                        <li class="breadcrumb-item">{{ trans('labels.cms') }}</li>
                         <li class="breadcrumb-item active" aria-current="page">{{ trans('labels.privacy_policy') }}</li>
                     </ol>
                 </nav>
@@ -39,7 +34,7 @@
         <div class="card-body">
             <form action="{{ URL::to('admin/settings/store-cms') }}" method="post">
                 @csrf
-                <textarea name="content" id="ckeditor">{{ @$content->content }}</textarea>
+                <textarea name="content" id="ckeditor">{{ Helper::cms(1) }}</textarea>
                 <button type="submit" name="privacy_policy"
                     class="btn btn-primary mt-3">{{ trans('labels.submit') }}</button>
             </form>
@@ -47,7 +42,7 @@
     </div>
 @endsection
 @section('scripts')
-    <script src={{url('storage/app/public/admin/plugins/ckeditor/ckeditor.js')}}></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ckeditor/4.12.1/ckeditor.js"></script>
     <script type="text/javascript">
         CKEDITOR.replace('ckeditor', {
             height: '500',

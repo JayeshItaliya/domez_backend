@@ -27,6 +27,14 @@ class LandingPagesController extends Controller
     {
         return view('landing.terms_conditions');
     }
+    public function cancellation_policies(Request $request)
+    {
+        return view('landing.cancellation_policies');
+    }
+    public function refund_policies(Request $request)
+    {
+        return view('landing.refund_policies');
+    }
     public function store_general_enquiries(Request $request)
     {
         $request->validate([

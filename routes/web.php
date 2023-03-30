@@ -34,8 +34,12 @@ use App\Http\Controllers\LandingPagesController;
 // Landing Page Route
 Route::get('/', [LandingPagesController::class, 'landing']);
 Route::get('contact', [LandingPagesController::class, 'contact']);
+
 Route::get('privacy-policy', [LandingPagesController::class, 'privacy_policy']);
 Route::get('terms-conditions', [LandingPagesController::class, 'terms_conditions']);
+Route::get('cancellation-policies', [LandingPagesController::class, 'cancellation_policies']);
+Route::get('refund-policies', [LandingPagesController::class, 'refund_policies']);
+
 Route::post('store-general-enquiries', [LandingPagesController::class, 'store_general_enquiries']);
 Route::post('dome-request', [LandingPagesController::class, 'dome_request']);
 Route::get('payment/{token}', [LandingPagesController::class, 'split_payment']);
@@ -93,9 +97,6 @@ Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function () {
     // Settings
     Route::group(['prefix' => 'settings'], function () {
         Route::get('/', [AdminController::class, 'settings']);
-        Route::get('privacy-policy', [SettingsController::class, 'privacy_policy']);
-        Route::get('terms-conditions', [SettingsController::class, 'terms_conditions']);
-        Route::post('store-cms', [SettingsController::class, 'store_cms']);
 
         Route::get('edit-profile', [SettingsController::class, 'show_profile']);
         Route::post('check-email-exist', [SettingsController::class, 'checkemailexist']);
@@ -119,6 +120,15 @@ Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function () {
 
     // Vendors
     Route::group(['middleware' => 'AdminMiddleware'], function () {
+        Route::group(['prefix' => 'cms'], function () {
+
+            Route::get('privacy-policy', [SettingsController::class, 'privacy_policy']);
+            Route::get('terms-conditions', [SettingsController::class, 'terms_conditions']);
+            Route::get('cancellation-policies', [SettingsController::class, 'cancellation_policies']);
+            Route::get('refund-policies', [SettingsController::class, 'refund_policy']);
+
+            Route::post('store-cms', [SettingsController::class, 'store_cms']);
+        });
         Route::group(['prefix' => 'vendors'], function () {
             Route::get('/', [VendorController::class, 'index']);
             Route::get('add', [VendorController::class, 'add']);

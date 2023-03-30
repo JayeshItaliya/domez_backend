@@ -393,18 +393,10 @@
                         class="col-xxl-3 col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12 wow fadeInDown delay-0-4s animated">
                         <h6 class="fw-Medium mb-4">Support</h6>
                         <div class="footer-link link">
-                            <p>
-                                <a href="{{ URL::to('privacy-policy') }}"
-                                    class="text-reset text-copyright mb-2">Privacy & Policy</a>
-                            </p>
-                            <p>
-                                <a href="{{ URL::to('terms-conditions') }}" class="text-reset text-copyright">Terms
-                                    Of
-                                    Service</a>
-                            </p>
-                            <p>
-                                <a href="{{ URL::to('/') }}#faq" class="text-reset text-copyright">FAQ</a>
-                            </p>
+                            <p> <a href="{{ URL::to('privacy-policy') }}" class="text-reset text-copyright mb-2">Privacy & Policy</a> </p>
+                            <p> <a href="{{ URL::to('terms-conditions') }}" class="text-reset text-copyright">Terms Of Service</a> </p>
+                            <p> <a href="{{ URL::to('cancellation-policies') }}" class="text-reset text-copyright">Cancellation Policies</a> </p>
+                            <p> <a href="{{ URL::to('refund-policies') }}" class="text-reset text-copyright">Refund Policies</a> </p>
                         </div>
                     </div>
                     <div

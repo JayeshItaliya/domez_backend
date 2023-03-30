@@ -54,6 +54,22 @@ class AdminController extends Controller
             $getbookingslist = $bookings->where('vendor_id', auth()->user()->type == 2 ? auth()->user()->id : auth()->user()->vendor_id)->get();
         }
 
+        $confirmed_bookings = trans('labels.confirmed_bookings');
+        $pending_bookings = trans('labels.pending_bookings');
+        $cancelled_bookings = trans('labels.cancelled_bookings');
+        $total_bookings_overview_data = Booking::selectRaw("
+            CASE
+                WHEN booking_status = '1' THEN '{$confirmed_bookings}'
+                WHEN booking_status = '2' THEN '{$pending_bookings}'
+                WHEN booking_status = '3' THEN '{$cancelled_bookings}'
+            END as status,
+            CASE
+                WHEN booking_status = '1' THEN 'primary_color'
+                WHEN booking_status = '2' THEN 'secondary_color'
+                WHEN booking_status = '3' THEN 'danger_color'
+            END as colors,
+            COUNT(*) as total");
+
         if ($request->filtertype == "this_month") {
 
             // For Income Chart
@@ -80,14 +96,7 @@ class AdminController extends Controller
 
             // For Bookings Overview Chart
             $total_bookings_overview = Booking::whereMonth('created_at', Carbon::now()->month)->count();
-            $total_bookings_overview_data = Booking::selectRaw('CASE WHEN booking_status = "1" THEN "Confirmed Bookings" WHEN booking_status = "2" THEN "Pending Bookings" WHEN booking_status = "3" THEN "Cancelled Bookings" ELSE "Unknown" END as status, COUNT(*) as total')->whereMonth('created_at', Carbon::now()->month)->groupBy('booking_status')->orderBy('booking_status')->get();
-            $bokingsoverviewchartdata = [];
-            foreach ($total_bookings_overview_data as $d) {
-                $bokingsoverviewchartdata[] = [
-                    'name' => $d->status,
-                    'data' => $d->total
-                ];
-            }
+            $total_bookings_overview_data = $total_bookings_overview_data->whereMonth('created_at', Carbon::now()->month);
         } elseif ($request->filtertype == "this_year") {
 
             // For Income Chart
@@ -113,25 +122,8 @@ class AdminController extends Controller
             $total_dome_owners_data = $total_dome_owners_data->whereYear('created_at', Carbon::now()->year)->select(DB::raw('MONTHNAME(created_at) as titles'), DB::raw('COUNT(id) as users'))->groupBy('titles')->pluck('titles', 'users');
 
             // For Bookings Overview Chart
-            $confirmed_bookings = "Confirmed Bookings";
-            $pending_bookings = "Pending Bookings";
-            $cancelled_bookings = "Cancelled Bookings";
             $total_bookings_overview = Booking::whereYear('created_at', Carbon::now()->year)->count();
-            $total_bookings_overview_data = Booking::selectRaw("
-            CASE
-                WHEN booking_status = '1' THEN '{$confirmed_bookings}'
-                WHEN booking_status = '2' THEN '{$pending_bookings}'
-                WHEN booking_status = '3' THEN '{$cancelled_bookings}'
-                ELSE 'Unknown'
-            END as status,
-            COUNT(*) as total")->whereYear('created_at', Carbon::now()->year)->groupBy('booking_status')->orderBy('booking_status')->get();
-            $bokingsoverviewchartdata = [];
-            foreach ($total_bookings_overview_data as $d) {
-                $bokingsoverviewchartdata[] = [
-                    'name' => $d->status,
-                    'data' => $d->total
-                ];
-            }
+            $total_bookings_overview_data = $total_bookings_overview_data->whereYear('created_at', Carbon::now()->year);
         } elseif ($request->filtertype == "custom_date") {
 
             $weekStartDate = explode(' to ', $request->filterdates)[0];
@@ -162,14 +154,7 @@ class AdminController extends Controller
 
             // For Bookings Overview Chart
             $total_bookings_overview = Booking::whereBetween('created_at', [$weekStartDate, $weekEndDate])->count();
-            $total_bookings_overview_data = Booking::selectRaw('CASE WHEN booking_status = "1" THEN "Confirmed Bookings" WHEN booking_status = "2" THEN "Pending Bookings" WHEN booking_status = "3" THEN "Cancelled Bookings" ELSE "Unknown" END as status, COUNT(*) as total')->whereBetween('created_at', [$weekStartDate, $weekEndDate])->groupBy('booking_status')->orderBy('booking_status')->get();
-            $bokingsoverviewchartdata = [];
-            foreach ($total_bookings_overview_data as $d) {
-                $bokingsoverviewchartdata[] = [
-                    'name' => $d->status,
-                    'data' => $d->total
-                ];
-            }
+            $total_bookings_overview_data = $total_bookings_overview_data->whereBetween('created_at', [$weekStartDate, $weekEndDate]);
         } else {
 
             // For Income Chart
@@ -197,15 +182,22 @@ class AdminController extends Controller
 
             // For Bookings Overview Chart
             $total_bookings_overview = Booking::whereBetween('created_at', [$weekStartDate, $weekEndDate])->count();
-            $total_bookings_overview_data = Booking::selectRaw('CASE WHEN booking_status = "1" THEN "Confirmed Bookings" WHEN booking_status = "2" THEN "Pending Bookings" WHEN booking_status = "3" THEN "Cancelled Bookings" END as status, COUNT(*) as total')->whereBetween('created_at', [$weekStartDate, $weekEndDate])->groupBy('booking_status')->orderBy('booking_status')->get();
-            $bokingsoverviewchartdata = [];
-            foreach ($total_bookings_overview_data as $d) {
-                $bokingsoverviewchartdata[] = [
-                    'name' => $d->status,
-                    'data' => $d->total
-                ];
-            }
+            $total_bookings_overview_data = $total_bookings_overview_data->whereBetween('created_at', [$weekStartDate, $weekEndDate]);
         }
+
+        $bokingsoverviewchartdata = [];
+        $total_bookings_overview_data = $total_bookings_overview_data->groupBy('booking_status')->orderBy('booking_status')->get();
+        foreach ($total_bookings_overview_data as $d) {
+            $bokingsoverviewchartdata[] = [
+                'name' => $d->status,
+                'data' => $d->total,
+                'colors' => $d->colors
+            ];
+        }
+        $bookings_overview_labels = collect($bokingsoverviewchartdata)->pluck('name');
+        $bookings_overview_data = collect($bokingsoverviewchartdata)->pluck('data');
+        $bookings_data_colors = collect($bokingsoverviewchartdata)->pluck('colors');
+
 
         $income_labels = $total_income_data->keys();
         $income_data = $total_income_data->values();
@@ -222,13 +214,11 @@ class AdminController extends Controller
         $dome_owners_labels = @$otherformatfordomez == 1 ? collect($total_dome_owners_data)->pluck('titles') : $total_dome_owners_data->values();
         $dome_owners_data = @$otherformatfordomez == 1 ? collect($total_dome_owners_data)->pluck('users') : $total_dome_owners_data->keys();
 
-        $bookings_overview_labels = collect($bokingsoverviewchartdata)->pluck('name');
-        $bookings_overview_data = collect($bokingsoverviewchartdata)->pluck('data');
 
         if ($request->ajax()) {
-            return response()->json(['total_income_data_sum' => Helper::currency_format($total_income_data_sum), 'income_labels' => $income_labels, 'income_data' => $income_data, 'total_bookings_count' => $total_bookings_count, 'booking_labels' => $booking_labels, 'booking_data' => $booking_data, 'total_revenue_data_sum' => Helper::currency_format($total_revenue_data_sum), 'revenue_labels' => $revenue_labels, 'revenue_data' => $revenue_data, 'total_users_data_sum' => $total_users_data_sum, 'users_labels' => $users_labels, 'users_data' => $users_data, 'total_dome_owners_data_sum' => $total_dome_owners_data_sum, 'dome_owners_labels' => $dome_owners_labels, 'dome_owners_data' => $dome_owners_data, 'total_bookings_overview' => $total_bookings_overview, 'bookings_overview_labels' => $bookings_overview_labels, 'bookings_overview_data' => $bookings_overview_data]);
+            return response()->json(['total_income_data_sum' => Helper::currency_format($total_income_data_sum), 'income_labels' => $income_labels, 'income_data' => $income_data, 'total_bookings_count' => $total_bookings_count, 'booking_labels' => $booking_labels, 'booking_data' => $booking_data, 'total_revenue_data_sum' => Helper::currency_format($total_revenue_data_sum), 'revenue_labels' => $revenue_labels, 'revenue_data' => $revenue_data, 'total_users_data_sum' => $total_users_data_sum, 'users_labels' => $users_labels, 'users_data' => $users_data, 'total_dome_owners_data_sum' => $total_dome_owners_data_sum, 'dome_owners_labels' => $dome_owners_labels, 'dome_owners_data' => $dome_owners_data, 'total_bookings_overview' => $total_bookings_overview, 'bookings_overview_labels' => $bookings_overview_labels, 'bookings_overview_data' => $bookings_overview_data, 'bookings_data_colors' => $bookings_data_colors]);
         } else {
-            return view('admin.dashboard.index', compact('getbookingslist', 'total_income_data_sum', 'income_labels', 'income_data', 'total_bookings_count', 'booking_labels', 'booking_data', 'total_revenue_data_sum', 'revenue_labels', 'revenue_data', 'total_users_data_sum', 'users_labels', 'users_data', 'total_dome_owners_data_sum', 'dome_owners_labels', 'dome_owners_data', 'total_bookings_overview', 'bookings_overview_labels', 'bookings_overview_data'));
+            return view('admin.dashboard.index', compact('getbookingslist', 'total_income_data_sum', 'income_labels', 'income_data', 'total_bookings_count', 'booking_labels', 'booking_data', 'total_revenue_data_sum', 'revenue_labels', 'revenue_data', 'total_users_data_sum', 'users_labels', 'users_data', 'total_dome_owners_data_sum', 'dome_owners_labels', 'dome_owners_data', 'total_bookings_overview', 'bookings_overview_labels', 'bookings_overview_data', 'bookings_data_colors'));
         }
     }
 
