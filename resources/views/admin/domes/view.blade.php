@@ -2,6 +2,9 @@
 @section('title')
     {{ trans('labels.dome_details') }}
 @endsection
+@section('styles')
+    <link rel="stylesheet" href={{ url('storage/app/public/admin/plugins/flatpickr/flatpickr.min.css') }}>
+@endsection
 @section('contents')
     <div class="card mb-3">
         <div class="card-body py-2">
@@ -181,7 +184,8 @@
                             <label>{{ trans('labels.amenities_description') }}</label>
                         </div>
                         <div class="col-md-8">
-                            <span class="text-muted fs-7">{{ Str::limit($getdomedata->benefits_description, 50, '...') }}</span>
+                            <span
+                                class="text-muted fs-7">{{ Str::limit($getdomedata->benefits_description, 50, '...') }}</span>
                         </div>
                     </div>
                 </div>
@@ -232,7 +236,8 @@
                             <ul class="d-flex flex-wrap">
                                 @foreach ($getsportslist as $sport)
                                     <li class="text-muted fs-7 me-3 me-mb-0" style="list-style: inside">
-                                        {{ Helper::currency_format(Helper::get_dome_price($getdomedata->id,$sport->id)) }}</li>
+                                        {{ Helper::currency_format(Helper::get_dome_price($getdomedata->id, $sport->id)) }}
+                                    </li>
                                 @endforeach
                             </ul>
                         </div>
@@ -265,6 +270,41 @@
         </div>
     </div>
     <div class="row">
+        <style>
+            :root {
+                --fc-event-bg-color: var(--bs-primary);
+                --fc-event-border-color: var(--bs-primary);
+                --fc-today-bg-color: rgba(var(--bs-secondary-rgb), .15);
+            }
+
+            .fc-button {
+                background-color: transparent !important;
+                color: var(--bs-primary) !important;
+                border-color: var(--bs-primary) !important;
+            }
+
+            .fc-button.fc-button-active {
+                background-color: var(--bs-primary) !important;
+                color: white !important;
+                border-color: var(--bs-primary) !important;
+            }
+
+            .fc-prev-button,
+            .fc-next-button {
+                background-color: transparent !important;
+                color: black !important;
+                border-color: transparent !important;
+            }
+
+            .fc-event-title {
+                font-size: 12px;
+                line-height: 1;
+            }
+
+            .fc-daygrid-event {
+                padding: 0 3px;
+            }
+        </style>
         <div class="col-lg-8">
             <div class="card">
                 <div class="card-body">
@@ -289,24 +329,46 @@
                     <div class="d-flex justify-content-between align-items-center mb-3">
                         <div class="col-auto">
                             <span class="text-muted fs-7">{{ trans('labels.total_bookings') }}</span>
-                            <p class="fw-semibold">110</p>
+                            <p class="fw-semibold total-bookings-count">{{ $total_bookings }}</p>
                         </div>
-                        <select class="form-select w-auto" name="" id="">
-                            <option value="last-7">{{ trans('labels.last_7_days') }}</option>
-                            <option value="this-month">{{ trans('labels.this_month') }}</option>
-                            <option value="this-year">{{ trans('labels.this_year') }}</option>
-                        </select>
+                        <div class="d-flex gap-2">
+                            <input type="text"
+                                class="form-control me-2 bg-transparent border-primary total-bookings-picker"
+                                placeholder="{{ trans('labels.select_date') }}">
+                            <select class="form-select total-bookings-filter"
+                                style="background-color: transparent;border-color:var(--bs-primary);"
+                                data-next="{{ URL::to('admin/domes/details-' . $getdomedata->id) }}">
+                                <option value="this_week" selected>{{ trans('labels.this_week') }}</option>
+                                <option value="this_month">{{ trans('labels.this_month') }}</option>
+                                <option value="this_year">{{ trans('labels.this_year') }}</option>
+                                <option value="custom_date">{{ trans('labels.custom_date') }}</option>
+                            </select>
+                        </div>
                     </div>
-                    <div id="booking_chart"></div>
+                    <div id="bookings_chart"></div>
                 </div>
             </div>
         </div>
     </div>
 @endsection
 @section('scripts')
+    <script src={{ url('storage/app/public/admin/plugins/flatpickr/flatpickr.js') }}></script>
     <script src="{{ url('storage/app/public/admin/js/charts/apexchart/apexcharts.js') }}"></script>
     <script>
-        // Dome Revenue Chart
+        $(function() {
+            $('.total-bookings-picker').hide();
+            $('.total-bookings-picker').flatpickr({
+                mode: "range",
+                maxDate: "today",
+                dateFormat: "Y-m-d",
+                onClose: function(selectedDates, dateStr, instance) {
+                    totalbookingsfilter(dateStr);
+                }
+            });
+        })
+    </script>
+    {{-- Dome Revenue Chart --}}
+    <script>
         var options = {
             series: [{
                 name: "Revenue",
@@ -341,31 +403,102 @@
         };
         var chart = new ApexCharts(document.querySelector("#dome_revenue"), options);
         chart.render();
-        //Total Bookings Chart
-        var options = {
-            series: [44, 55, 11],
-            chart: {
-                height: 450,
-                type: 'pie',
-            },
-            labels: ['{{ trans('labels.confirm_bookings') }}', '{{ trans('labels.pending_bookings') }}',
-                '{{ trans('labels.cancel_bookings') }}'
-            ],
-            colors: [primary_color, secondary_color, light_secondary_color],
-            responsive: [{
-                breakpoint: 480,
-                options: {
-                    chart: {
-                        width: 200
-                    },
-                    legend: {
-                        show: false,
-                        position: 'bottom'
+    </script>
+    {{-- Total Bookings Chart --}}
+    <script>
+        var bookings_labels = {{ Js::from($bookings_labels) }}
+        var bookings_data = {{ Js::from($bookings_data) }}
+        var arr = {{ Js::from($bookings_data_colors) }}
+
+        var bookings_data_colors = $.map(arr, function(val, i) {
+            if (val == 'primary_color') {
+                return primary_color;
+            } else if (val == 'secondary_color') {
+                return secondary_color;
+            } else if (val == 'danger_color') {
+                return danger_color;
+            } else {
+                return val;
+            }
+        });
+
+        bookings_chart(bookings_labels, bookings_data, bookings_data_colors);
+
+        function bookings_chart(bookings_labels, bookings_data, bookings_data_colors) {
+            var options = {
+                series: bookings_data,
+                chart: {
+                    height: 450,
+                    type: 'pie',
+                },
+                labels: bookings_labels,
+                colors: bookings_data_colors,
+                responsive: [{
+                    breakpoint: 480,
+                    options: {
+                        chart: {
+                            width: 200
+                        },
+                        legend: {
+                            show: false,
+                            position: 'bottom'
+                        }
                     }
+                }]
+            };
+            $('#bookings_chart .apexcharts-canvas').remove();
+            if (document.getElementById("bookings_chart")) {
+                var totalbookingschart = new ApexCharts(document.querySelector("#bookings_chart"), options);
+                totalbookingschart.render();
+            }
+        }
+        $('.total-bookings-filter').on('change', function() {
+            if ($(this).val() == 'custom_date') {
+                $('.total-bookings-picker').show();
+                return false;
+            } else {
+                $('.total-bookings-picker').hide();
+            }
+            totalbookingsfilter('')
+        });
+
+        function totalbookingsfilter(dates) {
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
+                        'content')
+                },
+                url: $(this).attr('data-next'),
+                data: {
+                    filtertype: $('.total-bookings-filter').val(),
+                    filterdates: dates,
+                },
+                method: 'GET',
+                beforeSend: function() {
+                    showpreloader();
+                },
+                success: function(response) {
+                    hidepreloader();
+                    $('.total-bookings-count').html(response.total_bookings);
+                    var bookings_data_colors = $.map(response.bookings_data_colors, function(val, i) {
+                        if (val == 'primary_color') {
+                            return primary_color;
+                        } else if (val == 'secondary_color') {
+                            return secondary_color;
+                        } else if (val == 'danger_color') {
+                            return danger_color;
+                        } else {
+                            return val;
+                        }
+                    });
+                    bookings_chart(response.bookings_labels, response.bookings_data, bookings_data_colors)
+                },
+                error: function(e) {
+                    hidepreloader();
+                    toastr.error(wrong);
+                    return false;
                 }
-            }]
-        };
-        var chart = new ApexCharts(document.querySelector("#booking_chart"), options);
-        chart.render();
+            });
+        }
     </script>
 @endsection

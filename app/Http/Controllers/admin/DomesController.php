@@ -3,12 +3,15 @@
 namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Booking;
 use App\Models\Sports;
 use Illuminate\Http\Request;
 use App\Models\Domes;
 use App\Models\DomeImages;
 use App\Models\Enquiries;
 use App\Models\SetPrices;
+use Carbon\Carbon;
+use Carbon\CarbonImmutable;
 
 class DomesController extends Controller
 {
@@ -118,9 +121,115 @@ class DomesController extends Controller
     public function dome_details(Request $request)
     {
         $getdomedata = Domes::find($request->id);
+        $now = CarbonImmutable::today();
+        $weekStartDate = $now->startOfWeek();
+        $weekEndDate = $now->endOfWeek();
+
+        if ($request->filtertype == "this_month") {
+            // For Bookings Overview Chart
+            $total_bookings = Booking::where('dome_id', $getdomedata->id)->whereMonth('created_at', Carbon::now()->month)->count();
+            $total_bookings_data = Booking::where('dome_id', $getdomedata->id)->selectRaw('
+            CASE
+                WHEN booking_status = "1" THEN "Confirmed Bookings"
+                WHEN booking_status = "2" THEN "Pending Bookings"
+                WHEN booking_status = "3" THEN "Cancelled Bookings"
+            END as status,
+            CASE
+                WHEN booking_status = "1" THEN "primary_color"
+                WHEN booking_status = "2" THEN "secondary_color"
+                WHEN booking_status = "3" THEN "danger_color"
+            END as colors,
+            COUNT(*) as total')->whereMonth('created_at', Carbon::now()->month)->groupBy('booking_status')->orderBy('booking_status')->get();
+            $bokingschartdata = [];
+            foreach ($total_bookings_data as $d) {
+                $bokingschartdata[] = [
+                    'name' => $d->status,
+                    'data' => $d->total,
+                    'colors' => $d->colors
+                ];
+            }
+        } elseif ($request->filtertype == "this_year") {
+            // For Bookings Overview Chart
+            $total_bookings = Booking::where('dome_id', $getdomedata->id)->whereYear('created_at', Carbon::now()->year)->count();
+            $total_bookings_data = Booking::where('dome_id', $getdomedata->id)->selectRaw('
+            CASE
+                WHEN booking_status = "1" THEN "Confirmed Bookings"
+                WHEN booking_status = "2" THEN "Pending Bookings"
+                WHEN booking_status = "3" THEN "Cancelled Bookings"
+            END as status,
+            CASE
+                WHEN booking_status = "1" THEN "primary_color"
+                WHEN booking_status = "2" THEN "secondary_color"
+                WHEN booking_status = "3" THEN "danger_color"
+            END as colors,
+            COUNT(*) as total')->whereYear('created_at', Carbon::now()->year)->groupBy('booking_status')->orderBy('booking_status')->get();
+            $bokingschartdata = [];
+            foreach ($total_bookings_data as $d) {
+                $bokingschartdata[] = [
+                    'name' => $d->status,
+                    'data' => $d->total,
+                    'colors' => $d->colors
+                ];
+            }
+        } elseif ($request->filtertype == "custom_date") {
+            $weekStartDate = explode(' to ', $request->filterdates)[0];
+            $weekEndDate = explode(' to ', $request->filterdates)[1];
+            // For Bookings Overview Chart
+            $total_bookings = Booking::where('dome_id', $getdomedata->id)->whereBetween('created_at', [$weekStartDate, $weekEndDate])->count();
+            $total_bookings_data = Booking::where('dome_id', $getdomedata->id)->selectRaw('
+            CASE
+                WHEN booking_status = "1" THEN "Confirmed Bookings"
+                WHEN booking_status = "2" THEN "Pending Bookings"
+                WHEN booking_status = "3" THEN "Cancelled Bookings"
+            END as status,
+            CASE
+                WHEN booking_status = "1" THEN "primary_color"
+                WHEN booking_status = "2" THEN "secondary_color"
+                WHEN booking_status = "3" THEN "danger_color"
+            END as colors,
+            COUNT(*) as total')->whereBetween('created_at', [$weekStartDate, $weekEndDate])->groupBy('booking_status')->orderBy('booking_status')->get();
+            $bokingschartdata = [];
+            foreach ($total_bookings_data as $d) {
+                $bokingschartdata[] = [
+                    'name' => $d->status,
+                    'data' => $d->total,
+                    'colors' => $d->colors
+                ];
+            }
+        } else {
+            // For Bookings Overview Chart
+            $total_bookings = Booking::where('dome_id', $getdomedata->id)->whereBetween('created_at', [$weekStartDate, $weekEndDate])->count();
+            $total_bookings_data = Booking::where('dome_id', $getdomedata->id)->selectRaw('
+            CASE
+                WHEN booking_status = "1" THEN "Confirmed Bookings"
+                WHEN booking_status = "2" THEN "Pending Bookings"
+                WHEN booking_status = "3" THEN "Cancelled Bookings"
+            END as status,
+            CASE
+                WHEN booking_status = "1" THEN "primary_color"
+                WHEN booking_status = "2" THEN "secondary_color"
+                WHEN booking_status = "3" THEN "danger_color"
+            END as colors,
+            COUNT(*) as total')->whereBetween('created_at', [$weekStartDate, $weekEndDate])->groupBy('booking_status')->orderBy('booking_status')->get();
+            $bokingschartdata = [];
+            foreach ($total_bookings_data as $d) {
+                $bokingschartdata[] = [
+                    'name' => $d->status,
+                    'data' => $d->total,
+                    'colors' => $d->colors
+                ];
+            }
+        }
+        $bookings_labels = collect($bokingschartdata)->pluck('name');
+        $bookings_data = collect($bokingschartdata)->pluck('data');
+        $bookings_data_colors = collect($bokingschartdata)->pluck('colors');
         if (!empty($getdomedata)) {
-            $getsportslist = Sports::whereIn('id', explode(',', $getdomedata->sport_id))->where('is_available', 1)->where('is_deleted', 2)->get();
-            return view('admin.domes.view', compact('getdomedata', 'getsportslist'));
+            if ($request->ajax()) {
+                return response()->json(['total_bookings' => $total_bookings, 'bookings_labels' => $bookings_labels, 'bookings_data' => $bookings_data, 'bookings_data_colors' => $bookings_data_colors]);
+            } else {
+                $getsportslist = Sports::whereIn('id', explode(',', $getdomedata->sport_id))->where('is_available', 1)->where('is_deleted', 2)->get();
+                return view('admin.domes.view', compact('getdomedata', 'getsportslist', 'total_bookings', 'bookings_labels', 'bookings_data', 'bookings_data_colors'));
+            }
         }
         return redirect('/admin/domes');
     }

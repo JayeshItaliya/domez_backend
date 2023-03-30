@@ -3,7 +3,7 @@
         <div class="logo">
             <a href="#">
                 <img src="{{ Helper::image_path('preloader.gif') }}" height="50" alt="">
-                <img src="{{ Helper::image_path('logo_dark.png') }}" width="80" alt="">
+                <img src="{{ Helper::image_path('logo_dark.png') }}" width="100" alt="">
             </a>
         </div>
         <div class="toggle-icon-wrapper">
