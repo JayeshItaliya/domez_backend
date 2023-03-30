@@ -1,7 +1,7 @@
 <header>
     <div class="right-side-wrapper">
         <div class="logo">
-            <a href="{{URL::to('admin/dashboard')}}">
+            <a href="{{ URL::to('admin/dashboard') }}">
                 <img src="{{ Helper::image_path('preloader.gif') }}" height="50" alt="">
                 <img src="{{ Helper::image_path('logo_dark.png') }}" width="100" alt="">
             </a>
@@ -78,8 +78,8 @@
                     </svg>
                 </a>
                 <ul class="dropdown-menu box-shadow border-0 my-3">
-                    <li><a class="dropdown-item" href="#">English <small>(US)</small></a></li>
-                    <li><a class="dropdown-item" href="#">français <small>(French)</small></a></li>
+                    <li><a class="dropdown-item" href="{{ URL::to('change-lang-en') }}">English</a></li>
+                    <li><a class="dropdown-item" href="{{ URL::to('change-lang-es') }}">Spanish</a></li>
                 </ul>
             </li>
             <li class="dropdown">
