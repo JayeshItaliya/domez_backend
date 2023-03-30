@@ -30,6 +30,11 @@ class SettingsController extends Controller
     }
     public function store_cms(Request $request)
     {
+        $request->validate([
+            'content' => 'required',
+        ], [
+            'content.required' => trans('messages.required'),
+        ]);
         if ($request->has('privacy_policy')) {
             $data = CMS::where('type', 1)->first();
             if (empty($data)) {
@@ -52,7 +57,7 @@ class SettingsController extends Controller
             $data = CMS::where('type', 3)->first();
             if (empty($data)) {
                 $data = new CMS;
-                $data->type = 2;
+                $data->type = 3;
             }
             $data->content = $request->content;
             $data->save();
@@ -61,7 +66,7 @@ class SettingsController extends Controller
             $data = CMS::where('type', 4)->first();
             if (empty($data)) {
                 $data = new CMS;
-                $data->type = 2;
+                $data->type = 4;
             }
             $data->content = $request->content;
             $data->save();
@@ -81,7 +86,7 @@ class SettingsController extends Controller
             'username' => 'required',
             'password' => 'required',
             'encryption' => 'required',
-        ],[
+        ], [
             'mailer.required' => trans('messages.required'),
             'host.required' => trans('messages.required'),
             'port.required' => trans('messages.required'),
@@ -109,7 +114,7 @@ class SettingsController extends Controller
             'twilio_sid' => 'required',
             'twilio_token' => 'required',
             'twilio_from' => 'required',
-        ],[
+        ], [
             'twilio_sid.required' => trans('messages.required'),
             'twilio_token.required' => trans('messages.required'),
             'twilio_from.required' => trans('messages.required'),
@@ -232,5 +237,10 @@ class SettingsController extends Controller
         } else {
             return redirect()->back()->with('error', trans('messages.old_password_invalid'));
         }
+    }
+    public function change_language(Request $request)
+    {
+        $cookie = cookie('locale', $request->lang, 60 * 24 * 365);
+        return redirect()->back()->withCookie($cookie);
     }
 }

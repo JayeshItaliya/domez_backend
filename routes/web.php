@@ -65,6 +65,7 @@ Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function () {
     Route::get('validate-time', [DomesPriceController::class, 'validate_start_end_time']);
     Route::get('dashboard', [AdminController::class, 'dashboard']);
     Route::get('calendar', [BookingController::class, 'calendar']);
+    Route::get('change-lang-{lang}', [SettingsController::class, 'change_language']);
     // Domes
     Route::get('domes', [DomesController::class, 'index']);
     Route::get('domes/details-{id}', [DomesController::class, 'dome_details']);
@@ -121,13 +122,11 @@ Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function () {
     // Vendors
     Route::group(['middleware' => 'AdminMiddleware'], function () {
         Route::group(['prefix' => 'cms'], function () {
-
             Route::get('privacy-policy', [SettingsController::class, 'privacy_policy']);
             Route::get('terms-conditions', [SettingsController::class, 'terms_conditions']);
             Route::get('cancellation-policies', [SettingsController::class, 'cancellation_policies']);
             Route::get('refund-policies', [SettingsController::class, 'refund_policy']);
-
-            Route::post('store-cms', [SettingsController::class, 'store_cms']);
+            Route::post('store', [SettingsController::class, 'store_cms']);
         });
         Route::group(['prefix' => 'vendors'], function () {
             Route::get('/', [VendorController::class, 'index']);

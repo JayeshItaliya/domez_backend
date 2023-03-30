@@ -32,14 +32,11 @@
     </div>
     <div class="row">
         <div class="card">
-            <form class="card-body" action="{{ URL::to('admin/cms/store-refund-policy') }}" method="post">
+            <form action="{{ URL::to('admin/cms/store') }}" method="post">
                 @csrf
-                @error('content')
-                    <span class="text-danger mb-3">{{ $message }}</span>
-                @enderror
                 <textarea id="ckeditor" name="content">{{ Helper::cms(3) }}</textarea>
-                <button type="submit" name="refund_policy"
-                    class="btn btn-primary mt-3">{{ trans('labels.submit') }}</button>
+                @error('content') <p class="text-danger my-2">{{ $message }}</p> @enderror
+                <button type="submit" name="refund_policy" class="btn btn-primary mt-3">{{ trans('labels.submit') }}</button>
             </form>
         </div>
     </div>
