@@ -26,7 +26,7 @@
                                 </svg>
                             </a>
                         </li>
-                        <li class="breadcrumb-item">{{ trans('labels.domes') }}</li>
+                        <li class="breadcrumb-item"><a href="{{ URL::to('admin/domes') }}">{{ trans('labels.domes') }}</a></li>
                         <li class="breadcrumb-item active" aria-current="page">{{ trans('labels.add_dome') }}</li>
                     </ol>
                 </nav>

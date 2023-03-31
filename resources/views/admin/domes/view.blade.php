@@ -26,7 +26,7 @@
                                 </svg>
                             </a>
                         </li>
-                        <li class="breadcrumb-item">{{ trans('labels.domes') }}</li>
+                        <li class="breadcrumb-item"><a href="{{ URL::to('admin/domes') }}">{{ trans('labels.domes') }}</a></li>
                         <li class="breadcrumb-item active" aria-current="page">{{ trans('labels.dome_details') }}</li>
                     </ol>
                 </nav>
@@ -311,15 +311,23 @@
                     <div class="d-flex justify-content-between align-items-center mb-3">
                         <div class="col-auto">
                             <span class="text-muted fs-7">{{ trans('labels.dome_revenue') }}</span>
-                            <p class="fw-semibold">5000 $</p>
+                            <p class="fw-semibold dome-revenue-count">{{ Helper::currency_format($dome_revenue) }}</p>
                         </div>
-                        <select class="form-select w-auto" name="" id="">
-                            <option value="last-7">{{ trans('labels.last_7_days') }}</option>
-                            <option value="this-month">{{ trans('labels.this_month') }}</option>
-                            <option value="this-year">{{ trans('labels.this_year') }}</option>
-                        </select>
+                        <div class="d-flex gap-2">
+                            <input type="text"
+                                class="form-control me-2 bg-transparent border-primary dome-revenue-picker"
+                                placeholder="{{ trans('labels.select_date') }}">
+                            <select class="form-select dome-revenue-filter"
+                                style="background-color: transparent;border-color:var(--bs-primary);"
+                                data-next="{{ URL::to('admin/domes/details-' . $getdomedata->id) }}">
+                                <option value="this_week" selected>{{ trans('labels.this_week') }}</option>
+                                <option value="this_month">{{ trans('labels.this_month') }}</option>
+                                <option value="this_year">{{ trans('labels.this_year') }}</option>
+                                <option value="custom_date">{{ trans('labels.custom_date') }}</option>
+                            </select>
+                        </div>
                     </div>
-                    <div id="dome_revenue"></div>
+                    <div id="dome_revenue_chart"></div>
                 </div>
             </div>
         </div>
@@ -356,8 +364,16 @@
     <script src="{{ url('storage/app/public/admin/js/charts/apexchart/apexcharts.js') }}"></script>
     <script>
         $(function() {
-            $('.total-bookings-picker').hide();
+            $('.total-bookings-picker, .dome-revenue-picker').hide();
             $('.total-bookings-picker').flatpickr({
+                mode: "range",
+                maxDate: "today",
+                dateFormat: "Y-m-d",
+                onClose: function(selectedDates, dateStr, instance) {
+                    totalbookingsfilter(dateStr);
+                }
+            });
+            $('.dome-revenue-picker').flatpickr({
                 mode: "range",
                 maxDate: "today",
                 dateFormat: "Y-m-d",
@@ -369,41 +385,105 @@
     </script>
     {{-- Dome Revenue Chart --}}
     <script>
-        var options = {
-            series: [{
-                name: "Revenue",
-                data: [10, 41, 35, 51, 49, 62, 69, 91, 148, 155, 200, 230]
-            }],
-            chart: {
-                height: 400,
-                type: 'line',
-                zoom: {
-                    enabled: false
-                }
-            },
-            dataLabels: {
-                enabled: true,
-                formatter: function(val) {
-                    return val + "$"
-                }
-            },
-            stroke: {
-                curve: 'straight'
-            },
-            grid: {
-                row: {
-                    colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
-                    opacity: 0.3
+        var revenue = {{ Js::from(trans('labels.revenue')) }}
+        var dome_revenue_labels = {{ Js::from($dome_revenue_labels) }}
+        var dome_revenue_data = {{ Js::from($dome_revenue_data) }}
+
+        dome_revenue_chart(dome_revenue_labels, dome_revenue_data);
+
+        function dome_revenue_chart(dome_revenue_labels, dome_revenue_data) {
+            var options = {
+                series: [{
+                    name: revenue,
+                    data: [dome_revenue_data]
+                }],
+                chart: {
+                    height: 400,
+                    type: 'line',
+                    zoom: {
+                        enabled: false
+                    },
+                    dropShadow: {
+                        enabled: true,
+                        color: '#000',
+                        top: 18,
+                        left: 7,
+                        blur: 10,
+                        opacity: 0.2
+                    },
+                    toolbar: {
+                        show: false
+                    }
                 },
-            },
-            colors: [secondary_color],
-            xaxis: {
-                categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                colors: [secondary_color],
+                dataLabels: {
+                    enabled: true,
+                    formatter: function(val) {
+                        return val + "$"
+                    }
+                },
+                stroke: {
+                    curve: 'straight'
+                },
+                grid: {
+                    borderColor: '#e7e7e7',
+                    row: {
+                        colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
+                        opacity: 0.5
+                    },
+                },
+                markers: {
+                    size: 1
+                },
+                xaxis: {
+                    categories: [dome_revenue_labels],
+                }
+            };
+            $('#dome_revenue_chart .apexcharts-canvas').remove();
+            if (document.getElementById("dome_revenue_chart")) {
+                var domerevenuechart = new ApexCharts(document.querySelector("#dome_revenue_chart"), options);
+                domerevenuechart.render();
             }
-        };
-        var chart = new ApexCharts(document.querySelector("#dome_revenue"), options);
-        chart.render();
+        }
+        $('.dome-revenue-filter').on('change', function() {
+            if ($(this).val() == 'custom_date') {
+                $('.dome-revenue-picker').show();
+                return false;
+            } else {
+                $('.dome-revenue-picker').hide();
+            }
+            domerevenuefilter('')
+        });
+
+        function domerevenuefilter(dates) {
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
+                        'content')
+                },
+                url: $(this).attr('data-next'),
+                data: {
+                    filtertype: $('.dome-revenue-filter').val(),
+                    filterdates: dates,
+                },
+                method: 'GET',
+                beforeSend: function() {
+                    showpreloader();
+                },
+                success: function(response) {
+                    hidepreloader();
+                    $('.dome-revenue-count').html(response.dome_revenue);
+                    dome_revenue_chart(response.dome_revenue_labels, response.dome_revenue_data)
+                },
+                error: function(e) {
+                    hidepreloader();
+                    toastr.error(wrong);
+                    return false;
+                }
+            });
+        }
     </script>
+
     {{-- Total Bookings Chart --}}
     <script>
         var bookings_labels = {{ Js::from($bookings_labels) }}

@@ -12,6 +12,7 @@ use App\Models\Enquiries;
 use App\Models\SetPrices;
 use Carbon\Carbon;
 use Carbon\CarbonImmutable;
+use Illuminate\Support\Facades\DB;
 
 class DomesController extends Controller
 {
@@ -124,21 +125,28 @@ class DomesController extends Controller
         $weekStartDate = $now->startOfWeek();
         $weekEndDate = $now->endOfWeek();
 
+        $confirmed_bookings = trans('labels.confirmed_bookings');
+        $pending_bookings = trans('labels.pending_bookings');
+        $cancelled_bookings = trans('labels.cancelled_bookings');
+
         if ($request->filtertype == "this_month") {
+            // For Dome Revenue Chart
+            $dome_revenue = Booking::where('dome_id', $getdomedata->id)->where('booking_status', 1)->orderBy('created_at')->whereMonth('created_at', Carbon::now()->month)->sum('paid_amount') * 88 / 100;
+            $dome_revenue_data = Booking::where('dome_id', $getdomedata->id)->where('booking_status', 1)->orderBy('created_at')->whereMonth('created_at', Carbon::now()->month)->select(DB::raw('MONTHNAME(created_at) as titles'), DB::raw('SUM(paid_amount*88/100) as amount'))->groupBy('titles')->pluck('titles', 'amount');
             // For Bookings Overview Chart
             $total_bookings = Booking::where('dome_id', $getdomedata->id)->whereMonth('created_at', Carbon::now()->month)->count();
-            $total_bookings_data = Booking::where('dome_id', $getdomedata->id)->selectRaw('
+            $total_bookings_data = Booking::where('dome_id', $getdomedata->id)->selectRaw("
             CASE
-                WHEN booking_status = "1" THEN "Confirmed Bookings"
-                WHEN booking_status = "2" THEN "Pending Bookings"
-                WHEN booking_status = "3" THEN "Cancelled Bookings"
+                WHEN booking_status = '1' THEN '{$confirmed_bookings}'
+                WHEN booking_status = '2' THEN '{$pending_bookings}'
+                WHEN booking_status = '3' THEN '{$cancelled_bookings}'
             END as status,
             CASE
-                WHEN booking_status = "1" THEN "primary_color"
-                WHEN booking_status = "2" THEN "secondary_color"
-                WHEN booking_status = "3" THEN "danger_color"
+                WHEN booking_status = '1' THEN 'primary_color'
+                WHEN booking_status = '2' THEN 'secondary_color'
+                WHEN booking_status = '3' THEN 'danger_color'
             END as colors,
-            COUNT(*) as total')->whereMonth('created_at', Carbon::now()->month)->groupBy('booking_status')->orderBy('booking_status')->get();
+            COUNT(*) as total")->whereMonth('created_at', Carbon::now()->month)->groupBy('booking_status')->orderBy('booking_status')->get();
             $bokingschartdata = [];
             foreach ($total_bookings_data as $d) {
                 $bokingschartdata[] = [
@@ -148,20 +156,24 @@ class DomesController extends Controller
                 ];
             }
         } elseif ($request->filtertype == "this_year") {
+            // For Dome Revenue Chart
+            $dome_revenue = Booking::where('dome_id', $getdomedata->id)->where('booking_status', 1)->orderBy('created_at')->whereYear('created_at', Carbon::now()->year)->sum('paid_amount') * 88 / 100;
+            $dome_revenue_data = Booking::where('dome_id', $getdomedata->id)->where('booking_status', 1)->orderBy('created_at')->whereYear('created_at', Carbon::now()->year)->select(DB::raw("MONTHNAME(created_at) as titles"), DB::raw('SUM(paid_amount*88/100) as amount'))->groupBy('titles')->pluck('titles', 'amount');
+
             // For Bookings Overview Chart
             $total_bookings = Booking::where('dome_id', $getdomedata->id)->whereYear('created_at', Carbon::now()->year)->count();
-            $total_bookings_data = Booking::where('dome_id', $getdomedata->id)->selectRaw('
+            $total_bookings_data = Booking::where('dome_id', $getdomedata->id)->selectRaw("
             CASE
-                WHEN booking_status = "1" THEN "Confirmed Bookings"
-                WHEN booking_status = "2" THEN "Pending Bookings"
-                WHEN booking_status = "3" THEN "Cancelled Bookings"
+                WHEN booking_status = '1' THEN '{$confirmed_bookings}'
+                WHEN booking_status = '2' THEN '{$pending_bookings}'
+                WHEN booking_status = '3' THEN '{$cancelled_bookings}'
             END as status,
             CASE
-                WHEN booking_status = "1" THEN "primary_color"
-                WHEN booking_status = "2" THEN "secondary_color"
-                WHEN booking_status = "3" THEN "danger_color"
+                WHEN booking_status = '1' THEN 'primary_color'
+                WHEN booking_status = '2' THEN 'secondary_color'
+                WHEN booking_status = '3' THEN 'danger_color'
             END as colors,
-            COUNT(*) as total')->whereYear('created_at', Carbon::now()->year)->groupBy('booking_status')->orderBy('booking_status')->get();
+            COUNT(*) as total")->whereYear('created_at', Carbon::now()->year)->groupBy('booking_status')->orderBy('booking_status')->get();
             $bokingschartdata = [];
             foreach ($total_bookings_data as $d) {
                 $bokingschartdata[] = [
@@ -173,20 +185,25 @@ class DomesController extends Controller
         } elseif ($request->filtertype == "custom_date") {
             $weekStartDate = explode(' to ', $request->filterdates)[0];
             $weekEndDate = explode(' to ', $request->filterdates)[1];
+
+            // For Dome Revenue Chart
+            $dome_revenue = Booking::where('dome_id', $getdomedata->id)->where('booking_status', 1)->orderBy('created_at')->whereBetween('created_at', [$weekStartDate, $weekEndDate])->sum('paid_amount') * 88 / 100;
+            $dome_revenue_data = Booking::where('dome_id', $getdomedata->id)->where('booking_status', 1)->orderBy('created_at')->whereBetween('created_at', [$weekStartDate, $weekEndDate])->select(DB::raw('DATE_FORMAT(created_at, "%d-%m-%Y") as titles'), DB::raw('SUM(paid_amount*88/100) as amount'))->groupBy('titles')->pluck('titles', 'amount');
+
             // For Bookings Overview Chart
             $total_bookings = Booking::where('dome_id', $getdomedata->id)->whereBetween('created_at', [$weekStartDate, $weekEndDate])->count();
-            $total_bookings_data = Booking::where('dome_id', $getdomedata->id)->selectRaw('
+            $total_bookings_data = Booking::where('dome_id', $getdomedata->id)->selectRaw("
             CASE
-                WHEN booking_status = "1" THEN "Confirmed Bookings"
-                WHEN booking_status = "2" THEN "Pending Bookings"
-                WHEN booking_status = "3" THEN "Cancelled Bookings"
+                WHEN booking_status = '1' THEN '{$confirmed_bookings}'
+                WHEN booking_status = '2' THEN '{$pending_bookings}'
+                WHEN booking_status = '3' THEN '{$cancelled_bookings}'
             END as status,
             CASE
-                WHEN booking_status = "1" THEN "primary_color"
-                WHEN booking_status = "2" THEN "secondary_color"
-                WHEN booking_status = "3" THEN "danger_color"
+                WHEN booking_status = '1' THEN 'primary_color'
+                WHEN booking_status = '2' THEN 'secondary_color'
+                WHEN booking_status = '3' THEN 'danger_color'
             END as colors,
-            COUNT(*) as total')->whereBetween('created_at', [$weekStartDate, $weekEndDate])->groupBy('booking_status')->orderBy('booking_status')->get();
+            COUNT(*) as total")->whereBetween('created_at', [$weekStartDate, $weekEndDate])->groupBy('booking_status')->orderBy('booking_status')->get();
             $bokingschartdata = [];
             foreach ($total_bookings_data as $d) {
                 $bokingschartdata[] = [
@@ -196,20 +213,26 @@ class DomesController extends Controller
                 ];
             }
         } else {
+            // For Dome Revenue Chart
+            $dome_revenue = Booking::where('dome_id', $getdomedata->id)->where('booking_status', 1)->orderBy('created_at')->whereBetween('created_at', [$weekStartDate, $weekEndDate])->sum('paid_amount') * 88 / 100;
+            $dome_revenue_data = Booking::where('dome_id', $getdomedata->id)->where('booking_status', 1)->orderBy('created_at')->whereBetween('created_at', [$weekStartDate, $weekEndDate])->select(DB::raw('DATE_FORMAT(created_at, "%d-%m-%Y") as titles'), DB::raw('SUM(paid_amount*88/100) as amount'))->groupBy('titles')->pluck('titles', 'amount');
+
+
+
             // For Bookings Overview Chart
             $total_bookings = Booking::where('dome_id', $getdomedata->id)->whereBetween('created_at', [$weekStartDate, $weekEndDate])->count();
-            $total_bookings_data = Booking::where('dome_id', $getdomedata->id)->selectRaw('
+            $total_bookings_data = Booking::where('dome_id', $getdomedata->id)->selectRaw("
             CASE
-                WHEN booking_status = "1" THEN "Confirmed Bookings"
-                WHEN booking_status = "2" THEN "Pending Bookings"
-                WHEN booking_status = "3" THEN "Cancelled Bookings"
-            END as status,
-            CASE
-                WHEN booking_status = "1" THEN "primary_color"
-                WHEN booking_status = "2" THEN "secondary_color"
-                WHEN booking_status = "3" THEN "danger_color"
-            END as colors,
-            COUNT(*) as total')->whereBetween('created_at', [$weekStartDate, $weekEndDate])->groupBy('booking_status')->orderBy('booking_status')->get();
+                WHEN booking_status = '1' THEN '{$confirmed_bookings}'
+                WHEN booking_status = '2' THEN '{$pending_bookings}'
+                WHEN booking_status = '3' THEN '{$cancelled_bookings}'
+                END as status,
+                CASE
+                WHEN booking_status = '1' THEN 'primary_color'
+                WHEN booking_status = '2' THEN 'secondary_color'
+                WHEN booking_status = '3' THEN 'danger_color'
+                END as colors,
+                COUNT(*) as total")->whereBetween('created_at', [$weekStartDate, $weekEndDate])->groupBy('booking_status')->orderBy('booking_status')->get();
             $bokingschartdata = [];
             foreach ($total_bookings_data as $d) {
                 $bokingschartdata[] = [
@@ -219,15 +242,20 @@ class DomesController extends Controller
                 ];
             }
         }
+
+        $dome_revenue_labels = $dome_revenue_data->values();
+        $dome_revenue_data = $dome_revenue_data->keys();
+
         $bookings_labels = collect($bokingschartdata)->pluck('name');
         $bookings_data = collect($bokingschartdata)->pluck('data');
         $bookings_data_colors = collect($bokingschartdata)->pluck('colors');
+
         if (!empty($getdomedata)) {
             if ($request->ajax()) {
-                return response()->json(['total_bookings' => $total_bookings, 'bookings_labels' => $bookings_labels, 'bookings_data' => $bookings_data, 'bookings_data_colors' => $bookings_data_colors]);
+                return response()->json(['total_bookings' => $total_bookings, 'bookings_labels' => $bookings_labels, 'bookings_data' => $bookings_data, 'bookings_data_colors' => $bookings_data_colors, 'dome_revenue' => $dome_revenue, 'dome_revenue_labels' => $dome_revenue_labels, 'dome_revenue_data' => $dome_revenue_data]);
             } else {
                 $getsportslist = Sports::whereIn('id', explode(',', $getdomedata->sport_id))->where('is_available', 1)->where('is_deleted', 2)->get();
-                return view('admin.domes.view', compact('getdomedata', 'getsportslist', 'total_bookings', 'bookings_labels', 'bookings_data', 'bookings_data_colors'));
+                return view('admin.domes.view', compact('getdomedata', 'getsportslist', 'total_bookings', 'bookings_labels', 'bookings_data', 'bookings_data_colors', 'dome_revenue', 'dome_revenue_labels', 'dome_revenue_data'));
             }
         }
         return redirect('/admin/domes');
