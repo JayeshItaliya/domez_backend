@@ -23,7 +23,7 @@
                                 </svg>
                             </a>
                         </li>
-                        <li class="breadcrumb-item">{{ trans('labels.bookings') }}</li>
+                        <li class="breadcrumb-item"><a href="{{ URL::to('admin/bookings') }}">{{ trans('labels.bookings') }}</a></li>
                         <li class="breadcrumb-item active" aria-current="page">{{ trans('labels.booking_details') }}</li>
                     </ol>
                 </nav>

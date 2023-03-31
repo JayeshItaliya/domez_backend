@@ -23,8 +23,7 @@
                                 </svg>
                             </a>
                         </li>
-                        <li class="breadcrumb-item"><a href="{{ URL::to('admin/fields') }}">{{ trans('labels.fields') }}</a>
-                        </li>
+                        <li class="breadcrumb-item"><a href="{{ URL::to('admin/fields') }}">{{ trans('labels.fields') }}</a></li>
                         <li class="breadcrumb-item active" aria-current="page">{{ trans('labels.add_field') }}</li>
                     </ol>
                 </nav>

@@ -23,7 +23,7 @@
                                 </svg>
                             </a>
                         </li>
-                        <li class="breadcrumb-item">{{ trans('labels.leagues') }}</li>
+                        <li class="breadcrumb-item"><a href="{{ URL::to('admin/leagues') }}">{{ trans('labels.leagues') }}</a></li>
                         <li class="breadcrumb-item active" aria-current="page">{{ trans('labels.league_details') }}</li>
                     </ol>
                 </nav>
