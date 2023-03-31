@@ -86,7 +86,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="name"
-                                    class="form-label">{{ trans('labels.last_date_registation') }}</label>
+                                    class="form-label">{{ trans('labels.last_date_registration') }}</label>
                                 <input type="date" required class="form-control" id="booking_deadline"
                                     name="booking_deadline" value="{{ old('booking_deadline') }}"
                                     min="{{ date('Y-m-d') }}" {{ old('booking_deadline') == '' ? 'disabled' : '' }}>

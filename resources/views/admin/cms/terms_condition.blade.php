@@ -36,7 +36,7 @@
                 @csrf
                 <textarea name="content" id="ckeditor">{{ Helper::cms(2) }}</textarea>
                 @error('content') <p class="text-danger my-2">{{ $message }}</p> @enderror
-                <button type="submit" name="terms_conditions" class="btn btn-primary mt-3">{{ trans('labels.submit') }}</button>
+                <button type="submit" name="terms_conditions" value="1" class="btn btn-primary mt-3">{{ trans('labels.submit') }}</button>
             </form>
         </div>
     </div>

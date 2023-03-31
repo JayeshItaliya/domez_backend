@@ -36,7 +36,7 @@
                     <tr>
                         <th>{{ trans('labels.srno') }}</th>
                         <th>{{ trans('labels.dome_name') }}</th>
-                        <th>{{ trans('labels.sport') }}</th>
+                        <th>{{ trans('labels.sports') }}</th>
                         <th>{{ trans('labels.start_date') }}</th>
                         <th>{{ trans('labels.end_date') }}</th>
                         <th>{{ trans('labels.price') }}</th>

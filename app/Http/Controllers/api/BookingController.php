@@ -379,39 +379,6 @@ class BookingController extends Controller
 
         return response()->json(["status" => 1, "message" => "Successful", 'fields' => $available_fields], 200);
     }
-    // public function avl_fields(Request $request)
-    // {
-    //     if ($request->dome_id == "") {
-    //         return response()->json(["status" => 0, "message" => 'Please Enter Dome ID'], 200);
-    //     }
-    //     if ($request->sport_id == "") {
-    //         return response()->json(["status" => 0, "message" => 'Please Enter Sport ID'], 200);
-    //     }
-    //     if ($request->date == "") {
-    //         return response()->json(["status" => 0, "message" => 'Please Enter Date'], 200);
-    //     }
-    //     // if($request->start_time == ""){
-    //     //     return response()->json(["status" => 0, "message" => 'Please Enter Start Time'], 200);
-    //     // }
-    //     // if($request->end_time == ""){
-    //     //     return response()->json(["status" => 0, "message" => 'Please Enter End Time'], 200);
-    //     // }
-    //     if ($request->players == "") {
-    //         return response()->json(["status" => 0, "message" => 'Please Enter Number Of Players'], 200);
-    //     }
-    //     if (Carbon::createFromFormat('Y-m-d', $request->date)->isPast() && $request->date != Carbon::today()->format('Y-m-d')) {
-    //         return response()->json(["status" => 0, "message" => 'Select Current or Future Date Only'], 200);
-    //     }
-    //     $available_fields = Field::with('sport_data')->select('id', 'dome_id', 'sport_id', 'name', 'min_person', 'max_person', DB::raw("CONCAT('" . url('storage/app/public/admin/images/fields') . "/', image) AS image"))->where('dome_id', $request->dome_id)->whereRaw("find_in_set('" . $request->sport_id . "',sport_id)")->whereRaw($request->players . ' between min_person and max_person')->where('is_available', 1)->where('is_deleted', 2);
-
-    //     $bookedfield = Booking::where('dome_id', $request->dome_id)->where('sport_id', $request->sport_id)->whereDate('start_date', $request->date)->where('slots', $request->slots)->where('booking_status', 1)->select('field_id')->get()->pluck('field_id')->toArray();
-    //     if (!empty($bookedfield)) {
-    //         $available_fields = $available_fields->whereNotIn('id', $bookedfield);
-    //     }
-    //     $available_fields = $available_fields->get()->makeHidden(['sport_id', 'dome_id']);
-
-    //     return response()->json(["status" => 1, "message" => "Successful", 'fields' => $available_fields], 200);
-    // }
     public function cancelbooking(Request $request)
     {
         // -------------------- NOTE ---------------------- //
@@ -435,7 +402,7 @@ class BookingController extends Controller
                 $checkbooking->save();
                 return response()->json(['status' => 1, 'message' => 'Booking Has Been Successfully Cancelled'], 200);
             } catch (\Throwable $th) {
-                return response()->json(['status' => 0, 'message' => 'Something Went Wrong!!'], 200);
+                return response()->json(['status' => 0, 'message' => 'Something Went Wrong..!!'], 200);
             }
         } else {
             return response()->json(["status" => 0, "message" => "Booking Not Found"], 200);

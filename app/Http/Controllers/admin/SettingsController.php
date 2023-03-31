@@ -31,12 +31,13 @@ class SettingsController extends Controller
     }
     public function store_cms(Request $request)
     {
+        dd($request->input());
         $request->validate([
             'content' => 'required',
         ], [
             'content.required' => trans('messages.required'),
         ]);
-        if ($request->has('privacy_policy')) {
+        if ($request->has('privacy_policy') && $request->privacy_policy == 1) {
             $data = CMS::where('type', 1)->first();
             if (empty($data)) {
                 $data = new CMS;

@@ -150,8 +150,7 @@ class HomeController extends Controller
                 }
                 $getfilterlist = $getfilterlist->paginate(20);
             } else {
-                $getfilterlist = League::with(['league_image', 'dome_info'])
-                    ->where('leagues.is_deleted', 2)->select('leagues.*');
+                $getfilterlist = League::with(['league_image', 'dome_info'])->whereDate('booking_deadline', '>=', date('Y-m-d'))->where('leagues.is_deleted', 2)->select('leagues.*');
                 // ---------- Location Filter --------- //
                 if ($request->lat != "" && $request->lng != "") {
                     $getfilterlist = $getfilterlist->join('domes', 'leagues.dome_id', 'domes.id')
@@ -204,11 +203,11 @@ class HomeController extends Controller
                     "league_name" => $request->type == 1 ? '' : $data->name,
                     "dome_id" => $request->type == 1 ? '' : $data->dome_id,
                     "dome_name" => $request->type == 1 ? $data->name : $data->dome_info->name,
-                    "price" => $request->type == 1 ? Helper::get_dome_price($data->id->id,explode(',', $data->sport_id)[0]) : $data->price,
+                    "price" => $request->type == 1 ? Helper::get_dome_price($data->id->id, explode(',', $data->sport_id)[0]) : $data->price,
                     "image" => $image,
                     "city" => $request->type == 1 ? $data->city : $data->dome_info->city,
                     "state" => $request->type == 1 ? $data->state : $data->dome_info->state,
-                    "is_fav" => !in_array($request->user_id,[0,'']) ? (!empty(@$fav) ? true : false) : false,
+                    "is_fav" => !in_array($request->user_id, [0, '']) ? (!empty(@$fav) ? true : false) : false,
                     "sport_id" => $data->sport_id,
                     "sports_list" => Helper::get_sports_list($data->sport_id),
                 ];
@@ -230,7 +229,7 @@ class HomeController extends Controller
         if ($request->type == 1) {
             $getsearchlist = Domes::with('dome_image')->where('is_deleted', 2);
         } else {
-            $getsearchlist = League::with('league_image', 'dome_info')->where('is_deleted', 2);
+            $getsearchlist = League::with('league_image', 'dome_info')->whereDate('booking_deadline', '>=', date('Y-m-d'))->where('is_deleted', 2);
         }
         if ($request->has('name') && $request->name != "") {
             $getsearchlist = $getsearchlist->where('name', 'like', '%' . $request->name . '%');
@@ -248,10 +247,10 @@ class HomeController extends Controller
             }
             $responsedata[] = [
                 "id" => $data->id,
-                "is_fav" => !in_array($request->user_id,[0,'']) ? Helper::is_fav($request->user_id, $dome_id, $league_id) : false,
+                "is_fav" => !in_array($request->user_id, [0, '']) ? Helper::is_fav($request->user_id, $dome_id, $league_id) : false,
                 "league_name" => $request->type == 1 ? '' : $data->name,
                 "dome_name" => $request->type == 1 ? $data->name : $data->dome_info->name,
-                "price" => $request->type == 1 ? Helper::get_dome_price($data->id,explode(',', $data->sport_id)[0]) : $data->price,
+                "price" => $request->type == 1 ? Helper::get_dome_price($data->id, explode(',', $data->sport_id)[0]) : $data->price,
                 "image" => $image,
                 "city" => $request->type == 1 ? $data->city : $data->dome_info->city,
                 "state" => $request->type == 1 ? $data->state : $data->dome_info->state,

@@ -22,14 +22,11 @@ $('#start_date').on('change', function () {
         $('#end_date').attr('min', $(this).val());
         var selectedDate = new Date($(this).val());
         selectedDate.setDate(selectedDate.getDate() - 1);
-        // var formattedDate = selectedDate.toLocaleDateString();
-
         var date = new Date(selectedDate);
         var year = date.getFullYear();
         var month = date.getMonth() + 1; // Note: JavaScript months are zero-based, so we need to add 1
         var day = date.getDate();
         var newDateString = year + '-' + (month < 10 ? '0' + month : month) + '-' + (day < 10 ? '0' + day : day);
-
         $('#booking_deadline').attr('max', newDateString);
     }
 }).change();

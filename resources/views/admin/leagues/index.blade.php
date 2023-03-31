@@ -39,6 +39,7 @@
                             <th>{{ trans('labels.dome_owners') }}</th>
                         @endif
                         <th>{{ trans('labels.league_name') }}</th>
+                        <th>{{ trans('labels.last_date_registration') }}</th>
                         <th>{{ trans('labels.domes') }}</th>
                         <th>{{ trans('labels.sports') }}</th>
                         <th>{{ trans('labels.date') }}</th>
@@ -58,6 +59,7 @@
                                 <td>{{ $league->dome_owner->name }}</td>
                             @endif
                             <td>{{ $league->name }}</td>
+                            <td>{{ Helper::date_format($league->booking_deadline)}}</td>
                             <td>{{ $league->dome_info->name }}</td>
                             <td>
                                 {{ $league->sport_info->name }}

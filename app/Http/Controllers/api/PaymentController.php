@@ -42,7 +42,7 @@ class PaymentController extends Controller
         if ($request->booking_type == 1) {
             $dome = Domes::where('id', $request->dome_id)->where('is_deleted', 2)->first();
         } else {
-            $league = League::where('id', $request->league_id)->where('is_deleted', 2)->first();
+            $league = League::where('id', $request->league_id)->whereDate('booking_deadline', '>=', date('Y-m-d'))->where('is_deleted', 2)->first();
             $dome = @$league->dome_info;
         }
 
@@ -226,7 +226,7 @@ class PaymentController extends Controller
             $booking->save();
             return response()->json(['status' => 1, "message" => "Successful", "transaction_id" => $transaction_id, "booking_id" => $booking->id, "payment_link" => URL::to('/payment/' . $booking->token),], 200);
         } catch (\Throwable $th) {
-            return response()->json(['status' => 0, "message" => "Something Went Wrong"], 200);
+            return response()->json(['status' => 0, "message" => "Something Went Wrong..!!"], 200);
         }
     }
 }

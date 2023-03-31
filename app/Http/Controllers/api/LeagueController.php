@@ -26,42 +26,20 @@ class LeagueController extends Controller
                             return response()->json(["status" => 0, "message" => 'Invalid User ID'], 200);
                         }
                     }
-                    // $recentbookings = Booking::where('user_id', $request->user_id)->where('type', 2)->get();
-                    // if (count($recentbookings) > 0) {
-                    //     foreach ($recentbookings as $booking) {
-                    //         $league = League::where('id', $booking->league_id)->where('sport_id', $request->sport_id)->where('is_deleted', 2)->first();
-                    //         if (!empty($league)) {
-                    //             $leagues_list[] = [
-                    //                 "id" => $league->id,
-                    //                 "league_name" => $league->name,
-                    //                 "dome_name" => $league->dome_info->name,
-                    //                 "image" => $league->league_image == "" ? "" : $league->league_image->image,
-                    //                 "price" => $league->price,
-                    //                 "city" => $league->dome_info->city,
-                    //                 "state" => $league->dome_info->state,
-                    //                 "is_fav" => Helper::is_fav($request->user_id, '', $league->id),
-                    //                 "date" => date('d M', strtotime($league->start_date)) . ' - ' . date('d M', strtotime($league->end_date)),
-                    //                 "sport_data" => Helper::get_sports_list($league->sport_id),
-                    //             ];
-                    //         }
-                    //     }
-                    // } else {
-                        $leagues = League::orderByDesc('id')->where('sport_id', $request->sport_id)->where('is_deleted', 2)->get();
-                        foreach ($leagues as $league) {
-                            $leagues_list[] = [
-                                "id" => $league->id,
-                                "league_name" => $league->name,
-                                "dome_name" => $league->dome_info->name,
-                                "image" => $league->league_image == "" ? "" : $league->league_image->image,
-                                "price" => $league->price,
-                                "city" => $league->dome_info->city,
-                                "state" => $league->dome_info->state,
-                                "is_fav" => Helper::is_fav($request->user_id, '', $league->id),
-                                "date" => date('d M', strtotime($league->start_date)) . ' - ' . date('d M', strtotime($league->end_date)),
-                                "sport_data" => Helper::get_sports_list($league->sport_id),
-                            ];
+                    $recentbookings = Booking::where('user_id', $request->user_id)->where('type', 2)->get();
+                    if (count($recentbookings) > 0) {
+                        foreach ($recentbookings as $booking) {
+                            $league = League::where('id', $booking->league_id)->where('sport_id', $request->sport_id)->whereDate('booking_deadline', '>=', date('Y-m-d'))->where('is_deleted', 2)->first();
+                            if (!empty($league)) {
+                                $leagues_list[] = $this->getleaguelistobject($league,$request->user_id);
+                            }
                         }
-                    // }
+                    } else {
+                        $leagues = League::orderByDesc('id')->where('sport_id', $request->sport_id)->whereDate('booking_deadline', '>=', date('Y-m-d'))->where('is_deleted', 2)->get();
+                        foreach ($leagues as $league) {
+                            $leagues_list[] = $this->getleaguelistobject($league,$request->user_id);
+                        }
+                    }
                 }
                 //Type = 3 (Leagues Around You)
                 if ($request->type == 3) {
@@ -91,20 +69,9 @@ class LeagueController extends Controller
                     }
                     $getarounddomes = $getarounddomes->orderBy('distance')->get();
                     foreach ($getarounddomes as $dome) {
-                        $leagues = League::where('dome_id',$dome->id)->where('sport_id', $request->sport_id)->where('is_deleted', 2)->orderByDesc('id')->get();
+                        $leagues = League::where('dome_id',$dome->id)->where('sport_id', $request->sport_id)->whereDate('booking_deadline', '>=', date('Y-m-d'))->where('is_deleted', 2)->orderByDesc('id')->get();
                         foreach ($leagues as $league) {
-                            $leagues_list[] = [
-                                "id" => $league->id,
-                                "league_name" => $league->name,
-                                "dome_name" => $league->dome_info->name,
-                                "image" => $league->league_image == "" ? "" : $league->league_image->image,
-                                "price" => $league->price,
-                                "city" => $league->dome_info->city,
-                                "state" => $league->dome_info->state,
-                                "is_fav" => Helper::is_fav($request->user_id, '', $league->id),
-                                "date" => date('d M', strtotime($league->start_date)) . ' - ' . date('d M', strtotime($league->end_date)),
-                                "sport_data" => Helper::get_sports_list($league->sport_id),
-                            ];
+                            $leagues_list[] = $this->getleaguelistobject($league,$request->user_id);
                         }
 
                     }
@@ -117,6 +84,22 @@ class LeagueController extends Controller
             return response()->json(["status" => 0, "message" => "Enter League Data Type"]);
         }
     }
+    public function getleaguelistobject($league,$user_id)
+    {
+        $arr = [
+            "id" => $league->id,
+            "league_name" => $league->name,
+            "dome_name" => $league->dome_info->name,
+            "image" => $league->league_image == "" ? "" : $league->league_image->image,
+            "price" => $league->price,
+            "city" => $league->dome_info->city,
+            "state" => $league->dome_info->state,
+            "is_fav" => Helper::is_fav($user_id, '', $league->id),
+            "date" => date('d M', strtotime($league->start_date)) . ' - ' . date('d M', strtotime($league->end_date)),
+            "sport_data" => Helper::get_sports_list($league->sport_id),
+        ];
+        return $arr;
+    }
     public function league_details(Request $request)
     {
         $league_data = $this->getleaguedataobject($request->id);
@@ -128,7 +111,7 @@ class LeagueController extends Controller
     }
     public function getleaguedataobject($id)
     {
-        $league = League::where('id', $id)->where('is_deleted', 2)->first();
+        $league = League::where('id', $id)->whereDate('booking_deadline', '>=', date('Y-m-d'))->where('is_deleted', 2)->first();
         if (empty($league)) {
             return $league_data = 1;
         }

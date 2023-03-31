@@ -197,7 +197,7 @@ return [
     'banner_images' => 'Banner Images',
     'price_per_team' => 'Price Per Team',
     'years' => 'Years',
-    'last_date_registation' => 'Last Date of Registation',
+    'last_date_registration' => 'Last Date of Registration',
     // Enquiry
     'dome_requests' => 'Dome Requests',
     'general_enquiry' => 'General Enquiry',

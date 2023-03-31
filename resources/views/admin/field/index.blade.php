@@ -34,18 +34,18 @@
             <table id="bootstrapTable">
                 <thead>
                     <tr>
-                        <th data-field="{{ trans('labels.srno') }}">{{ trans('labels.srno') }}</th>
-                        <th data-field="{{ trans('labels.image') }}">{{ trans('labels.image') }}</th>
+                        <th>{{ trans('labels.srno') }}</th>
+                        <th>{{ trans('labels.image') }}</th>
                         @if (Auth::user()->type == 1)
-                            <th data-field="{{ trans('labels.dome_owner') }}">{{ trans('labels.dome_owner') }}</th>
-                            <th data-field="{{ trans('labels.dome_name') }}">{{ trans('labels.dome_name') }}</th>
+                            <th>{{ trans('labels.dome_owner') }}</th>
+                            <th>{{ trans('labels.dome_name') }}</th>
                         @endif
-                        <th data-field="{{ trans('labels.field_name') }}">{{ trans('labels.field_name') }}</th>
-                        <th data-field="{{ trans('labels.sports') }}">{{ trans('labels.sports') }}</th>
-                        <th data-field="{{ trans('labels.min_person') }}">{{ trans('labels.min_person') }}</th>
-                        <th data-field="{{ trans('labels.max_person') }}">{{ trans('labels.max_person') }}</th>
+                        <th>{{ trans('labels.field_name') }}</th>
+                        <th>{{ trans('labels.sports') }}</th>
+                        <th>{{ trans('labels.min_person') }}</th>
+                        <th>{{ trans('labels.max_person') }}</th>
                         @if (Auth::user()->type == 2)
-                            <th data-field="{{ trans('labels.action') }}">{{ trans('labels.action') }}</th>
+                            <th>{{ trans('labels.action') }}</th>
                         @endif
                     </tr>
                 </thead>
@@ -54,18 +54,15 @@
                     @foreach ($fields as $data)
                         <tr>
                             <td>{{ $i++ }}</td>
-                            <td>
-                                <div class="avatar avatar-lg">
-                                    <img src="{{ Helper::image_path($data->image) }}" alt="..." width="100"
-                                        height="60" class="rounded">
-                                </div>
-                            </td>
+                            <td> <img src="{{ Helper::image_path($data->image) }}" width="100" height="60"
+                                    class="rounded"> </td>
                             @if (Auth::user()->type == 1)
                                 <td>{{ $data->dome_owner->name }}</td>
                                 <td>{{ $data->dome_name->name }}</td>
                             @endif
                             <td>{{ $data->name }}</td>
-                            <td>{{ $data->sport_data->name }}</td>
+                            <td> <img src="{{ $data->sport_data->image }}" width="20" height="20" class="rounded">
+                            </td>
                             <td>{{ $data->min_person }}</td>
                             <td>{{ $data->max_person }}</td>
                             @if (Auth::user()->type == 2)

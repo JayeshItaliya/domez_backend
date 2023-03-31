@@ -175,7 +175,7 @@ return [
     'banner_images' => 'Imágenes del Banner',
     'price_per_team' => 'Precio por Equipo',
     'years' => 'Años',
-    'last_date_registation' => 'Última fecha de registro',
+    'last_date_registration' => 'Última fecha de registro',
     // Enquiry
     'dome_requests' => 'Solicitudes de Domo',
     'general_enquiry' => 'Consulta General',

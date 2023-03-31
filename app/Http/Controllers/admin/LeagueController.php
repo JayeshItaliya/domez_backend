@@ -73,15 +73,12 @@ class LeagueController extends Controller
             'max_player.required' => trans('messages.select_max_player'),
             'team_limit.required' => trans('messages.select_team_limit'),
             'price.required' => trans('messages.price_required'),
-
             'start_time.required' => trans('messages.start_time_required'),
             'start_time.date_format' => trans('messages.valid_time_format'),
-            'start_time.after_or_equal' => trans('messages.start_time_afterequal_dome_start_time') . ' : ' . $checkdome->start_time,
-
+            'start_time.after_or_equal' => trans('messages.start_time_afterequal_dome_start_time') . ' : ' . @$checkdome->start_time,
             'end_time.required' => trans('messages.end_time_required'),
             'end_time.date_format' => trans('messages.valid_time_format'),
             'end_time.after' => trans('messages.end_time_must_after_start_time'),
-
             'booking_deadline.required' => trans('messages.booking_deadline_required'),
             'booking_deadline.date' => trans('messages.valid_date'),
             'booking_deadline.before' => trans('messages.booking_deadline_before_start_date'),
@@ -134,16 +131,19 @@ class LeagueController extends Controller
     public function edit(Request $request)
     {
         $getleaguedata = League::find($request->id);
-        $getdomedata = Domes::where('id', $getleaguedata->dome_id)->where('vendor_id', auth()->user()->type == 2 ? auth()->user()->id : auth()->user()->vendor_id)->where('is_deleted', 2)->first();
-        $sports = Sports::whereIn('id', explode(',', $getdomedata->sport_id))->where('is_available', 1)->where('is_deleted', 2)->orderByDesc('id')->get();
-        $domes = Domes::where('vendor_id', auth()->user()->type == 2 ? auth()->user()->id : auth()->user()->vendor_id)->where('is_deleted', 2)->orderByDesc('id')->get();
-        $fields = Field::where('vendor_id', auth()->user()->type == 2 ? auth()->user()->id : auth()->user()->vendor_id)->where('dome_id', $getdomedata->id)->where('is_available', 1)->where('is_deleted', 2)->orderByDesc('id')->get();
-        return view('admin.leagues.edit', compact('sports', 'domes', 'fields', 'getleaguedata'));
+        if (!empty($getleaguedata)) {
+            $getdomedata = Domes::where('id', $getleaguedata->dome_id)->where('vendor_id', auth()->user()->type == 2 ? auth()->user()->id : auth()->user()->vendor_id)->where('is_deleted', 2)->first();
+            $sports = Sports::whereIn('id', explode(',', $getdomedata->sport_id))->where('is_available', 1)->where('is_deleted', 2)->orderByDesc('id')->get();
+            $domes = Domes::where('vendor_id', auth()->user()->type == 2 ? auth()->user()->id : auth()->user()->vendor_id)->where('is_deleted', 2)->orderByDesc('id')->get();
+            $fields = Field::where('vendor_id', auth()->user()->type == 2 ? auth()->user()->id : auth()->user()->vendor_id)->where('dome_id', $getdomedata->id)->where('is_available', 1)->where('is_deleted', 2)->orderByDesc('id')->get();
+            return view('admin.leagues.edit', compact('sports', 'domes', 'fields', 'getleaguedata'));
+        }
+        abort(404);
     }
     public function leaguedetails(Request $request)
     {
         $getleaguedata = League::find($request->id);
-        $fields = Field::whereIn('id', explode('|', $getleaguedata->field_id))->where('is_available', 1)->where('is_deleted', 2)->get();
+        $fields = Field::whereIn('id', explode(',', $getleaguedata->field_id))->where('is_available', 1)->where('is_deleted', 2)->get();
         return view('admin.leagues.view', compact('getleaguedata', 'fields'));
     }
     public function delete(Request $request)
