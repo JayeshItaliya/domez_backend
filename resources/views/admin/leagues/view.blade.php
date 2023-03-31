@@ -83,10 +83,10 @@
                 <div class="col-lg-4 col-md-6">
                     <div class="px-3 py-2 d-flex">
                         <div class="col-md-4">
-                            <label>{{ trans('labels.price_per_team') }}</label>
+                            <label>{{ trans('labels.sport_name') }}</label>
                         </div>
                         <div class="col-md-8">
-                            <span class="text-muted fs-7">{{ Helper::currency_format($getleaguedata->price) }}</span>
+                            <span class="text-muted fs-7">{{ $getleaguedata->sport_info->name }}</span>
                         </div>
                     </div>
                 </div>
