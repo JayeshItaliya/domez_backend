@@ -30,7 +30,7 @@ class SportsController extends Controller
             'image.mimes' => 'The Sport Image must be a file of type: PNG, JPG, JPEG, SVG',
         ]);
 
-        $image = 'sport-' . rand(0000, 9999) . '.' . $request->image->getClientOriginalExtension();
+        $image = 'sport-' . uniqid() . '.' . $request->image->getClientOriginalExtension();
         $path = storage_path('app\public\admin\images\sports');
         $request->image->move($path, $image);
 
@@ -78,15 +78,15 @@ class SportsController extends Controller
 
         if ($request->has('image')) {
             $request->validate([
-                'image' => 'required|mimes:png,jpg,jpeg,svg|max:500'
+                'image' => 'mimes:png,jpg,jpeg,svg|max:500'
             ], [
-                'image.required' => 'Please Select Sport Image',
-                'image.mimes' => 'The Sport Image must be a file of type: PNG, JPG, JPEG, SVG',
+                'image.mimes' => trans('messages.valid_image_type'),
+                'image.max' => trans('messages.valid_image_size'),
             ]);
             if (file_exists('storage/app/public/admin/images/sports/' . $checksport->image)) {
                 unlink('storage/app/public/admin/images/sports/' . $checksport->image);
             }
-            $new_name = 'sport-' . rand(0000, 9999) . '.' . $request->image->getClientOriginalExtension();
+            $new_name = 'sport-' . uniqid() . '.' . $request->image->getClientOriginalExtension();
             $path = storage_path('app\public\admin\images\sports');
             $request->image->move($path, $new_name);
             $checksport->image = $new_name;

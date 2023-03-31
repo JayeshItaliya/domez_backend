@@ -29,6 +29,10 @@ return [
     'end_time_required' => 'End Time is Required',
     'description_required' => 'Description Is Required',
 
+    'booking_deadline_required' => "Last Date of Registraion date is Required",
+    'valid_date' => "Please enter valid Date",
+    'booking_deadline_before_start_date' => "Last Date of Registraion Must Before League Start Date",
+
     'address_required' => 'Description Is Required',
 
     'select_dome' => 'Please Select Dome',

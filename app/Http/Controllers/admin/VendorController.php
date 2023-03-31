@@ -30,25 +30,25 @@ class VendorController extends Controller
             'email' => 'required|email|unique:users,email',
             'password' => 'required|min:8',
         ], [
-            'name.required' => 'Please Enter Name',
-            'email.required' => 'Please Enter Email',
-            'email.email' => 'Invalid Email Address',
-            'email.unique' => 'This Email is Already Taken',
-            'password.required' => 'Please Enter Password',
-            'password.min' => 'Password must be at least 8 characters in length',
+            'name.required' => trans('messages.name_required'),
+            'email.required' => trans('messages.email_required'),
+            'email.email' => trans('messages.valid_email'),
+            'email.unique' => trans('messages.email_exist'),
+            'password.required' => trans('messages.password_required'),
+            'password.min' => trans('messages.password_min_length'),
         ]);
 
         if ($request->has('profile')) {
             $request->validate(
                 [
-                    'profile' => 'image|max:500'
+                    'profile' => 'mimes:png,jpg,jpeg,svg|max:500',
                 ],
                 [
-                    'profile.image' => 'Invalid Image File',
-                    'profile.max' => 'The image must not be greater than 500KB.',
+                    'profile.mimes' => trans('messages.valid_image_type'),
+                    'profile.max' => trans('messages.valid_image_size'),
                 ]
             );
-            $new_name = 'vendor-' . rand(0000, 9999) . '.' . $request->profile->getClientOriginalExtension();
+            $new_name = 'profiles-' . uniqid() . '.' . $request->profile->getClientOriginalExtension();
             $path = storage_path('app\public\admin\images\profiles');
             $request->profile->move($path, $new_name);
         }
@@ -70,6 +70,7 @@ class VendorController extends Controller
     public function dome_owner_detail(Request $request)
     {
         $dome_owner = User::find($request->id);
+        abort_if(empty($dome_owner),404);
         $domes = Domes::with('dome_images')->where('vendor_id',$dome_owner->id)->get();
         $sports = Sports::where('is_available',1)->where('is_deleted',2)->get();
         return view('admin.vendors.view', compact('domes','dome_owner','sports'));
@@ -78,6 +79,7 @@ class VendorController extends Controller
     public function edit(Request $request)
     {
         $user = User::find($request->id);
+        abort_if(empty($user),404);
         return view('admin.vendors.edit', compact('user'));
     }
 
@@ -88,10 +90,10 @@ class VendorController extends Controller
             'name' => 'required',
             'email' => 'required|email|unique:users,email,' . $request->id,
         ], [
-            'name.required' => 'Please Enter Name',
-            'email.required' => 'Please Enter Email',
-            'email.email' => 'Invalid Email Address',
-            'email.unique' => 'This Email is Already Taken',
+            'name.required' => trans('messages.name_required'),
+            'email.required' => trans('messages.email_required'),
+            'email.email' => trans('messages.valid_email'),
+            'email.unique' => trans('messages.email_exist'),
         ]);
 
         if ($request->has('profile')) {
@@ -100,14 +102,14 @@ class VendorController extends Controller
                     'profile' => 'mimes:png,jpg,jpeg,svg|max:500'
                 ],
                 [
-                    'profile.mimes' => 'The Profile Image must be a file of type: PNG, JPG, JPEG, SVG',
-                    'profile.max' => 'The image must not be greater than 500KB.',
+                    'profile.mimes' => trans('messages.valid_image_type'),
+                    'profile.max' => trans('messages.valid_image_size'),
                 ]
             );
-            if (file_exists('storage/app/public/admin/images/profiles/' . $vendor->image)) {
+            if ($vendor->image != 'default.png' && file_exists('storage/app/public/admin/images/profiles/' . $vendor->image)) {
                 unlink('storage/app/public/admin/images/profiles/' . $vendor->image);
             }
-            $new_name = 'vendor-' . rand(0000, 9999) . '.' . $request->profile->getClientOriginalExtension();
+            $new_name = 'profile-' . uniqid() . '.' . $request->profile->getClientOriginalExtension();
             $path = storage_path('app\public\admin/images\profiles');
             $request->profile->move($path, $new_name);
         }

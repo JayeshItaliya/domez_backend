@@ -46,7 +46,7 @@ class FieldController extends Controller
             'field_image.mimes' => trans('messages.valid_image_type'),
             'field_image.max' => trans('messages.valid_image_size'),
         ]);
-        $new_name = 'field-' . rand(0000, 9999) . '.' . $request->field_image->getClientOriginalExtension();
+        $new_name = 'field-' . uniqid() . '.' . $request->field_image->getClientOriginalExtension();
         $path = storage_path('app\public\admin\images\fields');
         $request->field_image->move($path, $new_name);
         $field = new Field;
@@ -98,7 +98,7 @@ class FieldController extends Controller
             // if (file_exists('storage/app/public/admin/images/fields/' . $field->image)) {
             //     unlink('storage/app/public/admin/images/fields/' . $field->image);
             // }
-            $new_name = 'field-' . rand(0000, 9999) . '.' . $request->field_image->getClientOriginalExtension();
+            $new_name = 'field-' . uniqid() . '.' . $request->field_image->getClientOriginalExtension();
             $path = storage_path('app\public\admin\images\fields');
             $request->field_image->move($path, $new_name);
             $field->image = $new_name;
