@@ -73,13 +73,29 @@
                     </div>
                 </div>
                 <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="name" class="form-label">{{ trans('labels.league_name') }}</label>
-                        <input type="text" required class="form-control" id="name" name="name"
-                            value="{{ old('name') }}" placeholder="{{ trans('labels.league_name') }}">
-                        @error('name')
-                            <span class="text-danger"> {{ $message }} </span>
-                        @enderror
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="name" class="form-label">{{ trans('labels.league_name') }}</label>
+                                <input type="text" required class="form-control" id="name" name="name"
+                                    value="{{ old('name') }}" placeholder="{{ trans('labels.league_name') }}">
+                                @error('name')
+                                    <span class="text-danger"> {{ $message }} </span>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="name"
+                                    class="form-label">{{ trans('labels.last_date_registation') }}</label>
+                                <input type="date" required class="form-control" id="booking_deadline"
+                                    name="booking_deadline" value="{{ old('booking_deadline') }}"
+                                    min="{{ date('Y-m-d') }}" {{ old('booking_deadline') == '' ? 'disabled' : '' }}>
+                                @error('booking_deadline')
+                                    <span class="text-danger"> {{ $message }} </span>
+                                @enderror
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="col-md-6">
@@ -104,7 +120,8 @@
                         <div class="col-lg-3 col-md-6">
                             <div class="form-group">
                                 <label for="end_date" class="form-label">{{ trans('labels.end_date') }}</label>
-                                <input type="date" required class="form-control" name="end_date" id="end_date" disabled>
+                                <input type="date" required class="form-control" name="end_date" id="end_date"
+                                    disabled>
                                 @error('end_date')
                                     <span class="text-danger"> {{ $message }} </span>
                                 @enderror

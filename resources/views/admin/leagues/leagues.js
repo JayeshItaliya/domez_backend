@@ -2,7 +2,7 @@ $(function () {
     $(".time_picker").timepicker({
         interval: 60,
     });
-    if (is_vendor && is_employee) {
+    if (is_vendor || is_employee) {
         $(document).ready(function () {
             let html =
                 '<a href="' + window.location.href.replace(window.location.search, '') + '/add" class="btn-custom-primary"><svg xmlns="http://www.w3.org/2000/svg" class="icon-tabler icon-tabler-plus" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="var(--bs-primary)" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" /></svg></a>';
@@ -18,8 +18,19 @@ $('#field').select2({
 });
 $('#start_date').on('change', function () {
     if ($.trim($(this).val()) != "") {
-        $('#end_date').attr('disabled', false);
+        $('#end_date, #booking_deadline').attr('disabled', false);
         $('#end_date').attr('min', $(this).val());
+        var selectedDate = new Date($(this).val());
+        selectedDate.setDate(selectedDate.getDate() - 1);
+        // var formattedDate = selectedDate.toLocaleDateString();
+
+        var date = new Date(selectedDate);
+        var year = date.getFullYear();
+        var month = date.getMonth() + 1; // Note: JavaScript months are zero-based, so we need to add 1
+        var day = date.getDate();
+        var newDateString = year + '-' + (month < 10 ? '0' + month : month) + '-' + (day < 10 ? '0' + day : day);
+
+        $('#booking_deadline').attr('max', newDateString);
     }
 }).change();
 $('#from_age').on('change', function () {
@@ -114,7 +125,7 @@ $('body').on('blur', '.end.time_picker', function () {
     }
     setTimeout(() => {
         var end_time = $(this).val();
-        var dome_id = '';
+        var dome_id = $('#dome').val();
         var validate_start_time = '';
         var element = $(this);
         validatetime(start_time, end_time, dome_id, validate_start_time, element);

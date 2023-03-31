@@ -20,16 +20,16 @@ class LeagueController extends Controller
     public function add(Request $request)
     {
         $sports = Sports::where('is_available', 1)->where('is_deleted', 2)->orderByDesc('id')->get();
-        $domes = Domes::where('vendor_id', auth()->user()->id)->where('is_deleted', 2)->orderByDesc('id')->get();
+        $domes = Domes::where('vendor_id', auth()->user()->type == 2 ? auth()->user()->id : auth()->user()->vendor_id)->where('is_deleted', 2)->orderByDesc('id')->get();
         return view('admin.leagues.add', compact('sports', 'domes'));
     }
     public function getsportsandfields(Request $request)
     {
         try {
-            $getdomedata = Domes::where('id', $request->id)->where('vendor_id', auth()->user()->id)->where('is_deleted', 2)->first();
+            $getdomedata = Domes::where('id', $request->id)->where('vendor_id', auth()->user()->type == 2 ? auth()->user()->id : auth()->user()->vendor_id)->where('is_deleted', 2)->first();
             if (!empty($getdomedata)) {
                 $sports = Sports::whereIn('id', explode(',', $getdomedata->sport_id))->where('is_available', 1)->where('is_deleted', 2)->orderByDesc('id')->get();
-                $fields = Field::where('vendor_id', auth()->user()->id)->where('dome_id', $getdomedata->id)->where('is_available', 1)->where('is_deleted', 2)->orderByDesc('id')->get();
+                $fields = Field::where('vendor_id', auth()->user()->type == 2 ? auth()->user()->id : auth()->user()->vendor_id)->where('dome_id', $getdomedata->id)->where('is_available', 1)->where('is_deleted', 2)->orderByDesc('id')->get();
                 return response()->json(['status' => 1, 'message' => trans('messages.success'), 'sportsdata' => $sports, 'fieldsdata' => $fields], 200);
             }
             return response()->json(['status' => 0, 'message' => trans('messages.invalid_dome')], 200);
@@ -57,6 +57,7 @@ class LeagueController extends Controller
             'price' => 'required',
             'start_time' => 'required|date_format:h:i A|after_or_equal:' . @$checkdome->start_time,
             'end_time' => 'required|date_format:h:i A|after:start_time',
+            'booking_deadline' => 'required|date|before:start_date',
         ], [
             'dome.required' => trans('messages.select_dome'),
             'field.required' => trans('messages.select_field'),
@@ -80,17 +81,23 @@ class LeagueController extends Controller
             'end_time.required' => trans('messages.end_time_required'),
             'end_time.date_format' => trans('messages.valid_time_format'),
             'end_time.after' => trans('messages.end_time_must_after_start_time'),
+
+            'booking_deadline.required' => trans('messages.booking_deadline_required'),
+            'booking_deadline.date' => trans('messages.valid_date'),
+            'booking_deadline.before' => trans('messages.booking_deadline_before_start_date'),
         ]);
         try {
             $league = League::find($request->id);
             if (empty($league)) {
                 $league = new League();
+                $league->is_deleted = 2;
             }
-            $league->vendor_id = auth()->user()->id;
+            $league->vendor_id = auth()->user()->type == 2 ? auth()->user()->id : auth()->user()->vendor_id;
             $league->dome_id = $request->dome;
             $league->field_id = implode(',', $request->field);
             $league->sport_id = $request->sport;
             $league->name = $request->name;
+            $league->booking_deadline = $request->booking_deadline;
             $league->start_date = $request->start_date;
             $league->end_date = $request->end_date;
             $league->start_time = $request->start_time;
@@ -102,7 +109,6 @@ class LeagueController extends Controller
             $league->max_player = $request->max_player;
             $league->team_limit = $request->team_limit;
             $league->price = $request->price;
-            $league->is_deleted = 2;
             $league->save();
             if ($request->has('images')) {
                 $request->validate([
@@ -115,7 +121,6 @@ class LeagueController extends Controller
                     $domeimage = new DomeImages();
                     $image = 'league-' . uniqid() . '.' . $img->getClientOriginalExtension();
                     $img->move('storage/app/public/admin/images/league', $image);
-                    $domeimage->vendor_id = auth()->user()->id;
                     $domeimage->league_id = $league->id;
                     $domeimage->images = $image;
                     $domeimage->save();
@@ -129,10 +134,10 @@ class LeagueController extends Controller
     public function edit(Request $request)
     {
         $getleaguedata = League::find($request->id);
-        $getdomedata = Domes::where('id', $getleaguedata->dome_id)->where('vendor_id', auth()->user()->id)->where('is_deleted', 2)->first();
+        $getdomedata = Domes::where('id', $getleaguedata->dome_id)->where('vendor_id', auth()->user()->type == 2 ? auth()->user()->id : auth()->user()->vendor_id)->where('is_deleted', 2)->first();
         $sports = Sports::whereIn('id', explode(',', $getdomedata->sport_id))->where('is_available', 1)->where('is_deleted', 2)->orderByDesc('id')->get();
-        $domes = Domes::where('vendor_id', auth()->user()->id)->where('is_deleted', 2)->orderByDesc('id')->get();
-        $fields = Field::where('vendor_id', auth()->user()->id)->where('dome_id', $getdomedata->id)->where('is_available', 1)->where('is_deleted', 2)->orderByDesc('id')->get();
+        $domes = Domes::where('vendor_id', auth()->user()->type == 2 ? auth()->user()->id : auth()->user()->vendor_id)->where('is_deleted', 2)->orderByDesc('id')->get();
+        $fields = Field::where('vendor_id', auth()->user()->type == 2 ? auth()->user()->id : auth()->user()->vendor_id)->where('dome_id', $getdomedata->id)->where('is_available', 1)->where('is_deleted', 2)->orderByDesc('id')->get();
         return view('admin.leagues.edit', compact('sports', 'domes', 'fields', 'getleaguedata'));
     }
     public function leaguedetails(Request $request)
@@ -162,7 +167,6 @@ class LeagueController extends Controller
             $image->delete();
             return response()->json(['status' => 1, 'message' => trans('messages.success')], 200);
         } catch (\Throwable $th) {
-            dd($th);
             return response()->json(['status' => 0, 'message' => trans('messages.wrong')], 200);
         }
     }
