@@ -17,7 +17,8 @@ class UserController extends Controller
     }
     public function edit(Request $request)
     {
-        return view('admin.users.edit');
+        $user = User::find($request->id);
+        return view('admin.users.edit', compact('user'));
     }
     public function user_details(Request $request)
     {

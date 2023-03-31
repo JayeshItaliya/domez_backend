@@ -42,7 +42,7 @@
                             <div class="mb-3">
                                 <label for="name" class="form-label">{{ trans('labels.name') }}</label>
                                 <input type="text" class="form-control" name="name" id="name"
-                                    placeholder="{{ trans('labels.name') }}">
+                                    value="{{ $user->name }}" placeholder="{{ trans('labels.name') }}">
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -62,15 +62,18 @@
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label for="phone_number" class="form-label">{{ trans('labels.phone_number') }}</label>
-                                <input type="number" class="form-control" id="phone_number" name="phone_number" placeholder="{{ trans('labels.phone_number') }}">
+                                <input type="number" class="form-control" id="phone_number" name="phone_number"
+                                    placeholder="{{ trans('labels.phone_number') }}">
                             </div>
                         </div>
                         <div class="col-lg-6 col-md-12">
                             <div class="mb-3">
                                 <label class="form-label" for="profile_image">{{ trans('labels.profile_image') }}</label>
-                                <input type="file" class="form-control mt-2 mb-4" id="profile_image" name="profile_image">
+                                <input type="file" class="form-control mt-2 mb-4" id="profile_image"
+                                    name="profile_image">
                                 <div class="add-league-img mt-2">
-                                    <img src="http://localhost/domez_backend/storage/app/public/admin/images/gernral_settings/edit_profile.png">
+                                    <img
+                                        src="http://localhost/domez_backend/storage/app/public/admin/images/gernral_settings/edit_profile.png">
                                 </div>
                             </div>
                         </div>
