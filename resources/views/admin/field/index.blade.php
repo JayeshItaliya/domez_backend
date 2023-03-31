@@ -56,7 +56,8 @@
                             <td>{{ $i++ }}</td>
                             <td>
                                 <div class="avatar avatar-lg">
-                                    <img src="{{ Helper::image_path($data->image) }}" alt="..." width="100" height="60" class="rounded">
+                                    <img src="{{ Helper::image_path($data->image) }}" alt="..." width="100"
+                                        height="60" class="rounded">
                                 </div>
                             </td>
                             @if (Auth::user()->type == 1)

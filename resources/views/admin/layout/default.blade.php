@@ -82,9 +82,6 @@
                 </div>
             </div>
         </div>
-        @if (!empty(Auth::user()))
-            @include('admin.layout.footer')
-        @endif
         <div id="primaryColor" style="color: var(--bs-primary)"></div>
         <div id="secondaryColor" style="color: var(--bs-secondary)"></div>
         <div id="danger_color" style="color: var(--bs-danger)"></div>
@@ -156,13 +153,6 @@
                             {{ trans('labels.poppins') }}
                         </label>
                     </div>
-                    {{-- <div class="form-check">
-                        <input class="form-check-input" type="radio" name="font_family" id="open_sans"
-                            value="Open Sans">
-                        <label class="form-check-label cursor-pointer" for="open_sans">
-                            {{ trans('labels.open_sans') }}
-                        </label>
-                    </div> --}}
                 </div>
             </div>
 

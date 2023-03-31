@@ -37,6 +37,14 @@ return [
     'email' => 'Email',
     'usd' => 'USD',
     'cad' => 'CAD',
+    'english' => 'English',
+    'spanish' => 'Spanish',
+    'all_notifications' => 'All Notifications',
+    'mark_read' => 'Mark as all read',
+    'good_morning' => 'Good Morning,',
+    'account_settings' => 'Account Settings',
+    'log_out' => 'Log Out',
+    'loading' => 'Loading...',
     // Sidebar
     'dashboard' => 'Dashboard',
     'dome_owners' => 'Dome Owners',
@@ -62,6 +70,8 @@ return [
     'email_settings' => 'Email Settings',
     'twilio_settings' => 'Twilio Settings',
     'stripe_settings' => 'Stripe Settings',
+    'public_key' => 'Public Key',
+    'secret_key' => 'Secret Key',
     'supports' => 'Supports',
     // Dashboard
     'cancelled_bookings' => 'Cancelled Bookings',
@@ -115,6 +125,13 @@ return [
     'confirm_password' => 'Confirm Password',
     // Users
     'users_list' => 'Users List',
+    'edit_user' => 'Edit User',
+    'users' => 'Users',
+    // Sports
+    'add_sports' => 'Add Sports',
+    'edit_sports' => 'Edit Sports',
+    'sports' => 'Sports',
+    'sports_name' => 'Sports Name',
     // Domes
     'default_price' => 'Default Price',
     'domes_list' => 'Domes List',
@@ -237,6 +254,7 @@ return [
     // Supports
     'message' => 'Message',
     // General Settings
+    'settings' => 'Settings',
     'otp' => 'OTP',
     'verify' => 'Verify',
     'mailer' => 'Mailer',

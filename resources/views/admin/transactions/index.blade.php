@@ -61,7 +61,8 @@
                                 @endif
                                 <td>{{ $transaction->user_name->name }}</td>
                                 <td>
-                                    <a class="text-decoration-underline" href="{{ URL::to('admin/bookings/details-' . $transaction->booking_id) }}">{{ $transaction->booking_id }}</a>
+                                    <a class="text-decoration-underline"
+                                        href="{{ URL::to('admin/bookings/details-' . $transaction->booking_id) }}">{{ $transaction->booking_id }}</a>
                                 </td>
                                 <td>{{ Helper::currency_format($transaction->amount) }}</td>
                             </tr>

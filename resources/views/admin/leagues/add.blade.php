@@ -1,5 +1,4 @@
 @extends('admin.layout.default')
-
 @section('styles')
     <link rel="stylesheet" href="{{ url('storage\app\public\admin\plugins\multi-select\select2.min.css') }}" />
     <link rel="stylesheet"

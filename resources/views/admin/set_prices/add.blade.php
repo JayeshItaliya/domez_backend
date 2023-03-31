@@ -42,7 +42,6 @@
                                     <label class="form-label">{{ trans('labels.dome') }}</label>
                                     <select class="form-select" name="dome" id="dome"
                                         data-next="{{ URL::to('/admin/set-prices/getsports') }}" data-from="add">
-
                                         @foreach ($getdomeslist as $dome)
                                             <option value="{{ $dome->id }}"
                                                 {{ $dome->id == old('dome') ? 'selected' : '' }}>{{ $dome->name }}

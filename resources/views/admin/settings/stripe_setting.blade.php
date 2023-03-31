@@ -2,13 +2,13 @@
 @section('styles')
 @endsection
 @section('title')
-    Stripe Settings
+    {{ trans('labels.stripe_settings') }}
 @endsection
 @section('contents')
     <div class="card mb-3">
         <div class="card-body py-2">
             <div class="d-flex align-items-center justify-content-between">
-                <p class="text-secondary fw-semibold">Stripe Settings</p>
+                <p class="text-secondary fw-semibold">{{ trans('labels.stripe_settings') }}</p>
                 <nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='%236c757d'/%3E%3C/svg%3E&#34;);"
                     aria-label="breadcrumb">
                     <ol class="breadcrumb m-0">
@@ -25,8 +25,8 @@
                                 </svg>
                             </a>
                         </li>
-                        <li class="breadcrumb-item">General Settings</li>
-                        <li class="breadcrumb-item active" aria-current="page">Stripe Settings</li>
+                        <li class="breadcrumb-item">{{ trans('labels.general_settings') }}</li>
+                        <li class="breadcrumb-item active" aria-current="page">{{ trans('labels.stripe_settings') }}</li>
                     </ol>
                 </nav>
             </div>
@@ -40,7 +40,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="mb-3">
-                                <label for="public_key" class="form-label">Public Key</label>
+                                <label for="public_key" class="form-label">{{ trans('labels.public_key') }}</label>
                                 <input type="text" name="public_key" class="form-control" id="public_key"
                                     placeholder="Enter Stripe Public Key"
                                     value="{{ !empty($stripe->public_key) ? $stripe->public_key : old('public_key') }}">
@@ -51,7 +51,7 @@
                         </div>
                         <div class="col-md-12">
                             <div class="mb-3">
-                                <label for="secret_key" class="form-label">Secret Key</label>
+                                <label for="secret_key" class="form-label">{{ trans('labels.secret_key') }}</label>
                                 <input type="text" class="form-control" id="secret_key"
                                     name="secret_key"placeholder="Enter Stripe Secret Key"value="{{ !empty($stripe->secret_key) ? $stripe->secret_key : old('secret_key') }}">
                                 @error('secret_key')
@@ -60,7 +60,7 @@
                             </div>
                         </div>
                         <div class="col-md-12">
-                            <button type="submit" class="btn btn-primary">Save</button>
+                            <button type="submit" class="btn btn-primary">{{ trans('labels.submit') }}</button>
                         </div>
                     </div>
                 </div>

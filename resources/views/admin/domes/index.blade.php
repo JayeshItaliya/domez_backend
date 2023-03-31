@@ -213,7 +213,6 @@
                                 dataType: "json",
                                 success: function(response) {
                                     if (response.status == 1) {
-                                        // toastr.success(response.message);
                                         location.reload();
                                     } else {
                                         swal_cancelled(wrong);

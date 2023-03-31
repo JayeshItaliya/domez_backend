@@ -341,7 +341,7 @@
 
                                     <div class="text-center my-3 my-spinner">
                                         <div class="spinner-border" role="status">
-                                            <span class="visually-hidden">Loading...</span>
+                                            <span class="visually-hidden">{{trans('labels.loading')}}</span>
                                         </div>
                                     </div>
 

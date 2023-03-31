@@ -56,7 +56,7 @@
                                         data-next="{{ URL::to('admin/settings/check-email-exist') }}" required>
                                     <span class="input-group-text my-spinner" id="basic-addon1">
                                         <div class="spinner-border spinner-border-sm text-dark" role="status">
-                                            <span class="visually-hidden">Loading...</span>
+                                            <span class="visually-hidden">{{trans('labels.loading')}}</span>
                                         </div>
                                     </span>
                                 </div>

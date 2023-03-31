@@ -78,8 +78,10 @@
                     </svg>
                 </a>
                 <ul class="dropdown-menu box-shadow border-0 my-3">
-                    <li><a class="dropdown-item" href="{{ URL::to('admin/change-lang-en') }}">English</a></li>
-                    <li><a class="dropdown-item" href="{{ URL::to('admin/change-lang-es') }}">Spanish</a></li>
+                    <li><a class="dropdown-item"
+                            href="{{ URL::to('admin/change-lang-en') }}">{{ trans('labels.english') }}</a></li>
+                    <li><a class="dropdown-item"
+                            href="{{ URL::to('admin/change-lang-es') }}">{{ trans('labels.spanish') }}</a></li>
                 </ul>
             </li>
             <li class="dropdown">
@@ -98,11 +100,11 @@
                     <li class="dropdown-item">
                         <div class="d-flex align-items-center justify-content-between">
                             <div class="d-flex align-items-center pe-5">
-                                <h6 class="me-3 fs-7">All Notification</h6>
+                                <h6 class="me-3 fs-7">{{ trans('labels.all_notification') }}</h6>
                                 <span class="badge text-bg-warning text-white">01</span>
                             </div>
-                            <a href="#" class="text-primary text-decoration-underline fs-7 ps-5">Mark as all
-                                read</a>
+                            <a href="#"
+                                class="text-primary text-decoration-underline fs-7 ps-5">{{ trans('labels.mark_read') }}</a>
                         </div>
                     </li>
                     <li>
@@ -132,7 +134,7 @@
                 </a>
                 <ul class="dropdown-menu box-shadow border-0 my-3">
                     <li class="white-space-nowrap px-3">
-                        <p><strong>Good Morning,</strong> {{ Auth::user()->name }}</p>
+                        <p><strong>{{ trans('labels.good_morning') }}</strong> {{ Auth::user()->name }}</p>
                         <small class="text-muted">{{ Auth::user()->type == 1 ? 'Admin' : 'Dome Owner' }}</small>
                     </li>
                     <li>
@@ -148,7 +150,7 @@
                                     d="M10.325 4.317c.426 -1.756 2.924 -1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543 -.94 3.31 .826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756 .426 1.756 2.924 0 3.35a1.724 1.724 0 0 0 -1.066 2.573c.94 1.543 -.826 3.31 -2.37 2.37a1.724 1.724 0 0 0 -2.572 1.065c-.426 1.756 -2.924 1.756 -3.35 0a1.724 1.724 0 0 0 -2.573 -1.066c-1.543 .94 -3.31 -.826 -2.37 -2.37a1.724 1.724 0 0 0 -1.065 -2.572c-1.756 -.426 -1.756 -2.924 0 -3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94 -1.543 .826 -3.31 2.37 -2.37c1 .608 2.296 .07 2.572 -1.065z" />
                                 <circle cx="12" cy="12" r="3" />
                             </svg>
-                            <p class="text-dark">Account Settings</p>
+                            <p class="text-dark">{{ trans('labels.account_settings') }}</p>
                         </a>
                     </li>
                     <li class="dropdown-item">
@@ -161,13 +163,11 @@
                                     d="M14 8v-2a2 2 0 0 0 -2 -2h-7a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h7a2 2 0 0 0 2 -2v-2" />
                                 <path d="M7 12h14l-3 -3m0 6l3 -3" />
                             </svg>
-                            <p class="text-dark">Sign Out</p>
+                            <p class="text-dark">{{ trans('labels.log_out') }}</p>
                         </a>
                     </li>
                 </ul>
             </li>
         </ul>
     </div>
-    {{-- <div class="header-wrapper">
-    </div> --}}
 </header>

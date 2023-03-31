@@ -1,11 +1,9 @@
-    @extends('admin.layout.default')
-
+@extends('admin.layout.default')
 @section('styles')
     <link rel="stylesheet" href="{{ url('storage\app\public\admin\plugins\multi-select\select2.min.css') }}" />
     <link rel="stylesheet"
         href="{{ url('storage\app\public\admin\plugins\multi-select\select2-bootstrap-5-theme.min.css') }}" />
 @endsection
-
 @section('title')
     {{ trans('labels.edit_league') }}
 @endsection
@@ -226,7 +224,6 @@
                             <div class="form-group">
                                 <label class="form-label" for="gender">{{ trans('labels.select_gender') }}</label>
                                 <select class="form-select" required name="gender" id="gender">
-
                                     <option value="1" {{ $getleaguedata->gender == 1 ? 'selected' : '' }}>
                                         {{ trans('labels.men') }}</option>
                                     <option value="2" {{ $getleaguedata->gender == 2 ? 'selected' : '' }}>
