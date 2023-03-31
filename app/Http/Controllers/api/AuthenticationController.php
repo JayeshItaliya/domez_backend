@@ -169,7 +169,7 @@ class AuthenticationController extends Controller
     }
     public function changepassword(Request $request)
     {
-        if (in_array($request->user_id,[0,''])) {
+        if (in_array($request->user_id, [0, ''])) {
             return response()->json(["status" => 0, "message" => "Please Enter Login User ID"], 200);
         }
         $checkuser = User::find($request->user_id);
@@ -280,7 +280,7 @@ class AuthenticationController extends Controller
     }
     function editprofile(Request $request)
     {
-        if (in_array($request->user_id,[0,''])) {
+        if (in_array($request->user_id, [0, ''])) {
             return response()->json(["status" => 0, "message" => "Please Enter Login User ID"], 200);
         }
         $checkuser = User::where('id', $request->user_id)->where('type', 3)->where('is_deleted', 2)->first();
@@ -312,11 +312,11 @@ class AuthenticationController extends Controller
             $checkuser->phone = $request->phone;
             if ($request->has('image')) {
                 if (Str::contains($checkuser->image, 'user')) {
-                    if (file_exists('storage/app/public/admin/images/profiles/' . $checkuser->image)) {
+                    if ($checkuser->image != 'default.png' && file_exists('storage/app/public/admin/images/profiles/' . $checkuser->image)) {
                         unlink('storage/app/public/admin/images/profiles/' . $checkuser->image);
                     }
                 }
-                $new_name = 'user-' . uniqId() . '.' . $request->image->getClientOriginalExtension();
+                $new_name = 'profiles-' . uniqId() . '.' . $request->image->getClientOriginalExtension();
                 $path = storage_path('app\public\admin\images\profiles');
                 $request->image->move($path, $new_name);
                 $checkuser->image = $new_name;

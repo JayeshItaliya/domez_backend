@@ -209,7 +209,7 @@ class SettingsController extends Controller
             if (auth()->user()->image != 'default.png' && file_exists('storage/app/public/admin/images/profiles/' . auth()->user()->image)) {
                 unlink('storage/app/public/admin/images/profiles/' . auth()->user()->image);
             }
-            $image = 'vendor-' . rand(0000, 9999) . '.' . $request->profile->getClientOriginalExtension();
+            $image = 'profiles-' . uniqid() . '.' . $request->profile->getClientOriginalExtension();
             $request->profile->move(storage_path('app\public\admin\images\profiles'), $image);
             $user->image = $image;
         }
