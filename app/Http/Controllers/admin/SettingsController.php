@@ -133,11 +133,6 @@ class SettingsController extends Controller
         $stripe = PaymentGateway::where('type', 1)->first();
         return view('admin.settings.stripe_setting',compact('stripe'));
     }
-
-
-
-
-
     public function show_profile(Request $request)
     {
         return view('admin.settings.edit_profile');

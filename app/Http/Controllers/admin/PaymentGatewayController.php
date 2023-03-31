@@ -38,6 +38,6 @@ class PaymentGatewayController extends Controller
             $payment_gateway->save();
         }
 
-        return redirect()->back()->with('success', 'Successfully');
+        return redirect()->back()->with('success', trans('messages.success'));
     }
 }

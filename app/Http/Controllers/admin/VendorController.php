@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\DomeImages;
 use App\Models\Domes;
 use App\Models\Sports;
 use Illuminate\Http\Request;
@@ -65,7 +64,7 @@ class VendorController extends Controller
         }
         $vendor->save();
 
-        return redirect('admin/vendors')->with('success', 'Successfully');
+        return redirect('admin/vendors')->with('success', trans('messages.success'));
     }
 
     public function dome_owner_detail(Request $request)
@@ -120,7 +119,7 @@ class VendorController extends Controller
         }
         $vendor->save();
 
-        return redirect('admin/vendors')->with('success', 'Successfully');
+        return redirect('admin/vendors')->with('success', trans('messages.success'));
     }
 
     public function delete(Request $request)

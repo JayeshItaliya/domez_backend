@@ -34,7 +34,6 @@ class DomesPriceController extends Controller
                 $set_prices = new SetPrices();
                 $set_prices->vendor_id = auth()->user()->type == 2 ? auth()->user()->id : auth()->user()->vendor_id;
                 $set_prices->price_type = 2;
-                // $set_prices->price = 0;
             }
             $set_prices->dome_id = $request->dome;
             $set_prices->sport_id = $request->sport;
@@ -162,8 +161,4 @@ class DomesPriceController extends Controller
             return response()->json(['status' => 0, 'message' => trans('messages.wrong')], 200);
         }
     }
-    // public function dome_price_details(Request $request)
-    // {
-    //     return view('admin.set_prices.view');
-    // }
 }

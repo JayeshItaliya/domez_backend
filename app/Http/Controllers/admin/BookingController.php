@@ -61,15 +61,6 @@ class BookingController extends Controller
         } else {
             $getbookingslist = Booking::where('vendor_id', auth()->user()->type == 2 ? auth()->user()->id : auth()->user()->vendor_id)->orderByDesc('id')->get();
         }
-        // $data = [];
-        // foreach ($getbookingslist as $key => $booking) {
-        //     $data[] = [
-        //         "title" => $booking->booking_id . ' - ' . $booking->dome_name->name,
-        //         "start" => $booking->start_date,
-        //         "url" => URL::to('admin/bookings/details-' . $booking->booking_id),
-        //     ];
-        // }
-        // $getbookingslist = json_encode($data,true);
         return view('admin.bookings.calendar', compact('getbookingslist'));
     }
     public function details(Request $request)
@@ -112,7 +103,6 @@ class BookingController extends Controller
         if ($request->payment_type == "") {
             return response()->json(['status' => 0, 'message' => 'Select Payment Type'], 200);
         }
-
         $checkfield = Field::find($request->field_id);
         if (empty($checkfield)) {
             return response()->json(['status' => 0, 'message' => 'Field Not Found'], 200);

@@ -45,12 +45,6 @@ class DomesController extends Controller
             'end_time' => 'required',
             'description' => 'required',
             'address' => 'required',
-            // 'lat' => 'required',
-            // 'lng' => 'required',
-            // 'pin_code' => 'required',
-            // 'city' => 'required',
-            // 'state' => 'required',
-            // 'country' => 'required',
         ], [
             'sport_id.required' => trans('messages.select_sport'),
             'dome_name.required' => trans('messages.name_required'),
@@ -59,12 +53,6 @@ class DomesController extends Controller
             'end_time.required' => trans('messages.end_time_required'),
             'description.required' => trans('messages.description_required'),
             'address.required' => trans('messages.address_required'),
-            // 'lat.required' => 'Please Choose Dome Location',
-            // 'lng.required' => 'Please Choose Dome Location',
-            // 'pin_code.required' => 'Please Enter Pin Code',
-            // 'city.required' => 'Please Enter City',
-            // 'state.required' => 'Please Enter State',
-            // 'country.required' => 'Please Enter Country',
         ]);
 
         $dome = new Domes();
@@ -278,12 +266,6 @@ class DomesController extends Controller
             'end_time' => 'required',
             'description' => 'required',
             'address' => 'required',
-            // 'lat' => 'required',
-            // 'lng' => 'required',
-            // 'pin_code' => 'required',
-            // 'city' => 'required',
-            // 'state' => 'required',
-            // 'country' => 'required',
         ], [
             'sport_id.required' => trans('messages.select_sport'),
             'dome_name.required' => trans('messages.name_required'),
@@ -292,12 +274,6 @@ class DomesController extends Controller
             'end_time.required' => trans('messages.end_time_required'),
             'description.required' => trans('messages.description_required'),
             'address.required' => trans('messages.address_required'),
-            // 'lat.required' => 'Please Choose Dome Location',
-            // 'lng.required' => 'Please Choose Dome Location',
-            // 'pin_code.required' => 'Please Enter Pin Code',
-            // 'city.required' => 'Please Enter City',
-            // 'state.required' => 'Please Enter State',
-            // 'country.required' => 'Please Enter Country',
         ]);
 
         $dome = Domes::find($request->id);

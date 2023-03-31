@@ -34,7 +34,8 @@
     </div>
     <div class="card">
         <div class="card-body">
-            <form class="card" action="" method="post" enctype="multipart/form-data">
+            <form class="card" action="{{ URL::to('admin/users/update-' . $user->id) }}" method="post"
+                enctype="multipart/form-data">
                 @csrf
                 <div class="card-body">
                     <div class="row">
@@ -43,27 +44,27 @@
                                 <label for="name" class="form-label">{{ trans('labels.name') }}</label>
                                 <input type="text" class="form-control" name="name" id="name"
                                     value="{{ $user->name }}" placeholder="{{ trans('labels.name') }}">
+                                @error('name')
+                                    <span class="text-danger">{{ $message }}</span>
+                                @enderror
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label for="email_address" class="form-label">{{ trans('labels.email_address') }}</label>
                                 <input type="email" class="form-control" id="email_address" name="email_address"
-                                    placeholder="{{ trans('labels.email_address') }}">
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label for="password" class="form-label">{{ trans('labels.password') }}</label>
-                                <input type="password" class="form-control" id="password" name="password"
-                                    placeholder="{{ trans('labels.password') }}">
+                                    value="{{ $user->email }}" placeholder="{{ trans('labels.email_address') }}">
+                                @error('email_address')
+                                    <span class="text-danger">{{ $message }}</span>
+                                @enderror
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label for="phone_number" class="form-label">{{ trans('labels.phone_number') }}</label>
                                 <input type="number" class="form-control" id="phone_number" name="phone_number"
-                                    placeholder="{{ trans('labels.phone_number') }}">
+                                    value="{{ $user->phone }}" placeholder="{{ trans('labels.phone_number') }}">
+                                @error('phone_number')<span class="text-danger">{{ $message }}</span>@enderror
                             </div>
                         </div>
                         <div class="col-lg-6 col-md-12">
@@ -71,9 +72,10 @@
                                 <label class="form-label" for="profile_image">{{ trans('labels.profile_image') }}</label>
                                 <input type="file" class="form-control mt-2 mb-4" id="profile_image"
                                     name="profile_image">
+                                    @error('profile_image')<span class="text-danger">{{ $message }}</span>@enderror
                                 <div class="add-league-img mt-2">
-                                    <img
-                                        src="http://localhost/domez_backend/storage/app/public/admin/images/gernral_settings/edit_profile.png">
+                                    <img src="{{ Helper::image_path($user->image) }}" width="70" height="70"
+                                        class="rounded" style="object-fit: cover; object-position:center;">
                                 </div>
                             </div>
                         </div>
