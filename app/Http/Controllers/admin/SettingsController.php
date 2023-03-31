@@ -5,6 +5,7 @@ namespace App\Http\Controllers\admin;
 use App\Helper\Helper;
 use App\Http\Controllers\Controller;
 use App\Models\CMS;
+use App\Models\PaymentGateway;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -129,7 +130,8 @@ class SettingsController extends Controller
     }
     public function stripe_setting(Request $request)
     {
-        return view('admin.settings.stripe_setting');
+        $stripe = PaymentGateway::where('type', 1)->first();
+        return view('admin.settings.stripe_setting',compact('stripe'));
     }
 
 

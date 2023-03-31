@@ -2,7 +2,7 @@
 @section('styles')
 @endsection
 @section('title')
-         Stripe Settings
+    Stripe Settings
 @endsection
 @section('contents')
     <div class="card mb-3">
@@ -34,22 +34,29 @@
     </div>
     <div class="card">
         <div class="card-body">
-            <form class="card" action="" method="post" enctype="multipart/form-data">
+            <form action="{{ URL::to('admin/payment-gateway/store-stripe') }}" method="POST" class="card">
                 @csrf
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-12">
                             <div class="mb-3">
-                                <label for="exampleFormControlInput1" class="form-label">Public Key</label>
-                                <input type="text" class="form-control" id="exampleFormControlInput1"
-                                    placeholder="pk_test_51LlAvQFysF0okTxJURIkxuGDrkHuj0MwtW9BR7XAZlYZWoCVJ3F7tLR538Uonlw1msIhcm26oESamRKrVIzZOwMG00NvCxPLn8">
+                                <label for="public_key" class="form-label">Public Key</label>
+                                <input type="text" name="public_key" class="form-control" id="public_key"
+                                    placeholder="Enter Stripe Public Key"
+                                    value="{{ !empty($stripe->public_key) ? $stripe->public_key : old('public_key') }}">
+                                @error('public_key')
+                                    <span class="text-danger">{{ $message }}</span>
+                                @enderror
                             </div>
                         </div>
                         <div class="col-md-12">
                             <div class="mb-3">
-                                <label for="exampleFormControlInput1" class="form-label">Secret Key</label>
-                                <input type="text" class="form-control" id="exampleFormControlInput1"
-                                    placeholder="sk_test_51LlAvQFysF0okTxJ2zYdNO3KY6BqSEQMCXuY7SxBvTlI7L2wEneSwWKL70Qhrsg52XWHm1aI95VN3Qna6R7dE7FU00JJ4aysw3">
+                                <label for="secret_key" class="form-label">Secret Key</label>
+                                <input type="text" class="form-control" id="secret_key"
+                                    name="secret_key"placeholder="Enter Stripe Secret Key"value="{{ !empty($stripe->secret_key) ? $stripe->secret_key : old('secret_key') }}">
+                                @error('secret_key')
+                                    <span class="text-danger">{{ $message }}</span>
+                                @enderror
                             </div>
                         </div>
                         <div class="col-md-12">
