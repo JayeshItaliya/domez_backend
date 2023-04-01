@@ -25,13 +25,14 @@ class ReviewController extends Controller
             $checkreview = Review::where('dome_id', $request->dome_id)->where('user_id', $request->user_id)->first();
             if (empty($checkreview)) {
                 $checkreview = new Review();
+                $checkreview->dome_id = $request->dome_id;
+                $checkreview->user_id = $request->user_id;
+                $checkreview->ratting = $request->ratting;
+                $checkreview->comment = $request->comment == "" ? "" : $request->comment;
+                $checkreview->save();
+                return response()->json(["status" => 1, "message" => "Successful", 'review' => $checkreview], 200);
             }
-            $checkreview->dome_id = $request->dome_id;
-            $checkreview->user_id = $request->user_id;
-            $checkreview->ratting = $request->ratting;
-            $checkreview->comment = $request->comment == "" ? "" : $request->comment;
-            $checkreview->save();
-            return response()->json(["status" => 1, "message" => "Successful", 'review' => $checkreview], 200);
+            return response()->json(["status" => 0, "message" => 'Ratting Already Exist'], 200);
         } else {
             return response()->json(["status" => 0, "message" => 'Invalid Dome Ratting'], 200);
         }

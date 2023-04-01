@@ -220,9 +220,9 @@ class PaymentController extends Controller
             if ($request->payment_type == 2) {
                 $booking->token = str_replace(['$', '/', '.', '|'], '', Hash::make($booking_id));
             }
-            if ($request->created_at != "") {
-                $booking->created_at = $request->created_at;
-            }
+            // if ($request->created_at != "") {
+            //     $booking->created_at = $request->created_at;
+            // }
             $booking->save();
             return response()->json(['status' => 1, "message" => "Successful", "transaction_id" => $transaction_id, "booking_id" => $booking->id, "payment_link" => URL::to('/payment/' . $booking->token),], 200);
         } catch (\Throwable $th) {

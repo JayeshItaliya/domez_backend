@@ -9,6 +9,7 @@ use App\Models\Booking;
 use App\Models\Field;
 use App\Models\League;
 use App\Models\SetPrices;
+use App\Models\Review;
 use App\Models\SetPricesDaysSlots;
 use App\Models\Transaction;
 use Carbon\Carbon;
@@ -116,6 +117,9 @@ class BookingController extends Controller
                     // DB::raw("CONCAT('" . url('storage/app/public/admin/images/profiles') . "/', user.image) AS user_image")
                 )->get()->toArray();
 
+
+            $is_ratting_exist = Review::where('dome_id', $booking->dome_id)->where('user_id', $booking->user_id)->first();
+
             $booking_details = [
                 "id" => $booking->id,
                 "type" => $booking->type,
@@ -145,6 +149,8 @@ class BookingController extends Controller
                 "other_contributors" => $gettransaction,
                 "start_date" => $booking->start_date == "" ? "" : $booking->start_date,
                 "end_date" => $booking->end_date == "" ? "" : $booking->end_date,
+                "dome_id" => $booking->dome_id,
+                "is_ratting_exist" => !empty($is_ratting_exist) ? 1 : 0,
             ];
             return response()->json(["status" => 1, "message" => "Success", 'booking_details' => $booking_details], 200);
         } else {

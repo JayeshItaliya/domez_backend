@@ -19,7 +19,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->command('bookings:cancel')->everyMinute()->appendOutputTo(storage_path('logs/bookings:cancel.log'));
-        // $schedule->command('bookings:cancel')->everyTwoMinutes();
+        // $schedule->command('bookings:cancel')->everyMinute()->withoutOverlapping()->onFailure(function () { /* Code..*/ });;
     }
 
     /**

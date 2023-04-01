@@ -26,54 +26,54 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+Route::group(['middleware' => 'SetTimeZoneMiddleware'], function () {
+    Route::get('optimize', [AdminController::class, 'optimize']);
 
-Route::get('optimize', [AdminController::class, 'optimize']);
+    Route::post('sign-up', [AuthenticationController::class, 'sign_up']);
+    Route::post('sign-in', [AuthenticationController::class, 'sign_in']);
+    Route::post('verify', [AuthenticationController::class, 'verify']);
+    Route::post('resend-otp', [AuthenticationController::class, 'resend_otp']);
+    Route::post('forgot-password', [AuthenticationController::class, 'forgot_password']);
+    Route::post('change-password', [AuthenticationController::class, 'changepassword']);
+    Route::post('google-login', [AuthenticationController::class, 'google_login']);
+    Route::post('apple-login', [AuthenticationController::class, 'apple_login']);
+    Route::get('delete-account-{id}', [AuthenticationController::class, 'delete_account']);
+    Route::post('editprofile', [AuthenticationController::class, 'editprofile']);
 
-Route::post('sign-up', [AuthenticationController::class, 'sign_up']);
-Route::post('sign-in', [AuthenticationController::class, 'sign_in']);
-Route::post('verify', [AuthenticationController::class, 'verify']);
-Route::post('resend-otp', [AuthenticationController::class, 'resend_otp']);
-Route::post('forgot-password', [AuthenticationController::class, 'forgot_password']);
-Route::post('change-password', [AuthenticationController::class, 'changepassword']);
-Route::post('google-login', [AuthenticationController::class, 'google_login']);
-Route::post('apple-login', [AuthenticationController::class, 'apple_login']);
-Route::get('delete-account-{id}', [AuthenticationController::class, 'delete_account']);
-Route::post('editprofile', [AuthenticationController::class, 'editprofile']);
-
-Route::get('sportslist', [HomeController::class, 'sportslist']);
-Route::get('privacy-policy', [HomeController::class, 'privacy_policy']);
-Route::get('terms-conditions', [HomeController::class, 'terms_conditions']);
-Route::post('helpcenter', [HomeController::class, 'helpcenter']);
-Route::post('pushnotification', [HomeController::class, 'pushnotification']);
+    Route::get('sportslist', [HomeController::class, 'sportslist']);
+    Route::get('privacy-policy', [HomeController::class, 'privacy_policy']);
+    Route::get('terms-conditions', [HomeController::class, 'terms_conditions']);
+    Route::post('helpcenter', [HomeController::class, 'helpcenter']);
+    Route::post('pushnotification', [HomeController::class, 'pushnotification']);
 
 
-Route::post('payment', [PaymentController::class, 'payment']);
+    Route::post('payment', [PaymentController::class, 'payment']);
 
-Route::post('domes-list', [DomesController::class, 'domes_list']);
-Route::get('dome-details-{id}', [DomesController::class, 'domes_details']);
+    Route::post('domes-list', [DomesController::class, 'domes_list']);
+    Route::get('dome-details-{id}', [DomesController::class, 'domes_details']);
 
-Route::post('leagues-list', [LeagueController::class, 'leagues_list']);
-Route::get('league-details-{id}', [LeagueController::class, 'league_details']);
+    Route::post('leagues-list', [LeagueController::class, 'leagues_list']);
+    Route::get('league-details-{id}', [LeagueController::class, 'league_details']);
 
-Route::post('filter', [HomeController::class, 'filter']);
-Route::post('search', [HomeController::class, 'search']);
-Route::post('dome-request', [HomeController::class, 'dome_request']);
+    Route::post('filter', [HomeController::class, 'filter']);
+    Route::post('search', [HomeController::class, 'search']);
+    Route::post('dome-request', [HomeController::class, 'dome_request']);
 
-Route::post('favourite', [FavouriteController::class, 'favourite']);
-Route::post('favourite-list', [FavouriteController::class, 'favourite_list']);
+    Route::post('favourite', [FavouriteController::class, 'favourite']);
+    Route::post('favourite-list', [FavouriteController::class, 'favourite_list']);
 
-Route::get('booking-details-{id}', [BookingController::class, 'booking_details']);
-Route::post('booking-cancel', [BookingController::class, 'cancelbooking']);
-Route::post('booking-list', [BookingController::class, 'booking_list']);
-Route::post('check-booking', [BookingController::class, 'check_booking']);
-Route::post('timeslots', [BookingController::class, 'timeslots']);
-Route::post('available-fields', [BookingController::class, 'avl_fields']);
+    Route::get('booking-details-{id}', [BookingController::class, 'booking_details']);
+    Route::post('booking-cancel', [BookingController::class, 'cancelbooking']);
+    Route::post('booking-list', [BookingController::class, 'booking_list']);
+    Route::post('check-booking', [BookingController::class, 'check_booking']);
+    Route::post('timeslots', [BookingController::class, 'timeslots']);
+    Route::post('available-fields', [BookingController::class, 'avl_fields']);
 
-Route::post('review', [ReviewController::class, 'review']);
-Route::get('avg-ratting-{id}', [ReviewController::class, 'avg_rating']);
-Route::get('rattinglist-{dome_id}', [ReviewController::class, 'rattinglist']);
+    Route::post('review', [ReviewController::class, 'review']);
+    Route::get('avg-ratting-{id}', [ReviewController::class, 'avg_rating']);
+    Route::get('rattinglist-{dome_id}', [ReviewController::class, 'rattinglist']);
 
-Route::get('stripe-key', [PaymentController::class, 'stripe_key']);
-
+    Route::get('stripe-key', [PaymentController::class, 'stripe_key']);
+});
 
 // Route::post('requestdomes', [AuthenticationController::class, 'requestdomes']);
