@@ -222,6 +222,8 @@ return [
     'customer_email' => 'Customer Email',
     'customer_phone' => 'Customer Phone',
     'partial' => 'Partial',
+    'refunded' => 'Refunded',
+    'refunded_amount' => 'Refunded Amount',
     'completed' => 'Completed',
     'confirmed' => 'Confirmed',
     'pending' => 'Pending',

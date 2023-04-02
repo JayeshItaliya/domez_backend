@@ -61,4 +61,8 @@ class Booking extends Model
     {
         return $this->hasOne('App\Models\Domes', 'id', 'dome_id')->select('id', 'name', 'sport_id', 'address', 'state', 'city');
     }
+    public function transactions()
+    {
+        return $this->hasMany('App\Models\Transaction', 'booking_id','booking_id')->select('transaction_id','amount');
+    }
 }

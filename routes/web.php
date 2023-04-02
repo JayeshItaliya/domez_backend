@@ -85,6 +85,7 @@ Route::group(['middleware' => 'SetTimeZoneMiddleware'], function () {
             Route::get('/filter-data', [BookingController::class, 'index']);
             Route::get('details-{booking_id}', [BookingController::class, 'details']);
             Route::get('delete', [BookingController::class, 'deletedata']);
+            Route::get('cancel', [BookingController::class, 'cancel_booking']);
         });
         // Enquiry
         Route::group(['prefix' => 'enquiries'], function () {
@@ -203,9 +204,6 @@ Route::group(['middleware' => 'SetTimeZoneMiddleware'], function () {
                 Route::get('delete', [DomesPriceController::class, 'deletesetprice']);
                 Route::get('delete-slot', [DomesPriceController::class, 'deleteslot']);
                 Route::get('getsports', [DomesPriceController::class, 'getsportslist']);
-
-                // Route::post('update-{id}', [DomesPriceController::class, 'update']);
-                // Route::get('details-{id}', [DomesPriceController::class, 'dome_price_details']);
             });
             //  Field
             Route::group(['prefix' => 'fields'], function () {
