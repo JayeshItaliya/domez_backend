@@ -50,7 +50,7 @@
                                     data-next="{{ URL::to('/admin/leagues/sports-fields') }}">
 
                                     @foreach ($domes as $dome)
-                                        <option value="{{ $dome->id }}"
+                                        <option value="{{ $dome->id }}" data-start-time="{{ $dome->start_time }}" data-end-time="{{ $dome->end_time }}"
                                             {{ $dome->id == $getleaguedata->dome_id ? 'selected' : '' }}>
                                             {{ $dome->name }}</option>
                                     @endforeach
@@ -65,11 +65,11 @@
                                 <label class="form-label" for="field">{{ trans('labels.select_field') }}</label>
                                 <select class="form-select" required name="field[]" id="field"
                                     data-placeholder="{{ trans('labels.select') }}" multiple>
-                                    @foreach ($fields as $field)
+                                    {{-- @foreach ($fields as $field)
                                         <option value="{{ $field->id }}"
                                             {{ in_array($field->id, explode(',', $getleaguedata->field_id)) ? 'selected' : '' }}>
                                             {{ $field->name }}</option>
-                                    @endforeach
+                                    @endforeach --}}
                                 </select>
                                 @error('field')
                                     <span class="text-danger"> {{ $message }} </span>
@@ -107,14 +107,14 @@
                 <div class="col-md-6">
                     <label for="" class="form-label">{{ trans('labels.select_sports') }}</label>
                     <div class="d-flex radio-editer">
-                        @foreach ($sports as $key => $sport)
+                        {{-- @foreach ($sports as $key => $sport)
                             <div class="form-check pe-3">
                                 <input type="radio" name="sport" class="form-check-input" value="{{ $sport->id }}"
                                     id="radio{{ $key }}"
                                     {{ $sport->id == $getleaguedata->sport_id ? 'checked' : '' }}>
                                 <label class="form-check-label" for="radio{{ $key }}">{{ $sport->name }}</label>
                             </div>
-                        @endforeach
+                        @endforeach --}}
                     </div>
                     @error('sport')
                         <span class="text-danger"> {{ $message }} </span>
@@ -145,7 +145,7 @@
                         <div class="col-lg-3 col-md-6">
                             <div class="form-group">
                                 <label class="form-label" for="start_time">{{ trans('labels.start_time') }}</label>
-                                <input type="text" required class="form-control time_picker" name="start_time"
+                                <input type="text" required class="form-control start time_picker" name="start_time"
                                     value="{{ $getleaguedata->start_time }}"
                                     placeholder="{{ trans('labels.start_time') }}" id="start_time">
                                 @error('start_time')
@@ -156,7 +156,7 @@
                         <div class="col-lg-3 col-md-6">
                             <div class="form-group">
                                 <label class="form-label" for="end_time">{{ trans('labels.end_time') }}</label>
-                                <input type="text" required class="form-control time_picker" name="end_time"
+                                <input type="text" required class="form-control end time_picker" name="end_time"
                                     value="{{ $getleaguedata->end_time }}" placeholder="{{ trans('labels.end_time') }}"
                                     id="end_time">
                                 @error('end_time')
@@ -317,6 +317,7 @@
     <script>
         var validatetimeurl = {{ Js::from(URL::to('admin/validate-time')) }};
         $('.radio-editer').parent().show();
+        var field_selected = "{{ $getleaguedata->field_id }}".split(',');
     </script>
     <script src="{{ url('resources/views/admin/leagues/leagues.js') }}"></script>
 @endsection

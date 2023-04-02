@@ -29,7 +29,11 @@ class LeagueController extends Controller
             $getdomedata = Domes::where('id', $request->id)->where('vendor_id', auth()->user()->type == 2 ? auth()->user()->id : auth()->user()->vendor_id)->where('is_deleted', 2)->first();
             if (!empty($getdomedata)) {
                 $sports = Sports::whereIn('id', explode(',', $getdomedata->sport_id))->where('is_available', 1)->where('is_deleted', 2)->orderByDesc('id')->get();
-                $fields = Field::where('vendor_id', auth()->user()->type == 2 ? auth()->user()->id : auth()->user()->vendor_id)->where('dome_id', $getdomedata->id)->where('is_available', 1)->where('is_deleted', 2)->orderByDesc('id')->get();
+                $fields = Field::where('vendor_id', auth()->user()->type == 2 ? auth()->user()->id : auth()->user()->vendor_id)->where('dome_id', $getdomedata->id)->where('is_available', 1)->where('is_deleted', 2);
+                if ($request->has('sport') && $request->sport != "") {
+                    $fields = $fields->where('sport_id', $request->sport);
+                }
+                $fields = $fields->orderByDesc('id')->get();
                 return response()->json(['status' => 1, 'message' => trans('messages.success'), 'sportsdata' => $sports, 'fieldsdata' => $fields], 200);
             }
             return response()->json(['status' => 0, 'message' => trans('messages.invalid_dome')], 200);

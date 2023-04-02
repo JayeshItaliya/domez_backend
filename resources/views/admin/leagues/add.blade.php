@@ -51,7 +51,7 @@
                                 <select class="form-select" required name="dome" id="dome"
                                     data-next="{{ URL::to('/admin/leagues/sports-fields') }}">
                                     @foreach ($domes as $dome)
-                                        <option value="{{ $dome->id }}"
+                                        <option value="{{ $dome->id }}" data-start-time="{{ $dome->start_time }}" data-end-time="{{ $dome->end_time }}"
                                             {{ $dome->id == old('dome') ? 'selected' : '' }}>{{ $dome->name }}</option>
                                     @endforeach
                                 </select>
@@ -284,25 +284,7 @@
     <script>
         var validatetimeurl = {{ Js::from(URL::to('admin/validate-time')) }};
         $('.radio-editer').parent().hide();
-
-        $(document).ready(function() {
-            $('.time_picker').timepicker({
-                timeFormat: 'h:mm p',
-                interval: 90,
-                minTime: '10',
-                maxTime: '6:00 pm',
-                startTime: '10:00',
-                dynamic: false,
-                dropdown: true,
-                scrollbar: true,
-                change: function(time) {
-                    var element = $(this),
-                        text;
-                    var timepicker = element.timepicker();
-                    alert(text.timepicker(),$(this).hasClass('start'),timepicker.format(time))
-                }
-            });
-        });
+        var field_selected = [];
     </script>
     <script src="{{ url('resources/views/admin/leagues/leagues.js') }}"></script>
 @endsection
