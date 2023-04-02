@@ -111,6 +111,9 @@
                                 @if ($bookingdata->payment_status == 1)
                                     <span
                                         class="badge rounded-pill cursor-pointer complete-pill">{{ trans('labels.completed') }}</span>
+                                @elseif ($bookingdata->payment_status == 3)
+                                    <span
+                                        class="badge rounded-pill cursor-pointer text-bg-danger">{{ trans('labels.refunded') }}</span>
                                 @else
                                     <span
                                         class="badge rounded-pill cursor-pointer partial-pill">{{ trans('labels.partial') }}</span>
@@ -144,7 +147,7 @@
                                 </a>
                                 @if (in_array(Auth::user()->type, [2, 4]) && $bookingdata->booking_status == 2)
                                     <a class="cursor-pointer me-2" href="javascript:void(0)"
-                                        onclick="deletedata('{{ $bookingdata->id }}','{{ URL::to('admin/bookings/delete') }}')">
+                                        onclick="cancel_booking('{{ $bookingdata->id }}','{{ URL::to('admin/bookings/cancel') }}')">
                                         <svg width="18" height="18" viewBox="0 0 18 18" fill="none"
                                             xmlns="http://www.w3.org/2000/svg">
                                             <path
@@ -206,7 +209,50 @@
                                 dataType: "json",
                                 success: function(response) {
                                     if (response.status == 1) {
-                                        // toastr.success(response.message);
+                                        location.reload();
+                                    } else {
+                                        swal_cancelled(wrong);
+                                        return false;
+                                    }
+                                },
+                                error: function(response) {
+                                    swal_cancelled(wrong);
+                                    return false;
+                                },
+                            });
+                        });
+                    },
+                }).then((result) => {
+                    if (!result.isConfirmed) {
+                        result.dismiss === Swal.DismissReason.cancel
+                    }
+                })
+        }
+
+        function cancel_booking(id, url) {
+            "use strict";
+            swalWithBootstrapButtons
+                .fire({
+                    icon: 'warning',
+                    title: are_you_sure,
+                    showCancelButton: true,
+                    allowOutsideClick: false,
+                    allowEscapeKey: false,
+                    confirmButtonText: yes,
+                    cancelButtonText: no,
+                    reverseButtons: true,
+                    showLoaderOnConfirm: true,
+                    preConfirm: function() {
+                        return new Promise(function(resolve, reject) {
+                            $.ajax({
+                                type: "GET",
+                                url: url,
+                                data: {
+                                    id: id,
+                                },
+                                dataType: "json",
+                                success: function(response) {
+                                    if (response.status == 1) {
                                         location.reload();
                                     } else {
                                         swal_cancelled(wrong);

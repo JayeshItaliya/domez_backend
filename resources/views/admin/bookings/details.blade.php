@@ -23,7 +23,8 @@
                                 </svg>
                             </a>
                         </li>
-                        <li class="breadcrumb-item"><a href="{{ URL::to('admin/bookings') }}">{{ trans('labels.bookings') }}</a></li>
+                        <li class="breadcrumb-item"><a
+                                href="{{ URL::to('admin/bookings') }}">{{ trans('labels.bookings') }}</a></li>
                         <li class="breadcrumb-item active" aria-current="page">{{ trans('labels.booking_details') }}</li>
                     </ol>
                 </nav>
@@ -109,7 +110,8 @@
                                 <label>{{ trans('labels.booking_date') }}</label>
                             </div>
                             <div class="col-md-8">
-                                <span class="text-muted fs-7 mx-3">{{ Helper::date_format($bookingdata->start_date) }}</span>
+                                <span
+                                    class="text-muted fs-7 mx-3">{{ Helper::date_format($bookingdata->start_date) }}</span>
                             </div>
                         </div>
                     </div>
@@ -120,8 +122,7 @@
                             <label>{{ trans('labels.start_time') }}</label>
                         </div>
                         <div class="col-md-8">
-                            <span
-                                class="text-muted fs-7 mx-3">{{ Helper::time_format($bookingdata->start_time) }}</span>
+                            <span class="text-muted fs-7 mx-3">{{ Helper::time_format($bookingdata->start_time) }}</span>
                         </div>
                     </div>
                 </div>
@@ -176,16 +177,11 @@
                     <div class="col-lg-4">
                         <div class="px-3 py-2 d-flex">
                             <div class="col-md-4">
-                                <label>{{ trans('labels.payment_status') }}</label>
+                                <label>{{ trans('labels.refunded_amount') }}</label>
                             </div>
                             <div class="col-md-8">
-                                @if ($bookingdata->payment_status == 1)
-                                    <span
-                                        class="badge rounded-pill cursor-pointer complete-pill">{{ trans('labels.completed') }}</span>
-                                @else
-                                    <span
-                                        class="badge rounded-pill cursor-pointer partial-pill">{{ trans('labels.partial') }}</span>
-                                @endif
+                                <span
+                                    class="text-muted fs-7 mx-3">{{ Helper::currency_format($bookingdata->refunded_amount) }}</span>
                             </div>
                         </div>
                     </div>
@@ -193,19 +189,40 @@
                 <div class="col-lg-4">
                     <div class="px-3 py-2 d-flex">
                         <div class="col-md-4">
-                            <label>{{ trans('labels.status') }}</label>
+                            <label>{{ trans('labels.payment_status') }}</label>
                         </div>
                         <div class="col-md-8">
-                            @if ($bookingdata->booking_status == 1)
+                            @if ($bookingdata->payment_status == 1)
                                 <span
-                                    class="badge rounded-pill cursor-pointer text-bg-success">{{ trans('labels.confirmed') }}</span>
-                            @elseif ($bookingdata->booking_status == 2)
+                                    class="badge rounded-pill cursor-pointer complete-pill">{{ trans('labels.completed') }}</span>
+                            @elseif ($bookingdata->payment_status == 3)
                                 <span
-                                    class="badge rounded-pill cursor-pointer text-bg-warning">{{ trans('labels.pending') }}</span>
+                                    class="badge rounded-pill cursor-pointer text-bg-danger">{{ trans('labels.refunded') }}</span>
                             @else
                                 <span
-                                    class="badge rounded-pill cursor-pointer text-bg-danger">{{ trans('labels.cancelled') }}</span>
+                                    class="badge rounded-pill cursor-pointer partial-pill">{{ trans('labels.partial') }}</span>
                             @endif
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-gray">
+                    <div class="col-lg-4">
+                        <div class="px-3 py-2 d-flex">
+                            <div class="col-md-4">
+                                <label>{{ trans('labels.status') }}</label>
+                            </div>
+                            <div class="col-md-8">
+                                @if ($bookingdata->booking_status == 1)
+                                    <span
+                                        class="badge rounded-pill cursor-pointer text-bg-success">{{ trans('labels.confirmed') }}</span>
+                                @elseif ($bookingdata->booking_status == 2)
+                                    <span
+                                        class="badge rounded-pill cursor-pointer text-bg-warning">{{ trans('labels.pending') }}</span>
+                                @else
+                                    <span
+                                        class="badge rounded-pill cursor-pointer text-bg-danger">{{ trans('labels.cancelled') }}</span>
+                                @endif
+                            </div>
                         </div>
                     </div>
                 </div>
