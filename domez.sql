@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 29, 2023 at 12:41 PM
+-- Generation Time: Apr 02, 2023 at 11:13 AM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -68,23 +68,11 @@ CREATE TABLE `bookings` (
 --
 
 INSERT INTO `bookings` (`id`, `type`, `vendor_id`, `dome_id`, `league_id`, `user_id`, `sport_id`, `field_id`, `booking_id`, `slots`, `start_date`, `end_date`, `start_time`, `end_time`, `sub_total`, `service_fee`, `hst`, `total_amount`, `paid_amount`, `due_amount`, `payment_mode`, `payment_type`, `payment_status`, `booking_status`, `token`, `players`, `customer_name`, `customer_email`, `customer_mobile`, `team_name`, `cancellation_reason`, `created_at`, `updated_at`) VALUES
-(3, 1, 2, 35, NULL, 7, 10, '2', '0fbea8', '04:00 PM - 05:00 PM', '2023-03-29', NULL, '16:00:00', '17:00:00', 120, 6, 6, 132.00, 11.00, 121.00, 1, 2, 2, 2, '2y10kzKmDCBgZykhLeqBccIlPuLKwH7cmkK5zBNit9eQFfYQRBkZ84Zm', 12, 'Soham', 'domez@gmail.com', '6359478772', '', NULL, '2023-03-29 01:14:02', '2023-03-29 01:14:02'),
-(4, 1, 2, 35, NULL, 7, 6, '31', 'dbfe34', '02:00 PM - 03:00 PM', '2023-03-29', NULL, '14:00:00', '15:00:00', 800, 40, 40, 880.00, 880.00, 0.00, 1, 1, 1, 2, NULL, 12, 'Soham', 'domez@gmail.com', '6359478772', '', '', '2023-03-29 01:15:32', '2023-03-29 01:46:07'),
-(5, 1, 2, 35, NULL, 7, 6, '30', '339b80', '01:00 PM - 02:00 PM', '2023-03-29', NULL, '13:00:00', '14:00:00', 800, 40, 40, 880.00, 880.00, 0.00, 1, 1, 1, 3, NULL, 12, 'Soham', 'domez@gmail.com', '6359478772', '', '', '2023-03-29 01:52:10', '2023-03-29 01:52:26'),
-(6, 1, 2, 35, NULL, 7, 10, '8', '133453', '06:00 PM - 07:00 PM', '2023-03-29', NULL, '18:00:00', '19:00:00', 120, 6, 6, 132.00, 132.00, 0.00, 1, 1, 1, 3, NULL, 12, 'Soham', 'domez@gmail.com', '6359478772', '', '', '2023-03-29 01:54:19', '2023-03-29 01:54:38'),
-(7, 1, 2, 35, NULL, 7, 10, '8', '87690f', '05:00 PM - 06:00 PM', '2023-03-29', NULL, '17:00:00', '18:00:00', 120, 6, 6, 132.00, 132.00, 0.00, 1, 1, 1, 3, NULL, 12, 'Soham', 'domez@gmail.com', '6359478772', '', '', '2023-03-29 02:19:58', '2023-03-29 02:20:23'),
-(8, 1, 2, 35, NULL, 7, 6, '30', 'e417ff', '06:00 PM - 07:00 PM', '2023-03-29', NULL, '18:00:00', '19:00:00', 800, 40, 40, 880.00, 880.00, 0.00, 1, 1, 1, 3, NULL, 12, 'Soham', 'domez@gmail.com', '6359478772', '', '', '2023-03-29 02:26:25', '2023-03-29 02:26:34'),
-(9, 1, 2, 35, NULL, 7, 6, '31', 'c0317a', '02:00 PM - 03:00 PM', '2023-03-29', NULL, '14:00:00', '15:00:00', 800, 40, 40, 880.00, 880.00, 0.00, 1, 1, 1, 3, NULL, 12, 'Soham', 'domez@gmail.com', '6359478772', '', '', '2023-03-29 02:28:05', '2023-03-29 02:28:28'),
-(10, 1, 2, 35, NULL, 7, 10, '20', 'eb54cb', '06:00 PM - 07:00 PM', '2023-03-29', NULL, '18:00:00', '19:00:00', 120, 6, 6, 132.00, 132.00, 0.00, 1, 1, 1, 3, NULL, 12, 'Soham', 'domez@gmail.com', '6359478772', '', '', '2023-03-29 02:32:20', '2023-03-29 02:33:12'),
-(11, 1, 2, 35, NULL, 7, 10, '14', 'b7c30b', '03:00 PM - 04:00 PM', '2023-03-29', NULL, '15:00:00', '16:00:00', 120, 6, 6, 132.00, 132.00, 0.00, 1, 1, 1, 3, NULL, 12, 'Soham', 'domez@gmail.com', '6359478772', '', '', '2023-03-29 02:36:54', '2023-03-29 02:37:07'),
-(12, 1, 2, 35, NULL, 7, 6, '31', 'd52db0', '03:00 PM - 04:00 PM', '2023-03-29', NULL, '15:00:00', '16:00:00', 800, 40, 40, 880.00, 880.00, 0.00, 1, 1, 1, 3, NULL, 12, 'Soham', 'domez@gmail.com', '6359478772', '', '', '2023-03-29 02:38:56', '2023-03-29 02:47:26'),
-(13, 1, 2, 35, NULL, 7, 6, '30', 'f1c58c', '04:00 PM - 05:00 PM', '2023-03-29', NULL, '16:00:00', '17:00:00', 800, 40, 40, 880.00, 880.00, 0.00, 1, 1, 1, 3, NULL, 12, 'Soham', 'domez@gmail.com', '6359478772', '', '', '2023-03-29 02:55:50', '2023-03-29 02:56:11'),
-(14, 1, 2, 35, NULL, 7, 6, '30', '93c8de', '04:00 PM - 05:00 PM', '2023-03-29', NULL, '16:00:00', '17:00:00', 800, 40, 40, 880.00, 880.00, 0.00, 1, 1, 1, 3, NULL, 12, 'Soham', 'domez@gmail.com', '6359478772', '', '', '2023-03-29 02:59:00', '2023-03-29 02:59:15'),
-(15, 2, 2, 35, 16, 7, 6, '8,11', '8e7aa6', NULL, '2023-03-16', '2023-04-10', '09:00:00', '17:00:00', 1489, 74.45, 74.45, 1637.90, 1637.90, 0.00, 1, 1, 1, 1, NULL, 12, 'Soham', 'domez@gmail.com', '6359478772', 'null', NULL, '2023-03-29 04:17:15', '2023-03-29 04:17:15'),
-(16, 1, 2, 35, NULL, 7, 6, '30', 'e015e2', '06:00 AM - 07:00 AM,07:00 AM - 08:00 AM,08:00 AM - 09:00 AM', '2023-04-25', NULL, '07:00:00', '09:00:00', 0, 0, 0, 2640.00, 155.29, 0.00, 1, 2, 1, 1, '2y10VlkV4bK9dN2PEfYaN4TqPuKh7uY6AQ9tGriulEH22JSEENXDeqeOK', 17, 'Soham', 'domez@gmail.com', '6359478772', '', NULL, '2023-03-29 04:27:09', '2023-03-29 04:27:09'),
-(17, 2, 2, 35, 16, 7, 6, '8,11', 'f6529e', NULL, '2023-03-16', '2023-04-10', '09:00:00', '17:00:00', 1489, 74.45, 74.45, 1637.90, 1637.90, 0.00, 1, 1, 1, 3, NULL, 12, 'Soham', 'domez@gmail.com', '6359478772', 'null', '', '2023-03-29 04:37:25', '2023-03-29 04:45:40'),
-(18, 2, 2, 35, 16, 7, 6, '8,11', '9dfcf1', NULL, '2023-03-16', '2023-04-10', '09:00:00', '17:00:00', 1489, 74.45, 74.45, 1637.90, 1637.90, 0.00, 1, 1, 1, 3, NULL, 12, 'Soham', 'domez@gmail.com', '6359478772', 'null', '', '2023-03-29 04:47:48', '2023-03-29 04:48:07'),
-(19, 1, 2, 35, NULL, 7, 6, '32', '79c2ca', '06:00 PM - 07:00 PM', '2023-03-29', NULL, '18:00:00', '19:00:00', 800, 40, 40, 880.00, 880.00, 0.00, 1, 1, 1, 1, NULL, 12, 'Soham', 'domez@gmail.com', '6359478772', '', NULL, '2023-03-29 05:10:59', '2023-03-29 05:10:59');
+(1, 1, 2, 35, NULL, 7, 6, '31', 'c6b519', '07:00 PM - 08:00 PM', '2023-04-01', NULL, '18:00:00', '20:00:00', 200, 10, 10, 220.00, 18.33, 201.67, 1, 2, 2, 3, '2y10ipgMiX9CsfGDWicmctdz1uyjHAH3KG2b5fNueNUn3hcOr9jj4AkNa', 12, 'Soham', 'domez@gmail.com', '6359478772', '', NULL, '2023-04-01 06:56:52', '2023-04-01 13:06:00'),
+(2, 1, 2, 35, NULL, 7, 6, '30', 'b48ecc', '06:00 AM - 07:00 AM', '2023-04-28', NULL, '06:00:00', '07:00:00', 50, 2.5, 2.5, 55.00, 4.58, 50.42, 1, 2, 2, 3, '2y10oCaojuclx0O2411EFrX1cel21JeH17shI9aYKV2xaIsYSUIeAw7K', 12, 'Soham', 'domez@gmail.com', '6359478772', '', '', '2023-04-02 06:05:13', '2023-04-02 06:20:41'),
+(3, 1, 2, 35, NULL, 7, 7, '37', 'a752c5', '01:00 PM - 02:00 PM', '2023-04-02', NULL, '13:00:00', '14:00:00', 800, 40, 40, 880.00, 880.00, 0.00, 1, 2, 1, 1, '2y10UzGW9hi5W4pXm8ywVLYCuZvOyehy555LBP5nIzuulrqjAzBZzt2', 12, 'Soham', 'domez@gmail.com', '6359478772', '', NULL, '2023-04-02 06:38:23', '2023-04-02 06:42:23'),
+(4, 1, 2, 35, NULL, 7, 7, '36', '9a1e97', '05:00 PM - 06:00 PM,03:00 PM - 04:00 PM', '2023-04-02', NULL, '15:00:00', '16:00:00', 800, 40, 40, 880.00, 880.00, 0.00, 1, 1, 1, 3, NULL, 12, 'Soham', 'domez@gmail.com', '6359478772', '', '', '2023-04-02 06:51:49', '2023-04-02 06:52:23'),
+(5, 1, 2, 35, NULL, 7, 7, '37', 'f03b66', '03:00 PM - 04:00 PM', '2023-04-02', NULL, '15:00:00', '16:00:00', 800, 40, 40, 880.00, 880.00, 0.00, 1, 2, 1, 1, '2y10BwKiA7ki5aN9i1WasPLHaezrAdO9YDrQCk8ddld1vVASTlbkTlaTO', 12, 'Soham', 'domez@gmail.com', '6359478772', '', NULL, '2023-04-02 06:52:57', '2023-04-02 06:54:38');
 
 -- --------------------------------------------------------
 
@@ -94,7 +82,7 @@ INSERT INTO `bookings` (`id`, `type`, `vendor_id`, `dome_id`, `league_id`, `user
 
 CREATE TABLE `cms` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `type` int(11) NOT NULL COMMENT '1=Privacy Policy, 2=Terms & Conditions, 3=Refund Policy',
+  `type` int(11) NOT NULL COMMENT '1=Privacy Policy, 2=Terms & Conditions, 3=Refund Policy, 4 - cancellation_policies',
   `content` longtext NOT NULL,
   `created_at` timestamp NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NULL DEFAULT current_timestamp()
@@ -105,8 +93,10 @@ CREATE TABLE `cms` (
 --
 
 INSERT INTO `cms` (`id`, `type`, `content`, `created_at`, `updated_at`) VALUES
-(1, 2, '<h1>Terms &amp; Conditions</h1>\n\n<h2>Agreement to Terms</h2>\n\n<p>These Terms &amp; Conditions constitute a legally binding agreement made between you, whether personally or on behalf of an entity (&ldquo;you&rdquo;) and Most Advanced Booking System For Your Dome (&amp;rd; &ldquo;our,&rdquo; or &ldquo;the company&rdquo;), concerning your access to and use of the Most Advanced Booking System For Your Dome website.</p>\n\n<p>You agree that by accessing or using our website, you have read, understood, and agree to be bound by all of these Terms &amp; Conditions. If you do not agree to all of these Terms &amp; Conditions, then you are prohibited from using the website and you must discontinue use immediately.</p>\n\n<h2>Modification of Terms</h2>\n\n<p>We reserve the right, at our sole discretion, to modify or replace these Terms &amp; Conditions at any time. If a revision is material, we will provide at least 30 days&rsquo; notice prior to any new terms taking effect. What constitutes a material change will be determined at our sole discretion.</p>\n\n<h2>Accuracy of Information</h2>\n\n<p>We do not warrant the accuracy, completeness, or usefulness of any information on our website. Any reliance you place on such information is strictly at your own risk. We disclaim all liability and responsibility arising from any reliance placed on such materials by you or any other visitor to our website, or by anyone who may be informed of any of its contents.</p>\n\n<h2>Intellectual Property</h2>\n\n<p>The website and its original content, features, and functionality are owned by Most Advanced Booking System For Your Dome and are protected by international copyright, trademark, patent, trade secret, and other intellectual property or proprietary rights laws.</p>\n\n<h2>Limitation of Liability</h2>\n\n<p>In no event shall Most Advanced Booking System For Your Dome, its directors, employees, partners, agents, suppliers, or affiliates, be liable for any indirect, incidental, special, consequential, or punitive damages, including without limitation, loss of profits, data, use, goodwill, or other intangible losses, resulting from (i) your access to or use of or inability to access or use the website; (ii) any conduct or content of any third party on the website; (iii) any content obtained from the website; and (iv) unauthorized access, use or alteration of your transmissions or content, whether based on warranty, contract, tort (including negligence) or any other legal theory, whether or not we have been informed of the possibility of such damage, and even if a remedy set forth herein is found to have failed of its essential purpose.</p>\n\n<h2>Indemnification</h2>\n\n<p>You agree to indemnify and hold Most Advanced Booking System For Your Dome, its directors, employees, partners, agents, suppliers, and affiliates, harmless from any claim or demand, including reasonable attorneys&rsquo; fees, made by any third-party due to or arising out of your breach of these Terms &amp; Conditions or your violation of any law or the rights of a third-party.</p>\n\n<h2>Governing Law</h2>\n\n<p>These Terms &amp; Conditions shall be governed and construed in accordance with the laws of the state of California, without regard to its conflict of law provisions.</p>\n\n<h2>Contacting Us</h2>\n\n<p>If you have any questions or comments about these Terms &amp; Conditions or our practices, please contact us at info@mostadvancedbooking.com.</p>\n\n<h2>Effective DateThese Terms &amp; Conditions are of January 1, 2022.</h2>', '2023-03-10 04:36:27', '2023-03-10 04:38:11'),
-(2, 1, '<h1>Privacy Policy</h1>\n\n<p>We at Most Advanced Booking System For Your Dome take your privacy seriously. This Privacy Policy outlines our practices for collecting, using, maintaining, protecting, and disclosing your information when you use our website.</p>\n\n<p>Please read this Privacy Policy carefully to understand our policies and practices regarding your information and how we will treat it. By accessing or using our website, you agree to this Privacy Policy. This Privacy Policy may change from time to time. Your continued use of our website after we make changes is deemed to be acceptance of those changes, so please check this Privacy Policy periodically for updates.</p>\n\n<h2>Information We Collect</h2>\n\n<p>We may collect personal information from you, such as your name, email address, and phone number, when you use our website. We may also collect non-personal information, such as your IP address and browser type, when you use our website.</p>\n\n<h2>How We Use Your Information</h2>\n\n<p>We may use your personal information to contact you, respond to your inquiries, and provide you with information about our services. We may also use your non-personal information to improve our website and customize your user experience.</p>\n\n<h2>How We Protect Your Information</h2>\n\n<p>We take reasonable measures to protect your information from unauthorized access, use, or disclosure. However, no method of transmission over the Internet or electronic storage is completely secure, so we cannot guarantee absolute security.</p>\n\n<h2>Disclosure of Your Information</h2>\n\n<p>We may disclose your information to third-party service providers who assist us in operating our website or providing our services. We may also disclose your information required by or we that disclosure is necessary to protect our rights, your safety, or the safety of others.</p>\n\n<h2>Links to Other Websites</h2>\n\n<p>Our website may contain links to other websites that are not owned or operated by us. We are not responsible for the privacy practices or content of these websites. We encourage you to read the privacy policies of these websites.</p>\n\n<h2>Contacting Us</h2>\n\n<p>If you have any questions or comments about this Privacy Policy or our practices, please contact us at info@mostadvancedbooking.com.</p>\n\n<h2>Effective Date</h2>\n\n<p>This Privacy Policy is effective as of January 1, 2022.</p>', '2023-03-10 04:37:12', '2023-03-10 04:37:59');
+(1, 2, '<h1>Refund Policy</h1>\r\n\r\n<p>Our booking app offers a refund policy for cancellations made within a certain timeframe. Please review the cancellation policy for the specific activity or service you booked for refund eligibility information.</p>\r\n\r\n<p>No-shows are not eligible for refunds.</p>\r\n\r\n<p>If the activity or service is cancelled due to unforeseen circumstances such as weather or equipment failure, you may be eligible for a full or partial refund depending on the situation.</p>\r\n\r\n<h2>Requesting a Refund</h2>\r\n\r\n<p>To request a refund, please contact our customer service team as soon as possible. Refunds may take up to 5-7 business days to process.</p>\r\n\r\n<p>Refunds will be issued to the original payment method used for the booking.</p>\r\n\r\n<h2>Questions or Concerns</h2>\r\n\r\n<p>If you have any questions or concerns about our refund policy, please contact our customer service team for assistance.</p>\r\n\r\n<p>Note: Refund policies may be subject to change without notice. Please review the specific cancellation and refund policy for the activity or service you have booked for the most up-to-date information.</p>', '2023-03-10 04:36:27', '2023-03-31 01:42:14'),
+(2, 1, '<h1>Privacy Policy</h1>\n\n<p>We at Most Advanced Booking System For Your Dome take your privacy seriously. This Privacy Policy outlines our practices for collecting, using, maintaining, protecting, and disclosing your information when you use our website.</p>\n\n<p>Please read this Privacy Policy carefully to understand our policies and practices regarding your information and how we will treat it. By accessing or using our website, you agree to this Privacy Policy. This Privacy Policy may change from time to time. Your continued use of our website after we make changes is deemed to be acceptance of those changes, so please check this Privacy Policy periodically for updates.</p>\n\n<h2>Information We Collect</h2>\n\n<p>We may collect personal information from you, such as your name, email address, and phone number, when you use our website. We may also collect non-personal information, such as your IP address and browser type, when you use our website.</p>\n\n<h2>How We Use Your Information</h2>\n\n<p>We may use your personal information to contact you, respond to your inquiries, and provide you with information about our services. We may also use your non-personal information to improve our website and customize your user experience.</p>\n\n<h2>How We Protect Your Information</h2>\n\n<p>We take reasonable measures to protect your information from unauthorized access, use, or disclosure. However, no method of transmission over the Internet or electronic storage is completely secure, so we cannot guarantee absolute security.</p>\n\n<h2>Disclosure of Your Information</h2>\n\n<p>We may disclose your information to third-party service providers who assist us in operating our website or providing our services. We may also disclose your information required by or we that disclosure is necessary to protect our rights, your safety, or the safety of others.</p>\n\n<h2>Links to Other Websites</h2>\n\n<p>Our website may contain links to other websites that are not owned or operated by us. We are not responsible for the privacy practices or content of these websites. We encourage you to read the privacy policies of these websites.</p>\n\n<h2>Contacting Us</h2>\n\n<p>If you have any questions or comments about this Privacy Policy or our practices, please contact us at info@mostadvancedbooking.com.</p>\n\n<h2>Effective Date</h2>\n\n<p>This Privacy Policy is effective as of January 1, 2022.</p>', '2023-03-10 04:37:12', '2023-03-10 04:37:59'),
+(3, 4, '<h1>Refund Policy</h1>\r\n\r\n<p>Our booking app offers a refund policy for cancellations made within a certain timeframe. Please review the cancellation policy for the specific activity or service you booked for refund eligibility information.</p>\r\n\r\n<p>No-shows are not eligible for refunds.</p>\r\n\r\n<p>If the activity or service is cancelled due to unforeseen circumstances such as weather or equipment failure, you may be eligible for a full or partial refund depending on the situation.</p>\r\n\r\n<h2>Requesting a Refund</h2>\r\n\r\n<p>To request a refund, please contact our customer service team as soon as possible. Refunds may take up to 5-7 business days to process.</p>\r\n\r\n<p>Refunds will be issued to the original payment method used for the booking.</p>\r\n\r\n<h2>Questions or Concerns</h2>\r\n\r\n<p>If you have any questions or concerns about our refund policy, please contact our customer service team for assistance.</p>\r\n\r\n<p>Note: Refund policies may be subject to change without notice. Please review the specific cancellation and refund policy for the activity or service you have booked for the most up-to-date information.wdxqasdxsadxas</p>', '2023-03-31 01:43:18', '2023-03-31 01:43:18'),
+(4, 3, '<h1>Refund Policy</h1>\r\n	<p>Our booking app offers a refund policy for cancellations made within a certain timeframe. Please review the cancellation policy for the specific activity or service you booked for refund eligibility information.</p>\r\n	<ul>\r\n		<li>No-shows are not eligible for refunds.</li>\r\n		<li>If the activity or service is cancelled due to unforeseen circumstances such as weather or equipment failure, you may be eligible for a full or partial refund depending on the situation.</li>\r\n		<li>To request a refund, please contact our customer service team as soon as possible. Refunds may take up to 5-7 business days to process.</li>\r\n		<li>Refunds will be issued to the original payment method used for the booking.</li>\r\n	</ul>\r\n	<p>If you have any questions or concerns about our refund policy, please contact our customer service team for assistance.</p>\r\n	<p class=\"note\">Note: Refund policies may be subject to change without notice. Please review the specific cancellation and refund policy for the activity or service you have booked for the most up-to-date information.</p>\r\n	<p class=\"contact\">Contact us at: <a href=\"tel:+123456789\">+123456789</a> or <a href=\"mailto:info@bookingapp.com\">info@bookingapp.com</a></p>', '2023-03-31 01:53:42', '2023-03-31 01:55:42');
 
 -- --------------------------------------------------------
 
@@ -166,10 +156,9 @@ CREATE TABLE `dome_images` (
 
 INSERT INTO `dome_images` (`id`, `dome_id`, `league_id`, `images`, `created_at`, `updated_at`) VALUES
 (17, 35, NULL, 'dome-63f33f137daf5.png', '2023-02-20 04:06:19', '2023-02-20 04:06:19'),
-(34, NULL, 1, 'dome-63f33f137daf5.png', '2023-02-20 05:06:09', '2023-02-20 05:06:09'),
-(35, NULL, 11, 'dome-63f33f137daf5.png', '2023-02-20 05:06:44', '2023-02-20 05:06:44'),
-(36, NULL, 16, 'dome-63f33f137daf5.png', '2023-02-20 05:10:13', '2023-02-20 05:10:13'),
-(37, NULL, 21, 'dome-63f33f137daf5.png', '2023-03-05 07:08:44', '2023-03-05 07:08:44');
+(34, NULL, 1, 'league-63f33f137daf5.png', '2023-02-20 05:06:09', '2023-02-20 05:06:09'),
+(35, NULL, 11, 'league-63f33f137daf5.png', '2023-02-20 05:06:44', '2023-02-20 05:06:44'),
+(36, NULL, 16, 'league-63f33f137daf5.png', '2023-02-20 05:10:13', '2023-02-20 05:10:13');
 
 -- --------------------------------------------------------
 
@@ -237,7 +226,8 @@ CREATE TABLE `favourites` (
 
 INSERT INTO `favourites` (`id`, `user_id`, `dome_id`, `league_id`, `created_at`, `updated_at`) VALUES
 (9, 7, NULL, 21, '2023-02-22 00:38:11', '2023-02-22 00:38:11'),
-(82, 7, NULL, 6, '2023-03-01 02:41:00', '2023-03-01 02:41:00');
+(82, 7, NULL, 6, '2023-03-01 02:41:00', '2023-03-01 02:41:00'),
+(137, 7, 35, NULL, '2023-04-01 04:41:57', '2023-04-01 04:41:57');
 
 -- --------------------------------------------------------
 
@@ -266,7 +256,7 @@ CREATE TABLE `fields` (
 --
 
 INSERT INTO `fields` (`id`, `vendor_id`, `dome_id`, `sport_id`, `name`, `area`, `min_person`, `max_person`, `image`, `is_available`, `is_deleted`, `created_at`, `updated_at`) VALUES
-(2, 2, 35, '10', '2', 452.00, 5, 30, 'field-6712.jpg', 1, 2, '2023-02-20 05:57:52', '2023-03-16 06:04:23'),
+(2, 2, 35, '10', '2', 452.00, 5, 30, 'field-6712.jpg', 1, 1, '2023-02-20 05:57:52', '2023-03-29 09:45:56'),
 (8, 2, 35, '10', '3', 452.00, 10, 20, 'field-3851.jpg', 1, 2, '2023-02-20 05:57:52', '2023-03-16 06:06:21'),
 (14, 2, 35, '10', '4', 452.00, 5, 30, 'field-8856.jpg', 1, 2, '2023-02-20 05:57:52', '2023-03-16 06:11:51'),
 (20, 2, 35, '10', '5', 452.00, 10, 20, 'field-4042.jpg', 1, 2, '2023-02-20 05:57:52', '2023-03-16 06:12:09'),
@@ -310,6 +300,7 @@ CREATE TABLE `leagues` (
   `field_id` varchar(255) NOT NULL,
   `sport_id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
+  `booking_deadline` date DEFAULT NULL,
   `start_date` date NOT NULL,
   `end_date` date NOT NULL,
   `start_time` varchar(255) NOT NULL,
@@ -330,10 +321,10 @@ CREATE TABLE `leagues` (
 -- Dumping data for table `leagues`
 --
 
-INSERT INTO `leagues` (`id`, `vendor_id`, `dome_id`, `field_id`, `sport_id`, `name`, `start_date`, `end_date`, `start_time`, `end_time`, `from_age`, `to_age`, `gender`, `min_player`, `max_player`, `team_limit`, `price`, `is_deleted`, `created_at`, `updated_at`) VALUES
-(1, 2, 35, '2', 6, 'The Golf League', '2023-03-16', '2023-04-10', '09:00 AM', '05:00 PM', 16, 28, 1, 12, 17, 13, 1489, 2, '2023-02-20 06:56:50', '2023-03-16 07:08:09'),
-(11, 2, 35, '2,8', 6, 'The Soccer League', '2023-03-16', '2023-04-10', '09:00 AM', '05:00 PM', 16, 28, 1, 12, 17, 13, 1489, 2, '2023-02-20 06:56:50', '2023-03-16 07:03:19'),
-(16, 2, 35, '8,11', 6, 'The Volleyball League', '2023-03-16', '2023-04-10', '09:00 AM', '05:00 PM', 16, 28, 1, 12, 17, 13, 1489, 2, '2023-02-20 06:56:50', '2023-03-16 07:02:49');
+INSERT INTO `leagues` (`id`, `vendor_id`, `dome_id`, `field_id`, `sport_id`, `name`, `booking_deadline`, `start_date`, `end_date`, `start_time`, `end_time`, `from_age`, `to_age`, `gender`, `min_player`, `max_player`, `team_limit`, `price`, `is_deleted`, `created_at`, `updated_at`) VALUES
+(1, 2, 35, '56,55,54,53', 10, 'The Golf League', '2023-05-05', '2023-05-26', '2023-08-25', '09:00 AM', '05:00 PM', 16, 28, 1, 12, 17, 13, 1489, 2, '2023-02-20 06:56:50', '2023-03-31 06:56:41'),
+(11, 2, 35, '57,55,52', 10, 'The Soccer League', '2023-03-08', '2023-03-16', '2023-04-10', '09:00 AM', '05:00 PM', 16, 28, 1, 12, 17, 13, 1489, 2, '2023-02-20 06:56:50', '2023-03-31 06:56:05'),
+(16, 2, 35, '57', 10, 'The Volleyball League', '2023-04-13', '2023-04-28', '2023-07-28', '09:00 AM', '05:00 PM', 16, 28, 1, 12, 17, 13, 1489, 2, '2023-02-20 06:56:50', '2023-03-31 06:55:50');
 
 -- --------------------------------------------------------
 
@@ -444,7 +435,7 @@ CREATE TABLE `reviews` (
 --
 
 INSERT INTO `reviews` (`id`, `vendor_id`, `dome_id`, `user_id`, `ratting`, `comment`, `reply_message`, `replied_at`, `created_at`, `updated_at`) VALUES
-(30, 2, 35, 7, 4, 'Very Good Experience', NULL, NULL, '2023-03-02 03:31:58', '2023-03-02 03:31:58');
+(2, 0, 35, 7, 2, 'sacds', NULL, NULL, '2023-04-01 15:34:36', '2023-04-01 15:34:36');
 
 -- --------------------------------------------------------
 
@@ -474,7 +465,7 @@ INSERT INTO `set_prices` (`id`, `vendor_id`, `dome_id`, `sport_id`, `start_date`
 (13, 2, 35, 6, NULL, NULL, 1, 800, '2023-03-12 05:30:16', '2023-03-12 05:30:16'),
 (14, 2, 35, 7, NULL, NULL, 1, 800, '2023-03-12 05:30:16', '2023-03-12 05:30:16'),
 (15, 2, 35, 6, '2023-04-01', '2023-04-29', 2, 0, '2023-03-12 05:30:16', '2023-03-12 05:30:16'),
-(16, 2, 35, 7, '2023-04-01', '2023-04-29', 2, 0, '2023-03-12 05:30:16', '2023-03-12 05:30:16'),
+(16, 2, 35, 7, '2023-06-14', '2023-06-30', 2, 0, '2023-03-12 05:30:16', '2023-04-01 13:35:32'),
 (17, 2, 35, 10, NULL, NULL, 1, 120, '2023-03-12 05:30:16', '2023-03-12 05:30:16');
 
 -- --------------------------------------------------------
@@ -499,32 +490,6 @@ CREATE TABLE `set_prices_days_slots` (
 --
 
 INSERT INTO `set_prices_days_slots` (`id`, `set_prices_id`, `start_time`, `end_time`, `day`, `price`, `created_at`, `updated_at`) VALUES
-(148, 16, '01:00:00', '03:00:00', 'monday', 120, '2023-03-28 23:57:08', '2023-03-28 23:57:08'),
-(149, 16, '03:00:00', '06:00:00', 'monday', 150, '2023-03-28 23:57:08', '2023-03-28 23:57:08'),
-(150, 16, '07:00:00', '12:00:00', 'monday', 170, '2023-03-28 23:57:08', '2023-03-28 23:57:08'),
-(151, 16, '13:00:00', '22:00:00', 'monday', 190, '2023-03-28 23:57:08', '2023-03-28 23:57:08'),
-(152, 16, '06:00:00', '11:00:00', 'tuesday', 50, '2023-03-28 23:57:08', '2023-03-28 23:57:08'),
-(153, 16, '01:00:00', '07:00:00', 'tuesday', 40, '2023-03-28 23:57:08', '2023-03-28 23:57:08'),
-(154, 16, '04:00:00', '11:00:00', 'wednesday', 120, '2023-03-28 23:57:08', '2023-03-28 23:57:08'),
-(155, 16, '01:00:00', '02:00:00', 'thursday', 80, '2023-03-28 23:57:08', '2023-03-28 23:57:08'),
-(156, 16, '05:00:00', '11:00:00', 'thursday', 100, '2023-03-28 23:57:08', '2023-03-28 23:57:08'),
-(157, 16, '04:00:00', '11:00:00', 'friday', 50, '2023-03-28 23:57:08', '2023-03-28 23:57:08'),
-(158, 16, '01:00:00', '06:00:00', 'saturday', 120, '2023-03-28 23:57:08', '2023-03-28 23:57:08'),
-(159, 16, '03:00:00', '09:00:00', 'saturday', 200, '2023-03-28 23:57:08', '2023-03-28 23:57:08'),
-(160, 16, '09:00:00', '09:00:00', 'sunday', 1100, '2023-03-28 23:57:08', '2023-03-28 23:57:08'),
-(161, 15, '01:00:00', '03:00:00', 'monday', 120, '2023-03-29 00:14:45', '2023-03-29 00:14:45'),
-(162, 15, '03:00:00', '06:00:00', 'monday', 150, '2023-03-29 00:14:45', '2023-03-29 00:14:45'),
-(163, 15, '07:00:00', '12:00:00', 'monday', 170, '2023-03-29 00:14:45', '2023-03-29 00:14:45'),
-(164, 15, '16:00:00', '23:00:00', 'monday', 190, '2023-03-29 00:14:45', '2023-03-29 00:14:45'),
-(165, 15, '06:00:00', '11:00:00', 'tuesday', 50, '2023-03-29 00:14:45', '2023-03-29 00:14:45'),
-(166, 15, '17:00:00', '21:00:00', 'tuesday', 40, '2023-03-29 00:14:45', '2023-03-29 00:14:45'),
-(167, 15, '10:00:00', '06:00:00', 'wednesday', 120, '2023-03-29 00:14:45', '2023-03-29 00:14:45'),
-(168, 15, '01:00:00', '02:00:00', 'thursday', 80, '2023-03-29 00:14:45', '2023-03-29 00:14:45'),
-(169, 15, '05:00:00', '11:00:00', 'thursday', 100, '2023-03-29 00:14:45', '2023-03-29 00:14:45'),
-(170, 15, '04:00:00', '09:00:00', 'friday', 50, '2023-03-29 00:14:45', '2023-03-29 00:14:45'),
-(171, 15, '03:00:00', '07:00:00', 'saturday', 120, '2023-03-29 00:14:45', '2023-03-29 00:14:45'),
-(172, 15, '13:00:00', '20:00:00', 'saturday', 200, '2023-03-29 00:14:45', '2023-03-29 00:14:45'),
-(173, 15, '03:00:00', '10:00:00', 'sunday', 1100, '2023-03-29 00:14:45', '2023-03-29 00:14:45'),
 (174, 5, '01:00:00', '03:00:00', 'monday', 120, '2023-03-29 00:22:37', '2023-03-29 00:22:37'),
 (175, 5, '03:00:00', '06:00:00', 'monday', 150, '2023-03-29 00:22:37', '2023-03-29 00:22:37'),
 (176, 5, '07:00:00', '12:00:00', 'monday', 170, '2023-03-29 00:22:37', '2023-03-29 00:22:37'),
@@ -537,7 +502,32 @@ INSERT INTO `set_prices_days_slots` (`id`, `set_prices_id`, `start_time`, `end_t
 (183, 5, '05:00:00', '09:00:00', 'friday', 50, '2023-03-29 00:22:37', '2023-03-29 00:22:37'),
 (184, 5, '01:00:00', '06:00:00', 'saturday', 120, '2023-03-29 00:22:37', '2023-03-29 00:22:37'),
 (185, 5, '14:00:00', '21:00:00', 'saturday', 200, '2023-03-29 00:22:37', '2023-03-29 00:22:37'),
-(186, 5, '02:00:00', '10:00:00', 'sunday', 1100, '2023-03-29 00:22:37', '2023-03-29 00:22:37');
+(186, 5, '02:00:00', '10:00:00', 'sunday', 1100, '2023-03-29 00:22:37', '2023-03-29 00:22:37'),
+(199, 16, '01:00:00', '03:00:00', 'monday', 120, '2023-04-01 13:35:32', '2023-04-01 13:35:32'),
+(200, 16, '03:00:00', '06:00:00', 'monday', 150, '2023-04-01 13:35:32', '2023-04-01 13:35:32'),
+(201, 16, '07:00:00', '12:00:00', 'monday', 170, '2023-04-01 13:35:32', '2023-04-01 13:35:32'),
+(202, 16, '13:00:00', '22:00:00', 'monday', 190, '2023-04-01 13:35:32', '2023-04-01 13:35:32'),
+(203, 16, '06:00:00', '11:00:00', 'tuesday', 50, '2023-04-01 13:35:32', '2023-04-01 13:35:32'),
+(204, 16, '01:00:00', '07:00:00', 'tuesday', 40, '2023-04-01 13:35:32', '2023-04-01 13:35:32'),
+(205, 16, '04:00:00', '11:00:00', 'wednesday', 120, '2023-04-01 13:35:32', '2023-04-01 13:35:32'),
+(206, 16, '01:00:00', '02:00:00', 'thursday', 80, '2023-04-01 13:35:32', '2023-04-01 13:35:32'),
+(207, 16, '05:00:00', '11:00:00', 'thursday', 100, '2023-04-01 13:35:32', '2023-04-01 13:35:32'),
+(208, 16, '04:00:00', '11:00:00', 'friday', 50, '2023-04-01 13:35:32', '2023-04-01 13:35:32'),
+(209, 16, '01:00:00', '06:00:00', 'saturday', 120, '2023-04-01 13:35:32', '2023-04-01 13:35:32'),
+(210, 16, '03:00:00', '09:00:00', 'saturday', 200, '2023-04-01 13:35:32', '2023-04-01 13:35:32'),
+(211, 16, '09:00:00', '09:00:00', 'sunday', 1100, '2023-04-01 13:35:32', '2023-04-01 13:35:32'),
+(212, 15, '01:00:00', '03:00:00', 'monday', 120, '2023-04-01 13:39:29', '2023-04-01 13:39:29'),
+(213, 15, '07:00:00', '12:00:00', 'monday', 170, '2023-04-01 13:39:29', '2023-04-01 13:39:29'),
+(214, 15, '08:00:00', '09:00:00', 'monday', 3333333333, '2023-04-01 13:39:29', '2023-04-01 13:39:29'),
+(215, 15, '06:00:00', '11:00:00', 'tuesday', 50, '2023-04-01 13:39:29', '2023-04-01 13:39:29'),
+(216, 15, '17:00:00', '21:00:00', 'tuesday', 40, '2023-04-01 13:39:29', '2023-04-01 13:39:29'),
+(217, 15, '10:00:00', '06:00:00', 'wednesday', 120, '2023-04-01 13:39:29', '2023-04-01 13:39:29'),
+(218, 15, '01:00:00', '02:00:00', 'thursday', 80, '2023-04-01 13:39:29', '2023-04-01 13:39:29'),
+(219, 15, '05:00:00', '11:00:00', 'thursday', 100, '2023-04-01 13:39:29', '2023-04-01 13:39:29'),
+(220, 15, '04:00:00', '09:00:00', 'friday', 50, '2023-04-01 13:39:29', '2023-04-01 13:39:29'),
+(221, 15, '03:00:00', '07:00:00', 'saturday', 120, '2023-04-01 13:39:29', '2023-04-01 13:39:29'),
+(222, 15, '13:00:00', '20:00:00', 'saturday', 200, '2023-04-01 13:39:29', '2023-04-01 13:39:29'),
+(223, 15, '03:00:00', '10:00:00', 'sunday', 1100, '2023-04-01 13:39:29', '2023-04-01 13:39:29');
 
 -- --------------------------------------------------------
 
@@ -663,7 +653,83 @@ INSERT INTO `transactions` (`id`, `type`, `vendor_id`, `dome_id`, `league_id`, `
 (66, 1, 2, 35, NULL, 7, 'e015e2', NULL, 1, 'pi_3MoQ10FysF0okTxJ0yYjf201', 155.29, '2023-03-29 04:27:09', '2023-03-29 04:27:09'),
 (67, 1, 2, 35, 16, 7, 'f6529e', NULL, 1, 'pi_3MqvtrFysF0okTxJ17zFqUV3', 1637.90, '2023-03-29 04:37:25', '2023-03-29 04:37:25'),
 (68, 1, 2, 35, 16, 7, '9dfcf1', NULL, 1, 'pi_3Mqw4MFysF0okTxJ0t74TKKn', 1637.90, '2023-03-29 04:47:48', '2023-03-29 04:47:48'),
-(69, 1, 2, 35, NULL, 7, '79c2ca', NULL, 1, 'pi_3MqwQsFysF0okTxJ1EIMEXSA', 880.00, '2023-03-29 05:10:59', '2023-03-29 05:10:59');
+(69, 1, 2, 35, NULL, 7, '79c2ca', NULL, 1, 'pi_3MqwQsFysF0okTxJ1EIMEXSA', 880.00, '2023-03-29 05:10:59', '2023-03-29 05:10:59'),
+(70, 1, 2, 35, NULL, 7, '2bb5de', NULL, 1, 'pi_3MqwhLFysF0okTxJ0ezldKvX', 73.33, '2023-03-29 05:28:06', '2023-03-29 05:28:06'),
+(71, 1, 2, 35, 16, 7, '08bda0', NULL, 1, 'pi_3MqwjIFysF0okTxJ1TYj0V1Q', 1637.90, '2023-03-29 05:30:08', '2023-03-29 05:30:08'),
+(72, 1, 2, 35, 16, 7, '0f1376', NULL, 1, 'pi_3MqwksFysF0okTxJ0IzLr1Ik', 1637.90, '2023-03-29 05:31:40', '2023-03-29 05:31:40'),
+(73, 1, 2, 35, 16, 7, '2c8fb5', NULL, 1, 'pi_3MqwmRFysF0okTxJ0tdrM1mu', 1637.90, '2023-03-29 05:33:15', '2023-03-29 05:33:15'),
+(74, 1, 2, 35, NULL, 7, '2b167c', NULL, 1, 'pi_3Mqx6lFysF0okTxJ1xbjYS2c', 73.33, '2023-03-29 05:54:20', '2023-03-29 05:54:20'),
+(75, 1, 2, 35, NULL, 7, '635bd7', NULL, 1, 'pi_3MrDQDFysF0okTxJ1VXZ7zz4', 880.00, '2023-03-29 23:19:34', '2023-03-29 23:19:34'),
+(76, 1, 2, 35, NULL, 7, 'c03274', NULL, 1, 'pi_3MrDWyFysF0okTxJ0wZm0nuh', 73.33, '2023-03-29 23:26:25', '2023-03-29 23:26:25'),
+(77, 1, 2, 35, NULL, 7, '66f934', NULL, 1, 'pi_3MrGvSFysF0okTxJ0TaCgV6D', 80.00, '2023-03-30 03:03:58', '2023-03-30 03:03:58'),
+(78, 1, 2, 35, NULL, 7, 'a21be1', NULL, 1, 'pi_3MrHnoFysF0okTxJ1nUzCgMf', 802.30, '2023-03-30 04:00:25', '2023-03-30 04:00:25'),
+(79, 1, 2, 35, NULL, 7, '3791ce', NULL, 1, 'pi_3MrHzbFysF0okTxJ1kMeOtoA', 73.33, '2023-03-30 04:12:16', '2023-03-30 04:12:16'),
+(80, 1, 2, 35, NULL, 7, '670a1f', NULL, 1, 'pi_3MrI0lFysF0okTxJ04p53bJx', 99.00, '2023-03-30 04:13:34', '2023-03-30 04:13:34'),
+(81, 1, 2, 35, NULL, 7, '092948', NULL, 1, 'pi_3MrITIFysF0okTxJ0a3Cvs0e', 73.36, '2023-03-30 04:42:56', '2023-03-30 04:42:56'),
+(82, 1, 2, 35, NULL, 7, '715f07', NULL, 1, 'pi_3MrIUqFysF0okTxJ1QdyGcjT', 80.00, '2023-03-30 04:44:33', '2023-03-30 04:44:33'),
+(83, 1, 2, 35, NULL, 7, '7d03d8', NULL, 1, 'pi_3MrIWlFysF0okTxJ0mvPZ43c', 73.33, '2023-03-30 04:46:35', '2023-03-30 04:46:35'),
+(84, 1, 2, 35, NULL, 7, 'f79110', NULL, 1, 'pi_3MrJEpFysF0okTxJ0c8y9vsO', 73.33, '2023-03-30 05:32:03', '2023-03-30 05:32:03'),
+(85, 1, 2, 35, NULL, 7, '73c344', NULL, 1, 'pi_3MrJI7FysF0okTxJ0h1ISNFx', 4.58, '2023-03-30 05:35:34', '2023-03-30 05:35:34'),
+(86, 1, 2, 35, NULL, 7, 'd3532d', NULL, 1, 'pi_3MrZgvFysF0okTxJ0bD8hbfF', 73.33, '2023-03-30 23:06:14', '2023-03-30 23:06:14'),
+(87, 1, 2, 35, NULL, 7, 'cd325b', NULL, 1, 'pi_3MrZu6FysF0okTxJ1g3cDRG6', 100.00, '2023-03-30 23:19:50', '2023-03-30 23:19:50'),
+(88, 1, 2, 35, NULL, NULL, 'cd325b', 'ew', 1, 'pi_3Mraq3FysF0okTxJ1CZPWxGo', 11.00, '2023-03-31 00:19:44', '2023-03-31 00:19:44'),
+(89, 1, 2, 35, NULL, NULL, 'cd325b', '7uyt', 1, 'pi_3MraqaFysF0okTxJ0aeoObvP', 222.00, '2023-03-31 00:20:12', '2023-03-31 00:20:12'),
+(90, 1, 2, 35, NULL, NULL, 'cd325b', 'dsfhs', 1, 'pi_3Mrar5FysF0okTxJ0Vb9g9LT', 22.00, '2023-03-31 00:20:38', '2023-03-31 00:20:38'),
+(91, 1, 2, 35, NULL, NULL, 'cd325b', '125', 1, 'pi_3MrarhFysF0okTxJ1uT3XXGx', 344.00, '2023-03-31 00:21:20', '2023-03-31 00:21:20'),
+(92, 1, 2, 35, NULL, NULL, 'cd325b', '12312', 1, 'pi_3Mras9FysF0okTxJ17r9gFV9', 111.00, '2023-03-31 00:21:44', '2023-03-31 00:21:44'),
+(93, 1, 2, 35, NULL, NULL, 'cd325b', 'ddf', 1, 'pi_3MrasYFysF0okTxJ0GXoQGZP', 20.00, '2023-03-31 00:22:11', '2023-03-31 00:22:11'),
+(94, 1, 2, 35, NULL, NULL, 'cd325b', '4242 4242 4242 4242', 1, 'pi_3MrasvFysF0okTxJ19cEWYqe', 4.00, '2023-03-31 00:22:31', '2023-03-31 00:22:31'),
+(95, 1, 2, 35, NULL, NULL, 'cd325b', 'FDC', 1, 'pi_3MratIFysF0okTxJ0GByZgVo', 23.00, '2023-03-31 00:23:03', '2023-03-31 00:23:03'),
+(96, 1, 2, 35, NULL, NULL, 'cd325b', 'CDSV', 1, 'pi_3MratsFysF0okTxJ059h03uO', 22.50, '2023-03-31 00:23:31', '2023-03-31 00:23:31'),
+(97, 1, 2, 35, NULL, NULL, 'cd325b', 'ERG', 1, 'pi_3MrauFFysF0okTxJ0UrQjIzD', 0.50, '2023-03-31 00:23:52', '2023-03-31 00:23:52'),
+(98, 1, 2, 35, NULL, 7, '989fef', NULL, 1, 'pi_3MrbulFysF0okTxJ1z8vmAq4', 7.33, '2023-03-31 01:29:06', '2023-03-31 01:29:06'),
+(99, 1, 2, 35, NULL, 7, 'bfe54e', NULL, 1, 'pi_3MreWAFysF0okTxJ0Xfkg3rm', 99.00, '2023-03-31 04:15:27', '2023-03-31 04:15:27'),
+(100, 1, 2, 35, NULL, 7, 'a4ecda', NULL, 1, 'pi_3MrecvFysF0okTxJ1WwrixfX', 73.33, '2023-03-31 04:22:29', '2023-03-31 04:22:29'),
+(101, 1, 2, 35, NULL, NULL, 'a4ecda', 'dsjdj', 1, 'pi_3MrefCFysF0okTxJ0GPY3E7o', 400.00, '2023-03-31 04:24:50', '2023-03-31 04:24:50'),
+(102, 1, 2, 35, NULL, NULL, 'a4ecda', 'gfg', 1, 'pi_3Mreg3FysF0okTxJ0wfW7OtE', 200.00, '2023-03-31 04:25:39', '2023-03-31 04:25:39'),
+(103, 1, 2, 35, NULL, NULL, 'a4ecda', 'a', 1, 'pi_3MregqFysF0okTxJ1wOHr7W8', 100.00, '2023-03-31 04:26:45', '2023-03-31 04:26:45'),
+(104, 1, 2, 35, NULL, NULL, 'a4ecda', 'dss', 1, 'pi_3MreiFFysF0okTxJ0eMHmBwn', 106.67, '2023-03-31 04:27:47', '2023-03-31 04:27:47'),
+(105, 1, 2, 35, NULL, 7, 'a54fae', NULL, 1, 'pi_3MrfvCFysF0okTxJ18gfQNZc', 880.00, '2023-03-31 05:45:22', '2023-03-31 05:45:22'),
+(106, 1, 2, 35, NULL, 7, 'f809dd', NULL, 1, 'pi_3MrwFuFysF0okTxJ0LHOqmhk', 18.33, '2023-03-31 23:11:51', '2023-03-31 23:11:51'),
+(107, 1, 2, 35, NULL, 7, 'd38fbf', NULL, 1, 'pi_3MrwYGFysF0okTxJ1iAFFkla', 9.17, '2023-03-31 23:30:44', '2023-03-31 23:30:44'),
+(108, 1, 2, 35, NULL, 7, 'd9e8ef', NULL, 1, 'pi_3MryHPFysF0okTxJ1VyASmQx', 88.00, '2023-04-01 01:21:26', '2023-04-01 01:21:26'),
+(109, 1, 2, 35, NULL, 7, '4ea4bd', NULL, 1, 'pi_3MryIkFysF0okTxJ1SDT1yVF', 18.33, '2023-04-01 01:22:49', '2023-04-01 01:22:49'),
+(110, 1, 2, 35, NULL, 7, 'df3e70', NULL, 1, 'pi_3MryyRFysF0okTxJ09RBE1b7', 4.58, '2023-04-01 02:05:55', '2023-04-01 02:05:55'),
+(111, 1, 2, 35, NULL, 7, '137a6b', NULL, 1, 'pi_3MryzEFysF0okTxJ06jsTnBD', 18.33, '2023-04-01 02:06:47', '2023-04-01 02:06:47'),
+(112, 1, 2, 35, NULL, 7, '4722a1', NULL, 1, 'pi_3MrzukFysF0okTxJ0JI4loDS', 88.00, '2023-04-01 03:06:15', '2023-04-01 03:06:15'),
+(113, 1, 2, 35, NULL, 7, '2799c6', NULL, 1, 'pi_3MrzxiFysF0okTxJ0Mn4VYNK', 18.33, '2023-04-01 03:09:14', '2023-04-01 03:09:14'),
+(114, 1, 2, 35, NULL, 7, '27dc01', NULL, 1, 'pi_3Ms0tdFysF0okTxJ09ceHauv', 18.33, '2023-04-01 04:09:03', '2023-04-01 04:09:03'),
+(115, 1, 2, 35, NULL, 7, '514641', NULL, 1, 'pi_3Ms0ubFysF0okTxJ0mAs2Z0r', 18.33, '2023-04-01 04:10:04', '2023-04-01 04:10:04'),
+(116, 1, 2, 35, NULL, 7, '2e9eea', NULL, 1, 'pi_3Ms0vEFysF0okTxJ0EdWBxon', 11.00, '2023-04-01 04:10:45', '2023-04-01 04:10:45'),
+(117, 1, 2, 35, NULL, 7, '374a58', NULL, 1, 'pi_3Ms1E0FysF0okTxJ0jteQvEZ', 18.33, '2023-04-01 04:30:08', '2023-04-01 04:30:08'),
+(118, 1, 2, 35, NULL, 7, 'ffb438', NULL, 1, 'pi_3Ms1OcFysF0okTxJ1ShBwhjI', 11.00, '2023-04-01 04:41:04', '2023-04-01 04:41:04'),
+(119, 1, 2, 35, NULL, 7, '17c881', NULL, 1, 'pi_3Ms1fDFysF0okTxJ1YcUZmF2', 18.33, '2023-04-01 04:58:13', '2023-04-01 04:58:13'),
+(120, 1, 2, 35, NULL, 7, '611435', NULL, 1, 'pi_3Ms1i4FysF0okTxJ11WZ5wyq', 18.33, '2023-04-01 05:01:12', '2023-04-01 05:01:12'),
+(121, 1, 2, 35, NULL, 7, '09a31f', NULL, 1, 'pi_3Ms224FysF0okTxJ1wzmaZcQ', 18.33, '2023-04-01 05:22:18', '2023-04-01 05:22:18'),
+(122, 1, 2, 35, NULL, 7, '6bd117', NULL, 1, 'pi_3Ms24xFysF0okTxJ10pI8gxM', 18.33, '2023-04-01 05:24:52', '2023-04-01 05:24:52'),
+(123, 1, 2, 35, NULL, 7, '2d3230', NULL, 1, 'pi_3Ms25xFysF0okTxJ1amZxHBP', 18.33, '2023-04-01 05:25:51', '2023-04-01 05:25:51'),
+(124, 1, 2, 35, NULL, 7, '6c9814', NULL, 1, 'pi_3Ms27xFysF0okTxJ1CdsZ1t4', 18.33, '2023-04-01 05:27:58', '2023-04-01 05:27:58'),
+(125, 1, 2, 35, NULL, 7, '335561', NULL, 1, 'pi_3Ms2S5FysF0okTxJ04ciHmw2', 18.33, '2023-04-01 05:48:43', '2023-04-01 05:48:43'),
+(126, 1, 2, 35, NULL, 7, '6a2f7b', NULL, 1, 'pi_3Ms2TBFysF0okTxJ0roMJ7A7', 4.58, '2023-04-01 05:49:53', '2023-04-01 05:49:53'),
+(127, 1, 2, 35, NULL, 7, 'a387de', NULL, 1, 'pi_3Ms2TqFysF0okTxJ194ehW67', 55.00, '2023-04-01 05:50:36', '2023-04-01 05:50:36'),
+(128, 1, 2, 35, NULL, 7, '5eb597', NULL, 1, 'pi_3Ms2cLFysF0okTxJ1S6yPxQh', 18.33, '2023-04-01 05:59:20', '2023-04-01 05:59:20'),
+(129, 1, 2, 35, NULL, 7, 'd68b08', NULL, 1, 'pi_3Ms2r7FysF0okTxJ15k5WjX8', 4.58, '2023-04-01 06:14:39', '2023-04-01 06:14:39'),
+(130, 1, 2, 35, NULL, 7, '3aef93', NULL, 1, 'pi_3Ms3NLFysF0okTxJ1GuuZbBH', 18.33, '2023-04-01 06:47:54', '2023-04-01 06:47:54'),
+(131, 1, 2, 35, NULL, 7, '5808d8', NULL, 1, 'pi_3Ms3ZsFysF0okTxJ0EhHGfs2', 18.33, '2023-04-01 07:01:11', '2023-04-01 07:01:11'),
+(132, 1, 2, 35, NULL, 7, 'c6b519', NULL, 1, 'pi_3Ms3yvFysF0okTxJ1jv5DTUs', 18.33, '2023-04-01 12:56:52', '2023-04-01 12:56:52'),
+(133, 1, 2, 35, NULL, 7, 'b48ecc', NULL, 1, 'pi_3MsJz0FysF0okTxJ0uFNuTD6', 4.58, '2023-04-02 06:05:13', '2023-04-02 06:05:13'),
+(134, 1, 2, 35, NULL, 7, 'a752c5', NULL, 1, 'pi_3MsKYCFysF0okTxJ1AhhmgvY', 73.33, '2023-04-02 06:38:22', '2023-04-02 06:38:22'),
+(135, 1, 2, 35, NULL, NULL, 'a752c5', 'soham', 1, 'pi_3MsKZSFysF0okTxJ0tyVV2lI', 22.00, '2023-04-02 06:39:50', '2023-04-02 06:39:50'),
+(136, 1, 2, 35, NULL, NULL, 'a752c5', 'HIREN', 1, 'pi_3MsKaKFysF0okTxJ1XyhTQBU', 66.00, '2023-04-02 06:40:32', '2023-04-02 06:40:32'),
+(137, 1, 2, 35, NULL, NULL, 'a752c5', 'SOHAM', 1, 'pi_3MsKayFysF0okTxJ02baTKxV', 500.00, '2023-04-02 06:41:04', '2023-04-02 06:41:04'),
+(138, 1, 2, 35, NULL, NULL, 'a752c5', 'SAURABHG', 1, 'pi_3MsKbXFysF0okTxJ0wQaxtHU', 33.00, '2023-04-02 06:41:38', '2023-04-02 06:41:38'),
+(139, 1, 2, 35, NULL, NULL, 'a752c5', 'JAYESH', 1, 'pi_3MsKbtFysF0okTxJ1ziWOyye', 22.00, '2023-04-02 06:41:59', '2023-04-02 06:41:59'),
+(140, 1, 2, 35, NULL, NULL, 'a752c5', 'VRAJ', 1, 'pi_3MsKcGFysF0okTxJ1gETujuV', 163.67, '2023-04-02 06:42:23', '2023-04-02 06:42:23'),
+(141, 1, 2, 35, NULL, 7, '9a1e97', NULL, 1, 'pi_3MsKlEFysF0okTxJ0JGSnWvQ', 880.00, '2023-04-02 06:51:49', '2023-04-02 06:51:49'),
+(142, 1, 2, 35, NULL, 7, 'f03b66', NULL, 1, 'pi_3MsKmKFysF0okTxJ1EVK37XV', 73.33, '2023-04-02 06:52:57', '2023-04-02 06:52:57'),
+(143, 1, 2, 35, NULL, NULL, 'f03b66', 'soham kings', 1, 'pi_3MsKn8FysF0okTxJ1iZPr4Tc', 123.00, '2023-04-02 06:53:46', '2023-04-02 06:53:46'),
+(144, 1, 2, 35, NULL, NULL, 'f03b66', 'hiren bhai', 1, 'pi_3MsKndFysF0okTxJ1A0pNdNW', 333.00, '2023-04-02 06:54:06', '2023-04-02 06:54:06'),
+(145, 1, 2, 35, NULL, NULL, 'f03b66', 'Jayesh Bossz', 1, 'pi_3MsKo9FysF0okTxJ1CjKIO3m', 350.67, '2023-04-02 06:54:38', '2023-04-02 06:54:38');
 
 -- --------------------------------------------------------
 
@@ -701,7 +767,7 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `type`, `login_type`, `vendor_id`, `dome_limit`, `name`, `email`, `countrycode`, `phone`, `password`, `google_id`, `apple_id`, `facebook_id`, `fcm_token`, `otp`, `image`, `is_verified`, `is_available`, `is_deleted`, `created_at`, `updated_at`) VALUES
 (1, 1, 1, NULL, NULL, 'Admin', 'admin@gmail.com', 'CA', '1234567890', '$2y$10$z0eXm5BtjQQP77GHRvJAGOIp1osY2Lx0NvMvmkpTgPzpiTUvnIlri', NULL, NULL, NULL, NULL, NULL, 'default.png', 1, 1, 2, '2023-02-06 05:11:02', '2023-02-06 05:11:02'),
-(2, 2, 1, NULL, NULL, 'domez', 'domez@yopmail.com', 'CA', '1234657890', '$2y$10$z0eXm5BtjQQP77GHRvJAGOIp1osY2Lx0NvMvmkpTgPzpiTUvnIlri', NULL, NULL, NULL, NULL, NULL, 'default.png', 1, 1, 2, '2023-02-06 00:03:03', '2023-02-22 04:12:48'),
+(2, 2, 1, NULL, 1, 'domez', 'domez@yopmail.com', 'CA', '1234657890', '$2y$10$z0eXm5BtjQQP77GHRvJAGOIp1osY2Lx0NvMvmkpTgPzpiTUvnIlri', NULL, NULL, NULL, NULL, NULL, 'default.png', 1, 1, 2, '2023-02-06 00:03:03', '2023-02-22 04:12:48'),
 (35, 3, 1, NULL, NULL, 'Mona Vosa', 'mona@gmail.com', 'CA', '8946555414', '$2y$10$gtan0ZH/DCiZmnR2yLGiyeZAR0YeEu9krVXGHQfXBqk63ep0WQEEm', NULL, NULL, NULL, NULL, NULL, 'default.png', 1, 1, 2, '2023-05-19 02:22:29', '2023-05-19 05:28:51'),
 (34, 3, 1, NULL, NULL, 'Docote Voho', 'docote@gmail.com', 'CA', '54654154654', '$2y$10$gtan0ZH/DCiZmnR2yLGiyeZAR0YeEu9krVXGHQfXBqk63ep0WQEEm', NULL, NULL, NULL, NULL, NULL, 'default.png', 1, 1, 2, '2023-05-19 02:22:29', '2023-05-19 05:28:51'),
 (7, 3, 1, NULL, NULL, 'Soham', 'domez@gmail.com', 'CA', '6359478772', '$2y$10$gtan0ZH/DCiZmnR2yLGiyeZAR0YeEu9krVXGHQfXBqk63ep0WQEEm', NULL, NULL, NULL, NULL, NULL, 'default.png', 1, 1, 2, '2023-02-19 02:22:29', '2023-03-28 06:45:53'),
@@ -735,7 +801,8 @@ INSERT INTO `users` (`id`, `type`, `login_type`, `vendor_id`, `dome_limit`, `nam
 (57, 2, 1, NULL, NULL, 'Ikara Dome', 'ikaradome@yopmail.com', 'CA', '4545151', '$2y$10$z0eXm5BtjQQP77GHRvJAGOIp1osY2Lx0NvMvmkpTgPzpiTUvnIlri', NULL, NULL, NULL, NULL, NULL, 'default.png', 1, 1, 2, '2023-08-06 00:03:03', '2023-02-22 04:12:48'),
 (58, 2, 1, NULL, NULL, 'Sitara Domez', 'sitaradome@yopmail.com', 'CA', '84651151', '$2y$10$z0eXm5BtjQQP77GHRvJAGOIp1osY2Lx0NvMvmkpTgPzpiTUvnIlri', NULL, NULL, NULL, NULL, NULL, 'default.png', 1, 1, 2, '2023-09-06 00:03:03', '2023-02-22 04:12:48'),
 (59, 2, 1, NULL, NULL, 'Coras Domez', 'corasdomez@yopmail.com', 'CA', '654565615', '$2y$10$z0eXm5BtjQQP77GHRvJAGOIp1osY2Lx0NvMvmkpTgPzpiTUvnIlri', NULL, NULL, NULL, NULL, NULL, 'default.png', 1, 1, 2, '2023-10-06 00:03:03', '2023-02-22 04:12:48'),
-(60, 2, 1, NULL, NULL, 'Just Play Domez', 'justplaydomez@yopmail.com', 'CA', '5854854', '$2y$10$z0eXm5BtjQQP77GHRvJAGOIp1osY2Lx0NvMvmkpTgPzpiTUvnIlri', NULL, NULL, NULL, NULL, NULL, 'default.png', 1, 1, 2, '2023-10-06 00:03:03', '2023-02-22 04:12:48');
+(60, 2, 1, NULL, NULL, 'Just Play Domez', 'justplaydomez@yopmail.com', 'CA', '5854854', '$2y$10$z0eXm5BtjQQP77GHRvJAGOIp1osY2Lx0NvMvmkpTgPzpiTUvnIlri', NULL, NULL, NULL, NULL, NULL, 'default.png', 1, 1, 2, '2023-10-06 00:03:03', '2023-02-22 04:12:48'),
+(61, 4, 1, 2, NULL, 'hiren', 'hirenitaliya@gmail.com', NULL, NULL, '$2y$10$JrluFobu/xBEBKQZY1kr6.gAJe4QGuWZP6Ugp6ctXHWz4My5lnfeO', NULL, NULL, NULL, NULL, NULL, 'default.png', 1, 1, 2, '2023-03-29 09:29:58', '2023-03-29 09:29:58');
 
 --
 -- Indexes for dumped tables
@@ -846,13 +913,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `bookings`
 --
 ALTER TABLE `bookings`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `cms`
 --
 ALTER TABLE `cms`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `domes`
@@ -864,7 +931,7 @@ ALTER TABLE `domes`
 -- AUTO_INCREMENT for table `dome_images`
 --
 ALTER TABLE `dome_images`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 
 --
 -- AUTO_INCREMENT for table `enquiries`
@@ -876,7 +943,7 @@ ALTER TABLE `enquiries`
 -- AUTO_INCREMENT for table `favourites`
 --
 ALTER TABLE `favourites`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=136;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=138;
 
 --
 -- AUTO_INCREMENT for table `fields`
@@ -888,7 +955,7 @@ ALTER TABLE `fields`
 -- AUTO_INCREMENT for table `leagues`
 --
 ALTER TABLE `leagues`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `migrations`
@@ -906,7 +973,7 @@ ALTER TABLE `payment_gateways`
 -- AUTO_INCREMENT for table `reviews`
 --
 ALTER TABLE `reviews`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=201;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `set_prices`
@@ -918,7 +985,7 @@ ALTER TABLE `set_prices`
 -- AUTO_INCREMENT for table `set_prices_days_slots`
 --
 ALTER TABLE `set_prices_days_slots`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=187;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=224;
 
 --
 -- AUTO_INCREMENT for table `sports`
@@ -930,13 +997,13 @@ ALTER TABLE `sports`
 -- AUTO_INCREMENT for table `transactions`
 --
 ALTER TABLE `transactions`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=70;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=146;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

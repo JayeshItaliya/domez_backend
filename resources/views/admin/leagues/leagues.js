@@ -1,7 +1,8 @@
 $(function () {
-    $(".time_picker").timepicker({
-        interval: 60,
-    });
+    // $(".time_picker").timepicker({
+    //     interval: 60,
+    // });
+
     if (is_vendor || is_employee) {
         $(document).ready(function () {
             let html =
@@ -103,31 +104,31 @@ $('#dome').on('change', function () {
     });
 }).change();
 
-$('body').on('blur', '.start.time_picker', function () {
-    "use strict";
-    setTimeout(() => {
-        var start_time = $(this).val();
-        var end_time = '';
-        var dome_id = $('#dome').val();
-        var validate_start_time = 1;
-        var element = $(this);
-        validatetime(start_time, end_time, dome_id, validate_start_time, element);
-    }, 100);
-});
-$('body').on('blur', '.end.time_picker', function () {
-    "use strict";
-    var start_time = $(this).parent().parent().prev().find('.start.time_picker').val();
-    if ($.trim(start_time) == '') {
-        return false;
-    }
-    setTimeout(() => {
-        var end_time = $(this).val();
-        var dome_id = $('#dome').val();
-        var validate_start_time = '';
-        var element = $(this);
-        validatetime(start_time, end_time, dome_id, validate_start_time, element);
-    }, 100);
-});
+// $('body').on('blur', '.start.time_picker', function () {
+//     "use strict";
+//     setTimeout(() => {
+//         var start_time = $(this).val();
+//         var end_time = '';
+//         var dome_id = $('#dome').val();
+//         var validate_start_time = 1;
+//         var element = $(this);
+//         validatetime(start_time, end_time, dome_id, validate_start_time, element);
+//     }, 100);
+// });
+// $('body').on('blur', '.end.time_picker', function () {
+//     "use strict";
+//     var start_time = $(this).parent().parent().prev().find('.start.time_picker').val();
+//     if ($.trim(start_time) == '') {
+//         return false;
+//     }
+//     setTimeout(() => {
+//         var end_time = $(this).val();
+//         var dome_id = $('#dome').val();
+//         var validate_start_time = '';
+//         var element = $(this);
+//         validatetime(start_time, end_time, dome_id, validate_start_time, element);
+//     }, 100);
+// });
 
 function validatetime(start_time, end_time, dome_id, validate_start_time, element) {
     "use strict";

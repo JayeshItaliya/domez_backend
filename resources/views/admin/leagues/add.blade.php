@@ -3,6 +3,8 @@
     <link rel="stylesheet" href="{{ url('storage\app\public\admin\plugins\multi-select\select2.min.css') }}" />
     <link rel="stylesheet"
         href="{{ url('storage\app\public\admin\plugins\multi-select\select2-bootstrap-5-theme.min.css') }}" />
+
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.css">
 @endsection
 
 @section('title')
@@ -278,9 +280,29 @@
 @endsection
 @section('scripts')
     <script src="{{ url('storage\app\public\admin\plugins\multi-select\select2.min.js') }}"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
     <script>
         var validatetimeurl = {{ Js::from(URL::to('admin/validate-time')) }};
         $('.radio-editer').parent().hide();
+
+        $(document).ready(function() {
+            $('.time_picker').timepicker({
+                timeFormat: 'h:mm p',
+                interval: 90,
+                minTime: '10',
+                maxTime: '6:00 pm',
+                startTime: '10:00',
+                dynamic: false,
+                dropdown: true,
+                scrollbar: true,
+                change: function(time) {
+                    var element = $(this),
+                        text;
+                    var timepicker = element.timepicker();
+                    alert(text.timepicker(),$(this).hasClass('start'),timepicker.format(time))
+                }
+            });
+        });
     </script>
     <script src="{{ url('resources/views/admin/leagues/leagues.js') }}"></script>
 @endsection
