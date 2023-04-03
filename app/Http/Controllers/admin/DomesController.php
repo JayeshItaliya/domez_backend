@@ -90,18 +90,18 @@ class DomesController extends Controller
             }
         }
         foreach ($request->sport_id as $key => $sport) {
-            $checksportexist =  SetPrices::where('dome_id', $dome->id)->where('sport_id', $sport)->first();
+            $checksportexist =  SetPrices::where('dome_id', $dome->id)->where('sport_id', $sport)->where('price_type',1)->first();
             if (empty($checksportexist)) {
-                $setprice = new SetPrices();
-                $setprice->vendor_id = auth()->user()->id;
+                $checksportexist = new SetPrices();
+                $checksportexist->vendor_id = auth()->user()->id;
+                $checksportexist->price_type = 1;
             }
-            $setprice->price_type = 1;
-            $setprice->price = $request->dome_price[$key];
-            $setprice->dome_id = $dome->id;
-            $setprice->sport_id = $sport;
-            $setprice->start_date = '';
-            $setprice->end_date = '';
-            $setprice->save();
+            $checksportexist->price = $request->dome_price[$key];
+            $checksportexist->dome_id = $dome->id;
+            $checksportexist->sport_id = $sport;
+            $checksportexist->start_date = null;
+            $checksportexist->end_date = null;
+            $checksportexist->save();
         }
         return redirect('admin/domes')->with('success', trans('messages.success'));
     }
@@ -291,7 +291,7 @@ class DomesController extends Controller
         $dome->lat = $request->lat;
         $dome->lng = $request->lng;
         $dome->benefits = implode("|", $request->benefits);
-        $dome->benefits_description    = $request->benefits_description;
+        $dome->benefits_description = $request->benefits_description;
         $dome->save();
 
         if ($request->has('dome_images')) {
@@ -309,6 +309,21 @@ class DomesController extends Controller
                 $domeimage->images = $image;
                 $domeimage->save();
             }
+        }
+
+        foreach ($request->sport_id as $key => $sport) {
+            $checksportexist =  SetPrices::where('dome_id', $dome->id)->where('sport_id', $sport)->where('price_type',1)->first();
+            if (empty($checksportexist)) {
+                $checksportexist = new SetPrices();
+                $checksportexist->vendor_id = auth()->user()->id;
+                $checksportexist->price_type = 1;
+                $checksportexist->start_date = null;
+                $checksportexist->end_date = null;
+                $checksportexist->dome_id = $dome->id;
+                $checksportexist->sport_id = $sport;
+            }
+            $checksportexist->price = $request->dome_price[$key];
+            $checksportexist->save();
         }
         return redirect('admin/domes')->with('success', trans('messages.success'));
     }

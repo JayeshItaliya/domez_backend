@@ -50,7 +50,8 @@
                                     data-next="{{ URL::to('/admin/leagues/sports-fields') }}">
 
                                     @foreach ($domes as $dome)
-                                        <option value="{{ $dome->id }}" data-start-time="{{ $dome->start_time }}" data-end-time="{{ $dome->end_time }}"
+                                        <option value="{{ $dome->id }}" data-start-time="{{ $dome->start_time }}"
+                                            data-end-time="{{ $dome->end_time }}"
                                             {{ $dome->id == $getleaguedata->dome_id ? 'selected' : '' }}>
                                             {{ $dome->name }}</option>
                                     @endforeach
@@ -126,7 +127,8 @@
                             <div class="form-group">
                                 <label for="start_date" class="form-label">{{ trans('labels.start_date') }}</label>
                                 <input type="date" required class="form-control" name="start_date"
-                                    value="{{ $getleaguedata->start_date }}" id="start_date" min="{{ $getleaguedata->start_date }}">
+                                    value="{{ $getleaguedata->start_date }}" id="start_date"
+                                    min="{{ $getleaguedata->start_date }}">
                                 @error('start_date')
                                     <span class="text-danger"> {{ $message }} </span>
                                 @enderror
@@ -315,9 +317,12 @@
 @section('scripts')
     <script src="{{ url('storage\app\public\admin\plugins\multi-select\select2.min.js') }}"></script>
     <script>
-        var validatetimeurl = {{ Js::from(URL::to('admin/validate-time')) }};
+        // var validatetimeurl = {{ Js::from(URL::to('admin/validate-time')) }};
         $('.radio-editer').parent().show();
-        var field_selected = "{{ $getleaguedata->field_id }}".split(',');
+        var field_selected = $.map({{ Js::from(explode(',', $getleaguedata->field_id)) }}, function(value) {
+            return parseInt(value, 10);
+        });
+        var sport_selected = {{ Js::from($getleaguedata->sport_id) }};
     </script>
     <script src="{{ url('resources/views/admin/leagues/leagues.js') }}"></script>
 @endsection

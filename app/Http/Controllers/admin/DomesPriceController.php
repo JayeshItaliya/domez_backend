@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\BookingSlots;
 use App\Models\Domes;
 use App\Models\SetPrices;
 use App\Models\SetPricesDaysSlots;
@@ -26,6 +27,12 @@ class DomesPriceController extends Controller
     }
     public function store(Request $request)
     {
+        dd($request->input());
+
+        $slots = new BookingSlots();
+        $slots->sport_id = $request->sport;
+        $slots->date = $request->sport;
+
         try {
             if ($request->has('id') && $request->id != "") {
                 SetPricesDaysSlots::where('set_prices_id', $request->id)->delete();

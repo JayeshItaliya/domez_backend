@@ -32,7 +32,7 @@ class ReviewController extends Controller
                 $checkreview->save();
                 return response()->json(["status" => 1, "message" => "Successful", 'review' => $checkreview], 200);
             }
-            return response()->json(["status" => 0, "message" => 'Ratting Already Exist'], 200);
+            return response()->json(["status" => 0, "message" => 'Review Already Exist'], 200);
         } else {
             return response()->json(["status" => 0, "message" => 'Invalid Dome Ratting'], 200);
         }

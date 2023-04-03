@@ -166,7 +166,7 @@ class LeagueController extends Controller
         try {
             $image = DomeImages::find($request->id);
             if (file_exists('storage/app/public/admin/images/league/' . $image->images)) {
-                unlink('storage/app/public/admin/images/domes/' . $image->images);
+                unlink('storage/app/public/admin/images/league/' . $image->images);
             }
             $image->delete();
             return response()->json(['status' => 1, 'message' => trans('messages.success')], 200);

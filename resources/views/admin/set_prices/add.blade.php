@@ -43,7 +43,8 @@
                                     <select class="form-select" name="dome" id="dome"
                                         data-next="{{ URL::to('/admin/set-prices/getsports') }}" data-from="add">
                                         @foreach ($getdomeslist as $dome)
-                                            <option value="{{ $dome->id }}"
+                                            <option value="{{ $dome->id }}" data-start-time="{{ $dome->start_time }}"
+                                                data-end-time="{{ $dome->end_time }}"
                                                 {{ $dome->id == old('dome') ? 'selected' : '' }}>{{ $dome->name }}
                                             </option>
                                         @endforeach
@@ -106,6 +107,7 @@
                                                             <input type="text"
                                                                 class="form-control start time_picker border-end-0"
                                                                 name="start_time[{{ $dayname }}][]"
+                                                                data-day-name="{{ $dayname }}"
                                                                 placeholder="{{ trans('labels.start_time') }}" />
                                                             <span class="input-group-text bg-transparent border-start-0"><i
                                                                     class="fa-regular fa-clock"></i> </span>

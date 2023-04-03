@@ -3,8 +3,6 @@
     <link rel="stylesheet" href="{{ url('storage\app\public\admin\plugins\multi-select\select2.min.css') }}" />
     <link rel="stylesheet"
         href="{{ url('storage\app\public\admin\plugins\multi-select\select2-bootstrap-5-theme.min.css') }}" />
-
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.css">
 @endsection
 
 @section('title')
@@ -51,7 +49,8 @@
                                 <select class="form-select" required name="dome" id="dome"
                                     data-next="{{ URL::to('/admin/leagues/sports-fields') }}">
                                     @foreach ($domes as $dome)
-                                        <option value="{{ $dome->id }}" data-start-time="{{ $dome->start_time }}" data-end-time="{{ $dome->end_time }}"
+                                        <option value="{{ $dome->id }}" data-start-time="{{ $dome->start_time }}"
+                                            data-end-time="{{ $dome->end_time }}"
                                             {{ $dome->id == old('dome') ? 'selected' : '' }}>{{ $dome->name }}</option>
                                     @endforeach
                                 </select>
@@ -280,11 +279,11 @@
 @endsection
 @section('scripts')
     <script src="{{ url('storage\app\public\admin\plugins\multi-select\select2.min.js') }}"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
     <script>
-        var validatetimeurl = {{ Js::from(URL::to('admin/validate-time')) }};
+        // var validatetimeurl = {{ Js::from(URL::to('admin/validate-time')) }};
         $('.radio-editer').parent().hide();
         var field_selected = [];
+        var sport_selected = '';
     </script>
     <script src="{{ url('resources/views/admin/leagues/leagues.js') }}"></script>
 @endsection
