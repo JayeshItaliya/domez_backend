@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class Authenticate
+class EmployeeMiddleware
 {
     /**
      * Handle an incoming request.
@@ -17,10 +17,10 @@ class Authenticate
      */
     public function handle(Request $request, Closure $next)
     {
-        if (Auth::user() && in_array(Auth::user()->type, [1, 2, 4, 5])) {
+        if (Auth::user()->type == 4) {
             return $next($request);
         } else {
-            return redirect('/login');
+            return redirect()->back();
         }
     }
 }

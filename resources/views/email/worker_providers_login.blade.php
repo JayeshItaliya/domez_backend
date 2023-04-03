@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Employee Login Credentials</title>
+    <title>Login Credentials</title>
     <style>
         /* Basic styling */
         body {
@@ -57,7 +57,7 @@
 </head>
 
 <body>
-    <h1>Employee Login Credentials</h1>
+    <h1>Login Credentials</h1>
     <table>
         <tr>
             <th>Username:</th>

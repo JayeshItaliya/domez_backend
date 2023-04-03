@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\api;
 
+use App\Helper\Helper;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Domes;
@@ -399,14 +400,15 @@ class BookingController extends Controller
             if ($checkbooking->booking_status == 3) {
                 return response()->json(["status" => 0, "message" => "Invalid Request!!"], 200);
             }
-            // if ($request->cancellation_reason == "") {
-            //     return response()->json(["status" => 0, "message" => "Cancellation Reason is Required"], 200);
-            // }
             try {
-                $checkbooking->booking_status = 3;
-                $checkbooking->cancellation_reason = $request->cancellation_reason ?? '';
-                $checkbooking->save();
-                return response()->json(['status' => 1, 'message' => 'Booking Has Been Successfully Cancelled'], 200);
+                $refund = Helper::refund_cancel_booking($request->id);
+                if ($refund == 1) {
+                    $checkbooking->cancellation_reason = $request->cancellation_reason ?? '';
+                    $checkbooking->save();
+                    return response()->json(['status' => 1, 'message' => 'Booking Has Been Successfully Cancelled'], 200);
+                } else {
+                    return response()->json(['status' => 0, 'message' => 'Something Went Wrong..!!'], 200);
+                }
             } catch (\Throwable $th) {
                 return response()->json(['status' => 0, 'message' => 'Something Went Wrong..!!'], 200);
             }

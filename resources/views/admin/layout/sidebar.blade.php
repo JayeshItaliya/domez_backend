@@ -1,38 +1,41 @@
 <nav class="navbar navbar-light navbar-vertical navbar-expand-xl">
     <div class="navbar-wrapper">
         <ul class="navbar-nav d-block">
-            <a href="{{ URL::to('admin/dashboard') }}"
-                class="nav-item {{ request()->is('admin/dashboard') ? 'active' : '' }}">
-                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-dashboard" width="25"
-                    height="25" viewBox="0 0 24 24" stroke-width="1.5" stroke="{{ request()->is('admin/dashboard') ? 'var(--bs-secondary)' : '#2c3e50' }}" fill="none"
-                    stroke-linecap="round" stroke-linejoin="round">
-                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                    <circle cx="12" cy="13" r="2" />
-                    <line x1="13.45" y1="11.55" x2="15.5" y2="9.5" />
-                    <path d="M6.4 20a9 9 0 1 1 11.2 0z" />
-                </svg>
-                <span class="mx-3">{{ trans('labels.dashboard') }}</span>
-            </a>
+            @if (Auth::user()->type != 5)
+                <a href="{{ URL::to('admin/dashboard') }}"
+                    class="nav-item {{ request()->is('admin/dashboard') ? 'active' : '' }}">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-dashboard" width="25"
+                        height="25" viewBox="0 0 24 24" stroke-width="1.5"
+                        stroke="{{ request()->is('admin/dashboard') ? 'var(--bs-secondary)' : '#2c3e50' }}"
+                        fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                        <circle cx="12" cy="13" r="2" />
+                        <line x1="13.45" y1="11.55" x2="15.5" y2="9.5" />
+                        <path d="M6.4 20a9 9 0 1 1 11.2 0z" />
+                    </svg>
+                    <span class="mx-3">{{ trans('labels.dashboard') }}</span>
+                </a>
+            @endif
             @if (Auth::user()->type == 2)
                 <a href="{{ URL::to('admin/workers') }}"
                     class="nav-item {{ request()->is('admin/workers*') ? 'active' : '' }}">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-briefcase"
-                        width="25" height="25" viewBox="0 0 24 24" stroke-width="1.5" stroke="{{ request()->is('admin/workers*') ? 'var(--bs-secondary)' : '#2c3e50' }}"
-                        fill="none" stroke-linecap="round" stroke-linejoin="round">
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                        <rect x="3" y="7" width="18" height="13" rx="2" />
-                        <path d="M8 7v-2a2 2 0 0 1 2 -2h4a2 2 0 0 1 2 2v2" />
-                        <line x1="12" y1="12" x2="12" y2="12.01" />
-                        <path d="M3 13a20 20 0 0 0 18 0" />
-                    </svg>
+                    <i class="fa-duotone fa-user-tie fs-5"
+                        style="color: {{ request()->is('admin/workers*') ? 'var(--bs-secondary)' : '#2c3e50' }}"></i>
                     <span class="mx-3">{{ trans('labels.workers') }}</span>
+                </a>
+                <a href="{{ URL::to('admin/providers') }}"
+                    class="nav-item {{ request()->is('admin/providers*') ? 'active' : '' }}">
+                    <i class="fa-duotone fa-users fs-5"
+                        style="color: {{ request()->is('admin/providers*') ? 'var(--bs-secondary)' : '#2c3e50' }}"></i>
+                    <span class="mx-3">{{ trans('labels.providers') }}</span>
                 </a>
             @endif
             @if (Auth::user()->type == 1)
                 <a href="{{ URL::to('admin/vendors') }}"
                     class="nav-item {{ request()->is('admin/vendors*') ? 'active' : '' }}">
                     <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user-circle"
-                        width="25" height="25" viewBox="0 0 24 24" stroke-width="1.5" stroke="{{ request()->is('admin/vendors*') ? 'var(--bs-secondary)' : '#2c3e50' }}"
+                        width="25" height="25" viewBox="0 0 24 24" stroke-width="1.5"
+                        stroke="{{ request()->is('admin/vendors*') ? 'var(--bs-secondary)' : '#2c3e50' }}"
                         fill="none" stroke-linecap="round" stroke-linejoin="round">
                         <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                         <circle cx="12" cy="12" r="9" />
@@ -44,7 +47,8 @@
                 <a href="{{ URL::to('admin/users') }}"
                     class="nav-item {{ request()->is('admin/users*') ? 'active' : '' }}">
                     <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-users" width="25"
-                        height="25" viewBox="0 0 24 24" stroke-width="1.5" stroke="{{ request()->is('admin/users*') ? 'var(--bs-secondary)' : '#2c3e50' }}" fill="none"
+                        height="25" viewBox="0 0 24 24" stroke-width="1.5"
+                        stroke="{{ request()->is('admin/users*') ? 'var(--bs-secondary)' : '#2c3e50' }}" fill="none"
                         stroke-linecap="round" stroke-linejoin="round">
                         <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                         <circle cx="9" cy="7" r="4" />
@@ -57,7 +61,8 @@
                 <a href="{{ URL::to('admin/sports') }}"
                     class="nav-item {{ request()->is('admin/sports*') ? 'active' : '' }}">
                     <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-list-check"
-                        width="25" height="25" viewBox="0 0 24 24" stroke-width="1.5" stroke="{{ request()->is('admin/sports*') ? 'var(--bs-secondary)' : '#2c3e50' }}"
+                        width="25" height="25" viewBox="0 0 24 24" stroke-width="1.5"
+                        stroke="{{ request()->is('admin/sports*') ? 'var(--bs-secondary)' : '#2c3e50' }}"
                         fill="none" stroke-linecap="round" stroke-linejoin="round">
                         <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                         <path d="M3.5 5.5l1.5 1.5l2.5 -2.5"></path>
@@ -70,45 +75,46 @@
                     <span class="mx-3">{{ trans('labels.sports') }}</span>
                 </a>
             @endif
-            <a href="#domesmanagement"
-                class="nav-item {{ request()->is('admin/domes*') || request()->is('admin/field*') || request()->is('admin/set-prices*') ? 'active' : '' }}"
-                data-bs-toggle="collapse" role="button"
-                aria-expanded="{{ request()->is('admin/domes*') || request()->is('admin/field*') || request()->is('admin/set-prices*') ? 'true' : 'false' }}"
-                aria-controls="domesmanagement">
-                <i class="fa-regular fa-list-tree"></i>
-                <div class="ms-3 d-flex align-items-center justify-content-between w-100">
-                    <span> {{ trans('labels.domes_management') }} </span>
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-down"
-                        width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="{{ request()->is('admin/domes*') || request()->is('admin/field*') || request()->is('admin/set-prices*') ? 'var(--bs-secondary)' : '#2c3e50' }}"
-                        fill="none" stroke-linecap="round" stroke-linejoin="round">
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                        <polyline points="6 9 12 15 18 9" />
-                    </svg>
+            @if (Auth::user()->type != 5)
+                <a href="#domesmanagement"
+                    class="nav-item {{ request()->is('admin/domes*') || request()->is('admin/field*') || request()->is('admin/set-prices*') ? 'active' : '' }}"
+                    data-bs-toggle="collapse" role="button"
+                    aria-expanded="{{ request()->is('admin/domes*') || request()->is('admin/field*') || request()->is('admin/set-prices*') ? 'true' : 'false' }}"
+                    aria-controls="domesmanagement">
+                    <i class="fa-regular fa-list-tree"></i>
+                    <div class="ms-3 d-flex align-items-center justify-content-between w-100">
+                        <span> {{ trans('labels.domes_management') }} </span>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-down"
+                            width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5"
+                            stroke="{{ request()->is('admin/domes*') || request()->is('admin/field*') || request()->is('admin/set-prices*') ? 'var(--bs-secondary)' : '#2c3e50' }}"
+                            fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                            <polyline points="6 9 12 15 18 9" />
+                        </svg>
+                    </div>
+                </a>
+                <div class="collapse {{ request()->is('admin/domes*') || request()->is('admin/field*') || request()->is('admin/set-prices*') ? 'show' : '' }}"
+                    id="domesmanagement">
+                    <ul class="nav d-grid">
+                        <a href="{{ URL::to('admin/domes') }}" class="nav-item">
+                            <span
+                                class="nav-link {{ request()->is('admin/domes*') ? 'active' : '' }}">{{ trans('labels.domes') }}</span>
+                        </a>
+                        @if (Auth::user()->type == 2)
+                            <a href="{{ URL::to('admin/fields') }}" class="nav-item">
+                                <span
+                                    class="nav-link {{ request()->is('admin/field*') ? 'active' : '' }}">{{ trans('labels.fields') }}</span>
+                            </a>
+                        @endif
+                        @if (in_array(Auth::user()->type, [2, 4]))
+                            <a href="{{ URL::to('admin/set-prices') }}" class="nav-item">
+                                <span
+                                    class="nav-link {{ request()->is('admin/set-prices*') ? 'active' : '' }}">{{ trans('labels.set_prices') }}</span>
+                            </a>
+                        @endif
+                    </ul>
                 </div>
-            </a>
-            <div class="collapse {{ request()->is('admin/domes*') || request()->is('admin/field*') || request()->is('admin/set-prices*') ? 'show' : '' }}"
-                id="domesmanagement">
-                <ul class="nav d-grid">
-                    <a href="{{ URL::to('admin/domes') }}" class="nav-item">
-                        <span
-                            class="nav-link {{ request()->is('admin/domes*') ? 'active' : '' }}">{{ trans('labels.domes') }}</span>
-                    </a>
-                    @if (Auth::user()->type == 2)
-                        <a href="{{ URL::to('admin/fields') }}" class="nav-item">
-                            <span
-                                class="nav-link {{ request()->is('admin/field*') ? 'active' : '' }}">{{ trans('labels.fields') }}</span>
-                        </a>
-                    @endif
-                    @if (in_array(Auth::user()->type, [2, 4]))
-                        <a href="{{ URL::to('admin/set-prices') }}" class="nav-item">
-                            <span
-                                class="nav-link {{ request()->is('admin/set-prices*') ? 'active' : '' }}">{{ trans('labels.set_prices') }}</span>
-                        </a>
-                    @endif
-                </ul>
-            </div>
-
-
+            @endif
             <a href="{{ URL::to('admin/leagues') }}"
                 class="nav-item {{ request()->is('admin/leagues*') ? 'active' : '' }}">
                 <i class="fa-light fa-list-dropdown"></i>
@@ -117,7 +123,8 @@
             <a href="{{ URL::to('admin/bookings') }}"
                 class="nav-item {{ request()->is('admin/bookings*') ? 'active' : '' }}">
                 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-event"
-                    width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="{{ request()->is('admin/bookings*') ? 'var(--bs-secondary)' : '#2c3e50' }}"
+                    width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5"
+                    stroke="{{ request()->is('admin/bookings*') ? 'var(--bs-secondary)' : '#2c3e50' }}"
                     fill="none" stroke-linecap="round" stroke-linejoin="round">
                     <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                     <rect x="4" y="5" width="16" height="16" rx="2" />
@@ -131,19 +138,24 @@
             @if (in_array(Auth::user()->type, [1, 2]))
                 <a href="{{ URL::to('admin/transactions') }}"
                     class="nav-item {{ request()->is('admin/transactions*') ? 'active' : '' }}">
-                    <i class="fa-light fa-file-invoice-dollar" style="color: {{ request()->is('admin/transactions*') ? 'var(--bs-secondary)' : '#2c3e50' }}"></i>
+                    <i class="fa-light fa-file-invoice-dollar"
+                        style="color: {{ request()->is('admin/transactions*') ? 'var(--bs-secondary)' : '#2c3e50' }}"></i>
                     <span class="mx-3">{{ trans('labels.transactions') }}</span>
                 </a>
             @endif
-            <a href="{{ URL::to('admin/calendar') }}"
-                class="nav-item {{ request()->is('admin/calendar*') ? 'active' : '' }}">
-                <i class="fa-light fa-calendar-range" style="color: {{ request()->is('admin/calendar*') ? 'var(--bs-secondary)' : '#2c3e50' }}"></i>
-                <span class="mx-3">{{ trans('labels.calendar') }}</span>
-            </a>
+            @if (Auth::user()->type != 5)
+                <a href="{{ URL::to('admin/calendar') }}"
+                    class="nav-item {{ request()->is('admin/calendar*') ? 'active' : '' }}">
+                    <i class="fa-light fa-calendar-range"
+                        style="color: {{ request()->is('admin/calendar*') ? 'var(--bs-secondary)' : '#2c3e50' }}"></i>
+                    <span class="mx-3">{{ trans('labels.calendar') }}</span>
+                </a>
+            @endif
             @if (in_array(Auth::user()->type, [2, 4]))
                 <a href="{{ URL::to('admin/reviews') }}"
                     class="nav-item {{ request()->is('admin/reviews*') ? 'active' : '' }}">
-                    <i class="fa-light fa-message-smile" style="color: {{ request()->is('admin/reviews*') ? 'var(--bs-secondary)' : '#2c3e50' }}"></i>
+                    <i class="fa-light fa-message-smile"
+                        style="color: {{ request()->is('admin/reviews*') ? 'var(--bs-secondary)' : '#2c3e50' }}"></i>
                     <span class="mx-3">{{ trans('labels.reviews') }}</span>
                 </a>
             @endif
@@ -152,11 +164,13 @@
                     data-bs-toggle="collapse" role="button"
                     aria-expanded="{{ request()->is('admin/enquiries*') ? 'true' : 'false' }}"
                     aria-controls="enquiry">
-                    <i class="fa-light fa-message-smile" style="color: {{ request()->is('admin/enquiries*') ? 'var(--bs-secondary)' : '#2c3e50' }}"></i>
+                    <i class="fa-light fa-message-smile"
+                        style="color: {{ request()->is('admin/enquiries*') ? 'var(--bs-secondary)' : '#2c3e50' }}"></i>
                     <div class="ms-3 d-flex align-items-center justify-content-between w-100">
                         <span>{{ trans('labels.enquiry') }}</span>
                         <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-down"
-                            width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="{{ request()->is('admin/enquiries*') ? 'var(--bs-secondary)' : '#2c3e50' }}"
+                            width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5"
+                            stroke="{{ request()->is('admin/enquiries*') ? 'var(--bs-secondary)' : '#2c3e50' }}"
                             fill="none" stroke-linecap="round" stroke-linejoin="round">
                             <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                             <polyline points="6 9 12 15 18 9" />
@@ -187,7 +201,8 @@
                     <div class="ms-3 d-flex align-items-center justify-content-between w-100">
                         <span>{{ trans('labels.cms') }}</span>
                         <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-down"
-                            width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="{{ request()->is('admin/cms*') ? 'var(--bs-secondary)' : '#2c3e50' }}"
+                            width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5"
+                            stroke="{{ request()->is('admin/cms*') ? 'var(--bs-secondary)' : '#2c3e50' }}"
                             fill="none" stroke-linecap="round" stroke-linejoin="round">
                             <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                             <polyline points="6 9 12 15 18 9" />
@@ -219,7 +234,8 @@
                     <div class="ms-3 d-flex align-items-center justify-content-between w-100">
                         <span>{{ trans('labels.general_settings') }}</span>
                         <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-down"
-                            width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="{{ request()->is('admin/settings*') ? 'var(--bs-secondary)' : '#2c3e50' }}"
+                            width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5"
+                            stroke="{{ request()->is('admin/settings*') ? 'var(--bs-secondary)' : '#2c3e50' }}"
                             fill="none" stroke-linecap="round" stroke-linejoin="round">
                             <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                             <polyline points="6 9 12 15 18 9" />
@@ -247,11 +263,14 @@
                     </ul>
                 </div>
             @endif
-            <a href="{{ URL::to('admin/supports') }}"
-                class="nav-item {{ request()->is('admin/supports*') ? 'active' : '' }}">
-                <i class="fa-light fa-circle-question" style="color: {{ request()->is('admin/supports*') ? 'var(--bs-secondary)' : '#2c3e50' }}"></i>
-                <span class="mx-3">{{ trans('labels.supports') }}</span>
-            </a>
+            @if (Auth::user()->type != 5)
+                <a href="{{ URL::to('admin/supports') }}"
+                    class="nav-item {{ request()->is('admin/supports*') ? 'active' : '' }}">
+                    <i class="fa-light fa-circle-question"
+                        style="color: {{ request()->is('admin/supports*') ? 'var(--bs-secondary)' : '#2c3e50' }}"></i>
+                    <span class="mx-3">{{ trans('labels.supports') }}</span>
+                </a>
+            @endif
         </ul>
     </div>
 </nav>

@@ -234,7 +234,8 @@
         }
 
         toastr.options = {
-            "closeButton": true
+            "closeButton": true,
+            "positionClass": "toast-bottom-right",
         }
         @if (Session::has('success'))
             toastr.success("{{ session('success') }}");

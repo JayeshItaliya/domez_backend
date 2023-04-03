@@ -87,6 +87,10 @@ return [
     'workers' => 'Employees',
     'workers_list' => 'Employees List',
     'add_worker' => 'Add Employee',
+    // Providers
+    'providers' => 'Providers',
+    'providers_list' => 'Providers List',
+    'add_provider' => 'Add Provider',
     // Users
     'users' => 'Users',
     'user_details' => 'User Details',

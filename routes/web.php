@@ -18,6 +18,7 @@ use App\Http\Controllers\admin\LeagueController;
 use App\Http\Controllers\admin\ReviewController;
 use App\Http\Controllers\admin\SettingsController;
 use App\Http\Controllers\admin\WorkersController;
+use App\Http\Controllers\admin\ProvidersController;
 use App\Http\Controllers\LandingPagesController;
 
 /*
@@ -173,6 +174,13 @@ Route::group(['middleware' => 'SetTimeZoneMiddleware'], function () {
                 Route::post('store-worker', [WorkersController::class, 'store_worker']);
                 Route::get('change_status', [WorkersController::class, 'change_status']);
                 Route::get('delete', [WorkersController::class, 'delete']);
+            });
+            //  Providers
+            Route::group(['prefix' => 'providers'], function () {
+                Route::get('/', [ProvidersController::class, 'index']);
+                Route::post('store-worker', [ProvidersController::class, 'store_worker']);
+                Route::get('change_status', [ProvidersController::class, 'change_status']);
+                Route::get('delete', [ProvidersController::class, 'delete']);
             });
             //  Leagues
             Route::group(['prefix' => 'leagues'], function () {

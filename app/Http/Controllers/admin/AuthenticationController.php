@@ -30,11 +30,15 @@ class AuthenticationController extends Controller
             'password.min' => trans('messages.password_min_length'),
         ]);
         if (Auth::attempt($request->only('email', 'password'))) {
-            if (in_array(Auth::user()->type, [1, 2, 4])) {
+            if (in_array(Auth::user()->type, [1, 2, 4, 5])) {
                 if (Auth::user()->is_verified == 1) {
                     if (Auth::user()->is_available == 1) {
                         if (Auth::user()->is_deleted == 2) {
-                            return redirect('admin/dashboard')->with('success', trans('messages.success'));
+                            if (Auth::user()->type == 5) {
+                                return redirect('admin/leagues')->with('success', trans('messages.success'));
+                            } else {
+                                return redirect('admin/dashboard')->with('success', trans('messages.success'));
+                            }
                         } else {
                             Auth::logout();
                             return redirect()->back()->with('error', trans('messages.account_deleted'));

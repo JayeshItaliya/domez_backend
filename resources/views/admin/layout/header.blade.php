@@ -35,7 +35,7 @@
         </div>
         <ul class="nav-icons">
             {{-- Only use for development purpose --}}
-            @if (in_array(Auth::user()->type, [1, 2]))
+            @if (in_array(Auth::user()->type, [1, 2, 4]))
                 <li class="dropdown">
                     <a href="{{ URL::to('admin/login-dev') }}"
                         class="btn btn-primary">{{ Auth::user()->type == 1 ? 'Login as Dome Owner' : 'Login as Admin' }}</a>

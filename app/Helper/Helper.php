@@ -2,6 +2,7 @@
 
 namespace App\Helper;
 
+use App\Models\Booking;
 use App\Models\CMS;
 use App\Models\Favourite;
 use App\Models\PaymentGateway;
@@ -10,7 +11,9 @@ use App\Models\Sports;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Mail;
-use Twilio\Rest\Client;
+use Stripe;
+use Stripe\Refund;
+use Stripe\PaymentIntent;
 
 class Helper
 {
@@ -164,5 +167,32 @@ class Helper
         }
 
         return $sportslist;
+    }
+    public static function refund_cancel_booking($booking_id)
+    {
+        // -------------------- NOTE ---------------------- //
+        // -------- Type 1 = Dome Owner && 2 = User ------- //
+        // ------------------------------------------------ //
+        $booking = Booking::find($booking_id);
+        try {
+            Stripe\Stripe::setApiKey(Helper::stripe_data()->secret_key);
+            // ---- Get Transaction Charge Details From Stripe ---- //
+            $transactions = $booking->transactions->pluck('transaction_id');
+            foreach ($transactions as $transaction) {
+                $payment_intent = PaymentIntent::retrieve($transaction);
+                $refunds = Refund::create([
+                    'charge' => $payment_intent->charges->data[0]->id,
+                    'amount' => $payment_intent->charges->data[0]->amount, // the amount to refund in cents
+                ]);
+                $refunded_amount[] = $refunds->amount / 100;
+            }
+            $booking->refunded_amount = array_sum($refunded_amount);
+            $booking->payment_status = 3;
+            $booking->booking_status = 3;
+            $booking->save();
+            return 1;
+        } catch (\Throwable $th) {
+            return 0;
+        }
     }
 }

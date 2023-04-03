@@ -1,12 +1,12 @@
 @extends('admin.layout.default')
 @section('title')
-    {{ trans('labels.workers_list') }}
+    {{ trans('labels.providers_list') }}
 @endsection
 @section('contents')
     <div class="card mb-3">
         <div class="card-body py-2">
             <div class="d-flex align-items-center justify-content-between">
-                <p>{{ trans('labels.workers_list') }}</p>
+                <p>{{ trans('labels.providers_list') }}</p>
                 <nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='%236c757d'/%3E%3C/svg%3E&#34;);"
                     aria-label="breadcrumb">
                     <ol class="breadcrumb m-0">
@@ -23,7 +23,7 @@
                                 </svg>
                             </a>
                         </li>
-                        <li class="breadcrumb-item active" aria-current="page">{{ trans('labels.workers_list') }}</li>
+                        <li class="breadcrumb-item active" aria-current="page">{{ trans('labels.providers_list') }}</li>
                     </ol>
                 </nav>
             </div>
@@ -46,31 +46,31 @@
                         @php
                             $i = 1;
                         @endphp
-                        @foreach ($workers as $worker)
+                        @foreach ($providers as $provider)
                             <tr>
                                 <td>{{ $i++ }}</td>
                                 <td>
                                     <div class="d-flex align-items center">
-                                        <img class="border-radius" src="{{ Helper::image_path($worker->image) }}"
+                                        <img class="border-radius" src="{{ Helper::image_path($provider->image) }}"
                                             width="40" height="40">
                                         <div class="mx-2">
-                                            <h6>{{ $worker->name }}</h6>
-                                            <span class="text-muted fs-7">{{ $worker->email }}</span>
+                                            <h6>{{ $provider->name }}</h6>
+                                            <span class="text-muted fs-7">{{ $provider->email }}</span>
                                         </div>
                                     </div>
                                 </td>
                                 <td>
                                     <img class="border-radius"
-                                        src="{{ Helper::image_path($worker->login_type == 1 ? 'email.svg' : ($worker->login_type == 2 ? 'google.svg' : ($worker->login_type == 3 ? 'apple.svg' : ($worker->login_type == 4 ? 'facebook.svg' : '')))) }}"
+                                        src="{{ Helper::image_path($provider->login_type == 1 ? 'email.svg' : ($provider->login_type == 2 ? 'google.svg' : ($provider->login_type == 3 ? 'apple.svg' : ($provider->login_type == 4 ? 'facebook.svg' : '')))) }}"
                                         width="25" height="25">
                                 </td>
                                 <td><span
-                                        class="badge rounded-pill cursor-pointer text-bg-{{ $worker->is_available == 1 ? 'success' : 'danger' }}"
-                                        onclick="change_status('{{ $worker->id }}','{{ $worker->is_available == 1 ? 2 : 1 }}','{{ URL::to('admin/workers/change_status') }}')">{{ $worker->is_available == 1 ? 'Active' : 'Inactive' }}</span>
+                                        class="badge rounded-pill cursor-pointer text-bg-{{ $provider->is_available == 1 ? 'success' : 'danger' }}"
+                                        onclick="change_status('{{ $provider->id }}','{{ $provider->is_available == 1 ? 2 : 1 }}','{{ URL::to('admin/providers/change_status') }}')">{{ $provider->is_available == 1 ? 'Active' : 'Inactive' }}</span>
                                 </td>
                                 <td>
                                     <a class="cursor-pointer me-2"
-                                        href="{{ URL::to('admin/workers/edit-' . $worker->id) }}">
+                                        href="{{ URL::to('admin/providers/edit-' . $provider->id) }}">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-edit"
                                             width="25" height="25" viewBox="0 0 24 24" stroke-width="1"
                                             stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
@@ -81,7 +81,7 @@
                                         </svg>
                                     </a>
                                     <a class="cursor-pointer me-2"
-                                        onclick="deletedata('{{ $worker->id }}','{{ $worker->is_deleted == 2 ? 1 : 2 }}','{{ URL::to('admin/workers/delete') }}')"
+                                        onclick="deletedata('{{ $provider->id }}','{{ $provider->is_deleted == 2 ? 1 : 2 }}','{{ URL::to('admin/providers/delete') }}')"
                                         class="mx-2">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash"
                                             width="25" height="25" viewBox="0 0 24 24" stroke-width="1"
@@ -102,15 +102,15 @@
             </div>
         </div>
     </div>
-    <div class="modal fade" id="addworker" tabindex="-1" aria-labelledby="addworkerLabel" aria-hidden="true">
+    <div class="modal fade" id="addprovider" tabindex="-1" aria-labelledby="addproviderLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="addworkerLabel">{{ trans('labels.add_worker') }}</h5>
+                    <h5 class="modal-title" id="addproviderLabel">{{ trans('labels.add_provider') }}</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form class="modal-body" action="{{ URL::to('admin/workers/store-worker') }}" method="POST"
-                    id="store_worker">
+                <form class="modal-body" action="{{ URL::to('admin/providers/store-worker') }}" method="POST"
+                    id="store_provider">
                     @csrf
                     <div class="form-group">
                         <label class="form-label fw-bold" for="name">{{ trans('labels.name') }}</label>
@@ -138,25 +138,25 @@
         if (is_vendor) {
             $(document).ready(function() {
                 let html =
-                    '<a class="btn-custom-primary" data-bs-target="#addworker" data-bs-toggle="modal"><svg xmlns="http://www.w3.org/2000/svg" class="icon-tabler icon-tabler-plus" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="var(--bs-primary)" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" /></svg></a>';
+                    '<a class="btn-custom-primary" data-bs-target="#addprovider" data-bs-toggle="modal"><svg xmlns="http://www.w3.org/2000/svg" class="icon-tabler icon-tabler-plus" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="var(--bs-primary)" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" /></svg></a>';
                 $('.fixed-table-toolbar .btn-group').append(html);
             })
-            $('#store_worker').on('submit', function() {
-                if ($('#store_worker #name').val() == "") {
-                    $('#store_worker #name').addClass('is-invalid');
+            $('#store_provider').on('submit', function() {
+                if ($('#store_provider #name').val() == "") {
+                    $('#store_provider #name').addClass('is-invalid');
                     return false;
                 } else {
-                    $('#store_worker #name').removeClass('is-invalid');
-                    if ($('#store_worker #email').val() == "") {
-                        $('#store_worker #email').addClass('is-invalid');
+                    $('#store_provider #name').removeClass('is-invalid');
+                    if ($('#store_provider #email').val() == "") {
+                        $('#store_provider #email').addClass('is-invalid');
                         return false;
                     } else {
-                        $('#store_worker #email').removeClass('is-invalid');
-                        if ($('#store_worker #password').val() == "") {
-                            $('#store_worker #password').addClass('is-invalid');
+                        $('#store_provider #email').removeClass('is-invalid');
+                        if ($('#store_provider #password').val() == "") {
+                            $('#store_provider #password').addClass('is-invalid');
                             return false;
                         } else {
-                            $('#store_worker #password').removeClass('is-invalid');
+                            $('#store_provider #password').removeClass('is-invalid');
                         }
                     }
                 }

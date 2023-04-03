@@ -2,10 +2,10 @@
 
 namespace App\Console\Commands;
 
+use App\Helper\Helper;
 use Illuminate\Console\Command;
 use App\Models\Booking;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\DB;
 
 class AutoCancelBooking extends Command
 {
@@ -24,17 +24,23 @@ class AutoCancelBooking extends Command
             $now = Carbon::now();
             if ($created_at_plus_2_hours->lessThan($now)) {
                 if ($booking->paid_amount != $booking->total_amount) {
-                    $booking->booking_status = 3;
-                    $booking->save();
-                    $this->info('Booking Updated =====> ' . $booking->id);
+                    $refund = Helper::refund_cancel_booking($booking->id);
+                    if ($refund == 1) {
+                        $this->info('Booking Updated & Refunded =====> ' . $booking->id);
+                    } else {
+                        $this->info('Something Went Wrong While Refunding Amount (Booking Status Not Change) =====> ' . $booking->id);
+                    }
                 }
             } else {
                 $start_date_time = Carbon::parse($booking->start_date . ' ' . $booking->start_time);
                 $current_date_time = Carbon::now();
                 if ($start_date_time->lessThan($current_date_time) == true && $booking->payment_status == 2) {
-                    $booking->booking_status = 3;
-                    $booking->save();
-                    $this->info('Booking Updated ----- ----> ' . $booking->id);
+                    $refund = Helper::refund_cancel_booking($booking->id);
+                    if ($refund == 1) {
+                        $this->info('Booking Updated & Refunded =====> ' . $booking->id);
+                    } else {
+                        $this->info('Something Went Wrong While Refunding Amount (Booking Status Not Change) =====> ' . $booking->id);
+                    }
                 }
             }
         }

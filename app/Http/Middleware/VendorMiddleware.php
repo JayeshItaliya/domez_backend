@@ -18,7 +18,7 @@ class VendorMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        if (in_array(Auth::user()->type, [2, 4])) {
+        if (Auth::user()->type == 2) {
             return $next($request);
         } else {
             return redirect()->back();

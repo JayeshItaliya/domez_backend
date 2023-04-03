@@ -68,5 +68,7 @@ class Kernel extends HttpKernel
         'VendorMiddleware' => \App\Http\Middleware\VendorMiddleware::class,
         'LanguageMiddleware' => \App\Http\Middleware\LanguageMiddleware::class,
         'SetTimeZoneMiddleware' => \App\Http\Middleware\SetTimeZoneMiddleware::class,
+        'EmployeeMiddleware' => \App\Http\Middleware\EmployeeMiddleware::class,
+        'ProviderMiddleware' => \App\Http\Middleware\ProviderMiddleware::class,
     ];
 }

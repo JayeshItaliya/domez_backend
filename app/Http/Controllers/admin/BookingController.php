@@ -11,8 +11,6 @@ use App\Models\Transaction;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Stripe;
-use Stripe\Refund;
-use Stripe\PaymentIntent;
 use Carbon\Carbon;
 use Carbon\CarbonImmutable;
 
@@ -236,26 +234,12 @@ class BookingController extends Controller
     }
     public function cancel_booking(Request $request)
     {
-        $booking = Booking::find($request->id);
-        try {
-            $stripekey = Helper::stripe_data()->secret_key;
-            Stripe\Stripe::setApiKey($stripekey);
-            // ---- Get Transaction Charge Details From Stripe ----
-            $transactions = $booking->transactions->pluck('transaction_id');
-            foreach ($transactions as $transaction) {
-                $payment_intent = PaymentIntent::retrieve($transaction);
-                $refunds = Refund::create([
-                    'charge' => $payment_intent->charges->data[0]->id,
-                    'amount' => $payment_intent->charges->data[0]->amount, // the amount to refund in cents
-                ]);
-                $refunded_amount[] = $refunds->amount / 100;
-            }
-            $booking->refunded_amount = array_sum($refunded_amount);
-            $booking->payment_status = 3;
-            $booking->booking_status = 3;
-            $booking->save();
+        $refund = Helper::refund_cancel_booking($request->id);
+        if ($refund == 1) {
             return response()->json(['status' => 1, 'message' => trans('messages.success')], 200);
-        } catch (\Throwable $th) {
+        } else {
+            return response()->json(['status' => 0, 'message' => trans('messages.error')], 200);
         }
+
     }
 }
