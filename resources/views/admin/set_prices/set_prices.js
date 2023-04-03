@@ -1,10 +1,9 @@
 var min_time = '';
 var max_time = '';
+var start_time = '';
+var my_interval = 90;
 
-function removeslot(id) {
-    "use strict";
-    $('#remove' + id).remove();
-}
+
 $('#start_date').on('change', function () {
     "use strict";
     if ($.trim($(this).val()) != "") {
@@ -12,12 +11,6 @@ $('#start_date').on('change', function () {
         $('#end_date').attr('min', $(this).val());
     }
 }).change();
-$('body').on('focus', ".time_picker", function () {
-    "use strict";
-    $(this).timepicker({
-        interval: 60,
-    });
-});
 $('#dome').on('change', function () {
     "use strict";
     if ($.trim($(this).val()) == '') {
@@ -25,6 +18,9 @@ $('#dome').on('change', function () {
     }
     min_time = $(this).find(':selected').attr('data-start-time');
     max_time = $(this).find(':selected').attr('data-end-time');
+    if (start_time == '') {
+        start_time = $(this).find(':selected').attr('data-start-time');
+    }
     $.ajax({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
@@ -83,49 +79,97 @@ $('#storesetprices').on('submit', function () {
         return false;
     }
 });
-$(function () {
+// $('body').on('focus', ".time_picker", function () {
+//     "use strict";
+//     $(this).timepicker({
+//         interval: my_interval,
+//     });
+// });
+$('body').on('focus', ".start.time_picker", function () {
     "use strict";
-    // $(".time_picker").timepicker({
-    //     interval: 60,
-    // });
-    $('.start.time_picker').timepicker({
-        // timeFormat: 'h:mm p',
-        interval: 60,
+    $(this).timepicker({
+        interval: my_interval,
         dynamic: false,
         dropdown: true,
         scrollbar: true,
-        startTime: min_time,
+        startTime: start_time,
         minTime: min_time,
         maxTime: max_time,
         change: function (time) {
             var element = $(this);
-            alert(element.attr('data-day-name'))
             var timepicker = element.timepicker();
-            $('.end.time_picker').val('');
-            $('.end.time_picker').timepicker('destroy');
-            $('.end.time_picker').timepicker({
-                interval: 60,
+            $('.' + element.attr('data-day-name') + '-row').find('.end.time_picker:last').val('');
+            $('.' + element.attr('data-day-name') + '-row').find('.end.time_picker:last').timepicker('destroy');
+            start_time = timepicker.format(time);
+            console.log(start_time);
+            $('.' + element.attr('data-day-name') + '-row').find('.end.time_picker:last').timepicker({
+                interval: my_interval,
                 dynamic: false,
                 dropdown: true,
                 scrollbar: true,
                 startTime: timepicker.format(time),
                 minTime: timepicker.format(time),
                 maxTime: max_time,
+                change: function (time) {
+                    var element = $(this);
+                    var timepicker = element.timepicker();
+                    start_time = timepicker.format(time);
+                    console.log('--');
+                    console.log(start_time);
+                    console.log('--');
+                }
             });
         }
     });
-    if ($.trim($('.end.time_picker').val()) != "") {
-        $('.end.time_picker').timepicker({
-            // timeFormat: 'h:mm p',
-            interval: 60,
-            dynamic: false,
-            dropdown: true,
-            scrollbar: true,
-            startTime: start_time,
-            minTime: min_time,
-            maxTime: max_time,
-        });
-    }
+});
+$('body').on('focus', ".end.time_picker", function () {
+    "use strict";
+    $(this).timepicker({
+        interval: my_interval,
+        dynamic: false,
+        dropdown: true,
+        scrollbar: true,
+        startTime: start_time,
+        minTime: min_time,
+        maxTime: max_time,
+        change: function (time) {
+            var element = $(this);
+            var timepicker = element.timepicker();
+            start_time = timepicker.format(time);
+            console.log(start_time);
+        }
+    });
+});
+$(function () {
+    "use strict";
+    // $(".time_picker").timepicker({
+    //     interval: my_interval,
+    // });
+    // $('.start.time_picker').timepicker({
+    //     // timeFormat: 'h:mm p',
+    //     interval: my_interval,
+    //     dynamic: false,
+    //     dropdown: true,
+    //     scrollbar: true,
+    //     startTime: min_time,
+    //     minTime: min_time,
+    //     maxTime: max_time,
+    //     change: function (time) {
+    //         var element = $(this);
+    //         var timepicker = element.timepicker();
+    //         $('.' + element.attr('data-day-name') + '-row').find('.end.time_picker:last').val('');
+    //         $('.' + element.attr('data-day-name') + '-row').find('.end.time_picker:last').timepicker('destroy');
+    //         $('.' + element.attr('data-day-name') + '-row').find('.end.time_picker:last').timepicker({
+    //             interval: my_interval,
+    //             dynamic: false,
+    //             dropdown: true,
+    //             scrollbar: true,
+    //             startTime: timepicker.format(time),
+    //             minTime: timepicker.format(time),
+    //             maxTime: max_time,
+    //         });
+    //     }
+    // });
 
     if (is_vendor || is_employee) {
         let html =
@@ -138,19 +182,32 @@ $(function () {
         "use strict";
         counter++;
         var dayname = $(this).attr('data-day-name');
+        // if ($('.' + dayname + '-row').parent().find('.time_picker').val() == '') {
+        //     return false;
+        // } else {
+        //     $('.' + dayname + '-row').parent().find('.start.time_picker:last').attr('disabled', true);
+        //     $('.' + dayname + '-row').parent().find('.end.time_picker:last').attr('disabled', true);
+        // }
         var html =
             '<div class="row my-2" id="remove' + counter +
             '"><div class="col-md-4"><div class="form-group"><div class="input-group"><input type="text" class="form-control start time_picker border-end-0" name="start_time[' +
-            dayname + '][]" placeholder="' + start_time +
+            dayname + '][]" placeholder="' + start_time_title +
             '" /> <span class="input-group-text bg-transparent border-start-0"><i class="fa-regular fa-clock"></i> </span> </div></div></div><div class="col-md-4"><div class="form-group"><div class="input-group"><input type="text" class="form-control end time_picker border-end-0" name="end_time[' +
-            dayname + '][]" placeholder="' + end_time +
+            dayname + '][]" placeholder="' + end_time_title +
             '" /> <span class="input-group-text bg-transparent border-start-0"><i class="fa-regular fa-clock"></i> </span> </div></div></div><div class="col-md-3"><div class="form-group"><div class="input-group"><input type="number" value="0" class="form-control border-end-0" name="price[' +
             dayname + '][]" placeholder="' + price +
-            '" /> <span class="input-group-text bg-transparent border-start-0"> <i class="fa-solid fa-dollar-sign"></i> </span> </div></div></div><div class="col-md-1"><div class="form-group"><a class="btn-custom-danger cursor-pointer" onclick="removeslot(' +
-            counter + ')"><i class="fa fa-close"></i></a></div></div></div>'
+            '" /> <span class="input-group-text bg-transparent border-start-0"> <i class="fa-solid fa-dollar-sign"></i> </span> </div></div></div><div class="col-md-1"><div class="form-group"><a class="btn-custom-danger cursor-pointer" data-day-name="' + dayname + '" onclick="removeslot(' +
+            counter + ',this)"><i class="fa fa-close"></i></a></div></div></div>'
         $('.' + dayname + '.extra_fields').append(html);
     });
 });
+
+function removeslot(id, el) {
+    "use strict";
+    // $('.' + $(el).attr('data-day-name') + '-row').find('.start.time_picker:last').attr('disabled', false);
+    // $('.' + $(el).attr('data-day-name') + '-row').find('.end.time_picker:last').attr('disabled', false);
+    $('#remove' + id).remove();
+}
 
 function deletedata(id, url) {
     "use strict";

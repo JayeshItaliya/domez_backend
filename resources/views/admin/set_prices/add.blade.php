@@ -100,7 +100,7 @@
                                             <h6>{{ ucfirst($dayname) }}</h6>
                                         </div>
                                         <div class="card-body">
-                                            <div class="row my-2">
+                                            <div class="row my-2 {{$dayname}}-row">
                                                 <div class="col-md-4">
                                                     <div class="form-group">
                                                         <div class="input-group">
@@ -167,8 +167,8 @@
 @endsection
 @section('scripts')
     <script>
-        let start_time = {{ Js::from(trans('labels.start_time')) }};
-        let end_time = {{ Js::from(trans('labels.end_time')) }};
+        let start_time_title = {{ Js::from(trans('labels.start_time')) }};
+        let end_time_title = {{ Js::from(trans('labels.end_time')) }};
         let price = {{ Js::from(trans('labels.price')) }};
         var validatetimeurl = {{ Js::from(URL::to('admin/validate-time')) }};
     </script>

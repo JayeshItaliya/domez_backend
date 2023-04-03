@@ -401,7 +401,7 @@ class BookingController extends Controller
                 return response()->json(["status" => 0, "message" => "Invalid Request!!"], 200);
             }
             try {
-                $refund = Helper::refund_cancel_booking($request->id);
+                $refund = Helper::refund_cancel_booking($checkbooking->id);
                 if ($refund == 1) {
                     $checkbooking->cancellation_reason = $request->cancellation_reason ?? '';
                     $checkbooking->save();
