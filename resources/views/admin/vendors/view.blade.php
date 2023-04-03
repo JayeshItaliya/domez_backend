@@ -282,21 +282,64 @@
         </div>
     </div>
     <div class="row">
+        <style>
+            :root {
+                --fc-event-bg-color: var(--bs-primary);
+                --fc-event-border-color: var(--bs-primary);
+                --fc-today-bg-color: rgba(var(--bs-secondary-rgb), .15);
+            }
+
+            .fc-button {
+                background-color: transparent !important;
+                color: var(--bs-primary) !important;
+                border-color: var(--bs-primary) !important;
+            }
+
+            .fc-button.fc-button-active {
+                background-color: var(--bs-primary) !important;
+                color: white !important;
+                border-color: var(--bs-primary) !important;
+            }
+
+            .fc-prev-button,
+            .fc-next-button {
+                background-color: transparent !important;
+                color: black !important;
+                border-color: transparent !important;
+            }
+
+            .fc-event-title {
+                font-size: 12px;
+                line-height: 1;
+            }
+
+            .fc-daygrid-event {
+                padding: 0 3px;
+            }
+        </style>
         <div class="col-lg-8">
-            <div class="card">
+            <div class="card h-100">
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-center mb-3">
                         <div class="col-auto">
-                            <span class="text-muted fs-7">{{ trans('labels.domes_revenue') }}</span>
-                            <p class="fw-semibold">5000 $</p>
+                            <span class="text-muted fs-7">{{ trans('labels.dome_revenue') }}</span>
+                            <p class="fw-semibold dome-revenue-count">{{ Helper::currency_format($dome_revenue) }}</p>
                         </div>
-                        <select class="form-select w-auto" name="" id="">
-                            <option value="last-7">{{ trans('labels.last_7_days') }}</option>
-                            <option value="this-month">{{ trans('labels.this_month') }}</option>
-                            <option value="this-year">{{ trans('labels.this_year') }}</option>
-                        </select>
+                        <div class="d-flex gap-2">
+                            <input type="text"
+                                class="form-control me-2 bg-transparent border-primary dome-revenue-picker"
+                                placeholder="{{ trans('labels.select_date') }}">
+                            <select class="form-select dome-revenue-filter"
+                                style="background-color: transparent;border-color:var(--bs-primary);"
+                                data-next="{{ URL::to('admin/domes/details-') }}">
+                                <option value="this_week" selected>{{ trans('labels.this_week') }}</option>
+                                <option value="this_month">{{ trans('labels.this_month') }}</option>
+                                <option value="this_year">{{ trans('labels.this_year') }}</option>
+                                <option value="custom_date">{{ trans('labels.custom_date') }}</option>
+                            </select>
+                        </div>
                     </div>
-                    <div id="dome_revenue"></div>
+                    <div id="dome_revenue_chart"></div>
                 </div>
             </div>
         </div>
@@ -306,84 +349,237 @@
                     <div class="d-flex justify-content-between align-items-center mb-3">
                         <div class="col-auto">
                             <span class="text-muted fs-7">{{ trans('labels.total_bookings') }}</span>
-                            <p class="fw-semibold">110</p>
+                            <p class="fw-semibold total-bookings-count">{{ $total_bookings }}</p>
                         </div>
-                        <select class="form-select w-auto" name="" id="">
-                            <option value="last-7">{{ trans('labels.last_7_days') }}</option>
-                            <option value="this-month">{{ trans('labels.this_month') }}</option>
-                            <option value="this-year">{{ trans('labels.this_year') }}</option>
-                        </select>
+                        <div class="d-flex gap-2">
+                            <input type="text"
+                                class="form-control me-2 bg-transparent border-primary total-bookings-picker"
+                                placeholder="{{ trans('labels.select_date') }}">
+                            <select class="form-select total-bookings-filter"
+                                style="background-color: transparent;border-color:var(--bs-primary);"
+                                data-next="{{ URL::to('admin/domes/details-') }}">
+                                <option value="this_week" selected>{{ trans('labels.this_week') }}</option>
+                                <option value="this_month">{{ trans('labels.this_month') }}</option>
+                                <option value="this_year">{{ trans('labels.this_year') }}</option>
+                                <option value="custom_date">{{ trans('labels.custom_date') }}</option>
+                            </select>
+                        </div>
                     </div>
-                    <div id="booking_chart"></div>
+                    <div id="bookings_chart"></div>
                 </div>
             </div>
         </div>
     </div>
-
 @endsection
 @section('scripts')
+    <script src={{ url('storage/app/public/admin/plugins/flatpickr/flatpickr.js') }}></script>
     <script src="{{ url('storage/app/public/admin/js/charts/apexchart/apexcharts.js') }}"></script>
     <script>
-        // Dome Revenue Chart
-        var options = {
-            series: [{
-                name: "Revenue",
-                data: [10, 41, 35, 51, 49, 62, 69, 91, 148, 155, 200, 230]
-            }],
-            chart: {
-                height: 400,
-                type: 'line',
-                zoom: {
-                    enabled: false
+        $(function() {
+            $('.total-bookings-picker, .dome-revenue-picker').hide();
+            $('.total-bookings-picker').flatpickr({
+                mode: "range",
+                maxDate: "today",
+                dateFormat: "Y-m-d",
+                onClose: function(selectedDates, dateStr, instance) {
+                    totalbookingsfilter(dateStr);
                 }
-            },
-            dataLabels: {
-                enabled: true,
-                formatter: function(val) {
-                    return val + "$"
+            });
+            $('.dome-revenue-picker').flatpickr({
+                mode: "range",
+                maxDate: "today",
+                dateFormat: "Y-m-d",
+                onClose: function(selectedDates, dateStr, instance) {
+                    totalbookingsfilter(dateStr);
                 }
-            },
-            stroke: {
-                curve: 'straight'
-            },
-            grid: {
-                row: {
-                    colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
-                    opacity: 0.3
-                },
-            },
-            colors: [secondary_color],
-            xaxis: {
-                categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-            }
-        };
-        var chart = new ApexCharts(document.querySelector("#dome_revenue"), options);
-        chart.render();
-        //Total Bookings Chart
-        var options = {
-            series: [44, 55, 11],
-            chart: {
-                height: 450,
-                type: 'pie',
-            },
-            labels: ['{{ trans('labels.confirm_bookings') }}', '{{ trans('labels.pending_bookings') }}',
-                '{{ trans('labels.cancel_bookings') }}'
-            ],
-            colors: [primary_color, secondary_color, light_secondary_color],
-            responsive: [{
-                breakpoint: 480,
-                options: {
-                    chart: {
-                        width: 200
+            });
+        })
+    </script>
+    {{-- Dome Revenue Chart --}}
+    <script>
+        var revenue = {{ Js::from(trans('labels.revenue')) }}
+        var dome_revenue_labels = {{ Js::from($dome_revenue_labels) }}
+        var dome_revenue_data = {{ Js::from($dome_revenue_data) }}
+
+        dome_revenue_chart(dome_revenue_labels, dome_revenue_data);
+
+        function dome_revenue_chart(dome_revenue_labels, dome_revenue_data) {
+            var options = {
+                series: [{
+                    name: revenue,
+                    data: dome_revenue_data
+                }],
+                chart: {
+                    height: 400,
+                    type: 'line',
+                    zoom: {
+                        enabled: false
                     },
-                    legend: {
-                        show: false,
-                        position: 'bottom'
+                    dropShadow: {
+                        enabled: true,
+                        color: '#000',
+                        top: 18,
+                        left: 7,
+                        blur: 10,
+                        opacity: 0.2
+                    },
+                    toolbar: {
+                        show: false
                     }
+                },
+                colors: [secondary_color],
+                dataLabels: {
+                    enabled: true,
+                    formatter: function(val) {
+                        return val + "$"
+                    }
+                },
+                stroke: {
+                    curve: 'straight'
+                },
+                grid: {
+                    borderColor: '#e7e7e7',
+                    row: {
+                        colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
+                        opacity: 0.5
+                    },
+                },
+                markers: {
+                    size: 1
+                },
+                xaxis: {
+                    categories: dome_revenue_labels,
                 }
-            }]
-        };
-        var chart = new ApexCharts(document.querySelector("#booking_chart"), options);
-        chart.render();
+            };
+            $('#dome_revenue_chart .apexcharts-canvas').remove();
+            if (document.getElementById("dome_revenue_chart")) {
+                var domerevenuechart = new ApexCharts(document.querySelector("#dome_revenue_chart"), options);
+                domerevenuechart.render();
+            }
+        }
+        $('.dome-revenue-filter').on('change', function() {
+            if ($(this).val() == 'custom_date') {
+                $('.dome-revenue-picker').show();
+                return false;
+            } else {
+                $('.dome-revenue-picker').hide();
+            }
+            domerevenuefilter('')
+        });
+
+        function domerevenuefilter(dates) {
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
+                        'content')
+                },
+                url: $(this).attr('data-next'),
+                data: {
+                    filtertype: $('.dome-revenue-filter').val(),
+                    filterdates: dates,
+                },
+                method: 'GET',
+                beforeSend: function() {
+                    showpreloader();
+                },
+                success: function(response) {
+                    hidepreloader();
+                    $('.dome-revenue-count').html(response.dome_revenue);
+                    dome_revenue_chart(response.dome_revenue_labels, response.dome_revenue_data)
+                },
+                error: function(e) {
+                    hidepreloader();
+                    toastr.error(wrong);
+                    return false;
+                }
+            });
+        }
+    </script>
+
+    {{-- Total Bookings Chart --}}
+    <script>
+        var bookings_labels = {{ Js::from($bookings_labels) }}
+        var bookings_data = {{ Js::from($bookings_data) }}
+        var arr = {{ Js::from($bookings_data_colors) }}
+
+        bookings_chart(bookings_labels, bookings_data, arr);
+
+        function bookings_chart(bookings_labels, bookings_data, arr) {
+            var bookings_data_colors = $.map(arr, function(val, i) {
+                if (val == 'primary_color') {
+                    return primary_color;
+                } else if (val == 'secondary_color') {
+                    return secondary_color;
+                } else if (val == 'danger_color') {
+                    return danger_color;
+                } else {
+                    return val;
+                }
+            });
+            var options = {
+                series: bookings_data,
+                chart: {
+                    height: 450,
+                    type: 'pie',
+                },
+                labels: bookings_labels,
+                colors: bookings_data_colors,
+                responsive: [{
+                    breakpoint: 480,
+                    options: {
+                        chart: {
+                            width: 200
+                        },
+                        legend: {
+                            show: false,
+                            position: 'bottom'
+                        }
+                    }
+                }]
+            };
+            $('#bookings_chart .apexcharts-canvas').remove();
+            if (document.getElementById("bookings_chart")) {
+                var totalbookingschart = new ApexCharts(document.querySelector("#bookings_chart"), options);
+                totalbookingschart.render();
+            }
+        }
+        $('.total-bookings-filter').on('change', function() {
+            if ($(this).val() == 'custom_date') {
+                $('.total-bookings-picker').show();
+                return false;
+            } else {
+                $('.total-bookings-picker').hide();
+            }
+            totalbookingsfilter('')
+        });
+
+        function totalbookingsfilter(dates) {
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
+                        'content')
+                },
+                url: $(this).attr('data-next'),
+                data: {
+                    filtertype: $('.total-bookings-filter').val(),
+                    filterdates: dates,
+                },
+                method: 'GET',
+                beforeSend: function() {
+                    showpreloader();
+                },
+                success: function(response) {
+                    hidepreloader();
+                    $('.total-bookings-count').html(response.total_bookings);
+                    bookings_chart(response.bookings_labels, response.bookings_data, response
+                        .bookings_data_colors)
+                },
+                error: function(e) {
+                    hidepreloader();
+                    toastr.error(wrong);
+                    return false;
+                }
+            });
+        }
     </script>
 @endsection

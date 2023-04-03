@@ -663,7 +663,6 @@
                 series: [{
                     name: revenue_title,
                     data: revenue_data
-                    // data: [45, 52, 38, 45, 19, 23, 2]
                 }],
                 markers: {
                     size: 6,
@@ -700,15 +699,6 @@
                 },
                 xaxis: {
                     categories: revenue_labels,
-                    // categories: [
-                    //     "01 Jan",
-                    //     "02 Jan",
-                    //     "03 Jan",
-                    //     "04 Jan",
-                    //     "05 Jan",
-                    //     "06 Jan",
-                    //     "07 Jan"
-                    // ]
                 },
                 tooltip: {
                     y: {

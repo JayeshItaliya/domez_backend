@@ -246,7 +246,7 @@ class DomesController extends Controller
                 return view('admin.domes.view', compact('getdomedata', 'getsportslist', 'total_bookings', 'bookings_labels', 'bookings_data', 'bookings_data_colors', 'dome_revenue', 'dome_revenue_labels', 'dome_revenue_data'));
             }
         }
-        return redirect('/admin/domes');
+        return redirect('admin/domes');
     }
 
     public function edit(Request $request)

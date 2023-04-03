@@ -26,7 +26,8 @@
                                 </svg>
                             </a>
                         </li>
-                        <li class="breadcrumb-item"><a href="{{ URL::to('admin/domes') }}">{{ trans('labels.domes') }}</a></li>
+                        <li class="breadcrumb-item"><a href="{{ URL::to('admin/domes') }}">{{ trans('labels.domes') }}</a>
+                        </li>
                         <li class="breadcrumb-item active" aria-current="page">{{ trans('labels.dome_details') }}</li>
                     </ol>
                 </nav>
@@ -306,7 +307,7 @@
             }
         </style>
         <div class="col-lg-8">
-            <div class="card">
+            <div class="card h-100">
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-center mb-3">
                         <div class="col-auto">
@@ -395,7 +396,7 @@
             var options = {
                 series: [{
                     name: revenue,
-                    data: [dome_revenue_data]
+                    data: dome_revenue_data
                 }],
                 chart: {
                     height: 400,
@@ -436,7 +437,7 @@
                     size: 1
                 },
                 xaxis: {
-                    categories: [dome_revenue_labels],
+                    categories: dome_revenue_labels,
                 }
             };
             $('#dome_revenue_chart .apexcharts-canvas').remove();
@@ -490,21 +491,20 @@
         var bookings_data = {{ Js::from($bookings_data) }}
         var arr = {{ Js::from($bookings_data_colors) }}
 
-        var bookings_data_colors = $.map(arr, function(val, i) {
-            if (val == 'primary_color') {
-                return primary_color;
-            } else if (val == 'secondary_color') {
-                return secondary_color;
-            } else if (val == 'danger_color') {
-                return danger_color;
-            } else {
-                return val;
-            }
-        });
+        bookings_chart(bookings_labels, bookings_data, arr);
 
-        bookings_chart(bookings_labels, bookings_data, bookings_data_colors);
-
-        function bookings_chart(bookings_labels, bookings_data, bookings_data_colors) {
+        function bookings_chart(bookings_labels, bookings_data, arr) {
+            var bookings_data_colors = $.map(arr, function(val, i) {
+                if (val == 'primary_color') {
+                    return primary_color;
+                } else if (val == 'secondary_color') {
+                    return secondary_color;
+                } else if (val == 'danger_color') {
+                    return danger_color;
+                } else {
+                    return val;
+                }
+            });
             var options = {
                 series: bookings_data,
                 chart: {
@@ -560,18 +560,8 @@
                 success: function(response) {
                     hidepreloader();
                     $('.total-bookings-count').html(response.total_bookings);
-                    var bookings_data_colors = $.map(response.bookings_data_colors, function(val, i) {
-                        if (val == 'primary_color') {
-                            return primary_color;
-                        } else if (val == 'secondary_color') {
-                            return secondary_color;
-                        } else if (val == 'danger_color') {
-                            return danger_color;
-                        } else {
-                            return val;
-                        }
-                    });
-                    bookings_chart(response.bookings_labels, response.bookings_data, bookings_data_colors)
+                    bookings_chart(response.bookings_labels, response.bookings_data, response
+                        .bookings_data_colors)
                 },
                 error: function(e) {
                     hidepreloader();
