@@ -26,14 +26,16 @@
                                 </svg>
                             </a>
                         </li>
-                        <li class="breadcrumb-item"><a href="{{ URL::to('admin/domes') }}">{{ trans('labels.domes') }}</a></li>
+                        <li class="breadcrumb-item"><a href="{{ URL::to('admin/domes') }}">{{ trans('labels.domes') }}</a>
+                        </li>
                         <li class="breadcrumb-item active" aria-current="page">{{ trans('labels.edit_dome') }}</li>
                     </ol>
                 </nav>
             </div>
         </div>
     </div>
-    <form class="card" action="{{ URL::to('admin/domes/store') }}" method="post" enctype="multipart/form-data">
+    <form class="card" action="{{ URL::to('admin/domes/update-' . $dome->id) }}" method="post"
+        enctype="multipart/form-data">
         @csrf
         <div class="card-body">
 
@@ -140,7 +142,6 @@
                                 </div>
                             </div>
                         </div>
-                        {{-- Amenities description --}}
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label class="form-label"
@@ -247,6 +248,7 @@
                                             <input type="checkbox" id="{{ $data->name }}" name="sport_id[]"
                                                 class="form-check-input" value="{{ $data->id }}"
                                                 data-sport-name="{{ $data->name }}"
+                                                data-show-input="{{ $data->name . $data->id }}"
                                                 {{ in_array($data->id, $sport_id) ? 'checked' : '' }}>
                                             <label class="form-check-label"
                                                 for="{{ $data->name }}">{{ $data->name }}</label>
@@ -263,56 +265,58 @@
                                 @foreach ($getsportslist as $sport)
                                     @if (in_array($sport->id, $sport_id))
                                         <div class="col mb-2" id="{{ $sport->name . $sport->id }}">
-                                            <label class="form-label"
-                                                for="dome_price">{{ $sport->name . ' ' . trans('labels.price') }}</label>
-                                            <div class="input-group">
-                                                <input type="number" class="form-control" name="dome_price[]"
-                                                    value="{{ Helper::get_dome_price($dome->id, $sport->id) }}"
-                                                    placeholder="0">
-                                                <span class="input-group-text" id="basic-addon1">$</span>
-                                            </div>
-                                        </div>
+                                    @else
+                                            <div class="col mb-2" id="{{ $sport->name . $sport->id }}"
+                                                style="display:none">
                                     @endif
-                                @endforeach
+                                    <label class="form-label"
+                                        for="">{{ $sport->name . ' ' . trans('labels.price') }}</label>
+                                    <div class="input-group">
+                                        <input type="number" class="form-control" name="dome_price[]"
+                                            value="{{ Helper::get_dome_price($dome->id, $sport->id) }}" placeholder="0"
+                                            {{ in_array($sport->id, $sport_id) ? '' : 'disabled' }}>
+                                        <span class="input-group-text" id="basic-addon1">$</span>
+                                    </div>
                             </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label class="form-label"
-                                    for="description">{{ trans('labels.dome_description') }}</label>
-                                <textarea class="form-control" name="description" id="description" rows="5"
-                                    placeholder="{{ trans('labels.dome_description') }}" maxlength="100">{{ $dome->description }}</textarea>
-                                @error(' description')
-                                    <span class="text-danger">{{ $message }}</span>
-                                @enderror
-                            </div>
+                            @endforeach
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="row mb-4">
-                @foreach ($dome['dome_images'] as $demoimages)
-                    <div class="avatar avatar-xl col-auto">
-                        <div class="dome-img">
-                            <img src="{{ $demoimages->image }}" alt="..." class="mb-3 rounded d-block">
-                            <div class="dome-img-overlay rounded">
-                                <a onclick="deletedata('{{ $demoimages->id }}','{{ URL::to('admin/domes/image_delete') }}')"
-                                    class="delete-icon fs-5 rounded-circle py-2 px-3"><i
-                                        class="fa-light fa-trash-can"></i></a>
-                            </div>
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label class="form-label" for="description">{{ trans('labels.dome_description') }}</label>
+                            <textarea class="form-control" name="description" id="description" rows="5"
+                                placeholder="{{ trans('labels.dome_description') }}" maxlength="100">{{ $dome->description }}</textarea>
+                            @error(' description')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
                         </div>
                     </div>
-                @endforeach
-            </div>
-            <div class="row">
-                <div class="col-auto">
-                    <button type="submit" class="btn btn-primary mt-2 float-end">{{ trans('labels.submit') }}</button>
                 </div>
             </div>
+        </div>
+        <div class="row mb-4">
+            @foreach ($dome['dome_images'] as $demoimages)
+                <div class="avatar avatar-xl col-auto">
+                    <div class="dome-img">
+                        <img src="{{ $demoimages->image }}" alt="..." class="mb-3 rounded d-block">
+                        <div class="dome-img-overlay rounded">
+                            <a onclick="deletedata('{{ $demoimages->id }}','{{ URL::to('admin/domes/image_delete') }}')"
+                                class="delete-icon fs-5 rounded-circle py-2 px-3"><i
+                                    class="fa-light fa-trash-can"></i></a>
+                        </div>
+                    </div>
+                </div>
+            @endforeach
+        </div>
+        <div class="row">
+            <div class="col-auto">
+                <button type="submit" class="btn btn-primary mt-2 float-end">{{ trans('labels.submit') }}</button>
+            </div>
+        </div>
 
         </div>
     </form>
@@ -325,12 +329,11 @@
     <script type="text/javascript">
         $('input[data-sport-name]').click(function() {
             if (this.checked) {
-                let html = '<div class="col mb-2" id="' + $(this).attr("data-sport-name") + '' + $(this).val() +
-                    '"><label class="form-label" for="dome_price">' + $(this).attr("data-sport-name") +
-                    ' Price</label><div class="input-group"><input type="number" class="form-control" name="dome_price[]" placeholder="0"><span class="input-group-text" id="basic-addon1">$</span></div></div>';
-                $('#sport_prices_input').append(html);
+                $('#' + $(this).attr('data-show-input')).show();
+                $('#' + $(this).attr('data-show-input')).find('input[type=number]').attr('disabled', false);
             } else {
-                $('#' + $(this).attr("data-sport-name") + '' + $(this).val()).remove();
+                $('#' + $(this).attr('data-show-input')).hide();
+                $('#' + $(this).attr('data-show-input')).find('input[type=number]').attr('disabled', true);
             }
         });
         $(function() {
@@ -340,7 +343,6 @@
             });
             initMap();
         });
-
         // Google Map For Location
         if ($('#textLat').val().length == 0) {
             var lat = -33.8688197;
@@ -438,7 +440,6 @@
             });
             return zipcode;
         }
-
 
         function deletedata(id, url) {
             "use strict";

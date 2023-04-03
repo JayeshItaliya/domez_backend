@@ -1,32 +1,5 @@
-$(function () {
-    "use strict";
-    $(".time_picker").timepicker({
-        interval: 60,
-    });
-    if (is_vendor || is_employee) {
-        let html =
-            '<a href="' + window.location.href.replace(window.location.search, '') + '/add" class="btn-custom-primary"><svg xmlns="http://www.w3.org/2000/svg" class="icon-tabler icon-tabler-plus" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="var(--bs-primary)" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" /></svg></a>';
-        $('.fixed-table-toolbar .btn-group').append(html);
-    }
-
-    var counter = 1;
-    $(".appendbtn").on('click', function () {
-        "use strict";
-        counter++;
-        var dayname = $(this).attr('data-day-name');
-        var html =
-            '<div class="row my-2" id="remove' + counter +
-            '"><div class="col-md-4"><div class="form-group"><div class="input-group"><input type="text" class="form-control start time_picker border-end-0" name="start_time[' +
-            dayname + '][]" placeholder="' + start_time +
-            '" /> <span class="input-group-text bg-transparent border-start-0"><i class="fa-regular fa-clock"></i> </span> </div></div></div><div class="col-md-4"><div class="form-group"><div class="input-group"><input type="text" class="form-control end time_picker border-end-0" name="end_time[' +
-            dayname + '][]" placeholder="' + end_time +
-            '" /> <span class="input-group-text bg-transparent border-start-0"><i class="fa-regular fa-clock"></i> </span> </div></div></div><div class="col-md-3"><div class="form-group"><div class="input-group"><input type="number" value="0" class="form-control border-end-0" name="price[' +
-            dayname + '][]" placeholder="' + price +
-            '" /> <span class="input-group-text bg-transparent border-start-0"> <i class="fa-solid fa-dollar-sign"></i> </span> </div></div></div><div class="col-md-1"><div class="form-group"><a class="btn-custom-danger cursor-pointer" onclick="removeslot(' +
-            counter + ')"><i class="fa fa-close"></i></a></div></div></div>'
-        $('.' + dayname + '.extra_fields').append(html);
-    });
-});
+var min_time = '';
+var max_time = '';
 
 function removeslot(id) {
     "use strict";
@@ -50,6 +23,8 @@ $('#dome').on('change', function () {
     if ($.trim($(this).val()) == '') {
         return false;
     }
+    min_time = $(this).find(':selected').attr('data-start-time');
+    max_time = $(this).find(':selected').attr('data-end-time');
     $.ajax({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
@@ -108,7 +83,74 @@ $('#storesetprices').on('submit', function () {
         return false;
     }
 });
+$(function () {
+    "use strict";
+    // $(".time_picker").timepicker({
+    //     interval: 60,
+    // });
+    $('.start.time_picker').timepicker({
+        // timeFormat: 'h:mm p',
+        interval: 60,
+        dynamic: false,
+        dropdown: true,
+        scrollbar: true,
+        startTime: min_time,
+        minTime: min_time,
+        maxTime: max_time,
+        change: function (time) {
+            var element = $(this);
+            alert(element.attr('data-day-name'))
+            var timepicker = element.timepicker();
+            $('.end.time_picker').val('');
+            $('.end.time_picker').timepicker('destroy');
+            $('.end.time_picker').timepicker({
+                interval: 60,
+                dynamic: false,
+                dropdown: true,
+                scrollbar: true,
+                startTime: timepicker.format(time),
+                minTime: timepicker.format(time),
+                maxTime: max_time,
+            });
+        }
+    });
+    if ($.trim($('.end.time_picker').val()) != "") {
+        $('.end.time_picker').timepicker({
+            // timeFormat: 'h:mm p',
+            interval: 60,
+            dynamic: false,
+            dropdown: true,
+            scrollbar: true,
+            startTime: start_time,
+            minTime: min_time,
+            maxTime: max_time,
+        });
+    }
 
+    if (is_vendor || is_employee) {
+        let html =
+            '<a href="' + window.location.href.replace(window.location.search, '') + '/add" class="btn-custom-primary"><svg xmlns="http://www.w3.org/2000/svg" class="icon-tabler icon-tabler-plus" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="var(--bs-primary)" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" /></svg></a>';
+        $('.fixed-table-toolbar .btn-group').append(html);
+    }
+
+    var counter = 1;
+    $(".appendbtn").on('click', function () {
+        "use strict";
+        counter++;
+        var dayname = $(this).attr('data-day-name');
+        var html =
+            '<div class="row my-2" id="remove' + counter +
+            '"><div class="col-md-4"><div class="form-group"><div class="input-group"><input type="text" class="form-control start time_picker border-end-0" name="start_time[' +
+            dayname + '][]" placeholder="' + start_time +
+            '" /> <span class="input-group-text bg-transparent border-start-0"><i class="fa-regular fa-clock"></i> </span> </div></div></div><div class="col-md-4"><div class="form-group"><div class="input-group"><input type="text" class="form-control end time_picker border-end-0" name="end_time[' +
+            dayname + '][]" placeholder="' + end_time +
+            '" /> <span class="input-group-text bg-transparent border-start-0"><i class="fa-regular fa-clock"></i> </span> </div></div></div><div class="col-md-3"><div class="form-group"><div class="input-group"><input type="number" value="0" class="form-control border-end-0" name="price[' +
+            dayname + '][]" placeholder="' + price +
+            '" /> <span class="input-group-text bg-transparent border-start-0"> <i class="fa-solid fa-dollar-sign"></i> </span> </div></div></div><div class="col-md-1"><div class="form-group"><a class="btn-custom-danger cursor-pointer" onclick="removeslot(' +
+            counter + ')"><i class="fa fa-close"></i></a></div></div></div>'
+        $('.' + dayname + '.extra_fields').append(html);
+    });
+});
 
 function deletedata(id, url) {
     "use strict";
@@ -155,69 +197,69 @@ function deletedata(id, url) {
         })
 }
 
-$('body').on('blur', '.start.time_picker', function () {
-    "use strict";
-    setTimeout(() => {
-        var start_time = $(this).val();
-        var end_time = '';
-        var dome_id = $('#dome').val();
-        var validate_start_time = 1;
-        var element = $(this);
-        validatetime(start_time, end_time, dome_id, validate_start_time, element);
-    }, 100);
-});
-$('body').on('blur', '.end.time_picker', function () {
-    "use strict";
-    var start_time = $(this).parent().parent().parent().prev().find('.start.time_picker').val();
-    if ($.trim(start_time) == '') {
-        return false;
-    }
-    setTimeout(() => {
-        var end_time = $(this).val();
-        var dome_id = $('#dome').val();
-        var validate_start_time = '';
-        var element = $(this);
-        validatetime(start_time, end_time, dome_id, validate_start_time, element);
-    }, 100);
-});
+// $('body').on('blur', '.start.time_picker', function () {
+//     "use strict";
+//     setTimeout(() => {
+//         var start_time = $(this).val();
+//         var end_time = '';
+//         var dome_id = $('#dome').val();
+//         var validate_start_time = 1;
+//         var element = $(this);
+//         validatetime(start_time, end_time, dome_id, validate_start_time, element);
+//     }, 100);
+// });
+// $('body').on('blur', '.end.time_picker', function () {
+//     "use strict";
+//     var start_time = $(this).parent().parent().parent().prev().find('.start.time_picker').val();
+//     if ($.trim(start_time) == '') {
+//         return false;
+//     }
+//     setTimeout(() => {
+//         var end_time = $(this).val();
+//         var dome_id = $('#dome').val();
+//         var validate_start_time = '';
+//         var element = $(this);
+//         validatetime(start_time, end_time, dome_id, validate_start_time, element);
+//     }, 100);
+// });
 
-function validatetime(start_time, end_time, dome_id, validate_start_time, element) {
-    "use strict";
-    showpreloader();
-    $.ajax({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
-                'content')
-        },
-        url: validatetimeurl,
-        data: {
-            start_time: start_time,
-            end_time: end_time,
-            dome_id: dome_id,
-            validate_start_time: validate_start_time,
-        },
-        method: 'get',
-        success: function (response) {
-            hidepreloader();
-            if (response.status == 0) {
-                $(element).addClass('is-invalid').val('');
-                if ($(element).parent().hasClass('input-group')) {
-                    $(element).next().addClass('border-danger')
-                }
-                toastr.error(response.message);
-                return false;
-            } else {
-                $(element).parent().find('.is-invalid').removeClass('is-invalid');
-                $(element).parent().find('.border-danger').removeClass('border-danger');
-                if (validate_start_time == 1) {
-                    $(element).parent().parent().parent().next().find('.end.time_picker').val('');
-                }
-            }
-        },
-        error: function (e) {
-            hidepreloader();
-            toastr.error(wrong);
-            return false;
-        }
-    });
-}
+// function validatetime(start_time, end_time, dome_id, validate_start_time, element) {
+//     "use strict";
+//     showpreloader();
+//     $.ajax({
+//         headers: {
+//             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
+//                 'content')
+//         },
+//         url: validatetimeurl,
+//         data: {
+//             start_time: start_time,
+//             end_time: end_time,
+//             dome_id: dome_id,
+//             validate_start_time: validate_start_time,
+//         },
+//         method: 'get',
+//         success: function (response) {
+//             hidepreloader();
+//             if (response.status == 0) {
+//                 $(element).addClass('is-invalid').val('');
+//                 if ($(element).parent().hasClass('input-group')) {
+//                     $(element).next().addClass('border-danger')
+//                 }
+//                 toastr.error(response.message);
+//                 return false;
+//             } else {
+//                 $(element).parent().find('.is-invalid').removeClass('is-invalid');
+//                 $(element).parent().find('.border-danger').removeClass('border-danger');
+//                 if (validate_start_time == 1) {
+//                     $(element).parent().parent().parent().next().find('.end.time_picker').val('');
+//                 }
+//             }
+//         },
+//         error: function (e) {
+//             hidepreloader();
+//             toastr.error(wrong);
+//             return false;
+//         }
+//     });
+// }

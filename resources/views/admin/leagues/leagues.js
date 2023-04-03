@@ -58,7 +58,11 @@ $('#dome').on('change', function () {
                 $('.radio-editer').html('');
                 if (response.sportsdata.length > 0) {
                     $.each(response.sportsdata, function (arrayIndex, elementValue) {
-                        var checked = arrayIndex == 0 ? 'checked' : '';
+                        if ($.trim(sport_selected) != '') {
+                            var checked = elementValue.id == sport_selected ? 'checked' : '';
+                        } else {
+                            var checked = arrayIndex == 0 ? 'checked' : '';
+                        }
                         html +=
                             '<div class="form-check pe-3"><input type="radio" name="sport" class="form-check-input" value="' +
                             elementValue.id + '" id="radio' + arrayIndex + '" ' +
@@ -72,7 +76,6 @@ $('#dome').on('change', function () {
                 } else {
                     $('.radio-editer').html(no_data);
                 }
-
                 // $('#field option:not(:first)').remove();
                 // if (response.fieldsdata.length > 0) {
                 //     $.each(response.fieldsdata, function (arrayIndex, elementValue) {
@@ -122,14 +125,10 @@ function getfields(sport) {
         success: function (response) {
             if (response.status == 1) {
                 $('#field option').remove();
-                // $('#field option:not(:first)').remove();
                 if (response.fieldsdata.length > 0) {
                     $.each(response.fieldsdata, function (arrayIndex, elementValue) {
-                        if ($.inArray(elementValue.id, field_selected) !== -1) {
-                            $('#field').append('<option value="' + elementValue.id + '" selected >' + elementValue.name + '</option>');
-                        } else {
-                            $('#field').append('<option value="' + elementValue.id + '">' + elementValue.name + '</option>');
-                        }
+                        var selected = $.inArray(elementValue.id, field_selected) !== -1 ? 'selected' : '';
+                        $('#field').append('<option value="' + elementValue.id + '"  '+selected+'  >' + elementValue.name + '</option>');
                     });
                 } else {
                     $('#field').append('<option value="" selected disabled>' + no_data + '</option>');
@@ -183,7 +182,6 @@ $(function () {
             maxTime: max_time,
         });
     }
-
 
     if (is_vendor || is_employee) {
         let html =
