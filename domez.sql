@@ -2,9 +2,9 @@
 -- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Apr 02, 2023 at 11:13 AM
--- Server version: 10.4.27-MariaDB
+-- Host: 127.0.0.1:3306
+-- Generation Time: Apr 03, 2023 at 04:23 AM
+-- Server version: 8.0.31
 -- PHP Version: 8.2.0
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -27,52 +27,56 @@ SET time_zone = "+00:00";
 -- Table structure for table `bookings`
 --
 
-CREATE TABLE `bookings` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `type` tinyint(4) NOT NULL DEFAULT 1 COMMENT '1=Dome Bookings,  2=League Bookings',
-  `vendor_id` int(11) NOT NULL,
-  `dome_id` int(11) DEFAULT NULL,
-  `league_id` int(11) DEFAULT NULL,
-  `user_id` int(11) NOT NULL,
-  `sport_id` int(11) NOT NULL,
-  `field_id` varchar(255) NOT NULL,
-  `booking_id` varchar(255) NOT NULL,
-  `slots` text DEFAULT NULL COMMENT 'For Domes Booking Only',
+DROP TABLE IF EXISTS `bookings`;
+CREATE TABLE IF NOT EXISTS `bookings` (
+  `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
+  `type` tinyint NOT NULL DEFAULT '1' COMMENT '1=Dome Bookings,  2=League Bookings',
+  `vendor_id` int NOT NULL,
+  `dome_id` int DEFAULT NULL,
+  `league_id` int DEFAULT NULL,
+  `user_id` int NOT NULL,
+  `sport_id` int NOT NULL,
+  `field_id` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `booking_id` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `slots` text COLLATE utf8mb4_unicode_ci COMMENT 'For Domes Booking Only',
   `start_date` date DEFAULT NULL COMMENT 'For Leagues Booking Only	',
   `end_date` date DEFAULT NULL COMMENT 'For Leagues Booking Only	',
   `start_time` time NOT NULL,
   `end_time` time NOT NULL,
-  `sub_total` double NOT NULL DEFAULT 0,
-  `service_fee` double NOT NULL DEFAULT 0,
-  `hst` double NOT NULL DEFAULT 0,
+  `sub_total` double NOT NULL DEFAULT '0',
+  `service_fee` double NOT NULL DEFAULT '0',
+  `hst` double NOT NULL DEFAULT '0',
   `total_amount` double(8,2) NOT NULL,
-  `paid_amount` double(8,2) NOT NULL DEFAULT 0.00,
-  `due_amount` double(8,2) NOT NULL DEFAULT 0.00,
-  `payment_mode` int(11) NOT NULL DEFAULT 1 COMMENT '1=online,2=offline',
-  `payment_type` int(11) NOT NULL DEFAULT 1 COMMENT '1=Full Amount, 2=Split Amount',
-  `payment_status` int(11) NOT NULL DEFAULT 1 COMMENT '1=Complete,2=Partial',
-  `booking_status` int(11) NOT NULL DEFAULT 1 COMMENT '1=Confirmed, 2=Pending, 3=Cancelled	',
-  `token` text DEFAULT NULL,
-  `players` int(11) NOT NULL,
-  `customer_name` varchar(255) DEFAULT NULL,
-  `customer_email` varchar(255) NOT NULL,
-  `customer_mobile` varchar(255) DEFAULT NULL,
-  `team_name` varchar(255) DEFAULT NULL COMMENT 'For Leagues Booking Only',
-  `cancellation_reason` text DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `paid_amount` double(8,2) NOT NULL DEFAULT '0.00',
+  `due_amount` double(8,2) NOT NULL DEFAULT '0.00',
+  `refunded_amount` int DEFAULT NULL,
+  `payment_mode` int NOT NULL DEFAULT '1' COMMENT '1=online,2=offline',
+  `payment_type` int NOT NULL DEFAULT '1' COMMENT '1=Full Amount, 2=Split Amount',
+  `payment_status` int NOT NULL DEFAULT '2' COMMENT '1=Paid, 2=Pending, 3=Refunded',
+  `booking_status` int NOT NULL DEFAULT '1' COMMENT '1=Confirmed, 2=Pending, 3=Cancelled	',
+  `token` text COLLATE utf8mb4_unicode_ci,
+  `players` int NOT NULL,
+  `customer_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `customer_email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `customer_mobile` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `team_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'For Leagues Booking Only',
+  `cancellation_reason` text COLLATE utf8mb4_unicode_ci,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `bookings`
 --
 
-INSERT INTO `bookings` (`id`, `type`, `vendor_id`, `dome_id`, `league_id`, `user_id`, `sport_id`, `field_id`, `booking_id`, `slots`, `start_date`, `end_date`, `start_time`, `end_time`, `sub_total`, `service_fee`, `hst`, `total_amount`, `paid_amount`, `due_amount`, `payment_mode`, `payment_type`, `payment_status`, `booking_status`, `token`, `players`, `customer_name`, `customer_email`, `customer_mobile`, `team_name`, `cancellation_reason`, `created_at`, `updated_at`) VALUES
-(1, 1, 2, 35, NULL, 7, 6, '31', 'c6b519', '07:00 PM - 08:00 PM', '2023-04-01', NULL, '18:00:00', '20:00:00', 200, 10, 10, 220.00, 18.33, 201.67, 1, 2, 2, 3, '2y10ipgMiX9CsfGDWicmctdz1uyjHAH3KG2b5fNueNUn3hcOr9jj4AkNa', 12, 'Soham', 'domez@gmail.com', '6359478772', '', NULL, '2023-04-01 06:56:52', '2023-04-01 13:06:00'),
-(2, 1, 2, 35, NULL, 7, 6, '30', 'b48ecc', '06:00 AM - 07:00 AM', '2023-04-28', NULL, '06:00:00', '07:00:00', 50, 2.5, 2.5, 55.00, 4.58, 50.42, 1, 2, 2, 3, '2y10oCaojuclx0O2411EFrX1cel21JeH17shI9aYKV2xaIsYSUIeAw7K', 12, 'Soham', 'domez@gmail.com', '6359478772', '', '', '2023-04-02 06:05:13', '2023-04-02 06:20:41'),
-(3, 1, 2, 35, NULL, 7, 7, '37', 'a752c5', '01:00 PM - 02:00 PM', '2023-04-02', NULL, '13:00:00', '14:00:00', 800, 40, 40, 880.00, 880.00, 0.00, 1, 2, 1, 1, '2y10UzGW9hi5W4pXm8ywVLYCuZvOyehy555LBP5nIzuulrqjAzBZzt2', 12, 'Soham', 'domez@gmail.com', '6359478772', '', NULL, '2023-04-02 06:38:23', '2023-04-02 06:42:23'),
-(4, 1, 2, 35, NULL, 7, 7, '36', '9a1e97', '05:00 PM - 06:00 PM,03:00 PM - 04:00 PM', '2023-04-02', NULL, '15:00:00', '16:00:00', 800, 40, 40, 880.00, 880.00, 0.00, 1, 1, 1, 3, NULL, 12, 'Soham', 'domez@gmail.com', '6359478772', '', '', '2023-04-02 06:51:49', '2023-04-02 06:52:23'),
-(5, 1, 2, 35, NULL, 7, 7, '37', 'f03b66', '03:00 PM - 04:00 PM', '2023-04-02', NULL, '15:00:00', '16:00:00', 800, 40, 40, 880.00, 880.00, 0.00, 1, 2, 1, 1, '2y10BwKiA7ki5aN9i1WasPLHaezrAdO9YDrQCk8ddld1vVASTlbkTlaTO', 12, 'Soham', 'domez@gmail.com', '6359478772', '', NULL, '2023-04-02 06:52:57', '2023-04-02 06:54:38');
+INSERT INTO `bookings` (`id`, `type`, `vendor_id`, `dome_id`, `league_id`, `user_id`, `sport_id`, `field_id`, `booking_id`, `slots`, `start_date`, `end_date`, `start_time`, `end_time`, `sub_total`, `service_fee`, `hst`, `total_amount`, `paid_amount`, `due_amount`, `refunded_amount`, `payment_mode`, `payment_type`, `payment_status`, `booking_status`, `token`, `players`, `customer_name`, `customer_email`, `customer_mobile`, `team_name`, `cancellation_reason`, `created_at`, `updated_at`) VALUES
+(1, 1, 2, 35, NULL, 7, 6, '31', 'c6b519', '07:00 PM - 08:00 PM', '2023-04-01', NULL, '18:00:00', '20:00:00', 200, 10, 10, 220.00, 18.33, 201.67, 0, 1, 2, 2, 2, '2y10ipgMiX9CsfGDWicmctdz1uyjHAH3KG2b5fNueNUn3hcOr9jj4AkNa', 12, 'Soham', 'domez@gmail.com', '6359478772', '', NULL, '2023-04-01 06:56:52', '2023-04-01 13:06:00'),
+(2, 1, 2, 35, NULL, 7, 6, '30', 'b48ecc', '06:00 AM - 07:00 AM', '2023-04-28', NULL, '06:00:00', '07:00:00', 50, 2.5, 2.5, 55.00, 4.58, 50.42, 0, 1, 2, 2, 3, '2y10oCaojuclx0O2411EFrX1cel21JeH17shI9aYKV2xaIsYSUIeAw7K', 12, 'Soham', 'domez@gmail.com', '6359478772', '', '', '2023-04-02 06:05:13', '2023-04-02 06:20:41'),
+(3, 1, 2, 35, NULL, 7, 7, '37', 'a752c5', '01:00 PM - 02:00 PM', '2023-04-02', NULL, '13:00:00', '14:00:00', 800, 40, 40, 880.00, 880.00, 0.00, 0, 1, 2, 1, 1, '2y10UzGW9hi5W4pXm8ywVLYCuZvOyehy555LBP5nIzuulrqjAzBZzt2', 12, 'Soham', 'domez@gmail.com', '6359478772', '', NULL, '2023-04-02 06:38:23', '2023-04-02 06:42:23'),
+(4, 1, 2, 35, NULL, 7, 7, '36', '9a1e97', '05:00 PM - 06:00 PM,03:00 PM - 04:00 PM', '2023-04-02', NULL, '15:00:00', '16:00:00', 800, 40, 40, 880.00, 880.00, 0.00, 0, 1, 1, 1, 3, NULL, 12, 'Soham', 'domez@gmail.com', '6359478772', '', '', '2023-04-02 06:51:49', '2023-04-02 06:52:23'),
+(5, 1, 2, 35, NULL, 7, 7, '37', 'f03b66', '03:00 PM - 04:00 PM', '2023-04-02', NULL, '15:00:00', '16:00:00', 800, 40, 40, 880.00, 880.00, 0.00, 0, 1, 2, 1, 1, '2y10BwKiA7ki5aN9i1WasPLHaezrAdO9YDrQCk8ddld1vVASTlbkTlaTO', 12, 'Soham', 'domez@gmail.com', '6359478772', '', NULL, '2023-04-02 06:52:57', '2023-04-02 06:54:38'),
+(6, 1, 2, 35, NULL, 7, 10, '14', 'b98541', '05:00 AM - 06:00 AM', '2023-04-28', NULL, '05:00:00', '06:00:00', 50, 2.5, 2.5, 116.00, 116.00, 0.00, 116, 1, 1, 3, 3, NULL, 12, 'Soham', 'domez@gmail.com', '6359478772', '', NULL, '2023-04-02 09:37:29', '2023-04-02 12:27:27');
 
 -- --------------------------------------------------------
 
@@ -80,13 +84,15 @@ INSERT INTO `bookings` (`id`, `type`, `vendor_id`, `dome_id`, `league_id`, `user
 -- Table structure for table `cms`
 --
 
-CREATE TABLE `cms` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `type` int(11) NOT NULL COMMENT '1=Privacy Policy, 2=Terms & Conditions, 3=Refund Policy, 4 - cancellation_policies',
-  `content` longtext NOT NULL,
-  `created_at` timestamp NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+DROP TABLE IF EXISTS `cms`;
+CREATE TABLE IF NOT EXISTS `cms` (
+  `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
+  `type` int NOT NULL COMMENT '1=Privacy Policy, 2=Terms & Conditions, 3=Refund Policy, 4 - cancellation_policies',
+  `content` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `cms`
@@ -104,29 +110,31 @@ INSERT INTO `cms` (`id`, `type`, `content`, `created_at`, `updated_at`) VALUES
 -- Table structure for table `domes`
 --
 
-CREATE TABLE `domes` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `vendor_id` int(11) NOT NULL,
-  `sport_id` varchar(255) NOT NULL,
-  `name` varchar(255) NOT NULL,
+DROP TABLE IF EXISTS `domes`;
+CREATE TABLE IF NOT EXISTS `domes` (
+  `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
+  `vendor_id` int NOT NULL,
+  `sport_id` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `price` double(8,2) DEFAULT NULL,
   `hst` double(8,2) NOT NULL COMMENT 'tax(GST)',
-  `address` text NOT NULL,
-  `pin_code` varchar(255) DEFAULT NULL,
-  `city` varchar(255) DEFAULT NULL,
-  `state` varchar(255) DEFAULT NULL,
-  `country` varchar(255) DEFAULT NULL,
-  `start_time` varchar(255) NOT NULL,
-  `end_time` varchar(255) NOT NULL,
-  `description` text NOT NULL,
-  `lat` varchar(255) NOT NULL,
-  `lng` varchar(255) NOT NULL,
-  `benefits` varchar(255) NOT NULL,
-  `benefits_description` text NOT NULL,
-  `is_deleted` tinyint(1) NOT NULL DEFAULT 2 COMMENT '1=yes,2=no',
+  `address` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `pin_code` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `city` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `state` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `country` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `start_time` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `end_time` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `description` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `lat` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `lng` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `benefits` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `benefits_description` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `is_deleted` tinyint(1) NOT NULL DEFAULT '2' COMMENT '1=yes,2=no',
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `domes`
@@ -141,14 +149,16 @@ INSERT INTO `domes` (`id`, `vendor_id`, `sport_id`, `name`, `price`, `hst`, `add
 -- Table structure for table `dome_images`
 --
 
-CREATE TABLE `dome_images` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `dome_id` int(11) DEFAULT NULL,
-  `league_id` int(11) DEFAULT NULL,
-  `images` varchar(255) NOT NULL,
-  `created_at` timestamp NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+DROP TABLE IF EXISTS `dome_images`;
+CREATE TABLE IF NOT EXISTS `dome_images` (
+  `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
+  `dome_id` int DEFAULT NULL,
+  `league_id` int DEFAULT NULL,
+  `images` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `dome_images`
@@ -166,27 +176,29 @@ INSERT INTO `dome_images` (`id`, `dome_id`, `league_id`, `images`, `created_at`,
 -- Table structure for table `enquiries`
 --
 
-CREATE TABLE `enquiries` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `vendor_id` int(11) DEFAULT NULL,
-  `type` tinyint(1) NOT NULL DEFAULT 1 COMMENT '1=HelpCenter[Mobile App], 2=HelpCenter[Web], 3=DomesRequest[Web], 4=DomesRequest[Mobile App], 5=Supports[DomeOwner-AdminPanel]',
-  `dome_name` varchar(255) DEFAULT NULL,
-  `dome_zipcode` varchar(255) DEFAULT NULL,
-  `dome_city` varchar(255) DEFAULT NULL,
-  `dome_state` varchar(255) DEFAULT NULL,
-  `dome_country` varchar(255) DEFAULT NULL,
-  `venue_name` varchar(255) DEFAULT NULL,
-  `venue_address` varchar(255) DEFAULT NULL,
-  `name` varchar(255) DEFAULT NULL,
-  `email` varchar(255) NOT NULL,
-  `phone` varchar(255) DEFAULT NULL,
-  `subject` varchar(255) DEFAULT NULL,
-  `message` varchar(255) DEFAULT NULL,
-  `is_replied` tinyint(1) NOT NULL DEFAULT 2 COMMENT '1=Yes, 2=No',
-  `is_accepted` tinyint(1) NOT NULL DEFAULT 2 COMMENT '1=Yes, 2=No',
-  `is_deleted` tinyint(1) NOT NULL DEFAULT 2 COMMENT '1=Yes, 2=No',
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
+DROP TABLE IF EXISTS `enquiries`;
+CREATE TABLE IF NOT EXISTS `enquiries` (
+  `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
+  `vendor_id` int DEFAULT NULL,
+  `type` tinyint(1) NOT NULL DEFAULT '1' COMMENT '1=HelpCenter[Mobile App], 2=HelpCenter[Web], 3=DomesRequest[Web], 4=DomesRequest[Mobile App], 5=Supports[DomeOwner-AdminPanel]',
+  `dome_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `dome_zipcode` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `dome_city` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `dome_state` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `dome_country` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `venue_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `venue_address` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `phone` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `subject` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `message` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `is_replied` tinyint(1) NOT NULL DEFAULT '2' COMMENT '1=Yes, 2=No',
+  `is_accepted` tinyint(1) NOT NULL DEFAULT '2' COMMENT '1=Yes, 2=No',
+  `is_deleted` tinyint(1) NOT NULL DEFAULT '2' COMMENT '1=Yes, 2=No',
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -195,14 +207,15 @@ CREATE TABLE `enquiries` (
 -- Table structure for table `failed_jobs`
 --
 
-CREATE TABLE `failed_jobs` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `uuid` varchar(255) NOT NULL,
-  `connection` text NOT NULL,
-  `queue` text NOT NULL,
-  `payload` longtext NOT NULL,
-  `exception` longtext NOT NULL,
-  `failed_at` timestamp NOT NULL DEFAULT current_timestamp()
+DROP TABLE IF EXISTS `failed_jobs`;
+CREATE TABLE IF NOT EXISTS `failed_jobs` (
+  `id` bigint UNSIGNED NOT NULL,
+  `uuid` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `connection` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `queue` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `payload` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `exception` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `failed_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -211,14 +224,16 @@ CREATE TABLE `failed_jobs` (
 -- Table structure for table `favourites`
 --
 
-CREATE TABLE `favourites` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `user_id` int(11) NOT NULL,
-  `dome_id` int(11) DEFAULT NULL,
-  `league_id` int(11) DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+DROP TABLE IF EXISTS `favourites`;
+CREATE TABLE IF NOT EXISTS `favourites` (
+  `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
+  `user_id` int NOT NULL,
+  `dome_id` int DEFAULT NULL,
+  `league_id` int DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=138 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `favourites`
@@ -235,21 +250,23 @@ INSERT INTO `favourites` (`id`, `user_id`, `dome_id`, `league_id`, `created_at`,
 -- Table structure for table `fields`
 --
 
-CREATE TABLE `fields` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `vendor_id` int(11) NOT NULL,
-  `dome_id` int(11) NOT NULL,
-  `sport_id` varchar(255) NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `area` double(8,2) NOT NULL DEFAULT 0.00,
-  `min_person` int(11) NOT NULL,
-  `max_person` int(11) NOT NULL,
-  `image` varchar(255) NOT NULL,
-  `is_available` tinyint(4) NOT NULL DEFAULT 1 COMMENT '1=yes,2=no',
-  `is_deleted` tinyint(4) NOT NULL DEFAULT 2 COMMENT '1=yes,2=no',
-  `created_at` timestamp NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+DROP TABLE IF EXISTS `fields`;
+CREATE TABLE IF NOT EXISTS `fields` (
+  `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
+  `vendor_id` int NOT NULL,
+  `dome_id` int NOT NULL,
+  `sport_id` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `area` double(8,2) NOT NULL DEFAULT '0.00',
+  `min_person` int NOT NULL,
+  `max_person` int NOT NULL,
+  `image` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `is_available` tinyint NOT NULL DEFAULT '1' COMMENT '1=yes,2=no',
+  `is_deleted` tinyint NOT NULL DEFAULT '2' COMMENT '1=yes,2=no',
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=58 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `fields`
@@ -293,29 +310,31 @@ INSERT INTO `fields` (`id`, `vendor_id`, `dome_id`, `sport_id`, `name`, `area`, 
 -- Table structure for table `leagues`
 --
 
-CREATE TABLE `leagues` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `vendor_id` int(11) NOT NULL,
-  `dome_id` int(11) NOT NULL,
-  `field_id` varchar(255) NOT NULL,
-  `sport_id` int(11) NOT NULL,
-  `name` varchar(255) NOT NULL,
+DROP TABLE IF EXISTS `leagues`;
+CREATE TABLE IF NOT EXISTS `leagues` (
+  `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
+  `vendor_id` int NOT NULL,
+  `dome_id` int NOT NULL,
+  `field_id` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `sport_id` int NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `booking_deadline` date DEFAULT NULL,
   `start_date` date NOT NULL,
   `end_date` date NOT NULL,
-  `start_time` varchar(255) NOT NULL,
-  `end_time` varchar(255) NOT NULL,
-  `from_age` int(11) NOT NULL,
-  `to_age` int(11) NOT NULL,
-  `gender` tinyint(4) NOT NULL DEFAULT 1 COMMENT '1=Men, 2=Women, 3=Other',
-  `min_player` int(11) NOT NULL,
-  `max_player` int(11) NOT NULL,
-  `team_limit` int(11) NOT NULL,
-  `price` int(11) NOT NULL,
-  `is_deleted` tinyint(4) NOT NULL DEFAULT 2 COMMENT '1=yes,2=no',
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `start_time` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `end_time` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `from_age` int NOT NULL,
+  `to_age` int NOT NULL,
+  `gender` tinyint NOT NULL DEFAULT '1' COMMENT '1=Men, 2=Women, 3=Other',
+  `min_player` int NOT NULL,
+  `max_player` int NOT NULL,
+  `team_limit` int NOT NULL,
+  `price` int NOT NULL,
+  `is_deleted` tinyint NOT NULL DEFAULT '2' COMMENT '1=yes,2=no',
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `leagues`
@@ -332,11 +351,13 @@ INSERT INTO `leagues` (`id`, `vendor_id`, `dome_id`, `field_id`, `sport_id`, `na
 -- Table structure for table `migrations`
 --
 
-CREATE TABLE `migrations` (
-  `id` int(10) UNSIGNED NOT NULL,
-  `migration` varchar(255) NOT NULL,
-  `batch` int(11) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+DROP TABLE IF EXISTS `migrations`;
+CREATE TABLE IF NOT EXISTS `migrations` (
+  `id` int UNSIGNED NOT NULL AUTO_INCREMENT,
+  `migration` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `batch` int NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `migrations`
@@ -364,9 +385,10 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 -- Table structure for table `password_resets`
 --
 
-CREATE TABLE `password_resets` (
-  `email` varchar(255) NOT NULL,
-  `token` varchar(255) NOT NULL,
+DROP TABLE IF EXISTS `password_resets`;
+CREATE TABLE IF NOT EXISTS `password_resets` (
+  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `token` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -376,14 +398,16 @@ CREATE TABLE `password_resets` (
 -- Table structure for table `payment_gateways`
 --
 
-CREATE TABLE `payment_gateways` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `type` int(11) NOT NULL COMMENT '1=Stripe',
-  `public_key` varchar(255) NOT NULL,
-  `secret_key` varchar(255) NOT NULL,
-  `created_at` timestamp NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+DROP TABLE IF EXISTS `payment_gateways`;
+CREATE TABLE IF NOT EXISTS `payment_gateways` (
+  `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
+  `type` int NOT NULL COMMENT '1=Stripe',
+  `public_key` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `secret_key` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `payment_gateways`
@@ -398,13 +422,14 @@ INSERT INTO `payment_gateways` (`id`, `type`, `public_key`, `secret_key`, `creat
 -- Table structure for table `personal_access_tokens`
 --
 
-CREATE TABLE `personal_access_tokens` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `tokenable_type` varchar(255) NOT NULL,
-  `tokenable_id` bigint(20) UNSIGNED NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `token` varchar(64) NOT NULL,
-  `abilities` text DEFAULT NULL,
+DROP TABLE IF EXISTS `personal_access_tokens`;
+CREATE TABLE IF NOT EXISTS `personal_access_tokens` (
+  `id` bigint UNSIGNED NOT NULL,
+  `tokenable_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `tokenable_id` bigint UNSIGNED NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `token` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `abilities` text COLLATE utf8mb4_unicode_ci,
   `last_used_at` timestamp NULL DEFAULT NULL,
   `expires_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -417,18 +442,20 @@ CREATE TABLE `personal_access_tokens` (
 -- Table structure for table `reviews`
 --
 
-CREATE TABLE `reviews` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `vendor_id` int(11) NOT NULL,
-  `dome_id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
-  `ratting` int(11) NOT NULL,
-  `comment` varchar(255) DEFAULT NULL,
-  `reply_message` text DEFAULT NULL,
+DROP TABLE IF EXISTS `reviews`;
+CREATE TABLE IF NOT EXISTS `reviews` (
+  `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
+  `vendor_id` int NOT NULL,
+  `dome_id` int NOT NULL,
+  `user_id` int NOT NULL,
+  `ratting` int NOT NULL,
+  `comment` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `reply_message` text COLLATE utf8mb4_unicode_ci,
   `replied_at` date DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `reviews`
@@ -443,18 +470,20 @@ INSERT INTO `reviews` (`id`, `vendor_id`, `dome_id`, `user_id`, `ratting`, `comm
 -- Table structure for table `set_prices`
 --
 
-CREATE TABLE `set_prices` (
-  `id` int(11) NOT NULL,
-  `vendor_id` int(11) NOT NULL,
-  `dome_id` int(11) NOT NULL,
-  `sport_id` int(11) NOT NULL,
+DROP TABLE IF EXISTS `set_prices`;
+CREATE TABLE IF NOT EXISTS `set_prices` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `vendor_id` int NOT NULL,
+  `dome_id` int NOT NULL,
+  `sport_id` int NOT NULL,
   `start_date` date DEFAULT NULL,
   `end_date` date DEFAULT NULL,
-  `price_type` int(11) NOT NULL DEFAULT 1 COMMENT '1=default,2=daywise',
-  `price` double NOT NULL DEFAULT 0,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `price_type` int NOT NULL DEFAULT '1' COMMENT '1=default,2=daywise',
+  `price` double NOT NULL DEFAULT '0',
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `set_prices`
@@ -474,16 +503,19 @@ INSERT INTO `set_prices` (`id`, `vendor_id`, `dome_id`, `sport_id`, `start_date`
 -- Table structure for table `set_prices_days_slots`
 --
 
-CREATE TABLE `set_prices_days_slots` (
-  `id` int(11) NOT NULL,
-  `set_prices_id` int(11) NOT NULL,
+DROP TABLE IF EXISTS `set_prices_days_slots`;
+CREATE TABLE IF NOT EXISTS `set_prices_days_slots` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `set_prices_id` int NOT NULL,
   `start_time` time NOT NULL,
   `end_time` time NOT NULL,
-  `day` varchar(255) NOT NULL,
-  `price` double NOT NULL DEFAULT 0,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `day` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `price` double NOT NULL DEFAULT '0',
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `set_prices_id_foreign` (`set_prices_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=224 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `set_prices_days_slots`
@@ -535,15 +567,17 @@ INSERT INTO `set_prices_days_slots` (`id`, `set_prices_id`, `start_time`, `end_t
 -- Table structure for table `sports`
 --
 
-CREATE TABLE `sports` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `image` varchar(255) NOT NULL,
-  `is_available` tinyint(4) NOT NULL DEFAULT 1 COMMENT '1=yes,2=no',
-  `is_deleted` tinyint(4) NOT NULL DEFAULT 2 COMMENT '1=yes,2=no',
-  `created_at` timestamp NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+DROP TABLE IF EXISTS `sports`;
+CREATE TABLE IF NOT EXISTS `sports` (
+  `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `image` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `is_available` tinyint NOT NULL DEFAULT '1' COMMENT '1=yes,2=no',
+  `is_deleted` tinyint NOT NULL DEFAULT '2' COMMENT '1=yes,2=no',
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `sports`
@@ -564,32 +598,33 @@ INSERT INTO `sports` (`id`, `name`, `image`, `is_available`, `is_deleted`, `crea
 -- Table structure for table `transactions`
 --
 
-CREATE TABLE `transactions` (
-  `id` bigint(20) UNSIGNED NOT NULL,
+DROP TABLE IF EXISTS `transactions`;
+CREATE TABLE IF NOT EXISTS `transactions` (
+  `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
   `type` tinyint(1) NOT NULL COMMENT '1=incoming, 2=Outgoing(refund)',
-  `vendor_id` int(11) NOT NULL,
-  `dome_id` int(11) DEFAULT NULL,
-  `league_id` int(11) DEFAULT NULL,
-  `user_id` int(11) DEFAULT NULL,
-  `booking_id` varchar(255) NOT NULL,
-  `contributor_name` varchar(255) DEFAULT NULL,
-  `payment_method` int(11) NOT NULL DEFAULT 1 COMMENT '1=Card, 2=Apple Pay, 3=Google Pay	',
-  `transaction_id` varchar(255) NOT NULL,
+  `vendor_id` int NOT NULL,
+  `dome_id` int DEFAULT NULL,
+  `league_id` int DEFAULT NULL,
+  `user_id` int DEFAULT NULL,
+  `booking_id` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `contributor_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `payment_method` int NOT NULL DEFAULT '1' COMMENT '1=Card, 2=Apple Pay, 3=Google Pay	',
+  `transaction_id` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `amount` double(8,2) NOT NULL,
-  `created_at` timestamp NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=147 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `transactions`
 --
 
 INSERT INTO `transactions` (`id`, `type`, `vendor_id`, `dome_id`, `league_id`, `user_id`, `booking_id`, `contributor_name`, `payment_method`, `transaction_id`, `amount`, `created_at`, `updated_at`) VALUES
-(1, 1, 2, 35, NULL, 7, 'b98541', NULL, 1, '1c2132121c1132ee1ee21e2e1edw', 1000.00, '2023-03-15 05:20:57', '2023-03-15 05:20:57'),
-(2, 1, 2, 35, NULL, 7, 'f8da0d', NULL, 1, '1c2132121c1132ee1ee21e2e1edw', 1000.00, '2023-03-15 05:27:20', '2023-03-15 05:27:20'),
-(3, 1, 2, 35, NULL, 7, 'c3200a', NULL, 1, '1c2132121c1132ee1ee21e2e1edw', 1000.00, '2023-03-15 05:28:00', '2023-03-15 05:28:00'),
+(1, 1, 2, 35, NULL, 7, 'b98541', NULL, 1, 'pi_3MryHPFysF0okTxJ1VyASmQx', 88.00, '2023-03-15 05:20:57', '2023-03-15 05:20:57'),
+(2, 1, 2, 35, NULL, 7, 'b98541', NULL, 1, 'pi_3MrwYGFysF0okTxJ1iAFFkla', 9.17, '2023-03-15 05:27:20', '2023-03-15 05:27:20'),
+(3, 1, 2, 35, NULL, 7, 'b98541', NULL, 1, 'pi_3MrwFuFysF0okTxJ0LHOqmhk', 18.33, '2023-03-15 05:28:00', '2023-03-15 05:28:00'),
 (4, 1, 2, 35, NULL, 7, '42db01', NULL, 1, '1c2132121c1132ee1ee21e2e1edw', 1000.00, '2023-03-15 05:28:18', '2023-03-15 05:28:18'),
-(5, 1, 2, 35, NULL, 7, 'b98541', NULL, 1, '1c2132121c1132ee1ee21e2e1edw', 120.00, '2023-03-08 05:20:57', '2023-03-15 05:20:57'),
 (6, 1, 2, 35, NULL, 7, 'f8da0d', NULL, 1, '1c2132121c1132ee1ee21e2e1edw', 150.00, '2023-02-08 05:27:20', '2023-03-15 05:27:20'),
 (7, 1, 2, 35, NULL, 7, 'c3200a', NULL, 1, '1c2132121c1132ee1ee21e2e1edw', 200.00, '2023-02-15 05:28:00', '2023-03-15 05:28:00'),
 (8, 1, 2, 35, NULL, 7, '42db01', NULL, 1, '1c2132121c1132ee1ee21e2e1edw', 350.00, '2023-02-14 05:28:18', '2023-03-15 05:28:18'),
@@ -729,7 +764,8 @@ INSERT INTO `transactions` (`id`, `type`, `vendor_id`, `dome_id`, `league_id`, `
 (142, 1, 2, 35, NULL, 7, 'f03b66', NULL, 1, 'pi_3MsKmKFysF0okTxJ1EVK37XV', 73.33, '2023-04-02 06:52:57', '2023-04-02 06:52:57'),
 (143, 1, 2, 35, NULL, NULL, 'f03b66', 'soham kings', 1, 'pi_3MsKn8FysF0okTxJ1iZPr4Tc', 123.00, '2023-04-02 06:53:46', '2023-04-02 06:53:46'),
 (144, 1, 2, 35, NULL, NULL, 'f03b66', 'hiren bhai', 1, 'pi_3MsKndFysF0okTxJ1A0pNdNW', 333.00, '2023-04-02 06:54:06', '2023-04-02 06:54:06'),
-(145, 1, 2, 35, NULL, NULL, 'f03b66', 'Jayesh Bossz', 1, 'pi_3MsKo9FysF0okTxJ1CjKIO3m', 350.67, '2023-04-02 06:54:38', '2023-04-02 06:54:38');
+(145, 1, 2, 35, NULL, NULL, 'f03b66', 'Jayesh Bossz', 1, 'pi_3MsKo9FysF0okTxJ1CjKIO3m', 350.67, '2023-04-02 06:54:38', '2023-04-02 06:54:38'),
+(146, 1, 2, 35, NULL, 7, '0e5f21', NULL, 1, 'pi_3MsNLVFysF0okTxJ1nQ8v16q', 55.00, '2023-04-02 09:37:29', '2023-04-02 09:37:29');
 
 -- --------------------------------------------------------
 
@@ -737,29 +773,31 @@ INSERT INTO `transactions` (`id`, `type`, `vendor_id`, `dome_id`, `league_id`, `
 -- Table structure for table `users`
 --
 
-CREATE TABLE `users` (
-  `id` int(10) UNSIGNED NOT NULL,
-  `type` int(11) NOT NULL COMMENT '1=Admin, 2=Dome Owner, 3=User',
-  `login_type` int(11) NOT NULL DEFAULT 1 COMMENT '1=Email, 2=Google, 3=Apple, 4=Facebook',
-  `vendor_id` int(11) DEFAULT NULL COMMENT 'For Workers use only',
-  `dome_limit` tinyint(4) DEFAULT NULL COMMENT 'Only For Dome Owqner',
-  `name` varchar(255) DEFAULT NULL,
-  `email` varchar(255) DEFAULT NULL,
-  `countrycode` varchar(255) DEFAULT NULL,
-  `phone` varchar(255) DEFAULT NULL,
-  `password` varchar(255) DEFAULT NULL,
-  `google_id` varchar(255) DEFAULT NULL,
-  `apple_id` varchar(255) DEFAULT NULL,
-  `facebook_id` varchar(255) DEFAULT NULL,
-  `fcm_token` text DEFAULT NULL,
-  `otp` varchar(255) DEFAULT NULL,
-  `image` varchar(255) NOT NULL DEFAULT 'default.png',
-  `is_verified` int(11) NOT NULL DEFAULT 2 COMMENT '1=Yes, 2=No',
-  `is_available` int(11) NOT NULL DEFAULT 1 COMMENT '1=Yes, 2=No',
-  `is_deleted` int(11) NOT NULL DEFAULT 2 COMMENT '1=Yes, 2=No',
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+DROP TABLE IF EXISTS `users`;
+CREATE TABLE IF NOT EXISTS `users` (
+  `id` int UNSIGNED NOT NULL AUTO_INCREMENT,
+  `type` int NOT NULL COMMENT '1=Admin, 2=Dome Owner, 3=User',
+  `login_type` int NOT NULL DEFAULT '1' COMMENT '1=Email, 2=Google, 3=Apple, 4=Facebook',
+  `vendor_id` int DEFAULT NULL COMMENT 'For Workers use only',
+  `dome_limit` tinyint DEFAULT NULL COMMENT 'Only For Dome Owqner',
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `email` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `countrycode` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `phone` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `password` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `google_id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `apple_id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `facebook_id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `fcm_token` text COLLATE utf8mb4_unicode_ci,
+  `otp` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `image` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'default.png',
+  `is_verified` int NOT NULL DEFAULT '2' COMMENT '1=Yes, 2=No',
+  `is_available` int NOT NULL DEFAULT '1' COMMENT '1=Yes, 2=No',
+  `is_deleted` int NOT NULL DEFAULT '2' COMMENT '1=Yes, 2=No',
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=62 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `users`
@@ -803,207 +841,6 @@ INSERT INTO `users` (`id`, `type`, `login_type`, `vendor_id`, `dome_limit`, `nam
 (59, 2, 1, NULL, NULL, 'Coras Domez', 'corasdomez@yopmail.com', 'CA', '654565615', '$2y$10$z0eXm5BtjQQP77GHRvJAGOIp1osY2Lx0NvMvmkpTgPzpiTUvnIlri', NULL, NULL, NULL, NULL, NULL, 'default.png', 1, 1, 2, '2023-10-06 00:03:03', '2023-02-22 04:12:48'),
 (60, 2, 1, NULL, NULL, 'Just Play Domez', 'justplaydomez@yopmail.com', 'CA', '5854854', '$2y$10$z0eXm5BtjQQP77GHRvJAGOIp1osY2Lx0NvMvmkpTgPzpiTUvnIlri', NULL, NULL, NULL, NULL, NULL, 'default.png', 1, 1, 2, '2023-10-06 00:03:03', '2023-02-22 04:12:48'),
 (61, 4, 1, 2, NULL, 'hiren', 'hirenitaliya@gmail.com', NULL, NULL, '$2y$10$JrluFobu/xBEBKQZY1kr6.gAJe4QGuWZP6Ugp6ctXHWz4My5lnfeO', NULL, NULL, NULL, NULL, NULL, 'default.png', 1, 1, 2, '2023-03-29 09:29:58', '2023-03-29 09:29:58');
-
---
--- Indexes for dumped tables
---
-
---
--- Indexes for table `bookings`
---
-ALTER TABLE `bookings`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `cms`
---
-ALTER TABLE `cms`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `domes`
---
-ALTER TABLE `domes`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `dome_images`
---
-ALTER TABLE `dome_images`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `enquiries`
---
-ALTER TABLE `enquiries`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `favourites`
---
-ALTER TABLE `favourites`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `fields`
---
-ALTER TABLE `fields`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `leagues`
---
-ALTER TABLE `leagues`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `migrations`
---
-ALTER TABLE `migrations`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `payment_gateways`
---
-ALTER TABLE `payment_gateways`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `reviews`
---
-ALTER TABLE `reviews`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `set_prices`
---
-ALTER TABLE `set_prices`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `set_prices_days_slots`
---
-ALTER TABLE `set_prices_days_slots`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `set_prices_id_foreign` (`set_prices_id`);
-
---
--- Indexes for table `sports`
---
-ALTER TABLE `sports`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `transactions`
---
-ALTER TABLE `transactions`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `users`
---
-ALTER TABLE `users`
-  ADD PRIMARY KEY (`id`);
-
---
--- AUTO_INCREMENT for dumped tables
---
-
---
--- AUTO_INCREMENT for table `bookings`
---
-ALTER TABLE `bookings`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
-
---
--- AUTO_INCREMENT for table `cms`
---
-ALTER TABLE `cms`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
---
--- AUTO_INCREMENT for table `domes`
---
-ALTER TABLE `domes`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
-
---
--- AUTO_INCREMENT for table `dome_images`
---
-ALTER TABLE `dome_images`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
-
---
--- AUTO_INCREMENT for table `enquiries`
---
-ALTER TABLE `enquiries`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `favourites`
---
-ALTER TABLE `favourites`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=138;
-
---
--- AUTO_INCREMENT for table `fields`
---
-ALTER TABLE `fields`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
-
---
--- AUTO_INCREMENT for table `leagues`
---
-ALTER TABLE `leagues`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
-
---
--- AUTO_INCREMENT for table `migrations`
---
-ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
-
---
--- AUTO_INCREMENT for table `payment_gateways`
---
-ALTER TABLE `payment_gateways`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
--- AUTO_INCREMENT for table `reviews`
---
-ALTER TABLE `reviews`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
---
--- AUTO_INCREMENT for table `set_prices`
---
-ALTER TABLE `set_prices`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
-
---
--- AUTO_INCREMENT for table `set_prices_days_slots`
---
-ALTER TABLE `set_prices_days_slots`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=224;
-
---
--- AUTO_INCREMENT for table `sports`
---
-ALTER TABLE `sports`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
-
---
--- AUTO_INCREMENT for table `transactions`
---
-ALTER TABLE `transactions`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=146;
-
---
--- AUTO_INCREMENT for table `users`
---
-ALTER TABLE `users`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
