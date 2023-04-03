@@ -111,15 +111,16 @@ class AdminController extends Controller
             // For Revenue Chart
             $total_revenue_data_sum = $total_revenue_data->whereYear('created_at', Carbon::now()->year)->sum('paid_amount') * $percentage / 100;
             $total_revenue_data = $total_revenue_data->whereYear('created_at', Carbon::now()->year)->select(DB::raw("MONTHNAME(created_at) as titles"), $paidAmtQuery_RevChart)->groupBy('titles')->pluck('titles', 'amount');
-            // dd($total_revenue_data);
 
             // For Users Chart
+            $otherformatforusers = 1;
             $total_users_data_sum = $total_users_data->whereYear('created_at', Carbon::now()->year)->count();
-            $total_users_data = $total_users_data->whereYear('created_at', Carbon::now()->year)->select(DB::raw('MONTHNAME(created_at) as titles'), DB::raw('COUNT(id) as users'))->groupBy('titles')->pluck('titles', 'users');
+            $total_users_data = $total_users_data->whereYear('created_at', Carbon::now()->year)->select(DB::raw('MONTHNAME(created_at) as titles'), DB::raw('COUNT(id) as users'))->groupBy('titles')->orderBy('created_at')->get();
 
             // For Dome Owners Chart
+            $otherformatfordomez = 1;
             $total_dome_owners_data_sum = $total_dome_owners_data->whereYear('created_at', Carbon::now()->year)->count();
-            $total_dome_owners_data = $total_dome_owners_data->whereYear('created_at', Carbon::now()->year)->select(DB::raw('MONTHNAME(created_at) as titles'), DB::raw('COUNT(id) as users'))->groupBy('titles')->pluck('titles', 'users');
+            $total_dome_owners_data = $total_dome_owners_data->whereYear('created_at', Carbon::now()->year)->select(DB::raw('MONTHNAME(created_at) as titles'), DB::raw('COUNT(id) as users'))->groupBy('titles')->orderBy('created_at')->get();
 
             // For Bookings Overview Chart
             $total_bookings_overview = Booking::whereYear('created_at', Carbon::now()->year)->count();
