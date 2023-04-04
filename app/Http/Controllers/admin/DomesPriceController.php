@@ -27,7 +27,6 @@ class DomesPriceController extends Controller
     }
     public function store(Request $request)
     {
-        dd($request->input());
 
         // SetPricesDaysSlots == status == 1 == Available (Full)
         // SetPricesDaysSlots == status == 2 == occupied

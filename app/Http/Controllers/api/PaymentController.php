@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Booking;
 use App\Models\Domes;
 use App\Models\League;
+use App\Models\SetPricesDaysSlots;
 use App\Models\Transaction;
 use App\Models\User;
 use Carbon\Carbon;
@@ -41,6 +42,32 @@ class PaymentController extends Controller
 
         if ($request->booking_type == 1) {
             $dome = Domes::where('id', $request->dome_id)->where('is_deleted', 2)->first();
+
+            /*
+
+            $getsetprices = SetPrices::where('dome_id', $getdomedata->id)->where('sport_id', $request->sport_id)->count();
+            if ($getsetprices > 1) {
+                $dateToCheck = date('Y-m-d', strtotime($request->date));
+                $checkpricetype = SetPrices::where('dome_id', $getdomedata->id)->where('sport_id', $request->sport_id)->whereRaw('? BETWEEN start_date AND end_date', [$dateToCheck])->first();
+                if (empty($checkpricetype)) {
+                    $checkpricetype = SetPrices::where('dome_id', $getdomedata->id)->where('sport_id', $request->sport_id)->where('price_type', 1)->first();
+                }
+            } else {
+                $checkpricetype = SetPrices::where('dome_id', $getdomedata->id)->where('sport_id', $request->sport_id)->where('price_type', 1)->first();
+            }
+            if ($checkpricetype->price_type == 1) {
+
+            }
+            foreach (explode(',', $request->slots) as $key => $slot) {
+                $start_time = date('H:i', strtotime(explode(' - ', $slot)[0]));
+                $end_time = date('H:i', strtotime(explode(' - ', $slot)[1]));
+                $check = SetPricesDaysSlots::where('start_time', $start_time)->where('end_time', $end_time)->where('day', strtolower(date('l', strtotime($request->date))))->where('status', 1)->first();
+                if (!empty($check)) {
+                    return response()->json(["status" => 0, "message" => "Time Slots Has been selected "], 200);
+                }
+            }
+            */
+
         } else {
             $league = League::where('id', $request->league_id)->whereDate('booking_deadline', '>=', date('Y-m-d'))->where('is_deleted', 2)->first();
             $dome = @$league->dome_info;
@@ -156,10 +183,6 @@ class PaymentController extends Controller
         $booking_id = bin2hex(random_bytes(3));
         $transaction_id = $request->transaction_id;
 
-        // ---- Verify Transaction From Stripe ----
-        // $charge = Charge::retrieve($transaction_id);
-        // $charge->status == 'succeeded';
-
         try {
             // Payment Type = 1=Full Payment, 2=Split Payment
             $transaction = new Transaction;
@@ -224,6 +247,15 @@ class PaymentController extends Controller
             //     $booking->created_at = $request->created_at;
             // }
             $booking->save();
+
+            // if ($request->booking_type == 1) {
+            //     foreach (explode(',', $request->slots) as $key => $slot) {
+            //         $start_time = date('H:i', strtotime(explode(' - ', $slot)[0]));
+            //         $end_time = date('H:i', strtotime(explode(' - ', $slot)[1]));
+            //         SetPricesDaysSlots::where('start_time', $start_time)->where('end_time', $end_time)->where('day', strtolower(date('l', strtotime($request->date))))->where('status', 1)->update(['status' => 0]);
+            //     }
+            // }
+
             return response()->json(['status' => 1, "message" => "Successful", "transaction_id" => $transaction_id, "booking_id" => $booking->id, "payment_link" => URL::to('/payment/' . $booking->token),], 200);
         } catch (\Throwable $th) {
             return response()->json(['status' => 0, "message" => "Something Went Wrong..!!"], 200);

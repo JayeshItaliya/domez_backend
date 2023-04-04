@@ -183,8 +183,8 @@
 @endsection
 @section('scripts')
     <script>
-        let start_time = {{ Js::from(trans('labels.start_time')) }};
-        let end_time = {{ Js::from(trans('labels.end_time')) }};
+        let start_time_title = {{ Js::from(trans('labels.start_time')) }};
+        let end_time_title = {{ Js::from(trans('labels.end_time')) }};
         let price = {{ Js::from(trans('labels.price')) }};
         var validatetimeurl = {{ Js::from(URL::to('admin/validate-time')) }};
     </script>

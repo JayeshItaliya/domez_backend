@@ -98,45 +98,23 @@ $('body').on('focus', ".start.time_picker", function () {
         change: function (time) {
             var element = $(this);
             var timepicker = element.timepicker();
-            $('.' + element.attr('data-day-name') + '-row').find('.end.time_picker:last').val('');
-            $('.' + element.attr('data-day-name') + '-row').find('.end.time_picker:last').timepicker('destroy');
             start_time = timepicker.format(time);
-            console.log(start_time);
-            $('.' + element.attr('data-day-name') + '-row').find('.end.time_picker:last').timepicker({
+            $(element).parent().parent().parent().next().find('.end.time_picker').val('');
+            $(element).parent().parent().parent().next().find('.end.time_picker').timepicker('destroy');
+            $(element).parent().parent().parent().next().find('.end.time_picker').timepicker({
                 interval: my_interval,
                 dynamic: false,
                 dropdown: true,
                 scrollbar: true,
-                startTime: timepicker.format(time),
-                minTime: timepicker.format(time),
+                startTime: start_time,
+                minTime: start_time,
                 maxTime: max_time,
                 change: function (time) {
                     var element = $(this);
                     var timepicker = element.timepicker();
                     start_time = timepicker.format(time);
-                    console.log('--');
-                    console.log(start_time);
-                    console.log('--');
                 }
             });
-        }
-    });
-});
-$('body').on('focus', ".end.time_picker", function () {
-    "use strict";
-    $(this).timepicker({
-        interval: my_interval,
-        dynamic: false,
-        dropdown: true,
-        scrollbar: true,
-        startTime: start_time,
-        minTime: min_time,
-        maxTime: max_time,
-        change: function (time) {
-            var element = $(this);
-            var timepicker = element.timepicker();
-            start_time = timepicker.format(time);
-            console.log(start_time);
         }
     });
 });
@@ -189,9 +167,9 @@ $(function () {
         //     $('.' + dayname + '-row').parent().find('.end.time_picker:last').attr('disabled', true);
         // }
         var html =
-            '<div class="row my-2" id="remove' + counter +
+            '<div class="row my-2 ' + dayname + '-row " id="remove' + counter +
             '"><div class="col-md-4"><div class="form-group"><div class="input-group"><input type="text" class="form-control start time_picker border-end-0" name="start_time[' +
-            dayname + '][]" placeholder="' + start_time_title +
+            dayname + '][]" data-day-name="' + dayname + '" placeholder="' + start_time_title +
             '" /> <span class="input-group-text bg-transparent border-start-0"><i class="fa-regular fa-clock"></i> </span> </div></div></div><div class="col-md-4"><div class="form-group"><div class="input-group"><input type="text" class="form-control end time_picker border-end-0" name="end_time[' +
             dayname + '][]" placeholder="' + end_time_title +
             '" /> <span class="input-group-text bg-transparent border-start-0"><i class="fa-regular fa-clock"></i> </span> </div></div></div><div class="col-md-3"><div class="form-group"><div class="input-group"><input type="number" value="0" class="form-control border-end-0" name="price[' +
