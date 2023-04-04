@@ -2,6 +2,9 @@
 @section('title')
     {{ trans('labels.dome_owners') }}
 @endsection
+@section('styles')
+    <link rel="stylesheet" href={{ url('storage/app/public/admin/plugins/flatpickr/flatpickr.min.css') }}>
+@endsection
 @section('contents')
     <div class="card mb-3">
         <div class="card-body py-2">
@@ -427,18 +430,17 @@
                         show: false
                     }
                 },
-                colors: [secondary_color],
                 dataLabels: {
                     enabled: true,
                     formatter: function(val) {
                         return val + "$"
                     }
                 },
+                colors: [secondary_color],
                 stroke: {
                     curve: 'straight'
                 },
                 grid: {
-                    borderColor: '#e7e7e7',
                     row: {
                         colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
                         opacity: 0.5
