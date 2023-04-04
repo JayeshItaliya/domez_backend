@@ -46,28 +46,39 @@ class DomesPriceController extends Controller
             $set_prices->start_date = $request->start_date;
             $set_prices->end_date = $request->end_date;
             $set_prices->save();
-            foreach ($request->daynames as $daynamekey => $dayname) {
-                $starttimearray = $endtimearray = $pricearay = [];
-                foreach ($request->start_time[$dayname] as $starttimekey => $starttime) {
-                    $starttimearray[] = $starttime;
-                }
-                foreach ($request->end_time[$dayname] as $endtimekey => $endtime) {
-                    $endtimearray[] = $endtime;
-                }
-                foreach ($request->price[$dayname] as $pricekey => $price) {
-                    $pricearay[] = $price;
-                }
-                foreach ($starttimearray as $key => $data) {
-                    $slots = new SetPricesDaysSlots();
-                    $slots->set_prices_id = $set_prices->id;
-                    $slots->start_time = Carbon::createFromFormat('h:i A', $data)->format('H:i');
-                    $slots->end_time = Carbon::createFromFormat('h:i A', $endtimearray[$key])->format('H:i');
-                    $slots->day = $dayname;
-                    $slots->price = $pricearay[$key];
-                    $slots->status = 1;
-                    $slots->save();
+
+            $start_date = Carbon::parse($request->start_date);
+            $end_date = Carbon::parse($request->end_date);
+            for ($date = $start_date; $date->lte($end_date); $date->addDay()) {
+                foreach ($request->daynames as $daynamekey => $dayname) {
+                    if ($dayname == strtolower($date->format('l'))) {
+                        $starttimearray = $endtimearray = $pricearay = [];
+                        foreach ($request->start_time[$dayname] as $starttimekey => $starttime) {
+                            $starttimearray[] = $starttime;
+                        }
+                        foreach ($request->end_time[$dayname] as $endtimekey => $endtime) {
+                            $endtimearray[] = $endtime;
+                        }
+                        foreach ($request->price[$dayname] as $pricekey => $price) {
+                            $pricearay[] = $price;
+                        }
+                        foreach ($starttimearray as $key => $data) {
+                            $slots = new SetPricesDaysSlots();
+                            $slots->set_prices_id = $set_prices->id;
+                            $slots->dome_id = $request->dome;
+                            $slots->sport_id = $request->sport;
+                            $slots->date = $date->format('Y-m-d');
+                            $slots->start_time = Carbon::createFromFormat('h:i A', $data)->format('H:i');
+                            $slots->end_time = Carbon::createFromFormat('h:i A', $endtimearray[$key])->format('H:i');
+                            $slots->day = $dayname;
+                            $slots->price = $pricearay[$key];
+                            $slots->status = 1;
+                            $slots->save();
+                        }
+                    }
                 }
             }
+
             return redirect('admin/set-prices')->with('success', trans('messages.success'));
         } catch (\Throwable $th) {
             return redirect()->back()->with('error', trans('messages.wrong'));

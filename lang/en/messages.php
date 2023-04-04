@@ -64,6 +64,7 @@ return [
     'invalid_email' => 'Invalid Email Address',
     'invalid_otp' => 'Invalid OTP',
     'invalid_dome' => 'Invalid Dome',
+    'invalid_booking' => 'Invalid Booking',
     'no_data' => 'No Data Found!!',
 
     // Sweetalert

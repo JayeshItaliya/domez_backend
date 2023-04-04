@@ -19,7 +19,7 @@ $('#dome').on('change', function () {
     min_time = $(this).find(':selected').attr('data-start-time');
     max_time = $(this).find(':selected').attr('data-end-time');
     if (start_time == '') {
-        start_time = $(this).find(':selected').attr('data-start-time');
+        start_time = min_time;
     }
     $.ajax({
         headers: {

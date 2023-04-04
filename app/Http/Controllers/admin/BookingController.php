@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Booking;
 use App\Models\Domes;
 use App\Models\Field;
+use App\Models\SetPricesDaysSlots;
 use App\Models\Transaction;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -66,7 +67,9 @@ class BookingController extends Controller
     public function details(Request $request)
     {
         $bookingdata = Booking::where('booking_id', $request->booking_id)->first();
-        return view('admin.bookings.details', compact('bookingdata'));
+        abort_if(empty($bookingdata), 404);
+        $slots = SetPricesDaysSlots::where('sport_id', $bookingdata->sport_id)->whereDate('date', date('Y-m-d', strtotime($bookingdata->start_date)))->get();
+        return view('admin.bookings.details', compact('bookingdata', 'slots'));
     }
     public function booking(Request $request)
     {
@@ -240,6 +243,5 @@ class BookingController extends Controller
         } else {
             return response()->json(['status' => 0, 'message' => trans('messages.error')], 200);
         }
-
     }
 }

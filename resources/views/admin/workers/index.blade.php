@@ -127,7 +127,7 @@
                         <input type="password" class="form-control" name="password" id="password"
                             placeholder="{{ trans('labels.password') }}">
                     </div>
-                    <button type="subtmit" class="btn btn-primary w-auto float-end">{{ trans('labels.submit') }}</button>
+                    <button type="submit" class="btn btn-primary w-auto float-end">{{ trans('labels.submit') }}</button>
                 </form>
             </div>
         </div>
