@@ -225,29 +225,36 @@
                         </a>
                     </ul>
                 </div>
-
-                <a href="#generalsettings" class="nav-item {{ request()->is('admin/settings*') ? 'active' : '' }}"
-                    data-bs-toggle="collapse" role="button"
-                    aria-expanded="{{ request()->is('admin/settings*') ? 'true' : 'false' }}"
-                    aria-controls="generalsettings">
-                    <i class="fa-light fa-wrench"></i>
-                    <div class="ms-3 d-flex align-items-center justify-content-between w-100">
-                        <span>{{ trans('labels.general_settings') }}</span>
-                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-down"
-                            width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5"
-                            stroke="{{ request()->is('admin/settings*') ? 'var(--bs-secondary)' : '#2c3e50' }}"
-                            fill="none" stroke-linecap="round" stroke-linejoin="round">
-                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                            <polyline points="6 9 12 15 18 9" />
-                        </svg>
-                    </div>
-                </a>
-                <div class="collapse {{ request()->is('admin/settings*') ? 'show' : '' }}" id="generalsettings">
-                    <ul class="nav d-grid">
-                        <a href="{{ URL::to('admin/settings/edit-profile') }}" class="nav-item">
+            @endif
+            <a href="#generalsettings" class="nav-item {{ request()->is('admin/settings*') ? 'active' : '' }}"
+                data-bs-toggle="collapse" role="button"
+                aria-expanded="{{ request()->is('admin/settings*') ? 'true' : 'false' }}"
+                aria-controls="generalsettings">
+                <i class="fa-light fa-wrench"></i>
+                <div class="ms-3 d-flex align-items-center justify-content-between w-100">
+                    <span>{{ trans('labels.general_settings') }}</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-down"
+                        width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5"
+                        stroke="{{ request()->is('admin/settings*') ? 'var(--bs-secondary)' : '#2c3e50' }}"
+                        fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                        <polyline points="6 9 12 15 18 9" />
+                    </svg>
+                </div>
+            </a>
+            <div class="collapse {{ request()->is('admin/settings*') ? 'show' : '' }}" id="generalsettings">
+                <ul class="nav d-grid">
+                    <a href="{{ URL::to('admin/settings/edit-profile') }}" class="nav-item">
+                        <span
+                            class="nav-link {{ request()->is('admin/settings/edit-profile') ? 'active' : '' }}">{{ trans('labels.edit_profile') }}</span>
+                    </a>
+                    @if (in_array(Auth::user()->type, [1, 2]))
+                        <a href="{{ URL::to('admin/settings/stripe-setting') }}" class="nav-item">
                             <span
-                                class="nav-link {{ request()->is('admin/settings/edit-profile') ? 'active' : '' }}">{{ trans('labels.edit_profile') }}</span>
+                                class="nav-link {{ request()->is('admin/settings/stripe-setting') ? 'active' : '' }}">{{ trans('labels.stripe_settings') }}</span>
                         </a>
+                    @endif
+                    @if (Auth::user()->type == 1)
                         <a href="{{ URL::to('admin/settings/email-setting') }}" class="nav-item">
                             <span
                                 class="nav-link {{ request()->is('admin/settings/email-setting') ? 'active' : '' }}">{{ trans('labels.email_settings') }}</span>
@@ -256,13 +263,9 @@
                             <span
                                 class="nav-link {{ request()->is('admin/settings/twilio-setting') ? 'active' : '' }}">{{ trans('labels.twilio_settings') }}</span>
                         </a>
-                        <a href="{{ URL::to('admin/settings/stripe-setting') }}" class="nav-item">
-                            <span
-                                class="nav-link {{ request()->is('admin/settings/stripe-setting') ? 'active' : '' }}">{{ trans('labels.stripe_settings') }}</span>
-                        </a>
-                    </ul>
-                </div>
-            @endif
+                    @endif
+                </ul>
+            </div>
             @if (Auth::user()->type != 5)
                 <a href="{{ URL::to('admin/supports') }}"
                     class="nav-item {{ request()->is('admin/supports*') ? 'active' : '' }}">

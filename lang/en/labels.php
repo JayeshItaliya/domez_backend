@@ -72,6 +72,7 @@ return [
     'stripe_settings' => 'Stripe Settings',
     'public_key' => 'Public Key',
     'secret_key' => 'Secret Key',
+    'account_id' => 'Account ID',
     'supports' => 'Supports',
     // Dashboard
     'cancelled_bookings' => 'Cancelled Bookings',

@@ -116,6 +116,12 @@ Route::group(['middleware' => 'SetTimeZoneMiddleware'], function () {
             Route::get('stripe-setting', [SettingsController::class, 'stripe_setting']);
         });
 
+        //  Payment Gateway
+        Route::group(['prefix' => 'payment-gateway'], function () {
+            Route::get('stripe', [PaymentGatewayController::class, 'stripe']);
+            Route::post('store-stripe', [PaymentGatewayController::class, 'store_stripe']);
+        });
+
         // Supports
         Route::group(['prefix' => 'supports'], function () {
             Route::get('/', [EnquiryController::class, 'supports']);
@@ -150,11 +156,6 @@ Route::group(['middleware' => 'SetTimeZoneMiddleware'], function () {
                 Route::get('details-{id}', [UserController::class, 'user_details']);
                 Route::get('delete', [UserController::class, 'delete']);
                 Route::get('change_status', [UserController::class, 'change_status']);
-            });
-            //  Payment Gateway
-            Route::group(['prefix' => 'payment-gateway'], function () {
-                Route::get('stripe', [PaymentGatewayController::class, 'stripe']);
-                Route::post('store-stripe', [PaymentGatewayController::class, 'store_stripe']);
             });
             //  Sports
             Route::group(['prefix' => 'sports'], function () {

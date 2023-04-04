@@ -38,27 +38,41 @@
                 @csrf
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-md-12">
-                            <div class="mb-3">
-                                <label for="public_key" class="form-label">{{ trans('labels.public_key') }}</label>
-                                <input type="text" name="public_key" class="form-control" id="public_key"
-                                    placeholder="Enter Stripe Public Key"
-                                    value="{{ !empty($stripe->public_key) ? $stripe->public_key : old('public_key') }}">
-                                @error('public_key')
-                                    <span class="text-danger">{{ $message }}</span>
-                                @enderror
+                        @if (Auth::user()->type == 1)
+                            <div class="col-md-12">
+                                <div class="mb-3">
+                                    <label for="public_key" class="form-label">{{ trans('labels.public_key') }}</label>
+                                    <input type="text" name="public_key" class="form-control" id="public_key"
+                                        placeholder="{{ trans('labels.public_key') }}"
+                                        value="{{ !empty($stripe->public_key) ? $stripe->public_key : old('public_key') }}">
+                                    @error('public_key')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="mb-3">
-                                <label for="secret_key" class="form-label">{{ trans('labels.secret_key') }}</label>
-                                <input type="text" class="form-control" id="secret_key"
-                                    name="secret_key"placeholder="Enter Stripe Secret Key"value="{{ !empty($stripe->secret_key) ? $stripe->secret_key : old('secret_key') }}">
-                                @error('secret_key')
-                                    <span class="text-danger">{{ $message }}</span>
-                                @enderror
+                            <div class="col-md-12">
+                                <div class="mb-3">
+                                    <label for="secret_key" class="form-label">{{ trans('labels.secret_key') }}</label>
+                                    <input type="text" class="form-control" id="secret_key"
+                                        name="secret_key"placeholder="{{ trans('labels.secret_key') }}"value="{{ !empty($stripe->secret_key) ? $stripe->secret_key : old('secret_key') }}">
+                                    @error('secret_key')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
+                                </div>
                             </div>
-                        </div>
+                        @else
+                            <div class="col-md-12">
+                                <div class="mb-3">
+                                    <label for="account_id" class="form-label">{{ trans('labels.account_id') }}</label>
+                                    <input type="text" class="form-control" id="account_id"
+                                        name="account_id"placeholder="{{ trans('labels.account_id') }}"value="{{ !empty($stripe->account_id) ? $stripe->account_id : old('account_id') }}" aria-describedby="account_idHelp">
+                                        <div id="account_idHelp" class="form-text text-muted">How do i find?<a class="ms-2" href="https://stripe.com/docs/dashboard/basics#:~:text=Find%20your%20account%20ID,ID%E2%80%9D%20in%20the%20search%20bar." target="_blank">Click Here</a></div>
+                                    @error('account_id')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                            </div>
+                        @endif
                         <div class="col-md-12">
                             <button type="submit" class="btn btn-primary">{{ trans('labels.submit') }}</button>
                         </div>

@@ -8,6 +8,7 @@ use App\Models\CMS;
 use App\Models\PaymentGateway;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
@@ -131,8 +132,8 @@ class SettingsController extends Controller
     }
     public function stripe_setting(Request $request)
     {
-        $stripe = PaymentGateway::where('type', 1)->first();
-        return view('admin.settings.stripe_setting',compact('stripe'));
+        $stripe = PaymentGateway::where('type', 1)->where('vendor_id', Auth::user()->id)->first();
+        return view('admin.settings.stripe_setting', compact('stripe'));
     }
     public function show_profile(Request $request)
     {
