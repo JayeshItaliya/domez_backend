@@ -116,7 +116,7 @@ class Helper
     }
     public static function cms($type)
     {
-        return @CMS::where('type', $type == 1 ? 1 : 2)->select('content')->first()->content;
+        return @CMS::where('type', $type)->select('content')->first()->content;
     }
     // public static function verificationsms($mobile, $otp)
     // {

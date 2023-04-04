@@ -40,17 +40,17 @@
                         <div class="col-md-4">
                             <label>{{ trans('Dome Name') }}</label>
                         </div>
-                        <div class="col-md-8">
+                        <div class="col-auto">
                             <span class="text-muted fs-7">{{ $getleaguedata->dome_info->name }}</span>
                         </div>
                     </div>
                 </div>
                 <div class=" col-md-6">
                     <div class="px-3 py-2 d-flex">
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <label>{{ trans('labels.fields') }}</label>
                         </div>
-                        <div class="col-md-8">
+                        <div class="col-auto">
                             <span class="text-muted fs-7">
                                 @foreach ($fields as $field)
                                     {{ $field->name }} {{ !$loop->last ? '&' : '' }}
@@ -72,7 +72,7 @@
             <div class="d-flex bg-gray">
                 <div class="col-lg-4 col-md-6">
                     <div class="px-3 py-2 d-flex">
-                        <div class="col-md-4">
+                        <div class="col-md-5">
                             <label>{{ trans('labels.league_name') }}</label>
                         </div>
                         <div class="col-md-8">
@@ -82,7 +82,7 @@
                 </div>
                 <div class="col-lg-4 col-md-6">
                     <div class="px-3 py-2 d-flex">
-                        <div class="col-md-4">
+                        <div class="col-md-5">
                             <label>{{ trans('labels.sport_name') }}</label>
                         </div>
                         <div class="col-md-8">
@@ -94,7 +94,7 @@
             <div class="d-flex">
                 <div class="col-lg-4 col-md-6">
                     <div class="px-3 py-2 d-flex">
-                        <div class="col-md-4">
+                        <div class="col-md-5">
                             <label>{{ trans('labels.team_limit') }}</label>
                         </div>
                         <div class="col-md-8">
@@ -104,7 +104,7 @@
                 </div>
                 <div class="col-lg-4 col-md-6">
                     <div class="px-3 py-2 d-flex">
-                        <div class="col-md-4">
+                        <div class="col-md-5">
                             <label>{{ trans('labels.price_per_team') }}</label>
                         </div>
                         <div class="col-md-8">
@@ -116,7 +116,7 @@
             <div class="d-flex bg-gray">
                 <div class="col-lg-4 col-md-6">
                     <div class="px-3 py-2 d-flex">
-                        <div class="col-md-4">
+                        <div class="col-md-5">
                             <label>{{ trans('labels.start_date') }}</label>
                         </div>
                         <div class="col-md-8">
@@ -126,7 +126,7 @@
                 </div>
                 <div class="col-lg-4 col-md-6">
                     <div class="px-3 py-2 d-flex">
-                        <div class="col-md-4">
+                        <div class="col-md-5">
                             <label>{{ trans('labels.end_date') }}</label>
                         </div>
                         <div class="col-md-8">
@@ -138,7 +138,7 @@
             <div class="d-flex">
                 <div class="col-lg-4 col-md-6">
                     <div class="px-3 py-2 d-flex">
-                        <div class="col-md-4">
+                        <div class="col-md-5">
                             <label>{{ trans('labels.start_time') }}</label>
                         </div>
                         <div class="col-md-8">
@@ -148,7 +148,7 @@
                 </div>
                 <div class="col-lg-4 col-md-6">
                     <div class="px-3 py-2 d-flex">
-                        <div class="col-md-4">
+                        <div class="col-md-5">
                             <label>{{ trans('labels.end_time') }}<label>
                         </div>
                         <div class="col-md-8">
@@ -160,7 +160,7 @@
             <div class="d-flex bg-gray">
                 <div class="col-lg-4 col-md-6">
                     <div class="px-3 py-2 d-flex">
-                        <div class="col-md-4">
+                        <div class="col-md-5">
                             <label>{{ trans('labels.min_player') }}</label>
                         </div>
                         <div class="col-md-8">
@@ -170,7 +170,7 @@
                 </div>
                 <div class="col-lg-4 col-md-6">
                     <div class="px-3 py-2 d-flex">
-                        <div class="col-md-4">
+                        <div class="col-md-5">
                             <label>{{ trans('labels.max_player') }}</label>
                         </div>
                         <div class="col-md-8">
@@ -182,7 +182,7 @@
             <div class="d-flex">
                 <div class="col-lg-4 col-md-6">
                     <div class="px-3 py-2 d-flex">
-                        <div class="col-md-4">
+                        <div class="col-md-5">
                             <label>{{ trans('labels.age') }}</label>
                         </div>
                         <div class="col-md-8">
@@ -193,12 +193,24 @@
                 </div>
                 <div class="col-lg-4 col-md-6">
                     <div class="px-3 py-2 d-flex">
-                        <div class="col-md-4">
+                        <div class="col-md-5">
                             <label>{{ trans('labels.gender') }}</label>
                         </div>
                         <div class="col-md-8">
                             <span
                                 class="text-muted fs-7">{{ $getleaguedata->gender == 1 ? trans('labels.men') : ($getleaguedata->gender == 2 ? trans('labels.women') : trans('labels.other')) }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="d-flex bg-gray">
+                <div class="col-lg-4 col-md-6">
+                    <div class="px-3 py-2 d-flex">
+                        <div class="col-md-5">
+                            <label>{{ trans('labels.last_date_registration') }}</label>
+                        </div>
+                        <div class="col-md-8">
+                            <span class="text-muted fs-7">{{ $getleaguedata->booking_deadline }}</span>
                         </div>
                     </div>
                 </div>

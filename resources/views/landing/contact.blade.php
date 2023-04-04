@@ -158,8 +158,8 @@
                         <div class="footer-link link">
                             <p> <a href="{{ URL::to('privacy-policy') }}" class="text-reset text-copyright mb-2">Privacy & Policy</a> </p>
                             <p> <a href="{{ URL::to('terms-conditions') }}" class="text-reset text-copyright">Terms Of Service</a> </p>
-                            <p> <a href="{{ URL::to('cancellation-policies') }}" class="text-reset text-copyright">Cancellation Policies</a> </p>
-                            <p> <a href="{{ URL::to('refund-policies') }}" class="text-reset text-copyright">Refund Policies</a> </p>
+                            <p> <a href="{{ URL::to('cancellation-policies') }}" class="text-reset text-copyright">Cancellation Policy</a> </p>
+                            <p> <a href="{{ URL::to('refund-policies') }}" class="text-reset text-copyright">Refund Policy</a> </p>
                         </div>
                     </div>
                     <div

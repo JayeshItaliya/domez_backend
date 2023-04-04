@@ -33,7 +33,7 @@
     </div>
     <div class="row">
         <div class="card">
-            <form action="{{ URL::to('admin/cms/store') }}" method="post">
+            <form class="card-body" action="{{ URL::to('admin/cms/store') }}" method="post">
                 @csrf
                 <textarea id="ckeditor" name="content">{{ Helper::cms(4) }}</textarea>
                 @error('content') <p class="text-danger my-2">{{ $message }}</p> @enderror

@@ -81,7 +81,7 @@
                     <li><a class="dropdown-item"
                             href="{{ URL::to('admin/change-lang-en') }}">{{ trans('labels.english') }}</a></li>
                     <li><a class="dropdown-item"
-                            href="{{ URL::to('admin/change-lang-es') }}">{{ trans('labels.spanish') }}</a></li>
+                            href="{{ URL::to('admin/change-lang-fr') }}">{{ trans('labels.french') }}</a></li>
                 </ul>
             </li>
             <li class="dropdown">

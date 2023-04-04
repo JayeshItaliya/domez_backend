@@ -180,7 +180,7 @@ class PaymentController extends Controller
         }
         // Payment Method = 1=Card, 2=Apple Pay, 3=Google Pay
         $amount = $request->payment_type == 1 ? $request->total_amount : $request->paid_amount;
-        $booking_id = bin2hex(random_bytes(3));
+        $booking_id = bin2hex(random_bytes(4));
         $transaction_id = $request->transaction_id;
 
         try {

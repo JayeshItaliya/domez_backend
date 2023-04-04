@@ -38,7 +38,7 @@ return [
     'usd' => 'USD',
     'cad' => 'CAD',
     'english' => 'English',
-    'spanish' => 'Spanish',
+    'french' => 'French',
     'all_notifications' => 'All Notifications',
     'mark_read' => 'Mark as all read',
     'good_morning' => 'Good Morning,',
@@ -95,6 +95,9 @@ return [
     // Users
     'users' => 'Users',
     'user_details' => 'User Details',
+    'users_list' => 'Users List',
+    'edit_user' => 'Edit User',
+    'users' => 'Users',
     // Vendors
     'dome_owner' => 'Dome Owner',
     'dome_owner_detail' => 'Dome Owner Detail',
@@ -128,10 +131,6 @@ return [
     'current_password' => 'Current Password',
     'new_password' => 'New Password',
     'confirm_password' => 'Confirm Password',
-    // Users
-    'users_list' => 'Users List',
-    'edit_user' => 'Edit User',
-    'users' => 'Users',
     // Sports
     'add_sports' => 'Add Sports',
     'edit_sports' => 'Edit Sports',
@@ -202,7 +201,7 @@ return [
     'banner_images' => 'Banner Images',
     'price_per_team' => 'Price Per Team',
     'years' => 'Years',
-    'last_date_registration' => 'Last Date of Registration',
+    'last_date_registration' => 'Registration Deadline',
     // Enquiry
     'dome_requests' => 'Dome Requests',
     'general_enquiry' => 'General Enquiry',

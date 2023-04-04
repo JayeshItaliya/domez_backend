@@ -32,7 +32,6 @@ class SettingsController extends Controller
     }
     public function store_cms(Request $request)
     {
-        dd($request->input());
         $request->validate([
             'content' => 'required',
         ], [
