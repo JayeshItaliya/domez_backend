@@ -60,6 +60,10 @@ class DomesPriceController extends Controller
                 foreach ($starttimearray as $key => $data) {
                     $slots = new SetPricesDaysSlots();
                     $slots->set_prices_id = $set_prices->id;
+                    $slots->dome_id = $request->dome;
+                    $slots->sport_id = $request->sport;
+                    $slots->start_date = $request->start_date;
+                    $slots->end_date = $request->end_date;
                     $slots->start_time = Carbon::createFromFormat('h:i A', $data)->format('H:i');
                     $slots->end_time = Carbon::createFromFormat('h:i A', $endtimearray[$key])->format('H:i');
                     $slots->day = $dayname;

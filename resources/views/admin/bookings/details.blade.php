@@ -34,7 +34,12 @@
     <div class="card">
         @if (!empty($bookingdata))
             <div class="card-body">
-                <h4 class="my-4 fw-semibold">{{ trans('labels.booking_id') }} - {{ $bookingdata->booking_id }}</h4>
+                <div class="d-flex justify-content-between my-4">
+                    <h4 class="fw-semibold">{{ trans('labels.booking_id') }} - {{ $bookingdata->booking_id }}</h4>
+                    <a href="javascript:;" class="btn btn-outline-primary extend-time"
+                        data-next="{{ URL::to('admin/bookings/extend-time') }}" data-booking-id="{{ $bookingdata->id }}"><i
+                            class="fa fa-plus"></i> Extend Time </a>
+                </div>
                 <div class="col-lg-4">
                     <div class="px-3 py-2 d-flex">
                         <div class="col-md-4"> <label>{{ trans('labels.dome_owner') }}</label> </div>
@@ -233,4 +238,82 @@
             </div>
         @endif
     </div>
+
+    <div class="modal fade" id="slotsmodal" tabindex="-1" aria-labelledby="slotsmodalLabel" aria-hidden="true">
+        <div class="modal-lg modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="slotsmodalLabel">Slots</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form class="" action="#" method="POST">
+                    @csrf
+                    <div class="modal-body">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-danger"
+                            data-bs-dismiss="modal">{{ trans('labels.cancel') }}</button>
+                        <button type="submit" class="btn btn-primary">{{ trans('labels.submit') }}</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+@endsection
+@section('scripts')
+    <script>
+        $('.extend-time').on('click', function() {
+            "use strict";
+            let html = $('.extend-time').html();
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                url: $(this).attr('data-next'),
+                data: {
+                    booking_id: $(this).attr('data-booking-id'),
+                },
+                method: 'POST',
+                beforeSend: function() {
+                    $('.extend-time').attr('disabled', true);
+                    $('.extend-time').html(
+                        '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>'
+                    );
+                },
+                success: function(response) {
+                    $('.extend-time').html(html);
+                    $('.extend-time').attr('disabled', false);
+                    if (response.status == 1) {
+                        $('#slotsmodal').modal('show');
+                        var html = '<div class="row">';
+                        response.slots.forEach(element => {
+                            var btn = element.status == 1 ? 'btn btn-sm btn-outline-primary' :
+                                'btn btn-sm btn-danger';
+                            html +=
+                                '<div class="col-auto"><label class="form-check-label ' + btn +
+                                ' d-grid" for="check' + element.id +
+                                '"><input class="form-check-input d-none" type="radio" name="flexRadioDefault" id="check' +
+                                element.id +
+                                '"><span>' + element.start_time + ' - ' + element.end_time +
+                                '</span><b>' + element.price +
+                                '</b></label></div>';
+                        });
+                        html += '</div>';
+                        $('#slotsmodal .modal-body').html(html);
+                        // toastr.success(response.message);
+                    } else {
+                        toastr.error(response.message);
+                        return false;
+                    }
+                },
+                error: function(e) {
+                    $('.extend-time').attr('disabled', false);
+                    $('.extend-time').html(html);
+                    toastr.error(wrong);
+                    return false;
+                }
+            });
+        });
+    </script>
 @endsection

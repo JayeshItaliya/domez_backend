@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Booking;
 use App\Models\Domes;
 use App\Models\Field;
+use App\Models\SetPricesDaysSlots;
 use App\Models\Transaction;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -240,6 +241,15 @@ class BookingController extends Controller
         } else {
             return response()->json(['status' => 0, 'message' => trans('messages.error')], 200);
         }
-
+    }
+    public function extend_time(Request $request)
+    {
+        $checkbooking = Booking::find($request->booking_id);
+        if (!empty($checkbooking)) {
+            $slots = SetPricesDaysSlots::where('sport_id', $checkbooking->sport_id)->where('day', date('l', strtotime($checkbooking->start_date)))->get();
+            return response()->json(['status' => 1, 'message' => trans('messages.success'), 'slots' => $slots], 200);
+        } else {
+            return response()->json(['status' => 0, 'message' => trans('messages.invalid_booking')], 200);
+        }
     }
 }

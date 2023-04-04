@@ -31,13 +31,13 @@ class LeagueController extends Controller
                         foreach ($recentbookings as $booking) {
                             $league = League::where('id', $booking->league_id)->where('sport_id', $request->sport_id)->whereDate('booking_deadline', '>=', date('Y-m-d'))->where('is_deleted', 2)->first();
                             if (!empty($league)) {
-                                $leagues_list[] = $this->getleaguelistobject($league,$request->user_id);
+                                $leagues_list[] = $this->getleaguelistobject($league, $request->user_id);
                             }
                         }
                     } else {
                         $leagues = League::orderByDesc('id')->where('sport_id', $request->sport_id)->whereDate('booking_deadline', '>=', date('Y-m-d'))->where('is_deleted', 2)->get();
                         foreach ($leagues as $league) {
-                            $leagues_list[] = $this->getleaguelistobject($league,$request->user_id);
+                            $leagues_list[] = $this->getleaguelistobject($league, $request->user_id);
                         }
                     }
                 }
@@ -69,11 +69,10 @@ class LeagueController extends Controller
                     }
                     $getarounddomes = $getarounddomes->orderBy('distance')->get();
                     foreach ($getarounddomes as $dome) {
-                        $leagues = League::where('dome_id',$dome->id)->where('sport_id', $request->sport_id)->whereDate('booking_deadline', '>=', date('Y-m-d'))->where('is_deleted', 2)->orderByDesc('id')->get();
+                        $leagues = League::where('dome_id', $dome->id)->where('sport_id', $request->sport_id)->whereDate('booking_deadline', '>=', date('Y-m-d'))->where('is_deleted', 2)->orderByDesc('id')->get();
                         foreach ($leagues as $league) {
-                            $leagues_list[] = $this->getleaguelistobject($league,$request->user_id);
+                            $leagues_list[] = $this->getleaguelistobject($league, $request->user_id);
                         }
-
                     }
                 }
                 return response()->json(["status" => 1, "message" => "Successful", 'leagues_list' => $leagues_list], 200);
@@ -84,7 +83,7 @@ class LeagueController extends Controller
             return response()->json(["status" => 0, "message" => "Enter League Data Type"]);
         }
     }
-    public function getleaguelistobject($league,$user_id)
+    public function getleaguelistobject($league, $user_id)
     {
         $arr = [
             "id" => $league->id,
@@ -97,6 +96,7 @@ class LeagueController extends Controller
             "is_fav" => Helper::is_fav($user_id, '', $league->id),
             "date" => date('d M', strtotime($league->start_date)) . ' - ' . date('d M', strtotime($league->end_date)),
             "sport_data" => Helper::get_sports_list($league->sport_id),
+            "booking_deadline" => $league->booking_deadline,
         ];
         return $arr;
     }
@@ -111,7 +111,8 @@ class LeagueController extends Controller
     }
     public function getleaguedataobject($id)
     {
-        $league = League::where('id', $id)->whereDate('booking_deadline', '>=', date('Y-m-d'))->where('is_deleted', 2)->first();
+        $league = League::where('id', $id)->where('is_deleted', 2)->first();
+        // ->whereDate('booking_deadline', '>=', date('Y-m-d'))
         if (empty($league)) {
             return $league_data = 1;
         }
@@ -140,7 +141,7 @@ class LeagueController extends Controller
             "time" => $league->start_time . ' To ' . $league->end_time,
             "date" => date('d/m/Y', strtotime($league->start_date)) . ' To ' . date('d/m/Y', strtotime($league->end_date)),
             'gender' => $league->gender == 1 ? 'Men' : ($league->gender == 2 ? 'Women' : 'Mixed'),
-            'age' => $league->from_age . ' Years' . ' To ' . $league->to_age . ' Years',
+            'age' => $league->from_age . ' Years To ' . $league->to_age . ' Years',
             'sport' => $league->sport_info->name,
             'team_limit' => $league->team_limit . ' Teams ',
             'min_player' => $league->min_player . ' Players ',
@@ -155,6 +156,7 @@ class LeagueController extends Controller
             'amenities_description' => $league->dome_info->benefits_description,
             'league_images' => $league->league_images,
             'amenities' => $benefits,
+            "booking_deadline" => $league->booking_deadline,
         );
         return $league_data;
     }
