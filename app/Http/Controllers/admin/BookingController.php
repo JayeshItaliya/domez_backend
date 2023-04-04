@@ -67,7 +67,9 @@ class BookingController extends Controller
     public function details(Request $request)
     {
         $bookingdata = Booking::where('booking_id', $request->booking_id)->first();
-        return view('admin.bookings.details', compact('bookingdata'));
+        abort_if(empty($bookingdata), 404);
+        $slots = SetPricesDaysSlots::where('sport_id', $bookingdata->sport_id)->whereDate('date', date('Y-m-d', strtotime($bookingdata->start_date)))->get();
+        return view('admin.bookings.details', compact('bookingdata', 'slots'));
     }
     public function booking(Request $request)
     {
@@ -240,16 +242,6 @@ class BookingController extends Controller
             return response()->json(['status' => 1, 'message' => trans('messages.success')], 200);
         } else {
             return response()->json(['status' => 0, 'message' => trans('messages.error')], 200);
-        }
-    }
-    public function extend_time(Request $request)
-    {
-        $checkbooking = Booking::find($request->booking_id);
-        if (!empty($checkbooking)) {
-            $slots = SetPricesDaysSlots::where('sport_id', $checkbooking->sport_id)->where('day', date('l', strtotime($checkbooking->start_date)))->get();
-            return response()->json(['status' => 1, 'message' => trans('messages.success'), 'slots' => $slots], 200);
-        } else {
-            return response()->json(['status' => 0, 'message' => trans('messages.invalid_booking')], 200);
         }
     }
 }

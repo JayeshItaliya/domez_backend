@@ -42,12 +42,12 @@ class PaymentController extends Controller
 
         if ($request->booking_type == 1) {
             $dome = Domes::where('id', $request->dome_id)->where('is_deleted', 2)->first();
-            // foreach (explode(',', $request->slots) as $key => $slot) {
-            //     $check = SetPricesDaysSlots::where('start_time', date('H:i', strtotime(explode(' - ', $slot)[0])))->where('end_time', date('H:i', strtotime(explode(' - ', $slot)[1])))->where('day', strtolower(date('l', strtotime($request->date))))->where('status', 1)->first();
-            //     if (!empty($check)) {
-            //         return response()->json(["status" => 0, "message" => "Time Slots Has been selected "], 200);
-            //     }
-            // }
+            foreach (explode(',', $request->slots) as $key => $slot) {
+                $check = SetPricesDaysSlots::where('start_time', date('H:i', strtotime(explode(' - ', $slot)[0])))->where('end_time', date('H:i', strtotime(explode(' - ', $slot)[1])))->where('sport_id', $request->sport_id)->whereDate('date', date('Y-m-d', strtotime($request->start_date)))->where('status', 0)->first();
+                if (!empty($check)) {
+                    return response()->json(["status" => 0, "message" => "Time Slots Has been selected "], 200);
+                }
+            }
         } else {
             $league = League::where('id', $request->league_id)->whereDate('booking_deadline', '>=', date('Y-m-d'))->where('is_deleted', 2)->first();
             $dome = @$league->dome_info;
@@ -228,13 +228,13 @@ class PaymentController extends Controller
             // }
             $booking->save();
 
-            // if ($request->booking_type == 1) {
-            //     foreach (explode(',', $request->slots) as $key => $slot) {
-            //         $start_time = date('H:i', strtotime(explode(' - ', $slot)[0]));
-            //         $end_time = date('H:i', strtotime(explode(' - ', $slot)[1]));
-            //         SetPricesDaysSlots::where('start_time', $start_time)->where('end_time', $end_time)->where('day', strtolower(date('l', strtotime($request->date))))->where('status', 1)->update(['status' => 0]);
-            //     }
-            // }
+            if ($request->booking_type == 1) {
+                foreach (explode(',', $request->slots) as $key => $slot) {
+                    $start_time = date('H:i', strtotime(explode(' - ', $slot)[0]));
+                    $end_time = date('H:i', strtotime(explode(' - ', $slot)[1]));
+                    SetPricesDaysSlots::where('start_time', $start_time)->where('end_time', $end_time)->where('sport_id', $booking->sport_id)->whereDate('date', date('Y-m-d', strtotime($booking->start_date)))->where('status', 1)->update(['status' => 0]);
+                }
+            }
 
             return response()->json(['status' => 1, "message" => "Successful", "transaction_id" => $transaction_id, "booking_id" => $booking->id, "payment_link" => URL::to('/payment/' . $booking->token),], 200);
         } catch (\Throwable $th) {

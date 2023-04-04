@@ -186,7 +186,7 @@ class BookingController extends Controller
 
             $slots = [];
             if ($checkpricetype->price_type == 1) {
-                $period = new CarbonPeriod(date('h:i A', strtotime($getdomedata->start_time)), $my_interval.' minutes', date("h:i A", strtotime("-$my_interval minutes", strtotime($getdomedata->end_time))));
+                $period = new CarbonPeriod(date('h:i A', strtotime($getdomedata->start_time)), $my_interval . ' minutes', date("h:i A", strtotime("-$my_interval minutes", strtotime($getdomedata->end_time))));
                 foreach ($period as $item) {
                     $slot = $item->format("h:i A") . ' - ' . $item->addMinutes($my_interval)->format("h:i A");
                     $today = Carbon::now(new \DateTimeZone('Asia/Kolkata'));
@@ -216,34 +216,12 @@ class BookingController extends Controller
                 return response()->json(["status" => 1, "message" => "Successful", 'data' => $slots], 200);
             } else {
                 // Get Day's all slots
-                $data = SetPricesDaysSlots::where('set_prices_id', $checkpricetype->id)->where('day', strtolower(date('l', strtotime($request->date))))->get();
-
+                $data = SetPricesDaysSlots::where('set_prices_id', $checkpricetype->id)->whereDate('date', date('Y-m-d', strtotime($request->date)))->get();
                 foreach ($data as $key => $slot) {
                     $new_slot = date('h:i A', strtotime($slot->start_time)) . ' - ' . date('h:i A', strtotime($slot->end_time));
                     $today =  Carbon::now(new \DateTimeZone('Asia/Kolkata'));
                     $last = Carbon::parse(date('h:i A', strtotime($slot->start_time)));
-                    // $last = Carbon::parse(date('h:i A', strtotime($slot->end_time)));
                     $status = $slot->status;
-                    if (date('Y-m-d') == date('Y-m-d', strtotime($request->date))) {
-                        if ($today->lt($last)) {
-                            $status = 1;
-                        } else {
-                            $status = 0;
-                            // $new_slot = '';
-                        }
-                    } elseif (date('Y-m-d', strtotime($request->date)) < date('Y-m-d')) {
-                        $status = 0;
-                    } else {
-                        $status = 1;
-                    }
-                    // booking_status = 1 = Confirmed
-                    // booking_status = 2 = Pending
-                    // booking_status = 3 = Cancelled
-
-                    // $checkslotexist = Booking::where('dome_id', $request->dome_id)->where('sport_id', $request->sport_id)->whereDate('start_date', date('Y-m-d', strtotime($request->date)))->whereRaw("find_in_set('" . $new_slot . "',slots)")->where('booking_status', '!=', 3)->first();
-                    // if (!empty($checkslotexist)) {
-                    //     $status = 0;
-                    // }
                     $slots[] = [
                         'slot' => $new_slot,
                         'price' => $slot->price,

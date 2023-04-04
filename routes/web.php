@@ -80,7 +80,6 @@ Route::group(['middleware' => 'SetTimeZoneMiddleware'], function () {
             Route::get('/', [TransactionController::class, 'index']);
             Route::get('details-{id}', [TransactionController::class, 'details']);
         });
-        Route::post('/bookings/extend-time', [BookingController::class, 'extend_time']);
         //  Bookings
         Route::group(['prefix' => 'bookings'], function () {
             Route::get('/', [BookingController::class, 'index']);
