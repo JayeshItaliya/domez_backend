@@ -3,6 +3,26 @@
     {{ trans('labels.booking_details') }}
 @endsection
 @section('contents')
+    <style>
+        .d-none+label {
+            font-weight: bold;
+        }
+
+        .d-none.main-slots:checked+label {
+            color: white !important;
+            background-color: var(--bs-primary);
+        }
+
+        .d-none.new-slot-radio+label {
+            border: 1px solid transparent;
+        }
+
+        .d-none.new-slot-radio:checked+label {
+            color: var(--bs-primary);
+            border: 1px solid var(--bs-primary);
+            background-color: var(--bs-primary-rgb);
+        }
+    </style>
     <div class="card mb-3">
         <div class="card-body py-2">
             <div class="d-flex align-items-center justify-content-between">
@@ -36,9 +56,9 @@
             <div class="card-body">
                 <div class="d-flex justify-content-between my-4">
                     <h4 class="fw-semibold">{{ trans('labels.booking_id') }} - {{ $bookingdata->booking_id }}</h4>
+
                     <a href="javascript:;" class="btn btn-outline-primary extend-time" data-bs-toggle="modal"
-                        data-bs-target="#slotsmodal" data-next="{{ URL::to('admin/bookings/extend-time') }}"
-                        data-booking-id="{{ $bookingdata->id }}"><i class="fa fa-plus"></i> Extend Time </a>
+                        data-bs-target="#slotsmodal"><i class="fa fa-plus"></i> Extend Time </a>
                 </div>
                 <div class="col-lg-4">
                     <div class="px-3 py-2 d-flex">
@@ -246,36 +266,156 @@
                     <h5 class="modal-title" id="slotsmodalLabel">Slots</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form class="" action="#" method="POST">
-                    @csrf
-                    <div class="modal-body">
-                        <div class="row">
-                            @foreach ($slots as $key => $slot)
-                                <div class="col-lg-3 col-6">
-                                    <label
-                                        class="form-check-label my-2 btn btn-sm {{ $slot->status == 1 ? 'btn-outline-primary' : 'btn-danger' }} d-grid"
-                                        for="check{{ $key }}">
-                                        <input class="form-check-input d-none" type="radio" name="flexRadioDefault"
-                                            id="check{{ $key }}">
-                                        <span>{{ date('h:i A', strtotime($slot->start_time)) }} -
-                                            {{ date('h:i A', strtotime($slot->end_time)) }}</span>
-                                        <b>{{ Helper::currency_format($slot->price) }}</b>
-                                    </label>
-                                </div>
-                            @endforeach
-                        </div>
+                <div class="modal-body">
+                    <div class="row">
+                        @foreach ($slots as $key => $slot)
+                            <div class="col-lg-4 col-6">
+                                {{-- data-picker-start-time="{{ date('h:i A', strtotime('+60 minutes', strtotime($slot->end_time))) }}" --}}
+                                <input class="form-check-input d-none main-slots" type="radio" name="flexRadioDefault"
+                                    id="check{{ $key }}" {{ $slot->status == 0 ? 'disabled' : '' }}
+                                    data-booking-id="{{ $bookingdata->booking_id }}" data-slot-id="{{ $slot->id }}"
+                                    data-start-time="{{ date('h:i A', strtotime($slot->start_time)) }}"
+                                    data-end-time="{{ date('h:i A', strtotime($slot->end_time)) }}"
+                                    data-price="{{ $slot->price }}" data-show-target="hidden{{ $key }}">
+                                <label
+                                    class="form-check-label d-grid my-2 rounded text-center {{ $slot->status == 1 ? 'border border-secondary text-secondary' : 'bg-danger text-white' }}"
+                                    for="check{{ $key }}">
+                                    <span>{{ date('h:i A', strtotime($slot->start_time)) }} -
+                                        {{ date('h:i A', strtotime($slot->end_time)) }}</span>
+                                    <b>{{ Helper::currency_format($slot->price) }}</b>
+                                </label>
+                            </div>
+                        @endforeach
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-outline-danger"
-                            data-bs-dismiss="modal">{{ trans('labels.cancel') }}</button>
-                        <button type="submit" class="btn btn-primary">{{ trans('labels.submit') }}</button>
-                    </div>
-                </form>
+                    <div class="lists"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-danger"
+                        data-bs-dismiss="modal">{{ trans('labels.cancel') }}</button>
+                </div>
             </div>
         </div>
     </div>
 
 @endsection
 @section('scripts')
-    <script></script>
+    <script>
+        var start_time = '';
+        var booking_id = {{ Js::from($bookingdata->booking_id) }};
+        $('.d-none').on('change', function() {
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
+                        'content')
+                },
+                url: location.href,
+                data: {
+                    booking_id: booking_id,
+                    slot_id: $(this).attr('data-slot-id'),
+                },
+                method: 'get',
+                beforeSend: function(response) {
+                    $('.' + $(this).attr('data-show-target')).show();
+                    $('.lists').html(
+                        '<div class="text-center"><div class="spinner-border" role="status"><span class="visually-hidden">Loading...</span></div></div>'
+                    );
+                },
+                success: function(response) {
+                    if (response.status == 0) {
+                        toastr.error(response.message);
+                    } else {
+                        $('.lists').html(response.slots);
+                        toastr.success(response.message);
+                    }
+                    return false;
+                },
+                error: function(e) {
+                    toastr.error(wrong);
+                    return false;
+                }
+            });
+        });
+
+        var my_val = '';
+        var old_slot_id = '';
+        var new_slot_id = '';
+
+        function manageslot(el) {
+            my_val = $(el).val();
+            old_slot_id = $(el).attr('data-old-slot-id');
+            new_slot_id = $(el).attr('data-new-slot-id');
+            $('.lists button[type="button"]:hidden').show();
+        }
+
+        function submitdata() {
+            // $('#slotsmodal').modal('hide')
+            // $('.lists').html('')
+            // $('.d-none.main-slots:checked').prop('checked', false)
+            var html = $('.lists').html();
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
+                        'content')
+                },
+                url: location.href,
+                data: {
+                    manage_slot: 1,
+                    booking_id: booking_id,
+                    slot_time: my_val,
+                    old_slot_id: old_slot_id,
+                    new_slot_id: new_slot_id,
+                },
+                method: 'get',
+                beforeSend: function(response) {
+                    $('.lists').html(
+                        '<div class="text-center"><div class="spinner-border" role="status"><span class="visually-hidden">Loading...</span></div></div>'
+                    );
+                },
+                success: function(response) {
+                    if (response.status == 0) {
+                        $('.lists').html(html);
+                        toastr.error(response.message);
+                    } else {
+                        toastr.success(response.message);
+                        location.reload()
+                    }
+                    return false;
+                },
+                error: function(e) {
+                    toastr.error(wrong);
+                    return false;
+                }
+            });
+
+            // Swal.fire({
+            //     title: 'Enter the price',
+            //     input: 'text',
+            //     inputPlaceholder: 'Enter the price',
+            //     inputAttributes: {
+            //         type: 'number',
+            //         min: 0,
+            //         step: 0.01
+            //     },
+            //     showCancelButton: true,
+            //     confirmButtonText: 'Submit',
+            //     cancelButtonText: 'Cancel',
+            //     allowOutsideClick: false,
+            //     preConfirm: function(price) {
+            //         // You can perform some validation here
+            //         // If the validation fails, return false to prevent the dialog from closing
+            //         // Otherwise, return the validated value
+            //         if (price <= 0) {
+            //             Swal.showValidationMessage('Price must be greater than zero');
+            //             return false;
+            //         }
+            //         return price;
+            //     }
+            // }).then(function(result) {
+            //     if (result.value) {
+            //         // Do something with the validated price value
+            //         console.log(result.value);
+            //     }
+            // });
+        }
+    </script>
 @endsection
