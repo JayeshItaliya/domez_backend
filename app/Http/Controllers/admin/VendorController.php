@@ -212,7 +212,6 @@ class VendorController extends Controller
             if ($request->ajax()) {
                 return response()->json(['total_bookings' => $total_bookings, 'bookings_labels' => $bookings_labels, 'bookings_data' => $bookings_data, 'bookings_data_colors' => $bookings_data_colors, 'dome_revenue' => $dome_revenue, 'dome_revenue_labels' => $dome_revenue_labels, 'dome_revenue_data' => $dome_revenue_data]);
             } else {
-                // dd($domes, $dome_owner, $sports, $total_bookings, $bookings_labels, $bookings_data, $bookings_data_colors, $dome_revenue, $dome_revenue_labels, $dome_revenue_data);
                 return view('admin.vendors.view', compact('domes', 'dome_owner', 'sports', 'total_bookings', 'bookings_labels', 'bookings_data', 'bookings_data_colors', 'dome_revenue', 'dome_revenue_labels', 'dome_revenue_data'));
             }
         }

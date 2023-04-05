@@ -27,12 +27,9 @@ class DomesPriceController extends Controller
     }
     public function store(Request $request)
     {
-        dd($request->input());
-
         // SetPricesDaysSlots == status == 1 == Available (Full)
         // SetPricesDaysSlots == status == 2 == occupied
         // SetPricesDaysSlots == status == 3 == Half Available
-
         try {
             if ($request->has('id') && $request->id != "") {
                 SetPricesDaysSlots::where('set_prices_id', $request->id)->delete();

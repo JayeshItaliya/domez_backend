@@ -96,11 +96,9 @@ class HomeController extends Controller
             curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($fields));
             $result = curl_exec($ch);
             curl_close($ch);
-            dd($result);
-            return response()->json(["status" => 1, "message" => "Successfull"], 200);
+            return response()->json(["status" => 1, "message" => "Successfull", "result" => $result], 200);
         } catch (\Throwable $th) {
-            dd($th);
-            return response()->json(["status" => 0, "message" => "Something Went Wrong..!!"], 200);
+            return response()->json(["status" => 0, "message" => "Something Went Wrong..!!", "data" => $th], 200);
         }
     }
     public function filter(Request $request)
