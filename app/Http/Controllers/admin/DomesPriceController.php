@@ -17,7 +17,7 @@ class DomesPriceController extends Controller
 {
     public function index(Request $request)
     {
-        $getsetpriceslist = SetPrices::where('vendor_id', auth()->user()->type == 2 ? auth()->user()->id : auth()->user()->vendor_id)->orderByDesc('id')->get();
+        $getsetpriceslist = SetPrices::where('vendor_id', auth()->user()->type == 2 ? auth()->user()->id : auth()->user()->vendor_id)->where('price_type', 2)->orderByDesc('id')->get();
         return view('admin.set_prices.index', compact('getsetpriceslist'));
     }
     public function add(Request $request)
@@ -91,9 +91,9 @@ class DomesPriceController extends Controller
             if (!empty($getdomedata)) {
                 $getexists = SetPrices::where('dome_id', $request->id)->where('price_type', 2)->select('sport_id')->get()->toArray();
                 $sports = Sports::whereIn('id', explode(',', $getdomedata->sport_id));
-                if ($request->has('type') && $request->type == 'add') {
-                    $sports = $sports->whereNotIn('id', $getexists);
-                }
+                // if ($request->has('type') && $request->type == 'add') {
+                //     $sports = $sports->whereNotIn('id', $getexists);
+                // }
                 $sports = $sports->where('is_available', 1)->where('is_deleted', 2)->orderByDesc('id')->get();
                 return response()->json(['status' => 1, 'message' => trans('messages.success'), 'sportsdata' => $sports], 200);
             }

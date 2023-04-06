@@ -28,7 +28,7 @@ class ReviewController extends Controller
                 $checkreview->dome_id = $request->dome_id;
                 $checkreview->user_id = $request->user_id;
                 $checkreview->ratting = $request->ratting;
-                $checkreview->comment = $request->comment == "" ? "" : $request->comment;
+                $checkreview->comment = $request->comment ?? "";
                 $checkreview->save();
                 return response()->json(["status" => 1, "message" => "Successful", 'review' => $checkreview], 200);
             }
@@ -85,5 +85,3 @@ class ReviewController extends Controller
         }
     }
 }
-
-        // DB::raw('DATE_FORMAT(reviews.created_at, "%d %M %Y") as ratting_created_at'),

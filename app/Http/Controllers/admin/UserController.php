@@ -35,11 +35,9 @@ class UserController extends Controller
         ]);
 
         if ($request->has('profile_image')) {
-            $request->validate(
-                [
+            $request->validate([
                     'profile_image' => 'mimes:png,jpg,jpeg,svg|max:500'
-                ],
-                [
+                ],[
                     'profile_image.mimes' => trans('messages.valid_image_type'),
                     'profile_image.max' => trans('messages.valid_image_size'),
                 ]
@@ -48,7 +46,7 @@ class UserController extends Controller
                 unlink('storage/app/public/admin/images/profiles/' . $user->image);
             }
             $new_name = 'profiles-' . uniqid() . '.' . $request->profile_image->getClientOriginalExtension();
-            $path = storage_path('app\public\admin/images\profiles');
+            $path = storage_path('app\public\admin\images\profiles');
             $request->profile_image->move($path, $new_name);
         }
         $user->name = $request->name;

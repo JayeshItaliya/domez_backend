@@ -73,7 +73,7 @@ class AuthenticationController extends Controller
         }
         $checkphone = User::where('phone', $request->phone)->first();
         if (!empty($checkphone)) {
-            return response()->json(["status" => 0, "message" => "This Phone is Already Taken"], 200);
+            return response()->json(["status" => 0, "message" => "This phone number is already taken"], 200);
         }
         if ($request->name == "") {
             return response()->json(["status" => 0, "message" => "Please Enter Your Name"], 200);
@@ -132,14 +132,14 @@ class AuthenticationController extends Controller
         $user->login_type = 1;
         $user->name = $request->name;
         $user->email = $request->email;
-        $user->phone = $request->phone == "" ? "" : $request->phone;
-        $user->countrycode = $request->countrycode == "" ? "" : $request->countrycode;
+        $user->phone = $request->phone ?? "";
+        $user->countrycode = $request->countrycode ?? "";
         $user->password = Hash::make($request->password);
         $user->fcm_token = $request->fcm_token ?? '';
         $user->is_verified = 1;
         $user->save();
         $userdata = $this->getuserprofileobject($user->id);
-        return response()->json(["status" => 1, "message" => 'Sign up Successfilly', 'userdata' => $userdata], 200);
+        return response()->json(["status" => 1, "message" => 'User Signed Up Successfully', 'userdata' => $userdata], 200);
     }
     public function resend_otp(Request $request)
     {
@@ -235,8 +235,8 @@ class AuthenticationController extends Controller
         $user->login_type = 2;
         $user->name = $request->name;
         $user->email = $request->email;
-        $user->phone = $request->phone == "" ? "" : $request->phone;
-        $user->countrycode = $request->countrycode == "" ? "" : $request->countrycode;
+        $user->phone = $request->phone ?? "";
+        $user->countrycode = $request->countrycode ?? "";
         $user->google_id = $request->uid;
         if ($request->image != "") {
             $user->image = $request->image;
@@ -267,8 +267,8 @@ class AuthenticationController extends Controller
         $user->login_type = 4;
         $user->name = $request->name;
         $user->email = $request->email;
-        $user->phone = $request->phone == "" ? "" : $request->phone;
-        $user->countrycode = $request->countrycode == "" ? "" : $request->countrycode;
+        $user->phone = $request->phone ?? "";
+        $user->countrycode = $request->countrycode ?? "";
         $user->facebook_id = $request->uid;
         if ($request->image != "") {
             $user->image = $request->image;
@@ -292,7 +292,7 @@ class AuthenticationController extends Controller
                 'name' => 'required',
                 'email' => 'required|email|unique:users,email,' . $checkuser->id,
                 'phone' => 'required|unique:users,phone,' . $checkuser->id,
-                'image' => 'image|max:500|mimes:jpg,jpeg,png',
+                'image' => 'image|max:500',
             ], [
                 'name.required' => 'Please Enter Name',
                 'email.required' => 'Please Enter Email',
@@ -301,7 +301,6 @@ class AuthenticationController extends Controller
                 'phone.required' => 'Please Enter phone',
                 'phone.unique' => 'This Phone is Already Taken',
                 'image.image' => 'Please select only image type of file',
-                'image.mimes' => 'Please select only jpeg, jpg, png type of image file',
                 'image.max' => 'The image must not be greater than 500KB.',
             ]);
             if ($validator->fails()) {
@@ -320,8 +319,7 @@ class AuthenticationController extends Controller
                     }
                 }
                 $new_name = 'profiles-' . uniqId() . '.' . $request->image->getClientOriginalExtension();
-                $path = storage_path('app\public\admin\images\profiles');
-                $request->image->move($path, $new_name);
+                $request->image->move(storage_path('app\public\admin\images\profiles'), $new_name);
                 $checkuser->image = $new_name;
             }
             $checkuser->save();
@@ -337,8 +335,8 @@ class AuthenticationController extends Controller
             'id' => $checkuser->id,
             'name' => $checkuser->name,
             'email' => $checkuser->email,
-            'countrycode' => $checkuser->countrycode == "" ? "" : $checkuser->countrycode,
-            'phone' => $checkuser->phone == "" ? "" : $checkuser->phone,
+            'countrycode' => $checkuser->countrycode ?? "",
+            'phone' => $checkuser->phone ?? "",
             'image' => Helper::image_path($checkuser->image),
         );
         return $data;

@@ -36,13 +36,12 @@ Route::group(['middleware' => 'SetTimeZoneMiddleware'], function () {
     Route::post('forgot-password', [AuthenticationController::class, 'forgot_password']);
     Route::post('change-password', [AuthenticationController::class, 'changepassword']);
     Route::post('google-login', [AuthenticationController::class, 'google_login']);
+    Route::post('facebook-login', [AuthenticationController::class, 'facebook_login']);
     Route::post('apple-login', [AuthenticationController::class, 'apple_login']);
     Route::get('delete-account-{id}', [AuthenticationController::class, 'delete_account']);
     Route::post('editprofile', [AuthenticationController::class, 'editprofile']);
 
     Route::get('sportslist', [HomeController::class, 'sportslist']);
-    Route::get('privacy-policy', [HomeController::class, 'privacy_policy']);
-    Route::get('terms-conditions', [HomeController::class, 'terms_conditions']);
     Route::post('helpcenter', [HomeController::class, 'helpcenter']);
     Route::post('pushnotification', [HomeController::class, 'pushnotification']);
 
