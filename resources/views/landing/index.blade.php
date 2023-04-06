@@ -39,11 +39,31 @@
                     <img src="{{ Helper::image_path('preloader.gif') }}" height="50">
                     <img src="{{ url('storage/app/public/admin/images/landing/logo_dark.png') }}">
                 </a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse"
-                    data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-                    aria-label="Toggle navigation">
+                <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas"
+                    data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
                     <span class="navbar-toggler-icon"></span>
                 </button>
+                <div class="offcanvas offcanvas-end d-lg-none" tabindex="-1" id="offcanvasExample"
+                    aria-labelledby="offcanvasExampleLabel" style="width: 300px; background-color:#f4fcf9;">
+                    <div class="offcanvas-header">
+                        <img src="{{ url('storage/app/public/admin/images/logo_dark.png') }}" alt="" srcset="">
+                        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#offcanvasExample" aria-label="Close"></button>
+                    </div>
+                    <div class="offcanvas-body">
+                        <ul class="list-unstyled my-3">
+                            <li class="my-3">
+                                <a style="color: #468f72" class="text-decoration-none" href="{{ URL::to('privacy-policy') }}">PRIVACY & POLICY</a>
+                            </li>
+                            <li class="my-3">
+                                <a style="color: #468f72" class="text-decoration-none" href="{{ URL::to('terms-conditions') }}">TERMS OF SERVICE</a>
+                            </li>
+                            <li class="my-3">
+                                <a style="color: #468f72" class="text-decoration-none" href="#faq">FAQ</a>
+                            </li>
+                            <a href="{{ URL::to('login') }}" class="btn btn-success dmz-button px-4 my-2 my-sm-0">Sign In</a>
+                        </ul>
+                    </div>
+                </div>
                 <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
                     <ul class="navbar-nav ml-auto mr-4">
                         <li class="nav-item mx-3">
@@ -65,7 +85,7 @@
         <section class="main-banner">
             <div class="container">
                 <div class="banner-content wow fadeInDown animated animated" data-wow-duration="2s">
-                    <span class="text-uppercase fs-5">welcome to domez</span>
+                    <span class="text-uppercase fs-lg-5">welcome to domez</span>
                     <h2 class="text-capitalize">the most advanced <br> booking system for your dome</h2>
                     <p>get bookings faster than ever before through the DOMEZ
                         mobile application!</p>
@@ -84,7 +104,7 @@
         <section class="properly-games small-padding">
             <div class="container">
                 <h1 class="heading-title wow fadeInDown delay-0-2s animated">Most Popular Sports</h1>
-                <p class="mb-4 text-center text-muted fw-semibold">List the Sports and Games That Your Dome Offers on
+                <p class="mb-4 text-center text-muted fw-semibold lh-sm">List the Sports and Games That Your Dome Offers on
                     the DOMEZ Mobile App!</p>
                 <div id="popular_sports" class="owl-carousel mt-2 owl-loaded">
                     <div class="owl-stage-outer py-5">
@@ -473,10 +493,14 @@
                         class="col-xxl-3 col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12 wow fadeInDown delay-0-4s animated">
                         <h6 class="fw-Medium mb-4">Support</h6>
                         <div class="footer-link link">
-                            <p> <a href="{{ URL::to('privacy-policy') }}" class="text-reset text-copyright mb-2">Privacy & Policy</a> </p>
-                            <p> <a href="{{ URL::to('terms-conditions') }}" class="text-reset text-copyright">Terms Of Service</a> </p>
-                            <p> <a href="{{ URL::to('cancellation-policies') }}" class="text-reset text-copyright">Cancellation Policy</a> </p>
-                            <p> <a href="{{ URL::to('refund-policies') }}" class="text-reset text-copyright">Refund Policy</a> </p>
+                            <p> <a href="{{ URL::to('privacy-policy') }}"
+                                    class="text-reset text-copyright mb-2">Privacy & Policy</a> </p>
+                            <p> <a href="{{ URL::to('terms-conditions') }}" class="text-reset text-copyright">Terms
+                                    Of Service</a> </p>
+                            <p> <a href="{{ URL::to('cancellation-policies') }}"
+                                    class="text-reset text-copyright">Cancellation Policy</a> </p>
+                            <p> <a href="{{ URL::to('refund-policies') }}" class="text-reset text-copyright">Refund
+                                    Policy</a> </p>
                         </div>
                     </div>
                     <div
@@ -537,8 +561,8 @@
     <script>
         $("#popular_sports").owlCarousel({
             loop: true,
-            nav: true,
-            dots: true,
+            nav: false,
+            dots: false,
             autoplay: true,
             autoplayHoverPause: true,
             autoplayTimeout: 2000,
@@ -568,7 +592,7 @@
                     items: 5,
                     nav: false,
                     dots: false,
-                    margin: 45,
+                    margin: 20,
                 },
                 1000: {
                     items: 4,

@@ -7,11 +7,14 @@ use App\Http\Controllers\Controller;
 use App\Models\Booking;
 use App\Models\Transaction;
 use App\Models\User;
+use App\Models\PaymentGateway;
 use Carbon\Carbon;
 use Carbon\CarbonImmutable;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Stripe\Account;
+use Stripe\Stripe;
 
 class AdminController extends Controller
 {
@@ -31,6 +34,9 @@ class AdminController extends Controller
     }
     public function dashboard(Request $request)
     {
+        $dome_owner = PaymentGateway::where('vendor_id', Auth::user()->id)->select('account_id')->first();
+        Stripe::setApiKey(Helper::stripe_data()->secret_key);
+        dd($account = Account::retrieve($dome_owner->account_id));
         $now = CarbonImmutable::today();
         $weekStartDate = $now->startOfWeek();
         $weekEndDate = $now->endOfWeek();
