@@ -130,7 +130,7 @@ class BookingController extends Controller
                 "days" => $booking->league_id != '' ? implode(' | ', $daylist) : '',
                 "total_games" => $booking->league_id != '' ? $interval->format('%a') : '',
                 "date" => $booking->type != 2 ? date('M d, Y', strtotime($booking->start_date)) : date('M d', strtotime($booking->start_date)) . ' To ' . date('M d', strtotime($booking->end_date)),
-                "time" => date('h A', strtotime($booking->start_time)) . ' To ' . date('h A', strtotime($booking->end_time)),
+                "time" => date('h:i A', strtotime($booking->start_time)) . ' To ' . date('h:i A', strtotime($booking->end_time)),
                 "players" => $booking->players,
                 "address" => $dome->address,
                 "city" => $dome->city,

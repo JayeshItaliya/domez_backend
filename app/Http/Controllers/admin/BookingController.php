@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 use Stripe;
 use Carbon\Carbon;
 use Carbon\CarbonImmutable;
+use Carbon\CarbonPeriod;
 
 class BookingController extends Controller
 {
@@ -68,6 +69,65 @@ class BookingController extends Controller
     {
         $bookingdata = Booking::where('booking_id', $request->booking_id)->first();
         abort_if(empty($bookingdata), 404);
+        if ($request->ajax()) {
+            try {
+                if ($request->has('manage_slot') && $request->manage_slot == 1) {
+
+                    $slot_time = $request->slot_time;
+                    $old_slot_id = $request->old_slot_id;
+                    $new_slot_id = $request->new_slot_id;
+
+                    $checkoldslot = SetPricesDaysSlots::where('id', $request->old_slot_id)->first();
+                    $checknewslot = SetPricesDaysSlots::where('id', $request->new_slot_id)->first();
+                    if (empty($checknewslot)) {
+                        return response()->json(['status' => 0, 'message' => trans('messages.invalid_slot')], 200);
+                    } else if ($checknewslot->status == 0) {
+                        return response()->json(['status' => 0, 'message' => 'Slot is Anavailable'], 200);
+                    }
+
+                    $bookingdata->end_time = date('H:i', strtotime($slot_time));
+                    $bookingdata->slots = $bookingdata->slots . ',' . date('h:i A', strtotime($bookingdata->end_time)) . ' - ' . $slot_time;
+                    $bookingdata->save();
+
+                    $time1 = Carbon::parse($checknewslot->end_time);
+                    $time2 = Carbon::parse(date('H:i', strtotime($slot_time)));
+                    if ($time1->eq($time2)) {
+                        $checknewslot->status = 0;
+                        $checknewslot->save();
+                    }else{
+                        $checkoldslot->end_time = date('H:i', strtotime($slot_time));
+                        $checkoldslot->save();
+                        $checknewslot->start_time = date('H:i', strtotime($slot_time));
+                        $checknewslot->save();
+                    }
+
+                    return response()->json(['status' => 1, 'message' => trans('messages.success')], 200);
+                } else {
+                    $old_slot_id = @SetPricesDaysSlots::where('sport_id', $bookingdata->sport_id)->whereDate('date', $bookingdata->start_date)->whereTime('end_time', $bookingdata->end_time)->first()->id;
+
+                    $checkslot = SetPricesDaysSlots::where('id', $request->slot_id)->first();
+                    if (empty($checkslot) || $checkslot->status == 0) {
+                        return response()->json(['status' => 0, 'message' => trans('messages.invalid_slot')], 200);
+                    }
+                    $my_interval = 30;
+                    $period = new CarbonPeriod(date('h:i A', strtotime($checkslot->start_time)), $my_interval . ' minutes', date('h:i A', strtotime("-$my_interval minutes", strtotime($checkslot->end_time))));
+                    // $price = 0;
+                    $html = '<div class="row">';
+                    foreach ($period as $keyy => $item) {
+                        // $price += round($checkslot->price / $period->count(), 2);
+                        $xtime = $item->format('h:i A');
+                        $value = $item->addMinutes($my_interval)->format('h:i A');
+                        $html .= '<div class="form-check col-lg-4 col-6 text-center"><input class="form-check-input d-none new-slot-radio" type="radio" name="text" value="' . $value . '" id="check123' . $keyy . '" data-old-slot-id="' . $old_slot_id  . '" data-new-slot-id="' . $checkslot->id . '" onchange="manageslot(this)"><label class="form-check-label rounded px-2 py-1" for="check123' . $keyy . '">' . date('h:i A', strtotime($checkslot->start_time)) . ' - ' . $value . '    </label></div>';
+                        // $html .= '<div class="form-check"><input class="form-check-input" type="radio" name="text" value="' . $value . '" id="check123' . $keyy . '"><label class="form-check-label" for="check123' . $keyy . '">' . $xtime . ' - ' . $value . '(' . Helper::currency_format($price) . ')</label></div>';
+                    }
+                    $html .= '</div><div class="text-center"><button type="button" class="btn btn-primary btn-submit" onclick="submitdata()" style="display:none">' . trans('labels.submit') . '</button></div>';
+
+                    return response()->json(['status' => 1, 'message' => trans('messages.success'), 'slots' => $html], 200);
+                }
+            } catch (\Throwable $th) {
+                return response()->json(['status' => 0, 'message' => trans('messages.wrong')], 200);
+            }
+        }
         $slots = SetPricesDaysSlots::where('sport_id', $bookingdata->sport_id)->whereDate('date', date('Y-m-d', strtotime($bookingdata->start_date)))->get();
         return view('admin.bookings.details', compact('bookingdata', 'slots'));
     }
