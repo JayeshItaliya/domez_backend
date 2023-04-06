@@ -292,7 +292,7 @@ class AuthenticationController extends Controller
                 'name' => 'required',
                 'email' => 'required|email|unique:users,email,' . $checkuser->id,
                 'phone' => 'required|unique:users,phone,' . $checkuser->id,
-                'image' => 'image|max:500|mimes:jpg,jpeg,png',
+                'image' => 'image|max:500',
             ], [
                 'name.required' => 'Please Enter Name',
                 'email.required' => 'Please Enter Email',
@@ -301,7 +301,6 @@ class AuthenticationController extends Controller
                 'phone.required' => 'Please Enter phone',
                 'phone.unique' => 'This Phone is Already Taken',
                 'image.image' => 'Please select only image type of file',
-                'image.mimes' => 'Please select only jpeg, jpg, png type of image file',
                 'image.max' => 'The image must not be greater than 500KB.',
             ]);
             if ($validator->fails()) {
@@ -320,8 +319,7 @@ class AuthenticationController extends Controller
                     }
                 }
                 $new_name = 'profiles-' . uniqId() . '.' . $request->image->getClientOriginalExtension();
-                $path = storage_path('app\public\admin\images\profiles');
-                $request->image->move($path, $new_name);
+                $request->image->move(storage_path('app\public\admin\images\profiles'), $new_name);
                 $checkuser->image = $new_name;
             }
             $checkuser->save();

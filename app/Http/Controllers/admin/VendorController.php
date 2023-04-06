@@ -252,7 +252,7 @@ class VendorController extends Controller
                 unlink('storage/app/public/admin/images/profiles/' . $vendor->image);
             }
             $new_name = 'profile-' . uniqid() . '.' . $request->profile->getClientOriginalExtension();
-            $path = storage_path('app\public\admin/images\profiles');
+            $path = storage_path('app\public\admin\images\profiles');
             $request->profile->move($path, $new_name);
         }
 
