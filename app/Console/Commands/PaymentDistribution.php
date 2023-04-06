@@ -3,8 +3,10 @@
 namespace App\Console\Commands;
 
 use App\Helper\Helper;
-use App\Models\User;
+use App\Models\PaymentGateway;
+use App\Models\Transaction;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Stripe\Stripe;
 use Stripe\Transfer;
@@ -34,17 +36,19 @@ class PaymentDistribution extends Command
     {
         // Set your Stripe API key
         Stripe::setApiKey(Helper::stripe_data()->secret_key);
-        $dome_owners = User::where('type', 2)->where('is_available', 1)->where('is_deleted', 2)->get();
-        foreach ($dome_owners as $dome_owner) {
-            $transactions = 0;
+        $transactions = Transaction::where('is_payment_released', 2)->select('vendor_id', 'booking_id', DB::raw('SUM(amount) as amount'))->groupBy('booking_id')->get();
+        foreach ($transactions as $transaction) {
+            $dome_owner = PaymentGateway::where('vendor_id', $transaction->vendor_id)->select('account_id')->first();
+            if (!empty($dome_owner)) {
+                // Transfer funds to another Stripe account
+                $transfer = Transfer::create([
+                    'amount' => $transaction->amount * 100, // Amount in cents
+                    'currency' => 'CAD',
+                    'destination' => $dome_owner->account_id,
+                ]);
+            }
         }
 
-        // Transfer funds to another Stripe account
-        $transfer = Transfer::create([
-            'amount' => 1000, // Amount in cents
-            'currency' => 'CAD',
-            'destination' => 'DESTINATION_STRIPE_ACCOUNT_ID',
-        ]);
 
         // Log the transfer ID for debugging purposes
         Log::info('Data: ' . $transfer);

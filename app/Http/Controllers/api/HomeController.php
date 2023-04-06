@@ -9,7 +9,6 @@ use App\Models\Domes;
 use App\Models\Enquiries;
 use App\Models\Favourite;
 use App\Models\League;
-use App\Models\Sports;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -62,15 +61,15 @@ class HomeController extends Controller
 
             $type = 4;
             $title = "Test Notification";
-            $token = $request->token;
-            // $token = "erAQsdXuT1iFMB_A0oWYWq:APA91bEhTrUry9qlpYzIVECvmaucNwMWmmh6K8PmGBeOXxg52R3buzXe9pBnRw1DdiAZ0lTe0GXIaVt8MfWzx4eq4kexrUOMCkDqnuojlcEWiF3_vnadDKSGu_lVlrqTgPkABa-ZOd7G";
+
+            $token = "eUbVHmVky0iXkzGbJQU2TJ:APA91bGJrnctvF2xDCsHiF4ejeyAGvQxjkySpskfFSv7T9CSPNzO6uEmyumO6garxmlv85YQlvqAJ3lcBM92dB4LkccAmzaYyn3olpUCORvtXW8kpuAT1AEHwlLNR1r9hR0Xp385qLRr";
             $body = "Test Message";
-            $firebasekey = $request->server_key;
-            // $firebasekey = "AAAAThCJSTQ:APA91bG2bwTSmHb23mBs_YRAdNC_c-YfseDAeUXfp3jXm8Oy01aeB9hu5JXDxra0YlqeQ6jqxZrAlMI2kvVg1YqSyrYInzDE4VsRLqDzswU70nDw-m3uZn8tL8TnKWeoNHK6V2hxGwFC";
+
+            $firebasekey = "AAAA5y17RI4:APA91bFwzDR-lr_c2WOGclvNqVXszwX6thal6rOBAOvjLBn0XRNoqfxdB7iuezPZYJoc8PtIRph6u1Dd7DSzgitHxW-VMTAP_4yLLt212tIqbq7JdbOIV9V3IG_7EzWcHmWR2QulzgbR";
+
             $data = array(
                 "type" => $type,
-                "league_id" => '',
-                "booking_id" => '',
+                "NotificationId" => '',
             );
             $notification = array(
                 'body' => $body,
