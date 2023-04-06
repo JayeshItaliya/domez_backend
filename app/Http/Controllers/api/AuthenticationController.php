@@ -30,6 +30,8 @@ class AuthenticationController extends Controller
                 if ($checkuser->is_deleted == 2) {
                     if ($checkuser->is_available == 1) {
                         if ($checkuser->is_verified == 1) {
+                            $checkuser->fcm_token = $request->fcm_token ?? '';
+                            $checkuser->save();
                             $userdata = $this->getuserprofileobject($checkuser->id);
                             return response()->json(["status" => 1, "message" => "Sign In Done Successfully", 'userdata' => $userdata], 200);
                         } else {
@@ -133,6 +135,7 @@ class AuthenticationController extends Controller
         $user->phone = $request->phone == "" ? "" : $request->phone;
         $user->countrycode = $request->countrycode == "" ? "" : $request->countrycode;
         $user->password = Hash::make($request->password);
+        $user->fcm_token = $request->fcm_token ?? '';
         $user->is_verified = 1;
         $user->save();
         $userdata = $this->getuserprofileobject($user->id);
@@ -340,54 +343,54 @@ class AuthenticationController extends Controller
         );
         return $data;
     }
-    public function apple_login(Request $request)
-    {
-        $provider = 'apple';
-        $token = $request->bearerToken();
-        // dd(Socialite::driver($provider));
-        $socialUser = Socialite::driver($provider)->userFromToken($token);
-        $user = $this->getLocalUser($socialUser);
+    // public function apple_login(Request $request)
+    // {
+    //     $provider = 'apple';
+    //     $token = $request->bearerToken();
+    //     // dd(Socialite::driver($provider));
+    //     $socialUser = Socialite::driver($provider)->userFromToken($token);
+    //     $user = $this->getLocalUser($socialUser);
 
-        $client = DB::table('oauth_clients')
-            ->where('password_client', true)
-            ->first();
-        if (!$client) {
-            return response()->json([
-                'message' => trans('validation.passport.client_error'),
-                'status' => Response::HTTP_INTERNAL_SERVER_ERROR
-            ], Response::HTTP_INTERNAL_SERVER_ERROR);
-        }
+    //     $client = DB::table('oauth_clients')
+    //         ->where('password_client', true)
+    //         ->first();
+    //     if (!$client) {
+    //         return response()->json([
+    //             'message' => trans('validation.passport.client_error'),
+    //             'status' => Response::HTTP_INTERNAL_SERVER_ERROR
+    //         ], Response::HTTP_INTERNAL_SERVER_ERROR);
+    //     }
 
-        $data = [
-            'grant_type' => 'social',
-            'client_id' => $client->id,
-            'client_secret' => $client->secret,
-            'provider' => 'apple',
-            'access_token' => $token
-        ];
-        $request = Request::create('/oauth/token', 'POST', $data);
+    //     $data = [
+    //         'grant_type' => 'social',
+    //         'client_id' => $client->id,
+    //         'client_secret' => $client->secret,
+    //         'provider' => 'apple',
+    //         'access_token' => $token
+    //     ];
+    //     $request = Request::create('/oauth/token', 'POST', $data);
 
-        $content = json_decode(app()->handle($request)->getContent());
-        if (isset($content->error) && $content->error === 'invalid_request') {
-            return response()->json(['error' => true, 'message' => $content->message]);
-        }
+    //     $content = json_decode(app()->handle($request)->getContent());
+    //     if (isset($content->error) && $content->error === 'invalid_request') {
+    //         return response()->json(['error' => true, 'message' => $content->message]);
+    //     }
 
-        return response()->json(
-            [
-                'error' => false,
-                'data' => [
-                    'user' => $user,
-                    'meta' => [
-                        'token' => $content->access_token,
-                        'expired_at' => $content->expires_in,
-                        'refresh_token' => $content->refresh_token,
-                        'type' => 'Bearer'
-                    ],
-                ]
-            ],
-            Response::HTTP_OK
-        );
-    }
+    //     return response()->json(
+    //         [
+    //             'error' => false,
+    //             'data' => [
+    //                 'user' => $user,
+    //                 'meta' => [
+    //                     'token' => $content->access_token,
+    //                     'expired_at' => $content->expires_in,
+    //                     'refresh_token' => $content->refresh_token,
+    //                     'type' => 'Bearer'
+    //                 ],
+    //             ]
+    //         ],
+    //         Response::HTTP_OK
+    //     );
+    // }
 
     /**
      * @param  OAuthTwoUser  $socialUser
