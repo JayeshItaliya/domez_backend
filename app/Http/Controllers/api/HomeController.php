@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
-use App\Models\CMS;
 use App\Helper\Helper;
 use App\Models\Domes;
 use App\Models\Enquiries;
@@ -15,16 +14,6 @@ use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {
-    public function privacy_policy(Request $request)
-    {
-        $policy = CMS::where('type', 1)->first();
-        return response()->json(['status' => 1, "message" => "Successful", 'policy' => @$policy->content], 200);
-    }
-    public function terms_conditions(Request $request)
-    {
-        $policy = CMS::where('type', 2)->first();
-        return response()->json(['status' => 1, "message" => "Successful", 'terms_conditions' => @$policy->content], 200);
-    }
     public function sportslist(Request $request)
     {
         return response()->json(["status" => 1, "message" => "Successful", 'sportslist' => Helper::get_sports_list('')], 200);
@@ -47,11 +36,44 @@ class HomeController extends Controller
             $enquiries->message = $request->message;
             $enquiries->type = 1;   // 1=HelpCenter,2=GeneralEnquiry,3=DomesRequest
             $enquiries->save();
-            return response()->json(["status" => 1, "message" => "Successful"], 200);
+            return response()->json(["status" => 1, "message" => "Query Submitted Successfully"], 200);
         } catch (\Throwable $th) {
             return response()->json(["status" => 0, "message" => "Something Went Wrong..!!"], 200);
         }
     }
+    public function dome_request(Request $request)
+    {
+        if ($request->venue_name == "") {
+            return response()->json(["status" => 0, "message" => "Enter Venue Name"], 200);
+        }
+        if ($request->venue_address == "") {
+            return response()->json(["status" => 0, "message" => "Enter Venue Address"], 200);
+        }
+        if ($request->name == "") {
+            return response()->json(["status" => 0, "message" => "Enter Name"], 200);
+        }
+        $comment  = $request->comment ?? '';
+        $send_mail = Helper::invite_dome($request->venue_name, $request->venue_address, $request->name, $request->email, $request->phone, $comment);
+        if ($send_mail == 1) {
+            $enquiry = new Enquiries;
+            $enquiry->type = 4;
+            $enquiry->venue_name = $request->venue_name;
+            $enquiry->venue_address = $request->venue_address;
+            $enquiry->name = $request->name;
+            $enquiry->email = $request->email;
+            $enquiry->phone = $request->phone;
+            $enquiry->message = $comment;
+            $enquiry->save();
+            return response()->json(["status" => 1, "message" => "Thank You. We have received your request"], 200);
+        } else {
+            return response()->json(["status" => 0, "message" => "Email Error"], 200);
+        }
+    }
+
+
+
+
+
     public function pushnotification(Request $request)
     {
         try {
@@ -255,39 +277,5 @@ class HomeController extends Controller
             ];
         }
         return response()->json(['status' => 1, 'message' => 'Successfull', 'data' => $responsedata, 'pagination' => $getsearchlist->toArray()['links']], 200);
-    }
-    public function dome_request(Request $request)
-    {
-        if ($request->venue_name == "") {
-            return response()->json(["status" => 0, "message" => "Enter Venue Name"], 200);
-        }
-        if ($request->venue_address == "") {
-            return response()->json(["status" => 0, "message" => "Enter Venue Address"], 200);
-        }
-        if ($request->name == "") {
-            return response()->json(["status" => 0, "message" => "Enter Name"], 200);
-        }
-        // if ($request->email == "") {
-        //     return response()->json(["status" => 0, "message" => "Enter Email"], 200);
-        // }
-        // if ($request->phone == "") {
-        //     return response()->json(["status" => 0, "message" => "Enter Phone"], 200);
-        // }
-        $comment  = $request->comment != '' ? $request->comment : '';
-        $send_mail = Helper::invite_dome($request->venue_name, $request->venue_address, $request->name, $request->email, $request->phone, $comment);
-        if ($send_mail == 1) {
-            $enquiry = new Enquiries;
-            $enquiry->type = 4;
-            $enquiry->venue_name = $request->venue_name;
-            $enquiry->venue_address = $request->venue_address;
-            $enquiry->name = $request->name;
-            $enquiry->email = $request->email;
-            $enquiry->phone = $request->phone;
-            $enquiry->message = $comment;
-            $enquiry->save();
-            return response()->json(["status" => 1, "message" => "Request Submit Successfully"], 200);
-        } else {
-            return response()->json(["status" => 0, "message" => "Email Error"], 200);
-        }
     }
 }

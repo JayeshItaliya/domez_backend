@@ -148,8 +148,8 @@ class BookingController extends Controller
                 "user_info" => $booking->user_info,
                 "payment_link" => URL::to('/payment/' . $booking->token),
                 "other_contributors" => $gettransaction,
-                "start_date" => $booking->start_date == "" ? "" : $booking->start_date,
-                "end_date" => $booking->end_date == "" ? "" : $booking->end_date,
+                "start_date" => $booking->start_date ?? "",
+                "end_date" => $booking->end_date ?? "",
                 "dome_id" => $booking->dome_id,
                 "is_ratting_exist" => !empty($is_ratting_exist) ? 1 : 0,
             ];
