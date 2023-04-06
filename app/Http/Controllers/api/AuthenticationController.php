@@ -136,7 +136,7 @@ class AuthenticationController extends Controller
         $user->is_verified = 1;
         $user->save();
         $userdata = $this->getuserprofileobject($user->id);
-        return response()->json(["status" => 1, "message" => 'Sign up Successfilly', 'userdata' => $userdata], 200);
+        return response()->json(["status" => 1, "message" => 'Sign Up Done Successfully', 'userdata' => $userdata], 200);
     }
     public function resend_otp(Request $request)
     {

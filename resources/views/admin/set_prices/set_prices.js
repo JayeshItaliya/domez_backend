@@ -169,11 +169,11 @@ $(function () {
         var html =
             '<div class="row my-2 ' + dayname + '-row " id="remove' + counter +
             '"><div class="col-md-4"><div class="form-group"><div class="input-group"><input type="text" class="form-control start time_picker border-end-0" name="start_time[' +
-            dayname + '][]" data-day-name="' + dayname + '" placeholder="' + start_time_title +
+            dayname + '][]" data-day-name="' + dayname + '" required placeholder="' + start_time_title +
             '" /> <span class="input-group-text bg-transparent border-start-0"><i class="fa-regular fa-clock"></i> </span> </div></div></div><div class="col-md-4"><div class="form-group"><div class="input-group"><input type="text" class="form-control end time_picker border-end-0" name="end_time[' +
-            dayname + '][]" placeholder="' + end_time_title +
+            dayname + '][]" required placeholder="' + end_time_title +
             '" /> <span class="input-group-text bg-transparent border-start-0"><i class="fa-regular fa-clock"></i> </span> </div></div></div><div class="col-md-3"><div class="form-group"><div class="input-group"><input type="number" value="0" class="form-control border-end-0" name="price[' +
-            dayname + '][]" placeholder="' + price +
+            dayname + '][]" required placeholder="' + price +
             '" /> <span class="input-group-text bg-transparent border-start-0"> <i class="fa-solid fa-dollar-sign"></i> </span> </div></div></div><div class="col-md-1"><div class="form-group"><a class="btn-custom-danger cursor-pointer" data-day-name="' + dayname + '" onclick="removeslot(' +
             counter + ',this)"><i class="fa fa-close"></i></a></div></div></div>'
         $('.' + dayname + '.extra_fields').append(html);

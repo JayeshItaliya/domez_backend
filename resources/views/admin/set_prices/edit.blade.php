@@ -175,7 +175,7 @@
                 <div class="d-flex justify-content-end mt-3">
                     <a class="btn btn-outline-danger me-3"
                         href="{{ URL::to('admin/set-prices') }}">{{ trans('labels.cancel') }}</a>
-                    <button type="submit" class="btn btn-primary">{{ trans('labels.submit') }}</button>
+                    <button type="button" class="btn btn-primary">{{ trans('labels.submit') }}</button>
                 </div>
             </div>
         </form>

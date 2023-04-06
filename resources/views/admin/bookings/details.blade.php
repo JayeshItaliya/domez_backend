@@ -57,8 +57,10 @@
                 <div class="d-flex justify-content-between my-4">
                     <h4 class="fw-semibold">{{ trans('labels.booking_id') }} - {{ $bookingdata->booking_id }}</h4>
 
-                    <a href="javascript:;" class="btn btn-outline-primary extend-time" data-bs-toggle="modal"
-                        data-bs-target="#slotsmodal"><i class="fa fa-plus"></i> Extend Time </a>
+                    @if (Auth::user()->type == 2 || Auth::user()->type == 4)
+                        <a href="javascript:;" class="btn btn-outline-primary extend-time" data-bs-toggle="modal"
+                            data-bs-target="#slotsmodal"><i class="fa fa-plus"></i> Extend Time </a>
+                    @endif
                 </div>
                 <div class="col-lg-4">
                     <div class="px-3 py-2 d-flex">
@@ -339,11 +341,15 @@
         var my_val = '';
         var old_slot_id = '';
         var new_slot_id = '';
+        var slot_price = '';
+        var slot = '';
 
         function manageslot(el) {
             my_val = $(el).val();
             old_slot_id = $(el).attr('data-old-slot-id');
             new_slot_id = $(el).attr('data-new-slot-id');
+            slot_price = $(el).attr('data-slot-price');
+            slot = $(el).attr('data-slot');
             $('.lists button[type="button"]:hidden').show();
         }
 
@@ -362,8 +368,10 @@
                     manage_slot: 1,
                     booking_id: booking_id,
                     slot_time: my_val,
+                    slot: slot,
                     old_slot_id: old_slot_id,
                     new_slot_id: new_slot_id,
+                    slot_price: slot_price,
                 },
                 method: 'get',
                 beforeSend: function(response) {
@@ -374,6 +382,7 @@
                 success: function(response) {
                     if (response.status == 0) {
                         $('.lists').html(html);
+                        $('.lists button[type="button"]').hide();
                         toastr.error(response.message);
                     } else {
                         toastr.success(response.message);
@@ -382,6 +391,8 @@
                     return false;
                 },
                 error: function(e) {
+                    $('.lists').html(html);
+                    $('.lists button[type="button"]').hide();
                     toastr.error(wrong);
                     return false;
                 }

@@ -92,7 +92,10 @@ class Helper
     }
     public static function is_fav($user_id, $dome_id, $league_id)
     {
-        if (!empty(Favourite::where('user_id', $user_id)->where('dome_id', $dome_id)->orWhere('league_id', $league_id)->first())) {
+        $checkfav = Favourite::where('user_id', $user_id);
+        $checkfav = $league_id != "" ? $checkfav->where('league_id', $league_id) : $checkfav = $checkfav->where('dome_id', $dome_id);
+        $checkfav = $checkfav->first();
+        if (!empty($checkfav)) {
             return true;
         } else {
             return false;
