@@ -7,6 +7,66 @@ if (is_vendor) {
     })
 }
 
+function fieldinactive(id, type, url) {
+    "use strict";
+    swalWithBootstrapButtons
+        .fire({
+            icon: type == 2 ? '' : 'warning',
+            title: type == 2 ? select_date : are_you_sure,
+            html: type == 2 ? '<input id="swal-input1" class="swal2-input form-control mx-auto w-100" type="date" min="' + min_date + '">' : '',
+            showCancelButton: true,
+            allowOutsideClick: false,
+            allowEscapeKey: false,
+            confirmButtonText: type == 2 ? save_date : yes,
+            cancelButtonText: type == 2 ? cancel : no,
+            reverseButtons: true,
+            showLoaderOnConfirm: true,
+            preConfirm: function () {
+                var date = '';
+                if (type == 2) {
+                    date = $('#swal-input1').val();
+                    if (!date) {
+                        Swal.disableLoading();
+                        $('.swal2-input').addClass('is-invalid');
+                        return false;
+                    }
+                    $('.swal2-input').removeClass('is-invalid');
+                }
+                return new Promise(function (resolve, reject) {
+                    $.ajax({
+                        type: "GET",
+                        url: url,
+                        data: {
+                            id: id,
+                            date: date,
+                        },
+                        dataType: "json",
+                        success: function (response) {
+                            if (response.status == 1) {
+                                // toastr.success(response.message);
+                                location.reload();
+                            } else {
+                                Swal.disableLoading();
+                                Swal.showValidationMessage(response.message);
+                                return false;
+                            }
+                        },
+                        error: function (response) {
+                            swal_cancelled(wrong);
+                            return false;
+                        },
+                    });
+                });
+            },
+        }).then((result) => {
+            if (!result.isConfirmed) {
+                result.dismiss === Swal.DismissReason.cancel
+            }
+        })
+
+
+}
+
 function deletedata(id, url) {
     "use strict";
     swalWithBootstrapButtons
@@ -31,7 +91,7 @@ function deletedata(id, url) {
                         dataType: "json",
                         success: function (response) {
                             if (response.status == 1) {
-                                // toastr.success(response.message);
+                                toastr.success(response.message);
                                 location.reload();
                             } else {
                                 swal_cancelled(wrong);

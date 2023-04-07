@@ -39,9 +39,6 @@ class DomesController extends Controller
                             $now = Carbon::now();
                             $current_date_time = $now->format('Y-m-d h:i A');
 
-                            // dd($start_date_time,$booking->start_date.' '.$booking->end_time,$current_date_time);
-                            // dd($start_date_time->lessThan($current_date_time),$booking->id,$booking->start_date,$booking->end_time);
-
                             $domes_list[] = [
                                 "id" => $dome->id,
                                 "name" => $dome->name,

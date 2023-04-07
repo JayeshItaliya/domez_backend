@@ -36,7 +36,7 @@ class AdminController extends Controller
     {
         $dome_owner = PaymentGateway::where('vendor_id', Auth::user()->id)->select('account_id')->first();
         Stripe::setApiKey(Helper::stripe_data()->secret_key);
-        dd($account = Account::retrieve($dome_owner->account_id));
+        // dd($account = Account::retrieve($dome_owner->account_id));
         $now = CarbonImmutable::today();
         $weekStartDate = $now->startOfWeek();
         $weekEndDate = $now->endOfWeek();

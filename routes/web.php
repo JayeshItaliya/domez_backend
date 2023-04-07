@@ -223,6 +223,7 @@ Route::group(['middleware' => 'SetTimeZoneMiddleware'], function () {
                 Route::get('image_delete', [FieldController::class, 'image_delete']);
                 Route::post('update-{id}', [FieldController::class, 'update']);
                 Route::get('delete', [FieldController::class, 'delete']);
+                Route::get('maintenance', [FieldController::class, 'maintenance']);
             });
             //  Reviews
             Route::group(['prefix' => 'reviews'], function () {

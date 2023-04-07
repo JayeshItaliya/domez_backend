@@ -30,7 +30,7 @@
         </div>
     </div>
     <div class="card">
-        <div class="card-body">
+        <div class="card-body hii">
             <table id="bootstrapTable">
                 <thead>
                     <tr>
@@ -44,6 +44,7 @@
                         <th>{{ trans('labels.sports') }}</th>
                         <th>{{ trans('labels.min_person') }}</th>
                         <th>{{ trans('labels.max_person') }}</th>
+                        <th>{{ trans('labels.maintenance') }}</th>
                         @if (Auth::user()->type == 2)
                             <th>{{ trans('labels.action') }}</th>
                         @endif
@@ -65,6 +66,17 @@
                             </td>
                             <td>{{ $data->min_person }}</td>
                             <td>{{ $data->max_person }}</td>
+                            <td>
+                                @if ($data->in_maintenance == 1)
+                                    <span class="badge rounded-pill bg-danger cursor-pointer"
+                                        onclick="fieldinactive('{{ $data->id }}','{{ $data->in_maintenance }}','{{ URL::to('admin/fields/maintenance') }}')">Inactive</span>
+                                        <br>
+                                    <small class="text-danger">{{ Helper::date_format($data->maintenance_date) }}</small>
+                                @else
+                                    <span class="badge rounded-pill bg-success cursor-pointer"
+                                        onclick="fieldinactive('{{ $data->id }}','{{ $data->in_maintenance }}','{{ URL::to('admin/fields/maintenance') }}')">Active</span>
+                                @endif
+                            </td>
                             @if (Auth::user()->type == 2)
                                 <td>
                                     <a href="{{ URL::to('admin/fields/edit-') . $data->id }}"
@@ -106,5 +118,12 @@
 @endsection
 
 @section('scripts')
+    <script>
+        var select_date = {{ Js::from(trans('labels.select_date')) }};
+        var save_date = {{ Js::from(trans('labels.save_date')) }};
+        var cancel = {{ Js::from(trans('labels.cancel')) }};
+        var min_date = {{ Js::from(date('Y-m-d')) }};
+        // var min_date = {{ Js::from(date('Y-m-d', strtotime(date('Y-m-d') . ' +1 days'))) }};
+    </script>
     <script src="{{ url('resources/views/admin/field/field.js') }}"></script>
 @endsection

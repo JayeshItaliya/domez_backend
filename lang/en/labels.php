@@ -20,6 +20,7 @@ return [
     'change_colors' => 'Change Colors',
     'font_family' => 'Font Family',
     'save_changes' => 'Save Changes',
+    'save_date' => 'Save Date',
     'roboto' => 'Roboto',
     'inter' => 'Inter',
     'lato' => 'Lato',
@@ -168,6 +169,7 @@ return [
     'field_image' => 'Field Image',
     'field_area' => 'Field Area',
     'edit_field' => 'Edit Field',
+    'maintenance' => 'Maintenance',
     'sqft' => 'sq.ft',
     // Leagues
     'league_details' => 'League Details',

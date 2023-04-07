@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Booking;
 use App\Models\Sports;
 use App\Models\Domes;
 use App\Models\Field;
@@ -114,6 +115,30 @@ class FieldController extends Controller
             $field->save();
             return response()->json(['status' => 1, 'message' => trans('messages.success')], 200);
         } catch (\Throwable $th) {
+            return response()->json(['status' => 0, 'message' => trans('messages.wrong')], 200);
+        }
+    }
+    public function maintenance(Request $request)
+    {
+        try {
+            $field = Field::find($request->id);
+            if ($field->in_maintenance == 1) {
+                $field->in_maintenance = 2;
+                $field->maintenance_date = null;
+                $field->save();
+            } else {
+                $checkd = Booking::whereRaw("find_in_set('" . $field->id . "',field_id)")->where('type', 1)->whereIn('booking_status', [1, 2])->whereDate('start_date', date('Y-m-d', strtotime($request->date)))->first();
+                $checkl = Booking::whereRaw("find_in_set('" . $field->id . "',field_id)")->where('type', 2)->whereIn('booking_status', [1, 2])->whereDate('start_date', '<=', $request->date)->whereDate('end_date', '>=', $request->date)->first();
+                if (!empty($checkd) || !empty($checkl)) {
+                    return response()->json(['status' => 2, 'message' => 'Field has been already booked for your selected date.'], 200);
+                }
+                $field->in_maintenance = 1;
+                $field->maintenance_date = $request->date;
+                $field->save();
+            }
+            return response()->json(['status' => 1, 'message' => trans('messages.success')], 200);
+        } catch (\Throwable $th) {
+            dd($th);
             return response()->json(['status' => 0, 'message' => trans('messages.wrong')], 200);
         }
     }
