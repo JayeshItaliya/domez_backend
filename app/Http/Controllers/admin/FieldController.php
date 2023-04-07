@@ -138,7 +138,6 @@ class FieldController extends Controller
             }
             return response()->json(['status' => 1, 'message' => trans('messages.success')], 200);
         } catch (\Throwable $th) {
-            dd($th);
             return response()->json(['status' => 0, 'message' => trans('messages.wrong')], 200);
         }
     }
