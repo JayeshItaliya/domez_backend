@@ -280,7 +280,7 @@
                                     data-end-time="{{ date('h:i A', strtotime($slot->end_time)) }}"
                                     data-price="{{ $slot->price }}" data-show-target="hidden{{ $key }}">
                                 <label
-                                    class="form-check-label d-grid my-2 rounded text-center {{ $slot->status == 1 ? 'border border-secondary text-secondary' : 'bg-danger text-white' }}"
+                                    class="form-check-label d-grid my-2 rounded text-center {{ $slot->status == 1 ? 'border border-secondary text-secondary' : 'bg-dark text-white' }}"
                                     for="check{{ $key }}">
                                     <span>{{ date('h:i A', strtotime($slot->start_time)) }} -
                                         {{ date('h:i A', strtotime($slot->end_time)) }}</span>
@@ -305,6 +305,7 @@
         var start_time = '';
         var booking_id = {{ Js::from($bookingdata->booking_id) }};
         $('.d-none').on('change', function() {
+            "use strict";
             $.ajax({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
