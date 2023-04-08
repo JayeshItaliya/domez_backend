@@ -85,6 +85,13 @@ $('#storesetprices').on('submit', function () {
 //         interval: my_interval,
 //     });
 // });
+
+// var time1 = new Date('2023-04-08T10:00:00');
+// var time2 = new Date('2023-04-08T11:30:00');
+// var diffMs = time2 - time1;
+// var diffMins = Math.floor((diffMs / 1000) / 60);    // Output: 90
+
+var end_max_time = '';
 $('body').on('focus', ".start.time_picker", function () {
     "use strict";
     $(this).timepicker({
@@ -99,16 +106,35 @@ $('body').on('focus', ".start.time_picker", function () {
             var element = $(this);
             var timepicker = element.timepicker();
             start_time = timepicker.format(time);
+
+            var inputTime = start_time;
+            var minutesToAdd = 90;
+
+            var currentDate = new Date();
+            var day = currentDate.getDate();
+            var month = currentDate.getMonth() + 1;
+            var year = currentDate.getFullYear();
+            var dateString = day + '-' + month + '-' + year;
+
+            var dateObj = new Date(dateString+' '+inputTime);
+            dateObj.setMinutes(dateObj.getMinutes() + minutesToAdd);
+            var end_max_time = dateObj.toLocaleString('en-US', {
+                hour: 'numeric',
+                minute: 'numeric',
+                hour12: true
+            });
+            alert(end_max_time);
+
             $(element).parent().parent().parent().next().find('.end.time_picker').val('');
             $(element).parent().parent().parent().next().find('.end.time_picker').timepicker('destroy');
             $(element).parent().parent().parent().next().find('.end.time_picker').timepicker({
-                interval: my_interval,
+                interval: 30,
                 dynamic: false,
                 dropdown: true,
                 scrollbar: true,
                 startTime: start_time,
                 minTime: start_time,
-                maxTime: max_time,
+                maxTime: end_max_time,
                 change: function (time) {
                     var element = $(this);
                     var timepicker = element.timepicker();
@@ -120,34 +146,6 @@ $('body').on('focus', ".start.time_picker", function () {
 });
 $(function () {
     "use strict";
-    // $(".time_picker").timepicker({
-    //     interval: my_interval,
-    // });
-    // $('.start.time_picker').timepicker({
-    //     // timeFormat: 'h:mm p',
-    //     interval: my_interval,
-    //     dynamic: false,
-    //     dropdown: true,
-    //     scrollbar: true,
-    //     startTime: min_time,
-    //     minTime: min_time,
-    //     maxTime: max_time,
-    //     change: function (time) {
-    //         var element = $(this);
-    //         var timepicker = element.timepicker();
-    //         $('.' + element.attr('data-day-name') + '-row').find('.end.time_picker:last').val('');
-    //         $('.' + element.attr('data-day-name') + '-row').find('.end.time_picker:last').timepicker('destroy');
-    //         $('.' + element.attr('data-day-name') + '-row').find('.end.time_picker:last').timepicker({
-    //             interval: my_interval,
-    //             dynamic: false,
-    //             dropdown: true,
-    //             scrollbar: true,
-    //             startTime: timepicker.format(time),
-    //             minTime: timepicker.format(time),
-    //             maxTime: max_time,
-    //         });
-    //     }
-    // });
 
     if (is_vendor || is_employee) {
         let html =

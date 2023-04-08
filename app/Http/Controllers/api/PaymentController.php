@@ -92,15 +92,6 @@ class PaymentController extends Controller
             if (empty($league)) {
                 return response()->json(["status" => 0, "message" => "League Not Found"], 200);
             }
-            if ($request->customer_name == "") {
-                return response()->json(["status" => 0, "message" => "Please Enter Customer Name"], 200);
-            }
-            if ($request->customer_email == "") {
-                return response()->json(["status" => 0, "message" => "Please Enter Customer Email"], 200);
-            }
-            if ($request->customer_phone == "") {
-                return response()->json(["status" => 0, "message" => "Please Enter Customer Phone"], 200);
-            }
             if ($request->players == "") {
                 return response()->json(["status" => 0, "message" => "Please Enter Numbers Of Players"], 200);
             }
@@ -114,22 +105,26 @@ class PaymentController extends Controller
         }
 
         if (in_array($request->user_id, [0, ''])) {
-            if ($request->customer_email != "") {
-                $checkuser = User::where('email', $request->customer_email)->first();
-                if (empty($checkuser)) {
-                    $password = Str::random(8);
-                    $user = new User;
-                    $user->type = 3;
-                    $user->login_type = 1;
-                    $user->email = $request->customer_email;
-                    $user->password = Hash::make($password);
-                    $user->is_verified = 1;
-                    $user->save();
-                } else {
-                    $user = $checkuser;
-                }
+            if ($request->customer_name == "") {
+                return response()->json(["status" => 0, "message" => "Please Enter Customer Name"], 200);
+            }
+            if ($request->customer_email == "") {
+                return response()->json(["status" => 0, "message" => "Please Enter Customer Email"], 200);
+            }
+            if ($request->customer_phone == "") {
+                return response()->json(["status" => 0, "message" => "Please Enter Customer Phone"], 200);
+            }
+            $checkuser = User::where('email', $request->customer_email)->first();
+            if (empty($checkuser)) {
+                $user = new User();
+                $user->type = 3;
+                $user->login_type = 1;
+                $user->email = $request->customer_email;
+                $user->password = Hash::make(Str::random(8));
+                $user->is_verified = 1;
+                $user->save();
             } else {
-                return response()->json(["status" => 0, "message" => "Please Enter Guest Email Address"], 200);
+                $user = $checkuser;
             }
         } else {
             $user = $checkuser = User::find($request->user_id);
@@ -165,7 +160,7 @@ class PaymentController extends Controller
 
         try {
             // Payment Type = 1=Full Payment, 2=Split Payment
-            $transaction = new Transaction;
+            $transaction = new Transaction();
             $transaction->type = 1;
             $transaction->vendor_id = $dome->vendor_id;
             $transaction->dome_id = $dome_id;
@@ -179,7 +174,7 @@ class PaymentController extends Controller
             $transaction->amount = $amount;
             $transaction->save();
 
-            $booking = new Booking;
+            $booking = new Booking();
             $booking->type = $request->booking_type;
             $booking->vendor_id = $dome->vendor_id;
             if ($request->booking_type == 1) {

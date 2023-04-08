@@ -285,7 +285,7 @@ class BookingController extends Controller
             }
         }
         // Payment Type = 1=Card, 2=Apple Pay, 3=Google Pay
-        $transaction = new Transaction;
+        $transaction = new Transaction();
         $transaction->type = 1;
         $transaction->vendor_id = $request->vendor_id;
         $transaction->dome_id = $request->dome_id;

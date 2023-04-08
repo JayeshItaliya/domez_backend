@@ -39,7 +39,7 @@ class PaymentGatewayController extends Controller
             }
             $data->save();
         } else {
-            $payment_gateway = new PaymentGateway;
+            $payment_gateway = new PaymentGateway();
             $payment_gateway->type = 1;
             $payment_gateway->vendor_id = Auth::user()->id;
             if ($request->has('account_id')) {

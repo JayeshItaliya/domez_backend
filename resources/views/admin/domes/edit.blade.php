@@ -62,7 +62,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-3">
                             <div class="form-group">
                                 <label for="start_time" class="form-label">{{ trans('labels.start_time') }}</label>
                                 <input type="text" class="form-control time_picker" name="start_time"
@@ -73,13 +73,40 @@
                                 @enderror
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-3">
                             <div class="form-group">
                                 <label for="end_time" class="form-label">{{ trans('labels.end_time') }}</label>
                                 <input type="text" class="form-control time_picker" name="end_time"
                                     value="{{ $dome->end_time }}" id="end_time"
                                     placeholder="{{ trans('labels.end_time') }}" autocomplete="off">
                                 @error('end_time')
+                                    <span class="text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="slot_duration" class="form-label">{{ trans('labels.slot_duration') }}</label>
+
+                                <div class="d-flex gap-3">
+
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="flexRadioDefault"
+                                            id="flexRadioDefault1">
+                                        <label class="form-check-label" for="flexRadioDefault1">
+                                            60 Minutes
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="flexRadioDefault"
+                                            id="flexRadioDefault2" checked>
+                                        <label class="form-check-label" for="flexRadioDefault2">
+                                            90 Minutes
+                                        </label>
+                                    </div>
+                                </div>
+
+                                @error('slot_duration')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
@@ -265,7 +292,7 @@
                                 @foreach ($getsportslist as $sport)
                                     @if (in_array($sport->id, $sport_id))
                                         <div class="col mb-2" id="{{ $sport->name . $sport->id }}">
-                                    @else
+                                        @else
                                             <div class="col mb-2" id="{{ $sport->name . $sport->id }}"
                                                 style="display:none">
                                     @endif

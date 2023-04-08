@@ -81,7 +81,7 @@ class DomesController extends Controller
                 'dome_images.mimes' => trans('messages.valid_image_type'),
             ]);
             foreach ($request->file('dome_images') as $img) {
-                $domeimage = new DomeImages;
+                $domeimage = new DomeImages();
                 $image = 'dome-' . uniqid() . '.' . $img->getClientOriginalExtension();
                 $img->move('storage/app/public/admin/images/domes', $image);
                 $domeimage->dome_id = $dome->id;
@@ -302,7 +302,7 @@ class DomesController extends Controller
                 'dome_images.mimes' => trans('messages.valid_image_type'),
             ]);
             foreach ($request->file('dome_images') as $img) {
-                $domeimage = new DomeImages;
+                $domeimage = new DomeImages();
                 $image = 'dome-' . uniqid() . '.' . $img->getClientOriginalExtension();
                 $img->move('storage/app/public/admin/images/domes', $image);
                 $domeimage->dome_id = $dome->id;
@@ -356,7 +356,7 @@ class DomesController extends Controller
     public function new_request(Request $request)
     {
         try {
-            $enquiry = new Enquiries;
+            $enquiry = new Enquiries();
             $enquiry->type = 3;
             $enquiry->name = auth()->user()->name;
             $enquiry->email = auth()->user()->email;

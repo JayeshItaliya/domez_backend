@@ -48,7 +48,7 @@ class EnquiryController extends Controller
             if (!empty(User::where('type', 2)->where('email', $enquiry_data->email)->first())) {
                 User::where('type', 2)->where('email', $enquiry_data->email)->increment('dome_limit');
             } else {
-                $user = new User;
+                $user = new User();
                 $user->type = 2;
                 $user->login_type = 1;
                 $user->name = $enquiry_data->name;
@@ -132,7 +132,7 @@ class EnquiryController extends Controller
     }
     public function store_ticket(Request $request)
     {
-        $ticket = new Enquiries;
+        $ticket = new Enquiries();
         $ticket->vendor_id = auth()->user()->id;
         $ticket->type = 5;
         $ticket->name = auth()->user()->name;

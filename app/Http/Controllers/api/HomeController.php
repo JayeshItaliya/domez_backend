@@ -55,7 +55,7 @@ class HomeController extends Controller
         $comment  = $request->comment ?? '';
         $send_mail = Helper::invite_dome($request->venue_name, $request->venue_address, $request->name, $request->email, $request->phone, $comment);
         if ($send_mail == 1) {
-            $enquiry = new Enquiries;
+            $enquiry = new Enquiries();
             $enquiry->type = 4;
             $enquiry->venue_name = $request->venue_name;
             $enquiry->venue_address = $request->venue_address;

@@ -57,7 +57,7 @@ class VendorController extends Controller
             $request->profile->move($path, $new_name);
         }
 
-        $vendor = new User;
+        $vendor = new User();
         $vendor->type = 2;
         $vendor->login_type = 1;
         $vendor->name = $request->name;

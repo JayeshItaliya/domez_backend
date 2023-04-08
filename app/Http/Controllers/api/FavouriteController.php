@@ -43,7 +43,7 @@ class FavouriteController extends Controller
             $is_favourite->delete();
             return response()->json(["status" => 1, "message" => $request->type . ' Unfavourite Successfully'], 200);
         } else {
-            $favourite = new Favourite;
+            $favourite = new Favourite();
             $favourite->user_id = $request->user_id;
             if ($request->type == 1) {
                 $favourite->dome_id = $request->dome_id;

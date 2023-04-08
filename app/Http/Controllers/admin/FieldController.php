@@ -50,7 +50,7 @@ class FieldController extends Controller
         $new_name = 'field-' . uniqid() . '.' . $request->field_image->getClientOriginalExtension();
         $path = storage_path('app\public\admin\images\fields');
         $request->field_image->move($path, $new_name);
-        $field = new Field;
+        $field = new Field();
         $field->vendor_id = auth()->user()->id;
         $field->dome_id = $request->dome;
         $field->sport_id = $request->sport_id;

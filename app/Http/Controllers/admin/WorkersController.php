@@ -18,7 +18,7 @@ class WorkersController extends Controller
     }
     public function store_worker(Request $request)
     {
-        $workers = new User;
+        $workers = new User();
         $workers->type = 4;
         $workers->login_type = 1;
         $workers->vendor_id = auth()->user()->id;

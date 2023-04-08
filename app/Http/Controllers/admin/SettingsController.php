@@ -40,7 +40,7 @@ class SettingsController extends Controller
         if ($request->has('privacy_policy') && $request->privacy_policy == 1) {
             $data = CMS::where('type', 1)->first();
             if (empty($data)) {
-                $data = new CMS;
+                $data = new CMS();
                 $data->type = 1;
             }
             $data->content = $request->content;
@@ -49,7 +49,7 @@ class SettingsController extends Controller
         if ($request->has('terms_conditions')) {
             $data = CMS::where('type', 2)->first();
             if (empty($data)) {
-                $data = new CMS;
+                $data = new CMS();
                 $data->type = 2;
             }
             $data->content = $request->content;
@@ -58,7 +58,7 @@ class SettingsController extends Controller
         if ($request->has('refund_policy')) {
             $data = CMS::where('type', 3)->first();
             if (empty($data)) {
-                $data = new CMS;
+                $data = new CMS();
                 $data->type = 3;
             }
             $data->content = $request->content;
@@ -67,7 +67,7 @@ class SettingsController extends Controller
         if ($request->has('cancellation_policy')) {
             $data = CMS::where('type', 4)->first();
             if (empty($data)) {
-                $data = new CMS;
+                $data = new CMS();
                 $data->type = 4;
             }
             $data->content = $request->content;
