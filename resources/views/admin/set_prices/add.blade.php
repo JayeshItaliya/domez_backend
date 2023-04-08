@@ -38,13 +38,14 @@
                     <div class="col-md-12 mt-4">
                         <div class="row">
                             <div class="col-md-3">
-                                <div class="mb-3">
+                                <div class="form-group">
                                     <label class="form-label">{{ trans('labels.dome') }}</label>
                                     <select class="form-select" name="dome" id="dome"
                                         data-next="{{ URL::to('/admin/set-prices/getsports') }}" data-from="add">
                                         @foreach ($getdomeslist as $dome)
                                             <option value="{{ $dome->id }}" data-start-time="{{ $dome->start_time }}"
                                                 data-end-time="{{ $dome->end_time }}"
+                                                data-slot-duration="{{ $dome->slot_duration }}"
                                                 {{ $dome->id == old('dome') ? 'selected' : '' }}>{{ $dome->name }}
                                             </option>
                                         @endforeach
@@ -55,11 +56,9 @@
                                 </div>
                             </div>
                             <div class="col-md-3">
-                                <div class="mb-3">
+                                <div class="form-group">
                                     <label class="form-label">{{ trans('labels.select_sports') }}</label>
-                                    <select class="form-select" name="sport" id="sport">
-
-                                    </select>
+                                    <select class="form-select" name="sport" id="sport"></select>
                                     @error('sport')
                                         <span class="text-danger"> {{ $message }} </span>
                                     @enderror
@@ -99,8 +98,8 @@
                                         <div class="card-header">
                                             <h6>{{ ucfirst($dayname) }}</h6>
                                         </div>
-                                        <div class="card-body">
-                                            <div class="row my-2 {{$dayname}}-row">
+                                        <div class="card-body card-body-{{ $dayname }}">
+                                            <div class="row my-2 {{ $dayname }}-row">
                                                 <div class="col-md-4">
                                                     <div class="form-group">
                                                         <div class="input-group">
@@ -140,10 +139,11 @@
                                                 </div>
                                                 <div class="col-md-1">
                                                     <div class="form-group">
-                                                        <a class="btn-custom-primary cursor-pointer appendbtn"
+                                                        <button type="button"
+                                                            class="btn btn-sm btn-outline-primary appendbtn"
                                                             data-day-name="{{ $dayname }}">
                                                             <i class="fa fa-plus"></i>
-                                                        </a>
+                                                        </button>
                                                     </div>
                                                 </div>
                                             </div>

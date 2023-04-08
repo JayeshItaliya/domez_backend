@@ -4,6 +4,7 @@ namespace App\Helper;
 
 use App\Models\Booking;
 use App\Models\CMS;
+use App\Models\Domes;
 use App\Models\Favourite;
 use App\Models\PaymentGateway;
 use App\Models\SetPrices;
@@ -155,6 +156,11 @@ class Helper
     //         return 0;
     //     }
     // }
+    public static function get_slot_duration($dome_id)
+    {
+        $getduration = Domes::find($dome_id);
+        return $getduration->slot_duration == 2 ? 90 : 60;
+    }
     public static function get_dome_price($dome_id, $sport_id)
     {
         $checkpricetype = SetPrices::where('dome_id', $dome_id)->where('sport_id', $sport_id)->where('price_type', 1)->first();
