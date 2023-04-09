@@ -341,7 +341,7 @@
 
                                     <div class="text-center my-3 my-spinner">
                                         <div class="spinner-border" role="status">
-                                            <span class="visually-hidden">{{trans('labels.loading')}}</span>
+                                            <span class="visually-hidden">{{ trans('labels.loading') }}</span>
                                         </div>
                                     </div>
 
@@ -393,10 +393,14 @@
                         class="col-xxl-3 col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12 wow fadeInDown delay-0-4s animated">
                         <h6 class="fw-Medium mb-4">Support</h6>
                         <div class="footer-link link">
-                            <p> <a href="{{ URL::to('privacy-policy') }}" class="text-reset text-copyright mb-2">Privacy & Policy</a> </p>
-                            <p> <a href="{{ URL::to('terms-conditions') }}" class="text-reset text-copyright">Terms Of Service</a> </p>
-                            <p> <a href="{{ URL::to('cancellation-policies') }}" class="text-reset text-copyright">Cancellation Policy</a> </p>
-                            <p> <a href="{{ URL::to('refund-policies') }}" class="text-reset text-copyright">Refund Policy</a> </p>
+                            <p> <a href="{{ URL::to('privacy-policy') }}"
+                                    class="text-reset text-copyright mb-2">Privacy & Policy</a> </p>
+                            <p> <a href="{{ URL::to('terms-conditions') }}" class="text-reset text-copyright">Terms
+                                    Of Service</a> </p>
+                            <p> <a href="{{ URL::to('cancellation-policies') }}"
+                                    class="text-reset text-copyright">Cancellation Policy</a> </p>
+                            <p> <a href="{{ URL::to('refund-policies') }}" class="text-reset text-copyright">Refund
+                                    Policy</a> </p>
                         </div>
                     </div>
                     <div
@@ -439,9 +443,9 @@
 </body>
 
 <script>
-    var page_url = {{ Js::from($page_url) }}
-    var process_url = {{ Js::from(URL::to('/payment/process')) }}
-    var booking_token = {{ Js::from($booking_token) }}
+    var page_url = {{ Js::from($page_url) }};
+    var process_url = {{ Js::from(URL::to('/payment/process')) }};
+    var booking_token = {{ Js::from($booking_token) }};
 
     var clientSecret = '';
     var stripe = Stripe({{ Js::from(Helper::stripe_data()->public_key) }});
@@ -466,17 +470,15 @@
     // booking_status == 2 == Pending
     // booking_status == 3 == Cancelled
 
-    if({{ Js::from($checkbooking->booking_status) }} == 1){
+    if ({{ Js::from($checkbooking->booking_status) }} == 1) {
         $('.success-card').show();
         $('#payment-form').hide();
-    }else if ({{ Js::from($checkbooking->booking_status) }} == 3) {
+    } else if ({{ Js::from($checkbooking->booking_status) }} == 3) {
         $('.card').find('.col-md-6').eq(1).remove();
         $('.card').find('.col-md-6').eq(0).addClass('col-12').removeClass('col-md-6');
     } else {
         checkStatus();
         async function checkStatus() {
-
-
             const clientSecret = new URLSearchParams(window.location.search).get(
                 "payment_intent_client_secret"
             );
@@ -492,7 +494,6 @@
             // var urlWithoutParams = window.location.href.split('?')[0];
             // var queryParams = window.location.href.split('?')[1];
             // history.replaceState(null, null, urlWithoutParams);
-
             $('.form-inputs').hide();
             $('.my-spinner').show();
             try {

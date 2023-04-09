@@ -133,7 +133,6 @@ class LandingPagesController extends Controller
             $booking_token = $request->token;
             if ($request->ajax()) {
                 if ($checkbooking->due_amount > 0) {
-
                     \Stripe\Stripe::setApiKey(Helper::stripe_data()->secret_key);
                     $intent = \Stripe\PaymentIntent::create([
                         'amount' => $request->amount * 100,
