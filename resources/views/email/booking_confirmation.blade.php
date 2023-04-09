@@ -71,58 +71,59 @@
         <table>
             <tr>
                 <th>Booking Reference </th>
-                <td>{{ $booking_id }}</td>
+                <td>{{ $bookingdata->booking_id }}</td>
             </tr>
             <tr>
                 <th>Name </th>
-                <td>{{ $name }}</td>
+                <td>{{ $bookingdata->name }}</td>
             </tr>
             <tr>
                 <th>Email </th>
-                <td>{{ $email }}</td>
+                <td>{{ $bookingdata->email }}</td>
             </tr>
             <tr>
                 <th>Date </th>
-                <td>{{ $type == 1 ? Helper::date_format($booking_date) : Helper::date_format($start_date) . ' - ' . Helper::date_format($end_date) }}
+                <td>{{ $bookingdata->type == 1 ? Helper::date_format($bookingdata->booking_date) : Helper::date_format($bookingdata->start_date) . ' - ' . Helper::date_format($bookingdata->end_date) }}
                 </td>
             </tr>
             <tr>
                 <th>Time </th>
-                <td>{{ Helper::time_format($start_time) . ' - ' . Helper::time_format($end_time) }}</td>
+                <td>{{ Helper::time_format($bookingdata->start_time) . ' - ' . Helper::time_format($bookingdata->end_time) }}
+                </td>
             </tr>
-            @if ($type == 2)
+            @if ($bookingdata->type == 2)
                 <tr>
                     <th>League Name </th>
-                    <td>{{ $league_name }}</td>
+                    <td>{{ $bookingdata->league_name }}</td>
                 </tr>
             @endif
             <tr>
                 <th>Dome Name </th>
-                <td>{{ $dome_name }}</td>
+                <td>{{ $bookingdata->dome_name }}</td>
             </tr>
             <tr>
                 <th>Dome Address </th>
-                <td>{{ $dome_address }}</td>
+                <td>{{ $bookingdata->dome_address }}</td>
             </tr>
             <tr>
                 <th>Field Name </th>
-                <td>{{ $field_name }}</td>
+                <td>{{ $bookingdata->field_name }}</td>
             </tr>
             <tr>
                 <th>Number of Players </th>
-                <td>{{ $players }}</td>
+                <td>{{ $bookingdata->players }}</td>
             </tr>
             <tr>
                 <th>Paid Amount </th>
-                <td>{{ Helper::currency_format($paid_amount) }}</td>
+                <td>{{ Helper::currency_format($bookingdata->paid_amount) }}</td>
             </tr>
             <tr>
                 <th>Due Amount </th>
-                <td>{{ Helper::currency_format($due_amount) }}</td>
+                <td>{{ Helper::currency_format($bookingdata->due_amount) }}</td>
             </tr>
             <tr>
                 <th>Total Amount </th>
-                <td class="total">{{ Helper::currency_format($total_amount) }}</td>
+                <td class="total">{{ Helper::currency_format($bookingdata->total_amount) }}</td>
             </tr>
         </table>
         <p class="footer">If you have any questions or concerns, please don't hesitate to contact us.</p>
