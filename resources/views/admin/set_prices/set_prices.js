@@ -18,6 +18,7 @@ $('#dome').on('change', function () {
     }
     min_time = $(this).find(':selected').attr('data-start-time');
     max_time = $(this).find(':selected').attr('data-end-time');
+    // $('.start-end-time').html('('+min_time+' - '+max_time+')');
     my_interval = $.trim($(this).find(':selected').attr('data-slot-duration')) == 2 ? 90 : 60;
     if (start_time == '') {
         start_time = min_time;
@@ -145,11 +146,14 @@ $('body').on('focus', ".start.time_picker", function () {
                     var check_end_max_time = new Date(dateString + ' ' + end_max_time);
                     var end_max_time_minutes = check_end_max_time.getHours() * 60 + check_end_max_time.getMinutes();
                     if (end_max_time_minutes <= max_time_minutes) {
-                        console.log("end_max_time_minutes is Less than Max_Time");
-                        
+                        if (end_max_time_minutes == max_time_minutes) {
+                            end_max_time = max_time;
+                            $("button[data-day-name='" + $(element).attr('data-day-name') + "']").attr("disabled", true).addClass("disabled");
+                        } else {
+                        }
                     } else {
                         end_max_time = max_time;
-                        console.log("end_max_time_minutes is Less than Max_Time");
+                        $("button[data-day-name='" + $(element).attr('data-day-name') + "']").attr("disabled", true).addClass("disabled");
                     }
                 }
             }else{
@@ -176,36 +180,13 @@ $('body').on('focus', ".start.time_picker", function () {
                     alert('max_time -- '+max_time)
                     alert(start_time == max_time)
                     if (start_time == max_time) {
-                        alert(1111)
                         $("button[data-day-name='" + $(element).attr('data-day-name') + "']").attr("disabled", true).addClass("disabled");
-                    }else{
-                        alert(2323)
                     }
                 }
             });
         }
     });
 });
-// $('body').on('focus', ".end.time_picker", function () {
-//     $(this).timepicker({
-//         interval: my_interval,
-//         dynamic: false,
-//         dropdown: true,
-//         scrollbar: true,
-//         startTime: start_time,
-//         minTime: min_time,
-//         maxTime: max_time,
-//         change: function (time) {
-//             var element = $(this);
-//             var timepicker = element.timepicker();
-//             start_time = timepicker.format(time);
-//             if (start_time == max_time) {
-//                 alert(11122222222221)
-//                 $("button[data-day-name='" + $(element).attr('data-day-name') + "']").attr("disabled", true).addClass("disabled");
-//             }
-//         }
-//     });
-// });
 $(function () {
     "use strict";
 
@@ -220,7 +201,6 @@ $(function () {
         "use strict";
         counter++;
         var dayname = $(this).attr('data-day-name');
-
         var check = 1;
         $('.card-body-' + dayname + '  input').each(function () {
             if ($(this).val() === '') {
@@ -233,17 +213,12 @@ $(function () {
         if (check == 0) {
             return false;
         }
-
-
-        // if ($('.card-body-' + dayname).find('.time_picker').val() == '' || $('.card-body-' + dayname).find('input[type=number]').val() == '') {
-        //     return false;
-        // }
         var html =
             '<div class="row my-2 ' + dayname + '-row " id="remove' + counter +
             '"><div class="col-md-4"><div class="form-group"><div class="input-group"><input type="text" class="form-control start time_picker border-end-0" name="start_time[' +
             dayname + '][]" data-day-name="' + dayname + '" required placeholder="' + start_time_title +
             '" /> <span class="input-group-text bg-transparent border-start-0"><i class="fa-regular fa-clock"></i> </span> </div></div></div><div class="col-md-4"><div class="form-group"><div class="input-group"><input type="text" class="form-control end time_picker border-end-0" name="end_time[' +
-            dayname + '][]" required placeholder="' + end_time_title +
+            dayname + '][]" data-day-name="' + dayname + '" required placeholder="' + end_time_title +
             '" /> <span class="input-group-text bg-transparent border-start-0"><i class="fa-regular fa-clock"></i> </span> </div></div></div><div class="col-md-3"><div class="form-group"><div class="input-group"><input type="number" value="0" class="form-control border-end-0" name="price[' +
             dayname + '][]" required placeholder="' + price +
             '" /> <span class="input-group-text bg-transparent border-start-0"> <i class="fa-solid fa-dollar-sign"></i> </span> </div></div></div><div class="col-md-1"><div class="form-group"><button class="btn btn-sm btn-outline-danger" data-day-name="' + dayname + '" onclick="removeslot(' +

@@ -1,6 +1,7 @@
 var min_time = '';
 var max_time = '';
 var start_time = $('#start_time').val();
+var my_interval = 60;
 $('#start_date').on('change', function () {
     if ($.trim($(this).val()) != "") {
         $('#end_date, #booking_deadline').attr('disabled', false);
@@ -41,6 +42,7 @@ $('#dome').on('change', function () {
     if (start_time == '') {
         start_time = $(this).find(':selected').attr('data-start-time');
     }
+    my_interval = $.trim($(this).find(':selected').attr('data-slot-duration')) == 2 ? 90 : 60;
     $.ajax({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
@@ -147,7 +149,7 @@ function getfields(sport) {
 $(function () {
     $('.start.time_picker').timepicker({
         // timeFormat: 'h:mm p',
-        interval: 60,
+        interval: my_interval,
         dynamic: false,
         dropdown: true,
         scrollbar: true,
@@ -160,7 +162,7 @@ $(function () {
             $('.end.time_picker').val('');
             $('.end.time_picker').timepicker('destroy');
             $('.end.time_picker').timepicker({
-                interval: 60,
+                interval: my_interval,
                 dynamic: false,
                 dropdown: true,
                 scrollbar: true,
@@ -173,7 +175,7 @@ $(function () {
     if ($.trim($('.end.time_picker').val()) != "") {
         $('.end.time_picker').timepicker({
             // timeFormat: 'h:mm p',
-            interval: 60,
+            interval: my_interval,
             dynamic: false,
             dropdown: true,
             scrollbar: true,

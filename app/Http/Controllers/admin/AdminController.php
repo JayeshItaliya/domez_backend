@@ -87,6 +87,7 @@ class AdminController extends Controller
             $total_bookings_count = $total_bookings->count();
             $total_bookings_data = $total_bookings->select(DB::raw('DATE_FORMAT(created_at, "%d-%m-%Y") as titles'), DB::raw('count(*) as bookings'))->groupBy('titles')->pluck('bookings', 'titles');
 
+
             // For Revenue Chart
             $total_revenue_data_sum = $total_revenue_data->whereMonth('created_at', Carbon::now()->month)->sum('paid_amount') * $percentage / 100;
             $total_revenue_data = $total_revenue_data->whereMonth('created_at', Carbon::now()->month)->select(DB::raw('MONTHNAME(created_at) as titles'), $paidAmtQuery_RevChart)->groupBy('titles')->pluck('titles', 'amount');
@@ -171,7 +172,8 @@ class AdminController extends Controller
             // For Booking Chart
             $total_bookings = Booking::whereBetween('created_at', [$weekStartDate, $weekEndDate]);
             $total_bookings_count = $total_bookings->count();
-            $total_bookings_data = $total_bookings->select(DB::raw('DATE_FORMAT(created_at, "%d-%m-%Y") as created_at'), DB::raw('count(*) as bookings'))->groupBy('created_at')->pluck('bookings', 'created_at');
+            $total_bookings_data = $total_bookings->select(DB::raw('DATE_FORMAT(created_at, "%d-%m-%Y") as titles'), DB::raw('count(*) as bookings'))->groupBy(DB::raw('DATE_FORMAT(created_at, "%d-%m-%Y")'))->get();
+            $otherformatforbookingsmallchart = 1;
 
             // For Revenue Chart
             $total_revenue_data_sum = $total_revenue_data->whereBetween('created_at', [$weekStartDate, $weekEndDate])->sum('paid_amount') * $percentage / 100;
@@ -209,8 +211,10 @@ class AdminController extends Controller
         $income_labels = $total_income_data->keys();
         $income_data = $total_income_data->values();
 
-        $booking_labels = $total_bookings_data->keys();
-        $booking_data = $total_bookings_data->values();
+        // $booking_labels = $total_bookings_data->keys();
+        // $booking_data = $total_bookings_data->values();
+        $booking_labels =  @$otherformatforbookingsmallchart == 1 ? collect($total_bookings_data)->pluck('titles') : $total_bookings_data->keys();
+        $booking_data =  @$otherformatforbookingsmallchart == 1 ? collect($total_bookings_data)->pluck('bookings') : $total_bookings_data->values();
 
         $revenue_labels = $total_revenue_data->values();
         $revenue_data = $total_revenue_data->keys();

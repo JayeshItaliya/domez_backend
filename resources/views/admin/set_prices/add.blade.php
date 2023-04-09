@@ -85,7 +85,7 @@
                             </div>
                         </div>
                         <div class="col-md-12 my-3">
-                            <p>{{ trans('labels.select_day_wise_price') }}</p>
+                            <p>{{ trans('labels.select_day_wise_price') }} <span class="start-end-time"></span> </p>
                         </div>
                         @php
                             $days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
@@ -119,6 +119,7 @@
                                                             <input type="text"
                                                                 class="form-control end time_picker border-end-0"
                                                                 name="end_time[{{ $dayname }}][]"
+                                                                data-day-name="{{ $dayname }}"
                                                                 placeholder="{{ trans('labels.end_time') }}" />
                                                             <span class="input-group-text bg-transparent border-start-0"><i
                                                                     class="fa-regular fa-clock"></i> </span>
