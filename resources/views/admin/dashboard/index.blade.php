@@ -80,7 +80,7 @@
                                 <div class="col-auto mb-3" style="z-index:9;">
                                     <div class="d-flex">
                                         <input type="text"
-                                            class="form-control me-2 bg-transparent date-range-picker text-white"
+                                            class="form-control me-2 bg-transparent bookings-chart-date-range-picker text-white"
                                             placeholder="{{ trans('labels.select_date') }}">
                                         <select class="form-select booking-filter"
                                             data-next="{{ URL::to('admin/dashboard') }}">
@@ -265,7 +265,7 @@
     <script src="{{ url('storage/app/public/admin/js/charts/apexchart/apexcharts.js') }}"></script>
     <script>
         $(function() {
-            $('.date-range-picker,.users-date-range-picker,.domez-date-range-picker,.bookings-overview-range-picker')
+            $('.date-range-picker,.users-date-range-picker,.domez-date-range-picker,.bookings-overview-range-picker,.bookings-chart-date-range-picker')
                 .hide();
             $('.date-range-picker').flatpickr({
                 mode: "range",
@@ -273,6 +273,14 @@
                 dateFormat: "Y-m-d",
                 onClose: function(selectedDates, dateStr, instance) {
                     makeincomefilter(dateStr);
+                }
+            });
+            $('.bookings-chart-date-range-picker').flatpickr({
+                mode: "range",
+                maxDate: "today",
+                dateFormat: "Y-m-d",
+                onClose: function(selectedDates, dateStr, instance) {
+                    makebookingfilter(dateStr);
                 }
             });
             $('.users-date-range-picker').flatpickr({
@@ -531,10 +539,10 @@
         }
         $('.booking-filter').on('change', function() {
             if ($(this).val() == 'custom_date') {
-                $('.confirm-booking-card .date-range-picker').show();
+                $('.confirm-booking-card .bookings-chart-date-range-picker').show();
                 return false;
             } else {
-                $('.confirm-booking-card .date-range-picker').hide();
+                $('.confirm-booking-card .bookings-chart-date-range-picker').hide();
             }
             makebookingfilter('')
         });

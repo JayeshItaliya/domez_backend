@@ -52,6 +52,7 @@
                                     @foreach ($domes as $dome)
                                         <option value="{{ $dome->id }}" data-start-time="{{ $dome->start_time }}"
                                             data-end-time="{{ $dome->end_time }}"
+                                            data-slot-duration="{{ $dome->slot_duration }}"
                                             {{ $dome->id == $getleaguedata->dome_id ? 'selected' : '' }}>
                                             {{ $dome->name }}</option>
                                     @endforeach
