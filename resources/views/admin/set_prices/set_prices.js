@@ -165,7 +165,10 @@ $('body').on('focus', ".start.time_picker", function () {
                 change: function (time) {
                     var element = $(this);
                     var timepicker = element.timepicker();
+                    alert('start_time -- '+start_time)
                     start_time = timepicker.format(time);
+                    alert('start_time_new -- '+start_time)
+                    alert('max_time -- '+max_time)
                     alert(start_time == max_time)
                     if (start_time == max_time) {
                         alert(1111)
@@ -178,26 +181,26 @@ $('body').on('focus', ".start.time_picker", function () {
         }
     });
 });
-$('body').on('focus', ".end.time_picker", function () {
-    $(this).timepicker({
-        interval: my_interval,
-        dynamic: false,
-        dropdown: true,
-        scrollbar: true,
-        startTime: start_time,
-        minTime: min_time,
-        maxTime: max_time,
-        change: function (time) {
-            var element = $(this);
-            var timepicker = element.timepicker();
-            start_time = timepicker.format(time);
-            if (start_time == max_time) {
-                alert(11122222222221)
-                $("button[data-day-name='" + $(element).attr('data-day-name') + "']").attr("disabled", true).addClass("disabled");
-            }
-        }
-    });
-});
+// $('body').on('focus', ".end.time_picker", function () {
+//     $(this).timepicker({
+//         interval: my_interval,
+//         dynamic: false,
+//         dropdown: true,
+//         scrollbar: true,
+//         startTime: start_time,
+//         minTime: min_time,
+//         maxTime: max_time,
+//         change: function (time) {
+//             var element = $(this);
+//             var timepicker = element.timepicker();
+//             start_time = timepicker.format(time);
+//             if (start_time == max_time) {
+//                 alert(11122222222221)
+//                 $("button[data-day-name='" + $(element).attr('data-day-name') + "']").attr("disabled", true).addClass("disabled");
+//             }
+//         }
+//     });
+// });
 $(function () {
     "use strict";
 
