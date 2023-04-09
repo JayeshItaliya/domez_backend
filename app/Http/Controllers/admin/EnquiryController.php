@@ -50,6 +50,7 @@ class EnquiryController extends Controller
             } else {
                 $user = new User();
                 $user->type = 2;
+
                 $user->login_type = 1;
                 $user->name = $enquiry_data->name;
                 $user->email = $enquiry_data->email;
@@ -60,6 +61,7 @@ class EnquiryController extends Controller
             }
 
             $enquiry_data->is_accepted = 1;
+            $enquiry_data->is_replied = 1;
             $enquiry_data->save();
 
             return response()->json(['status' => 1], 200);
@@ -70,7 +72,7 @@ class EnquiryController extends Controller
     public function dome_request_delete(Request $request)
     {
         try {
-            Enquiries::where('id', $request->id)->update(['is_deleted' => 1]);
+            Enquiries::where('id', $request->id)->update(['is_deleted' => 1, 'is_replied' => 1]);
             return response()->json(['status' => 1], 200);
         } catch (\Throwable $th) {
             return response()->json(['status' => 0], 200);

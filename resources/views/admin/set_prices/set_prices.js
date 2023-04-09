@@ -166,12 +166,12 @@ $('body').on('focus', ".start.time_picker", function () {
                     var element = $(this);
                     var timepicker = element.timepicker();
                     start_time = timepicker.format(time);
-                    // alert(start_time == max_time)
+                    alert(start_time == max_time)
                     if (start_time == max_time) {
-                        // alert(1111)
+                        alert(1111)
                         $("button[data-day-name='" + $(element).attr('data-day-name') + "']").attr("disabled", true).addClass("disabled");
                     }else{
-                        // alert(2323)
+                        alert(2323)
                     }
                 }
             });
@@ -192,7 +192,7 @@ $('body').on('focus', ".end.time_picker", function () {
             var timepicker = element.timepicker();
             start_time = timepicker.format(time);
             if (start_time == max_time) {
-                // alert(1111)
+                alert(11122222222221)
                 $("button[data-day-name='" + $(element).attr('data-day-name') + "']").attr("disabled", true).addClass("disabled");
             }
         }

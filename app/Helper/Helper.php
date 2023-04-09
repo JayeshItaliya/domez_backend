@@ -5,6 +5,7 @@ namespace App\Helper;
 use App\Models\Booking;
 use App\Models\CMS;
 use App\Models\Domes;
+use App\Models\Enquiries;
 use App\Models\Favourite;
 use App\Models\PaymentGateway;
 use App\Models\SetPrices;
@@ -155,6 +156,11 @@ class Helper
     //         return 0;
     //     }
     // }
+    public static function get_noti_count($type)
+    {
+        $getcount = Enquiries::where('type', $type)->where('is_replied', 2)->count();
+        return $getcount;
+    }
     public static function get_slot_duration($dome_id)
     {
         $getduration = Domes::find($dome_id);

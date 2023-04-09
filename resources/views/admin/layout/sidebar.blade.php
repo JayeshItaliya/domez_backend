@@ -167,7 +167,11 @@
                     <i class="fa-light fa-message-smile"
                         style="color: {{ request()->is('admin/enquiries*') ? 'var(--bs-secondary)' : '#2c3e50' }}"></i>
                     <div class="ms-3 d-flex align-items-center justify-content-between w-100">
-                        <span>{{ trans('labels.enquiry') }}</span>
+                        <span class="position-relative">{{ trans('labels.enquiry') }}
+                            @if (Helper::get_noti_count(1) > 0 || Helper::get_noti_count(2) > 0 || Helper::get_noti_count(3) > 0)
+                                <small class=" position-absolute top-0 start-100 translate-middle border border-light rounded-circle badge bg-primary p-1"> </small>
+                            @endif
+                        </span>
                         <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-down"
                             width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5"
                             stroke="{{ request()->is('admin/enquiries*') ? 'var(--bs-secondary)' : '#2c3e50' }}"
@@ -179,17 +183,26 @@
                 </a>
                 <div class="collapse {{ request()->is('admin/enquiries*') ? 'show' : '' }}" id="enquiry">
                     <ul class="nav d-grid">
-                        <a href="{{ URL::to('admin/enquiries/dome-requests') }}" class="nav-item">
-                            <span
-                                class="nav-link {{ request()->is('admin/enquiries/dome-requests') ? 'active' : '' }}">{{ trans('labels.domes_requests') }}</span>
+                        <a href="{{ URL::to('admin/enquiries/dome-requests') }}"
+                            class="nav-item d-flex justify-contewnt-between">
+                            <span class="nav-link w-100 {{ request()->is('admin/enquiries/dome-requests') ? 'active' : '' }}">{{ trans('labels.domes_requests') }}</span>
+                            @if (Helper::get_noti_count(3) > 0)
+                                <small class="badge bg-danger">{{ Helper::get_noti_count(3) }}</small>
+                            @endif
                         </a>
-                        <a href="{{ URL::to('admin/enquiries/general-enquiry') }}" class="nav-item">
-                            <span
-                                class="nav-link {{ request()->is('admin/enquiries/general-enquiry') ? 'active' : '' }}">{{ trans('labels.general_enquiry') }}</span>
+                        <a href="{{ URL::to('admin/enquiries/general-enquiry') }}"
+                            class="nav-item d-flex justify-contewnt-between">
+                            <span class="nav-link w-100 {{ request()->is('admin/enquiries/general-enquiry') ? 'active' : '' }}">{{ trans('labels.general_enquiry') }}</span>
+                            @if (Helper::get_noti_count(2) > 0)
+                                <small class="badge bg-danger">{{ Helper::get_noti_count(2) }}</small>
+                            @endif
                         </a>
-                        <a href="{{ URL::to('admin/enquiries/help-support') }}" class="nav-item">
-                            <span
-                                class="nav-link {{ request()->is('admin/enquiries/help-support') ? 'active' : '' }}">{{ trans('labels.help_support') }}</span>
+                        <a href="{{ URL::to('admin/enquiries/help-support') }}"
+                            class="nav-item d-flex justify-contewnt-between">
+                            <span class="nav-link w-100 {{ request()->is('admin/enquiries/help-support') ? 'active' : '' }}">{{ trans('labels.help_support') }}</span>
+                            @if (Helper::get_noti_count(1) > 0)
+                                <small class="badge bg-danger">{{ Helper::get_noti_count(1) }}</small>
+                            @endif
                         </a>
                     </ul>
                 </div>
