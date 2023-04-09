@@ -131,25 +131,30 @@ $('body').on('focus', ".start.time_picker", function () {
             });
 
             // Convert time strings to Date objects
-            var check_check_start_time = new Date(dateString + ' ' + start_time);
-            var check_check_start_timeMinutes = check_check_start_time.getHours() * 60 + check_check_start_time.getMinutes();
+            var check_start_time = new Date(dateString + ' ' + start_time);
+            var start_time_minutes = check_start_time.getHours() * 60 + check_start_time.getMinutes();
 
             var check_max_time = new Date(dateString + ' ' + max_time);
-            var check_max_timeMinutes = check_max_time.getHours() * 60 + check_max_time.getMinutes();
+            var max_time_minutes = check_max_time.getHours() * 60 + check_max_time.getMinutes();
 
-            if (check_check_start_timeMinutes <= check_max_timeMinutes) {
-                if (check_check_start_timeMinutes == check_max_timeMinutes) {
+            if (start_time_minutes <= max_time_minutes) {
+                if (start_time_minutes == max_time_minutes) {
                     end_max_time = start_time;
                     $("button[data-day-name='" + $(element).attr('data-day-name') + "']").attr("disabled", true).addClass("disabled");
                 } else {
                     var check_end_max_time = new Date(dateString + ' ' + end_max_time);
-                    var check_end_max_timeMinutes = check_end_max_time.getHours() * 60 + check_end_max_time.getMinutes();
-                    if (check_end_max_timeMinutes <= check_max_timeMinutes) {
-                        console.log("check_end_max_timeMinutes is Less than Max_Time");
+                    var end_max_time_minutes = check_end_max_time.getHours() * 60 + check_end_max_time.getMinutes();
+                    if (end_max_time_minutes <= max_time_minutes) {
+                        console.log("end_max_time_minutes is Less than Max_Time");
+                        
                     } else {
-                        console.log("check_end_max_timeMinutes is Less than Max_Time");
+                        end_max_time = max_time;
+                        console.log("end_max_time_minutes is Less than Max_Time");
                     }
                 }
+            }else{
+                start_time = max_time;
+                end_max_time = max_time;
             }
 
             $(element).parent().parent().parent().next().find('.end.time_picker').val('');
