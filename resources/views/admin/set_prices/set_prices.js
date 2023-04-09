@@ -1,7 +1,7 @@
 var min_time = '';
 var max_time = '';
 var start_time = '';
-var my_interval = 90;
+var my_interval = 60;
 
 
 $('#start_date').on('change', function () {
@@ -18,6 +18,7 @@ $('#dome').on('change', function () {
     }
     min_time = $(this).find(':selected').attr('data-start-time');
     max_time = $(this).find(':selected').attr('data-end-time');
+    my_interval = $.trim($(this).find(':selected').attr('data-slot-duration')) == 2 ? 90 : 60;
     if (start_time == '') {
         start_time = min_time;
     }
@@ -107,23 +108,49 @@ $('body').on('focus', ".start.time_picker", function () {
             var timepicker = element.timepicker();
             start_time = timepicker.format(time);
 
-            var inputTime = start_time;
-            var minutesToAdd = 90;
-
             var currentDate = new Date();
             var day = currentDate.getDate();
             var month = currentDate.getMonth() + 1;
             var year = currentDate.getFullYear();
             var dateString = day + '-' + month + '-' + year;
 
-            var dateObj = new Date(dateString+' '+inputTime);
-            dateObj.setMinutes(dateObj.getMinutes() + minutesToAdd);
+            start_time = new Date(dateString + ' ' + start_time);
+            start_time.setMinutes(start_time.getMinutes() + 60);
+            start_time = start_time.toLocaleString('en-US', {
+                hour: 'numeric',
+                minute: 'numeric',
+                hour12: true
+            });
+
+            var dateObj = new Date(dateString + ' ' + start_time);
+            dateObj.setMinutes(dateObj.getMinutes() + 30);
             var end_max_time = dateObj.toLocaleString('en-US', {
                 hour: 'numeric',
                 minute: 'numeric',
                 hour12: true
             });
-            alert(end_max_time);
+
+            // Convert time strings to Date objects
+            var check_check_start_time = new Date(dateString + ' ' + start_time);
+            var check_check_start_timeMinutes = check_check_start_time.getHours() * 60 + check_check_start_time.getMinutes();
+
+            var check_max_time = new Date(dateString + ' ' + max_time);
+            var check_max_timeMinutes = check_max_time.getHours() * 60 + check_max_time.getMinutes();
+
+            if (check_check_start_timeMinutes <= check_max_timeMinutes) {
+                if (check_check_start_timeMinutes == check_max_timeMinutes) {
+                    end_max_time = start_time;
+                    $("button[data-day-name='" + $(element).attr('data-day-name') + "']").attr("disabled", true).addClass("disabled");
+                } else {
+                    var check_end_max_time = new Date(dateString + ' ' + end_max_time);
+                    var check_end_max_timeMinutes = check_end_max_time.getHours() * 60 + check_end_max_time.getMinutes();
+                    if (check_end_max_timeMinutes <= check_max_timeMinutes) {
+                        console.log("check_end_max_timeMinutes is Less than Max_Time");
+                    } else {
+                        console.log("check_end_max_timeMinutes is Less than Max_Time");
+                    }
+                }
+            }
 
             $(element).parent().parent().parent().next().find('.end.time_picker').val('');
             $(element).parent().parent().parent().next().find('.end.time_picker').timepicker('destroy');
@@ -139,8 +166,35 @@ $('body').on('focus', ".start.time_picker", function () {
                     var element = $(this);
                     var timepicker = element.timepicker();
                     start_time = timepicker.format(time);
+                    // alert(start_time == max_time)
+                    if (start_time == max_time) {
+                        // alert(1111)
+                        $("button[data-day-name='" + $(element).attr('data-day-name') + "']").attr("disabled", true).addClass("disabled");
+                    }else{
+                        // alert(2323)
+                    }
                 }
             });
+        }
+    });
+});
+$('body').on('focus', ".end.time_picker", function () {
+    $(this).timepicker({
+        interval: my_interval,
+        dynamic: false,
+        dropdown: true,
+        scrollbar: true,
+        startTime: start_time,
+        minTime: min_time,
+        maxTime: max_time,
+        change: function (time) {
+            var element = $(this);
+            var timepicker = element.timepicker();
+            start_time = timepicker.format(time);
+            if (start_time == max_time) {
+                // alert(1111)
+                $("button[data-day-name='" + $(element).attr('data-day-name') + "']").attr("disabled", true).addClass("disabled");
+            }
         }
     });
 });
@@ -158,11 +212,23 @@ $(function () {
         "use strict";
         counter++;
         var dayname = $(this).attr('data-day-name');
-        // if ($('.' + dayname + '-row').parent().find('.time_picker').val() == '') {
+
+        var check = 1;
+        $('.card-body-' + dayname + '  input').each(function () {
+            if ($(this).val() === '') {
+                check = 0;
+            }
+            if (check == 0) {
+                return false;
+            }
+        });
+        if (check == 0) {
+            return false;
+        }
+
+
+        // if ($('.card-body-' + dayname).find('.time_picker').val() == '' || $('.card-body-' + dayname).find('input[type=number]').val() == '') {
         //     return false;
-        // } else {
-        //     $('.' + dayname + '-row').parent().find('.start.time_picker:last').attr('disabled', true);
-        //     $('.' + dayname + '-row').parent().find('.end.time_picker:last').attr('disabled', true);
         // }
         var html =
             '<div class="row my-2 ' + dayname + '-row " id="remove' + counter +
@@ -172,8 +238,8 @@ $(function () {
             dayname + '][]" required placeholder="' + end_time_title +
             '" /> <span class="input-group-text bg-transparent border-start-0"><i class="fa-regular fa-clock"></i> </span> </div></div></div><div class="col-md-3"><div class="form-group"><div class="input-group"><input type="number" value="0" class="form-control border-end-0" name="price[' +
             dayname + '][]" required placeholder="' + price +
-            '" /> <span class="input-group-text bg-transparent border-start-0"> <i class="fa-solid fa-dollar-sign"></i> </span> </div></div></div><div class="col-md-1"><div class="form-group"><a class="btn-custom-danger cursor-pointer" data-day-name="' + dayname + '" onclick="removeslot(' +
-            counter + ',this)"><i class="fa fa-close"></i></a></div></div></div>'
+            '" /> <span class="input-group-text bg-transparent border-start-0"> <i class="fa-solid fa-dollar-sign"></i> </span> </div></div></div><div class="col-md-1"><div class="form-group"><button class="btn btn-sm btn-outline-danger" data-day-name="' + dayname + '" onclick="removeslot(' +
+            counter + ',this)"><i class="fa fa-close"></i></button></div></div></div>'
         $('.' + dayname + '.extra_fields').append(html);
     });
 });

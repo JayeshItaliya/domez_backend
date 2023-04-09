@@ -285,6 +285,7 @@ class DomesController extends Controller
         $dome->city = $request->city;
         $dome->state = $request->state;
         $dome->country = $request->country;
+        $dome->slot_duration = $request->slot_duration;
         $dome->start_time = $request->start_time;
         $dome->end_time = $request->end_time;
         $dome->description = $request->description;

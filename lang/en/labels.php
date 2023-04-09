@@ -1,8 +1,6 @@
 <?php
 return [
-
     'website_title' => 'Domez',
-
     'hi' => 'Hi',
     'welcome_back' => 'Welcome Back',
     'email_address' => 'Email Address',
@@ -14,7 +12,6 @@ return [
     'back_to' => 'Back to',
     'check_email' => 'Check Email Inbox',
     'verification' => 'Verification',
-
     'primary_color' => 'Primary Color',
     'secondary_color' => 'Secondary Color',
     'change_colors' => 'Change Colors',
@@ -26,7 +23,6 @@ return [
     'lato' => 'Lato',
     'open_sans' => 'Open Sans',
     'poppins' => 'Poppins',
-
     'srno' => '#',
     'active' => 'Active',
     'inactive' => 'Inactive',
@@ -158,6 +154,9 @@ return [
     'dome_zipcode' => 'Dome Postal Code',
     'dome_state' => 'Dome State/Province',
     'dome_country' => 'Dome Country',
+    'slot_duration' => 'Slot Duration',
+    '60_minutes' => '60 Minutes',
+    '90_minutes' => '90 Minutes',
     // Sports
     'image' => 'Image',
     'sport_name' => 'Sport Name',

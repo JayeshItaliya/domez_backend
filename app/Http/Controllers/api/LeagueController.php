@@ -155,7 +155,7 @@ class LeagueController extends Controller
             'amenities_description' => $league->dome_info->benefits_description,
             'league_images' => $league->league_images,
             'amenities' => $benefits,
-            "booking_deadline" => Helper::date_format($league->booking_deadline),
+            "booking_deadline" => $league->booking_deadline,
         );
         return $league_data;
     }

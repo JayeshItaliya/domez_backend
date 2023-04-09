@@ -87,25 +87,19 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="slot_duration" class="form-label">{{ trans('labels.slot_duration') }}</label>
-
                                 <div class="d-flex gap-3">
-
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="flexRadioDefault"
-                                            id="flexRadioDefault1">
-                                        <label class="form-check-label" for="flexRadioDefault1">
-                                            60 Minutes
-                                        </label>
+                                        <input class="form-check-input" type="radio" name="slot_duration" value="1"
+                                            {{ $dome->slot_duration == 1 ? 'checked' : '' }} id="slot_duration1">
+                                        <label class="form-check-label" for="slot_duration1"> {{ trans('labels.60_minutes') }} </label>
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="flexRadioDefault"
-                                            id="flexRadioDefault2" checked>
-                                        <label class="form-check-label" for="flexRadioDefault2">
-                                            90 Minutes
-                                        </label>
+                                        <input class="form-check-input" type="radio" name="slot_duration"
+                                            value="2" {{ $dome->slot_duration == 2 ? 'checked' : '' }}
+                                            id="slot_duration2">
+                                        <label class="form-check-label" for="slot_duration2"> {{ trans('labels.90_minutes') }} </label>
                                     </div>
                                 </div>
-
                                 @error('slot_duration')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
