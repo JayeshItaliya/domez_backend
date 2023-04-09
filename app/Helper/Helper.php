@@ -116,7 +116,7 @@ class Helper
     }
     public static function currency_format($price)
     {
-        return '$' . number_format($price);
+        return '$' . number_format($price, 2, '');
     }
     public static function cms($type)
     {
