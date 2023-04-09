@@ -1,164 +1,128 @@
-<body marginheight="0" topmargin="0" marginwidth="0" style="margin: 0px; background-color: #f2f3f8;" leftmargin="0">
-    <table cellspacing="0" border="0" cellpadding="0" width="100%" bgcolor="#f2f3f8">
-        <tr>
-            <td>
-                <table style="background-color: #f2f3f8; max-width:670px; margin:0 auto;" width="100%" border="0"
-                    align="center" cellpadding="0" cellspacing="0">
-                    <tr>
-                        <td style="height:80px;">&nbsp;</td>
-                    </tr>
-                    <!-- Logo -->
-                    <tr>
-                        <td style="text-align:center;">
-                            <a href="{{ URL::to('/') }}" title="logo" target="_blank">
-                                <img width="60" src="{{ $logo }}" title="logo" alt="logo">
-                            </a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style="height:20px;">&nbsp;</td>
-                    </tr>
-                    <!-- Email Content -->
-                    <tr>
-                        <td>
-                            <table width="95%" border="0" align="center" cellpadding="0" cellspacing="0"
-                                style="max-width:670px; background:#fff; border-radius:3px;-webkit-box-shadow:0 6px 18px 0 rgba(0,0,0,.06);-moz-box-shadow:0 6px 18px 0 rgba(0,0,0,.06);box-shadow:0 6px 18px 0 rgba(0,0,0,.06);padding:0 40px;">
-                                <tr>
-                                    <td style="height:40px;">&nbsp;</td>
-                                </tr>
-                                <tr>
-                                    <td style="padding:0 15px; text-align:center;">
-                                        <h1 style="color:#1e1e2d; font-weight:400; margin:0;font-size:32px;font-family:'Rubik',sans-serif;">
-                                            Thank You For Booking
-                                        </h1>
-                                        <span style="display:inline-block; vertical-align:middle; margin:29px 0 26px; border-bottom:1px solid #cecece; width:100px;"></span>
-                                    </td>
-                                </tr>
-                                <!-- Details Table -->
-                                <tr>
-                                    <td>
-                                        <table cellpadding="0" cellspacing="0"
-                                            style="width: 100%; border: 1px solid #ededed">
-                                            <tbody>
-                                                <tr>
-                                                    <td style="padding: 10px; border-bottom: 1px solid #ededed; border-right: 1px solid #ededed; width: 35%; font-weight:500; color:rgba(0,0,0,.64)">
-                                                        Booking ID:
-                                                    </td>
-                                                    <td style="padding: 10px; border-bottom: 1px solid #ededed; color: #455056;">
-                                                        ABC-101
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td style="padding: 10px; border-bottom: 1px solid #ededed; border-right: 1px solid #ededed; width: 35%; font-weight:500; color:rgba(0,0,0,.64)">
-                                                        Dome Name:
-                                                    </td>
-                                                    <td style="padding: 10px; border-bottom: 1px solid #ededed; color: #455056;">
-                                                        XYZ-101
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td style="padding: 10px; border-bottom: 1px solid #ededed; border-right: 1px solid #ededed; width: 35%; font-weight:500; color:rgba(0,0,0,.64)">
-                                                        Field Name:
-                                                    </td>
-                                                    <td style="padding: 10px; border-bottom: 1px solid #ededed; color: #455056;">
-                                                        Endoscopy
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td style="padding: 10px; border-bottom: 1px solid #ededed;border-right: 1px solid #ededed; width: 35%; font-weight:500; color:rgba(0,0,0,.64)">
-                                                        Date:
-                                                    </td>
-                                                    <td style="padding: 10px; border-bottom: 1px solid #ededed; color: #455056;">
-                                                        Russell Walker
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td style="padding: 10px;  border-bottom: 1px solid #ededed; border-right: 1px solid #ededed; width: 35%;font-weight:500; color:rgba(0,0,0,.64)">
-                                                        Time:
-                                                    </td>
-                                                    <td style="padding: 10px; border-bottom: 1px solid #ededed; color: #455056;">
-                                                        12<sup>th</sup> April 2019
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td style="padding: 10px; border-bottom: 1px solid #ededed; border-right: 1px solid #ededed; width: 35%;font-weight:500; color:rgba(0,0,0,.64)">
-                                                        Players:
-                                                    </td>
-                                                    <td style="padding: 10px; border-bottom: 1px solid #ededed; color: #455056; ">
-                                                        11:00 AM
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td style="padding: 10px; border-bottom: 1px solid #ededed; border-right: 1px solid #ededed; width: 35%;font-weight:500; color:rgba(0,0,0,.64)">
-                                                        Total Amount:
-                                                    </td>
-                                                    <td style="padding: 10px; border-bottom: 1px solid #ededed; color: #455056; ">
-                                                        11:00 AM
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td style="padding: 10px; border-bottom: 1px solid #ededed; border-right: 1px solid #ededed; width: 35%;font-weight:500; color:rgba(0,0,0,.64)">
-                                                        Paid Amount:
-                                                    </td>
-                                                    <td style="padding: 10px; border-bottom: 1px solid #ededed; color: #455056; ">
-                                                        11:00 AM
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td style="padding: 10px; border-bottom: 1px solid #ededed; border-right: 1px solid #ededed; width: 35%;font-weight:500; color:rgba(0,0,0,.64)">
-                                                        Due Amount:
-                                                    </td>
-                                                    <td style="padding: 10px; border-bottom: 1px solid #ededed; color: #455056; ">
-                                                        11:00 AM
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td style="padding: 10px; border-bottom: 1px solid #ededed; border-right: 1px solid #ededed; width: 35%;font-weight:500; color:rgba(0,0,0,.64)">
-                                                        Booking Status:
-                                                    </td>
-                                                    <td style="padding: 10px; border-bottom: 1px solid #ededed; color: #455056; ">
-                                                        11:00 AM
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td style="padding: 10px; border-bottom: 1px solid #ededed; border-right: 1px solid #ededed; width: 35%;font-weight:500; color:rgba(0,0,0,.64)">
-                                                        Payment Status:
-                                                    </td>
-                                                    <td style="padding: 10px; border-bottom: 1px solid #ededed; color: #455056; ">
-                                                        11:00 AM
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td style="padding: 10px; border-right: 1px solid #ededed; width: 35%;font-weight:500; color:rgba(0,0,0,.64)">
-                                                        Address:
-                                                    </td>
-                                                    <td  style="padding: 10px; color: #455056;">During an upper
-                                                        endoscopy, an endoscope is easily passed through the mouth and
-                                                        throat and into the esophagus, allowing the doctor to view the
-                                                        esophagus, stomach, and upper part of the small intestine.</td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style="height:40px;">&nbsp;</td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style="height:20px;">&nbsp;</td>
-                    </tr>
-                    <tr>
-                        <td style="text-align:center;">
-                            <p style="font-size:14px; color:#455056bd; line-height:18px; margin:0 0 0;">&copy;
-                                <strong>www.rakeshmandal.com</strong>
-                            </p>
-                        </td>
-                    </tr>
-                </table>
-            </td>
-        </tr>
-    </table>
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Booking Confirmation Receipt</title>
+    <style type="text/css">
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            line-height: 1.5;
+            color: #333;
+            background-color: #f2f2f2;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 30px;
+            background-color: #fff;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+            border-radius: 5px;
+        }
+
+        h1 {
+            font-size: 24px;
+            margin: 0;
+        }
+
+        h2 {
+            font-size: 18px;
+            margin: 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table th {
+            text-align: left;
+            padding: 10px;
+            background-color: #f7f7f7;
+            border-bottom: 1px solid #ddd;
+        }
+
+        table td {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .total {
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .footer {
+            margin-top: 20px;
+            font-size: 12px;
+            color: #999;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1 style="text-align: center;">Booking Confirmation Receipt</h1>
+        <p style="text-align: center;">Thank you for booking with us. Here are the details of your reservation:</p>
+        <table>
+            <tr>
+                <th>Booking Reference :</th>
+                <td>{{ $booking_id }}</td>
+            </tr>
+            <tr>
+                <th>Name :</th>
+                <td>{{ $name }}</td>
+            </tr>
+            <tr>
+                <th>Email :</th>
+                <td>{{ $email }}</td>
+            </tr>
+            @if ($type == 1)
+                <tr>
+                    <th>Booking Date :</th>
+                    <td>April 15, 2023</td>
+                </tr>
+            @else
+            @endif
+            <tr>
+                <th>Booking Time :</th>
+                <td>April 18, 2023</td>
+            </tr>
+            <tr>
+                <th>Dome Name :</th>
+                <td>Deluxe Double Room</td>
+            </tr>
+            <tr>
+                <th>Dome Address :</th>
+                <td>Deluxe Double Room</td>
+            </tr>
+            <tr>
+                <th>Field Name :</th>
+                <td>Deluxe Double Room</td>
+            </tr>
+            <tr>
+                <th>Number of Players :</th>
+                <td>22</td>
+            </tr>
+            <tr>
+                <th>Paid Amount :</th>
+                <td>$450</td>
+            </tr>
+            <tr>
+                <th>Due Amount :</th>
+                <td>$150</td>
+            </tr>
+            <tr>
+                <th>Total Amount :</th>
+                <td class="total">$600</td>
+            </tr>
+        </table>
+        <p class="footer">If you have any questions or concerns, please don't hesitate to contact us.</p>
+    </div>
 </body>
+
+</html>

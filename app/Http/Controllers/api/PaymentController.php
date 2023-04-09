@@ -13,6 +13,7 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Str;
 use Stripe\Charge;
@@ -222,6 +223,17 @@ class PaymentController extends Controller
             //     $booking->created_at = $request->created_at;
             // }
             $booking->save();
+
+            if ($booking->type == 1) {
+                $data = ['title' => 'Booking Confirmation Receipt', 'type' => $booking->type, 'email' => $booking->customer_email, 'name' => $booking->customer_name ?? '', 'booking_id' => $booking->booking_id, 'booking_date' => $booking->start_date, 'start_time' => $booking->start_date, 'dome_name' => $booking->dome_info->dome_name, 'dome_address' => $booking->dome_info->dome_address, 'field_name' => $booking->field_info->name, 'players' => $booking->players, 'paid_amount' => $booking->paid_amount, 'due_amount' => $booking->due_amount, 'total_amount' => $booking->total_amount];
+            } else {
+                $data = ['title' => 'Booking Confirmation Receipt', 'type' => $booking->type, 'email' => $booking->customer_email, 'name' => $booking->customer_name ?? '', 'booking_id' => $booking->booking_id, 'start_time' => $booking->start_date, 'start_time' => $booking->start_time, 'end_time' => $booking->end_time, 'league_name' => $booking->league_info->name, 'dome_name' => $booking->dome_info->dome_name, 'dome_address' => $booking->dome_info->dome_address, 'field_name' => $booking->field_info->name, 'players' => $booking->players, 'paid_amount' => $booking->paid_amount, 'due_amount' => $booking->due_amount, 'total_amount' => $booking->total_amount];
+            }
+
+            Mail::send('email.booking_confirmation', $data, function ($message) use ($data) {
+                $message->from(env('MAIL_USERNAME'))->subject($data['title']);
+                $message->to(env('MAIL_USERNAME'));
+            });
 
             if ($request->booking_type == 1) {
                 foreach (explode(',', $request->slots) as $key => $slot) {

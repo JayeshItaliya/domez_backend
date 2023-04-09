@@ -50,7 +50,6 @@ class Helper
 
         return $path;
     }
-
     public static function verificationemail($email, $name, $otp)
     {
         $data = ['title' => 'Email Verification', 'email' => $email, 'name' => $name, 'otp' => $otp, 'logo' => Helper::image_path('logo.png')];

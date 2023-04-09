@@ -46,7 +46,6 @@ class PaymentDistribution extends Command
                     'currency' => 'CAD',
                     'destination' => $dome_owner->account_id,
                 ]);
-                $transfer->confirm();
             }
         }
 
