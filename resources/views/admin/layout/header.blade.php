@@ -85,7 +85,7 @@
                 </ul>
             </li>
             <li class="dropdown">
-                <a href="#" class="nav-item notification-icon" role="button" data-bs-toggle="dropdown"
+                <a href="#" class="nav-item notification-icon position-relative" role="button" data-bs-toggle="dropdown"
                     aria-expanded="false">
                     <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-bell" width="20"
                         height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="var(--bs-secondary)"
@@ -95,6 +95,7 @@
                             d="M10 5a2 2 0 0 1 4 0a7 7 0 0 1 4 6v3a4 4 0 0 0 2 3h-16a4 4 0 0 0 2 -3v-3a7 7 0 0 1 4 -6" />
                         <path d="M9 17v1a3 3 0 0 0 6 0v-1" />
                     </svg>
+                    <span class="position-absolute top-0 start-100 translate-middle p-1 bg-danger border border-light rounded-circle"></span>
                 </a>
                 <ul class="dropdown-menu box-shadow border-0 my-3">
                     <li class="dropdown-item">

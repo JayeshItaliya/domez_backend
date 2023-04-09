@@ -169,7 +169,9 @@
                     <div class="ms-3 d-flex align-items-center justify-content-between w-100">
                         <span class="position-relative">{{ trans('labels.enquiry') }}
                             @if (Helper::get_noti_count(1) > 0 || Helper::get_noti_count(2) > 0 || Helper::get_noti_count(3) > 0)
-                                <small class=" position-absolute top-0 start-100 translate-middle border border-light rounded-circle badge bg-primary p-1"> </small>
+                                <small
+                                    class="position-absolute top-0 start-100 translate-middle border border-light rounded-circle badge bg-primary p-1">
+                                </small>
                             @endif
                         </span>
                         <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-down"
@@ -185,21 +187,24 @@
                     <ul class="nav d-grid">
                         <a href="{{ URL::to('admin/enquiries/dome-requests') }}"
                             class="nav-item d-flex justify-contewnt-between">
-                            <span class="nav-link w-100 {{ request()->is('admin/enquiries/dome-requests') ? 'active' : '' }}">{{ trans('labels.domes_requests') }}</span>
+                            <span
+                                class="nav-link w-100 {{ request()->is('admin/enquiries/dome-requests') ? 'active' : '' }}">{{ trans('labels.domes_requests') }}</span>
                             @if (Helper::get_noti_count(3) > 0)
                                 <small class="badge bg-danger">{{ Helper::get_noti_count(3) }}</small>
                             @endif
                         </a>
                         <a href="{{ URL::to('admin/enquiries/general-enquiry') }}"
                             class="nav-item d-flex justify-contewnt-between">
-                            <span class="nav-link w-100 {{ request()->is('admin/enquiries/general-enquiry') ? 'active' : '' }}">{{ trans('labels.general_enquiry') }}</span>
+                            <span
+                                class="nav-link w-100 {{ request()->is('admin/enquiries/general-enquiry') ? 'active' : '' }}">{{ trans('labels.general_enquiry') }}</span>
                             @if (Helper::get_noti_count(2) > 0)
                                 <small class="badge bg-danger">{{ Helper::get_noti_count(2) }}</small>
                             @endif
                         </a>
                         <a href="{{ URL::to('admin/enquiries/help-support') }}"
                             class="nav-item d-flex justify-contewnt-between">
-                            <span class="nav-link w-100 {{ request()->is('admin/enquiries/help-support') ? 'active' : '' }}">{{ trans('labels.help_support') }}</span>
+                            <span
+                                class="nav-link w-100 {{ request()->is('admin/enquiries/help-support') ? 'active' : '' }}">{{ trans('labels.help_support') }}</span>
                             @if (Helper::get_noti_count(1) > 0)
                                 <small class="badge bg-danger">{{ Helper::get_noti_count(1) }}</small>
                             @endif
@@ -284,7 +289,12 @@
                     class="nav-item {{ request()->is('admin/supports*') ? 'active' : '' }}">
                     <i class="fa-light fa-circle-question"
                         style="color: {{ request()->is('admin/supports*') ? 'var(--bs-secondary)' : '#2c3e50' }}"></i>
-                    <span class="mx-3">{{ trans('labels.supports') }}</span>
+                    <div class="d-flex justify-content-between w-100 aling-items-center">
+                        <span class="mx-3">{{ trans('labels.supports') }}</span>
+                        @if (Helper::get_noti_count(5) > 0)
+                            <small class="badge bg-danger" style="height:fit-content">{{ Helper::get_noti_count(5) }}</small>
+                        @endif
+                    </div>
                 </a>
             @endif
         </ul>
