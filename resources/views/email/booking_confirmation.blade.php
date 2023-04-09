@@ -67,58 +67,62 @@
 <body>
     <div class="container">
         <h1 style="text-align: center;">Booking Confirmation Receipt</h1>
-        <p style="text-align: center;">Thank you for booking with us. Here are the details of your reservation:</p>
+        <p style="text-align: center;">Thank you for booking with us. Here are the details of your reservation.</p>
         <table>
             <tr>
-                <th>Booking Reference :</th>
+                <th>Booking Reference </th>
                 <td>{{ $booking_id }}</td>
             </tr>
             <tr>
-                <th>Name :</th>
+                <th>Name </th>
                 <td>{{ $name }}</td>
             </tr>
             <tr>
-                <th>Email :</th>
+                <th>Email </th>
                 <td>{{ $email }}</td>
             </tr>
-            @if ($type == 1)
+            <tr>
+                <th>Date </th>
+                <td>{{ $type == 1 ? Helper::date_format($booking_date) : Helper::date_format($start_date) . ' - ' . Helper::date_format($end_date) }}
+                </td>
+            </tr>
+            <tr>
+                <th>Time </th>
+                <td>{{ Helper::time_format($start_time) . ' - ' . Helper::time_format($end_time) }}</td>
+            </tr>
+            @if ($type == 2)
                 <tr>
-                    <th>Booking Date :</th>
-                    <td>April 15, 2023</td>
+                    <th>League Name </th>
+                    <td>{{ $league_name }}</td>
                 </tr>
-            @else
             @endif
             <tr>
-                <th>Booking Time :</th>
-                <td>April 18, 2023</td>
+                <th>Dome Name </th>
+                <td>{{ $dome_name }}</td>
             </tr>
             <tr>
-                <th>Dome Name :</th>
-                <td>Deluxe Double Room</td>
+                <th>Dome Address </th>
+                <td>{{ $dome_address }}</td>
             </tr>
             <tr>
-                <th>Dome Address :</th>
-                <td>Deluxe Double Room</td>
+                <th>Field Name </th>
+                <td>{{ $field_name }}</td>
             </tr>
             <tr>
-                <th>Field Name :</th>
-                <td>Deluxe Double Room</td>
+                <th>Number of Players </th>
+                <td>{{ $players }}</td>
             </tr>
             <tr>
-                <th>Number of Players :</th>
-                <td>22</td>
+                <th>Paid Amount </th>
+                <td>{{ Helper::currency_format($paid_amount) }}</td>
             </tr>
             <tr>
-                <th>Paid Amount :</th>
-                <td>$450</td>
+                <th>Due Amount </th>
+                <td>{{ Helper::currency_format($due_amount) }}</td>
             </tr>
             <tr>
-                <th>Due Amount :</th>
-                <td>$150</td>
-            </tr>
-            <tr>
-                <th>Total Amount :</th>
-                <td class="total">$600</td>
+                <th>Total Amount </th>
+                <td class="total">{{ Helper::currency_format($total_amount) }}</td>
             </tr>
         </table>
         <p class="footer">If you have any questions or concerns, please don't hesitate to contact us.</p>
