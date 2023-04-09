@@ -66,7 +66,7 @@
 
 <body>
     <div class="container">
-        <h1 style="text-align: center;">Booking Confirmation Receipt</h1>
+        <h1 style="text-align: center;">Booking Receipt</h1>
         <p style="text-align: center;">Thank you for booking with us. Here are the details of your reservation.</p>
         <table>
             <tr>
@@ -94,20 +94,16 @@
             @if ($bookingdata->type == 2)
                 <tr>
                     <th>League Name </th>
-                    <td>{{ $bookingdata->league_name }}</td>
+                    <td>{{ $bookingdata->league_info->name }}</td>
                 </tr>
             @endif
             <tr>
                 <th>Dome Name </th>
-                <td>{{ $bookingdata->dome_name }}</td>
+                <td>{{ $bookingdata->dome_info->name }}</td>
             </tr>
             <tr>
                 <th>Dome Address </th>
-                <td>{{ $bookingdata->dome_address }}</td>
-            </tr>
-            <tr>
-                <th>Field Name </th>
-                <td>{{ $bookingdata->field_name }}</td>
+                <td>{{ $bookingdata->dome_info->address }}</td>
             </tr>
             <tr>
                 <th>Number of Players </th>
