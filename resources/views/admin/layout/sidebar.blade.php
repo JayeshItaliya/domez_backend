@@ -170,7 +170,7 @@
                         <span class="position-relative">{{ trans('labels.enquiry') }}
                             @if (Helper::get_noti_count(1) > 0 || Helper::get_noti_count(2) > 0 || Helper::get_noti_count(3) > 0)
                                 <small
-                                    class="position-absolute top-0 start-100 translate-middle border border-light rounded-circle badge bg-primary p-1">
+                                    class="position-absolute translate-middle border border-light rounded-circle badge bg-primary p-1" style="top: 20%; left:115%;">
                                 </small>
                             @endif
                         </span>
