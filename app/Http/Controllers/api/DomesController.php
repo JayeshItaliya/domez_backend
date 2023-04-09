@@ -43,7 +43,7 @@ class DomesController extends Controller
                                 "id" => $dome->id,
                                 "name" => $dome->name,
                                 "image" => $dome->dome_image == "" ? "" : $dome->dome_image->image,
-                                "price" => Helper::get_dome_price($dome->id, explode(',', $dome->sport_id)[0]),
+                                "price" => Helper::get_dome_price($dome->id, $request->sport_id != '' ? $request->sport_id : explode(',', $dome->sport_id)[0]),
                                 "hst" => $dome->hst,
                                 "city" => $dome->city,
                                 "state" => $dome->state,
@@ -70,7 +70,7 @@ class DomesController extends Controller
                                     "id" => $dome->id,
                                     "name" => $dome->name,
                                     "image" => $dome->dome_image == "" ? "" : $dome->dome_image->image,
-                                    "price" => Helper::get_dome_price($dome->id, explode(',', $dome->sport_id)[0]),
+                                    "price" => Helper::get_dome_price($dome->id, $request->sport_id != '' ? $request->sport_id : explode(',', $dome->sport_id)[0]),
                                     "hst" => $dome->hst,
                                     "city" => $dome->city,
                                     "state" => $dome->state,
@@ -91,7 +91,7 @@ class DomesController extends Controller
                                 "id" => $dome->id,
                                 "name" => $dome->name,
                                 "image" => $dome->dome_image == "" ? "" : $dome->dome_image->image,
-                                "price" => Helper::get_dome_price($dome->id, explode(',', $dome->sport_id)[0]),
+                                "price" => Helper::get_dome_price($dome->id, $request->sport_id != '' ? $request->sport_id : explode(',', $dome->sport_id)[0]),
                                 "hst" => $dome->hst,
                                 "city" => $dome->city,
                                 "state" => $dome->state,
@@ -125,7 +125,7 @@ class DomesController extends Controller
                     * sin(radians(lat))) AS distance")
                     )->where('domes.is_deleted', 2);
                     // The Distance Will Be in Kilometers
-                    $getarounddomes = $getarounddomes->having('distance', '<=', $request->kilometer > 0 ? $request->kilometer : 1000);
+                    $getarounddomes = $getarounddomes->having('distance', '<=', $request->kilometer > 0 ? $request->kilometer : 10000);
 
                     if ($request->sport_id != "") {
                         $getarounddomes = $getarounddomes->whereRaw("find_in_set('" . $request->sport_id . "',sport_id)");
@@ -140,7 +140,7 @@ class DomesController extends Controller
                             "id" => $dome->id,
                             "name" => $dome->name,
                             "image" => $dome->dome_image == "" ? "" : $dome->dome_image->image,
-                            "price" => Helper::get_dome_price($dome->id, explode(',', $dome->sport_id)[0]),
+                            "price" => Helper::get_dome_price($dome->id, $request->sport_id != '' ? $request->sport_id : explode(',', $dome->sport_id)[0]),
                             "hst" => $dome->hst,
                             "city" => $dome->city,
                             "state" => $dome->state,
@@ -177,28 +177,6 @@ class DomesController extends Controller
         if (empty($dome)) {
             return $dome_data = 1;
         }
-        $categories = explode(',', $dome->sport_id);
-
-        $categoriess = Helper::get_sports_list($dome->sport_id);
-        foreach ($categoriess as $cat) {
-            $fields = Field::where('dome_id', $id)->whereIn('sport_id', $categories)->where('is_available', 1)->where('is_deleted', 2)->get();
-            $field_data = [];
-            foreach ($fields as $field) {
-                $field_data[] = [
-                    'field_id' => $field->id,
-                    'field_name' => $field->name,
-                    'field_area' => $field->area . ' ' . 'Sqr Ft',
-                    'field_person' => $field->min_person . '-' . $field->max_person . ' ' . 'People',
-                ];
-            }
-            $sports_list[] = [
-                'sport_id' => $cat->id,
-                'sport_name' => $cat->name,
-                'sport_image' => $cat->image,
-                // 'field_data' => $field_data,
-            ];
-        }
-
         $benefits = [];
         foreach (explode('|', $dome->benefits) as $benefit) {
             $benefits[] = [
@@ -221,7 +199,7 @@ class DomesController extends Controller
         if (!empty($dome)) {
             $dome_data = array(
                 'id' => $dome->id,
-                'total_fields' => $fields->count(),
+                'total_fields' => Field::where('dome_id', $id)->whereIn('sport_id', explode(',', $dome->sports_id))->where('is_available', 1)->where('is_deleted', 2)->count(),
                 'name' => $dome->name,
                 'price' => Helper::get_dome_price($dome->id, explode(',', $dome->sport_id)[0]),
                 'hst' => $dome->hst,
@@ -236,7 +214,7 @@ class DomesController extends Controller
                 'benefits_description' => $dome->benefits_description,
                 'ratting_data' => $ratting_data,
                 'benefits' => $benefits,
-                'sports_list' => $sports_list,
+                'sports_list' => Helper::get_sports_list($dome->sport_id),
                 'dome_images' => $dome->dome_images,
             );
         }

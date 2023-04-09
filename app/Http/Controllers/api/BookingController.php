@@ -31,10 +31,10 @@ class BookingController extends Controller
         }
         $bookings_list = Booking::where('user_id', $request->user_id)->orderByDesc('created_at')->get();
         // if ($request->is_active == 1) {
-        //     $bookings_list = $bookings_list->whereDate('start_date', '>=', Carbon::today()->format('Y-m-d'));
+        //     $bookings_list = $bookings_list->whereDate('start_date','>=',Carbon::today()->format('Y-m-d'));
         // }
         // if ($request->is_active == 2) {
-        //     $bookings_list = $bookings_list->whereDate('start_date', '<=', Carbon::today()->format('Y-m-d'));
+        //     $bookings_list = $bookings_list->whereDate('start_date','<=',Carbon::today()->format('Y-m-d'));
         // }
         $bookinglist = [];
         foreach ($bookings_list as $booking) {
@@ -115,7 +115,7 @@ class BookingController extends Controller
                     DB::raw("CASE WHEN transactions.contributor_name IS NULL THEN '' ELSE transactions.contributor_name END as contributor_name"),
                     DB::raw("CASE WHEN transactions.user_id IS NULL THEN '{$defaultimagebaseurl}/default.png' ELSE '' END as contributor_image_url"),
                     DB::raw("CASE WHEN transactions.user_id IS NOT NULL THEN '{$defaultimagebaseurl}/user.image' ELSE '' END as user_image"),
-                    // DB::raw("CONCAT('" . url('storage/app/public/admin/images/profiles') . "/', user.image) AS user_image")
+                    // DB::raw("CONCAT('" . url('storage/app/public/admin/images/profiles') . "/',user.image) AS user_image")
                 )->get()->toArray();
 
 
@@ -129,7 +129,7 @@ class BookingController extends Controller
                 "league_name" => $booking->league_id != '' ? $league->name : '',
                 "days" => $booking->league_id != '' ? implode(' | ', $daylist) : '',
                 "total_games" => $booking->league_id != '' ? $interval->format('%a') : '',
-                "date" => $booking->type != 2 ? date('M d, Y', strtotime($booking->start_date)) : date('M d', strtotime($booking->start_date)) . ' To ' . date('M d', strtotime($booking->end_date)),
+                "date" => $booking->type != 2 ? date('M d,Y', strtotime($booking->start_date)) : date('M d', strtotime($booking->start_date)) . ' To ' . date('M d', strtotime($booking->end_date)),
                 "time" => date('h:i A', strtotime($booking->start_time)) . ' To ' . date('h:i A', strtotime($booking->end_time)),
                 "players" => $booking->players,
                 "address" => $dome->address,
@@ -235,7 +235,6 @@ class BookingController extends Controller
     }
     public function avl_fields(Request $request)
     {
-        $my_interval = 90;
         if ($request->dome_id == "") {
             return response()->json(["status" => 0, "message" => 'Please Enter Dome ID'], 200);
         }
@@ -245,11 +244,8 @@ class BookingController extends Controller
         if ($request->date == "") {
             return response()->json(["status" => 0, "message" => 'Please Enter Date'], 200);
         }
-        if ($request->start_time == "") {
-            return response()->json(["status" => 0, "message" => 'Please Enter Start Time'], 200);
-        }
-        if ($request->end_time == "") {
-            return response()->json(["status" => 0, "message" => 'Please Enter End Time'], 200);
+        if ($request->slots == "") {
+            return response()->json(["status" => 0, "message" => 'Please Enter Slots'], 200);
         }
         if ($request->players == "") {
             return response()->json(["status" => 0, "message" => 'Please Enter Number Of Players'], 200);
@@ -258,14 +254,13 @@ class BookingController extends Controller
             return response()->json(["status" => 0, "message" => 'Select Current or Future Date Only'], 200);
         }
 
-        $period = new CarbonPeriod(date('h:i A', strtotime($request->start_time)), $my_interval . ' minutes', date("h:i A", strtotime("-$my_interval minutes", strtotime($request->end_time))));
         $bookedfields = [];
-        foreach ($period as $item) {
-            $new_slot = $item->format("h:i A") . ' - ' . $item->addMinutes($my_interval)->format("h:i A");
+        foreach (explode(',', $request->slots) as $slot) {
             $checkslotexist = Booking::where('dome_id', $request->dome_id)
                 ->where('sport_id', $request->sport_id)
-                ->whereDate('start_date', $request->date)
-                ->whereRaw("find_in_set('" . $new_slot . "',slots)")->where('booking_status', '!=', 3)
+                ->whereDate('start_date', date('Y-m-d', strtotime($request->date)))
+                ->whereRaw("find_in_set('" . $slot . "',slots)")
+                ->where('booking_status', '!=', 3)
                 // ->whereRaw("find_in_set('" . $request->field_id . "',field_id)")
                 ->first();
             if (!empty($checkslotexist)) {
@@ -274,8 +269,9 @@ class BookingController extends Controller
                 }
             }
         }
+        $maintenancefields = Field::where('in_maintenance', 1)->whereNotNull('maintenance_date')->whereDate('maintenance_date', '=', date('Y-m-d', strtotime($request->date)))->get();
         $available_fields = Field::with('sport_data')
-            ->select('id', 'dome_id', 'sport_id', 'name', 'min_person', 'max_person', DB::raw("CONCAT('" . url('storage/app/public/admin/images/fields') . "/', image) AS image"))
+            ->select('id', 'dome_id', 'sport_id', 'name', 'min_person', 'max_person', DB::raw("CONCAT('" . url('storage/app/public/admin/images/fields') . "/',image) AS image"))
             ->where('dome_id', $request->dome_id)
             ->whereRaw("find_in_set('" . $request->sport_id . "',sport_id)")
             ->whereRaw('? BETWEEN min_person AND max_person', [$request->players])
@@ -284,7 +280,10 @@ class BookingController extends Controller
         if (count($bookedfields) > 0) {
             $available_fields = $available_fields->whereNotIn('id', $bookedfields);
         }
-        $available_fields = $available_fields->get()->makeHidden(['sport_id', 'dome_id']);
+        if (count($maintenancefields) > 0) {
+            $available_fields = $available_fields->whereNotIn('id', $maintenancefields);
+        }
+        $available_fields = $available_fields->get();
 
         return response()->json(["status" => 1, "message" => "Successful", 'fields' => $available_fields], 200);
     }
