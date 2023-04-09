@@ -223,7 +223,7 @@ class PaymentController extends Controller
             //     $booking->created_at = $request->created_at;
             // }
             $booking->save();
-            $data = ['title' => 'Booking Confirmation Receipt', 'bookingdata' => $booking];
+            $data = ['title' => 'Booking Receipt', 'bookingdata' => $booking];
 
             Mail::send('email.booking_confirmation', $data, function ($message) use ($data) {
                 $message->from(env('MAIL_USERNAME'))->subject($data['title']);
