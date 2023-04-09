@@ -223,13 +223,12 @@ class PaymentController extends Controller
             //     $booking->created_at = $request->created_at;
             // }
             $booking->save();
-            $data = ['title' => 'Booking Receipt', 'bookingdata' => $booking];
+            $data = ['title' => 'Booking Receipt', 'email' => $booking->customer_email, 'bookingdata' => $booking];
 
             Mail::send('email.booking_confirmation', $data, function ($message) use ($data) {
                 $message->from(env('MAIL_USERNAME'))->subject($data['title']);
-                $message->to(env('MAIL_USERNAME'));
+                $message->to($data['email']);
             });
-
             if ($request->booking_type == 1) {
                 foreach (explode(',', $request->slots) as $key => $slot) {
                     $start_time = date('H:i', strtotime(explode(' - ', $slot)[0]));

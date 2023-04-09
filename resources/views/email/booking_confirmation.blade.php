@@ -75,11 +75,11 @@
             </tr>
             <tr>
                 <th>Name </th>
-                <td>{{ $bookingdata->name }}</td>
+                <td>{{ $bookingdata->customer_name }}</td>
             </tr>
             <tr>
                 <th>Email </th>
-                <td>{{ $bookingdata->email }}</td>
+                <td>{{ $bookingdata->customer_email }}</td>
             </tr>
             <tr>
                 <th>Date </th>

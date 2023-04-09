@@ -113,4 +113,4 @@
                 <td class="total">$400</td>
             </tr>
         </table>
-        <p class="footer">If you have any questions or concerns, please don't hesitate to contact
+        <p class="footer">If you have any questions or concerns, please don't hesitate to contact us.</p>

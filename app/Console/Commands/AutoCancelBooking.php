@@ -6,6 +6,7 @@ use App\Helper\Helper;
 use Illuminate\Console\Command;
 use App\Models\Booking;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Mail;
 
 class AutoCancelBooking extends Command
 {
@@ -15,7 +16,6 @@ class AutoCancelBooking extends Command
 
     public function handle()
     {
-        // ->tz('UTC')
         // Carbon::createFromFormat('h:i A', date('h:i A', strtotime($booking->start_time)), 'UTC')->format('H:i')
         date_default_timezone_set('Asia/Kolkata');
         $getbookings = Booking::where('payment_type', '2')->where('booking_status', 2)->get();
@@ -36,6 +36,12 @@ class AutoCancelBooking extends Command
                 $current_date_time = Carbon::now();
                 if ($start_date_time->lessThan($current_date_time) == true && $booking->payment_status == 2) {
                     $refund = Helper::refund_cancel_booking($booking->id);
+                    $data = ['title' => 'Booking Cancelled - Payment Not Made', 'email' => $booking->customer_email, 'bookingdata' => $booking];
+
+                    Mail::send('email.auto_booking_cancel', $data, function ($message) use ($data) {
+                        $message->from($data['email'])->subject($data['title']);
+                        $message->to(env('MAIL_USERNAME'));
+                    });
                     if ($refund == 1) {
                         $this->info('Booking Updated & Refunded =====> ' . $booking->id);
                     } else {

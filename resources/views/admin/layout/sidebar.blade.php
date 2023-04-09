@@ -190,7 +190,7 @@
                             <span
                                 class="nav-link w-100 {{ request()->is('admin/enquiries/dome-requests') ? 'active' : '' }}">{{ trans('labels.domes_requests') }}</span>
                             @if (Helper::get_noti_count(3) > 0)
-                                <small class="badge bg-danger">{{ Helper::get_noti_count(3) }}</small>
+                                <small class="badge bg-primary rounded-pill" style="line-height: inherit;">{{ Helper::get_noti_count(3) }}</small>
                             @endif
                         </a>
                         <a href="{{ URL::to('admin/enquiries/general-enquiry') }}"
@@ -198,7 +198,7 @@
                             <span
                                 class="nav-link w-100 {{ request()->is('admin/enquiries/general-enquiry') ? 'active' : '' }}">{{ trans('labels.general_enquiry') }}</span>
                             @if (Helper::get_noti_count(2) > 0)
-                                <small class="badge bg-danger">{{ Helper::get_noti_count(2) }}</small>
+                                <small class="badge bg-primary rounded-pill" style="line-height: inherit;">{{ Helper::get_noti_count(2) }}</small>
                             @endif
                         </a>
                         <a href="{{ URL::to('admin/enquiries/help-support') }}"
@@ -206,7 +206,7 @@
                             <span
                                 class="nav-link w-100 {{ request()->is('admin/enquiries/help-support') ? 'active' : '' }}">{{ trans('labels.help_support') }}</span>
                             @if (Helper::get_noti_count(1) > 0)
-                                <small class="badge bg-danger">{{ Helper::get_noti_count(1) }}</small>
+                                <small class="badge bg-primary rounded-pill" style="line-height: inherit;">{{ Helper::get_noti_count(1) }}</small>
                             @endif
                         </a>
                     </ul>
@@ -292,7 +292,7 @@
                     <div class="d-flex justify-content-between w-100 aling-items-center">
                         <span class="mx-3">{{ trans('labels.supports') }}</span>
                         @if (Helper::get_noti_count(5) > 0)
-                            <small class="badge bg-danger" style="height:fit-content">{{ Helper::get_noti_count(5) }}</small>
+                            <small class="badge bg-primary rounded-pill" style="line-height: inherit;" style="height:fit-content">{{ Helper::get_noti_count(5) }}</small>
                         @endif
                     </div>
                 </a>
