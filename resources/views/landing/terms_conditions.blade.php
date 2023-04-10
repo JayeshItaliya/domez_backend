@@ -32,23 +32,48 @@
         <header class="container header-section-contact">
             <nav class="navbar navbar-expand-lg navbar-light">
                 <a class="navbar-brand logo-img" href="{{ URL::to('/') }}">
-                    <img src="{{ Helper::image_path('preloader.gif') }}" height="50">
+
                     <img src="{{ url('storage/app/public/admin/images/landing/logo_dark.png') }}">
                 </a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse"
-                    data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-                    aria-label="Toggle navigation">
+                <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas"
+                    data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
                     <span class="navbar-toggler-icon"></span>
                 </button>
+                <div class="offcanvas offcanvas-end d-lg-none" tabindex="-1" id="offcanvasExample"
+                    aria-labelledby="offcanvasExampleLabel" style="width: 300px; background-color:#f4fcf9;">
+                    <div class="offcanvas-header">
+                        <img src="{{ url('storage/app/public/admin/images/logo_dark.png') }}" alt=""
+                            srcset="">
+                        <button type="button" class="btn-close" data-bs-dismiss="offcanvas"
+                            data-bs-target="#offcanvasExample" aria-label="Close"></button>
+                    </div>
+                    <div class="offcanvas-body">
+                        <ul class="list-unstyled my-3">
+                            <li class="my-3">
+                                <a style="color: #468f72" class="text-decoration-none"
+                                    href="{{ URL::to('privacy-policy') }}">PRIVACY & POLICY</a>
+                            </li>
+                            <li class="my-3">
+                                <a style="color: #468f72" class="text-decoration-none"
+                                    href="{{ URL::to('terms-conditions') }}">TERMS OF SERVICE</a>
+                            </li>
+                            <li class="my-3">
+                                <a style="color: #468f72" class="text-decoration-none" href="#faq">FAQ</a>
+                            </li>
+                            <a href="{{ URL::to('login') }}" class="btn btn-success dmz-button px-4 my-2 my-sm-0">Sign
+                                In</a>
+                        </ul>
+                    </div>
+                </div>
                 <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
                     <ul class="navbar-nav ml-auto mr-4">
-                        <li class="nav-item mx-3">
+                        <li class="nav-item me-3">
                             <a class="nav-link" href="{{ URL::to('privacy-policy') }}">PRIVACY & POLICY</a>
                         </li>
-                        <li class="nav-item mx-3">
+                        <li class="nav-item me-3">
                             <a class="nav-link" href="{{ URL::to('terms-conditions') }}">TERMS OF SERVICE</a>
                         </li>
-                        <li class="nav-item mx-3">
+                        <li class="nav-item me-3">
                             <a class="nav-link" href="{{ URL::to('/') }}#faq">FAQ</a>
                         </li>
                     </ul>
@@ -65,48 +90,50 @@
         <footer class=" footer-text footer-section">
             <div class="container">
                 <div class="row footer-content">
-                    <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12 ps-sm-0">
+                    <div class="col-md-6 ps-sm-0">
                         <div class="footer-box wow fadeInDown delay-0-4s animated">
                             <div class="logo-img mb-4 w-100">
                                 <a href="{{ URL::to('/') }}"><img class="footer-logo"
                                         src="{{ url('storage/app/public/admin/images/landing/Domez-Logo-name-white.png') }}" /></a>
                             </div>
-                            <p class="footer-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                                do eiusmod tempor incididunt ut labore et dolore agna.Lorem ipsum dolor sit amet. Lorem
-                                ipsum dolor.</p>
-                            <div class="share-link-icon">
-                                <ul class="social-icon d-flex list-unstyled">
-                                    <li class="socail-space me-2"><a href="#" class="social"><i
-                                                class="fa-brands fa-facebook-f"></i></a></li>
-                                    <li class="socail-space mx-2"><a href="#" class="social"><i
-                                                class="fa-brands fa-twitter"></i></a></li>
-                                    <li class="socail-space mx-2"><a href="#" class="social"><i
-                                                class="fa-brands fa-instagram"></i></a></li>
-                                    <li class="socail-space mx-2"><a href="#" class="social"><i
-                                                class="fa-brands fa-youtube"></i></a></li>
-                                </ul>
+                            <p class="footer-description">“Revolutionizing the way you book your next game! Get instant
+                                access to all the domes in the city and book at the tap of a button. <br><br>
+
+                                Say goodbye to the hassle of bringing cash to pay back your friend who booked the dome.
+                                With our innovative feature, each player can pay their portion of the reservation with
+                                ease, as DOMEZ automatically splits the total cost equally among all players with shared
+                                access to the booking. No more awkward conversations or disputes about who owes what.
+                                Whether you're a seasoned athlete or a casual sports enthusiast, DOMEZ
+                                is designed to provide you with the best experience possible, so you can focus on what
+                                matters most: dominating the field or court like a true champion!”</p>
+
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 wow fadeInDown delay-0-4s animated">
+                        <div style="display: grid; justify-content:center;">
+                            <h6 class="fw-Medium mb-4">Support</h6>
+                            <div class="footer-link link">
+                                <p class="mb-2"> <a href="{{ URL::to('privacy-policy') }}"
+                                        class="text-reset text-copyright mb-2">Privacy & Policy</a> </p>
+                                <p class="mb-2"> <a href="{{ URL::to('terms-conditions') }}"
+                                        class="text-reset text-copyright">Terms Of Service</a> </p>
+                                <p class="mb-2"> <a href="{{ URL::to('cancellation-policies') }}"
+                                        class="text-reset text-copyright">Cancellation Policy</a> </p>
+                                <p class="mb-2"> <a href="{{ URL::to('refund-policies') }}"
+                                        class="text-reset text-copyright">Refund Policy</a> </p>
                             </div>
                         </div>
                     </div>
-                    <div
-                        class="col-xxl-3 col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12 wow fadeInDown delay-0-4s animated">
-                        <h6 class="fw-Medium mb-4">Support</h6>
-                        <div class="footer-link link">
-                            <p> <a href="{{ URL::to('privacy-policy') }}" class="text-reset text-copyright mb-2">Privacy & Policy</a> </p>
-                            <p> <a href="{{ URL::to('terms-conditions') }}" class="text-reset text-copyright">Terms Of Service</a> </p>
-                            <p> <a href="{{ URL::to('cancellation-policies') }}" class="text-reset text-copyright">Cancellation Policy</a> </p>
-                            <p> <a href="{{ URL::to('refund-policies') }}" class="text-reset text-copyright">Refund Policy</a> </p>
-                        </div>
-                    </div>
-                    <div
-                        class="col-xxl-3 col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12 ps-sm-0  footer-form-content wow fadeInDown delay-0-4s animated">
-                        <h6 class="fw-Medium mb-4">Available on</h6>
-                        <div class="footer-form">
-                            <div class="icon-link d-flex align-items-center mb-3">
-                                <img src="{{ url('storage/app/public/admin/images/landing/google-play.png') }}" />
-                            </div>
-                            <div class="icon-link d-flex align-items-center mb-4">
-                                <img src="{{ url('storage/app/public/admin/images/landing/apple-store.png') }}" />
+                    <div class="col-lg-3 col-md-6 ps-sm-0  footer-form-content wow fadeInDown delay-0-4s animated">
+                        <div style="display: grid; justify-content:center;">
+                            <h6 class="fw-Medium mb-4">Available on</h6>
+                            <div class="footer-form">
+                                <div class="icon-link d-flex align-items-center mb-3">
+                                    <img src="{{ url('storage/app/public/admin/images/landing/google-play.png') }}" />
+                                </div>
+                                <div class="icon-link d-flex align-items-center mb-4">
+                                    <img src="{{ url('storage/app/public/admin/images/landing/apple-store.png') }}" />
+                                </div>
                             </div>
                         </div>
                     </div>
