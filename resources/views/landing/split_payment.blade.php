@@ -31,8 +31,6 @@
 
     <style>
         form {
-            /* width: 30vw; */
-            /* min-width: 500px; */
             align-self: center;
             box-shadow: 0px 0px 0px 0.5px rgba(50, 50, 93, 0.1),
                 0px 2px 5px 0px rgba(50, 50, 93, 0.1), 0px 1px 1.5px 0px rgba(0, 0, 0, 0.07);
@@ -53,107 +51,10 @@
             margin-bottom: 24px;
         }
 
-        /* Buttons and links */
-        button {
-            background: #5469d4;
-            font-family: Arial, sans-serif;
-            color: #ffffff;
-            border-radius: 4px;
-            border: 0;
-            padding: 12px 16px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            display: block;
-            transition: all 0.2s ease;
-            box-shadow: 0px 4px 5.5px 0px rgba(0, 0, 0, 0.07);
-            width: 100%;
-        }
-
-        button:hover {
-            filter: contrast(115%);
-        }
-
-        button:disabled {
-            opacity: 0.5;
-            cursor: default;
-        }
-
-        /* spinner/processing state, errors */
-        .spinner,
-        .spinner:before,
-        .spinner:after {
-            border-radius: 50%;
-        }
-
-        .spinner {
-            color: #ffffff;
-            font-size: 22px;
-            text-indent: -99999px;
-            margin: 0px auto;
-            position: relative;
-            width: 20px;
-            height: 20px;
-            box-shadow: inset 0 0 0 2px;
-            -webkit-transform: translateZ(0);
-            -ms-transform: translateZ(0);
-            transform: translateZ(0);
-        }
-
-        .spinner:before,
-        .spinner:after {
-            position: absolute;
-            content: "";
-        }
-
-        .spinner:before {
-            width: 10.4px;
-            height: 20.4px;
-            background: #5469d4;
-            border-radius: 20.4px 0 0 20.4px;
-            top: -0.2px;
-            left: -0.2px;
-            -webkit-transform-origin: 10.4px 10.2px;
-            transform-origin: 10.4px 10.2px;
-            -webkit-animation: loading 2s infinite ease 1.5s;
-            animation: loading 2s infinite ease 1.5s;
-        }
-
-        .spinner:after {
-            width: 10.4px;
-            height: 10.2px;
-            background: #5469d4;
-            border-radius: 0 10.2px 10.2px 0;
-            top: -0.1px;
-            left: 10.2px;
-            -webkit-transform-origin: 0px 10.2px;
-            transform-origin: 0px 10.2px;
-            -webkit-animation: loading 2s infinite ease;
-            animation: loading 2s infinite ease;
-        }
-
-        @-webkit-keyframes loading {
-            0% {
-                -webkit-transform: rotate(0deg);
-                transform: rotate(0deg);
-            }
-
-            100% {
-                -webkit-transform: rotate(360deg);
-                transform: rotate(360deg);
-            }
-        }
-
-        @keyframes loading {
-            0% {
-                -webkit-transform: rotate(0deg);
-                transform: rotate(0deg);
-            }
-
-            100% {
-                -webkit-transform: rotate(360deg);
-                transform: rotate(360deg);
-            }
+        #mysubmit,
+        .new-payment,
+        .my-spinner {
+            display: none;
         }
 
         @media only screen and (max-width: 600px) {
@@ -244,7 +145,7 @@
                                 <div class="row">
 
                                     <ul class="list-group list-group-flush">
-                                        <li class="list-group-item d-flex gap-3"> <strong>Payment Status</strong> :
+                                        <li class="list-group-item d-flex gap-2"> <strong>Payment Status</strong> :
                                             <span>
                                                 @if ($checkbooking->payment_status == 1)
                                                     <span
@@ -254,7 +155,7 @@
                                                         class="badge rounded-pill cursor-pointer partial-pill">Partial</span>
                                                 @endif
                                         </li>
-                                        <li class="list-group-item d-flex gap-3"> <strong>Booking Status</strong> :
+                                        <li class="list-group-item d-flex gap-2"> <strong>Booking Status</strong> :
                                             <span>
                                                 @if ($checkbooking->booking_status == 1)
                                                     <span
@@ -268,28 +169,28 @@
                                                 @endif
                                             </span>
                                         </li>
-                                        <li class="list-group-item d-flex gap-3"><strong>Total Amount</strong> :
+                                        <li class="list-group-item d-flex gap-2"><strong>Total Amount</strong> :
                                             <span>{{ Helper::currency_format($checkbooking->total_amount) }}</span>
                                         </li>
-                                        <li class="list-group-item d-flex gap-3"><strong>Paid Amount</strong> :
+                                        <li class="list-group-item d-flex gap-2"><strong>Paid Amount</strong> :
                                             <span
                                                 class="text-success">{{ Helper::currency_format($checkbooking->paid_amount) }}</span>
                                         </li>
-                                        <li class="list-group-item d-flex gap-3"><strong>Due Amount</strong> :
+                                        <li class="list-group-item d-flex gap-2"><strong>Due Amount</strong> :
                                             <span
                                                 class="text-danger">{{ Helper::currency_format($checkbooking->due_amount) }}</span>
                                         </li>
 
-                                        <li class="list-group-item d-flex gap-3"><strong>Date</strong> :
+                                        <li class="list-group-item d-flex gap-2"><strong>Date</strong> :
                                             <span>{{ Helper::date_format($checkbooking->start_date) }}</span>
                                         </li>
-                                        <li class="list-group-item d-flex gap-3"><strong>Time</strong> :
+                                        <li class="list-group-item d-flex gap-2"><strong>Time</strong> :
                                             <span>{{ Helper::time_format($checkbooking->start_time) . ' To ' . Helper::time_format($checkbooking->end_time) }}</span>
                                         </li>
-                                        <li class="list-group-item d-flex gap-3"><strong>Players</strong> :
+                                        <li class="list-group-item d-flex gap-2"><strong>Players</strong> :
                                             <span>{{ $checkbooking->players }}</span>
                                         </li>
-                                        <li class="list-group-item d-flex gap-3"><strong>Address</strong> : <p>
+                                        <li class="list-group-item d-flex gap-2"><strong>Address</strong> : <p>
                                                 {{ $checkbooking->dome_info->address }}
                                             </p>
                                         </li>
@@ -297,7 +198,8 @@
 
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-6"
+                                style="{{ $checkbooking->booking_status == 1 && $checkbooking->due_amount <= 0 ? 'display:none;' : '' }}">
                                 <h4 class="mb-0">Payment</h4>
                                 <hr>
                                 <div class="success-card text-center">
@@ -307,8 +209,6 @@
                                     </div>
                                     <h1>Success</h1>
                                 </div>
-
-                                <div class="alert d-none" id="payment-message"></div>
 
                                 <form action="" method="" id="payment-form">
 
@@ -328,9 +228,15 @@
 
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <input type="number" class="form-control" name="amount"
-                                                    id="amount" placeholder="Enter amount"
-                                                    max="{{ $checkbooking->due_amount }}">
+                                                <div class="input-group">
+                                                    <span class="input-group-text"><i class="fa fa-dollar"></i></span>
+                                                    <input type="number" class="form-control" name="amount"
+                                                        id="amount" placeholder="Enter amount"
+                                                        value="{{ $checkbooking->min_split_amount > $checkbooking->due_amount ? $checkbooking->due_amount : $checkbooking->min_split_amount }}"
+                                                        {{ $checkbooking->min_split_amount > $checkbooking->due_amount ? 'readonly' : '' }}
+                                                        min="{{ $checkbooking->min_split_amount > $checkbooking->due_amount ? $checkbooking->due_amount : $checkbooking->min_split_amount }}"
+                                                        max="{{ $checkbooking->due_amount }}">
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="col-auto">
@@ -339,6 +245,8 @@
                                         </div>
                                     </div>
 
+                                    <div class="alert d-none" id="payment-message"></div>
+
                                     <div class="text-center my-3 my-spinner">
                                         <div class="spinner-border" role="status">
                                             <span class="visually-hidden">{{ trans('labels.loading') }}</span>
@@ -346,7 +254,7 @@
                                     </div>
 
                                     <div class="my-3" id="payment-element"></div>
-                                    <button type="button" class="btn btn-primary" id="mysubmit">Pay</button>
+                                    <button type="button" class="btn btn-primary w-100" id="mysubmit">Pay</button>
                                 </form>
 
                                 <div class="row my-2 new-payment">
@@ -443,65 +351,50 @@
 </body>
 
 <script>
-    var page_url = {{ Js::from($page_url) }};
-    var process_url = {{ Js::from(URL::to('/payment/process')) }};
-    var booking_token = {{ Js::from($booking_token) }};
-
-    var clientSecret = '';
-    var stripe = Stripe({{ Js::from(Helper::stripe_data()->public_key) }});
-    var appearance = {
-        theme: 'stripe',
-        variables: {
-            colorPrimary: '#0570de',
-            colorBackground: '#ffffff',
-            colorText: '#30313d',
-            colorDanger: '#df1b41',
-            fontFamily: 'Ideal Sans, system-ui, sans-serif',
-            spacingUnit: '4px',
-            borderRadius: '5px',
-        },
-    };
-    var options = {
-        country: 'CA',
-    };
-    $('#mysubmit, .new-payment, .my-spinner').hide();
-
     // booking_status == 1 == Confirmed
     // booking_status == 2 == Pending
     // booking_status == 3 == Cancelled
 
-    if ({{ Js::from($checkbooking->booking_status) }} == 1) {
-        $('.success-card').show();
-        $('#payment-form').hide();
-    } else if ({{ Js::from($checkbooking->booking_status) }} == 3) {
+    // $('#mysubmit, .new-payment, .my-spinner').hide();
+    if ({{ Js::from($checkbooking->booking_status) }} == 1 && {{ Js::from($checkbooking->due_amount) }} <= 0) {
         $('.card').find('.col-md-6').eq(1).remove();
         $('.card').find('.col-md-6').eq(0).addClass('col-12').removeClass('col-md-6');
     } else {
+        var page_url = {{ Js::from($page_url) }};
+        var process_url = {{ Js::from(URL::to('/payment/process')) }};
+        var booking_token = {{ Js::from($booking_token) }};
+
+        var clientSecret = '';
+        var stripe = Stripe({{ Js::from(Helper::stripe_data()->public_key) }});
+        var appearance = {
+            theme: 'stripe',
+            variables: {
+                colorPrimary: '#0570de',
+                colorBackground: '#ffffff',
+                colorText: '#30313d',
+                colorDanger: '#df1b41',
+                fontFamily: 'Ideal Sans, system-ui, sans-serif',
+                spacingUnit: '4px',
+                borderRadius: '5px',
+            },
+        };
+        var options = {
+            country: 'CA',
+        };
         checkStatus();
         async function checkStatus() {
-            const clientSecret = new URLSearchParams(window.location.search).get(
-                "payment_intent_client_secret"
-            );
-            const amount = new URLSearchParams(window.location.search).get(
-                "amount"
-            );
-            const receipt_name = new URLSearchParams(window.location.search).get(
-                "receipt_name"
-            );
+            const clientSecret = new URLSearchParams(window.location.search).get("payment_intent_client_secret");
             if (!clientSecret) {
                 return;
             }
-            // var urlWithoutParams = window.location.href.split('?')[0];
-            // var queryParams = window.location.href.split('?')[1];
-            // history.replaceState(null, null, urlWithoutParams);
             $('.form-inputs').hide();
             $('.my-spinner').show();
+            const receipt_name = new URLSearchParams(window.location.search).get("receipt_name");
             try {
                 const {
                     paymentIntent
                 } = await stripe.retrievePaymentIntent(clientSecret);
-                // console.table('---');
-                // console.table(paymentIntent);
+                const amount = paymentIntent.amount / 100;
                 switch (paymentIntent.status) {
                     case "succeeded":
                         changeStatus(paymentIntent.id, amount, receipt_name);
@@ -547,6 +440,9 @@
                     if (response.status == 1) {
                         $('.my-spinner').hide();
                         $('.success-card, .new-payment').show();
+                        var urlWithoutParams = window.location.href.split('?')[0];
+                        var queryParams = window.location.href.split('?')[1];
+                        history.replaceState(null, null, urlWithoutParams);
                     } else {
                         $('#payment-message').removeClass('d-none').addClass('text-danger').html(response
                             .message);
@@ -560,6 +456,8 @@
                 },
             });
         }
+        $('#receipt_name').val('James Loice');
+        $('#receipt_email').val('james@yopmail.com');
         $('#btnamount').on('click', function() {
             if ($.trim($('#receipt_name').val()) == "") {
                 $('#receipt_name').addClass('is-invalid');
@@ -573,10 +471,17 @@
             } else {
                 $('#receipt_email').removeClass('is-invalid');
             }
-            if ($.trim($('#amount').val()) == "" || $('#amount').val() == 0 || $('#amount').val() >
+            var pay_amount = $.trim($('#amount').val());
+            if (pay_amount == "" || pay_amount == 0 || pay_amount >
                 {{ Js::from($checkbooking->due_amount) }}) {
                 $('#amount').addClass('is-invalid');
                 return false;
+            } else if ({{ Js::from($checkbooking->min_split_amount) }} >
+                {{ Js::from($checkbooking->due_amount) }}) {
+                if ({{ Js::from($checkbooking->due_amount) }} != pay_amount) {
+                    $('#amount').addClass('is-invalid');
+                    return false;
+                }
             } else {
                 $('#amount').removeClass('is-invalid');
             }
@@ -584,7 +489,9 @@
                 type: "get",
                 url: page_url,
                 data: {
-                    amount: $('#amount').val()
+                    amount: pay_amount,
+                    name: $('#receipt_name').val(),
+                    email: $('#receipt_email').val(),
                 },
                 beforeSend: function(response) {
                     $('#btnamount, #amount, #receipt_name, #receipt_email').attr('disabled', true);
@@ -610,11 +517,8 @@
                         stripe.confirmPayment({
                             elements,
                             confirmParams: {
-                                return_url: page_url + '?amount=' + $('#amount')
-                                    .val() +
-                                    '&receipt_email=' + $('#receipt_email').val() +
-                                    '&receipt_name=' +
-                                    $('#receipt_name').val(),
+                                return_url: page_url + '?receipt_name=' + $(
+                                    '#receipt_name').val(),
                                 receipt_email: $('#receipt_email').val(),
                             },
                         });

@@ -147,6 +147,8 @@ class LandingPagesController extends Controller
                             // 'sepa_debit',
                             // 'sofort',
                         ],
+                        'description' => '',
+                        'receipt_email' => $request->email,
                     ]);
                     return response()->json(['client_secret' => $intent->client_secret]);
                 } else {
@@ -168,6 +170,8 @@ class LandingPagesController extends Controller
                 $checkbooking->due_amount -= $request->amount;
                 $checkbooking->paid_amount += $request->amount;
                 $checkbooking->save();
+
+                $snewcheckbooking = Booking::where('token', $request->booking_token)->first();
 
                 $newcheckbooking = Booking::where('token', $request->booking_token)->first();
                 if ($newcheckbooking->due_amount == 0) {

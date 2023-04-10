@@ -218,6 +218,7 @@ class PaymentController extends Controller
             $booking->total_amount = $request->total_amount;
             $booking->paid_amount = $request->paid_amount;
             $booking->due_amount = $request->due_amount;
+            $booking->min_split_amount = $request->min_split_amount;
 
             $booking->payment_type = $request->payment_type;
             $booking->payment_status = $booking->due_amount == 0 ? 1 : 2;
