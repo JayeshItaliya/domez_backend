@@ -47,7 +47,7 @@
                 </li>
             @endif
             {{-- Only use for development purpose --}}
-            <li class="dropdown">
+            {{-- <li class="dropdown">
                 <a href="#" class="nav-item currency-icon" role="button" data-bs-toggle="dropdown"
                     aria-expanded="false">
                     <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-currency-dollar"
@@ -62,7 +62,7 @@
                     <li><a class="dropdown-item" href="#">{{ trans('labels.usd') }}</a></li>
                     <li><a class="dropdown-item" href="#">{{ trans('labels.cad') }}</a></li>
                 </ul>
-            </li>
+            </li> --}}
             <li class="dropdown">
                 <a href="#" class="nav-item language-icon" role="button" data-bs-toggle="dropdown"
                     aria-expanded="false">

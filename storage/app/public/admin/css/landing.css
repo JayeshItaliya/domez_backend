@@ -1,6 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
 
 /* Landing Page */
+a{
+    text-decoration: none;
+    color: #57a800;
+}
 .small-padding {
     padding: 75px 0;
 }
@@ -1067,7 +1071,8 @@
     font-size: 16px;
     line-height: 19px;
     letter-spacing: 0.38px;
-    margin-right: 36% !important;
+    text-align: justify;
+    /* margin-right: 8rem !important; */
 }
 
 a.footer-link {

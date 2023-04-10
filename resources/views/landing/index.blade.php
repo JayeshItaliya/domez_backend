@@ -36,7 +36,7 @@
         <header class="container header-section">
             <nav class="navbar navbar-expand-lg navbar-light">
                 <a class="navbar-brand logo-img" href="{{ URL::to('/') }}">
-                    <img src="{{ Helper::image_path('preloader.gif') }}" height="50">
+
                     <img src="{{ url('storage/app/public/admin/images/landing/logo_dark.png') }}">
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas"
@@ -46,33 +46,38 @@
                 <div class="offcanvas offcanvas-end d-lg-none" tabindex="-1" id="offcanvasExample"
                     aria-labelledby="offcanvasExampleLabel" style="width: 300px; background-color:#f4fcf9;">
                     <div class="offcanvas-header">
-                        <img src="{{ url('storage/app/public/admin/images/logo_dark.png') }}" alt="" srcset="">
-                        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#offcanvasExample" aria-label="Close"></button>
+                        <img src="{{ url('storage/app/public/admin/images/logo_dark.png') }}" alt=""
+                            srcset="">
+                        <button type="button" class="btn-close" data-bs-dismiss="offcanvas"
+                            data-bs-target="#offcanvasExample" aria-label="Close"></button>
                     </div>
                     <div class="offcanvas-body">
                         <ul class="list-unstyled my-3">
                             <li class="my-3">
-                                <a style="color: #468f72" class="text-decoration-none" href="{{ URL::to('privacy-policy') }}">PRIVACY & POLICY</a>
+                                <a style="color: #468f72" class="text-decoration-none"
+                                    href="{{ URL::to('privacy-policy') }}">PRIVACY & POLICY</a>
                             </li>
                             <li class="my-3">
-                                <a style="color: #468f72" class="text-decoration-none" href="{{ URL::to('terms-conditions') }}">TERMS OF SERVICE</a>
+                                <a style="color: #468f72" class="text-decoration-none"
+                                    href="{{ URL::to('terms-conditions') }}">TERMS OF SERVICE</a>
                             </li>
                             <li class="my-3">
                                 <a style="color: #468f72" class="text-decoration-none" href="#faq">FAQ</a>
                             </li>
-                            <a href="{{ URL::to('login') }}" class="btn btn-success dmz-button px-4 my-2 my-sm-0">Sign In</a>
+                            <a href="{{ URL::to('login') }}" class="btn btn-success dmz-button px-4 my-2 my-sm-0">Sign
+                                In</a>
                         </ul>
                     </div>
                 </div>
                 <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
-                    <ul class="navbar-nav ml-auto mr-4">
-                        <li class="nav-item mx-3">
+                    <ul class="navbar-nav">
+                        <li class="nav-item me-3">
                             <a class="nav-link" href="{{ URL::to('privacy-policy') }}">PRIVACY & POLICY</a>
                         </li>
-                        <li class="nav-item mx-3">
+                        <li class="nav-item me-3">
                             <a class="nav-link" href="{{ URL::to('terms-conditions') }}">TERMS OF SERVICE</a>
                         </li>
-                        <li class="nav-item mx-3">
+                        <li class="nav-item me-3">
                             <a class="nav-link" href="#faq">FAQ</a>
                         </li>
                     </ul>
@@ -104,7 +109,8 @@
         <section class="properly-games small-padding">
             <div class="container">
                 <h1 class="heading-title wow fadeInDown delay-0-2s animated">Most Popular Sports</h1>
-                <p class="mb-4 text-center text-muted fw-semibold lh-sm">List the Sports and Games That Your Dome Offers on
+                <p class="mb-4 text-center text-muted fw-semibold lh-sm">List the Sports and Games That Your Dome
+                    Offers on
                     the DOMEZ Mobile App!</p>
                 <div id="popular_sports" class="owl-carousel mt-2 owl-loaded">
                     <div class="owl-stage-outer py-5">
@@ -263,13 +269,13 @@
                                 </div>
                                 <div class="client-infomation mt-4">
                                     <div class="client-name">Eddie Jacobs</div>
-                                    <div class="client-designation">Hocky Power</div>
+                                    {{-- <div class="client-designation">Hocky Power</div> --}}
                                 </div>
                                 <div class="client-feedback mt-3">
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                        Cursus nibh mauris, nec turpis orci lectus maecenas.
-                                        Suspendisse sed magna eget nibh in turpis. Consequat
-                                        duis diam lacus arcu.</p>
+                                    <p>"I have been using DOMEZ for several months now, and it has been a game-changer
+                                        for me. It's incredibly user-friendly and easy to navigate, making it a breeze
+                                        to book my favourite sports activities. I love how I can easily see availability
+                                        and book my sessions instantly. Highly recommend!"</p>
                                 </div>
                             </div>
                         </div>
@@ -280,14 +286,53 @@
                                         src="{{ url('storage/app/public/admin/images/landing/Eddie-Jacobs.png') }}" />
                                 </div>
                                 <div class="client-infomation mt-4">
-                                    <div class="client-name">Eddie Jacobs</div>
-                                    <div class="client-designation">Hocky Power</div>
+                                    <div class="client-name">Jessica Wislson</div>
+                                    {{-- <div class="client-designation">Hocky Power</div> --}}
                                 </div>
                                 <div class="client-feedback mt-3">
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                        Cursus nibh mauris, nec turpis orci lectus maecenas.
-                                        Suspendisse sed magna eget nibh in turpis. Consequat
-                                        duis diam lacus arcu.</p>
+                                    <p>"DOMEZ has exceeded my expectations. The interface is sleek and modern, and the
+                                        booking process is so simple and convenient. I no longer have to spend hours
+                                        searching for open sports activities or worry about cancellations. I can easily
+                                        book my sessions and get reminders for upcoming activities. A must-have for all
+                                        sports enthusiasts!"</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="rev_slide">
+                            <div class="test">
+                                <div class="client-img">
+                                    <img
+                                        src="{{ url('storage/app/public/admin/images/landing/Eddie-Jacobs.png') }}" />
+                                </div>
+                                <div class="client-infomation mt-4">
+                                    <div class="client-name">Jessy Carter</div>
+                                    {{-- <div class="client-designation">Hocky Power</div> --}}
+                                </div>
+                                <div class="client-feedback mt-3">
+                                    <p>"I've used several sports booking apps in the past, but this one takes the cake.
+                                        The app is well-designed and packed with useful features, from real-time
+                                        availability to the ability to leave reviews for sports activities. The support
+                                        team is also incredibly responsive and helpful. If you're looking for a reliable
+                                        sports booking app, look no further!"</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="rev_slide">
+                            <div class="test">
+                                <div class="client-img">
+                                    <img
+                                        src="{{ url('storage/app/public/admin/images/landing/Eddie-Jacobs.png') }}" />
+                                </div>
+                                <div class="client-infomation mt-4">
+                                    <div class="client-name">Emmilia vice</div>
+                                    {{-- <div class="client-designation">Hocky Power</div> --}}
+                                </div>
+                                <div class="client-feedback mt-3">
+                                    <p>"I cannot recommend DOMEZ enough! It's so intuitive and easy to use, and the
+                                        range of sports activities available is impressive. The app is constantly
+                                        updated with new features and improvements, and the customer service is
+                                        outstanding. If you want to simplify your sports booking experience, this app is
+                                        a must-have."</p>
                                 </div>
                             </div>
                         </div>
@@ -379,17 +424,15 @@
                                             <button class="accordion-button" type="button" data-bs-toggle="collapse"
                                                 data-bs-target="#collapseOne" aria-expanded="true"
                                                 aria-controls="collapseOne">
-                                                Can i watch local sports in my are?
+                                                How do I register my dome?
                                             </button>
                                         </h2>
                                         <div id="collapseOne" class="accordion-collapse collapse show"
                                             aria-labelledby="headingOne" data-bs-parent="#accordionExample">
                                             <div class="accordion-body">
-                                                <p>Lorem Ipsum is simply dummy text of the printing and typesetting
-                                                    industry. Lorem Ipsum has been the industry's standard dummy text
-                                                    ever since the 1500s, when an unknown printer took a galley of type
-                                                    and scrambled it to make a type specimen book. It has survived not..
-                                                </p>
+                                                <p>Click the “Get Started” button to fill in your information. Click
+                                                    “Submit.” Our team will review your documents to verify your dome
+                                                    ownership.</p>
                                             </div>
                                         </div>
                                     </div>
@@ -398,17 +441,13 @@
                                             <button class="accordion-button collapsed" type="button"
                                                 data-bs-toggle="collapse" data-bs-target="#collapseTwo"
                                                 aria-expanded="false" aria-controls="collapseTwo">
-                                                Can i sign in to watchESPN, fox sports go or NBC Sports ?
+                                                How long does the verification process take?
                                             </button>
                                         </h2>
                                         <div id="collapseTwo" class="accordion-collapse collapse"
                                             aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
                                             <div class="accordion-body">
-                                                <p>Lorem Ipsum is simply dummy text of the printing and typesetting
-                                                    industry. Lorem Ipsum has been the industry's standard dummy text
-                                                    ever since the 1500s, when an unknown printer took a galley of type
-                                                    and scrambled it to make a type specimen book. It has survived not..
-                                                </p>
+                                                <p>Verifications take between 24-48 hours to be approved.</p>
                                             </div>
                                         </div>
                                     </div>
@@ -417,36 +456,16 @@
                                             <button class="accordion-button collapsed" type="button"
                                                 data-bs-toggle="collapse" data-bs-target="#collapseThree"
                                                 aria-expanded="false" aria-controls="collapseThree">
-                                                What is the video qualitu and how much bandwidth doi need ?
+                                                What to do after I get my verification?
                                             </button>
                                         </h2>
                                         <div id="collapseThree" class="accordion-collapse collapse"
                                             aria-labelledby="headingThree" data-bs-parent="#accordionExample">
                                             <div class="accordion-body">
-                                                <p>Lorem Ipsum is simply dummy text of the printing and typesetting
-                                                    industry. Lorem Ipsum has been the industry's standard dummy text
-                                                    ever since the 1500s, when an unknown printer took a galley of type
-                                                    and scrambled it to make a type specimen book. It has survived not..
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="accordion-item">
-                                        <h2 class="accordion-header" id="headingFour">
-                                            <button class="accordion-button collapsed" type="button"
-                                                data-bs-toggle="collapse" data-bs-target="#collapseFour"
-                                                aria-expanded="false" aria-controls="collapseFour">
-                                                How can i Stream sports on multiple devices at the same time ?
-                                            </button>
-                                        </h2>
-                                        <div id="collapseFour" class="accordion-collapse collapse"
-                                            aria-labelledby="headingFour" data-bs-parent="#accordionExample">
-                                            <div class="accordion-body">
-                                                <p>Lorem Ipsum is simply dummy text of the printing and typesetting
-                                                    industry. Lorem Ipsum has been the industry's standard dummy text
-                                                    ever since the 1500s, when an unknown printer took a galley of type
-                                                    and scrambled it to make a type specimen book. It has survived not..
-                                                </p>
+                                                <p>Approved clients will receive a temporary username and password to
+                                                    access the admin panel to manage bookings, booking rates, time
+                                                    slots, fields, employees, types of sports, daily revenue and much
+                                                    more.</p>
                                             </div>
                                         </div>
                                     </div>
@@ -466,52 +485,50 @@
         <footer class=" footer-text footer-section">
             <div class="container">
                 <div class="row footer-content">
-                    <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12 ps-sm-0">
+                    <div class="col-md-6 ps-sm-0">
                         <div class="footer-box wow fadeInDown delay-0-4s animated">
                             <div class="logo-img mb-4 w-100">
                                 <a href="{{ URL::to('/') }}"><img class="footer-logo"
                                         src="{{ url('storage/app/public/admin/images/landing/Domez-Logo-name-white.png') }}" /></a>
                             </div>
-                            <p class="footer-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                                do eiusmod tempor incididunt ut labore et dolore agna.Lorem ipsum dolor sit amet. Lorem
-                                ipsum dolor.</p>
-                            <div class="share-link-icon">
-                                <ul class="social-icon d-flex list-unstyled">
-                                    <li class="socail-space me-2"><a href="#" class="social"><i
-                                                class="fa-brands fa-facebook-f"></i></a></li>
-                                    <li class="socail-space mx-2"><a href="#" class="social"><i
-                                                class="fa-brands fa-twitter"></i></a></li>
-                                    <li class="socail-space mx-2"><a href="#" class="social"><i
-                                                class="fa-brands fa-instagram"></i></a></li>
-                                    <li class="socail-space mx-2"><a href="#" class="social"><i
-                                                class="fa-brands fa-youtube"></i></a></li>
-                                </ul>
+                            <p class="footer-description">“Revolutionizing the way you book your next game! Get instant
+                                access to all the domes in the city and book at the tap of a button. <br><br>
+
+                                Say goodbye to the hassle of bringing cash to pay back your friend who booked the dome.
+                                With our innovative feature, each player can pay their portion of the reservation with
+                                ease, as DOMEZ automatically splits the total cost equally among all players with shared
+                                access to the booking. No more awkward conversations or disputes about who owes what.
+                                Whether you're a seasoned athlete or a casual sports enthusiast, DOMEZ
+                                is designed to provide you with the best experience possible, so you can focus on what
+                                matters most: dominating the field or court like a true champion!”</p>
+
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 wow fadeInDown delay-0-4s animated">
+                        <div style="display: grid; justify-content:center;">
+                            <h6 class="fw-Medium mb-4">Support</h6>
+                            <div class="footer-link link">
+                                <p class="mb-2"> <a href="{{ URL::to('privacy-policy') }}"
+                                        class="text-reset text-copyright mb-2">Privacy & Policy</a> </p>
+                                <p class="mb-2"> <a href="{{ URL::to('terms-conditions') }}"
+                                        class="text-reset text-copyright">Terms Of Service</a> </p>
+                                <p class="mb-2"> <a href="{{ URL::to('cancellation-policies') }}"
+                                        class="text-reset text-copyright">Cancellation Policy</a> </p>
+                                <p class="mb-2"> <a href="{{ URL::to('refund-policies') }}"
+                                        class="text-reset text-copyright">Refund Policy</a> </p>
                             </div>
                         </div>
                     </div>
-                    <div
-                        class="col-xxl-3 col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12 wow fadeInDown delay-0-4s animated">
-                        <h6 class="fw-Medium mb-4">Support</h6>
-                        <div class="footer-link link">
-                            <p> <a href="{{ URL::to('privacy-policy') }}"
-                                    class="text-reset text-copyright mb-2">Privacy & Policy</a> </p>
-                            <p> <a href="{{ URL::to('terms-conditions') }}" class="text-reset text-copyright">Terms
-                                    Of Service</a> </p>
-                            <p> <a href="{{ URL::to('cancellation-policies') }}"
-                                    class="text-reset text-copyright">Cancellation Policy</a> </p>
-                            <p> <a href="{{ URL::to('refund-policies') }}" class="text-reset text-copyright">Refund
-                                    Policy</a> </p>
-                        </div>
-                    </div>
-                    <div
-                        class="col-xxl-3 col-xl-3 col-lg-3 col-md-6 col-sm-6 col-12 ps-sm-0  footer-form-content wow fadeInDown delay-0-4s animated">
-                        <h6 class="fw-Medium mb-4">Available on</h6>
-                        <div class="footer-form">
-                            <div class="icon-link d-flex align-items-center mb-3">
-                                <img src="{{ url('storage/app/public/admin/images/landing/google-play.png') }}" />
-                            </div>
-                            <div class="icon-link d-flex align-items-center mb-4">
-                                <img src="{{ url('storage/app/public/admin/images/landing/apple-store.png') }}" />
+                    <div class="col-lg-3 col-md-6 ps-sm-0  footer-form-content wow fadeInDown delay-0-4s animated">
+                        <div style="display: grid; justify-content:center;">
+                            <h6 class="fw-Medium mb-4">Available on</h6>
+                            <div class="footer-form">
+                                <div class="icon-link d-flex align-items-center mb-3">
+                                    <img src="{{ url('storage/app/public/admin/images/landing/google-play.png') }}" />
+                                </div>
+                                <div class="icon-link d-flex align-items-center mb-4">
+                                    <img src="{{ url('storage/app/public/admin/images/landing/apple-store.png') }}" />
+                                </div>
                             </div>
                         </div>
                     </div>
