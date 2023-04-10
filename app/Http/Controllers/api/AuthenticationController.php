@@ -38,6 +38,7 @@ class AuthenticationController extends Controller
                             $otp = rand(1000, 9999);
                             $user = User::where('email', $request->email)->first();
                             $user->otp = $otp;
+                            $user->otp = $otp;
                             $user->save();
                             $send_mail = Helper::verificationemail($request->email, $checkuser->name, $otp);
                             if ($send_mail == 1) {
@@ -237,6 +238,7 @@ class AuthenticationController extends Controller
         $user->email = $request->email;
         $user->phone = $request->phone ?? "";
         $user->countrycode = $request->countrycode ?? "";
+        $user->fcm_token = $request->fcm_token ?? '';
         $user->google_id = $request->uid;
         if ($request->image != "") {
             $user->image = $request->image;
@@ -269,6 +271,7 @@ class AuthenticationController extends Controller
         $user->email = $request->email;
         $user->phone = $request->phone ?? "";
         $user->countrycode = $request->countrycode ?? "";
+        $user->fcm_token = $request->fcm_token ?? '';
         $user->facebook_id = $request->uid;
         if ($request->image != "") {
             $user->image = $request->image;

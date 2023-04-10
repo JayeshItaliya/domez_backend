@@ -16,24 +16,34 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Str;
-use Stripe\Charge;
-use Stripe\PaymentIntent;
 
 class PaymentController extends Controller
 {
     public function stripe_key(Request $request)
     {
-        // \Stripe\Stripe::setApiKey(Helper::stripe_data()->secret_key);
-        // $paymentIntent = PaymentIntent::retrieve('pi_3MuwTgFysF0okTxJ1Zsj53q0');
-        // $paymentType = $paymentIntent->payment_method_types[0];
-        // dd($paymentType);
+        \Stripe\Stripe::setApiKey(Helper::stripe_data()->secret_key);
+        // $source = \Stripe\PaymentIntent::retrieve('pi_3MvJVzFysF0okTxJ1AmFph3m')->charges->data[0]->payment_method_details->card->wallet->type;
+        // $source = \Stripe\PaymentIntent::retrieve('pi_3MuwTgFysF0okTxJ1Zsj53q0')->charges->data;
+        // if(empty($source)){
+        //     $type = 'card';
+        // }else{;
+        //     $type = $source[0]->payment_method_details->card->wallet->type;
+        // }
+        Helper::send_notification($request->title, $request->body, $request->type, $request->booking_id, $request->league_id, $request->tokens);
         return response()->json(["status" => 1, "message" => "Successfull", 'data' => Helper::stripe_data()], 200);
     }
     public function payment(Request $request)
     {
-        if (strpos(request()->header('User-Agent'), 'Postman') !== false) {
-            // Request is coming from Postman
-        }
+        // if (strpos(request()->header('User-Agent'), 'Postman') !== false) {
+        //     // Request is coming from Postman
+        // }
+        // if (strpos($request->header('User-Agent'), 'Mobile') !== false || strpos($request->header('User-Agent'), 'Android') !== false || strpos($request->header('User-Agent'), 'iPhone') !== false) {
+        //     // Request is coming from a mobile device
+        //     dd(request()->header('User-Agent'));
+        // } else {
+        //     dd(request()->header('User-Agent'),2113231232);
+        //     // Request is not coming from a mobile device
+        // }
         if ($request->booking_type == "") {
             return response()->json(["status" => 0, "message" => "Please Enter Booking Type"], 200);
         }
@@ -129,6 +139,7 @@ class PaymentController extends Controller
                 $user->email = $request->customer_email;
                 $user->password = Hash::make(Str::random(8));
                 $user->is_verified = 1;
+                $user->fcm_token = $request->fcm_token;
                 $user->save();
             } else {
                 $user = $checkuser;
@@ -166,21 +177,8 @@ class PaymentController extends Controller
         $transaction_id = $request->transaction_id;
 
         try {
-            // Payment Type = 1=Full Payment, 2=Split Payment
-            $transaction = new Transaction();
-            $transaction->type = 1;
-            $transaction->vendor_id = $dome->vendor_id;
-            $transaction->dome_id = $dome_id;
-            if ($request->booking_type == 2) {
-                $transaction->league_id = $league->id;
-            }
-            $transaction->user_id = $user->id;
-            $transaction->booking_id = $booking_id;
-            $transaction->payment_method = $request->payment_method;
-            $transaction->transaction_id = $transaction_id;
-            $transaction->amount = $amount;
-            $transaction->save();
-
+            // Payment_Type == 1 == Full Payment
+            // Payment_Type == 2 == Split_Payment
             $booking = new Booking();
             $booking->type = $request->booking_type;
             $booking->vendor_id = $dome->vendor_id;
@@ -197,7 +195,7 @@ class PaymentController extends Controller
             $booking->customer_name = $user->name != "" ? $user->name : null;
             $booking->customer_email = $user->email;
             $booking->customer_mobile = $user->phone != "" ? $user->phone : null;
-            $booking->team_name = $team_name; // Use For Leagues Bookings Only
+            $booking->team_name = $team_name;
             $booking->players = $request->players;
             if ($request->booking_type == 1) {
                 $booking->slots = $request->slots; // Use For Domes Bookings Only
@@ -223,27 +221,60 @@ class PaymentController extends Controller
             $booking->payment_type = $request->payment_type;
             $booking->payment_status = $booking->due_amount == 0 ? 1 : 2;
             $booking->booking_status = $booking->payment_status == 1 ? 1 : 2;
-            if ($request->payment_type == 2) {
-                $booking->token = str_replace(['$', '/', '.', '|'], '', Hash::make($booking_id));
-            }
+            // if ($request->payment_type == 2) {
+            $booking->token = str_replace(['$', '/', '.', '|'], '', Hash::make($booking_id));
+            // }
             // if ($request->created_at != "") {
             //     $booking->created_at = $request->created_at;
             // }
-            $booking->save();
-            $data = ['title' => 'Booking Receipt', 'email' => $booking->customer_email, 'bookingdata' => $booking];
+            // $booking->save();
 
+            // $transaction = new Transaction();
+            // $transaction->type = 1;
+            // $transaction->vendor_id = $dome->vendor_id;
+            // $transaction->dome_id = $dome_id;
+            // if ($request->booking_type == 2) {
+            //     $transaction->league_id = $league->id;
+            // }
+            // $transaction->user_id = $user->id;
+            // $transaction->booking_id = $booking_id;
+            // $transaction->payment_method = $request->payment_method;
+            // $transaction->transaction_id = $transaction_id;
+            // $transaction->amount = $amount;
+            // $transaction->save();
+
+            // if ($request->booking_type == 1) {
+            //     foreach (explode(',', $request->slots) as $key => $slot) {
+            //         $start_time = date('H:i', strtotime(explode(' - ', $slot)[0]));
+            //         $end_time = date('H:i', strtotime(explode(' - ', $slot)[1]));
+            //         SetPricesDaysSlots::where('start_time', $start_time)->where('end_time', $end_time)->where('sport_id', $booking->sport_id)->whereDate('date', date('Y-m-d', strtotime($booking->start_date)))->where('status', 1)->update(['status' => 0]);
+            //     }
+            // }
+
+            $title = $request->booking_type == 1 ? 'Dome Booking' : 'League Booking';
+            $tokens[] = $user->fcm_token;
+            if ($booking->payment_status == 1) {
+                if ($request->booking_type == 1) {
+                    $body = 'Thank you for making Dome Booking. Thank you for making Dome Booking. Thank you for making Dome Booking.';
+                    $type = 5;
+                } else {
+                    $body = 'Thank you for making League Booking. Thank you for making League Booking. Thank you for making League Booking.';
+                    $type = 6;
+                }
+                $data = Helper::send_notification($title, $body, $type, $booking_id, '', $tokens);
+                dd(11,$data);
+            }
+            if ($booking->payment_type == 2) {
+                $type = 1;
+                $body = 'Thank you for your Booking with us! Please complete the payment within the next 2 hours to ensure that your booking is Confirmed.';
+                $data2 = Helper::send_notification($title, $body, $type, $booking_id, '', $tokens);
+                dd(22,$data2);
+            }
+            $data = ['title' => 'Booking Receipt', 'email' => $booking->customer_email, 'bookingdata' => $booking];
             Mail::send('email.booking_confirmation', $data, function ($message) use ($data) {
                 $message->from(env('MAIL_USERNAME'))->subject($data['title']);
                 $message->to($data['email']);
             });
-            if ($request->booking_type == 1) {
-                foreach (explode(',', $request->slots) as $key => $slot) {
-                    $start_time = date('H:i', strtotime(explode(' - ', $slot)[0]));
-                    $end_time = date('H:i', strtotime(explode(' - ', $slot)[1]));
-                    SetPricesDaysSlots::where('start_time', $start_time)->where('end_time', $end_time)->where('sport_id', $booking->sport_id)->whereDate('date', date('Y-m-d', strtotime($booking->start_date)))->where('status', 1)->update(['status' => 0]);
-                }
-            }
-
             return response()->json(['status' => 1, "message" => "Successful", "transaction_id" => $transaction_id, "booking_id" => $booking->id, "payment_link" => URL::to('/payment/' . $booking->token),], 200);
         } catch (\Throwable $th) {
             return response()->json(['status' => 0, "message" => "Something Went Wrong..!!"], 200);

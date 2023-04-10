@@ -43,8 +43,6 @@ Route::group(['middleware' => 'SetTimeZoneMiddleware'], function () {
 
     Route::get('sportslist', [HomeController::class, 'sportslist']);
     Route::post('helpcenter', [HomeController::class, 'helpcenter']);
-    Route::post('pushnotification', [HomeController::class, 'pushnotification']);
-
 
     Route::post('payment', [PaymentController::class, 'payment']);
 
