@@ -277,10 +277,10 @@
                             <span
                                 class="nav-link {{ request()->is('admin/settings/email-setting') ? 'active' : '' }}">{{ trans('labels.email_settings') }}</span>
                         </a>
-                        <a href="{{ URL::to('admin/settings/twilio-setting') }}" class="nav-item">
+                        {{-- <a href="{{ URL::to('admin/settings/twilio-setting') }}" class="nav-item">
                             <span
                                 class="nav-link {{ request()->is('admin/settings/twilio-setting') ? 'active' : '' }}">{{ trans('labels.twilio_settings') }}</span>
-                        </a>
+                        </a> --}}
                     @endif
                 </ul>
             </div>
