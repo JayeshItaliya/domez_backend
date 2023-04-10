@@ -148,7 +148,6 @@ function getfields(sport) {
 }
 $(function () {
     $('.start.time_picker').timepicker({
-        // timeFormat: 'h:mm p',
         interval: my_interval,
         dynamic: false,
         dropdown: true,
@@ -174,7 +173,6 @@ $(function () {
     });
     if ($.trim($('.end.time_picker').val()) != "") {
         $('.end.time_picker').timepicker({
-            // timeFormat: 'h:mm p',
             interval: my_interval,
             dynamic: false,
             dropdown: true,

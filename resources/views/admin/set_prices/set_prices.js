@@ -174,11 +174,7 @@ $('body').on('focus', ".start.time_picker", function () {
                 change: function (time) {
                     var element = $(this);
                     var timepicker = element.timepicker();
-                    alert('start_time -- '+start_time)
                     start_time = timepicker.format(time);
-                    alert('start_time_new -- '+start_time)
-                    alert('max_time -- '+max_time)
-                    alert(start_time == max_time)
                     if (start_time == max_time) {
                         $("button[data-day-name='" + $(element).attr('data-day-name') + "']").attr("disabled", true).addClass("disabled");
                     }

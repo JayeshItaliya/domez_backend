@@ -17,17 +17,23 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Str;
 use Stripe\Charge;
+use Stripe\PaymentIntent;
 
 class PaymentController extends Controller
 {
     public function stripe_key(Request $request)
     {
+        // \Stripe\Stripe::setApiKey(Helper::stripe_data()->secret_key);
+        // $paymentIntent = PaymentIntent::retrieve('pi_3MuwTgFysF0okTxJ1Zsj53q0');
+        // $paymentType = $paymentIntent->payment_method_types[0];
+        // dd($paymentType);
         return response()->json(["status" => 1, "message" => "Successfull", 'data' => Helper::stripe_data()], 200);
     }
     public function payment(Request $request)
     {
-        // booking_type == 1 == Dome
-        // booking_type == 2 == League
+        if (strpos(request()->header('User-Agent'), 'Postman') !== false) {
+            // Request is coming from Postman
+        }
         if ($request->booking_type == "") {
             return response()->json(["status" => 0, "message" => "Please Enter Booking Type"], 200);
         }
