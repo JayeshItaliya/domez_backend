@@ -21,7 +21,7 @@ class PaymentController extends Controller
 {
     public function stripe_key(Request $request)
     {
-        \Stripe\Stripe::setApiKey(Helper::stripe_data()->secret_key);
+        // \Stripe\Stripe::setApiKey(Helper::stripe_data()->secret_key);
         // $source = \Stripe\PaymentIntent::retrieve('pi_3MvJVzFysF0okTxJ1AmFph3m')->charges->data[0]->payment_method_details->card->wallet->type;
         // $source = \Stripe\PaymentIntent::retrieve('pi_3MuwTgFysF0okTxJ1Zsj53q0')->charges->data;
         // if(empty($source)){
@@ -227,48 +227,46 @@ class PaymentController extends Controller
             // if ($request->created_at != "") {
             //     $booking->created_at = $request->created_at;
             // }
-            // $booking->save();
+            $booking->save();
 
-            // $transaction = new Transaction();
-            // $transaction->type = 1;
-            // $transaction->vendor_id = $dome->vendor_id;
-            // $transaction->dome_id = $dome_id;
-            // if ($request->booking_type == 2) {
-            //     $transaction->league_id = $league->id;
-            // }
-            // $transaction->user_id = $user->id;
-            // $transaction->booking_id = $booking_id;
-            // $transaction->payment_method = $request->payment_method;
-            // $transaction->transaction_id = $transaction_id;
-            // $transaction->amount = $amount;
-            // $transaction->save();
+            $transaction = new Transaction();
+            $transaction->type = 1;
+            $transaction->vendor_id = $dome->vendor_id;
+            $transaction->dome_id = $dome_id;
+            if ($request->booking_type == 2) {
+                $transaction->league_id = $league->id;
+            }
+            $transaction->user_id = $user->id;
+            $transaction->booking_id = $booking_id;
+            $transaction->payment_method = $request->payment_method;
+            $transaction->transaction_id = $transaction_id;
+            $transaction->amount = $amount;
+            $transaction->save();
 
-            // if ($request->booking_type == 1) {
-            //     foreach (explode(',', $request->slots) as $key => $slot) {
-            //         $start_time = date('H:i', strtotime(explode(' - ', $slot)[0]));
-            //         $end_time = date('H:i', strtotime(explode(' - ', $slot)[1]));
-            //         SetPricesDaysSlots::where('start_time', $start_time)->where('end_time', $end_time)->where('sport_id', $booking->sport_id)->whereDate('date', date('Y-m-d', strtotime($booking->start_date)))->where('status', 1)->update(['status' => 0]);
-            //     }
-            // }
+            if ($request->booking_type == 1) {
+                foreach (explode(',', $request->slots) as $key => $slot) {
+                    $start_time = date('H:i', strtotime(explode(' - ', $slot)[0]));
+                    $end_time = date('H:i', strtotime(explode(' - ', $slot)[1]));
+                    SetPricesDaysSlots::where('start_time', $start_time)->where('end_time', $end_time)->where('sport_id', $booking->sport_id)->whereDate('date', date('Y-m-d', strtotime($booking->start_date)))->where('status', 1)->update(['status' => 0]);
+                }
+            }
 
             $title = $request->booking_type == 1 ? 'Dome Booking' : 'League Booking';
             $tokens[] = $user->fcm_token;
             if ($booking->payment_status == 1) {
                 if ($request->booking_type == 1) {
-                    $body = 'Thank you for making Dome Booking. Thank you for making Dome Booking. Thank you for making Dome Booking.';
+                    $body = 'Thank you for making Dome Booking.';
                     $type = 5;
                 } else {
-                    $body = 'Thank you for making League Booking. Thank you for making League Booking. Thank you for making League Booking.';
+                    $body = 'Thank you for making League Booking.';
                     $type = 6;
                 }
-                $data = Helper::send_notification($title, $body, $type, $booking_id, '', $tokens);
-                dd(11,$data);
+                Helper::send_notification($title, $body, $type, $booking_id, '', $tokens);
             }
             if ($booking->payment_type == 2) {
                 $type = 1;
                 $body = 'Thank you for your Booking with us! Please complete the payment within the next 2 hours to ensure that your booking is Confirmed.';
-                $data2 = Helper::send_notification($title, $body, $type, $booking_id, '', $tokens);
-                dd(22,$data2);
+                Helper::send_notification($title, $body, $type, $booking_id, '', $tokens);
             }
             $data = ['title' => 'Booking Receipt', 'email' => $booking->customer_email, 'bookingdata' => $booking];
             Mail::send('email.booking_confirmation', $data, function ($message) use ($data) {

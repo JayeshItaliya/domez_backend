@@ -9,6 +9,8 @@ class Kernel extends ConsoleKernel
 {
     protected $commands = [
         \App\Console\Commands\AutoCancelBooking::class,
+        \App\Console\Commands\FcmNotification2::class,
+        \App\Console\Commands\FcmNotification3::class,
     ];
     /**
      * Define the application's command schedule.
@@ -18,8 +20,11 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('bookings:cancel')->everyMinute()->appendOutputTo(storage_path('logs/bookings:cancel.log'));
-        $schedule->command('payment:distribute')->everyMinute()->appendOutputTo(storage_path('logs/payment:distribute.log'));
+        // $schedule->command('bookings:cancel')->everyMinute()->appendOutputTo(storage_path('logs/bookings_cancel.log'));
+        // $schedule->command('payment:distribute')->everyMinute()->appendOutputTo(storage_path('logs/payment_distribute.log'));
+        // $schedule->command('FCM:Notifcation:2')->everyMinute()->appendOutputTo(storage_path('logs/notification2.log'));
+        $schedule->command('FCM:Notifcation:3')->everyMinute()->appendOutputTo(storage_path('logs/notification3.log'));
+
         // $schedule->command('bookings:cancel')->everyMinute()->withoutOverlapping()->onFailure(function () { /* Code..*/ });;
     }
 

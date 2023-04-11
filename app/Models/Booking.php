@@ -43,7 +43,7 @@ class Booking extends Model
 
     public function user_info()
     {
-        return $this->hasOne('App\Models\User', 'id', 'user_id')->select('id', 'name', 'phone', 'email', DB::raw("CONCAT('" . url('storage/app/public/admin/images/users') . "/', image) AS user_image"));
+        return $this->hasOne('App\Models\User', 'id', 'user_id')->select('id', 'name', 'phone', 'email', 'fcm_token', DB::raw("CONCAT('" . url('storage/app/public/admin/images/users') . "/', image) AS user_image"));
     }
     public function dome_owner()
     {
@@ -63,6 +63,6 @@ class Booking extends Model
     }
     public function transactions()
     {
-        return $this->hasMany('App\Models\Transaction', 'booking_id','booking_id')->select('transaction_id','amount');
+        return $this->hasMany('App\Models\Transaction', 'booking_id', 'booking_id')->select('transaction_id', 'amount');
     }
 }

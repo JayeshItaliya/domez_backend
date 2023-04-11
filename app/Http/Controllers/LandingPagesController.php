@@ -171,8 +171,6 @@ class LandingPagesController extends Controller
                 $checkbooking->paid_amount += $request->amount;
                 $checkbooking->save();
 
-                $snewcheckbooking = Booking::where('token', $request->booking_token)->first();
-
                 $newcheckbooking = Booking::where('token', $request->booking_token)->first();
                 if ($newcheckbooking->due_amount == 0) {
                     $newcheckbooking->booking_status = 1;
@@ -180,8 +178,22 @@ class LandingPagesController extends Controller
                     $newcheckbooking->save();
                 }
 
-                $checkbooking1 = Booking::where('token', $request->booking_token)->first();
+                $snewcheckbooking = Booking::where('token', $request->booking_token)->first();
+                if ($snewcheckbooking->booking_status == 1 && $snewcheckbooking->payment_status == 1) {
+                    $title = $snewcheckbooking->booking_type == 1 ? 'Dome Booking' : 'League Booking';
+                    $tokens[] = $snewcheckbooking->user_info->fcm_token;
+                    if ($snewcheckbooking->booking_type == 1) {
+                        $body = 'Payment Successful. Dome Booking has been Confirmed.';
+                        $type = 5;
+                    } else {
+                        $body = 'Payment Successful. League Booking has been Confirmed.';
+                        $type = 6;
+                    }
+                    Helper::send_notification($title, $body, $type, $snewcheckbooking->booking_id, '', $tokens);
+                }
 
+
+                $checkbooking1 = Booking::where('token', $request->booking_token)->first();
                 $transaction = new Transaction();
                 $transaction->type = 1;
                 $transaction->vendor_id = $checkbooking1->vendor_id;
@@ -196,7 +208,7 @@ class LandingPagesController extends Controller
             }
             return response()->json(['status' => 1, 'message' => 'Payment Successfull'], 200);
         } catch (\Throwable $th) {
-            return response()->json(['status' => 0, 'message' => trans('messages.wrong')], 200);
+            return response()->json(['status' => 0, 'message' => 'Something Went Wrong..!!'], 200);
         }
     }
 }
