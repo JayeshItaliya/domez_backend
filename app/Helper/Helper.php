@@ -178,11 +178,11 @@ class Helper
     public static function get_sports_list($sports_id)
     {
         // SPORTS_ID : CAN BE IN COMMA SAPERATED FORMAT
-        if ($sports_id == "") {
-            $sportslist = Sports::select('id', 'name', DB::raw("CONCAT('" . url('storage/app/public/admin/images/sports') . "/', image) AS image"))->where('is_available', 1)->where('is_deleted', 2)->get();
-        } else {
-            $sportslist = Sports::select('id', 'name', DB::raw("CONCAT('" . url('storage/app/public/admin/images/sports') . "/', image) AS image"))->whereIn('id', explode(',', $sports_id))->where('is_available', 1)->where('is_deleted', 2)->get();
+        $sportslist = Sports::select('id', 'name', DB::raw("CONCAT('" . url('storage/app/public/admin/images/sports') . "/', image) AS image"));
+        if ($sports_id != "") {
+            $sportslist = $sportslist->whereIn('id', explode(',', $sports_id));
         }
+        $sportslist = $sportslist->where('is_available', 1)->where('is_deleted', 2)->get();
         return $sportslist;
     }
     public static function refund_cancel_booking($booking_id)
@@ -214,13 +214,12 @@ class Helper
     }
     public static function send_notification($title, $body, $type, $booking_id, $league_id, $tokens)
     {
-        // TYPE  =  1  ->  AUTO ---  aftre create booking -- in case of split payment --> PLease complete payment in 2 hours (booking_id)
-        // TYPE  =  5  ->  AUTH ---  DOME BOOKING IS CONFIRMED (booking_id)
+        // TYPE  =  1  ->  AUTO ---  Aftre Create Booking --> in case of split payment --> Notify to complete payment in 2 hours to confirm the booking
+        // TYPE  =  2  ->  CRON ---  Send Notitification One Day Before to League Booked Users To Notify That League Is going To Start Tomorrow
+        // TYPE  =  3  ->  CRON ---  Send Notification to User to notify to add the review When User has not added The Review On Booking End time
+        // TYPE  =  5  ->  AUTO ---  DOME BOOKING IS CONFIRMED (booking_id)
         // TYPE  =  6  ->  AUTO ---  LEAGUE BOOKING IS CONFIRMED (booking_id)
         // TYPE  =  4  ->  AUTO ---  NEW LEAGUE IS ADDED BY DOME OWNER (only those users who've been favourited that dome) (league_id)
-
-        // TYPE  =  2  ->  CRON ---  to booked league users - tommorrow league going to start (booking_id,league_id)
-        // TYPE  =  3  ->  CRON ---  aftre booking end time complete -- send notif. if user has not added the review (booking_id)
 
         try {
             is_array($tokens) ? $gettokens = $tokens : $gettokens[] = $tokens;
@@ -286,7 +285,6 @@ class Helper
             // curl_close($ch);
         } catch (\Throwable $th) {
             //throw $th;
-            dd($th);
         }
     }
 }
