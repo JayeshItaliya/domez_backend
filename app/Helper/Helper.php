@@ -178,11 +178,11 @@ class Helper
     public static function get_sports_list($sports_id)
     {
         // SPORTS_ID : CAN BE IN COMMA SAPERATED FORMAT
-        if ($sports_id == "") {
-            $sportslist = Sports::select('id', 'name', DB::raw("CONCAT('" . url('storage/app/public/admin/images/sports') . "/', image) AS image"))->where('is_available', 1)->where('is_deleted', 2)->get();
-        } else {
-            $sportslist = Sports::select('id', 'name', DB::raw("CONCAT('" . url('storage/app/public/admin/images/sports') . "/', image) AS image"))->whereIn('id', explode(',', $sports_id))->where('is_available', 1)->where('is_deleted', 2)->get();
+        $sportslist = Sports::select('id', 'name', DB::raw("CONCAT('" . url('storage/app/public/admin/images/sports') . "/', image) AS image"))->where('is_available', 1)->where('is_deleted', 2)->get();
+        if ($sports_id != "") {
+            $sportslist = $sportslist->whereIn('id', explode(',', $sports_id));
         }
+        $sportslist = $sportslist->where('is_available', 1)->where('is_deleted', 2)->get();
         return $sportslist;
     }
     public static function refund_cancel_booking($booking_id)
