@@ -6,7 +6,6 @@ use App\Helper\Helper;
 use App\Http\Controllers\Controller;
 use App\Models\Booking;
 use App\Models\Domes;
-use App\Models\Favourite;
 use App\Models\Field;
 use App\Models\Review;
 use App\Models\User;
@@ -18,7 +17,6 @@ class DomesController extends Controller
 {
     public function domes_list(Request $request)
     {
-
         if ($request->type != "") {
             if (in_array($request->type, [1, 2, 3])) {
                 $domes_list = [];
