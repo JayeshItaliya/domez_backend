@@ -3,12 +3,14 @@
 namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use App\Models\Booking;
 use App\Models\Domes;
 use App\Models\Sports;
-use Illuminate\Http\Request;
-
 use App\Models\User;
+use App\Models\Favourite;
+use App\Models\League;
+use App\Models\Field;
 use Carbon\Carbon;
 use Carbon\CarbonImmutable;
 use Illuminate\Support\Facades\DB;
@@ -271,7 +273,14 @@ class VendorController extends Controller
         $user = User::find($request->id);
         $user->is_deleted = $request->status;
         $user->save();
-
+        $getdomelist = Domes::where('vendor_id', $user->id)->get();
+        foreach ($getdomelist as $key => $checkdome) {
+            $checkdome->is_deleted = 1;
+            $checkdome->save();
+            Favourite::where('dome_id', $checkdome->id)->delete();
+            League::where('dome_id', $checkdome->id)->update(['is_deleted' => 1]);
+            Field::where('dome_id', $checkdome->id)->update(['is_available' => 2, 'is_deleted' => 1]);
+        }
         return 1;
     }
     public function change_status(Request $request)
@@ -279,7 +288,13 @@ class VendorController extends Controller
         $user = User::find($request->id);
         $user->is_available = $request->status;
         $user->save();
-
+        $getdomelist = Domes::where('vendor_id', $user->id)->get();
+        foreach ($getdomelist as $key => $checkdome) {
+            $checkdome->is_deleted = $request->status;
+            $checkdome->save();
+            League::where('dome_id', $checkdome->id)->update(['is_deleted' => $request->status == 2 ? 1 : 2]);
+            Field::where('dome_id', $checkdome->id)->update(['is_available' => $request->status == 2 ? 2 : 1, 'is_deleted' => $request->status == 2 ? 1 : 2]);
+        }
         return 1;
     }
 }

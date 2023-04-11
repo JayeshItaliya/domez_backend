@@ -57,7 +57,7 @@
                             <td>{{ Helper::currency_format($setprice->price) }}</td>
                             <td>
                                 @if ($setprice->price_type == 2)
-                                    <a class="cursor-pointer me-2"
+                                    {{-- <a class="cursor-pointer me-2"
                                         href="{{ URL::to('admin/set-prices/edit-' . $setprice->id) }}">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-edit"
                                             width="25" height="25" viewBox="0 0 24 24" stroke-width="1"
@@ -67,7 +67,7 @@
                                             <path d="M9 15h3l8.5 -8.5a1.5 1.5 0 0 0 -3 -3l-8.5 8.5v3"></path>
                                             <line x1="16" y1="5" x2="19" y2="8"></line>
                                         </svg>
-                                    </a>
+                                    </a> --}}
                                     <a class="cursor-pointer me-2"
                                         onclick="deletedata('{{ $setprice->id }}','{{ URL::to('admin/set-prices/delete') }}')">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash"

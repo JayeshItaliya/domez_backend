@@ -178,7 +178,7 @@ class Helper
     public static function get_sports_list($sports_id)
     {
         // SPORTS_ID : CAN BE IN COMMA SAPERATED FORMAT
-        $sportslist = Sports::select('id', 'name', DB::raw("CONCAT('" . url('storage/app/public/admin/images/sports') . "/', image) AS image"));
+        $sportslist = Sports::select('id', 'name', DB::raw("CONCAT('" . url('storage/app/public/admin/images/sports') . "/', image) AS image"))->where('is_available', 1)->where('is_deleted', 2)->get();
         if ($sports_id != "") {
             $sportslist = $sportslist->whereIn('id', explode(',', $sports_id));
         }
@@ -220,7 +220,6 @@ class Helper
         // TYPE  =  5  ->  AUTO ---  DOME BOOKING IS CONFIRMED (booking_id)
         // TYPE  =  6  ->  AUTO ---  LEAGUE BOOKING IS CONFIRMED (booking_id)
         // TYPE  =  4  ->  AUTO ---  NEW LEAGUE IS ADDED BY DOME OWNER (only those users who've been favourited that dome) (league_id)
-
         try {
             is_array($tokens) ? $gettokens = $tokens : $gettokens[] = $tokens;
             $title = $title == "" ? "Domez Notification" : $title;
@@ -254,35 +253,6 @@ class Helper
             $result = curl_exec($ch);
             curl_close($ch);
             return $result;
-            // $notification = [
-            //     'body' => $body,
-            //     'title' => $title,
-            //     'sound' => 1/*Default sound*/
-            // ];
-            // $fields = [
-            //     'to' => $token,
-            //     'notification' => $notification,
-            //     'data' => [
-            //         "NotificationId" => substr(str_shuffle('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'), 0, 10),
-            //         "type" => $type,
-            //         "booking_id" => $booking_id,
-            //         "league_id" => $league_id,
-            //     ]
-            // ];
-            // $headers = [
-            //     'Authorization: key=' . env('FIREBASE_KEY'),
-            //     'Content-Type: application/json'
-            // ];
-            // #Send Reponse To FireBase Server
-            // $ch = curl_init();
-            // curl_setopt($ch, CURLOPT_URL, 'https://fcm.googleapis.com/fcm/send');
-            // curl_setopt($ch, CURLOPT_POST, true);
-            // curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-            // curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            // curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-            // curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($fields));
-            // $result = curl_exec($ch);
-            // curl_close($ch);
         } catch (\Throwable $th) {
             //throw $th;
         }

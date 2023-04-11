@@ -29,14 +29,10 @@ class PaymentController extends Controller
         // }else{;
         //     $type = $source[0]->payment_method_details->card->wallet->type;
         // }
-        Helper::send_notification($request->title, $request->body, $request->type, $request->booking_id, $request->league_id, $request->tokens);
         return response()->json(["status" => 1, "message" => "Successfull", 'data' => Helper::stripe_data()], 200);
     }
     public function payment(Request $request)
     {
-        // if (strpos(request()->header('User-Agent'), 'Postman') !== false) {
-        //     // Request is coming from Postman
-        // }
         // if (strpos($request->header('User-Agent'), 'Mobile') !== false || strpos($request->header('User-Agent'), 'Android') !== false || strpos($request->header('User-Agent'), 'iPhone') !== false) {
         //     // Request is coming from a mobile device
         //     dd(request()->header('User-Agent'));

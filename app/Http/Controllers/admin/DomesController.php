@@ -9,10 +9,14 @@ use Illuminate\Http\Request;
 use App\Models\Domes;
 use App\Models\DomeImages;
 use App\Models\Enquiries;
+use App\Models\Favourite;
+use App\Models\Field;
+use App\Models\League;
 use App\Models\SetPrices;
 use Carbon\Carbon;
 use Carbon\CarbonImmutable;
 use Illuminate\Support\Facades\DB;
+use Ramsey\Uuid\Guid\Fields;
 
 class DomesController extends Controller
 {
@@ -90,7 +94,7 @@ class DomesController extends Controller
             }
         }
         foreach ($request->sport_id as $key => $sport) {
-            $checksportexist =  SetPrices::where('dome_id', $dome->id)->where('sport_id', $sport)->where('price_type',1)->first();
+            $checksportexist =  SetPrices::where('dome_id', $dome->id)->where('sport_id', $sport)->where('price_type', 1)->first();
             if (empty($checksportexist)) {
                 $checksportexist = new SetPrices();
                 $checksportexist->vendor_id = auth()->user()->id;
@@ -313,7 +317,7 @@ class DomesController extends Controller
         }
 
         foreach ($request->sport_id as $key => $sport) {
-            $checksportexist =  SetPrices::where('dome_id', $dome->id)->where('sport_id', $sport)->where('price_type',1)->first();
+            $checksportexist =  SetPrices::where('dome_id', $dome->id)->where('sport_id', $sport)->where('price_type', 1)->first();
             if (empty($checksportexist)) {
                 $checksportexist = new SetPrices();
                 $checksportexist->vendor_id = auth()->user()->id;
@@ -333,9 +337,15 @@ class DomesController extends Controller
     {
         try {
             $checkdome = Domes::find($request->id);
-            $checkdome->is_deleted = 1;
-            $checkdome->save();
-            return response()->json(['status' => 1, 'message' => trans('messages.success')], 200);
+            if(!empty($checkdome)){
+                $checkdome->is_deleted = 1;
+                $checkdome->save();
+                Favourite::where('dome_id', $checkdome->id)->delete();
+                League::where('dome_id', $checkdome->id)->update(['is_deleted' => 1]);
+                Field::where('dome_id', $checkdome->id)->update(['is_available' => 2,'is_deleted' => 1]);
+                return response()->json(['status' => 1, 'message' => trans('messages.success')], 200);
+            }
+            return response()->json(['status' => 0, 'message' => trans('messages.invalid_dome')], 200);
         } catch (\Throwable $th) {
             return response()->json(['status' => 0, 'message' => trans('messages.wrong')], 200);
         }
