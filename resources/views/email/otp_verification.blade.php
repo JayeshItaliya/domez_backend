@@ -8,7 +8,7 @@
         <p style="font-size:1.1em">Hi, {{$name}}</p>
         <p>Thank you for choosing Domez. Use the following OTP to verify your email address.</p>
         <h2 style="background: #00bac7;width: max-content;padding: 0 10px;color: #fff;border-radius: 4px;">{{$otp}}</h2>
-        <p style="font-size:0.9em;">Regards,<br />Domez</p>
+        <p style="font-size:0.9em;">Regards,<br />DOMEZ Team</p>
         <hr style="border:none;border-top:1px solid #eee" />
     </div>
 </div>
