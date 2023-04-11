@@ -33,7 +33,7 @@
             <nav class="navbar navbar-expand-lg navbar-light">
                 <a class="navbar-brand logo-img" href="{{ URL::to('/') }}">
 
-                    <img src="{{ url('storage/app/public/admin/images/landing/logo_dark.png') }}">
+                    <img src="{{ url('storage/app/public/admin/images/logo_dark.png') }}">
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas"
                     data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
@@ -203,7 +203,7 @@
                         <div class="footer-box wow fadeInDown delay-0-4s animated">
                             <div class="logo-img mb-4 w-100">
                                 <a href="{{ URL::to('/') }}"><img class="footer-logo"
-                                        src="{{ url('storage/app/public/admin/images/landing/Domez-Logo-name-white.png') }}" /></a>
+                                        src="{{ url('storage/app/public/admin/images/logo-white.png') }}" /></a>
                             </div>
                             <p class="footer-description">“Revolutionizing the way you book your next game! Get instant
                                 access to all the domes in the city and book at the tap of a button. <br><br>

@@ -145,9 +145,9 @@
                             placeholder="{{ trans('labels.dome_city') }}">
                     </div>
                     <div class="form-group">
-                        <label for="dome_zipcode" class="form-label">{{ trans('labels.dome_zipcode') }}</label>
+                        <label for="dome_zipcode" class="form-label">{{ trans('labels.pincode') }}</label>
                         <input type="text" class="form-control" name="dome_zipcode" id="dome_zipcode"
-                            placeholder="{{ trans('labels.dome_zipcode') }}">
+                            placeholder="{{ trans('labels.pincode') }}">
                     </div>
                     <div class="form-group">
                         <label for="dome_state" class="form-label">{{ trans('labels.dome_state') }}</label>

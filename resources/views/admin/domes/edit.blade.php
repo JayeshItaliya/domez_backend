@@ -282,7 +282,7 @@
                             @enderror
                         </div>
                         <div class="col-md-12 mb-3">
-                            <div class="row row-cols-lg-5 row-cols-md-4" id="sport_prices_input">
+                            <div class="row row-cols-md-4" id="sport_prices_input">
                                 @foreach ($getsportslist as $sport)
                                     @if (in_array($sport->id, $sport_id))
                                         <div class="col mb-2" id="{{ $sport->name . $sport->id }}">

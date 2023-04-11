@@ -40,12 +40,12 @@ class PaymentDistribution extends Command
         foreach ($transactions as $transaction) {
             $dome_owner = PaymentGateway::where('vendor_id', $transaction->vendor_id)->select('account_id')->first();
             if (!empty($dome_owner)) {
-                $account = \Stripe\Account::retrieve($dome_owner->account_id);
+                $account = \Stripe\Account::retrieve('acct_1MvLi2C23H26Gl2U');
                 // Transfer funds to another Stripe account
                 $transfer = Transfer::create([
                     'amount' => $transaction->amount * 100, // Amount in cents
                     'currency' => 'CAD',
-                    'destination' => $account->external_accounts->data[0]->id,
+                    'destination' => $account->external_accounts,
                 ]);
             }
         }

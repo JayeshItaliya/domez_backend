@@ -103,7 +103,7 @@
                             <label>{{ trans('labels.hst') }}</label>
                         </div>
                         <div class="col-md-8">
-                            <span class="text-muted fs-7">{{ $getdomedata->hst }}</span>
+                            <span class="text-muted fs-7">{{ $getdomedata->hst . '%' }}</span>
                         </div>
                     </div>
                 </div>

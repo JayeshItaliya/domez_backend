@@ -251,7 +251,7 @@
                             @enderror
                         </div>
                         <div class="col-md-12">
-                            <div class="row row-cols-lg-5 row-cols-md-4" id="sport_prices_input"></div>
+                            <div class="row row-cols-md-4" id="sport_prices_input"></div>
                         </div>
                     </div>
                 </div>

@@ -40,7 +40,7 @@
                         @endif
                         <th>{{ trans('labels.league_name') }}</th>
                         <th>{{ trans('labels.last_date_registration') }}</th>
-                        <th>{{ trans('labels.domes') }}</th>
+                        <th>{{ trans('labels.dome_name') }}</th>
                         <th>{{ trans('labels.sports') }}</th>
                         <th>{{ trans('labels.date') }}</th>
                         <th>{{ trans('labels.time') }}</th>

@@ -274,8 +274,11 @@
                         <div class="col-lg-4 col-md-6">
                             <div class="form-group">
                                 <label class="form-label" for="price">{{ trans('labels.price') }}</label>
-                                <input type="number" required class="form-control" name="price" id="price"
-                                    value="{{ $getleaguedata->price }}" placeholder="{{ trans('labels.price') }}">
+                                <div class="input-group">
+                                    <input type="number" required class="form-control" name="price" id="price"
+                                        value="{{ $getleaguedata->price }}" placeholder="{{ trans('labels.price') }}">
+                                    <span class="input-group-text" id="basic-addon1">$</span>
+                                </div>
                                 @error('price')
                                     <span class="text-danger"> {{ $message }} </span>
                                 @enderror
