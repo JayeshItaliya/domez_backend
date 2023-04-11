@@ -34,19 +34,18 @@ class AdminController extends Controller
     }
     public function dashboard(Request $request)
     {
-        // $dome_owner = PaymentGateway::where('vendor_id', Auth::user()->id)->select('account_id')->first();
-        // Stripe::setApiKey(Helper::stripe_data()->secret_key);
-        // // Create the platform account
+        $dome_owner = PaymentGateway::where('vendor_id', Auth::user()->id)->select('account_id')->first();
+        Stripe::setApiKey(Helper::stripe_data()->secret_key);
+
+        // Create the platform account
         // $account = Account::create([
-        //     'type' => 'custom',
+        //     'type' => 'standard',
         //     'country' => 'CA',
         //     'email' => 'domeztest1@gmail.com',
-        //     'capabilities' => [
-        //         'card_payments' => ['requested' => true],
-        //         'transfers' => ['requested' => true],
-        //     ],
         // ]);
-        // dd($account);
+        // $account = Account::retrieve('acct_1Mvev9C1VhQkVuOB');
+        // $account->delete();
+        dd($account);
         $now = CarbonImmutable::today();
         $weekStartDate = $now->startOfWeek();
         $weekEndDate = $now->endOfWeek();
