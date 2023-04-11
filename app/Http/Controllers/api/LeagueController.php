@@ -59,7 +59,7 @@ class LeagueController extends Controller
                     * sin(radians(lat))) AS distance")
                     )->where('domes.is_deleted', 2);
                     // The Distance Will Be in Kilometers
-                    $getarounddomes = $getarounddomes->having('distance', '<=', $request->kilometer > 0 ? $request->kilometer : 1000);
+                    $getarounddomes = $getarounddomes->having('distance', '<=', $request->kilometer > 0 ? $request->kilometer : 10000);
                     if ($request->sport_id != "") {
                         $getarounddomes = $getarounddomes->whereRaw("find_in_set('" . $request->sport_id . "',sport_id)");
                     }

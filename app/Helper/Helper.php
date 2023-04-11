@@ -10,6 +10,7 @@ use App\Models\Favourite;
 use App\Models\PaymentGateway;
 use App\Models\SetPrices;
 use App\Models\Sports;
+use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Mail;
@@ -182,7 +183,6 @@ class Helper
         } else {
             $sportslist = Sports::select('id', 'name', DB::raw("CONCAT('" . url('storage/app/public/admin/images/sports') . "/', image) AS image"))->whereIn('id', explode(',', $sports_id))->where('is_available', 1)->where('is_deleted', 2)->get();
         }
-
         return $sportslist;
     }
     public static function refund_cancel_booking($booking_id)
@@ -210,6 +210,83 @@ class Helper
             return 1;
         } catch (\Throwable $th) {
             return 0;
+        }
+    }
+    public static function send_notification($title, $body, $type, $booking_id, $league_id, $tokens)
+    {
+        // TYPE  =  1  ->  AUTO ---  aftre create booking -- in case of split payment --> PLease complete payment in 2 hours (booking_id)
+        // TYPE  =  5  ->  AUTH ---  DOME BOOKING IS CONFIRMED (booking_id)
+        // TYPE  =  6  ->  AUTO ---  LEAGUE BOOKING IS CONFIRMED (booking_id)
+        // TYPE  =  4  ->  AUTO ---  NEW LEAGUE IS ADDED BY DOME OWNER (only those users who've been favourited that dome) (league_id)
+
+        // TYPE  =  2  ->  CRON ---  to booked league users - tommorrow league going to start (booking_id,league_id)
+        // TYPE  =  3  ->  CRON ---  aftre booking end time complete -- send notif. if user has not added the review (booking_id)
+
+        try {
+            is_array($tokens) ? $gettokens = $tokens : $gettokens[] = $tokens;
+            $title = $title == "" ? "Domez Notification" : $title;
+            $body = $body == "" ? "Domez Notification Message" : $body;
+            $fields = [
+                'registration_ids' => $gettokens,
+                'data' => [
+                    "NotificationId" => substr(str_shuffle('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'), 0, 10),
+                    "type" => $type,
+                    "booking_id" => $booking_id,
+                    "league_id" => $league_id,
+                ],
+                'notification' => [
+                    'title' => $title,
+                    'body' => $body,
+                    'click_action' => 'FLUTTER_NOTIFICATION_CLICK'
+                ]
+            ];
+            $headers = [
+                'Authorization: key=' . env('FIREBASE_KEY'),
+                'Content-Type: application/json'
+            ];
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, 'https://fcm.googleapis.com/fcm/send');
+            curl_setopt($ch, CURLOPT_POST, true);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($fields));
+            $result = curl_exec($ch);
+            curl_close($ch);
+            return $result;
+            // $notification = [
+            //     'body' => $body,
+            //     'title' => $title,
+            //     'sound' => 1/*Default sound*/
+            // ];
+            // $fields = [
+            //     'to' => $token,
+            //     'notification' => $notification,
+            //     'data' => [
+            //         "NotificationId" => substr(str_shuffle('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'), 0, 10),
+            //         "type" => $type,
+            //         "booking_id" => $booking_id,
+            //         "league_id" => $league_id,
+            //     ]
+            // ];
+            // $headers = [
+            //     'Authorization: key=' . env('FIREBASE_KEY'),
+            //     'Content-Type: application/json'
+            // ];
+            // #Send Reponse To FireBase Server
+            // $ch = curl_init();
+            // curl_setopt($ch, CURLOPT_URL, 'https://fcm.googleapis.com/fcm/send');
+            // curl_setopt($ch, CURLOPT_POST, true);
+            // curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+            // curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            // curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+            // curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($fields));
+            // $result = curl_exec($ch);
+            // curl_close($ch);
+        } catch (\Throwable $th) {
+            //throw $th;
+            dd($th);
         }
     }
 }

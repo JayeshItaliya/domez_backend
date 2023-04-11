@@ -69,59 +69,6 @@ class HomeController extends Controller
             return response()->json(["status" => 0, "message" => "Email Error"], 200);
         }
     }
-
-
-
-
-
-    public function pushnotification(Request $request)
-    {
-        try {
-            // TYPE  =  4  ->  NEW LEAGUE IS ADDED BY DOME OWNER (only those users who've been favourited that dome)
-            // TYPE  =  5  ->  DOME BOOKING IS CONFIRMED
-            // TYPE  =  6  ->  LEAGUE BOOKING IS CONFIRMED
-
-            $type = 4;
-            $title = "Test Notification";
-
-            $token = "eUbVHmVky0iXkzGbJQU2TJ:APA91bGJrnctvF2xDCsHiF4ejeyAGvQxjkySpskfFSv7T9CSPNzO6uEmyumO6garxmlv85YQlvqAJ3lcBM92dB4LkccAmzaYyn3olpUCORvtXW8kpuAT1AEHwlLNR1r9hR0Xp385qLRr";
-            $body = "Test Message";
-
-            $firebasekey = "AAAA5y17RI4:APA91bFwzDR-lr_c2WOGclvNqVXszwX6thal6rOBAOvjLBn0XRNoqfxdB7iuezPZYJoc8PtIRph6u1Dd7DSzgitHxW-VMTAP_4yLLt212tIqbq7JdbOIV9V3IG_7EzWcHmWR2QulzgbR";
-
-            $data = array(
-                "type" => $type,
-                "NotificationId" => '',
-            );
-            $notification = array(
-                'body' => $body,
-                'title' => $title,
-                'sound' => 1/*Default sound*/
-            );
-            $fields = array(
-                'to' => $token,
-                'notification' => $notification,
-                'data' => $data
-            );
-            $headers = array(
-                'Authorization: key=' . $firebasekey,
-                'Content-Type: application/json'
-            );
-            #Send Reponse To FireBase Server
-            $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, 'https://fcm.googleapis.com/fcm/send');
-            curl_setopt($ch, CURLOPT_POST, true);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($fields));
-            $result = curl_exec($ch);
-            curl_close($ch);
-            return response()->json(["status" => 1, "message" => "Successfull", "result" => $result], 200);
-        } catch (\Throwable $th) {
-            return response()->json(["status" => 0, "message" => "Something Went Wrong..!!", "data" => $th], 200);
-        }
-    }
     public function filter(Request $request)
     {
         try {

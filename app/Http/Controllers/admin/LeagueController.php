@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers\admin;
 
+use App\Helper\Helper;
 use App\Http\Controllers\Controller;
 use App\Models\DomeImages;
 use App\Models\Domes;
+use App\Models\Favourite;
 use App\Models\Field;
 use App\Models\League;
 use App\Models\Sports;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class LeagueController extends Controller
@@ -92,6 +95,7 @@ class LeagueController extends Controller
             if (empty($league)) {
                 $league = new League();
                 $league->is_deleted = 2;
+                $sendnoti = 1;
             }
             $league->vendor_id = auth()->user()->type == 2 ? auth()->user()->id : auth()->user()->vendor_id;
             $league->dome_id = $request->dome;
@@ -125,6 +129,15 @@ class LeagueController extends Controller
                     $domeimage->league_id = $league->id;
                     $domeimage->images = $image;
                     $domeimage->save();
+                }
+            }
+            if (@$sendnoti == 1) {
+                $getfavoriteusers = Favourite::select('user_id')->where('dome_id', $checkdome->id)->get()->pluck('user_id')->toArray();
+                $tokens = User::whereIn('id', $getfavoriteusers)->get()->pluck('fcm_token')->toArray();
+                if (count($tokens) > 0) {
+                    $title = 'New League Added!';
+                    $body = 'Get ready to explore and participate in the latest competitions and events.';
+                    Helper::send_notification($title, $body, 4, '', $league->id, $tokens);
                 }
             }
             return redirect('/admin/leagues')->with('success', trans('messages.success'));
