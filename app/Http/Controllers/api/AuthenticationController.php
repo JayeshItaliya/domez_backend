@@ -327,7 +327,7 @@ class AuthenticationController extends Controller
             }
             $checkuser->save();
             $userdata = $this->getuserprofileobject($checkuser->id);
-            return response()->json(["status" => 1, "message" => "Successfull", 'userdata' => $userdata], 200);
+            return response()->json(["status" => 1, "message" => "Profile Updated Successfully", 'userdata' => $userdata], 200);
         }
         return response()->json(["status" => 0, "message" => "Invalid User ID"], 200);
     }

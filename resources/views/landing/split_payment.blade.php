@@ -517,38 +517,49 @@
                 },
                 beforeSend: function(response) {
                     $('#btnamount, #amount, #receipt_name, #receipt_email').attr('disabled', true);
+                    $('#payment-message').addClass('d-none').removeClass('text-danger').html("");
                     $('.my-spinner').show();
                 },
                 success: function(response) {
                     $('.my-spinner').hide();
-                    var clientSecret = response.client_secret;
-                    var elements = stripe.elements({
-                        clientSecret,
-                        appearance,
-                    });
-                    // var paymentElement = elements.create('payment', {
-                    //     layout: {
-                    //         type: 'tabs',
-                    //         defaultCollapsed: false,
-                    //     },
-                    // });
-                    var paymentElement = elements.create('payment', options);
-                    paymentElement.mount('#payment-element');
-                    $('#mysubmit').fadeIn(4000);
-                    $('#mysubmit').on('click', function() {
-                        stripe.confirmPayment({
-                            elements,
-                            confirmParams: {
-                                return_url: page_url + '?receipt_name=' + $(
-                                    '#receipt_name').val(),
-                                receipt_email: $('#receipt_email').val(),
-                            },
+                    if (response.status == 1) {
+                        var clientSecret = response.client_secret;
+                        var elements = stripe.elements({
+                            clientSecret,
+                            appearance,
                         });
-                        return false;
-                    });
+                        // var paymentElement = elements.create('payment', {
+                        //     layout: {
+                        //         type: 'tabs',
+                        //         defaultCollapsed: false,
+                        //     },
+                        // });
+                        var paymentElement = elements.create('payment', options);
+                        paymentElement.mount('#payment-element');
+                        $('#mysubmit').fadeIn(4000);
+                        $('#mysubmit').on('click', function() {
+                            stripe.confirmPayment({
+                                elements,
+                                confirmParams: {
+                                    return_url: page_url + '?receipt_name=' + $(
+                                        '#receipt_name').val(),
+                                    receipt_email: $('#receipt_email').val(),
+                                },
+                            });
+                            return false;
+                        });
+                    } else {
+                        $('#payment-message').removeClass('d-none').addClass(response.status == 2 ?
+                            'text-success' : 'text-danger').html(response.message);
+                        $('#btnamount, #amount, #receipt_name, #receipt_email').attr('disabled',
+                            false);
+                    }
                 },
                 error: function(response) {
-                    $('#btnamount').attr('disabled', false);
+                    $('.my-spinner').hide();
+                    $('#payment-message').removeClass('d-none').addClass('text-danger').html(
+                        "Something went wrong.");
+                    $('#btnamount, #amount, #receipt_name, #receipt_email').attr('disabled', false);
                 },
             });
         });

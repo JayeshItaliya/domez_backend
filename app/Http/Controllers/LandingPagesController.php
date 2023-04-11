@@ -132,27 +132,31 @@ class LandingPagesController extends Controller
             $page_url = URL::to('/payment/' . $request->token);
             $booking_token = $request->token;
             if ($request->ajax()) {
-                if ($checkbooking->due_amount > 0) {
-                    \Stripe\Stripe::setApiKey(Helper::stripe_data()->secret_key);
-                    $intent = \Stripe\PaymentIntent::create([
-                        'amount' => $request->amount * 100,
-                        'currency' => 'cad',
-                        'payment_method_types' => [
-                            'card',
-                            // 'bancontact',
-                            // 'eps',
-                            // 'giropay',
-                            // 'ideal',
-                            // 'p24',
-                            // 'sepa_debit',
-                            // 'sofort',
-                        ],
-                        'description' => '',
-                        'receipt_email' => $request->email,
-                    ]);
-                    return response()->json(['client_secret' => $intent->client_secret]);
-                } else {
-                    return response()->json(['status' => 0, 'message' => 'All Payment has been successfully paid'], 200);
+                try {
+                    if ($checkbooking->due_amount > 0) {
+                        \Stripe\Stripe::setApiKey(Helper::stripe_data()->secret_key);
+                        $intent = \Stripe\PaymentIntent::create([
+                            'amount' => $request->amount * 100,
+                            'currency' => 'cad',
+                            'payment_method_types' => [
+                                'card',
+                                // 'bancontact',
+                                // 'eps',
+                                // 'giropay',
+                                // 'ideal',
+                                // 'p24',
+                                // 'sepa_debit',
+                                // 'sofort',
+                            ],
+                            'description' => 'Booking Split Payment',
+                            'receipt_email' => $request->email,
+                        ]);
+                        return response()->json(['status' => 1, 'message' => 'Successful', 'client_secret' => $intent->client_secret], 200);
+                    } else {
+                        return response()->json(['status' => 2, 'message' => 'All Payment has been successfully paid'], 200);
+                    }
+                } catch (\Throwable $th) {
+                    return response()->json(['status' => 0, 'message' => 'Something Went Wrong.'], 200);
                 }
             }
             return view('landing.split_payment', compact('checkbooking', 'page_url', 'booking_token'));

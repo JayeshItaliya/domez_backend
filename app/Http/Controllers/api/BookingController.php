@@ -222,6 +222,25 @@ class BookingController extends Controller
                     $today =  Carbon::now(new \DateTimeZone('Asia/Kolkata'));
                     $last = Carbon::parse(date('h:i A', strtotime($slot->start_time)));
                     $status = $slot->status;
+                    // $getdata = League::select('name', 'start_date', 'end_date', 'start_time', 'end_time',)->whereRaw('? BETWEEN start_date AND end_date', [date('Y-m-d', strtotime($request->date))])->get();
+                    // foreach ($getdata as $key => $league) {
+                    //     $leaguestarttime = date('H:i', strtotime($league->start_time));
+                    //     $leagueendtime = date('H:i', strtotime($league->end_time));
+
+
+                    //     // Create two other time instances to compare against
+                    //     $startTime = Carbon::createFromTime(8, 0, 0); // 8:00 AM
+                    //     $endTime = Carbon::createFromTime(18, 0, 0); // 6:00 PM
+
+                    //     $currentTime = Carbon::parse($slot->start_time);
+                    //     $checkstarttime = $currentTime->between($startTime, $endTime);
+
+                    //     $currentTime = Carbon::parse($slot->start_time);
+                    //     $checkendtime = $currentTime->between($startTime, $endTime)
+
+                    //     dd($leaguestarttime, $leagueendtime, $league->start_time, $league->end_time);
+                    // }
+                    // dd($new_slot, $getdata->toArray());
                     $slots[] = [
                         'slot' => $new_slot,
                         'price' => $slot->price,
