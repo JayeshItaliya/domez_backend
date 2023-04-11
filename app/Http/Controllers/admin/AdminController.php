@@ -45,7 +45,7 @@ class AdminController extends Controller
         // ]);
         // $account = Account::retrieve('acct_1Mvev9C1VhQkVuOB');
         // $account->delete();
-        dd($account);
+        // dd($account);
         $now = CarbonImmutable::today();
         $weekStartDate = $now->startOfWeek();
         $weekEndDate = $now->endOfWeek();
