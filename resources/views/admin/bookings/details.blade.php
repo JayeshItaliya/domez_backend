@@ -279,6 +279,16 @@
                                     data-start-time="{{ date('h:i A', strtotime($slot->start_time)) }}"
                                     data-end-time="{{ date('h:i A', strtotime($slot->end_time)) }}"
                                     data-price="{{ $slot->price }}" data-show-target="hidden{{ $key }}">
+
+
+                                {{--
+                                    @if (\Carbon\Carbon::parse($slot->end_time) < \Carbon\Carbon::now()->format('H:i'))
+                                        <p>End time is less than the current time</p>
+                                    @else
+                                        <p>End time is greater than or equal to the current time</p>
+                                    @endif
+                                 --}}
+
                                 <label
                                     class="form-check-label d-grid my-2 rounded text-center {{ $slot->status == 1 ? 'border border-secondary text-secondary' : 'bg-dark text-white' }}"
                                     for="check{{ $key }}">
