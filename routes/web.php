@@ -230,7 +230,7 @@ Route::group(['middleware' => 'SetTimeZoneMiddleware'], function () {
             //  Reviews
             Route::group(['prefix' => 'reviews'], function () {
                 Route::get('', [ReviewController::class, 'index']);
-                Route::get('reply', [ReviewController::class, 'replymessage']);
+                Route::post('reply', [ReviewController::class, 'replymessage']);
             });
         });
     });
