@@ -129,16 +129,6 @@ Route::group(['middleware' => 'SetTimeZoneMiddleware'], function () {
             Route::post('ticket-reply', [EnquiryController::class, 'ticket_reply']);
         });
 
-        Route::group(['prefix' => 'set-prices'], function () {
-            Route::get('/', [DomesPriceController::class, 'index']);
-            Route::get('add', [DomesPriceController::class, 'add']);
-            // Route::get('edit-{id}', [DomesPriceController::class, 'edit']);
-            // Route::post('store', [DomesPriceController::class, 'store']);
-            Route::get('delete', [DomesPriceController::class, 'deletesetprice']);
-            Route::get('delete-slot', [DomesPriceController::class, 'deleteslot']);
-            Route::get('getsports', [DomesPriceController::class, 'getsportslist']);
-        });
-
         // Vendors
         Route::group(['middleware' => 'AdminMiddleware'], function () {
             Route::group(['prefix' => 'cms'], function () {
@@ -178,6 +168,18 @@ Route::group(['middleware' => 'SetTimeZoneMiddleware'], function () {
                 Route::get('delete', [SportsController::class, 'delete']);
             });
         });
+        Route::group(['middleware' => 'VendorAndEmployeeMiddleware'], function () {
+            // Set Prices
+            Route::group(['prefix' => 'set-prices'], function () {
+                Route::get('/', [DomesPriceController::class, 'index']);
+                Route::get('add', [DomesPriceController::class, 'add']);
+                // Route::get('edit-{id}', [DomesPriceController::class, 'edit']);
+                // Route::post('store', [DomesPriceController::class, 'store']);
+                Route::get('delete', [DomesPriceController::class, 'deletesetprice']);
+                Route::get('delete-slot', [DomesPriceController::class, 'deleteslot']);
+                Route::get('getsports', [DomesPriceController::class, 'getsportslist']);
+            });
+        });
         Route::group(['middleware' => 'VendorMiddleware'], function () {
             //  Workers
             Route::group(['prefix' => 'workers'], function () {
@@ -214,8 +216,6 @@ Route::group(['middleware' => 'SetTimeZoneMiddleware'], function () {
                 Route::get('delete', [DomesController::class, 'delete']);
                 Route::get('new-request', [DomesController::class, 'new_request']);
             });
-            // Set Prices
-
             //  Field
             Route::group(['prefix' => 'fields'], function () {
                 Route::get('/', [FieldController::class, 'index']);
