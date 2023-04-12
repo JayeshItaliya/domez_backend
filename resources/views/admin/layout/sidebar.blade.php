@@ -113,8 +113,6 @@
                     aria-expanded="{{ request()->is('admin/enquiries*') ? 'true' : 'false' }}"
                     aria-controls="enquiry">
                     <i class="fa-regular fa-comments-question {{ request()->is('admin/enquiries*') ? 'text-secondary' : '' }}"></i>
-                    <i class="fa-light fa-message-smile"
-                        style="color: {{ request()->is('admin/enquiries*') ? 'var(--bs-secondary)' : '#2c3e50' }}"></i>
                     <div class="ms-3 d-flex align-items-center justify-content-between w-100">
                         <span class="position-relative">{{ trans('labels.enquiry') }}
                             @if (Helper::get_noti_count(1) > 0 || Helper::get_noti_count(2) > 0 || Helper::get_noti_count(3) > 0)
