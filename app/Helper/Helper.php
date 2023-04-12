@@ -258,8 +258,6 @@ class Helper
         }
     }
 
-
-
     // Used For Admins Only
     public static function getTodayBookings()
     {
