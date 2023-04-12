@@ -282,6 +282,7 @@
                             @enderror
                         </div>
                         <div class="col-md-12 mb-3">
+                            <label for="" class="form-label">{{ trans('labels.sport_default_price') }}</label>
                             <div class="row row-cols-md-4" id="sport_prices_input">
                                 @foreach ($getsportslist as $sport)
                                     @if (in_array($sport->id, $sport_id))

@@ -251,6 +251,7 @@
                             @enderror
                         </div>
                         <div class="col-md-12">
+                            <label for="" class="form-label">{{ trans('labels.sport_default_price') }}</label>
                             <div class="row row-cols-md-4" id="sport_prices_input"></div>
                         </div>
                     </div>

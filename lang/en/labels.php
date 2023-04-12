@@ -159,6 +159,8 @@ return [
     // Sports
     'image' => 'Image',
     'sport_name' => 'Sport Name',
+    'sport_default_price' => 'Sports Default Rate w/o Per Hour',
+
     // Fields
     'add_field' => 'Add Field',
     'field_name' => 'Field Name/Number',

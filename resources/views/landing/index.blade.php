@@ -249,8 +249,7 @@
                         <div class="game-details-text" data-wow-duration="2s">
                             <h2 class="wow fadeInDown  delay-0-2s animated text-capitalize">Start Your Own<br>Leagues</h2>
                             <p class="text-muted fw-semibold" style="text-align: justify">DOMEZ provides you with the
-                                opportunity to take full
-                                control over the management, organization, revenue and operations of the leagues, which
+                                opportunity to take full control over the management, organization, revenue and operations of the leagues, which
                                 is a crucial step toward providing a better experience for participants and spectators.
                                 Additionally, by running the league in-house, your management can ensure that the league
                                 operates at the highest standards and is managed with the utmost professionalism. And
