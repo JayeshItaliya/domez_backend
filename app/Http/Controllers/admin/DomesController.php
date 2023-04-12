@@ -35,8 +35,12 @@ class DomesController extends Controller
 
     public function add(Request $request)
     {
-        $getsportslist = Sports::where('is_available', 1)->where('is_deleted', 2)->get();
-        return view('admin.domes.add', compact('getsportslist'));
+        if (auth()->user()->dome_limit < Domes::where('vendor_id', auth()->user()->vendor_id)->count()) {
+            $getsportslist = Sports::where('is_available', 1)->where('is_deleted', 2)->get();
+            return view('admin.domes.add', compact('getsportslist'));
+        } else {
+            return redirect('admin/domes');
+        }
     }
 
     public function store(Request $request)
@@ -337,12 +341,12 @@ class DomesController extends Controller
     {
         try {
             $checkdome = Domes::find($request->id);
-            if(!empty($checkdome)){
+            if (!empty($checkdome)) {
                 $checkdome->is_deleted = 1;
                 $checkdome->save();
                 Favourite::where('dome_id', $checkdome->id)->delete();
                 League::where('dome_id', $checkdome->id)->update(['is_deleted' => 1]);
-                Field::where('dome_id', $checkdome->id)->update(['is_available' => 2,'is_deleted' => 1]);
+                Field::where('dome_id', $checkdome->id)->update(['is_available' => 2, 'is_deleted' => 1]);
                 return response()->json(['status' => 1, 'message' => trans('messages.success')], 200);
             }
             return response()->json(['status' => 0, 'message' => trans('messages.invalid_dome')], 200);
