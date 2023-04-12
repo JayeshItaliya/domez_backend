@@ -222,7 +222,7 @@ class BookingController extends Controller
                     $today =  Carbon::now(new \DateTimeZone('Asia/Kolkata'));
                     $last = Carbon::parse(date('h:i A', strtotime($slot->start_time)));
                     $status = $slot->status;
-                    /*
+
                     $getdata = League::select('name', 'start_date', 'end_date', 'start_time', 'end_time',)->whereRaw('? BETWEEN start_date AND end_date', [date('Y-m-d', strtotime($request->date))])->get();
                     foreach ($getdata as $key => $league) {
 
@@ -231,21 +231,27 @@ class BookingController extends Controller
 
                         $league_start_time = Carbon::parse($leaguestarttime);
                         $league_end_time = Carbon::parse($leagueendtime);
-                        $slot_start_time = Carbon::parse($slot->start_time);
-                        $checkstarttimeisbetween = $slot_start_time->between($league_start_time, $league_end_time);
 
-                        $leagueEndTime = Carbon::parse($slot->start_time);
-                        $checkendtime = $leagueEndTime->between($league_start_time, $league_end_time);
-                        dd($leaguestarttime, $leagueendtime, $league->start_time, $league->end_time);
+                        $slot_start_time = Carbon::parse($slot->start_time);
+                        $slot_end_time = Carbon::parse($slot->end_time);
+
+                        if ($slot_start_time->between($league_start_time, $league_end_time) || $slot_end_time->between($league_start_time, $league_end_time)) {
+                            if ($slot_start_time->lt($league_end_time) || $slot_end_time->gt($league_start_time)) {
+                                dd($league);
+                                $status = 2131321231;
+                                break;
+                            }
+                        }
                     }
-                    dd($new_slot, $getdata->toArray());
-                    */
+
+
                     $slots[] = [
                         'slot' => $new_slot,
                         'price' => $slot->price,
                         'status' => $status,
                     ];
                 }
+                dd($league_start_time, $league_end_time, $slots);
                 return response()->json(["status" => 1, "message" => "Successful", 'data' => $slots], 200);
             }
         }

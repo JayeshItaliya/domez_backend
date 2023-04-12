@@ -118,14 +118,14 @@ class PaymentController extends Controller
         }
 
         if (in_array($request->user_id, [0, ''])) {
-            if ($request->customer_name == "") {
-                return response()->json(["status" => 0, "message" => "Please Enter Customer Name"], 200);
-            }
+            // i`f ($request->customer_name == "") {
+            //     return response()->json(["status" => 0, "message" => "Please Enter Customer Name"], 200);
+            // }
+            // if ($request->customer_phone == "") {
+            //     return response()->json(["status" => 0, "message" => "Please Enter Customer Phone"], 200);
+            // }`
             if ($request->customer_email == "") {
                 return response()->json(["status" => 0, "message" => "Please Enter Customer Email"], 200);
-            }
-            if ($request->customer_phone == "") {
-                return response()->json(["status" => 0, "message" => "Please Enter Customer Phone"], 200);
             }
             $checkuser = User::where('email', $request->customer_email)->first();
             if (empty($checkuser)) {

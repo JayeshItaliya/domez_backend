@@ -166,6 +166,10 @@
                             <div class="col-md-6">
                                 <h4 class="mb-0">{{ $checkbooking->dome_name->name }}</h4>
                                 <hr>
+                                <h4 class="mb-0">{{ $checkbooking->booking_id }}
+                                    @dump($checkbooking->transactions->count())
+                                </h4>
+                                <hr>
                                 <div class="row">
 
                                     <ul class="list-group list-group-flush">
@@ -304,7 +308,7 @@
                                 <a href="{{ URL::to('/') }}"><img class="footer-logo"
                                         src="{{ url('storage/app/public/admin/images/logo-white.png') }}" /></a>
                             </div>
-                            <p class="footer-description">“Revolutionizing the way you book your next game! Get instant
+                            <p class="footer-description">Revolutionizing the way you book your next game! Get instant
                                 access to all the domes in the city and book at the tap of a button. <br><br>
 
                                 Say goodbye to the hassle of bringing cash to pay back your friend who booked the dome.
@@ -313,7 +317,7 @@
                                 access to the booking. No more awkward conversations or disputes about who owes what.
                                 Whether you're a seasoned athlete or a casual sports enthusiast, DOMEZ
                                 is designed to provide you with the best experience possible, so you can focus on what
-                                matters most: dominating the field or court like a true champion!”</p>
+                                matters most: dominating the field or court like a true champion!</p>
 
                         </div>
                     </div>
