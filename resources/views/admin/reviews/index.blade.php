@@ -41,6 +41,7 @@
                             <th>{{ trans('labels.user_name') }}</th>
                             <th>{{ trans('labels.rattings') }}</th>
                             <th>{{ trans('labels.comments') }}</th>
+                            <th>{{ trans('labels.reply') }}</th>
                             <th>{{ trans('labels.action') }}</th>
                         </tr>
                     </thead>
@@ -62,21 +63,27 @@
                                     </span>
                                 </td>
                                 <td>{{ $review->comment }}</td>
+                                <td>{{ $review->reply_message ?? '-' }}</td>
                                 <td>
-                                    <span class="badge rounded-pill cursor-pointer reply-pill review_action"
-                                        data-id="{{ $i }}" data-user-name="{{ $review->user_name->name }}"
-                                        data-comment="{{ $review->comment }}" data-bs-toggle="modal"
-                                        data-bs-target="#replymessage">
-                                        <svg width="10" height="9" viewBox="0 0 10 9" fill="none"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <path
-                                                d="M3.25833 3.70833L1.125 6.04167L3.25833 8.375M1.125 6.04167H6.99167C7.55746 6.04167 8.10008 5.79583 8.50016 5.35825C8.90024 4.92066 9.125 4.32717 9.125 3.70833C9.125 3.08949 8.90024 2.496 8.50016 2.05842C8.10008 1.62083 7.55746 1.375 6.99167 1.375H6.45833"
-                                                stroke="#2196F3" stroke-width="1.25" stroke-linecap="round"
-                                                stroke-linejoin="round" />
-                                        </svg>
-                                        {{ trans('labels.reply') }}
-                                    </span>
+                                    @if ($review->reply_message == null)
+                                        <span class="badge rounded-pill cursor-pointer reply-pill review_action"
+                                            data-id="{{ $i }}" data-user-name="{{ $review->user_name->name }}"
+                                            data-comment="{{ $review->comment }}" data-bs-toggle="modal"
+                                            data-bs-target="#replymessage">
+                                            <svg width="10" height="9" viewBox="0 0 10 9" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <path
+                                                    d="M3.25833 3.70833L1.125 6.04167L3.25833 8.375M1.125 6.04167H6.99167C7.55746 6.04167 8.10008 5.79583 8.50016 5.35825C8.90024 4.92066 9.125 4.32717 9.125 3.70833C9.125 3.08949 8.90024 2.496 8.50016 2.05842C8.10008 1.62083 7.55746 1.375 6.99167 1.375H6.45833"
+                                                    stroke="#2196F3" stroke-width="1.25" stroke-linecap="round"
+                                                    stroke-linejoin="round" />
+                                            </svg>
+                                            {{ trans('labels.reply') }}
+                                        </span>
+                                    @else
+                                        -
+                                    @endif
                                 </td>
+
                             </tr>
                         @endforeach
                     </tbody>
@@ -86,7 +93,8 @@
     </div>
     <div class="modal fade" id="replymessage" tabindex="-1" aria-labelledby="replymessageLabel" aria-hidden="true">
         <div class="modal-dialog">
-            <form class="modal-content" action="{{ URL::to('admin/reviews/reply') }}" method="post" id="review_reply_form">
+            <form class="modal-content" action="{{ URL::to('admin/reviews/reply') }}" method="post"
+                id="review_reply_form">
                 @csrf
                 <input type="hidden" name="id" value="">
                 <div class="modal-body">

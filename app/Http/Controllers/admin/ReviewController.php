@@ -10,11 +10,7 @@ class ReviewController extends Controller
 {
     public function index(Request $request)
     {
-        if (auth()->user()->type == 1) {
-            $reviewslist = Review::orderByDesc('id')->get();
-        } else {
-            $reviewslist = Review::where('vendor_id', auth()->user()->id)->orderByDesc('id')->get();
-        }
+        $reviewslist = Review::where('vendor_id', auth()->user()->id)->orderByDesc('id')->get();
         return view('admin.reviews.index', compact('reviewslist'));
     }
     public function replymessage(Request $request)
