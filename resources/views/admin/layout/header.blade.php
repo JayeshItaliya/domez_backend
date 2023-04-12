@@ -5,7 +5,7 @@
                 <img src="{{ Helper::image_path('logo_dark.png') }}" width="100" alt="" class="mx-3">
             </a>
         </div>
-        <button class="toggle-icon-wrapper">
+        {{-- <button class="toggle-icon-wrapper">
             <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-menu-2" width="20px"
                 height="20px" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none"
                 stroke-linecap="round" stroke-linejoin="round">
@@ -14,10 +14,10 @@
                 <line x1="4" y1="12" x2="20" y2="12"></line>
                 <line x1="4" y1="18" x2="20" y2="18"></line>
             </svg>
-        </button>
+        </button> --}}
     </div>
-    <div class="d-flex justify-content-between" style="width: inherit;">
-        <div class="search-box">
+    <div class="d-flex justify-content-end" style="width: inherit;">
+        {{-- <div class="search-box">
             <form data-bs-toggle="search" data-bs-display="static" aria-expanded="true">
                 <div class="search-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="20px"
@@ -31,7 +31,7 @@
                 <input type="search" name="search" id="" class="form-control form-control-lg"
                     placeholder="Search Here...">
             </form>
-        </div>
+        </div> --}}
         <ul class="nav-icons">
             {{-- Only use for development purpose --}}
             @if (in_array(Auth::user()->type, [1, 2, 4]))
@@ -102,8 +102,8 @@
                     <li class="dropdown-item">
                         <div class="d-flex align-items-center justify-content-between">
                             <div class="d-flex align-items-center pe-5">
-                                <h6 class="me-3 fs-7">{{ trans('labels.all_notification') }}</h6>
-                                <span class="badge text-bg-warning text-white">01</span>
+                                <h6 class="me-3 fs-7">{{ trans('labels.all_notifications') }}</h6>
+                                {{-- <span class="badge text-bg-warning text-white">01</span> --}}
                             </div>
                             <a href="#"
                                 class="text-primary text-decoration-underline fs-7 ps-5">{{ trans('labels.mark_read') }}</a>

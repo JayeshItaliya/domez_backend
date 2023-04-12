@@ -153,7 +153,7 @@ return [
     'dome_zipcode' => 'Postal Code',
     'dome_state' => 'State/Province',
     'dome_country' => 'Country',
-    'slot_duration' => 'Slot Duration',
+    'slot_duration' => 'Minimum Booking Time Slots',
     '60_minutes' => '60 Minutes',
     '90_minutes' => '90 Minutes',
     // Sports

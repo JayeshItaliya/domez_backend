@@ -306,32 +306,34 @@
                 padding: 0 3px;
             }
         </style>
-        <div class="col-lg-8">
-            <div class="card h-100">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-center mb-3">
-                        <div class="col-auto">
-                            <span class="text-muted fs-7">{{ trans('labels.dome_revenue') }}</span>
-                            <p class="fw-semibold dome-revenue-count">{{ Helper::currency_format($dome_revenue) }}</p>
+        @if (auth()->user()->type != 4)
+            <div class="col-lg-8">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <div class="col-auto">
+                                <span class="text-muted fs-7">{{ trans('labels.dome_revenue') }}</span>
+                                <p class="fw-semibold dome-revenue-count">{{ Helper::currency_format($dome_revenue) }}</p>
+                            </div>
+                            <div class="d-flex gap-2">
+                                <input type="text"
+                                    class="form-control me-2 bg-transparent border-primary dome-revenue-picker"
+                                    placeholder="{{ trans('labels.select_date') }}">
+                                <select class="form-select dome-revenue-filter"
+                                    style="background-color: transparent;border-color:var(--bs-primary);"
+                                    data-next="{{ URL::to('admin/domes/details-' . $getdomedata->id) }}">
+                                    <option value="this_week" selected>{{ trans('labels.this_week') }}</option>
+                                    <option value="this_month">{{ trans('labels.this_month') }}</option>
+                                    <option value="this_year">{{ trans('labels.this_year') }}</option>
+                                    <option value="custom_date">{{ trans('labels.custom_date') }}</option>
+                                </select>
+                            </div>
                         </div>
-                        <div class="d-flex gap-2">
-                            <input type="text"
-                                class="form-control me-2 bg-transparent border-primary dome-revenue-picker"
-                                placeholder="{{ trans('labels.select_date') }}">
-                            <select class="form-select dome-revenue-filter"
-                                style="background-color: transparent;border-color:var(--bs-primary);"
-                                data-next="{{ URL::to('admin/domes/details-' . $getdomedata->id) }}">
-                                <option value="this_week" selected>{{ trans('labels.this_week') }}</option>
-                                <option value="this_month">{{ trans('labels.this_month') }}</option>
-                                <option value="this_year">{{ trans('labels.this_year') }}</option>
-                                <option value="custom_date">{{ trans('labels.custom_date') }}</option>
-                            </select>
-                        </div>
+                        <div id="dome_revenue_chart"></div>
                     </div>
-                    <div id="dome_revenue_chart"></div>
                 </div>
             </div>
-        </div>
+        @endif
         <div class="col-lg-4">
             <div class="card h-100">
                 <div class="card-body">
