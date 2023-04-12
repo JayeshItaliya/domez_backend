@@ -257,4 +257,13 @@ class Helper
             //throw $th;
         }
     }
+
+
+
+    // Used For Admins Only
+    public static function getTodayBookings()
+    {
+        $getbookings = Booking::where('vendor_id', auth()->user()->type == 2 ? auth()->user()->id : auth()->user()->vendor_id)->whereDate('created_at', date('Y-m-d'))->orderByDesc('created_at')->take(5)->get();
+        return $getbookings;
+    }
 }

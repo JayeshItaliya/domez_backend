@@ -94,19 +94,54 @@
                             d="M10 5a2 2 0 0 1 4 0a7 7 0 0 1 4 6v3a4 4 0 0 0 2 3h-16a4 4 0 0 0 2 -3v-3a7 7 0 0 1 4 -6" />
                         <path d="M9 17v1a3 3 0 0 0 6 0v-1" />
                     </svg>
-                    <span
-                        class="position-absolute top-0 start-100 translate-middle p-1 bg-danger border border-light rounded-circle"
-                        style="background-color:#FE3B30 !important;"></span>
+                    @if (auth()->user()->type == 1 &&
+                            (Helper::get_noti_count(1) > 0 || Helper::get_noti_count(2) > 0 || Helper::get_noti_count(3) > 0))
+                        <span
+                            class="position-absolute top-0 start-100 translate-middle p-1 bg-danger border border-light rounded-circle"
+                            style="background-color:#FE3B30 !important;"></span>
+                    @endif
                 </a>
-                <ul class="dropdown-menu box-shadow border-0 my-3">
+                <ul class="dropdown-menu box-shadow border-0 my-3" style="width: 350px;">
+                    @if (auth()->user()->type == 1 && Helper::get_noti_count(3) > 0)
+                        <li class="dropwdown-item notifications d-flex justify-content-between cursor-pointer"
+                            data-next="{{ URL::to('admin/enquiries/dome-requests') }}">
+                            <span> <i class="me-2 fa-solid fa-code-pull-request"></i>
+                                {{ trans('labels.domes_requests') }} </span>
+                            <small class="badge bg-primary rounded-pill"
+                                style="font-size: 10px;height:fit-content;">{{ Helper::get_noti_count(3) }}</small>
+                        </li>
+                    @endif
+                    @if (auth()->user()->type == 1 && Helper::get_noti_count(2) > 0)
+                        <li class="dropwdown-item notifications d-flex justify-content-between cursor-pointer"
+                            data-next="{{ URL::to('admin/enquiries/general-enquiry') }}">
+                            <span>
+                                <i class="me-2 fa-regular fa-question"></i>
+                                {{ trans('labels.general_enquiry') }}
+                            </span>
+                            <small class="badge bg-primary rounded-pill"
+                                style="font-size: 10px;height:fit-content;">{{ Helper::get_noti_count(2) }}</small>
+                        </li>
+                    @endif
+                    @if (auth()->user()->type == 1 && Helper::get_noti_count(1) > 0)
+                        <li class="dropwdown-item notifications d-flex justify-content-between cursor-pointer"
+                            data-next="{{ URL::to('admin/enquiries/help-support') }}">
+                            <span>
+                                <i class="me-2 fa-light fa-envelope"></i>
+                                {{ trans('labels.help_support') }}
+                            </span>
+                            <small class="badge bg-primary rounded-pill"
+                                style="font-size: 10px;height:fit-content;">{{ Helper::get_noti_count(1) }}</small>
+                        </li>
+                    @endif
+                </ul>
+                {{-- <ul class="dropdown-menu box-shadow border-0 my-3" style="width: 350px;">
                     <li class="dropdown-item">
                         <div class="d-flex align-items-center justify-content-between">
                             <div class="d-flex align-items-center pe-5">
                                 <h6 class="me-3 fs-7">{{ trans('labels.all_notifications') }}</h6>
-                                {{-- <span class="badge text-bg-warning text-white">01</span> --}}
+                                <span class="badge text-bg-warning text-white">01</span>
                             </div>
-                            <a href="#"
-                                class="text-primary text-decoration-underline fs-7 ps-5">{{ trans('labels.mark_read') }}</a>
+                            <a href="#" class="text-primary text-decoration-underline fs-7 ps-5">{{ trans('labels.mark_read') }}</a>
                         </div>
                     </li>
                     <li>
@@ -114,20 +149,18 @@
                     </li>
                     <li class="dropwdown-item notifications">
                         <div class="notification-avatar">
-                            <img src="{{ Helper::image_path('default.png') }}" alt="" width="40"
-                                height="40" class="me-3">
+                            <img src="{{ Helper::image_path('default.png') }}" alt="" width="40" height="40" class="me-3">
                             <div class="notification-header">
                                 <p class="fs-7">John Doe</p>
                                 <span class="fs-7 text-muted">2 min ago</span>
                             </div>
                         </div>
-                        <div class="notification-body">
-                        </div>
+                        <div class="notification-body"></div>
                     </li>
                     <li>
                         <hr class="dropdown-divider">
                     </li>
-                </ul>
+                </ul> --}}
             </li>
             <li class="dropdown">
                 <a href="#" class="nav-item profile-icon py-2" role="button" data-bs-toggle="dropdown"
@@ -143,8 +176,7 @@
                         <hr class="dropdown-divider">
                     </li>
                     <li class="dropdown-item">
-                        <a class="d-flex align-items-center px-0"
-                            href="{{ URL::to('admin/settings/edit-profile') }}">
+                        <a class="d-flex align-items-center px-0" href="{{ URL::to('admin/settings/edit-profile') }}">
                             <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-settings me-2"
                                 width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5"
                                 stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">

@@ -30,12 +30,6 @@ class BookingController extends Controller
             return response()->json(["status" => 0, "message" => "Please Enter Booking Type"], 200);
         }
         $bookings_list = Booking::where('user_id', $request->user_id)->orderByDesc('created_at')->get();
-        // if ($request->is_active == 1) {
-        //     $bookings_list = $bookings_list->whereDate('start_date','>=',Carbon::today()->format('Y-m-d'));
-        // }
-        // if ($request->is_active == 2) {
-        //     $bookings_list = $bookings_list->whereDate('start_date','<=',Carbon::today()->format('Y-m-d'));
-        // }
         $bookinglist = [];
         foreach ($bookings_list as $booking) {
 

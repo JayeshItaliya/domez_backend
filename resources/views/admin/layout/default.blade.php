@@ -249,6 +249,9 @@
         @if (Session::has('warning'))
             toastr.warning("{{ session('warning') }}");
         @endif
+        $('.notifications.cursor-pointer').on('click',function(){
+            location.href = $(this).attr('data-next');
+        });
     </script>
     <script src="{{ url('storage/app/public/admin/js/custom.js') }}"></script>
     @yield('scripts')
