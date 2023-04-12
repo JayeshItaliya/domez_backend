@@ -14,7 +14,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Stripe\Account;
+use Stripe\BankAccount;
+use Stripe\Charge;
 use Stripe\Stripe;
+use Laravel\Cashier\Cashier;
 
 class AdminController extends Controller
 {
@@ -37,15 +40,55 @@ class AdminController extends Controller
         $dome_owner = PaymentGateway::where('vendor_id', Auth::user()->id)->select('account_id')->first();
         Stripe::setApiKey(Helper::stripe_data()->secret_key);
 
-        // Create the platform account
-        // $account = Account::create([
+        // // Create an account for your platform
+        // $platformAccount = Account::create([
         //     'type' => 'standard',
         //     'country' => 'CA',
-        //     'email' => 'domeztest1@gmail.com',
+        //     'email' => 'platform@example.com',
         // ]);
-        // $account = Account::retrieve('acct_1Mvev9C1VhQkVuOB');
-        // $account->delete();
-        // dd($account);
+
+        // // Connect the platform account to the recipient account
+        // $recipientAccount = 'acct_1234'; // Replace with the recipient account ID
+        // $platformAccount->external_accounts->create([
+        //     'external_account' => $recipientAccount,
+        // ]);
+
+        // // Create a charge with the recipient as the destination
+        // $charge = Charge::create([
+        //     'amount' => 1000,
+        //     'currency' => 'usd',
+        //     'source' => 'tok_visa',
+        //     'destination' => [
+        //         'account' => $recipientAccount,
+        //         'amount' => 900, // Amount to be transferred to the recipient
+        //     ],
+        // ]);
+
+        // // Add a bank account for the recipient
+        // $recipient = User::find(1); // Replace with your recipient model
+        // $recipientAccount = $recipient->stripe_account_id;
+        // $recipientBankAccount = BankAccount::create([
+        //     'country' => 'US',
+        //     'currency' => 'usd',
+        //     'routing_number' => '110000000',
+        //     'account_number' => '000123456789',
+        // ]);
+        // $recipient->updateDefaultPaymentMethod($recipientBankAccount->id);
+
+        // // Initiate a payout to the recipient's bank account
+        // $payout = $recipient->payouts()->create([
+        //     'amount' => 1000,
+        //     'currency' => 'usd',
+        // ]);
+        // $payout->destination = $recipientBankAccount->id;
+        // $payout->save();
+
+        // // Retrieve the recipient's payouts
+        // $payouts = Cashier::stripe()->payouts()->all([
+        //     'destination' => $recipientBankAccount->id,
+        // ]);
+
+
         $now = CarbonImmutable::today();
         $weekStartDate = $now->startOfWeek();
         $weekEndDate = $now->endOfWeek();

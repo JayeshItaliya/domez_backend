@@ -199,13 +199,13 @@
         <footer class=" footer-text footer-section">
             <div class="container">
                 <div class="row footer-content">
-                    <div class="col-md-6 ps-sm-0">
+                    <div class="col-lg-6 mb-3 ps-sm-0">
                         <div class="footer-box wow fadeInDown delay-0-4s animated">
                             <div class="logo-img mb-4 w-100">
                                 <a href="{{ URL::to('/') }}"><img class="footer-logo"
                                         src="{{ url('storage/app/public/admin/images/logo-white.png') }}" /></a>
                             </div>
-                            <p class="footer-description">“Revolutionizing the way you book your next game! Get instant
+                            <p class="footer-description">Revolutionizing the way you book your next game! Get instant
                                 access to all the domes in the city and book at the tap of a button. <br><br>
 
                                 Say goodbye to the hassle of bringing cash to pay back your friend who booked the dome.
@@ -214,11 +214,11 @@
                                 access to the booking. No more awkward conversations or disputes about who owes what.
                                 Whether you're a seasoned athlete or a casual sports enthusiast, DOMEZ
                                 is designed to provide you with the best experience possible, so you can focus on what
-                                matters most: dominating the field or court like a true champion!”</p>
+                                matters most: dominating the field or court like a true champion!</p>
 
                         </div>
                     </div>
-                    <div class="col-lg-3 col-md-6 wow fadeInDown delay-0-4s animated">
+                    <div class="col-lg-3 col-sm-6 mb-3 wow fadeInDown delay-0-4s animated">
                         <div style="display: grid; justify-content:center;">
                             <h6 class="fw-Medium mb-4">Support</h6>
                             <div class="footer-link link">
@@ -233,7 +233,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-3 col-md-6 ps-sm-0  footer-form-content wow fadeInDown delay-0-4s animated">
+                    <div
+                        class="col-lg-3 col-sm-6 mb-3 ps-sm-0  footer-form-content wow fadeInDown delay-0-4s animated">
                         <div style="display: grid; justify-content:center;">
                             <h6 class="fw-Medium mb-4">Available on</h6>
                             <div class="footer-form">
@@ -254,7 +255,7 @@
         <div class="footer-bottom-section text-center">
             <div class="container border-top">
                 <div class="row">
-                    <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 footer-bottom">
+                    <div class="footer-bottom">
                         <p class="copright-text m-0 py-3"><a href="{{ URL::to('/') }}"
                                 class="text-decoration-none text-copyright wow fadeInLeft delay-0-2s animated">Copyright
                                 © 2023. All rights reserved.</a></p>

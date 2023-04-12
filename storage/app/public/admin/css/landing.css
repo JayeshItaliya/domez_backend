@@ -414,6 +414,10 @@ a{
 
 .client-img img {
     width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: center;
 }
 
 .testimonials-section .testimonial-slider {
@@ -1142,14 +1146,6 @@ img.footer-logo {
 /*  contact  page end  */
 
 
-
-
-
-
-
-
-
-
 .partial-pill {
     color: rgba(94, 53, 177, 1) !important;
     background-color: #EDE7F6 !important;
@@ -1158,3 +1154,6 @@ img.footer-logo {
     color: rgba(33, 150, 243, 1) !important;
     background-color: #E3F2FD !important;
 }
+
+
+
