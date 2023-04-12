@@ -10,7 +10,7 @@ class ReviewController extends Controller
 {
     public function index(Request $request)
     {
-        $reviewslist = Review::where('vendor_id', auth()->user()->id)->orderByDesc('id')->get();
+        $reviewslist = Review::where('vendor_id', auth()->user()->type == 2 ? auth()->user()->id : auth()->user()->vendor_id)->orderByDesc('id')->get();
         return view('admin.reviews.index', compact('reviewslist'));
     }
     public function replymessage(Request $request)

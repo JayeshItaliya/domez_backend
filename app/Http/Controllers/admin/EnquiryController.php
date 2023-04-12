@@ -125,7 +125,7 @@ class EnquiryController extends Controller
     {
         $getsupportslist = Enquiries::where('type', 5);
         if (auth()->user()->type == 2) {
-            $getsupportslist = $getsupportslist->where('vendor_id', auth()->user()->id);
+            $getsupportslist = $getsupportslist->where('vendor_id', auth()->user()->type == 2 ? auth()->user()->id : auth()->user()->vendor_id);
         } else {
             $getsupportslist = $getsupportslist->where('is_replied', 2);
         }
@@ -135,7 +135,7 @@ class EnquiryController extends Controller
     public function store_ticket(Request $request)
     {
         $ticket = new Enquiries();
-        $ticket->vendor_id = auth()->user()->id;
+        $ticket->vendor_id = auth()->user()->type == 2 ? auth()->user()->id : auth()->user()->vendor_id;
         $ticket->type = 5;
         $ticket->name = auth()->user()->name;
         $ticket->email = auth()->user()->email;

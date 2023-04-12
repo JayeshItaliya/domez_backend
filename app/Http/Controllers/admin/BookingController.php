@@ -31,7 +31,7 @@ class BookingController extends Controller
         }
         if ($request->has('type') && in_array($request->type, ['domes', 'leagues'])) {
             if ($request->type == 'domes') {
-                $getbookingslist = $getbookingslist->where('dome_id', '!=', '');
+                $getbookingslist = $getbookingslist->where('dome_id', '!=', '')->where('league_id', '=', '');
             }
             if ($request->type == 'leagues') {
                 $getbookingslist = $getbookingslist->where('league_id', '!=', '');
