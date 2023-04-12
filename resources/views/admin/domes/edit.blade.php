@@ -293,10 +293,10 @@
                                     <label class="form-label"
                                         for="">{{ $sport->name . ' ' . trans('labels.price') }}</label>
                                     <div class="input-group">
+                                        <span class="input-group-text" id="basic-addon1"><i class="fa fa-dollar"></i></span>
                                         <input type="number" class="form-control" name="dome_price[]"
                                             value="{{ Helper::get_dome_price($dome->id, $sport->id) }}" placeholder="0"
                                             {{ in_array($sport->id, $sport_id) ? '' : 'disabled' }}>
-                                        <span class="input-group-text" id="basic-addon1">$</span>
                                     </div>
                             </div>
                             @endforeach
