@@ -223,12 +223,11 @@ class BookingController extends Controller
                         if ($slot_start_time->between($league_start_time, $league_end_time) || $slot_end_time->between($league_start_time, $league_end_time)) {
                             if (($slot_start_time->gt($league_start_time) && $slot_start_time->lt($league_end_time)) || ($slot_end_time->gt($league_start_time) && $slot_end_time->lt($league_end_time))) {
                                 $status = 0;
-                                // $status = '2131321231 -- '.$league->name;
+                                // $status = '222222 -- '.$league->name;
                                 break;
                             }
                         }
                     }
-
 
                     $checkslotexist = Booking::where('dome_id', $request->dome_id)->where('sport_id', $request->sport_id)->whereDate('start_date', date('Y-m-d', strtotime($request->date)))->whereRaw("find_in_set('" . $slot . "',slots)")->where('booking_status', '!=', 3)->first();
                     if (!empty($checkslotexist)) {

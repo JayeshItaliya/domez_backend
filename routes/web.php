@@ -168,18 +168,6 @@ Route::group(['middleware' => 'SetTimeZoneMiddleware'], function () {
                 Route::get('delete', [SportsController::class, 'delete']);
             });
         });
-        Route::group(['middleware' => 'VendorAndEmployeeMiddleware'], function () {
-            // Set Prices
-            Route::group(['prefix' => 'set-prices'], function () {
-                Route::get('/', [DomesPriceController::class, 'index']);
-                Route::get('add', [DomesPriceController::class, 'add']);
-                // Route::get('edit-{id}', [DomesPriceController::class, 'edit']);
-                // Route::post('store', [DomesPriceController::class, 'store']);
-                Route::get('delete', [DomesPriceController::class, 'deletesetprice']);
-                Route::get('delete-slot', [DomesPriceController::class, 'deleteslot']);
-                Route::get('getsports', [DomesPriceController::class, 'getsportslist']);
-            });
-        });
         Route::group(['middleware' => 'VendorMiddleware'], function () {
             //  Workers
             Route::group(['prefix' => 'workers'], function () {
@@ -227,9 +215,22 @@ Route::group(['middleware' => 'SetTimeZoneMiddleware'], function () {
                 Route::get('delete', [FieldController::class, 'delete']);
                 Route::get('maintenance', [FieldController::class, 'maintenance']);
             });
+        });
+        Route::group(['middleware' => 'VendorAndEmployeeMiddleware'], function () {
+            // Set Prices
+            Route::group(['prefix' => 'set-prices'], function () {
+                Route::get('/', [DomesPriceController::class, 'index']);
+                Route::get('add', [DomesPriceController::class, 'add']);
+                // Route::get('edit-{id}', [DomesPriceController::class, 'edit']);
+                // Route::post('store', [DomesPriceController::class, 'store']);
+                Route::get('delete', [DomesPriceController::class, 'deletesetprice']);
+                Route::get('delete-slot', [DomesPriceController::class, 'deleteslot']);
+                Route::get('getsports', [DomesPriceController::class, 'getsportslist']);
+            });
             //  Reviews
             Route::group(['prefix' => 'reviews'], function () {
-                Route::get('/', [ReviewController::class, 'index']);
+                Route::get('', [ReviewController::class, 'index']);
+                Route::get('reply', [ReviewController::class, 'replymessage']);
             });
         });
     });

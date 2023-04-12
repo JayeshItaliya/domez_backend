@@ -17,4 +17,15 @@ class ReviewController extends Controller
         }
         return view('admin.reviews.index', compact('reviewslist'));
     }
+    public function replymessage(Request $request)
+    {
+        $reviewdata = Review::find($request->id);
+        if(!empty($reviewdata)){
+            $reviewdata->reply_message = $request->reply;
+            $reviewdata->replied_at = date('Y-m-d');
+            $reviewdata->save();
+            return redirect('admin/reviews')->with('success',trans('messages.success'));
+        }
+        return redirect('admin/reviews')->with('error',trans('messages.wrong'));
+    }
 }
