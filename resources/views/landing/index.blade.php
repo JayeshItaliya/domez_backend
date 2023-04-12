@@ -178,50 +178,54 @@
         {{-- Most Popular Sports Area End --}}
         <section class="game-details">
             <div class="container">
-                <div class="row align-items-center">
+                <div class="row align-items-center justify-content-center">
                     <div
-                        class="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 right-column m-0 align-items-center text-md-start text-center ps-3 pe-3">
+                        class="col-md-6 right-column m-0 align-items-center text-md-start text-center ps-3 pe-3">
                         <div class="game-details-img" data-wow-duration="2s">
                             <img class="w-100"
                                 src="{{ url('storage/app/public/admin/images/landing/game-play-1.png') }}" />
                         </div>
                     </div>
                     <div
-                        class="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 right-column m-0 align-items-center text-md-start  ps-3 pe-3">
+                        class="col-md-6 right-column m-0 align-items-center text-md-start  ps-3 pe-3">
                         <div class="game-details-text" data-wow-duration="2s">
-                            <h2 class="wow fadeInDown  delay-0-2s animated">Monitor Your Revenue, Number of Bookings
-                                and
-                                Number of Users Daily.</h2>
-                            <p class="text-muted fw-semibold">Domez provides a complete suite of tools to manage your
+                            <h2 class="wow fadeInDown  delay-0-2s animated">Monitor Your Revenue,<br>Number of Bookings
+                                and<br>Number of Users Daily.</h2>
+                            <p class="text-muted fw-semibold" style="text-align: justify">Domez provides a complete
+                                suite of tools to manage your
                                 bookings and payments processes.
                                 At the centre of everything we do are the sports facilities themselves.</p>
-                            <p class="text-muted fw-semibold">By their very nature, sports facilities vary based on a
+                            <p class="text-muted fw-semibold" style="text-align: justify">By their very nature, sports
+                                facilities vary based on a
                                 wide range of factors. Location,
                                 opening times, typically booking slot lengths, facility types and much more.</p>
-                            <p class="text-muted fw-semibold">At Domez, our sole focus is an online platform for sports
+                            <p class="text-muted fw-semibold" style="text-align: justify">At Domez, our sole focus is
+                                an online platform for sports
                                 facilities. This allows us to
                                 focus on creating a platform that caters to the specific requirements of pitches,
                                 courts, halls and other playing surfaces.</p>
-                            <button class="btn btn-success wow fadeInRight delay-0-2s animated">Get Started</button>
+                            <a href="{{ URL::to('contact') }}"
+                                class="btn btn-success wow fadeInRight delay-0-2s animated">Get Started</a>
                         </div>
                     </div>
                 </div>
-                <div class="row game-play align-items-center pt-md-5 pt-sm-4">
+                <div class="row game-play align-items-center pt-md-5 pt-sm-4 pt-3">
                     <div
-                        class="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 right-column m-0 align-items-center text-md-start  ps-3 pe-3">
+                        class="col-md-6 right-column m-0 align-items-center text-md-start  ps-3 pe-3">
                         <div class="game-details-text" data-wow-duration="2s">
                             <h2 class="wow fadeInDown  delay-0-2s animated">Domez Solved the Problem!</h2>
-                            <p class="text-muted fw-semibold">Now each player can pay their portion since the app
+                            <p class="text-muted fw-semibold" style="text-align: justify">Now each player can pay
+                                their portion since the app
                                 splits the amount among the number of
                                 players equally through shared access to the booking. No more the hassle of paying back
                                 and missed calculations after each match. An option to pay in full is also offered if
                                 one player would like to pay for the whole booking fee.</p>
-                            <button class="btn btn-success dmz-button wow fadeInRight delay-0-2s animated">Get
-                                Started</button>
+                            <a href="{{ URL::to('contact') }}"
+                                class="btn btn-success dmz-button wow fadeInRight delay-0-2s animated">Get Started</a>
                         </div>
                     </div>
                     <div
-                        class="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 right-column m-0 align-items-center text-md-start text-center ps-3 pe-3">
+                        class="col-md-6 right-column m-0 align-items-center text-md-start text-center ps-3 pe-3">
                         <div class="game-details-img game-details-img" data-wow-duration="2s">
                             <img class="w-100"
                                 src="{{ url('storage/app/public/admin/images/landing/game-play-2.png') }}" />
@@ -232,26 +236,28 @@
         </section>
         <section class="book-sports">
             <div class="container">
-                <div class="row align-items-center">
+                <div class="row align-items-center justify-content-center">
                     <div
-                        class="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 right-column m-0 align-items-center text-md-start text-center ps-3 pe-3">
+                        class="col-md-6 right-column m-0 align-items-center text-md-start text-center ps-3 pe-3">
                         <div class="game-details-img" data-wow-duration="2s">
                             <img class="w-100"
                                 src="{{ url('storage/app/public/admin/images/landing/Book.png') }}" />
                         </div>
                     </div>
                     <div
-                        class="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12 right-column m-0 align-items-center text-md-start  ps-3 pe-3">
+                        class="col-md-6 right-column m-0 align-items-center text-md-start  ps-3 pe-3">
                         <div class="game-details-text" data-wow-duration="2s">
-                            <h2 class="wow fadeInDown  delay-0-2s animated">Book a sports<br>facility near you</h2>
-                            <p class="text-muted fw-semibold">At the Domez , we can offer your team a personalized
-                                playing experience due to our
-                                adaptable playing surface. With outfield fences for Volleyball, and Soccer Goals, and
-                                Tennis, and Golf, the Domez can easily be customized to fit your specific needs.</p>
-                            <p class="text-muted fw-semibold">Contact us today, and we can take you through
-                                the<br>set-ups we can provide!</p>
-                            <button class="btn btn-success dmz-button wow fadeInRight delay-0-2s animated">Get
-                                Started</button>
+                            <h2 class="wow fadeInDown  delay-0-2s animated text-capitalize">Start Your Own<br>Leagues</h2>
+                            <p class="text-muted fw-semibold" style="text-align: justify">DOMEZ provides you with the
+                                opportunity to take full
+                                control over the management, organization, revenue and operations of the leagues, which
+                                is a crucial step toward providing a better experience for participants and spectators.
+                                Additionally, by running the league in-house, your management can ensure that the league
+                                operates at the highest standards and is managed with the utmost professionalism. And
+                                most importantly, you keep all the revenue that the leagues generate because it is run
+                                by your dome.</p>
+                            <a href="{{ URL::to('contact') }}"
+                                class="btn btn-success dmz-button wow fadeInRight delay-0-2s animated">Get Started</a>
                         </div>
                     </div>
                 </div>
@@ -265,11 +271,18 @@
                             <div class="test">
                                 <div class="client-img">
                                     <img
-                                        src="{{ url('storage/app/public/admin/images/landing/Eddie-Jacobs.png') }}" />
+                                        src="{{ url('storage/app/public/admin/images/landing/test1.jpg') }}" />
                                 </div>
-                                <div class="client-infomation mt-4">
+                                <div class="client-infomation mt-4 pt-2">
                                     <div class="client-name">Eddie Jacobs</div>
                                     {{-- <div class="client-designation">Hocky Power</div> --}}
+                                </div>
+                                <div class="review-star">
+                                    <i class="fa-solid fa-star text-warning"></i>
+                                    <i class="fa-solid fa-star text-warning"></i>
+                                    <i class="fa-solid fa-star text-warning"></i>
+                                    <i class="fa-solid fa-star text-warning"></i>
+                                    <i class="fa-solid fa-star text-warning"></i>
                                 </div>
                                 <div class="client-feedback mt-3">
                                     <p>"I have been using DOMEZ for several months now, and it has been a game-changer
@@ -283,11 +296,18 @@
                             <div class="test">
                                 <div class="client-img">
                                     <img
-                                        src="{{ url('storage/app/public/admin/images/landing/Eddie-Jacobs.png') }}" />
+                                        src="{{ url('storage/app/public/admin/images/landing/test4.jpg') }}" />
                                 </div>
-                                <div class="client-infomation mt-4">
+                                <div class="client-infomation mt-4 pt-2">
                                     <div class="client-name">Jessica Wislson</div>
                                     {{-- <div class="client-designation">Hocky Power</div> --}}
+                                </div>
+                                <div class="review-star">
+                                    <i class="fa-solid fa-star text-warning"></i>
+                                    <i class="fa-solid fa-star text-warning"></i>
+                                    <i class="fa-solid fa-star text-warning"></i>
+                                    <i class="fa-solid fa-star text-warning"></i>
+                                    <i class="fa-regular fa-star text-warning"></i>
                                 </div>
                                 <div class="client-feedback mt-3">
                                     <p>"DOMEZ has exceeded my expectations. The interface is sleek and modern, and the
@@ -302,11 +322,18 @@
                             <div class="test">
                                 <div class="client-img">
                                     <img
-                                        src="{{ url('storage/app/public/admin/images/landing/Eddie-Jacobs.png') }}" />
+                                        src="{{ url('storage/app/public/admin/images/landing/test3.jpg') }}" />
                                 </div>
-                                <div class="client-infomation mt-4">
-                                    <div class="client-name">Jessy Carter</div>
+                                <div class="client-infomation mt-4 pt-2">
+                                    <div class="client-name">James Carter</div>
                                     {{-- <div class="client-designation">Hocky Power</div> --}}
+                                </div>
+                                <div class="review-star">
+                                    <i class="fa-solid fa-star text-warning"></i>
+                                    <i class="fa-solid fa-star text-warning"></i>
+                                    <i class="fa-solid fa-star text-warning"></i>
+                                    <i class="fa-solid fa-star text-warning"></i>
+                                    <i class="fa-solid fa-star text-warning"></i>
                                 </div>
                                 <div class="client-feedback mt-3">
                                     <p>"I've used several sports booking apps in the past, but this one takes the cake.
@@ -321,11 +348,18 @@
                             <div class="test">
                                 <div class="client-img">
                                     <img
-                                        src="{{ url('storage/app/public/admin/images/landing/Eddie-Jacobs.png') }}" />
+                                        src="{{ url('storage/app/public/admin/images/landing/test2.jpg') }}" />
                                 </div>
-                                <div class="client-infomation mt-4">
-                                    <div class="client-name">Emmilia vice</div>
+                                <div class="client-infomation mt-4 pt-2">
+                                    <div class="client-name">Wirag Wilow</div>
                                     {{-- <div class="client-designation">Hocky Power</div> --}}
+                                </div>
+                                <div class="review-star">
+                                    <i class="fa-solid fa-star text-warning"></i>
+                                    <i class="fa-solid fa-star text-warning"></i>
+                                    <i class="fa-solid fa-star text-warning"></i>
+                                    <i class="fa-solid fa-star text-warning"></i>
+                                    <i class="fa-regular fa-star text-warning"></i>
                                 </div>
                                 <div class="client-feedback mt-3">
                                     <p>"I cannot recommend DOMEZ enough! It's so intuitive and easy to use, and the
@@ -485,13 +519,13 @@
         <footer class=" footer-text footer-section">
             <div class="container">
                 <div class="row footer-content">
-                    <div class="col-md-6 ps-sm-0">
+                    <div class="col-lg-6 mb-3 ps-sm-0">
                         <div class="footer-box wow fadeInDown delay-0-4s animated">
                             <div class="logo-img mb-4 w-100">
                                 <a href="{{ URL::to('/') }}"><img class="footer-logo"
                                         src="{{ url('storage/app/public/admin/images/logo-white.png') }}" /></a>
                             </div>
-                            <p class="footer-description">“Revolutionizing the way you book your next game! Get instant
+                            <p class="footer-description">Revolutionizing the way you book your next game! Get instant
                                 access to all the domes in the city and book at the tap of a button. <br><br>
 
                                 Say goodbye to the hassle of bringing cash to pay back your friend who booked the dome.
@@ -500,11 +534,11 @@
                                 access to the booking. No more awkward conversations or disputes about who owes what.
                                 Whether you're a seasoned athlete or a casual sports enthusiast, DOMEZ
                                 is designed to provide you with the best experience possible, so you can focus on what
-                                matters most: dominating the field or court like a true champion!”</p>
+                                matters most: dominating the field or court like a true champion!</p>
 
                         </div>
                     </div>
-                    <div class="col-lg-3 col-md-6 wow fadeInDown delay-0-4s animated">
+                    <div class="col-lg-3 col-sm-6 mb-3 wow fadeInDown delay-0-4s animated">
                         <div style="display: grid; justify-content:center;">
                             <h6 class="fw-Medium mb-4">Support</h6>
                             <div class="footer-link link">
@@ -519,7 +553,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-3 col-md-6 ps-sm-0  footer-form-content wow fadeInDown delay-0-4s animated">
+                    <div class="col-lg-3 col-sm-6 mb-3 ps-sm-0  footer-form-content wow fadeInDown delay-0-4s animated">
                         <div style="display: grid; justify-content:center;">
                             <h6 class="fw-Medium mb-4">Available on</h6>
                             <div class="footer-form">
@@ -540,7 +574,7 @@
         <div class="footer-bottom-section text-center">
             <div class="container border-top">
                 <div class="row">
-                    <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 footer-bottom">
+                    <div class="footer-bottom">
                         <p class="copright-text m-0 py-3"><a href="{{ URL::to('/') }}"
                                 class="text-decoration-none text-copyright wow fadeInLeft delay-0-2s animated">Copyright
                                 © 2023. All rights reserved.</a></p>
@@ -585,39 +619,77 @@
             autoplayTimeout: 2000,
             // responsiveClass: true,
             responsive: {
-                0: {
-                    items: 2,
-                    nav: false,
-                    dots: false,
-                    arrow: true,
-                    margin: 10,
-                },
-                400: {
-                    items: 3,
-                    nav: false,
-                    dots: false,
-                    arrow: true,
-                    margin: 65,
-                },
-                600: {
-                    items: 4,
-                    nav: false,
-                    dots: false,
-                    margin: 38,
-                },
-                800: {
-                    items: 5,
-                    nav: false,
-                    dots: false,
-                    margin: 20,
-                },
-                1000: {
+                1400: {
                     items: 4,
                     dots: false,
                     nav: false,
                     loop: false,
                     arrows: true,
                     margin: 35,
+                },
+                1300: {
+                    items: 3,
+                    dots: false,
+                    nav: false,
+                    loop: false,
+                    arrows: true,
+                    margin: 35,
+                },
+                1200: {
+                    items: 3,
+                    dots: false,
+                    nav: false,
+                    loop: false,
+                    arrows: true,
+                    margin: 25,
+                },
+                1100: {
+                    items: 3,
+                    dots: false,
+                    nav: false,
+                    loop: false,
+                    arrows: true,
+                    margin: 20,
+                },
+                1100: {
+                    items: 3,
+                    dots: false,
+                    nav: false,
+                    loop: false,
+                    arrows: true,
+                    margin: 15,
+                },
+                1000: {
+                    items: 3,
+                    dots: false,
+                    nav: false,
+                    loop: false,
+                    arrows: true,
+                    margin: 15,
+                },
+                991: {
+                    items: 2,
+                    dots: false,
+                    nav: false,
+                    loop: false,
+                    arrows: true,
+                    margin: 10,
+                },
+                770: {
+                    items: 2,
+                    dots: false,
+                    nav: false,
+                    loop: false,
+                    arrows: true,
+                    margin: 5,
+                },
+                320: {
+                    items: 1,
+                    dots: false,
+                    nav: false,
+                    loop: false,
+                    arrows: true,
+                    margin: 0,
                 },
             }
         });

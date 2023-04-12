@@ -95,7 +95,8 @@
                         <path d="M9 17v1a3 3 0 0 0 6 0v-1" />
                     </svg>
                     <span
-                        class="position-absolute top-0 start-100 translate-middle p-1 bg-danger border border-light rounded-circle"></span>
+                        class="position-absolute top-0 start-100 translate-middle p-1 bg-danger border border-light rounded-circle"
+                        style="background-color:#FE3B30 !important;"></span>
                 </a>
                 <ul class="dropdown-menu box-shadow border-0 my-3">
                     <li class="dropdown-item">

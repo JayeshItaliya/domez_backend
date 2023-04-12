@@ -166,13 +166,11 @@
                             <div class="col-md-6">
                                 <h4 class="mb-0">{{ $checkbooking->dome_name->name }}</h4>
                                 <hr>
-                                <h4 class="mb-0">{{ $checkbooking->booking_id }}
-                                    @dump($checkbooking->transactions->count())
-                                </h4>
-                                <hr>
                                 <div class="row">
-
                                     <ul class="list-group list-group-flush">
+                                        <li class="list-group-item d-flex gap-2"> <strong>Booking ID</strong> :
+                                            {{ $checkbooking->booking_id }}
+                                        </li>
                                         <li class="list-group-item d-flex gap-2"> <strong>Payment Status</strong> :
                                             <span>
                                                 @if ($checkbooking->payment_status == 1)
@@ -302,7 +300,7 @@
         <footer class=" footer-text footer-section">
             <div class="container">
                 <div class="row footer-content">
-                    <div class="col-md-6 ps-sm-0">
+                    <div class="col-lg-6 mb-3 ps-sm-0">
                         <div class="footer-box wow fadeInDown delay-0-4s animated">
                             <div class="logo-img mb-4 w-100">
                                 <a href="{{ URL::to('/') }}"><img class="footer-logo"
@@ -321,7 +319,7 @@
 
                         </div>
                     </div>
-                    <div class="col-lg-3 col-md-6 wow fadeInDown delay-0-4s animated">
+                    <div class="col-lg-3 col-sm-6 mb-3 wow fadeInDown delay-0-4s animated">
                         <div style="display: grid; justify-content:center;">
                             <h6 class="fw-Medium mb-4">Support</h6>
                             <div class="footer-link link">
@@ -336,7 +334,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-3 col-md-6 ps-sm-0  footer-form-content wow fadeInDown delay-0-4s animated">
+                    <div
+                        class="col-lg-3 col-sm-6 mb-3 ps-sm-0  footer-form-content wow fadeInDown delay-0-4s animated">
                         <div style="display: grid; justify-content:center;">
                             <h6 class="fw-Medium mb-4">Available on</h6>
                             <div class="footer-form">
@@ -357,7 +356,7 @@
         <div class="footer-bottom-section text-center">
             <div class="container border-top">
                 <div class="row">
-                    <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 footer-bottom">
+                    <div class="footer-bottom">
                         <p class="copright-text m-0 py-3"><a href="{{ URL::to('/') }}"
                                 class="text-decoration-none text-copyright wow fadeInLeft delay-0-2s animated">Copyright
                                 © 2023. All rights reserved.</a></p>

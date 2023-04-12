@@ -4,74 +4,35 @@
             @if (Auth::user()->type != 5)
                 <a href="{{ URL::to('admin/dashboard') }}"
                     class="nav-item {{ request()->is('admin/dashboard') ? 'active' : '' }}">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-dashboard" width="25"
-                        height="25" viewBox="0 0 24 24" stroke-width="1.5"
-                        stroke="{{ request()->is('admin/dashboard') ? 'var(--bs-secondary)' : '#2c3e50' }}"
-                        fill="none" stroke-linecap="round" stroke-linejoin="round">
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                        <circle cx="12" cy="13" r="2" />
-                        <line x1="13.45" y1="11.55" x2="15.5" y2="9.5" />
-                        <path d="M6.4 20a9 9 0 1 1 11.2 0z" />
-                    </svg>
+                    <i class="fa-regular fa-table-columns {{ request()->is('admin/dashboard') ? 'text-secondary' : '' }}"></i>
                     <span class="mx-3">{{ trans('labels.dashboard') }}</span>
                 </a>
             @endif
             @if (Auth::user()->type == 2)
                 <a href="{{ URL::to('admin/workers') }}"
                     class="nav-item {{ request()->is('admin/workers*') ? 'active' : '' }}">
-                    <i class="fa-duotone fa-user-tie fs-5"
-                        style="color: {{ request()->is('admin/workers*') ? 'var(--bs-secondary)' : '#2c3e50' }}"></i>
+                    <i class="fa-regular fa-chalkboard-user {{ request()->is('admin/workers*') ? 'text-secondary' : '' }}"></i>
                     <span class="mx-3">{{ trans('labels.workers') }}</span>
                 </a>
                 <a href="{{ URL::to('admin/providers') }}"
                     class="nav-item {{ request()->is('admin/providers*') ? 'active' : '' }}">
-                    <i class="fa-duotone fa-users fs-5"
-                        style="color: {{ request()->is('admin/providers*') ? 'var(--bs-secondary)' : '#2c3e50' }}"></i>
+                    <i class="fa-regular fa-square-user {{ request()->is('admin/providers*') ? 'text-secondary' : '' }}"></i>
                     <span class="mx-3">{{ trans('labels.providers') }}</span>
                 </a>
             @endif
             @if (Auth::user()->type == 1)
                 <a href="{{ URL::to('admin/vendors') }}"
                     class="nav-item {{ request()->is('admin/vendors*') ? 'active' : '' }}">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user-circle"
-                        width="25" height="25" viewBox="0 0 24 24" stroke-width="1.5"
-                        stroke="{{ request()->is('admin/vendors*') ? 'var(--bs-secondary)' : '#2c3e50' }}"
-                        fill="none" stroke-linecap="round" stroke-linejoin="round">
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                        <circle cx="12" cy="12" r="9" />
-                        <circle cx="12" cy="10" r="3" />
-                        <path d="M6.168 18.849a4 4 0 0 1 3.832 -2.849h4a4 4 0 0 1 3.834 2.855" />
-                    </svg>
+                    <i class="fa-regular fa-circle-user {{ request()->is('admin/vendors*') ? 'text-secondary' : '' }}"></i>
                     <span class="mx-3">{{ trans('labels.dome_owners') }}</span>
                 </a>
-                <a href="{{ URL::to('admin/users') }}"
-                    class="nav-item {{ request()->is('admin/users*') ? 'active' : '' }}">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-users" width="25"
-                        height="25" viewBox="0 0 24 24" stroke-width="1.5"
-                        stroke="{{ request()->is('admin/users*') ? 'var(--bs-secondary)' : '#2c3e50' }}" fill="none"
-                        stroke-linecap="round" stroke-linejoin="round">
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                        <circle cx="9" cy="7" r="4" />
-                        <path d="M3 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
-                        <path d="M16 3.13a4 4 0 0 1 0 7.75" />
-                        <path d="M21 21v-2a4 4 0 0 0 -3 -3.85" />
-                    </svg>
+                <a href="{{ URL::to('admin/users') }}" class="nav-item {{ request()->is('admin/users*') ? 'active' : '' }}">
+                    <i class="fa-regular fa-user-check {{ request()->is('admin/users*') ? 'text-secondary' : '' }}"></i>
                     <span class="mx-3">{{ trans('labels.users') }}</span>
                 </a>
                 <a href="{{ URL::to('admin/sports') }}"
                     class="nav-item {{ request()->is('admin/sports*') ? 'active' : '' }}">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-list-check"
-                        width="25" height="25" viewBox="0 0 24 24" stroke-width="1.5"
-                        stroke="{{ request()->is('admin/sports*') ? 'var(--bs-secondary)' : '#2c3e50' }}"
-                        fill="none" stroke-linecap="round" stroke-linejoin="round">
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                        <path d="M3.5 5.5l1.5 1.5l2.5 -2.5"></path>
-                        <path d="M3.5 11.5l1.5 1.5l2.5 -2.5"></path>
-                        <path d="M3.5 17.5l1.5 1.5l2.5 -2.5"></path>
-                        <path d="M11 6l9 0"></path>
-                        <path d="M11 12l9 0"></path>
-                        <path d="M11 18l9 0"></path>
-                    </svg>
+                    <i class="fa-regular fa-basketball {{ request()->is('admin/sports*') ? 'text-secondary' : '' }}"></i>
                     <span class="mx-3">{{ trans('labels.sports') }}</span>
                 </a>
             @endif
@@ -81,7 +42,7 @@
                     data-bs-toggle="collapse" role="button"
                     aria-expanded="{{ request()->is('admin/domes*') || request()->is('admin/field*') || request()->is('admin/set-prices*') ? 'true' : 'false' }}"
                     aria-controls="domesmanagement">
-                    <i class="fa-regular fa-list-tree"></i>
+                    <i class="fa-regular fa-igloo {{ request()->is('admin/domes*') || request()->is('admin/field*') || request()->is('admin/set-prices*') ? 'text-secondary' : '' }}"></i>
                     <div class="ms-3 d-flex align-items-center justify-content-between w-100">
                         <span> {{ trans('labels.domes_management') }} </span>
                         <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-down"
@@ -117,45 +78,32 @@
             @endif
             <a href="{{ URL::to('admin/leagues') }}"
                 class="nav-item {{ request()->is('admin/leagues*') ? 'active' : '' }}">
-                <i class="fa-light fa-list-dropdown"></i>
+                <i class="fa-regular fa-ranking-star {{ request()->is('admin/leagues*') ? 'text-secondary' : '' }}"></i>
                 <span class="mx-3">{{ trans('labels.leagues') }}</span>
             </a>
             <a href="{{ URL::to('admin/bookings') }}"
                 class="nav-item {{ request()->is('admin/bookings*') ? 'active' : '' }}">
-                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-event"
-                    width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5"
-                    stroke="{{ request()->is('admin/bookings*') ? 'var(--bs-secondary)' : '#2c3e50' }}"
-                    fill="none" stroke-linecap="round" stroke-linejoin="round">
-                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                    <rect x="4" y="5" width="16" height="16" rx="2" />
-                    <line x1="16" y1="3" x2="16" y2="7" />
-                    <line x1="8" y1="3" x2="8" y2="7" />
-                    <line x1="4" y1="11" x2="20" y2="11" />
-                    <rect x="8" y="15" width="2" height="2" />
-                </svg>
+                <i class="fa-regular fa-calendar-circle-plus {{ request()->is('admin/bookings*') ? 'text-secondary' : '' }}"></i>
                 <span class="mx-3">{{ trans('labels.bookings') }}</span>
             </a>
             @if (in_array(Auth::user()->type, [1, 2]))
                 <a href="{{ URL::to('admin/transactions') }}"
                     class="nav-item {{ request()->is('admin/transactions*') ? 'active' : '' }}">
-                    <i class="fa-light fa-file-invoice-dollar"
-                        style="color: {{ request()->is('admin/transactions*') ? 'var(--bs-secondary)' : '#2c3e50' }}"></i>
+                    <i class="fa-regular fa-money-from-bracket {{ request()->is('admin/transactions*') ? 'text-secondary' : '' }}"></i>
                     <span class="mx-3">{{ trans('labels.transactions') }}</span>
                 </a>
             @endif
             @if (Auth::user()->type != 5)
                 <a href="{{ URL::to('admin/calendar') }}"
                     class="nav-item {{ request()->is('admin/calendar*') ? 'active' : '' }}">
-                    <i class="fa-light fa-calendar-range"
-                        style="color: {{ request()->is('admin/calendar*') ? 'var(--bs-secondary)' : '#2c3e50' }}"></i>
+                    <i class="fa-regular fa-calendar-lines {{ request()->is('admin/calendar*') ? 'text-secondary' : '' }}"></i>
                     <span class="mx-3">{{ trans('labels.calendar') }}</span>
                 </a>
             @endif
             @if (in_array(Auth::user()->type, [2, 4]))
                 <a href="{{ URL::to('admin/reviews') }}"
                     class="nav-item {{ request()->is('admin/reviews*') ? 'active' : '' }}">
-                    <i class="fa-light fa-message-smile"
-                        style="color: {{ request()->is('admin/reviews*') ? 'var(--bs-secondary)' : '#2c3e50' }}"></i>
+                    <i class="fa-regular fa-star-exclamation {{ request()->is('admin/reviews*') ? 'text-secondary' : '' }}"></i>
                     <span class="mx-3">{{ trans('labels.reviews') }}</span>
                 </a>
             @endif
@@ -164,13 +112,15 @@
                     data-bs-toggle="collapse" role="button"
                     aria-expanded="{{ request()->is('admin/enquiries*') ? 'true' : 'false' }}"
                     aria-controls="enquiry">
+                    <i class="fa-regular fa-comments-question {{ request()->is('admin/enquiries*') ? 'text-secondary' : '' }}"></i>
                     <i class="fa-light fa-message-smile"
                         style="color: {{ request()->is('admin/enquiries*') ? 'var(--bs-secondary)' : '#2c3e50' }}"></i>
                     <div class="ms-3 d-flex align-items-center justify-content-between w-100">
                         <span class="position-relative">{{ trans('labels.enquiry') }}
                             @if (Helper::get_noti_count(1) > 0 || Helper::get_noti_count(2) > 0 || Helper::get_noti_count(3) > 0)
                                 <small
-                                    class="position-absolute translate-middle border border-light rounded-circle badge bg-primary p-1" style="top: 20%; left:115%;">
+                                    class="position-absolute translate-middle border border-light rounded-circle badge bg-primary p-1"
+                                    style="top: 20%; left:115%; background-color:#FE3B30 !important;">
                                 </small>
                             @endif
                         </span>
@@ -190,7 +140,8 @@
                             <span
                                 class="nav-link w-100 {{ request()->is('admin/enquiries/dome-requests') ? 'active' : '' }}">{{ trans('labels.domes_requests') }}</span>
                             @if (Helper::get_noti_count(3) > 0)
-                                <small class="badge bg-danger">{{ Helper::get_noti_count(3) }}</small>
+                                <small class="badge bg-danger rounded-pill"
+                                    style="font-size: 10px;height:fit-content;background-color:#FE3B30 !important;">{{ Helper::get_noti_count(3) }}</small>
                             @endif
                         </a>
                         <a href="{{ URL::to('admin/enquiries/general-enquiry') }}"
@@ -198,7 +149,8 @@
                             <span
                                 class="nav-link w-100 {{ request()->is('admin/enquiries/general-enquiry') ? 'active' : '' }}">{{ trans('labels.general_enquiry') }}</span>
                             @if (Helper::get_noti_count(2) > 0)
-                                <small class="badge bg-danger">{{ Helper::get_noti_count(2) }}</small>
+                                <small class="badge bg-danger rounded-pill"
+                                    style="font-size: 10px;height:fit-content;background-color:#FE3B30 !important;">{{ Helper::get_noti_count(2) }}</small>
                             @endif
                         </a>
                         <a href="{{ URL::to('admin/enquiries/help-support') }}"
@@ -206,7 +158,8 @@
                             <span
                                 class="nav-link w-100 {{ request()->is('admin/enquiries/help-support') ? 'active' : '' }}">{{ trans('labels.help_support') }}</span>
                             @if (Helper::get_noti_count(1) > 0)
-                                <small class="badge bg-danger">{{ Helper::get_noti_count(1) }}</small>
+                                <small class="badge bg-danger rounded-pill"
+                                    style="font-size: 10px;height:fit-content;background-color:#FE3B30 !important;">{{ Helper::get_noti_count(1) }}</small>
                             @endif
                         </a>
                     </ul>
@@ -215,7 +168,7 @@
                 <a href="#cms" class="nav-item {{ request()->is('admin/cms*') ? 'active' : '' }}"
                     data-bs-toggle="collapse" role="button"
                     aria-expanded="{{ request()->is('admin/cms*') ? 'true' : 'false' }}" aria-controls="cms">
-                    <i class="fa-light fa-shield-check"></i>
+                    <i class="fa-regular fa-shield-check {{ request()->is('admin/cms*') ? 'text-secondary' : '' }}"></i>
                     <div class="ms-3 d-flex align-items-center justify-content-between w-100">
                         <span>{{ trans('labels.cms') }}</span>
                         <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-down"
@@ -248,7 +201,7 @@
                 data-bs-toggle="collapse" role="button"
                 aria-expanded="{{ request()->is('admin/settings*') ? 'true' : 'false' }}"
                 aria-controls="generalsettings">
-                <i class="fa-light fa-wrench"></i>
+                <i class="fa-regular fa-wrench {{ request()->is('admin/settings*') ? 'text-secondary' : '' }}"></i>
                 <div class="ms-3 d-flex align-items-center justify-content-between w-100">
                     <span>{{ trans('labels.general_settings') }}</span>
                     <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-down"
@@ -287,12 +240,12 @@
             @if (Auth::user()->type != 5)
                 <a href="{{ URL::to('admin/supports') }}"
                     class="nav-item {{ request()->is('admin/supports*') ? 'active' : '' }}">
-                    <i class="fa-light fa-circle-question"
-                        style="color: {{ request()->is('admin/supports*') ? 'var(--bs-secondary)' : '#2c3e50' }}"></i>
+                    <i class="fa-regular fa-circle-question" {{ request()->is('admin/supports*') ? 'text-secondary' : '' }}></i>
                     <div class="d-flex justify-content-between w-100 aling-items-center">
                         <span class="mx-3">{{ trans('labels.supports') }}</span>
                         @if (Helper::get_noti_count(5) > 0)
-                            <small class="badge bg-danger" style="height:fit-content">{{ Helper::get_noti_count(5) }}</small>
+                            <small class="badge bg-danger rounded-pill"
+                                style="font-size: 10px;height:fit-content;background-color:#FE3B30 !important;">{{ Helper::get_noti_count(5) }}</small>
                         @endif
                     </div>
                 </a>

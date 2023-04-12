@@ -138,7 +138,7 @@
             $(".fc-next-button").addClass('m-0');
 
             $('.fc-dayGridMonth-button').html('<i class="fa-light fa-grid-2"></i>');
-            $('.fc-timeGridWeek-button').html('<i class="fa-sharp fa-regular fa-chart-tree-map"></i>');
+            $('.fc-timeGridWeek-button').html('<i class="fa-regular fa-chart-tree-map"></i>');
             $('.fc-timeGridDay-button').html('<i class="fa-solid fa-grip-lines"></i>');
             $('.fc-listWeek-button').html('<i class="fa-regular fa-list-ol"></i>');
             $('.fc-today-button').text('Today');
