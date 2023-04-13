@@ -42,8 +42,13 @@ class PaymentDistribution extends Command
             if (!empty($dome_owner)) {
                 // $account = \Stripe\Account::retrieve('acct_1MtkxuKQdlw84kQX');
                 // Transfer funds to another Stripe account
+
+                $balance = \Stripe\Balance::retrieve();
+                $availableBalance = $balance->available[0]->amount;
+                dd($availableBalance);
+
                 $transfer = Transfer::create([
-                    'amount' => $transaction->amount * 100, // Amount in cents
+                    'amount' => 1.2 * 100, // Amount in cents
                     'currency' => 'CAD',
                     'destination' => 'acct_1MtkxuKQdlw84kQX',
                 ]);
