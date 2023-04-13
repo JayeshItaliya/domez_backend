@@ -13,6 +13,7 @@ return [
     'email_exist' => 'Email already exists!!',
     'phone_exist' => 'Phone already exists!!',
     'field_exist' => 'Field already exists!!',
+    'sport_exist' => 'Sport already exists!!',
 
     "old_password_required" => "Old password required",
     "new_password_required" => "New password required",

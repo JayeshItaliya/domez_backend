@@ -187,12 +187,8 @@ Route::group(['middleware' => 'SetTimeZoneMiddleware'], function () {
             Route::group(['prefix' => 'leagues'], function () {
                 Route::get('add', [LeagueController::class, 'add']);
                 Route::post('store', [LeagueController::class, 'store']);
-                Route::get('edit-{id}', [LeagueController::class, 'edit']);
-                Route::get('image_delete', [LeagueController::class, 'image_delete']);
-                Route::post('update-{id}', [LeagueController::class, 'store']);
-                Route::get('change_status', [LeagueController::class, 'change_status']);
                 Route::get('delete', [LeagueController::class, 'delete']);
-                Route::get('sports-fields', [LeagueController::class, 'getsportsandfields']);
+                Route::get('change_status', [LeagueController::class, 'change_status']);
             });
             //  Domes
             Route::group(['prefix' => 'domes'], function () {
@@ -217,6 +213,13 @@ Route::group(['middleware' => 'SetTimeZoneMiddleware'], function () {
             });
         });
         Route::group(['middleware' => 'VendorAndEmployeeMiddleware'], function () {
+            //  Leagues
+            Route::group(['prefix' => 'leagues'], function () {
+                Route::get('edit-{id}', [LeagueController::class, 'edit']);
+                Route::get('image_delete', [LeagueController::class, 'image_delete']);
+                Route::post('update-{id}', [LeagueController::class, 'store']);
+                Route::get('sports-fields', [LeagueController::class, 'getsportsandfields']);
+            });
             // Set Prices
             Route::group(['prefix' => 'set-prices'], function () {
                 Route::get('/', [DomesPriceController::class, 'index']);

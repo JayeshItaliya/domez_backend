@@ -270,7 +270,7 @@
                             <div class="test">
                                 <div class="client-img">
                                     <img
-                                        src="{{ url('storage/app/public/admin/images/landing/test1.jpg') }}" />
+                                        src="{{ url('storage/app/public/admin/images/landing/boy-player-1.jpg') }}" />
                                 </div>
                                 <div class="client-infomation mt-4 pt-2">
                                     <div class="client-name">Eddie Jacobs</div>
@@ -295,7 +295,7 @@
                             <div class="test">
                                 <div class="client-img">
                                     <img
-                                        src="{{ url('storage/app/public/admin/images/landing/test4.jpg') }}" />
+                                        src="{{ url('storage/app/public/admin/images/landing/girl-player-1.jpg') }}" />
                                 </div>
                                 <div class="client-infomation mt-4 pt-2">
                                     <div class="client-name">Jessica Wislson</div>
@@ -321,7 +321,7 @@
                             <div class="test">
                                 <div class="client-img">
                                     <img
-                                        src="{{ url('storage/app/public/admin/images/landing/test3.jpg') }}" />
+                                        src="{{ url('storage/app/public/admin/images/landing/boy-player-2.jpg') }}" />
                                 </div>
                                 <div class="client-infomation mt-4 pt-2">
                                     <div class="client-name">James Carter</div>
@@ -347,7 +347,7 @@
                             <div class="test">
                                 <div class="client-img">
                                     <img
-                                        src="{{ url('storage/app/public/admin/images/landing/test2.jpg') }}" />
+                                        src="{{ url('storage/app/public/admin/images/landing/boy-player-3.jpg') }}" />
                                 </div>
                                 <div class="client-infomation mt-4 pt-2">
                                     <div class="client-name">Wirag Wilow</div>

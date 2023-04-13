@@ -282,7 +282,7 @@
                             @enderror
                         </div>
                         <div class="col-md-12 mb-3">
-                            <label for="" class="form-label">{{ trans('labels.sport_default_price') }}</label>
+                            <label for="" class="form-label default-price-title">{{ trans('labels.sport_default_price') }}</label>
                             <div class="row row-cols-md-4" id="sport_prices_input">
                                 @foreach ($getsportslist as $sport)
                                     @if (in_array($sport->id, $sport_id))
@@ -292,7 +292,7 @@
                                                 style="display:none">
                                     @endif
                                     <label class="form-label"
-                                        for="">{{ $sport->name . ' ' . trans('labels.price') }}</label>
+                                        for="">{{ $sport->name }}</label>
                                     <div class="input-group">
                                         <span class="input-group-text" id="basic-addon1"><i class="fa fa-dollar"></i></span>
                                         <input type="number" class="form-control" name="dome_price[]"
@@ -350,6 +350,11 @@
     </script>
     <script type="text/javascript">
         $('input[data-sport-name]').click(function() {
+            if($('input[data-sport-name]:checked').length > 0){
+                $('.default-price-title').show();
+            }else{
+                $('.default-price-title').hide();
+            }
             if (this.checked) {
                 $('#' + $(this).attr('data-show-input')).show();
                 $('#' + $(this).attr('data-show-input')).find('input[type=number]').attr('disabled', false);
@@ -360,6 +365,11 @@
         });
         $(function() {
             "use strict";
+            if($('input[data-sport-name]:checked').length > 0){
+                $('.default-price-title').show();
+            }else{
+                $('.default-price-title').hide();
+            }
             $(".time_picker").timepicker({
                 interval: 60,
             });

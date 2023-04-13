@@ -270,7 +270,6 @@ class BookingController extends Controller
                         'status' => $status,
                     ];
                 }
-                // dd($league_start_time, $league_end_time, $slots);
                 return response()->json(["status" => 1, "message" => "Successful", 'data' => $slots], 200);
             }
         }

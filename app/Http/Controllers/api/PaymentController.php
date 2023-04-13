@@ -29,17 +29,14 @@ class PaymentController extends Controller
         // }else{;
         //     $type = $source[0]->payment_method_details->card->wallet->type;
         // }
+        // if (strpos($request->header('User-Agent'), 'Mobile') !== false || strpos($request->header('User-Agent'), 'Android') !== false || strpos($request->header('User-Agent'), 'iPhone') !== false) {
+        //     // Request is coming from a mobile device
+        //      return response()->json(["status" => 1, "message" => "Successfull", 'response' => request()->header('User-Agent')], 200);
+        // }
         return response()->json(["status" => 1, "message" => "Successfull", 'data' => Helper::stripe_data()], 200);
     }
     public function payment(Request $request)
     {
-        // if (strpos($request->header('User-Agent'), 'Mobile') !== false || strpos($request->header('User-Agent'), 'Android') !== false || strpos($request->header('User-Agent'), 'iPhone') !== false) {
-        //     // Request is coming from a mobile device
-        //     dd(request()->header('User-Agent'));
-        // } else {
-        //     dd(request()->header('User-Agent'),2113231232);
-        //     // Request is not coming from a mobile device
-        // }
         if ($request->booking_type == "") {
             return response()->json(["status" => 0, "message" => "Please Enter Booking Type"], 200);
         }

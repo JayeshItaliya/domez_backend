@@ -22,17 +22,21 @@ class SportsController extends Controller
     {
         $request->validate([
             'name' => 'required|unique:sports,name',
-            'image' => 'required|mimes:png,jpg,jpeg,svg|max:500'
+            'image' => 'mimes:png,jpg,jpeg,svg|max:500'
         ], [
-            'name.required' => 'Please Enter Sport Name',
-            'name.unique' => 'This Sport is Already Exists',
-            'image.required' => 'Please Select Sport Image',
-            'image.mimes' => 'The Sport Image must be a file of type: PNG, JPG, JPEG, SVG',
+            'name.required' => trans('messages.name_required'),
+            'name.unique' => trans('messages.sport_exist'),
+            'image.mimes' => trans('messages.valid_image_type'),
+            'image.max' => trans('messages.valid_image_size'),
         ]);
 
-        $image = 'sport-' . uniqid() . '.' . $request->image->getClientOriginalExtension();
-        $path = storage_path('app\public\admin\images\sports');
-        $request->image->move($path, $image);
+        if ($request->hasFile('image')) {
+            $image = 'sport-' . uniqid() . '.' . $request->image->getClientOriginalExtension();
+            $path = storage_path('app\public\admin\images\sports');
+            $request->image->move($path, $image);
+        } else {
+            $image = 'default-sport.png';
+        }
 
         $sports = new Sports();
         $sports->name = $request->name;
@@ -72,8 +76,8 @@ class SportsController extends Controller
         $request->validate([
             'name' => 'required|unique:sports,name,' . $request->id,
         ], [
-            'name.required' => 'Please Enter Sport Name',
-            'name.unique' => 'This Sport is Already Exists'
+            'name.required' => trans('messages.name_required'),
+            'name.unique' => trans('messages.sport_exist')
         ]);
 
         if ($request->has('image')) {
@@ -83,7 +87,7 @@ class SportsController extends Controller
                 'image.mimes' => trans('messages.valid_image_type'),
                 'image.max' => trans('messages.valid_image_size'),
             ]);
-            if (file_exists('storage/app/public/admin/images/sports/' . $checksport->image)) {
+            if ($checksport->image != 'default-sport.png' && file_exists('storage/app/public/admin/images/sports/' . $checksport->image)) {
                 unlink('storage/app/public/admin/images/sports/' . $checksport->image);
             }
             $new_name = 'sport-' . uniqid() . '.' . $request->image->getClientOriginalExtension();

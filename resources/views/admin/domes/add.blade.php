@@ -26,7 +26,8 @@
                                 </svg>
                             </a>
                         </li>
-                        <li class="breadcrumb-item"><a href="{{ URL::to('admin/domes') }}">{{ trans('labels.domes') }}</a></li>
+                        <li class="breadcrumb-item"><a href="{{ URL::to('admin/domes') }}">{{ trans('labels.domes') }}</a>
+                        </li>
                         <li class="breadcrumb-item active" aria-current="page">{{ trans('labels.add_dome') }}</li>
                     </ol>
                 </nav>
@@ -251,7 +252,7 @@
                             @enderror
                         </div>
                         <div class="col-md-12">
-                            <label for="" class="form-label">{{ trans('labels.sport_default_price') }}</label>
+                            <label for="" class="form-label default-price-title">{{ trans('labels.sport_default_price') }}</label>
                             <div class="row row-cols-md-4" id="sport_prices_input"></div>
                         </div>
                     </div>
@@ -290,11 +291,18 @@
     </script>
     <script type="text/javascript">
         $('input[data-sport-name]').click(function() {
+
+            if($('input[data-sport-name]:checked').length > 0){
+                $('.default-price-title').show();
+            }else{
+                $('.default-price-title').hide();
+            }
+
             if (this.checked) {
                 let html = '<div class="col mb-2" id="' + $(this).attr("data-sport-name") + '' + $(this).val() +
                     '"><label class="form-label" for="dome_price' + $(this).val() + '">' + $(this).attr(
                         "data-sport-name") +
-                    ' Price</label><div class="input-group"><span class="input-group-text" id="basic-addon1"><i class="fa fa-dollar"></i></span><input type="number" class="form-control" id="dome_price' +
+                    '</label><div class="input-group"><span class="input-group-text" id="basic-addon1"><i class="fa fa-dollar"></i></span><input type="number" class="form-control" id="dome_price' +
                     $(this).val() +
                     '" name="dome_price[]" placeholder="Price" value="0" required></div></div>';
                 $('#sport_prices_input').append(html);
@@ -304,6 +312,7 @@
         });
         $(function() {
             "use strict";
+            $('.default-price-title').hide();
             $(".time_picker").timepicker({
                 interval: 60,
             });

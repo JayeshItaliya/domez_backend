@@ -42,6 +42,9 @@ return [
     'account_settings' => 'Account Settings',
     'log_out' => 'Log Out',
     'loading' => 'Loading...',
+    'hours_ago' => 'Hours Ago',
+    'minutes_ago' => 'Minutes Ago',
+    'images' => 'Images',
     // Sidebar
     'dashboard' => 'Dashboard',
     'dome_owners' => 'Dome Owners',
@@ -160,7 +163,6 @@ return [
     'image' => 'Image',
     'sport_name' => 'Sport Name',
     'sport_default_price' => 'Sports Default Rate w/o Per Hour',
-
     // Fields
     'add_field' => 'Add Field',
     'field_name' => 'Field Name/Number',

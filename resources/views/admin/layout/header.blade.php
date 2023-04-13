@@ -84,6 +84,10 @@
                 </ul>
             </li>
             <li class="dropdown">
+                    @if (
+                        (auth()->user()->type == 1 &&
+                            (Helper::get_noti_count(1) > 0 || Helper::get_noti_count(2) > 0 || Helper::get_noti_count(3) > 0)) ||
+                            (in_array(auth()->user()->type, [2, 4]) && count(Helper::getTodayBookings()) > 0))
                 <a href="#" class="nav-item notification-icon position-relative" role="button"
                     data-bs-toggle="dropdown" aria-expanded="false">
                     <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-bell" width="20"
@@ -94,16 +98,14 @@
                             d="M10 5a2 2 0 0 1 4 0a7 7 0 0 1 4 6v3a4 4 0 0 0 2 3h-16a4 4 0 0 0 2 -3v-3a7 7 0 0 1 4 -6" />
                         <path d="M9 17v1a3 3 0 0 0 6 0v-1" />
                     </svg>
-                    @if (auth()->user()->type == 1 &&
-                            (Helper::get_noti_count(1) > 0 || Helper::get_noti_count(2) > 0 || Helper::get_noti_count(3) > 0))
                         <span
                             class="position-absolute top-0 start-100 translate-middle p-1 bg-danger border border-light rounded-circle"
                             style="background-color:#FE3B30 !important;"></span>
-                    @endif
-                </a>
+                        </a>
+                        @endif
                 <ul class="dropdown-menu box-shadow border-0 my-3" style="width: 350px;">
                     @if (auth()->user()->type == 1 && Helper::get_noti_count(3) > 0)
-                        <li class="dropwdown-item notifications d-flex justify-content-between cursor-pointer"
+                        <li class="dropwdown-item notifications d-flex justify-content-between align-items-center cursor-pointer py-1"
                             data-next="{{ URL::to('admin/enquiries/dome-requests') }}">
                             <span> <i class="me-2 fa-solid fa-code-pull-request"></i>
                                 {{ trans('labels.domes_requests') }} </span>
@@ -112,7 +114,8 @@
                         </li>
                     @endif
                     @if (auth()->user()->type == 1 && Helper::get_noti_count(2) > 0)
-                        <li class="dropwdown-item notifications d-flex justify-content-between cursor-pointer"
+                        {!! Helper::get_noti_count(3) > 0 ? '<li> <hr class="dropdown-divider"> </li>' : '' !!}
+                        <li class="dropwdown-item notifications d-flex justify-content-between align-items-center cursor-pointer py-1"
                             data-next="{{ URL::to('admin/enquiries/general-enquiry') }}">
                             <span>
                                 <i class="me-2 fa-regular fa-question"></i>
@@ -123,7 +126,10 @@
                         </li>
                     @endif
                     @if (auth()->user()->type == 1 && Helper::get_noti_count(1) > 0)
-                        <li class="dropwdown-item notifications d-flex justify-content-between cursor-pointer"
+                        {!! Helper::get_noti_count(2) > 0 || Helper::get_noti_count(3) > 0
+                            ? '<li> <hr class="dropdown-divider"> </li>'
+                            : '' !!}
+                        <li class="dropwdown-item notifications d-flex justify-content-between align-items-center cursor-pointer py-1"
                             data-next="{{ URL::to('admin/enquiries/help-support') }}">
                             <span>
                                 <i class="me-2 fa-light fa-envelope"></i>
@@ -132,6 +138,34 @@
                             <small class="badge bg-primary rounded-pill"
                                 style="font-size: 10px;height:fit-content;">{{ Helper::get_noti_count(1) }}</small>
                         </li>
+                    @endif
+                    @if (in_array(auth()->user()->type, [2, 4]) && count(Helper::getTodayBookings()) > 0)
+                        @foreach (Helper::getTodayBookings() as $key => $booking)
+                            {!! $key > 0 ? '<li> <hr class="dropdown-divider"> </li>' : '' !!}
+                            <li class="dropwdown-item notifications d-flex justify-content-between align-items-center cursor-pointer py-1"
+                                data-next="{{ URL::to('admin/bookings/details-' . $booking->booking_id) }}">
+                                <span>
+                                    <span class="text-primary">#{{ $booking->booking_id }}</span>
+                                    <p>
+                                        <b class="text-muted"> Date : {{ Helper::date_format($booking->start_date) }}
+                                        </b>
+                                    </p>
+                                </span>
+                                @php
+                                    $currentDateTime = \Carbon\Carbon::now();
+                                    $createdAt = \Carbon\Carbon::parse($booking->created_at);
+                                    $timeDifference = $currentDateTime->diff($createdAt);
+                                    $hours = $timeDifference->h;
+                                    $minutes = $timeDifference->i;
+                                @endphp
+                                <small class="badge bg-light text-dark rounded-pill"
+                                    style="font-size: 10px;height:fit-content;">{{ $hours > 0 ? $hours . ' ' . trans('labels.hours_ago') : $minutes . ' ' . trans('labels.minutes_ago') }}</small>
+                            </li>
+                        @endforeach
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li class="dropwdown-item notifications d-flex justify-content-center align-items-center cursor-pointer py-1" data-next="{{ URL::to('admin/bookings') }}"> View All </li>
                     @endif
                 </ul>
                 {{-- <ul class="dropdown-menu box-shadow border-0 my-3" style="width: 350px;">
@@ -176,7 +210,8 @@
                         <hr class="dropdown-divider">
                     </li>
                     <li class="dropdown-item">
-                        <a class="d-flex align-items-center px-0" href="{{ URL::to('admin/settings/edit-profile') }}">
+                        <a class="d-flex align-items-center px-0"
+                            href="{{ URL::to('admin/settings/edit-profile') }}">
                             <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-settings me-2"
                                 width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5"
                                 stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">

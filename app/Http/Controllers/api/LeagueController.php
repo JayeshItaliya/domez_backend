@@ -101,14 +101,14 @@ class LeagueController extends Controller
     }
     public function league_details(Request $request)
     {
-        $league_data = $this->getleaguedataobject($request->id);
+        $league_data = $this->getleaguedataobject($request->id,$request->user_id);
         if ($league_data != 1) {
             return response()->json(["status" => 1, "message" => "Successful", 'league_details' => $league_data], 200);
         } else {
             return response()->json(["status" => 0, "message" => 'League Not Found'], 200);
         }
     }
-    public function getleaguedataobject($id)
+    public function getleaguedataobject($id,$user_id)
     {
         $league = League::where('id', $id)->where('is_deleted', 2)->first();
         // ->whereDate('booking_deadline', '>=', date('Y-m-d'))
@@ -156,6 +156,7 @@ class LeagueController extends Controller
             'league_images' => $league->league_images,
             'amenities' => $benefits,
             "booking_deadline" => $league->booking_deadline,
+            "is_fav" => Helper::is_fav($user_id, '', $league->id),
         );
         return $league_data;
     }
