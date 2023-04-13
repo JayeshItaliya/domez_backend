@@ -26,78 +26,7 @@
     <link rel="stylesheet" href="{{ url('storage/app/public/admin/css/landing.css') }}">
     <!-- responsive Css -->
     <link rel="stylesheet" href="{{ url('storage/app/public/admin/css/responsive.css') }}">
-
     <script src="https://js.stripe.com/v3/"></script>
-
-    <style>
-        form {
-            align-self: center;
-            box-shadow: 0px 0px 0px 0.5px rgba(50, 50, 93, 0.1),
-                0px 2px 5px 0px rgba(50, 50, 93, 0.1), 0px 1px 1.5px 0px rgba(0, 0, 0, 0.07);
-            border-radius: 7px;
-            padding: 40px;
-            margin: auto;
-        }
-
-        #payment-message {
-            color: rgb(105, 115, 134);
-            font-size: 16px;
-            line-height: 20px;
-            padding-top: 12px;
-            text-align: center;
-        }
-
-        #payment-element {
-            margin-bottom: 24px;
-        }
-
-        #mysubmit,
-        .new-payment,
-        .my-spinner {
-            display: none;
-        }
-
-        @media only screen and (max-width: 600px) {
-            form {
-                width: 80vw;
-                min-width: initial;
-            }
-        }
-    </style>
-
-    <style>
-        .success-card {
-            background: white;
-            padding: 30px;
-            border-radius: 4px;
-            box-shadow: 0 2px 3px #C8D0D8;
-            margin: 0 auto;
-            display: none;
-        }
-
-        .success-card h1 {
-            color: #88B04B;
-            font-family: "Nunito Sans", "Helvetica Neue", sans-serif;
-            font-weight: 900;
-            font-size: 30px;
-            margin-bottom: 10px;
-        }
-
-        .success-card p {
-            color: #404F5E;
-            font-family: "Nunito Sans", "Helvetica Neue", sans-serif;
-            font-size: 20px;
-            margin: 0;
-        }
-
-        .success-card i {
-            color: #9ABC66;
-            font-size: 50px;
-            line-height: 150px;
-            margin-left: -15px;
-        }
-    </style>
-
 </head>
 
 <body>
@@ -236,7 +165,7 @@
                                     <h1>Success</h1>
                                 </div>
 
-                                <form action="" method="" id="payment-form">
+                                <form class="stripe-payment-form" action="" method="" id="payment-form">
 
                                     <div class="row form-inputs">
                                         <div class="col-md-6">
@@ -372,14 +301,8 @@
     <script src="{{ url('storage/app/public/admin/js/toastr/toastr.min.js') }}"></script>
     <script src="{{ url('storage/app/public/admin/js/slick/slick.min.js') }}"></script>
     <script src="{{ url('storage/app/public/admin/js/custom.js') }}"></script>
-
 </body>
-
 <script>
-    // booking_status == 1 == Confirmed
-    // booking_status == 2 == Pending
-    // booking_status == 3 == Cancelled
-
     // $('#mysubmit, .new-payment, .my-spinner').hide();
     if ({{ Js::from($checkbooking->booking_status) }} == 1 && {{ Js::from($checkbooking->due_amount) }} <= 0) {
         $('.card').find('.col-md-6').eq(1).remove();
@@ -497,18 +420,18 @@
                 $('#receipt_email').removeClass('is-invalid');
             }
             var pay_amount = $.trim($('#amount').val());
+            $('#amount').removeClass('is-invalid');
             if (pay_amount == "" || pay_amount == 0 || pay_amount >
-                {{ Js::from($checkbooking->due_amount) }}) {
+                {{ Js::from($checkbooking->due_amount) }} || pay_amount <
+                {{ Js::from($checkbooking->min_split_amount) }}) {
                 $('#amount').addClass('is-invalid');
                 return false;
-            } else if ({{ Js::from($checkbooking->min_split_amount) }} >
-                {{ Js::from($checkbooking->due_amount) }}) {
+            }
+            if ({{ Js::from($checkbooking->min_split_amount) }} > {{ Js::from($checkbooking->due_amount) }}) {
                 if ({{ Js::from($checkbooking->due_amount) }} != pay_amount) {
                     $('#amount').addClass('is-invalid');
                     return false;
                 }
-            } else {
-                $('#amount').removeClass('is-invalid');
             }
             $.ajax({
                 type: "get",

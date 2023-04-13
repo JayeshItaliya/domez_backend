@@ -21,23 +21,18 @@ class LeagueController extends Controller
                 $leagues_list = [];
                 //Type = 2 (Most Popular Leagues Data)
                 if ($request->type == 2) {
-                    // if ($request->has('user_id') && !in_array($request->user_id, [0, ''])) {
-                    //     if (empty(User::find($request->user_id))) {
-                    //         return response()->json(["status" => 0, "message" => 'Invalid User ID'], 200);
-                    //     }
-                    // }
                     $recentbookings = Booking::where('type', 2)->groupBy('league_id')->get();
+                    $ids = [];
                     foreach ($recentbookings as $booking) {
                         $league = League::where('id', $booking->league_id)->where('sport_id', $request->sport_id)->whereDate('booking_deadline', '>=', date('Y-m-d'))->where('is_deleted', 2)->first();
                         if (!empty($league)) {
+                            $ids[] = $booking->league_id;
                             $leagues_list[] = $this->getleaguelistobject($league, $request->user_id);
                         }
                     }
-                    if (count($recentbookings) == 0 || count($leagues_list) == 0) {
-                        $leagues = League::where('sport_id', $request->sport_id)->whereDate('booking_deadline', '>=', date('Y-m-d'))->where('is_deleted', 2)->orderByDesc('id')->get();
-                        foreach ($leagues as $league) {
-                            $leagues_list[] = $this->getleaguelistobject($league, $request->user_id);
-                        }
+                    $leagues = League::where('sport_id', $request->sport_id)->whereNotIn('id', $ids)->whereDate('booking_deadline', '>=', date('Y-m-d'))->where('is_deleted', 2)->orderByDesc('id')->get();
+                    foreach ($leagues as $league) {
+                        $leagues_list[] = $this->getleaguelistobject($league, $request->user_id);
                     }
                 }
                 //Type = 3 (Leagues Around You)
@@ -101,14 +96,14 @@ class LeagueController extends Controller
     }
     public function league_details(Request $request)
     {
-        $league_data = $this->getleaguedataobject($request->id,$request->user_id);
+        $league_data = $this->getleaguedataobject($request->id, $request->user_id);
         if ($league_data != 1) {
             return response()->json(["status" => 1, "message" => "Successful", 'league_details' => $league_data], 200);
         } else {
             return response()->json(["status" => 0, "message" => 'League Not Found'], 200);
         }
     }
-    public function getleaguedataobject($id,$user_id)
+    public function getleaguedataobject($id, $user_id)
     {
         $league = League::where('id', $id)->where('is_deleted', 2)->first();
         // ->whereDate('booking_deadline', '>=', date('Y-m-d'))

@@ -195,11 +195,11 @@ class LandingPagesController extends Controller
                 $transaction->amount = $request->amount;
                 $transaction->save();
 
-                // if ($checkbooking1->due_amount > 0) {
-                //     $totalpendingplayers = $checkbooking1->players - $checkbooking1->transactions->count();
-                //     $checkbooking1->min_split_amount = $checkbooking1->due_amount / $totalpendingplayers;
-                //     $checkbooking1->save();
-                // }
+                if ($checkbooking1->due_amount > 0) {
+                    $totalpendingplayers = $checkbooking1->players - $checkbooking1->transactions->count();
+                    $checkbooking1->min_split_amount = $totalpendingplayers > 1 ? $checkbooking1->due_amount / $totalpendingplayers : $checkbooking1->due_amount;
+                    $checkbooking1->save();
+                }
 
                 if ($checkbooking1->booking_status == 1 && $checkbooking1->payment_status == 1) {
                     $title = $checkbooking1->booking_type == 1 ? 'Dome Booking' : 'League Booking';
