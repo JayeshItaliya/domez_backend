@@ -130,7 +130,7 @@ class FieldController extends Controller
                 $checkd = Booking::whereRaw("find_in_set('" . $field->id . "',field_id)")->where('type', 1)->whereIn('booking_status', [1, 2])->whereDate('start_date', date('Y-m-d', strtotime($request->date)))->first();
                 $checkl = Booking::whereRaw("find_in_set('" . $field->id . "',field_id)")->where('type', 2)->whereIn('booking_status', [1, 2])->whereDate('start_date', '<=', $request->date)->whereDate('end_date', '>=', $request->date)->first();
                 if (!empty($checkd) || !empty($checkl)) {
-                    return response()->json(['status' => 2, 'message' => 'Field has been already booked for your selected date.'], 200);
+                    return response()->json(['status' => 2, 'message' => trans('messages.unable_set_maintenance')], 200);
                 }
                 $field->in_maintenance = 1;
                 $field->maintenance_date = $request->date;

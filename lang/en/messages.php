@@ -68,6 +68,8 @@ return [
     'invalid_booking' => 'Invalid Booking',
     'no_data' => 'No Data Found!!',
 
+    'unable_set_maintenance' => 'Field has been already booked for your selected date.',
+
     // Sweetalert
     'are_you_sure' => 'Are You Sure?',
     'yes' => 'Yes',
