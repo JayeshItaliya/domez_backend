@@ -74,6 +74,8 @@
     <script src={{url('storage/app/public/admin/plugins/fullcalendar/index.global.min.js')}}></script>
     <script>
         $(function() {
+            // start: {{ Js::from($booking->start_date) }} + ' ' + {{ Js::from($booking->start_time) }},
+            // end: {{ Js::from($booking->start_date) }} + ' ' + {{ Js::from($booking->end_time) }},
             var calendarEl = document.getElementById('calendar');
             var calendar = new FullCalendar.Calendar(calendarEl, {
                 // initialDate: '2024-05-05',
