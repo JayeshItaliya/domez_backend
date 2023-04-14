@@ -485,7 +485,6 @@ input[type='email']:not(:invalid) {
 .navbar .navbar-wrapper i {
     width: 25px;
     font-size: 18px;
-    color: #2c3e50;
 }
 
 .navbar .navbar-wrapper .navbar-nav .nav-item .nav-link {
