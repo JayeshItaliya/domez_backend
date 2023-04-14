@@ -90,7 +90,7 @@
 
     <button class="btn btn-primary position-fixed top-50 end-0 fs-5" style="z-index: 99" data-bs-toggle="offcanvas"
         data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
-        <i class="fa-regular fa-sliders"></i>
+        <i class="fa-regular fa-gear"></i>
     </button>
     <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel"
         style="width: 400px">
