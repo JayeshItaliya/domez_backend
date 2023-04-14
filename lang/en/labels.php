@@ -45,6 +45,7 @@ return [
     'hours_ago' => 'Hours Ago',
     'minutes_ago' => 'Minutes Ago',
     'images' => 'Images',
+    'extend_time' => 'Extend Time',
     // Sidebar
     'dashboard' => 'Dashboard',
     'dome_owners' => 'Dome Owners',

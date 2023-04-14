@@ -3,26 +3,6 @@
     {{ trans('labels.booking_details') }}
 @endsection
 @section('contents')
-    <style>
-        .d-none+label {
-            font-weight: bold;
-        }
-
-        .d-none.main-slots:checked+label {
-            color: white !important;
-            background-color: var(--bs-primary);
-        }
-
-        .d-none.new-slot-radio+label {
-            border: 1px solid transparent;
-        }
-
-        .d-none.new-slot-radio:checked+label {
-            color: var(--bs-primary);
-            border: 1px solid var(--bs-primary);
-            background-color: var(--bs-primary-rgb);
-        }
-    </style>
     <div class="card mb-3">
         <div class="card-body py-2">
             <div class="d-flex align-items-center justify-content-between">
@@ -51,15 +31,18 @@
             </div>
         </div>
     </div>
-    <div class="card">
+    <div class="card extend-time-only">
         @if (!empty($bookingdata))
             <div class="card-body">
                 <div class="d-flex justify-content-between my-4">
                     <h4 class="fw-semibold">{{ trans('labels.booking_id') }} - {{ $bookingdata->booking_id }}</h4>
 
-                    @if (Auth::user()->type == 2 || Auth::user()->type == 4)
+                    @if (
+                        (Auth::user()->type == 2 || Auth::user()->type == 4) &&
+                            date('Y-m-d') == date('Y-m-d', strtotime($bookingdata->start_date)) &&
+                            $bookingdata->league_id != '')
                         <a href="javascript:;" class="btn btn-outline-primary extend-time" data-bs-toggle="modal"
-                            data-bs-target="#slotsmodal"><i class="fa fa-plus"></i> Extend Time </a>
+                            data-bs-target="#slotsmodal"><i class="fa fa-plus"></i> {{ trans('labels.extend_time') }} </a>
                     @endif
                 </div>
                 <div class="col-lg-4">
