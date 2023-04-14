@@ -71,11 +71,9 @@
     </div>
 @endsection
 @section('scripts')
-    <script src={{url('storage/app/public/admin/plugins/fullcalendar/index.global.min.js')}}></script>
+    <script src={{ url('storage/app/public/admin/plugins/fullcalendar/index.global.min.js') }}></script>
     <script>
         $(function() {
-            // start: {{ Js::from($booking->start_date) }} + ' ' + {{ Js::from($booking->start_time) }},
-            // end: {{ Js::from($booking->start_date) }} + ' ' + {{ Js::from($booking->end_time) }},
             var calendarEl = document.getElementById('calendar');
             var calendar = new FullCalendar.Calendar(calendarEl, {
                 // initialDate: '2024-05-05',
@@ -93,6 +91,8 @@
                         {
                             title: "#{{ $booking->booking_id }}",
                             start: "{{ $booking->start_date }}",
+                            // start: {{ Js::from($booking->start_date) }} + ' ' + {{ Js::from($booking->start_time) }},
+                            // end: {{ Js::from($booking->start_date) }} + ' ' + {{ Js::from($booking->end_time) }},
                             url: "{{ URL::to('admin/bookings/details-' . $booking->booking_id) }}",
                             dome_name: '{{ $booking->dome_name != '' ? Str::limit($booking->dome_name->name, 20) : '' }}',
                             users_name: '{{ $booking->customer_name != '' ? Str::limit($booking->customer_name, 20) : '' }}',
