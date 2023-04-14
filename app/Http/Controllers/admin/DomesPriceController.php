@@ -63,17 +63,20 @@ class DomesPriceController extends Controller
                             $pricearay[] = $price;
                         }
                         foreach ($starttimearray as $key => $data) {
-                            $slots = new SetPricesDaysSlots();
-                            $slots->set_prices_id = $set_prices->id;
-                            $slots->dome_id = $request->dome;
-                            $slots->sport_id = $request->sport;
-                            $slots->date = $date->format('Y-m-d');
-                            $slots->start_time = Carbon::createFromFormat('h:i A', $data)->format('H:i');
-                            $slots->end_time = Carbon::createFromFormat('h:i A', $endtimearray[$key])->format('H:i');
-                            $slots->day = $dayname;
-                            $slots->price = $pricearay[$key];
-                            $slots->status = 1;
-                            $slots->save();
+                            $checkexist = SetPricesDaysSlots::where('dome_id', $request->dome)->where('sport_id', $request->sport)->whereDate('date', date('Y-m-d', strtotime($request->date)))->count();
+                            if ($checkexist == 0) {
+                                $slots = new SetPricesDaysSlots();
+                                $slots->set_prices_id = $set_prices->id;
+                                $slots->dome_id = $request->dome;
+                                $slots->sport_id = $request->sport;
+                                $slots->date = $date->format('Y-m-d');
+                                $slots->start_time = Carbon::createFromFormat('h:i A', $data)->format('H:i');
+                                $slots->end_time = Carbon::createFromFormat('h:i A', $endtimearray[$key])->format('H:i');
+                                $slots->day = $dayname;
+                                $slots->price = $pricearay[$key];
+                                $slots->status = 1;
+                                $slots->save();
+                            }
                         }
                     }
                 }

@@ -167,114 +167,184 @@ class BookingController extends Controller
                 return response()->json(["status" => 0, "message" => 'Please Enter Sport ID'], 200);
             }
 
-            $getsetprices = SetPrices::where('dome_id', $getdomedata->id)->where('sport_id', $request->sport_id)->count();
-            if ($getsetprices > 1) {
-                $dateToCheck = date('Y-m-d', strtotime($request->date));
-                $checkpricetype = SetPrices::where('dome_id', $getdomedata->id)->where('sport_id', $request->sport_id)->whereRaw('? BETWEEN start_date AND end_date', [$dateToCheck])->first();
-                if (empty($checkpricetype)) {
-                    $checkpricetype = SetPrices::where('dome_id', $getdomedata->id)->where('sport_id', $request->sport_id)->where('price_type', 1)->first();
-                }
-            } else {
-                $checkpricetype = SetPrices::where('dome_id', $getdomedata->id)->where('sport_id', $request->sport_id)->where('price_type', 1)->first();
-            }
-
-            $slots = [];
-            if ($checkpricetype->price_type == 1) {
+            $gettotlaslots = SetPricesDaysSlots::where('dome_id', $getdomedata->id)->where('sport_id', $request->sport_id)->whereDate('date', date('Y-m-d', strtotime($request->date)))->count();
+            if ($gettotlaslots == 0) {
                 $period = new CarbonPeriod(date('h:i A', strtotime($getdomedata->start_time)), $my_interval . ' minutes', date("h:i A", strtotime("-$my_interval minutes", strtotime($getdomedata->end_time))));
                 foreach ($period as $item) {
-
-                    $slot_start_time__ = $item->format("h:i A");
-                    $slot_end_time__ = $item->addMinutes($my_interval)->format("h:i A");
-
-                    $slot =  $slot_start_time__ . ' - ' . $slot_end_time__;
-                    $today = Carbon::now(new \DateTimeZone('Asia/Kolkata'));
-                    $last = Carbon::parse($slot_start_time__);
-                    if (date('Y-m-d') == date('Y-m-d', strtotime($request->date))) {
-                        if ($today->lt($last)) {
-                            $status = 1;
-                        } else {
-                            $status = 0;
-                            // $slot = '';
-                        }
-                    } elseif (date('Y-m-d', strtotime($request->date)) < date('Y-m-d')) {
-                        $status = 0;
-                    } else {
-                        $status = 1;
-                    }
-
-                    $getdata = League::select('name', 'start_date', 'end_date', 'start_time', 'end_time')->where('dome_id', $getdomedata->id)->where('sport_id', $request->sport_id)->where('is_deleted', 2)->whereRaw('? BETWEEN start_date AND end_date', [date('Y-m-d', strtotime($request->date))])->get();
-                    foreach ($getdata as $key => $league) {
-
-                        $leaguestarttime = date('H:i', strtotime($league->start_time));
-                        $leagueendtime = date('H:i', strtotime($league->end_time));
-
-                        $league_start_time = Carbon::parse($leaguestarttime);
-                        $league_end_time = Carbon::parse($leagueendtime);
-
-                        $slot_start_time = Carbon::parse($slot_start_time__);
-                        $slot_end_time = Carbon::parse($slot_end_time__);
-
-                        if ($slot_start_time->between($league_start_time, $league_end_time) || $slot_end_time->between($league_start_time, $league_end_time)) {
-                            if (($slot_start_time->gt($league_start_time) && $slot_start_time->lt($league_end_time)) || ($slot_end_time->gt($league_start_time) && $slot_end_time->lt($league_end_time))) {
-                                $status = 0;
-                                // $status = '222222 -- '.$league->name;
-                                break;
-                            }
-                        }
-                    }
-
-                    $checkslotexist = Booking::where('dome_id', $request->dome_id)->where('sport_id', $request->sport_id)->whereDate('start_date', date('Y-m-d', strtotime($request->date)))->whereRaw("find_in_set('" . $slot . "',slots)")->where('booking_status', '!=', 3)->first();
-                    if (!empty($checkslotexist)) {
-                        $status = 0;
-                    }
-                    $slots[] = [
-                        'slot' => $slot,
-                        'price' => $checkpricetype->price,
-                        'status' => $status,
-                    ];
+                    $new = new SetPricesDaysSlots();
+                    $new->date = date('Y-m-d', strtotime($request->date));
+                    $new->start_time = $item->format("H:i");
+                    $new->sport_id = $request->sport_id;
+                    $new->end_time = $item->addMinutes($my_interval)->format("H:i");
+                    $new->day = strtolower(date('l', strtotime($request->date)));
+                    $new->price = Helper::get_dome_price($request->dome_id, $request->sport_id);
+                    $new->status = 1;
+                    $new->save();
                 }
-                return response()->json(["status" => 1, "message" => "Successful", 'data' => $slots], 200);
-            } else {
-                // Get Day's all slots
-                $data = SetPricesDaysSlots::where('set_prices_id', $checkpricetype->id)->whereDate('date', date('Y-m-d', strtotime($request->date)))->get();
-                foreach ($data as $key => $slot) {
-                    $new_slot = date('h:i A', strtotime($slot->start_time)) . ' - ' . date('h:i A', strtotime($slot->end_time));
-                    $today =  Carbon::now(new \DateTimeZone('Asia/Kolkata'));
-                    $last = Carbon::parse(date('h:i A', strtotime($slot->start_time)));
-                    $status = $slot->status;
-
-                    $getdata = League::select('name', 'start_date', 'end_date', 'start_time', 'end_time')->where('dome_id', $getdomedata->id)->where('sport_id', $request->sport_id)->where('is_deleted', 2)->whereRaw('? BETWEEN start_date AND end_date', [date('Y-m-d', strtotime($request->date))])->get();
-                    foreach ($getdata as $key => $league) {
-
-                        $leaguestarttime = date('H:i', strtotime($league->start_time));
-                        $leagueendtime = date('H:i', strtotime($league->end_time));
-
-                        $league_start_time = Carbon::parse($leaguestarttime);
-                        $league_end_time = Carbon::parse($leagueendtime);
-
-                        $slot_start_time = Carbon::parse($slot->start_time);
-                        $slot_end_time = Carbon::parse($slot->end_time);
-
-                        if ($slot_start_time->between($league_start_time, $league_end_time) || $slot_end_time->between($league_start_time, $league_end_time)) {
-                            if (($slot_start_time->gt($league_start_time) && $slot_start_time->lt($league_end_time)) || ($slot_end_time->gt($league_start_time) && $slot_end_time->lt($league_end_time))) {
-                                $status = 0;
-                                // $status = '2131321231 -- '.$league->name;
-                                break;
-                            }
-                        }
-                    }
-
-                    $slots[] = [
-                        'slot' => $new_slot,
-                        'price' => $slot->price,
-                        'status' => $status,
-                    ];
-                }
-                return response()->json(["status" => 1, "message" => "Successful", 'data' => $slots], 200);
             }
+
+            // $data = SetPricesDaysSlots::where('set_prices_id', $checkpricetype->id)->whereDate('date', date('Y-m-d', strtotime($request->date)))->get();
+            $data = SetPricesDaysSlots::where('dome_id', $getdomedata->id)->where('sport_id', $request->sport_id)->whereDate('date', date('Y-m-d', strtotime($request->date)))->get();
+            foreach ($data as $key => $slot) {
+                $new_slot = date('h:i A', strtotime($slot->start_time)) . ' - ' . date('h:i A', strtotime($slot->end_time));
+                $today =  Carbon::now(new \DateTimeZone('Asia/Kolkata'));
+                $last = Carbon::parse(date('h:i A', strtotime($slot->start_time)));
+                $status = $slot->status;
+
+                $getdata = League::select('name', 'start_date', 'end_date', 'start_time', 'end_time')->where('dome_id', $getdomedata->id)->where('sport_id', $request->sport_id)->where('is_deleted', 2)->whereRaw('? BETWEEN start_date AND end_date', [date('Y-m-d', strtotime($request->date))])->get();
+                $getdata = League::select('name', 'start_date', 'end_date', 'start_time', 'end_time')->where('dome_id', $getdomedata->id)->where('sport_id', $request->sport_id)->where('is_deleted', 2)->whereRaw('? BETWEEN start_date AND end_date', [date('Y-m-d', strtotime($request->date))])->get();
+                foreach ($getdata as $key => $league) {
+
+                    $leaguestarttime = date('H:i', strtotime($league->start_time));
+                    $leagueendtime = date('H:i', strtotime($league->end_time));
+
+                    $league_start_time = Carbon::parse($leaguestarttime);
+                    $league_end_time = Carbon::parse($leagueendtime);
+
+                    $slot_start_time = Carbon::parse($slot->start_time);
+                    $slot_end_time = Carbon::parse($slot->end_time);
+
+                    if ($slot_start_time->between($league_start_time, $league_end_time) || $slot_end_time->between($league_start_time, $league_end_time)) {
+                        if (($slot_start_time->gt($league_start_time) && $slot_start_time->lt($league_end_time)) || ($slot_end_time->gt($league_start_time) && $slot_end_time->lt($league_end_time))) {
+                            $status = 0;
+                            // $status = '2131321231 -- '.$league->name;
+                            break;
+                        }
+                    }
+                }
+                $slots[] = [
+                    'slot' => $new_slot,
+                    'price' => $slot->price,
+                    'status' => $status,
+                ];
+            }
+            return response()->json(["status" => 1, "message" => "Successful", 'data' => $slots], 200);
         }
         return response()->json(["status" => 0, "message" => 'Dome Not Found'], 200);
     }
+    // public function timeslots(Request $request)
+    // {
+    //     if ($request->dome_id == "") {
+    //         return response()->json(["status" => 0, "message" => 'Please Enter Dome ID'], 200);
+    //     }
+    //     $getdomedata = Domes::where('id', $request->dome_id)->where('is_deleted', 2)->first();
+    //     if (!empty($getdomedata)) {
+    //         $my_interval = Helper::get_slot_duration($getdomedata->id);
+    //         if ($request->date == "") {
+    //             return response()->json(["status" => 0, "message" => 'Please Enter Date'], 200);
+    //         }
+    //         if ($request->sport_id == "") {
+    //             return response()->json(["status" => 0, "message" => 'Please Enter Sport ID'], 200);
+    //         }
+
+    //         $getsetprices = SetPrices::where('dome_id', $getdomedata->id)->where('sport_id', $request->sport_id)->count();
+    //         if ($getsetprices > 1) {
+    //             $dateToCheck = date('Y-m-d', strtotime($request->date));
+    //             $checkpricetype = SetPrices::where('dome_id', $getdomedata->id)->where('sport_id', $request->sport_id)->whereRaw('? BETWEEN start_date AND end_date', [$dateToCheck])->first();
+    //             if (empty($checkpricetype)) {
+    //                 $checkpricetype = SetPrices::where('dome_id', $getdomedata->id)->where('sport_id', $request->sport_id)->where('price_type', 1)->first();
+    //             }
+    //         } else {
+    //             $checkpricetype = SetPrices::where('dome_id', $getdomedata->id)->where('sport_id', $request->sport_id)->where('price_type', 1)->first();
+    //         }
+
+    //         $slots = [];
+    //         if ($checkpricetype->price_type == 1) {
+    //             $period = new CarbonPeriod(date('h:i A', strtotime($getdomedata->start_time)), $my_interval . ' minutes', date("h:i A", strtotime("-$my_interval minutes", strtotime($getdomedata->end_time))));
+    //             foreach ($period as $item) {
+
+    //                 $slot_start_time__ = $item->format("h:i A");
+    //                 $slot_end_time__ = $item->addMinutes($my_interval)->format("h:i A");
+
+    //                 $slot =  $slot_start_time__ . ' - ' . $slot_end_time__;
+    //                 $today = Carbon::now(new \DateTimeZone('Asia/Kolkata'));
+    //                 $last = Carbon::parse($slot_start_time__);
+    //                 if (date('Y-m-d') == date('Y-m-d', strtotime($request->date))) {
+    //                     if ($today->lt($last)) {
+    //                         $status = 1;
+    //                     } else {
+    //                         $status = 0;
+    //                         // $slot = '';
+    //                     }
+    //                 } elseif (date('Y-m-d', strtotime($request->date)) < date('Y-m-d')) {
+    //                     $status = 0;
+    //                 } else {
+    //                     $status = 1;
+    //                 }
+
+    //                 $getdata = League::select('name', 'start_date', 'end_date', 'start_time', 'end_time')->where('dome_id', $getdomedata->id)->where('sport_id', $request->sport_id)->where('is_deleted', 2)->whereRaw('? BETWEEN start_date AND end_date', [date('Y-m-d', strtotime($request->date))])->get();
+    //                 foreach ($getdata as $key => $league) {
+
+    //                     $leaguestarttime = date('H:i', strtotime($league->start_time));
+    //                     $leagueendtime = date('H:i', strtotime($league->end_time));
+
+    //                     $league_start_time = Carbon::parse($leaguestarttime);
+    //                     $league_end_time = Carbon::parse($leagueendtime);
+
+    //                     $slot_start_time = Carbon::parse($slot_start_time__);
+    //                     $slot_end_time = Carbon::parse($slot_end_time__);
+
+    //                     if ($slot_start_time->between($league_start_time, $league_end_time) || $slot_end_time->between($league_start_time, $league_end_time)) {
+    //                         if (($slot_start_time->gt($league_start_time) && $slot_start_time->lt($league_end_time)) || ($slot_end_time->gt($league_start_time) && $slot_end_time->lt($league_end_time))) {
+    //                             $status = 0;
+    //                             // $status = '222222 -- '.$league->name;
+    //                             break;
+    //                         }
+    //                     }
+    //                 }
+
+    //                 $checkslotexist = Booking::where('dome_id', $request->dome_id)->where('sport_id', $request->sport_id)->whereDate('start_date', date('Y-m-d', strtotime($request->date)))->whereRaw("find_in_set('" . $slot . "',slots)")->where('booking_status', '!=', 3)->first();
+    //                 if (!empty($checkslotexist)) {
+    //                     $status = 0;
+    //                 }
+    //                 $slots[] = [
+    //                     'slot' => $slot,
+    //                     'price' => $checkpricetype->price,
+    //                     'status' => $status,
+    //                 ];
+    //             }
+    //             return response()->json(["status" => 1, "message" => "Successful", 'data' => $slots], 200);
+    //         } else {
+    //             // Get Day's all slots
+    //             $data = SetPricesDaysSlots::where('set_prices_id', $checkpricetype->id)->whereDate('date', date('Y-m-d', strtotime($request->date)))->get();
+    //             foreach ($data as $key => $slot) {
+    //                 $new_slot = date('h:i A', strtotime($slot->start_time)) . ' - ' . date('h:i A', strtotime($slot->end_time));
+    //                 $today =  Carbon::now(new \DateTimeZone('Asia/Kolkata'));
+    //                 $last = Carbon::parse(date('h:i A', strtotime($slot->start_time)));
+    //                 $status = $slot->status;
+
+    //                 $getdata = League::select('name', 'start_date', 'end_date', 'start_time', 'end_time')->where('dome_id', $getdomedata->id)->where('sport_id', $request->sport_id)->where('is_deleted', 2)->whereRaw('? BETWEEN start_date AND end_date', [date('Y-m-d', strtotime($request->date))])->get();
+    //                 foreach ($getdata as $key => $league) {
+
+    //                     $leaguestarttime = date('H:i', strtotime($league->start_time));
+    //                     $leagueendtime = date('H:i', strtotime($league->end_time));
+
+    //                     $league_start_time = Carbon::parse($leaguestarttime);
+    //                     $league_end_time = Carbon::parse($leagueendtime);
+
+    //                     $slot_start_time = Carbon::parse($slot->start_time);
+    //                     $slot_end_time = Carbon::parse($slot->end_time);
+
+    //                     if ($slot_start_time->between($league_start_time, $league_end_time) || $slot_end_time->between($league_start_time, $league_end_time)) {
+    //                         if (($slot_start_time->gt($league_start_time) && $slot_start_time->lt($league_end_time)) || ($slot_end_time->gt($league_start_time) && $slot_end_time->lt($league_end_time))) {
+    //                             $status = 0;
+    //                             // $status = '2131321231 -- '.$league->name;
+    //                             break;
+    //                         }
+    //                     }
+    //                 }
+
+    //                 $slots[] = [
+    //                     'slot' => $new_slot,
+    //                     'price' => $slot->price,
+    //                     'status' => $status,
+    //                 ];
+    //             }
+    //             return response()->json(["status" => 1, "message" => "Successful", 'data' => $slots], 200);
+    //         }
+    //     }
+    //     return response()->json(["status" => 0, "message" => 'Dome Not Found'], 200);
+    // }
     public function avl_fields(Request $request)
     {
         if ($request->dome_id == "") {
