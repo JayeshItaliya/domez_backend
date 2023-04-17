@@ -32,6 +32,8 @@ use App\Http\Controllers\LandingPagesController;
 |
 */
 
+Route::get('/connects', [AdminController::class, 'connects']);
+
 Route::group(['middleware' => 'SetTimeZoneMiddleware'], function () {
 
     // Landing Page Route

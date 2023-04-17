@@ -46,6 +46,7 @@ return [
     'minutes_ago' => 'Minutes Ago',
     'images' => 'Images',
     'extend_time' => 'Extend Time',
+    'connect_stripe_account' => 'Connect My Stripe Account',
     // Sidebar
     'dashboard' => 'Dashboard',
     'dome_owners' => 'Dome Owners',

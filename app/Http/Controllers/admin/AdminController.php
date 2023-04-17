@@ -17,7 +17,7 @@ use Stripe\Account;
 use Stripe\BankAccount;
 use Stripe\Charge;
 use Stripe\Stripe;
-use Laravel\Cashier\Cashier;
+use Stripe\OAuth;
 
 class AdminController extends Controller
 {
@@ -30,6 +30,33 @@ class AdminController extends Controller
         }
         return redirect('admin/dashboard')->with('success', trans('messages.success'));
     }
+    public function connects(Request $request)
+    {
+        if ($request->has('code') && $request->code != "") {
+            Stripe::setApiKey(Helper::stripe_data()->secret_key);
+            try {
+                $token = OAuth::token([
+                    'grant_type' => 'authorization_code',
+                    'code' => $request->code,
+                    'client_id' => env('STRIPE_CLIENT_ID'),
+                    'client_secret' => Helper::stripe_data()->secret_key,
+                ]);
+                $connectedAccountId = $token->stripe_user_id;
+                $stripe = PaymentGateway::where('type', 1)->where('vendor_id', Auth::user()->id)->first();
+                if (empty($stripe)) {
+                    $stripe = new PaymentGateway();
+                    $stripe->type = 1;
+                }
+                $stripe->vendor_id = Auth::user()->id;
+                $stripe->account_id = $connectedAccountId;
+                $stripe->save();
+                return redirect('admin/settings/stripe-setting')->with('success', trans('messages.success'));
+            } catch (\Throwable $th) {
+                return redirect('admin/settings/stripe-setting')->with('error', trans('messages.wrong'));
+            }
+        }
+        return redirect('admin/settings/stripe-setting');
+    }
     public function login_emp(Request $request)
     {
         Auth::login(User::where('type', 4)->where('is_available', 1)->where('is_deleted', 2)->first());
@@ -37,58 +64,6 @@ class AdminController extends Controller
     }
     public function dashboard(Request $request)
     {
-        $dome_owner = PaymentGateway::where('vendor_id', Auth::user()->id)->select('account_id')->first();
-        Stripe::setApiKey(Helper::stripe_data()->secret_key);
-
-        // // Create an account for your platform
-        // $platformAccount = Account::create([
-        //     'type' => 'standard',
-        //     'country' => 'CA',
-        //     'email' => 'platform@example.com',
-        // ]);
-
-        // // Connect the platform account to the recipient account
-        // $recipientAccount = 'acct_1234'; // Replace with the recipient account ID
-        // $platformAccount->external_accounts->create([
-        //     'external_account' => $recipientAccount,
-        // ]);
-
-        // // Create a charge with the recipient as the destination
-        // $charge = Charge::create([
-        //     'amount' => 1000,
-        //     'currency' => 'usd',
-        //     'source' => 'tok_visa',
-        //     'destination' => [
-        //         'account' => $recipientAccount,
-        //         'amount' => 900, // Amount to be transferred to the recipient
-        //     ],
-        // ]);
-
-        // // Add a bank account for the recipient
-        // $recipient = User::find(1); // Replace with your recipient model
-        // $recipientAccount = $recipient->stripe_account_id;
-        // $recipientBankAccount = BankAccount::create([
-        //     'country' => 'US',
-        //     'currency' => 'usd',
-        //     'routing_number' => '110000000',
-        //     'account_number' => '000123456789',
-        // ]);
-        // $recipient->updateDefaultPaymentMethod($recipientBankAccount->id);
-
-        // // Initiate a payout to the recipient's bank account
-        // $payout = $recipient->payouts()->create([
-        //     'amount' => 1000,
-        //     'currency' => 'usd',
-        // ]);
-        // $payout->destination = $recipientBankAccount->id;
-        // $payout->save();
-
-        // // Retrieve the recipient's payouts
-        // $payouts = Cashier::stripe()->payouts()->all([
-        //     'destination' => $recipientBankAccount->id,
-        // ]);
-
-
         $now = CarbonImmutable::today();
         $weekStartDate = $now->startOfWeek();
         $weekEndDate = $now->endOfWeek();
@@ -104,13 +79,8 @@ class AdminController extends Controller
 
         $total_users_data = User::where('type', 3);
         $total_dome_owners_data = User::where('type', 2);
-        if (auth()->user()->type == 1) {
-            $getbookingslist = $bookings->get();
-        } else {
-            $total_income_data = $total_income_data->where('vendor_id', auth()->user()->type == 2 ? auth()->user()->id : auth()->user()->vendor_id);
-            $total_revenue_data = $total_revenue_data->where('vendor_id', auth()->user()->type == 2 ? auth()->user()->id : auth()->user()->vendor_id);
-            $getbookingslist = $bookings->where('vendor_id', auth()->user()->type == 2 ? auth()->user()->id : auth()->user()->vendor_id)->get();
-        }
+        $getbookingsforsmallchart = Booking::whereIn('type', [1, 2]);
+        $getbookingsforoverviewchart = Booking::whereIn('type', [1, 2]);
 
         $confirmed_bookings = trans('labels.confirmed_bookings');
         $pending_bookings = trans('labels.pending_bookings');
@@ -128,17 +98,28 @@ class AdminController extends Controller
             END as colors,
             COUNT(*) as total");
 
+        if (auth()->user()->type == 1) {
+            $getbookingslist = $bookings->get();
+        } else {
+            $vendor_id = auth()->user()->type == 2 ? auth()->user()->id : auth()->user()->vendor_id;
+            $total_income_data = $total_income_data->where('vendor_id', $vendor_id);
+            $total_revenue_data = $total_revenue_data->where('vendor_id', $vendor_id);
+            $getbookingslist = $bookings->where('vendor_id', $vendor_id)->get();
+            $getbookingsforsmallchart = $getbookingsforsmallchart->where('vendor_id', $vendor_id);
+            $getbookingsforsmallchart = $getbookingsforsmallchart->where('vendor_id', $vendor_id);
+            $getbookingsforoverviewchart = $getbookingsforoverviewchart->where('vendor_id', $vendor_id);
+            $total_bookings_overview_data = $getbookingsforoverviewchart->where('vendor_id', $vendor_id);
+        }
+
         if ($request->filtertype == "this_month") {
 
             // For Income Chart
-            $total_income_data_sum = Transaction::where('type', 1)->whereMonth('created_at', Carbon::now()->month)->sum('amount');
+            $total_income_data_sum = $total_income_data->whereMonth('created_at', Carbon::now()->month)->sum('amount');
             $total_income_data = $total_income_data->whereMonth('created_at', Carbon::now()->month)->select(DB::raw('DATE_FORMAT(created_at, "%d-%m-%Y") as titles'), DB::raw('SUM(amount) as amount'))->groupBy('titles')->pluck('amount', 'titles');
 
             // For Booking Chart
-            $total_bookings = Booking::whereMonth('created_at', Carbon::now()->month);
-            $total_bookings_count = $total_bookings->count();
-            $total_bookings_data = $total_bookings->select(DB::raw('DATE_FORMAT(created_at, "%d-%m-%Y") as titles'), DB::raw('count(*) as bookings'))->groupBy('titles')->pluck('bookings', 'titles');
-
+            $total_bookings_count = $getbookingsforsmallchart->whereMonth('created_at', Carbon::now()->month)->count();
+            $total_bookings_data = $getbookingsforsmallchart->select(DB::raw('DATE_FORMAT(created_at, "%d-%m-%Y") as titles'), DB::raw('count(*) as bookings'))->groupBy('titles')->pluck('bookings', 'titles');
 
             // For Revenue Chart
             $total_revenue_data_sum = $total_revenue_data->whereMonth('created_at', Carbon::now()->month)->sum('paid_amount') * $percentage / 100;
@@ -154,18 +135,17 @@ class AdminController extends Controller
             $total_dome_owners_data = $total_dome_owners_data->whereMonth('created_at', Carbon::now()->month)->select(DB::raw('MONTHNAME(created_at) as titles'), DB::raw('COUNT(*) as users'))->groupBy(DB::raw('DATE_FORMAT(created_at,"%d-%-m-Y")'))->pluck('titles', 'users');
 
             // For Bookings Overview Chart
-            $total_bookings_overview = Booking::whereMonth('created_at', Carbon::now()->month)->count();
+            $total_bookings_overview = $getbookingsforoverviewchart->whereMonth('created_at', Carbon::now()->month)->count();
             $total_bookings_overview_data = $total_bookings_overview_data->whereMonth('created_at', Carbon::now()->month);
         } elseif ($request->filtertype == "this_year") {
 
             // For Income Chart
-            $total_income_data_sum = Transaction::where('type', 1)->whereYear('created_at', Carbon::now()->year)->sum('amount');
+            $total_income_data_sum = $total_income_data->whereYear('created_at', Carbon::now()->year)->sum('amount');
             $total_income_data = $total_income_data->whereYear('created_at', Carbon::now()->year)->select(DB::raw("MONTHNAME(created_at) as titles"), DB::raw('SUM(amount) as amount'))->groupBy('titles')->groupBy('titles')->pluck('amount', 'titles');
 
             // For Booking Chart
-            $total_bookings = Booking::whereYear('created_at', Carbon::now()->year);
-            $total_bookings_count = $total_bookings->count();
-            $total_bookings_data = $total_bookings->select(DB::raw("MONTHNAME(created_at) as month_name"), DB::raw('count(*) as bookings'))->orderBy('created_at')->groupBy('month_name')->pluck('bookings', 'month_name');
+            $total_bookings_count = $getbookingsforsmallchart->whereYear('created_at', Carbon::now()->year)->count();
+            $total_bookings_data = $getbookingsforsmallchart->select(DB::raw("MONTHNAME(created_at) as month_name"), DB::raw('count(*) as bookings'))->orderBy('created_at')->groupBy('month_name')->pluck('bookings', 'month_name');
 
             // For Revenue Chart
             $total_revenue_data_sum = $total_revenue_data->whereYear('created_at', Carbon::now()->year)->sum('paid_amount') * $percentage / 100;
@@ -182,7 +162,7 @@ class AdminController extends Controller
             $total_dome_owners_data = $total_dome_owners_data->whereYear('created_at', Carbon::now()->year)->select(DB::raw('MONTHNAME(created_at) as titles'), DB::raw('COUNT(id) as users'))->groupBy('titles')->orderBy('created_at')->get();
 
             // For Bookings Overview Chart
-            $total_bookings_overview = Booking::whereYear('created_at', Carbon::now()->year)->count();
+            $total_bookings_overview = $getbookingsforoverviewchart->whereYear('created_at', Carbon::now()->year)->count();
             $total_bookings_overview_data = $total_bookings_overview_data->whereYear('created_at', Carbon::now()->year);
         } elseif ($request->filtertype == "custom_date") {
 
@@ -190,13 +170,12 @@ class AdminController extends Controller
             $weekEndDate = explode(' to ', $request->filterdates)[1];
 
             // For Income Chart
-            $total_income_data_sum = Transaction::where('type', 1)->whereBetween('created_at', [$weekStartDate, $weekEndDate])->sum('amount');
+            $total_income_data_sum = $total_income_data->whereBetween('created_at', [$weekStartDate, $weekEndDate])->sum('amount');
             $total_income_data = $total_income_data->whereBetween('created_at', [$weekStartDate, $weekEndDate])->select(DB::raw('DATE_FORMAT(created_at, "%d-%m-%Y") as titles'), DB::raw('SUM(amount) as amount'))->pluck('amount', 'titles');
 
             // For Booking Chart
-            $total_bookings = Booking::whereBetween('created_at', [$weekStartDate, $weekEndDate]);
-            $total_bookings_count = $total_bookings->count();
-            $total_bookings_data = $total_bookings->select(DB::raw('DATE_FORMAT(created_at, "%d-%m-%Y") as titles'), DB::raw('count(*) as bookings'))->groupBy('titles')->pluck('bookings', 'titles');
+            $total_bookings_count = $getbookingsforsmallchart->whereBetween('created_at', [$weekStartDate, $weekEndDate])->count();
+            $total_bookings_data = $getbookingsforsmallchart->select(DB::raw('DATE_FORMAT(created_at, "%d-%m-%Y") as titles'), DB::raw('count(*) as bookings'))->groupBy('titles')->pluck('bookings', 'titles');
 
             // For Revenue Chart
             $total_revenue_data_sum = $total_revenue_data->whereBetween('created_at', [$weekStartDate, $weekEndDate])->sum('paid_amount') * $percentage / 100;
@@ -213,18 +192,17 @@ class AdminController extends Controller
             $otherformatfordomez = 1;
 
             // For Bookings Overview Chart
-            $total_bookings_overview = Booking::whereBetween('created_at', [$weekStartDate, $weekEndDate])->count();
+            $total_bookings_overview = $getbookingsforoverviewchart->whereBetween('created_at', [$weekStartDate, $weekEndDate])->count();
             $total_bookings_overview_data = $total_bookings_overview_data->whereBetween('created_at', [$weekStartDate, $weekEndDate]);
         } else {
 
             // For Income Chart
-            $total_income_data_sum = Transaction::where('type', 1)->whereBetween('created_at', [$weekStartDate, $weekEndDate])->sum('amount');
+            $total_income_data_sum = $total_income_data->whereBetween('created_at', [$weekStartDate, $weekEndDate])->sum('amount');
             $total_income_data = $total_income_data->whereBetween('created_at', [$weekStartDate, $weekEndDate])->select(DB::raw('DATE_FORMAT(created_at, "%d-%m-%Y") as titles'), DB::raw('SUM(amount) as amount'))->groupBy('titles')->pluck('amount', 'titles');
 
             // For Booking Chart
-            $total_bookings = Booking::whereBetween('created_at', [$weekStartDate, $weekEndDate]);
-            $total_bookings_count = $total_bookings->count();
-            $total_bookings_data = $total_bookings->select(DB::raw('DATE_FORMAT(created_at, "%d-%m-%Y") as titles'), DB::raw('count(*) as bookings'))->groupBy(DB::raw('DATE_FORMAT(created_at, "%d-%m-%Y")'))->get();
+            $total_bookings_count = $getbookingsforsmallchart->whereBetween('created_at', [$weekStartDate, $weekEndDate])->count();
+            $total_bookings_data = $getbookingsforsmallchart->select(DB::raw('DATE_FORMAT(created_at, "%d-%m-%Y") as titles'), DB::raw('count(*) as bookings'))->groupBy(DB::raw('DATE_FORMAT(created_at, "%d-%m-%Y")'))->get();
             $otherformatforbookingsmallchart = 1;
 
             // For Revenue Chart
@@ -242,7 +220,7 @@ class AdminController extends Controller
             $otherformatfordomez = 1;
 
             // For Bookings Overview Chart
-            $total_bookings_overview = Booking::whereBetween('created_at', [$weekStartDate, $weekEndDate])->count();
+            $total_bookings_overview = $getbookingsforoverviewchart->whereBetween('created_at', [$weekStartDate, $weekEndDate])->count();
             $total_bookings_overview_data = $total_bookings_overview_data->whereBetween('created_at', [$weekStartDate, $weekEndDate]);
         }
 

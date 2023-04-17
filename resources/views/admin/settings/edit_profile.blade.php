@@ -169,12 +169,13 @@
 @section('scripts')
     <script>
         $('.my-spinner').hide();
-        $('#email_address').on('blur', function() {
+        var checkemail = $('#email_address').val();
+        $('#email_address').on('change', function() {
             "use strict";
             var email = $(this).val();
-            // if ($.trim(email) == '') {
-            //     return false;
-            // }
+            if ($.trim(email) == '' || email == checkemail) {
+                return false;
+            }
             $.ajax({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(

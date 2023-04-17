@@ -34,51 +34,88 @@
     </div>
     <div class="card">
         <div class="card-body">
-            <form action="{{ URL::to('admin/payment-gateway/store-stripe') }}" method="POST" class="card">
-                @csrf
+            @if (auth()->user()->type == 2)
+                @php
+                    $redirectUri = 'http://192.168.0.121/domez_backend/connects';
+                    $authorizeUrl = 'https://connect.stripe.com/oauth/authorize' . '?response_type=code' . '&client_id=' . env('STRIPE_CLIENT_ID') . '&scope=read_write' . '&redirect_uri=' . urlencode($redirectUri);
+                    Stripe\Stripe::setApiKey(Helper::stripe_data()->secret_key);
+                    $html = '';
+                    $show_connect_btn = 0;
+                    if (!empty($stripe)) {
+                        try {
+                            $account = Stripe\Account::retrieve($stripe->account_id);
+                            if ($account->charges_enabled === false || $account->payouts_enabled === false) {
+                                $show_connect_btn = 1;
+                                $html = '<div class="alert alert-warning"> <i class="fa-regular fa-triangle-exclamation"></i> Look like The Stripe needs more information to enable payments and payouts on this account. Kindly Complete your profile From your Stripe Dashboard </div>';
+                            } else {
+                                $html = '<div class="alert alert-success"> The Stripe Account Has been Successfully Enabled/Connected. </div>';
+                            }
+                        } catch (\Throwable $th) {
+                            $show_connect_btn = 0;
+                        }
+                    }
+                    if (empty($stripe)) {
+                        $show_connect_btn = 1;
+                    }
+
+                @endphp
+                {!! $html !!}
+            @endif
+
+            <div class="card">
                 <div class="card-body">
                     <div class="row">
                         @if (Auth::user()->type == 1)
-                            <div class="col-md-12">
-                                <div class="mb-3">
-                                    <label for="public_key" class="form-label">{{ trans('labels.public_key') }}</label>
-                                    <input type="text" name="public_key" class="form-control" id="public_key"
-                                        placeholder="{{ trans('labels.public_key') }}"
-                                        value="{{ !empty($stripe->public_key) ? $stripe->public_key : old('public_key') }}">
-                                    @error('public_key')
-                                        <span class="text-danger">{{ $message }}</span>
-                                    @enderror
+                            <form action="{{ URL::to('admin/payment-gateway/store-stripe') }}" method="POST">
+                                @csrf
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="public_key" class="form-label">{{ trans('labels.public_key') }}</label>
+                                        <input type="text" name="public_key" class="form-control" id="public_key"
+                                            placeholder="{{ trans('labels.public_key') }}"
+                                            value="{{ !empty($stripe->public_key) ? $stripe->public_key : old('public_key') }}">
+                                        @error('public_key')
+                                            <span class="text-danger">{{ $message }}</span>
+                                        @enderror
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-md-12">
-                                <div class="mb-3">
-                                    <label for="secret_key" class="form-label">{{ trans('labels.secret_key') }}</label>
-                                    <input type="text" class="form-control" id="secret_key"
-                                        name="secret_key"placeholder="{{ trans('labels.secret_key') }}"value="{{ !empty($stripe->secret_key) ? $stripe->secret_key : old('secret_key') }}">
-                                    @error('secret_key')
-                                        <span class="text-danger">{{ $message }}</span>
-                                    @enderror
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="secret_key" class="form-label">{{ trans('labels.secret_key') }}</label>
+                                        <input type="text" class="form-control" id="secret_key"
+                                            name="secret_key"placeholder="{{ trans('labels.secret_key') }}"value="{{ !empty($stripe->secret_key) ? $stripe->secret_key : old('secret_key') }}">
+                                        @error('secret_key')
+                                            <span class="text-danger">{{ $message }}</span>
+                                        @enderror
+                                    </div>
                                 </div>
-                            </div>
+                                <div class="col-md-12">
+                                    <button type="submit" class="btn btn-primary">{{ trans('labels.submit') }}</button>
+                                </div>
+                            </form>
                         @else
                             <div class="col-md-12">
-                                <div class="mb-3">
+                                <div class="form-group">
                                     <label for="account_id" class="form-label">{{ trans('labels.account_id') }}</label>
                                     <input type="text" class="form-control" id="account_id"
-                                        name="account_id"placeholder="{{ trans('labels.account_id') }}"value="{{ !empty($stripe->account_id) ? $stripe->account_id : old('account_id') }}" aria-describedby="account_idHelp">
-                                        <div id="account_idHelp" class="form-text text-muted">How do i find?<a class="ms-2" href="https://stripe.com/docs/dashboard/basics#:~:text=Find%20your%20account%20ID,ID%E2%80%9D%20in%20the%20search%20bar." target="_blank">Click Here</a></div>
+                                        name="account_id"placeholder="{{ trans('labels.account_id') }}"value="{{ !empty($stripe->account_id) ? $stripe->account_id : old('account_id') }}"
+                                        aria-describedby="account_idHelp" disabled>
                                     @error('account_id')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
                             </div>
+                            @if (auth()->user()->type == 2 && $show_connect_btn == 1)
+                                <div class="col-md-12">
+                                    <a href="{{ $authorizeUrl }}" class="btn btn-primary">{{ trans('labels.connect_stripe_account') }}</a>
+                                </div>
+                            @endif
                         @endif
-                        <div class="col-md-12">
-                            <button type="submit" class="btn btn-primary">{{ trans('labels.submit') }}</button>
-                        </div>
+
                     </div>
                 </div>
-            </form>
+            </div>
+
         </div>
     </div>
 @endsection
