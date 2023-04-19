@@ -31,7 +31,7 @@ class DomesController extends Controller
     }
     public function add(Request $request)
     {
-        if (auth()->user()->dome_limit < Domes::where('vendor_id', auth()->user()->vendor_id)->count()) {
+        if (Domes::where('vendor_id', auth()->user()->vendor_id)->count() < auth()->user()->dome_limit) {
             $getsportslist = Sports::where('is_available', 1)->where('is_deleted', 2)->get();
             return view('admin.domes.add', compact('getsportslist'));
         } else {
@@ -72,6 +72,7 @@ class DomesController extends Controller
         $dome->city = $request->city;
         $dome->state = $request->state;
         $dome->country = $request->country;
+        $dome->slot_duration = $request->slot_duration;
         $dome->benefits = implode("|", $request->benefits);
         $dome->benefits_description = $request->benefits_description;
         $dome->save();

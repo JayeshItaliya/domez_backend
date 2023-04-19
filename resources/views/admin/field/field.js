@@ -63,3 +63,42 @@ function fieldinactive(id, type, url) {
         })
 
 }
+
+$('#dome').on('change', function () {
+    "use strict";
+    if ($.trim($(this).val()) == '') {
+        return false;
+    }
+    $.ajax({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
+                'content')
+        },
+        url: $(this).attr('data-next'),
+        data: {
+            id: $(this).val(),
+        },
+        method: 'GET',
+        success: function (response) {
+            if (response.status == 1) {
+                $('#sport_id option:not(:first)').remove();
+                if (response.sportsdata.length > 0) {
+                    $.each(response.sportsdata, function (arrayIndex, elementValue) {
+                        let selected = $.trim($('#sport_id').attr('data-sport-selected')) == elementValue.id ? 'selected' : '';
+                        $('#sport_id').append('<option value="' + elementValue.id + '"  ' + selected + ' >' + elementValue.name + '</option>');
+                    });
+                } else {
+                    $('#sport_id').append('<option value="" selected disabled>' + no_data +
+                        '</option>');
+                }
+            } else {
+                toastr.error(response.message);
+                return false;
+            }
+        },
+        error: function (e) {
+            toastr.error(wrong);
+            return false;
+        }
+    });
+}).change();

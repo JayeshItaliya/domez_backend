@@ -23,7 +23,8 @@
                                 </svg>
                             </a>
                         </li>
-                        <li class="breadcrumb-item"><a href="{{ URL::to('admin/fields') }}">{{ trans('labels.fields') }}</a></li>
+                        <li class="breadcrumb-item"><a href="{{ URL::to('admin/fields') }}">{{ trans('labels.fields') }}</a>
+                        </li>
                         <li class="breadcrumb-item active" aria-current="page">{{ trans('labels.add_field') }}</li>
                     </ol>
                 </nav>
@@ -38,8 +39,8 @@
                     <div class="row">
                         <div class="col-sm-6">
                             <label class="form-label" for="dome">{{ trans('labels.select_dome') }}</label>
-                            <select class="form-select" name="dome" id="dome">
-                                <option disabled selected>{{ trans('labels.select') }}</option>
+                            <select class="form-select" name="dome" id="dome"
+                                data-next="{{ URL::to('/admin/fields/getsports') }}">
                                 @foreach ($dome as $data)
                                     <option value="{{ $data->id }}" class="text-capitalize">{{ $data->name }}
                                     </option>
@@ -52,10 +53,10 @@
                         <div class="col-sm-6">
                             <label class="form-label" for="sport_id">{{ trans('labels.select_sport') }}</label>
                             <select class="form-select" name="sport_id" id="sport_id">
-                                @foreach ($getsportslist as $data)
+                                {{-- @foreach ($getsportslist as $data)
                                     <option value="{{ $data->id }}" class="text-capitalize">{{ $data->name }}
                                     </option>
-                                @endforeach
+                                @endforeach --}}
                             </select>
                             @error('sport_id')
                                 <span class="text-danger">{{ $message }}</span>
@@ -133,4 +134,7 @@
             </div>
         </div>
     </form>
+@endsection
+@section('scripts')
+    <script src="{{ url('resources/views/admin/field/field.js') }}"></script>
 @endsection

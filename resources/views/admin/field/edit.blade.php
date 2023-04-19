@@ -40,7 +40,8 @@
                     <div class="row">
                         <div class="col-sm-6">
                             <label class="form-label" for="dome">{{ trans('labels.select_dome') }}</label>
-                            <select class="form-select" name="dome" id="dome">
+                            <select class="form-select" name="dome" id="dome"
+                                data-next="{{ URL::to('/admin/fields/getsports') }}">
                                 <option disabled selected>{{ trans('labels.select') }}</option>
                                 @foreach ($dome as $data)
                                     <option value="{{ $data->id }}" class="text-capitalize"
@@ -53,12 +54,12 @@
                         </div>
                         <div class="col-sm-6">
                             <label class="form-label" for="sport_id">{{ trans('labels.select_sport') }}</label>
-                            <select class="form-select" name="sport_id" id="sport_id">
-                                @foreach ($getsportslist as $data)
+                            <select class="form-select" name="sport_id" id="sport_id" data-sport-selected="{{ $field->sport_id }}">
+                                {{-- @foreach ($getsportslist as $data)
                                     <option value="{{ $data->id }}" class="text-capitalize"
                                         {{ $field->sport_id == $data->id ? 'selected' : '' }}>{{ $data->name }}
                                     </option>
-                                @endforeach
+                                @endforeach --}}
                             </select>
                             @error('sport_id')
                                 <span class="text-danger">{{ $message }}</span>
@@ -139,4 +140,7 @@
             </div>
         </div>
     </form>
+@endsection
+@section('scripts')
+    <script src="{{ url('resources/views/admin/field/field.js') }}"></script>
 @endsection

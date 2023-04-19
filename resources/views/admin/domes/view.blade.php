@@ -374,6 +374,8 @@
         var bookings_labels = {{ Js::from($bookings_labels) }}
         var bookings_data = {{ Js::from($bookings_data) }}
         var arr = {{ Js::from($bookings_data_colors) }}
+        dome_revenue_chart(dome_revenue_labels, dome_revenue_data);
+        bookings_chart(bookings_labels, bookings_data, arr);
     </script>
     <script src="{{ url('resources/views/admin/domes/domes.js') }}"></script>
 @endsection

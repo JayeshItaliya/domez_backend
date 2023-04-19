@@ -322,22 +322,25 @@
             </div>
         </div>
         <div class="row mb-4">
-            @foreach ($dome['dome_images'] as $demoimages)
+            @foreach ($dome['dome_images'] as $key => $demoimages)
                 <div class="avatar avatar-xl col-auto">
                     <div class="dome-img">
                         <img src="{{ $demoimages->image }}" alt="..." class="mb-3 rounded d-block">
-                        <div class="dome-img-overlay rounded">
-                            <a onclick="deletedata('{{ $demoimages->id }}','{{ URL::to('admin/domes/image_delete') }}')"
-                                class="delete-icon fs-5 rounded-circle py-2 px-3"><i
-                                    class="fa-light fa-trash-can"></i></a>
-                        </div>
+                        @if (count($dome['dome_images']) > 1)
+                            <div class="dome-img-overlay rounded">
+                                <a onclick="deletedata('{{ $demoimages->id }}','{{ URL::to('admin/domes/image_delete') }}')"
+                                    class="delete-icon fs-5 rounded-circle py-2 px-3"><i
+                                        class="fa-light fa-trash-can"></i></a>
+                            </div>
+                        @endif
                     </div>
                 </div>
             @endforeach
         </div>
         <div class="row">
-            <div class="col-auto">
-                <button type="submit" class="btn btn-primary mt-2 float-end">{{ trans('labels.submit') }}</button>
+            <div class="col-12">
+                <button type="submit" class="btn btn-primary me-3">{{ trans('labels.submit') }}</button>
+                <a href="{{ URL::to('admin/domes') }}" class="btn btn-outline-danger">{{ trans('labels.cancel') }}</a>
             </div>
         </div>
         </div>

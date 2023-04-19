@@ -1,35 +1,26 @@
 $(function () {
-    if (is_vendor) {
-        if (dome_limit < dome_count) {
-            let html =
-                '<a href="' + window.location.href.replace(window.location.search, '') + '/add" class="btn-custom-primary"><svg xmlns="http://www.w3.org/2000/svg" class="icon-tabler icon-tabler-plus" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="var(--bs-primary)" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" /></svg></a>';
-            $('.fixed-table-toolbar .btn-group').append(html);
-        } else {
-            let html =
-                '<a data-bs-toggle="modal" data-bs-target="#new_dome_request" class="btn-custom-primary cursor-pointer"><svg xmlns="http://www.w3.org/2000/svg" class="icon-tabler icon-tabler-plus" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="var(--bs-primary)" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" /></svg></a>';
-            $('.fixed-table-toolbar .btn-group').append(html);
-        }
-    }
     $('.total-bookings-picker, .dome-revenue-picker').hide();
-    $('.total-bookings-picker').flatpickr({
-        mode: "range",
-        maxDate: "today",
-        dateFormat: "Y-m-d",
-        onClose: function (selectedDates, dateStr, instance) {
-            totalbookingsfilter(dateStr);
-        }
-    });
-    $('.dome-revenue-picker').flatpickr({
-        mode: "range",
-        maxDate: "today",
-        dateFormat: "Y-m-d",
-        onClose: function (selectedDates, dateStr, instance) {
-            totalbookingsfilter(dateStr);
-        }
-    });
+    if ( $('.total-bookings-picker').length > 0) {
+        $('.total-bookings-picker').flatpickr({
+            mode: "range",
+            maxDate: "today",
+            dateFormat: "Y-m-d",
+            onClose: function (selectedDates, dateStr, instance) {
+                totalbookingsfilter(dateStr);
+            }
+        });
+    }
+    if ( $('.dome-revenue-picker').length > 0) {
+        $('.dome-revenue-picker').flatpickr({
+            mode: "range",
+            maxDate: "today",
+            dateFormat: "Y-m-d",
+            onClose: function (selectedDates, dateStr, instance) {
+                totalbookingsfilter(dateStr);
+            }
+        });
+    }
 })
-dome_revenue_chart(dome_revenue_labels, dome_revenue_data);
-
 function dome_revenue_chart(dome_revenue_labels, dome_revenue_data) {
     var options = {
         series: [{
@@ -93,7 +84,6 @@ $('.dome-revenue-filter').on('change', function () {
     }
     domerevenuefilter('')
 });
-
 function domerevenuefilter(dates) {
     $.ajax({
         headers: {
@@ -121,8 +111,6 @@ function domerevenuefilter(dates) {
         }
     });
 }
-bookings_chart(bookings_labels, bookings_data, arr);
-
 function bookings_chart(bookings_labels, bookings_data, arr) {
     var bookings_data_colors = $.map(arr, function (val, i) {
         if (val == 'primary_color') {
@@ -213,12 +201,12 @@ $(function () {
     });
     initMap();
 });
-if ($('#textLat').val().length == 0) {
+if (document.getElementById('textLat')) {
     var lat = -33.8688197;
     var lng = 151.2092955;
 } else {
-    var lat = $('#textLat').val();
-    var lng = $('#textLng').val();
+    var lat = parseFloat($('#textLat').val());
+    var lng = parseFloat($('#textLng').val());
 }
 
 function initMap() {

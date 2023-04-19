@@ -197,6 +197,7 @@ Route::group(['middleware' => 'SetTimeZoneMiddleware'], function () {
                 Route::post('update-{id}', [FieldController::class, 'update']);
                 Route::get('delete', [FieldController::class, 'delete']);
                 Route::get('maintenance', [FieldController::class, 'maintenance']);
+                Route::get('getsports', [FieldController::class, 'getsportslist']);
             });
         });
         Route::group(['middleware' => 'VendorAndEmployeeMiddleware'], function () {

@@ -108,7 +108,7 @@ $('body').on('focus', ".start.time_picker", function () {
             var day = currentDate.getDate();
             var month = currentDate.getMonth() + 1;
             var year = currentDate.getFullYear();
-            var dateString = day + '-' + month + '-' + year;
+            var dateString = year + '-' + month + '- ' + day;
             start_time = new Date(dateString + ' ' + start_time);
             start_time.setMinutes(start_time.getMinutes() + 60);
             start_time = start_time.toLocaleString('en-US', {
@@ -145,7 +145,7 @@ $('body').on('focus', ".start.time_picker", function () {
                         $("button[data-day-name='" + $(element).attr('data-day-name') + "']").attr("disabled", true).addClass("disabled");
                     }
                 }
-            }else{
+            } else {
                 start_time = max_time;
                 end_max_time = max_time;
             }
@@ -208,6 +208,7 @@ $(function () {
         $('.' + dayname + '.extra_fields').append(html);
     });
 });
+
 function removeslot(id, el) {
     "use strict";
     $('#remove' + id).remove();

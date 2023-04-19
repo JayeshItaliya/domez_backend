@@ -60,7 +60,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-3">
                             <div class="form-group">
                                 <label for="start_time" class="form-label">{{ trans('labels.start_time') }}</label>
                                 <input type="text" class="form-control time_picker" name="start_time"
@@ -71,13 +71,35 @@
                                 @enderror
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-3">
                             <div class="form-group">
                                 <label for="end_time" class="form-label">{{ trans('labels.end_time') }}</label>
                                 <input type="text" class="form-control time_picker" name="end_time"
                                     value="{{ old('end_time') }}" id="end_time"
                                     placeholder="{{ trans('labels.end_time') }}" autocomplete="off">
                                 @error('end_time')
+                                    <span class="text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="slot_duration" class="form-label">{{ trans('labels.slot_duration') }}</label>
+                                <div class="d-flex gap-3">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="slot_duration" value="1"
+                                            id="slot_duration1" checked>
+                                        <label class="form-check-label" for="slot_duration1">
+                                            {{ trans('labels.60_minutes') }} </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="slot_duration"
+                                            value="2" id="slot_duration2">
+                                        <label class="form-check-label" for="slot_duration2">
+                                            {{ trans('labels.90_minutes') }} </label>
+                                    </div>
+                                </div>
+                                @error('slot_duration')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
@@ -273,7 +295,9 @@
             </div>
             <div class="row">
                 <div class="col-auto">
-                    <button type="submit" class="btn btn-primary mt-2 float-end">{{ trans('labels.submit') }}</button>
+                    <button type="submit" class="btn btn-primary me-3">{{ trans('labels.submit') }}</button>
+                    <a href="{{ URL::to('admin/domes') }}"
+                        class="btn btn-outline-danger">{{ trans('labels.cancel') }}</a>
                 </div>
             </div>
         </div>

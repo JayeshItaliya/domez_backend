@@ -47,7 +47,6 @@ return [
     'images' => 'Images',
     'extend_time' => 'Extend Time',
     'connect_stripe_account' => 'Connect My Stripe Account',
-    // Sidebar
     'dashboard' => 'Dashboard',
     'dome_owners' => 'Dome Owners',
     'domes_management' => 'Domes Management',
@@ -70,13 +69,11 @@ return [
     'terms_conditions' => 'Terms & Conditions',
     'edit_profile' => 'Edit Profile',
     'email_settings' => 'Email Settings',
-    
     'stripe_settings' => 'Stripe Settings',
     'public_key' => 'Public Key',
     'secret_key' => 'Secret Key',
     'account_id' => 'Account ID',
     'supports' => 'Supports',
-    // Dashboard
     'cancelled_bookings' => 'Cancelled Bookings',
     'total_income' => 'Total Revenue',
     'custom_date' => 'Custom Date',
@@ -86,21 +83,17 @@ return [
     'user_mobile_app' => 'Users Of Mobile App',
     'user' => 'User',
     'bookings_overview' => 'Bookings Overview',
-    // Workers
     'workers' => 'Employees',
     'workers_list' => 'Employees List',
     'add_worker' => 'Add Employee',
-    // Providers
     'providers' => 'Providers',
     'providers_list' => 'Providers List',
     'add_provider' => 'Add Provider',
-    // Users
     'users' => 'Users',
     'user_details' => 'User Details',
     'users_list' => 'Users List',
     'edit_user' => 'Edit User',
     'users' => 'Users',
-    // Vendors
     'dome_owner' => 'Dome Owner',
     'dome_owner_detail' => 'Dome Owner Detail',
     'phone_number' => 'Phone Number',
@@ -133,12 +126,10 @@ return [
     'current_password' => 'Current Password',
     'new_password' => 'New Password',
     'confirm_password' => 'Confirm Password',
-    // Sports
     'add_sports' => 'Add Sports',
     'edit_sports' => 'Edit Sports',
     'sports' => 'Sports',
     'sports_name' => 'Sports Name',
-    // Domes
     'default_price' => 'Default Price',
     'domes_list' => 'Domes List',
     'add_dome' => 'Add Dome',
@@ -161,11 +152,9 @@ return [
     'slot_duration' => 'Minimum Booking Time Slots',
     '60_minutes' => '60 Minutes',
     '90_minutes' => '90 Minutes',
-    // Sports
     'image' => 'Image',
     'sport_name' => 'Sport Name',
     'sport_default_price' => 'Sports Default Rate w/o Per Hour',
-    // Fields
     'add_field' => 'Add Field',
     'field_name' => 'Field Name/Number',
     'min_person' => 'Min Players',
@@ -175,7 +164,6 @@ return [
     'edit_field' => 'Edit Field',
     'maintenance' => 'Maintenance',
     'sqft' => 'sq.ft',
-    // Leagues
     'league_details' => 'League Details',
     'league_id' => 'League ID',
     'league_name' => 'League Name',
@@ -208,11 +196,9 @@ return [
     'price_per_team' => 'Price Per Team',
     'years' => 'Years',
     'last_date_registration' => 'Registration Deadline',
-    // Enquiry
     'dome_requests' => 'Dome Requests',
     'general_enquiry' => 'General Enquiry',
     'help_support' => 'Help & Support',
-    // Booking
     'all' => 'All',
     'today' => 'Today',
     'last_7_days' => 'Last 7 Days',
@@ -241,7 +227,6 @@ return [
     'confirmed_bookings' => 'Confirmed Bookings',
     'pending_bookings' => 'Pending Bookings',
     'cancelled_bookings' => 'Cancelled Bookings',
-    // Transactions
     'transactions' => 'Transactions',
     'payment_id' => 'Payment ID',
     'payment_type' => 'Payment Type',
@@ -252,20 +237,16 @@ return [
     'card' => 'Card',
     'apple_pay' => 'Apple Pay',
     'google_pay' => 'Google Pay',
-    // Reviews
     'reviews' => 'Reviews',
     'comments' => 'Comments',
     'rattings' => 'Rattings',
     'reply' => 'Reply',
     'replied' => 'Replied',
     'subject' => 'Subject',
-    // Calendar
     'calendar' => 'Calendar',
     'dome' => 'Dome',
     'league' => 'League',
-    // Supports
     'message' => 'Message',
-    // General Settings
     'settings' => 'Settings',
     'otp' => 'OTP',
     'verify' => 'Verify',
@@ -279,11 +260,9 @@ return [
     'twilio_sid' => 'Twilio Sid',
     'twilio_token' => 'Twilio Token',
     'twilio_from' => 'Twilio From',
-    // Set Price
     'set_prices' => 'Set Prices',
     'select_day_wise_price' => 'Select Day Wise Price',
     'add_new_price' => 'Add New Price',
     'edit_set_price' => 'Edit Price',
-    // Supports
     'raise_ticket' => 'Raise Ticket',
 ];

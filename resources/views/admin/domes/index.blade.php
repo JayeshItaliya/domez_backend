@@ -131,37 +131,31 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="dome_name" class="form-label">{{ trans('labels.dome_name') }}</label>
-                        <input type="text" class="form-control" name="dome_name" id="dome_name"
-                            placeholder="{{ trans('labels.dome_name') }}">
+                        <input type="text" class="form-control" name="dome_name" id="dome_name" placeholder="{{ trans('labels.dome_name') }}">
                     </div>
                     <div class="form-group">
                         <label for="dome_address" class="form-label">{{ trans('labels.dome_address') }}</label>
-                        <input type="text" class="form-control" name="dome_address" id="dome_address"
-                            placeholder="{{ trans('labels.dome_address') }}">
+                        <input type="text" class="form-control" name="dome_address" id="dome_address" placeholder="{{ trans('labels.dome_address') }}">
                     </div>
                     <div class="form-group">
                         <label for="dome_city" class="form-label">{{ trans('labels.dome_city') }}</label>
-                        <input type="text" class="form-control" name="dome_city" id="dome_city"
-                            placeholder="{{ trans('labels.dome_city') }}">
+                        <input type="text" class="form-control" name="dome_city" id="dome_city" placeholder="{{ trans('labels.dome_city') }}">
                     </div>
                     <div class="form-group">
                         <label for="dome_zipcode" class="form-label">{{ trans('labels.pincode') }}</label>
-                        <input type="text" class="form-control" name="dome_zipcode" id="dome_zipcode"
-                            placeholder="{{ trans('labels.pincode') }}">
+                        <input type="text" class="form-control" name="dome_zipcode" id="dome_zipcode" placeholder="{{ trans('labels.pincode') }}">
                     </div>
                     <div class="form-group">
                         <label for="dome_state" class="form-label">{{ trans('labels.dome_state') }}</label>
-                        <input type="text" class="form-control" name="dome_state" id="dome_state"
-                            placeholder="{{ trans('labels.dome_state') }}">
+                        <input type="text" class="form-control" name="dome_state" id="dome_state" placeholder="{{ trans('labels.dome_state') }}">
                     </div>
                     <div class="form-group">
                         <label for="dome_country" class="form-label">{{ trans('labels.dome_country') }}</label>
-                        <input type="text" class="form-control" name="dome_country" id="dome_country"
-                            placeholder="{{ trans('labels.dome_country') }}">
+                        <input type="text" class="form-control" name="dome_country" id="dome_country" placeholder="{{ trans('labels.dome_country') }}">
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary"
+                    <button type="button" class="btn btn-outline-danger"
                         data-bs-dismiss="modal">{{ trans('labels.cancel') }}</button>
                     <button type="submit" class="btn btn-primary">{{ trans('labels.submit') }}</button>
                 </div>
@@ -173,6 +167,19 @@
     <script>
         let dome_count = {{ Js::from($domes_count) }};
         let dome_limit = {{ Js::from(Auth::user()->dome_limit) }};
+        $(function() {
+            if (is_vendor) {
+                if (dome_count < dome_limit) {
+                    let html = '<a href="' + window.location.href.replace(window.location.search, '') +
+                        '/add" class="btn-custom-primary"><svg xmlns="http://www.w3.org/2000/svg" class="icon-tabler icon-tabler-plus" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="var(--bs-primary)" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" /></svg></a>';
+                    $('.fixed-table-toolbar .btn-group').append(html);
+                } else {
+                    let html =
+                        '<a data-bs-toggle="modal" data-bs-target="#new_dome_request" class="btn-custom-primary cursor-pointer"><svg xmlns="http://www.w3.org/2000/svg" class="icon-tabler icon-tabler-plus" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="var(--bs-primary)" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" /></svg></a>';
+                    $('.fixed-table-toolbar .btn-group').append(html);
+                }
+            }
+        });
     </script>
     <script src="{{ url('resources/views/admin/domes/domes.js') }}"></script>
 @endsection

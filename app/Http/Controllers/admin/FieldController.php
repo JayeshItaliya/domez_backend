@@ -52,6 +52,7 @@ class FieldController extends Controller
         $field->dome_id = $request->dome;
         $field->sport_id = $request->sport_id;
         $field->name = $request->field_name;
+        $field->area = $request->field_area;
         $field->min_person = $request->min_person;
         $field->max_person = $request->max_person;
         $field->image = $new_name;
@@ -90,6 +91,7 @@ class FieldController extends Controller
         $field->dome_id = $request->dome;
         $field->sport_id = $request->sport_id;
         $field->name = $request->field_name;
+        $field->area = $request->field_area;
         $field->min_person = $request->min_person;
         $field->max_person = $request->max_person;
         if ($request->has('field_image')) {
@@ -134,6 +136,19 @@ class FieldController extends Controller
                 $field->save();
             }
             return response()->json(['status' => 1, 'message' => trans('messages.success')], 200);
+        } catch (\Throwable $th) {
+            return response()->json(['status' => 0, 'message' => trans('messages.wrong')], 200);
+        }
+    }
+    public function getsportslist(Request $request)
+    {
+        try {
+            $getdomedata = Domes::where('id', $request->id)->where('vendor_id', auth()->user()->type == 2 ? auth()->user()->id : auth()->user()->vendor_id)->where('is_deleted', 2)->first();
+            if (!empty($getdomedata)) {
+                $sports = Sports::whereIn('id', explode(',', $getdomedata->sport_id))->where('is_available', 1)->where('is_deleted', 2)->orderByDesc('id')->get();
+                return response()->json(['status' => 1, 'message' => trans('messages.success'), 'sportsdata' => $sports], 200);
+            }
+            return response()->json(['status' => 0, 'message' => trans('messages.invalid_dome')], 200);
         } catch (\Throwable $th) {
             return response()->json(['status' => 0, 'message' => trans('messages.wrong')], 200);
         }
