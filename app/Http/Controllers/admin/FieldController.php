@@ -95,9 +95,9 @@ class FieldController extends Controller
         $field->min_person = $request->min_person;
         $field->max_person = $request->max_person;
         if ($request->has('field_image')) {
-            // if (file_exists('storage/app/public/admin/images/fields/' . $field->image)) {
-            //     unlink('storage/app/public/admin/images/fields/' . $field->image);
-            // }
+            if ($field->image != "" && file_exists('storage/app/public/admin/images/fields/' . $field->image)) {
+                unlink('storage/app/public/admin/images/fields/' . $field->image);
+            }
             $new_name = 'field-' . uniqid() . '.' . $request->field_image->getClientOriginalExtension();
             $path = storage_path('app\public\admin\images\fields');
             $request->field_image->move($path, $new_name);

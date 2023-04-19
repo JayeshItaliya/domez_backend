@@ -254,13 +254,13 @@
                                         </div>
                                     </div>
                                     <div class="px-3 py-2 row">
-                                        {{-- @foreach ($domes->dome_images as $images)
-                                    <div class="col-auto me-3">
-                                        <img src="{{ Helper::image_path($images->images) }}" alt=""
-                                            width="100" height="60" class="rounded"
-                                            style="object-fit: cover; object-position:center;">
-                                    </div>
-                                @endforeach --}}
+                                        @foreach ($dome->dome_images as $images)
+                                            <div class="col-auto me-3">
+                                                <img src="{{ $images->image }}" alt=""
+                                                    width="100" height="60" class="rounded"
+                                                    style="object-fit: cover; object-position:center;">
+                                            </div>
+                                        @endforeach
                                     </div>
                                 </div>
                             </div>
@@ -279,26 +279,31 @@
                 --fc-event-border-color: var(--bs-primary);
                 --fc-today-bg-color: rgba(var(--bs-secondary-rgb), .15);
             }
+
             .fc-button {
                 background-color: transparent !important;
                 color: var(--bs-primary) !important;
                 border-color: var(--bs-primary) !important;
             }
+
             .fc-button.fc-button-active {
                 background-color: var(--bs-primary) !important;
                 color: white !important;
                 border-color: var(--bs-primary) !important;
             }
+
             .fc-prev-button,
             .fc-next-button {
                 background-color: transparent !important;
                 color: black !important;
                 border-color: transparent !important;
             }
+
             .fc-event-title {
                 font-size: 12px;
                 line-height: 1;
             }
+
             .fc-daygrid-event {
                 padding: 0 3px;
             }

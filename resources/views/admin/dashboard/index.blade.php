@@ -258,14 +258,12 @@
 @section('scripts')
     <script src={{ url('storage/app/public/admin/plugins/flatpickr/flatpickr.js') }}></script>
     <script src="{{ url('storage/app/public/admin/js/charts/apexchart/apexcharts.js') }}"></script>
-    {{-- FUll CALENDAR --}}
     <script src={{ url('storage/app/public/admin/plugins/fullcalendar/index.global.min.js') }}></script>
     <script>
+        // FUll CALENDAR
         $(function() {
             var calendarEl = document.getElementById('calendar');
             var calendar = new FullCalendar.Calendar(calendarEl, {
-                // initialDate: '2024-05-05',
-                // eventDisplay: 'list-item',
                 initialView: 'timeGridWeek',
                 dayMaxEvents: true,
                 contentHeight: '800px',
@@ -330,7 +328,7 @@
             $('.fc-today-button').text('Today');
         }
     </script>
-    
+
     <script>
         // Income Chart(Small)
         var total_income_title = {{ Js::from(trans('labels.total_income')) }};

@@ -40,12 +40,7 @@
                         </div>
                         <div class="col-sm-6">
                             <label class="form-label" for="sport_id">{{ trans('labels.select_sport') }}</label>
-                            <select class="form-select" name="sport_id" id="sport_id">
-                                {{-- @foreach ($getsportslist as $data)
-                                    <option value="{{ $data->id }}" class="text-capitalize">{{ $data->name }}
-                                    </option>
-                                @endforeach --}}
-                            </select>
+                            <select class="form-select" name="sport_id" id="sport_id"></select>
                             @error('sport_id')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
