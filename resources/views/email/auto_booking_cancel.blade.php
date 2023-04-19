@@ -52,7 +52,7 @@
     <div class="container" style="margin-bottom: 1rem">
         <h1>Booking Cancelled - Payment Not Made</h1>
         <p>We're sorry to inform you that your booking has been cancelled due to not making payment on time. We would
-            have loved to have you stay with us, but unfortunately we were unable to hold the room for you any longer.
+            have loved to have you stay with us, but unfortunately we were unable to hold the Slots for you any longer.
         </p>
         <p>If you still wish to make a booking with us, please click the button below to return to our website and make
             a new booking.</p>

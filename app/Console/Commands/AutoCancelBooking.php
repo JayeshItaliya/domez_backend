@@ -25,6 +25,11 @@ class AutoCancelBooking extends Command
                 if ($booking->paid_amount != $booking->total_amount) {
                     $refund = Helper::refund_cancel_booking($booking->id);
                     if ($refund == 1) {
+                        $data = ['title' => 'Booking Cancelled - Payment Not Made', 'email' => $booking->customer_email, 'bookingdata' => $booking];
+                        Mail::send('email.auto_booking_cancel', $data, function ($message) use ($data) {
+                            $message->from($data['email'])->subject($data['title']);
+                            $message->to(env('MAIL_USERNAME'));
+                        });
                         $this->info('Booking Updated & Refunded =====> ' . $booking->id);
                     } else {
                         $this->info('Something Went Wrong While Refunding Amount (Booking Status Not Change) =====> ' . $booking->id);
@@ -35,13 +40,12 @@ class AutoCancelBooking extends Command
                 $current_date_time = Carbon::now();
                 if ($start_date_time->lessThan($current_date_time) == true && $booking->payment_status == 2) {
                     $refund = Helper::refund_cancel_booking($booking->id);
-                    $data = ['title' => 'Booking Cancelled - Payment Not Made', 'email' => $booking->customer_email, 'bookingdata' => $booking];
-
-                    Mail::send('email.auto_booking_cancel', $data, function ($message) use ($data) {
-                        $message->from($data['email'])->subject($data['title']);
-                        $message->to(env('MAIL_USERNAME'));
-                    });
                     if ($refund == 1) {
+                        $data = ['title' => 'Booking Cancelled - Payment Not Made', 'email' => $booking->customer_email, 'bookingdata' => $booking];
+                        Mail::send('email.auto_booking_cancel', $data, function ($message) use ($data) {
+                            $message->from($data['email'])->subject($data['title']);
+                            $message->to(env('MAIL_USERNAME'));
+                        });
                         $this->info('Booking Updated & Refunded =====> ' . $booking->id);
                     } else {
                         $this->info('Something Went Wrong While Refunding Amount (Booking Status Not Change) =====> ' . $booking->id);
