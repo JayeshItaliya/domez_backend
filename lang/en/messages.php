@@ -70,13 +70,11 @@ return [
 
     'unable_set_maintenance' => 'Field has been already booked for your selected date.',
 
-    // Sweetalert
     'are_you_sure' => 'Are You Sure?',
     'yes' => 'Yes',
     'no' => 'No',
     'oops' => 'Oops..!!',
 
-    // Notes
     'forgot_password_note' => "Enter the email address associated with your account and we'll send you a link to reset your password.",
     'check_mail_note' => "We have sent a password recover instructions to your email."
 ];

@@ -303,7 +303,6 @@
     <script src="{{ url('storage/app/public/admin/js/custom.js') }}"></script>
 </body>
 <script>
-    // $('#mysubmit, .new-payment, .my-spinner').hide();
     if ({{ Js::from($checkbooking->booking_status) }} == 1 && {{ Js::from($checkbooking->due_amount) }} <= 0) {
         $('.card').find('.col-md-6').eq(1).remove();
         $('.card').find('.col-md-6').eq(0).addClass('col-12').removeClass('col-md-6');
@@ -454,12 +453,6 @@
                             clientSecret,
                             appearance,
                         });
-                        // var paymentElement = elements.create('payment', {
-                        //     layout: {
-                        //         type: 'tabs',
-                        //         defaultCollapsed: false,
-                        //     },
-                        // });
                         var paymentElement = elements.create('payment', options);
                         paymentElement.mount('#payment-element');
                         $('#mysubmit').fadeIn(4000);

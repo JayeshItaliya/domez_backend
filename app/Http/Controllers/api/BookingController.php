@@ -32,12 +32,9 @@ class BookingController extends Controller
         $bookings_list = Booking::where('user_id', $request->user_id)->orderByDesc('created_at')->get();
         $bookinglist = [];
         foreach ($bookings_list as $booking) {
-
             $start_date_time = Carbon::createFromFormat('Y-m-d h:i A', $booking->start_date . ' ' . date('h:i A', strtotime($booking->end_time)));
             $now = Carbon::now();
             $current_date_time = $now->format('Y-m-d h:i A');
-            // $start_date_time->lessThan($current_date_time) == true ? 2 : 1;
-
             if ($request->is_active == 1) {
                 if ($start_date_time->lessThan($current_date_time) == false) {
                     $dome = Domes::with('dome_image')->where('id', $booking->dome_id)->where('is_deleted', 2)->first();
@@ -95,11 +92,9 @@ class BookingController extends Controller
                     $daylist[] = $date->format('D');
                 }
             }
-
             $defaultimagebaseurl = url('storage/app/public/admin/images/profiles');
             $gettransaction = Transaction::leftJoin('users AS user', function ($query) {
                 $query->on('transactions.user_id', '=', 'user.id');
-                // ->where('user_id','!=','')->where('user_id','>',0);
             })
                 ->where('transactions.booking_id', $booking->booking_id)->select(
                     'transactions.user_id',
@@ -109,12 +104,9 @@ class BookingController extends Controller
                     DB::raw("CASE WHEN transactions.contributor_name IS NULL THEN '' ELSE transactions.contributor_name END as contributor_name"),
                     DB::raw("CASE WHEN transactions.user_id IS NULL THEN '{$defaultimagebaseurl}/default.png' ELSE '' END as contributor_image_url"),
                     DB::raw("CASE WHEN transactions.user_id IS NOT NULL THEN '{$defaultimagebaseurl}/user.image' ELSE '' END as user_image"),
-                    // DB::raw("CONCAT('" . url('storage/app/public/admin/images/profiles') . "/',user.image) AS user_image")
                 )->get()->toArray();
 
-
             $is_ratting_exist = Review::where('dome_id', $booking->dome_id)->where('user_id', $booking->user_id)->first();
-
             $booking_details = [
                 "id" => $booking->id,
                 "type" => $booking->type,
@@ -166,7 +158,6 @@ class BookingController extends Controller
             if ($request->sport_id == "") {
                 return response()->json(["status" => 0, "message" => 'Please Enter Sport ID'], 200);
             }
-
             $gettotlaslots = SetPricesDaysSlots::where('dome_id', $getdomedata->id)->where('sport_id', $request->sport_id)->whereDate('date', date('Y-m-d', strtotime($request->date)))->count();
             if ($gettotlaslots == 0) {
                 $period = new CarbonPeriod(date('h:i A', strtotime($getdomedata->start_time)), $my_interval . ' minutes', date("h:i A", strtotime("-$my_interval minutes", strtotime($getdomedata->end_time))));
@@ -182,31 +173,23 @@ class BookingController extends Controller
                     $new->save();
                 }
             }
-
-            // $data = SetPricesDaysSlots::where('set_prices_id', $checkpricetype->id)->whereDate('date', date('Y-m-d', strtotime($request->date)))->get();
             $data = SetPricesDaysSlots::where('dome_id', $getdomedata->id)->where('sport_id', $request->sport_id)->whereDate('date', date('Y-m-d', strtotime($request->date)))->get();
             foreach ($data as $key => $slot) {
                 $new_slot = date('h:i A', strtotime($slot->start_time)) . ' - ' . date('h:i A', strtotime($slot->end_time));
                 $today =  Carbon::now(new \DateTimeZone('Asia/Kolkata'));
                 $last = Carbon::parse(date('h:i A', strtotime($slot->start_time)));
                 $status = $slot->status;
-
                 $getdata = League::select('name', 'start_date', 'end_date', 'start_time', 'end_time')->where('dome_id', $getdomedata->id)->where('sport_id', $request->sport_id)->where('is_deleted', 2)->whereRaw('? BETWEEN start_date AND end_date', [date('Y-m-d', strtotime($request->date))])->get();
                 foreach ($getdata as $key => $league) {
-
                     $leaguestarttime = date('H:i', strtotime($league->start_time));
                     $leagueendtime = date('H:i', strtotime($league->end_time));
-
                     $league_start_time = Carbon::parse($leaguestarttime);
                     $league_end_time = Carbon::parse($leagueendtime);
-
                     $slot_start_time = Carbon::parse($slot->start_time);
                     $slot_end_time = Carbon::parse($slot->end_time);
-
                     if ($slot_start_time->between($league_start_time, $league_end_time) || $slot_end_time->between($league_start_time, $league_end_time)) {
                         if (($slot_start_time->gt($league_start_time) && $slot_start_time->lt($league_end_time)) || ($slot_end_time->gt($league_start_time) && $slot_end_time->lt($league_end_time))) {
                             $status = 0;
-                            // $status = '2131321231 -- '.$league->name;
                             break;
                         }
                     }
@@ -235,7 +218,6 @@ class BookingController extends Controller
     //         if ($request->sport_id == "") {
     //             return response()->json(["status" => 0, "message" => 'Please Enter Sport ID'], 200);
     //         }
-
     //         $getsetprices = SetPrices::where('dome_id', $getdomedata->id)->where('sport_id', $request->sport_id)->count();
     //         if ($getsetprices > 1) {
     //             $dateToCheck = date('Y-m-d', strtotime($request->date));
@@ -246,15 +228,12 @@ class BookingController extends Controller
     //         } else {
     //             $checkpricetype = SetPrices::where('dome_id', $getdomedata->id)->where('sport_id', $request->sport_id)->where('price_type', 1)->first();
     //         }
-
     //         $slots = [];
     //         if ($checkpricetype->price_type == 1) {
     //             $period = new CarbonPeriod(date('h:i A', strtotime($getdomedata->start_time)), $my_interval . ' minutes', date("h:i A", strtotime("-$my_interval minutes", strtotime($getdomedata->end_time))));
     //             foreach ($period as $item) {
-
     //                 $slot_start_time__ = $item->format("h:i A");
     //                 $slot_end_time__ = $item->addMinutes($my_interval)->format("h:i A");
-
     //                 $slot =  $slot_start_time__ . ' - ' . $slot_end_time__;
     //                 $today = Carbon::now(new \DateTimeZone('Asia/Kolkata'));
     //                 $last = Carbon::parse($slot_start_time__);
@@ -270,19 +249,14 @@ class BookingController extends Controller
     //                 } else {
     //                     $status = 1;
     //                 }
-
     //                 $getdata = League::select('name', 'start_date', 'end_date', 'start_time', 'end_time')->where('dome_id', $getdomedata->id)->where('sport_id', $request->sport_id)->where('is_deleted', 2)->whereRaw('? BETWEEN start_date AND end_date', [date('Y-m-d', strtotime($request->date))])->get();
     //                 foreach ($getdata as $key => $league) {
-
     //                     $leaguestarttime = date('H:i', strtotime($league->start_time));
     //                     $leagueendtime = date('H:i', strtotime($league->end_time));
-
     //                     $league_start_time = Carbon::parse($leaguestarttime);
     //                     $league_end_time = Carbon::parse($leagueendtime);
-
     //                     $slot_start_time = Carbon::parse($slot_start_time__);
     //                     $slot_end_time = Carbon::parse($slot_end_time__);
-
     //                     if ($slot_start_time->between($league_start_time, $league_end_time) || $slot_end_time->between($league_start_time, $league_end_time)) {
     //                         if (($slot_start_time->gt($league_start_time) && $slot_start_time->lt($league_end_time)) || ($slot_end_time->gt($league_start_time) && $slot_end_time->lt($league_end_time))) {
     //                             $status = 0;
@@ -291,7 +265,6 @@ class BookingController extends Controller
     //                         }
     //                     }
     //                 }
-
     //                 $checkslotexist = Booking::where('dome_id', $request->dome_id)->where('sport_id', $request->sport_id)->whereDate('start_date', date('Y-m-d', strtotime($request->date)))->whereRaw("find_in_set('" . $slot . "',slots)")->where('booking_status', '!=', 3)->first();
     //                 if (!empty($checkslotexist)) {
     //                     $status = 0;
@@ -311,19 +284,14 @@ class BookingController extends Controller
     //                 $today =  Carbon::now(new \DateTimeZone('Asia/Kolkata'));
     //                 $last = Carbon::parse(date('h:i A', strtotime($slot->start_time)));
     //                 $status = $slot->status;
-
     //                 $getdata = League::select('name', 'start_date', 'end_date', 'start_time', 'end_time')->where('dome_id', $getdomedata->id)->where('sport_id', $request->sport_id)->where('is_deleted', 2)->whereRaw('? BETWEEN start_date AND end_date', [date('Y-m-d', strtotime($request->date))])->get();
     //                 foreach ($getdata as $key => $league) {
-
     //                     $leaguestarttime = date('H:i', strtotime($league->start_time));
     //                     $leagueendtime = date('H:i', strtotime($league->end_time));
-
     //                     $league_start_time = Carbon::parse($leaguestarttime);
     //                     $league_end_time = Carbon::parse($leagueendtime);
-
     //                     $slot_start_time = Carbon::parse($slot->start_time);
     //                     $slot_end_time = Carbon::parse($slot->end_time);
-
     //                     if ($slot_start_time->between($league_start_time, $league_end_time) || $slot_end_time->between($league_start_time, $league_end_time)) {
     //                         if (($slot_start_time->gt($league_start_time) && $slot_start_time->lt($league_end_time)) || ($slot_end_time->gt($league_start_time) && $slot_end_time->lt($league_end_time))) {
     //                             $status = 0;
@@ -332,7 +300,6 @@ class BookingController extends Controller
     //                         }
     //                     }
     //                 }
-
     //                 $slots[] = [
     //                     'slot' => $new_slot,
     //                     'price' => $slot->price,
@@ -364,7 +331,6 @@ class BookingController extends Controller
         if (Carbon::createFromFormat('Y-m-d', $request->date)->isPast() && $request->date != Carbon::today()->format('Y-m-d')) {
             return response()->json(["status" => 0, "message" => 'Select Current or Future Date Only'], 200);
         }
-
         $bookedfields = [];
         foreach (explode(',', $request->slots) as $slot) {
             $checkslotexist = Booking::where('dome_id', $request->dome_id)
@@ -372,7 +338,6 @@ class BookingController extends Controller
                 ->whereDate('start_date', date('Y-m-d', strtotime($request->date)))
                 ->whereRaw("find_in_set('" . $slot . "',slots)")
                 ->where('booking_status', '!=', 3)
-                // ->whereRaw("find_in_set('" . $request->field_id . "',field_id)")
                 ->first();
             if (!empty($checkslotexist)) {
                 foreach (explode(',', $checkslotexist->field_id) as $key => $field_id) {
@@ -395,7 +360,6 @@ class BookingController extends Controller
             $available_fields = $available_fields->whereNotIn('id', $maintenancefields);
         }
         $available_fields = $available_fields->get();
-
         return response()->json(["status" => 1, "message" => "Successful", 'fields' => $available_fields], 200);
     }
     public function cancelbooking(Request $request)
@@ -403,7 +367,6 @@ class BookingController extends Controller
         // -------------------- NOTE ---------------------- //
         // -------- cancellation fees will be 3.50% ------- //
         // ------------------------------------------------ //
-
         if ($request->booking_id == "") {
             return response()->json(["status" => 0, "message" => "Booking ID Required"], 200);
         }

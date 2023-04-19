@@ -67,21 +67,15 @@ class AdminController extends Controller
         $now = CarbonImmutable::today();
         $weekStartDate = $now->startOfWeek();
         $weekEndDate = $now->endOfWeek();
-
         $percentage = auth()->user()->type == 1 ? 12 : 88;
-
         $bookings = Booking::whereDate('start_date', '>=', $now)->orderByDesc('id');
-
         $total_income_data = Transaction::where('type', 1)->orderBy('created_at');
         $total_revenue_data = Booking::where('booking_status', 1)->orderBy('created_at');
-
         $paidAmtQuery_RevChart = auth()->user()->type == 1 ? DB::raw('SUM(paid_amount*12/100) as amount') : DB::raw('SUM(paid_amount*88/100) as amount');
-
         $total_users_data = User::where('type', 3);
         $total_dome_owners_data = User::where('type', 2);
         $getbookingsforsmallchart = Booking::whereIn('type', [1, 2]);
         $getbookingsforoverviewchart = Booking::whereIn('type', [1, 2]);
-
         $confirmed_bookings = trans('labels.confirmed_bookings');
         $pending_bookings = trans('labels.pending_bookings');
         $cancelled_bookings = trans('labels.cancelled_bookings');
@@ -97,7 +91,6 @@ class AdminController extends Controller
                 WHEN booking_status = '3' THEN 'danger_color'
             END as colors,
             COUNT(*) as total");
-
         if (auth()->user()->type == 1) {
             $getbookingslist = $bookings->get();
         } else {
@@ -110,120 +103,92 @@ class AdminController extends Controller
             $getbookingsforoverviewchart = $getbookingsforoverviewchart->where('vendor_id', $vendor_id);
             $total_bookings_overview_data = $getbookingsforoverviewchart->where('vendor_id', $vendor_id);
         }
-
         if ($request->filtertype == "this_month") {
-
             // For Income Chart
             $total_income_data_sum = $total_income_data->whereMonth('created_at', Carbon::now()->month)->sum('amount');
             $total_income_data = $total_income_data->whereMonth('created_at', Carbon::now()->month)->select(DB::raw('DATE_FORMAT(created_at, "%d-%m-%Y") as titles'), DB::raw('SUM(amount) as amount'))->groupBy('titles')->pluck('amount', 'titles');
-
             // For Booking Chart
             $total_bookings_count = $getbookingsforsmallchart->whereMonth('created_at', Carbon::now()->month)->count();
             $total_bookings_data = $getbookingsforsmallchart->select(DB::raw('DATE_FORMAT(created_at, "%d-%m-%Y") as titles'), DB::raw('count(*) as bookings'))->groupBy('titles')->pluck('bookings', 'titles');
-
             // For Revenue Chart
             $total_revenue_data_sum = $total_revenue_data->whereMonth('created_at', Carbon::now()->month)->sum('paid_amount') * $percentage / 100;
             $total_revenue_data = $total_revenue_data->whereMonth('created_at', Carbon::now()->month)->select(DB::raw('MONTHNAME(created_at) as titles'), $paidAmtQuery_RevChart)->groupBy('titles')->pluck('titles', 'amount');
-
             // For Users Chart
             $total_users_data_sum = $total_users_data->whereMonth('created_at', Carbon::now()->month)->count();
-            $total_users_data = $total_users_data->whereMonth('created_at', Carbon::now()->month)->select(DB::raw('MONTHNAME(created_at) as titles'), DB::raw('COUNT(*) as users'))
-                ->pluck('titles', 'users');
-
+            $total_users_data = $total_users_data->whereMonth('created_at', Carbon::now()->month)->select(DB::raw('MONTHNAME(created_at) as titles'), DB::raw('COUNT(*) as users'))->pluck('titles', 'users');
             // For Dome Owners Chart
             $total_dome_owners_data_sum = $total_dome_owners_data->whereMonth('created_at', Carbon::now()->month)->count();
-            $total_dome_owners_data = $total_dome_owners_data->whereMonth('created_at', Carbon::now()->month)->select(DB::raw('MONTHNAME(created_at) as titles'), DB::raw('COUNT(*) as users'))->groupBy(DB::raw('DATE_FORMAT(created_at,"%d-%-m-Y")'))->pluck('titles', 'users');
-
+            $total_dome_owners_data = $total_dome_owners_data->whereMonth('created_at', Carbon::now()->month)->select(DB::raw('MONTHNAME(created_at) as titles'), DB::raw('COUNT(*) as users'))->pluck('titles', 'users');
             // For Bookings Overview Chart
             $total_bookings_overview = $getbookingsforoverviewchart->whereMonth('created_at', Carbon::now()->month)->count();
             $total_bookings_overview_data = $total_bookings_overview_data->whereMonth('created_at', Carbon::now()->month);
         } elseif ($request->filtertype == "this_year") {
-
             // For Income Chart
             $total_income_data_sum = $total_income_data->whereYear('created_at', Carbon::now()->year)->sum('amount');
             $total_income_data = $total_income_data->whereYear('created_at', Carbon::now()->year)->select(DB::raw("MONTHNAME(created_at) as titles"), DB::raw('SUM(amount) as amount'))->groupBy('titles')->groupBy('titles')->pluck('amount', 'titles');
-
             // For Booking Chart
             $total_bookings_count = $getbookingsforsmallchart->whereYear('created_at', Carbon::now()->year)->count();
             $total_bookings_data = $getbookingsforsmallchart->select(DB::raw("MONTHNAME(created_at) as month_name"), DB::raw('count(*) as bookings'))->orderBy('created_at')->groupBy('month_name')->pluck('bookings', 'month_name');
-
             // For Revenue Chart
             $total_revenue_data_sum = $total_revenue_data->whereYear('created_at', Carbon::now()->year)->sum('paid_amount') * $percentage / 100;
             $total_revenue_data = $total_revenue_data->whereYear('created_at', Carbon::now()->year)->select(DB::raw("MONTHNAME(created_at) as titles"), $paidAmtQuery_RevChart)->groupBy('titles')->pluck('titles', 'amount');
-
             // For Users Chart
             $otherformatforusers = 1;
             $total_users_data_sum = $total_users_data->whereYear('created_at', Carbon::now()->year)->count();
             $total_users_data = $total_users_data->whereYear('created_at', Carbon::now()->year)->select(DB::raw('MONTHNAME(created_at) as titles'), DB::raw('COUNT(id) as users'))->groupBy('titles')->orderBy('created_at')->get();
-
             // For Dome Owners Chart
             $otherformatfordomez = 1;
             $total_dome_owners_data_sum = $total_dome_owners_data->whereYear('created_at', Carbon::now()->year)->count();
             $total_dome_owners_data = $total_dome_owners_data->whereYear('created_at', Carbon::now()->year)->select(DB::raw('MONTHNAME(created_at) as titles'), DB::raw('COUNT(id) as users'))->groupBy('titles')->orderBy('created_at')->get();
-
             // For Bookings Overview Chart
             $total_bookings_overview = $getbookingsforoverviewchart->whereYear('created_at', Carbon::now()->year)->count();
             $total_bookings_overview_data = $total_bookings_overview_data->whereYear('created_at', Carbon::now()->year);
         } elseif ($request->filtertype == "custom_date") {
-
             $weekStartDate = explode(' to ', $request->filterdates)[0];
             $weekEndDate = explode(' to ', $request->filterdates)[1];
-
             // For Income Chart
             $total_income_data_sum = $total_income_data->whereBetween('created_at', [$weekStartDate, $weekEndDate])->sum('amount');
             $total_income_data = $total_income_data->whereBetween('created_at', [$weekStartDate, $weekEndDate])->select(DB::raw('DATE_FORMAT(created_at, "%d-%m-%Y") as titles'), DB::raw('SUM(amount) as amount'))->pluck('amount', 'titles');
-
             // For Booking Chart
             $total_bookings_count = $getbookingsforsmallchart->whereBetween('created_at', [$weekStartDate, $weekEndDate])->count();
             $total_bookings_data = $getbookingsforsmallchart->select(DB::raw('DATE_FORMAT(created_at, "%d-%m-%Y") as titles'), DB::raw('count(*) as bookings'))->groupBy('titles')->pluck('bookings', 'titles');
-
             // For Revenue Chart
             $total_revenue_data_sum = $total_revenue_data->whereBetween('created_at', [$weekStartDate, $weekEndDate])->sum('paid_amount') * $percentage / 100;
             $total_revenue_data = $total_revenue_data->whereBetween('created_at', [$weekStartDate, $weekEndDate])->select(DB::raw('DATE_FORMAT(created_at, "%d-%m-%Y") as titles'), $paidAmtQuery_RevChart)->groupBy('titles')->pluck('titles', 'amount');
-
             // For Users Chart
             $total_users_data_sum = $total_users_data->whereBetween('created_at', [$weekStartDate, $weekEndDate])->count();
             $total_users_data = $total_users_data->whereBetween('created_at', [$weekStartDate, $weekEndDate])->select(DB::raw('DATE_FORMAT(created_at, "%d-%m-%Y") as titles'), DB::raw('COUNT(id) as users'))->groupBy('created_at')->get();
             $otherformatforusers = 1;
-
             // For Dome Owners Chart
             $total_dome_owners_data_sum = $total_dome_owners_data->whereBetween('created_at', [$weekStartDate, $weekEndDate])->count();
             $total_dome_owners_data = $total_dome_owners_data->whereBetween('created_at', [$weekStartDate, $weekEndDate])->select(DB::raw('DATE_FORMAT(created_at, "%d-%m-%Y") as titles'), DB::raw('COUNT(id) as users'))->groupBy('created_at')->get();
             $otherformatfordomez = 1;
-
             // For Bookings Overview Chart
             $total_bookings_overview = $getbookingsforoverviewchart->whereBetween('created_at', [$weekStartDate, $weekEndDate])->count();
             $total_bookings_overview_data = $total_bookings_overview_data->whereBetween('created_at', [$weekStartDate, $weekEndDate]);
         } else {
-
             // For Income Chart
             $total_income_data_sum = $total_income_data->whereBetween('created_at', [$weekStartDate, $weekEndDate])->sum('amount');
             $total_income_data = $total_income_data->whereBetween('created_at', [$weekStartDate, $weekEndDate])->select(DB::raw('DATE_FORMAT(created_at, "%d-%m-%Y") as titles'), DB::raw('SUM(amount) as amount'))->groupBy('titles')->pluck('amount', 'titles');
-
             // For Booking Chart
             $total_bookings_count = $getbookingsforsmallchart->whereBetween('created_at', [$weekStartDate, $weekEndDate])->count();
             $total_bookings_data = $getbookingsforsmallchart->select(DB::raw('DATE_FORMAT(created_at, "%d-%m-%Y") as titles'), DB::raw('count(*) as bookings'))->groupBy(DB::raw('DATE_FORMAT(created_at, "%d-%m-%Y")'))->get();
             $otherformatforbookingsmallchart = 1;
-
             // For Revenue Chart
             $total_revenue_data_sum = $total_revenue_data->whereBetween('created_at', [$weekStartDate, $weekEndDate])->sum('paid_amount') * $percentage / 100;
             $total_revenue_data = $total_revenue_data->whereBetween('created_at', [$weekStartDate, $weekEndDate])->select(DB::raw('DATE_FORMAT(created_at, "%d-%m-%Y") as titles'), $paidAmtQuery_RevChart)->groupBy('titles')->pluck('titles', 'amount');
-
             // For Users Chart
             $total_users_data_sum = $total_users_data->whereBetween('created_at', [$weekStartDate, $weekEndDate])->count();
             $total_users_data = $total_users_data->whereBetween('created_at', [$weekStartDate, $weekEndDate])->select(DB::raw('DATE_FORMAT(created_at, "%d-%m-%Y") as titles'), DB::raw('COUNT(id) as users'))->groupBy(DB::raw('DATE_FORMAT(created_at, "%d-%m-%Y")'))->get();
             $otherformatforusers = 1;
-
             // For Dome Owners Chart
             $total_dome_owners_data_sum = $total_dome_owners_data->whereBetween('created_at', [$weekStartDate, $weekEndDate])->count();
             $total_dome_owners_data = $total_dome_owners_data->whereBetween('created_at', [$weekStartDate, $weekEndDate])->select(DB::raw('DATE_FORMAT(created_at, "%d-%m-%Y") as titles'), DB::raw('COUNT(id) as users'))->groupBy('created_at')->get();
             $otherformatfordomez = 1;
-
             // For Bookings Overview Chart
             $total_bookings_overview = $getbookingsforoverviewchart->whereBetween('created_at', [$weekStartDate, $weekEndDate])->count();
             $total_bookings_overview_data = $total_bookings_overview_data->whereBetween('created_at', [$weekStartDate, $weekEndDate]);
         }
-
         $bokingsoverviewchartdata = [];
         $total_bookings_overview_data = $total_bookings_overview_data->groupBy('booking_status')->orderBy('booking_status')->get();
         foreach ($total_bookings_overview_data as $d) {
@@ -237,31 +202,20 @@ class AdminController extends Controller
         $bookings_overview_data = collect($bokingsoverviewchartdata)->pluck('data');
         $bookings_data_colors = collect($bokingsoverviewchartdata)->pluck('colors');
 
-
         $income_labels = $total_income_data->keys();
         $income_data = $total_income_data->values();
-
-        // $booking_labels = $total_bookings_data->keys();
-        // $booking_data = $total_bookings_data->values();
         $booking_labels =  @$otherformatforbookingsmallchart == 1 ? collect($total_bookings_data)->pluck('titles') : $total_bookings_data->keys();
         $booking_data =  @$otherformatforbookingsmallchart == 1 ? collect($total_bookings_data)->pluck('bookings') : $total_bookings_data->values();
-
         $revenue_labels = $total_revenue_data->values();
         $revenue_data = $total_revenue_data->keys();
-
         $users_labels =  @$otherformatforusers == 1 ? collect($total_users_data)->pluck('titles') : $total_users_data->values();
         $users_data =  @$otherformatforusers == 1 ? collect($total_users_data)->pluck('users') : $total_users_data->keys();
-
         $dome_owners_labels = @$otherformatfordomez == 1 ? collect($total_dome_owners_data)->pluck('titles') : $total_dome_owners_data->values();
         $dome_owners_data = @$otherformatfordomez == 1 ? collect($total_dome_owners_data)->pluck('users') : $total_dome_owners_data->keys();
-
-
         if ($request->ajax()) {
             return response()->json(['total_income_data_sum' => Helper::currency_format($total_income_data_sum), 'income_labels' => $income_labels, 'income_data' => $income_data, 'total_bookings_count' => $total_bookings_count, 'booking_labels' => $booking_labels, 'booking_data' => $booking_data, 'total_revenue_data_sum' => Helper::currency_format($total_revenue_data_sum), 'revenue_labels' => $revenue_labels, 'revenue_data' => $revenue_data, 'total_users_data_sum' => $total_users_data_sum, 'users_labels' => $users_labels, 'users_data' => $users_data, 'total_dome_owners_data_sum' => $total_dome_owners_data_sum, 'dome_owners_labels' => $dome_owners_labels, 'dome_owners_data' => $dome_owners_data, 'total_bookings_overview' => $total_bookings_overview, 'bookings_overview_labels' => $bookings_overview_labels, 'bookings_overview_data' => $bookings_overview_data, 'bookings_data_colors' => $bookings_data_colors]);
         } else {
             return view('admin.dashboard.index', compact('getbookingslist', 'total_income_data_sum', 'income_labels', 'income_data', 'total_bookings_count', 'booking_labels', 'booking_data', 'total_revenue_data_sum', 'revenue_labels', 'revenue_data', 'total_users_data_sum', 'users_labels', 'users_data', 'total_dome_owners_data_sum', 'dome_owners_labels', 'dome_owners_data', 'total_bookings_overview', 'bookings_overview_labels', 'bookings_overview_data', 'bookings_data_colors'));
         }
     }
-
-    // DB::raw('(SELECT SUM(paid_amount * ? / 100) FROM bookings) as amount'), [$percentage]
 }

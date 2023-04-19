@@ -103,7 +103,7 @@
     <link rel="stylesheet" href="{{url('storage/app/public/admin/js/intelTelInput/intlTelInput.min.css')}}">
     <script src="{{url('storage/app/public/admin/js/intelTelInput/utils.js')}}"></script>
     <script>
-            var input = $('#phone');
+        var input = $('#phone');
         var iti = intlTelInput(input.get(0))
         iti.setCountry("in");
         input.on('countrychange', function(e) {

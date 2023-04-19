@@ -36,7 +36,6 @@
             <div class="card-body">
                 <div class="d-flex justify-content-between my-4">
                     <h4 class="fw-semibold">{{ trans('labels.booking_id') }} - {{ $bookingdata->booking_id }}</h4>
-
                     @if (
                         (Auth::user()->type == 2 || Auth::user()->type == 4) &&
                             date('Y-m-d') == date('Y-m-d', strtotime($bookingdata->start_date)) &&
@@ -243,7 +242,6 @@
             </div>
         @endif
     </div>
-
     <div class="modal fade" id="slotsmodal" tabindex="-1" aria-labelledby="slotsmodalLabel" aria-hidden="true">
         <div class="modal-lg modal-dialog">
             <div class="modal-content">
@@ -252,7 +250,6 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-
                     {{-- <div class="row">
                         <div class="col-md-3">
                             <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
@@ -269,11 +266,9 @@
                             </div>
                         </div>
                     </div> --}}
-
                     <div class="row">
                         @foreach ($slots as $key => $slot)
                             <div class="col-lg-4 col-6">
-                                {{-- data-picker-start-time="{{ date('h:i A', strtotime('+60 minutes', strtotime($slot->end_time))) }}" --}}
                                 @php
                                     $inputattr = '';
                                     $labelcolor = 'border border-primary text-primary';
@@ -306,136 +301,11 @@
             </div>
         </div>
     </div>
-
 @endsection
 @section('scripts')
     <script>
         var start_time = '';
         var booking_id = {{ Js::from($bookingdata->booking_id) }};
-        $('.d-none').on('change', function() {
-            "use strict";
-            $.ajax({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
-                        'content')
-                },
-                url: location.href,
-                data: {
-                    booking_id: booking_id,
-                    slot_id: $(this).attr('data-slot-id'),
-                },
-                method: 'get',
-                beforeSend: function(response) {
-                    $('.' + $(this).attr('data-show-target')).show();
-                    $('.lists').html(
-                        '<div class="text-center"><div class="spinner-border" role="status"><span class="visually-hidden">Loading...</span></div></div>'
-                    );
-                },
-                success: function(response) {
-                    if (response.status == 0) {
-                        toastr.error(response.message);
-                    } else {
-                        $('.lists').html(response.slots);
-                        toastr.success(response.message);
-                    }
-                    return false;
-                },
-                error: function(e) {
-                    toastr.error(wrong);
-                    return false;
-                }
-            });
-        });
-
-        var my_val = '';
-        var old_slot_id = '';
-        var new_slot_id = '';
-        var slot_price = '';
-        var slot = '';
-
-        function manageslot(el) {
-            my_val = $(el).val();
-            old_slot_id = $(el).attr('data-old-slot-id');
-            new_slot_id = $(el).attr('data-new-slot-id');
-            slot_price = $(el).attr('data-slot-price');
-            slot = $(el).attr('data-slot');
-            $('.lists button[type="button"]:hidden').show();
-        }
-
-        function submitdata() {
-            // $('#slotsmodal').modal('hide')
-            // $('.lists').html('')
-            // $('.d-none.main-slots:checked').prop('checked', false)
-            var html = $('.lists').html();
-            $.ajax({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
-                        'content')
-                },
-                url: location.href,
-                data: {
-                    manage_slot: 1,
-                    booking_id: booking_id,
-                    slot_time: my_val,
-                    slot: slot,
-                    old_slot_id: old_slot_id,
-                    new_slot_id: new_slot_id,
-                    slot_price: slot_price,
-                },
-                method: 'get',
-                beforeSend: function(response) {
-                    $('.lists').html(
-                        '<div class="text-center"><div class="spinner-border" role="status"><span class="visually-hidden">Loading...</span></div></div>'
-                    );
-                },
-                success: function(response) {
-                    if (response.status == 0) {
-                        $('.lists').html(html);
-                        $('.lists button[type="button"]').hide();
-                        toastr.error(response.message);
-                    } else {
-                        toastr.success(response.message);
-                        location.reload()
-                    }
-                    return false;
-                },
-                error: function(e) {
-                    $('.lists').html(html);
-                    $('.lists button[type="button"]').hide();
-                    toastr.error(wrong);
-                    return false;
-                }
-            });
-
-            // Swal.fire({
-            //     title: 'Enter the price',
-            //     input: 'text',
-            //     inputPlaceholder: 'Enter the price',
-            //     inputAttributes: {
-            //         type: 'number',
-            //         min: 0,
-            //         step: 0.01
-            //     },
-            //     showCancelButton: true,
-            //     confirmButtonText: 'Submit',
-            //     cancelButtonText: 'Cancel',
-            //     allowOutsideClick: false,
-            //     preConfirm: function(price) {
-            //         // You can perform some validation here
-            //         // If the validation fails, return false to prevent the dialog from closing
-            //         // Otherwise, return the validated value
-            //         if (price <= 0) {
-            //             Swal.showValidationMessage('Price must be greater than zero');
-            //             return false;
-            //         }
-            //         return price;
-            //     }
-            // }).then(function(result) {
-            //     if (result.value) {
-            //         // Do something with the validated price value
-            //         console.log(result.value);
-            //     }
-            // });
-        }
     </script>
+    <script src="{{ url('resources/views/admin/bookings/bookings.js') }}"></script>
 @endsection

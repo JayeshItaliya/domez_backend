@@ -72,5 +72,3 @@ Route::group(['middleware' => 'SetTimeZoneMiddleware'], function () {
 
     Route::get('stripe-key', [PaymentController::class, 'stripe_key']);
 });
-
-// Route::post('requestdomes', [AuthenticationController::class, 'requestdomes']);

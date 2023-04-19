@@ -1,7 +1,5 @@
 <?php
-
 namespace App\Http\Controllers\api;
-
 use App\Helper\Helper;
 use App\Http\Controllers\Controller;
 use App\Models\Domes;
@@ -9,7 +7,6 @@ use App\Models\Favourite;
 use App\Models\League;
 use App\Models\User;
 use Illuminate\Http\Request;
-
 class FavouriteController extends Controller
 {
     public function favourite(Request $request)
@@ -54,7 +51,6 @@ class FavouriteController extends Controller
             return response()->json(["status" => 1, "message" => $request->type . ' Favourite Successfully'], 200);
         }
     }
-
     public function favourite_list(Request $request)
     {
         if (in_array($request->user_id,[0,''])) {

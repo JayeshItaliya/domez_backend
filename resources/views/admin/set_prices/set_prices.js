@@ -2,8 +2,6 @@ var min_time = '';
 var max_time = '';
 var start_time = '';
 var my_interval = 60;
-
-
 $('#start_date').on('change', function () {
     "use strict";
     if ($.trim($(this).val()) != "") {
@@ -87,12 +85,10 @@ $('#storesetprices').on('submit', function () {
 //         interval: my_interval,
 //     });
 // });
-
 // var time1 = new Date('2023-04-08T10:00:00');
 // var time2 = new Date('2023-04-08T11:30:00');
 // var diffMs = time2 - time1;
 // var diffMins = Math.floor((diffMs / 1000) / 60);    // Output: 90
-
 var end_max_time = '';
 $('body').on('focus', ".start.time_picker", function () {
     "use strict";
@@ -108,13 +104,11 @@ $('body').on('focus', ".start.time_picker", function () {
             var element = $(this);
             var timepicker = element.timepicker();
             start_time = timepicker.format(time);
-
             var currentDate = new Date();
             var day = currentDate.getDate();
             var month = currentDate.getMonth() + 1;
             var year = currentDate.getFullYear();
             var dateString = day + '-' + month + '-' + year;
-
             start_time = new Date(dateString + ' ' + start_time);
             start_time.setMinutes(start_time.getMinutes() + 60);
             start_time = start_time.toLocaleString('en-US', {
@@ -122,7 +116,6 @@ $('body').on('focus', ".start.time_picker", function () {
                 minute: 'numeric',
                 hour12: true
             });
-
             var dateObj = new Date(dateString + ' ' + start_time);
             dateObj.setMinutes(dateObj.getMinutes() + 30);
             var end_max_time = dateObj.toLocaleString('en-US', {
@@ -130,14 +123,10 @@ $('body').on('focus', ".start.time_picker", function () {
                 minute: 'numeric',
                 hour12: true
             });
-
-            // Convert time strings to Date objects
             var check_start_time = new Date(dateString + ' ' + start_time);
             var start_time_minutes = check_start_time.getHours() * 60 + check_start_time.getMinutes();
-
             var check_max_time = new Date(dateString + ' ' + max_time);
             var max_time_minutes = check_max_time.getHours() * 60 + check_max_time.getMinutes();
-
             if (start_time_minutes <= max_time_minutes) {
                 if (start_time_minutes == max_time_minutes) {
                     end_max_time = start_time;
@@ -160,7 +149,6 @@ $('body').on('focus', ".start.time_picker", function () {
                 start_time = max_time;
                 end_max_time = max_time;
             }
-
             $(element).parent().parent().parent().next().find('.end.time_picker').val('');
             $(element).parent().parent().parent().next().find('.end.time_picker').timepicker('destroy');
             $(element).parent().parent().parent().next().find('.end.time_picker').timepicker({
@@ -185,13 +173,11 @@ $('body').on('focus', ".start.time_picker", function () {
 });
 $(function () {
     "use strict";
-
     if (is_vendor || is_employee) {
         let html =
             '<a href="' + window.location.href.replace(window.location.search, '') + '/add" class="btn-custom-primary"><svg xmlns="http://www.w3.org/2000/svg" class="icon-tabler icon-tabler-plus" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="var(--bs-primary)" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" /></svg></a>';
         $('.fixed-table-toolbar .btn-group').append(html);
     }
-
     var counter = 1;
     $(".appendbtn").on('click', function () {
         "use strict";
@@ -222,59 +208,10 @@ $(function () {
         $('.' + dayname + '.extra_fields').append(html);
     });
 });
-
 function removeslot(id, el) {
     "use strict";
-    // $('.' + $(el).attr('data-day-name') + '-row').find('.start.time_picker:last').attr('disabled', false);
-    // $('.' + $(el).attr('data-day-name') + '-row').find('.end.time_picker:last').attr('disabled', false);
     $('#remove' + id).remove();
 }
-
-function deletedata(id, url) {
-    "use strict";
-    swalWithBootstrapButtons
-        .fire({
-            icon: 'warning',
-            title: are_you_sure,
-            showCancelButton: true,
-            allowOutsideClick: false,
-            allowEscapeKey: false,
-            confirmButtonText: yes,
-            cancelButtonText: no,
-            reverseButtons: true,
-            showLoaderOnConfirm: true,
-            preConfirm: function () {
-                return new Promise(function (resolve, reject) {
-                    $.ajax({
-                        type: "GET",
-                        url: url,
-                        data: {
-                            id: id,
-                        },
-                        dataType: "json",
-                        success: function (response) {
-                            if (response.status == 1) {
-                                // toastr.success(response.message);
-                                location.reload();
-                            } else {
-                                swal_cancelled(wrong);
-                                return false;
-                            }
-                        },
-                        error: function (response) {
-                            swal_cancelled(wrong);
-                            return false;
-                        },
-                    });
-                });
-            },
-        }).then((result) => {
-            if (!result.isConfirmed) {
-                result.dismiss === Swal.DismissReason.cancel
-            }
-        })
-}
-
 // $('body').on('blur', '.start.time_picker', function () {
 //     "use strict";
 //     setTimeout(() => {
@@ -300,7 +237,6 @@ function deletedata(id, url) {
 //         validatetime(start_time, end_time, dome_id, validate_start_time, element);
 //     }, 100);
 // });
-
 // function validatetime(start_time, end_time, dome_id, validate_start_time, element) {
 //     "use strict";
 //     showpreloader();

@@ -70,7 +70,7 @@ return [
     'terms_conditions' => 'Terms & Conditions',
     'edit_profile' => 'Edit Profile',
     'email_settings' => 'Email Settings',
-    'twilio_settings' => 'Twilio Settings',
+    
     'stripe_settings' => 'Stripe Settings',
     'public_key' => 'Public Key',
     'secret_key' => 'Secret Key',

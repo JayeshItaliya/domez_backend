@@ -38,7 +38,6 @@
         enctype="multipart/form-data">
         @csrf
         <div class="card-body">
-
             <div class="row">
                 <div class="col-md-6">
                     <div class="row">
@@ -91,13 +90,15 @@
                                     <div class="form-check">
                                         <input class="form-check-input" type="radio" name="slot_duration" value="1"
                                             {{ $dome->slot_duration == 1 ? 'checked' : '' }} id="slot_duration1">
-                                        <label class="form-check-label" for="slot_duration1"> {{ trans('labels.60_minutes') }} </label>
+                                        <label class="form-check-label" for="slot_duration1">
+                                            {{ trans('labels.60_minutes') }} </label>
                                     </div>
                                     <div class="form-check">
                                         <input class="form-check-input" type="radio" name="slot_duration"
                                             value="2" {{ $dome->slot_duration == 2 ? 'checked' : '' }}
                                             id="slot_duration2">
-                                        <label class="form-check-label" for="slot_duration2"> {{ trans('labels.90_minutes') }} </label>
+                                        <label class="form-check-label" for="slot_duration2">
+                                            {{ trans('labels.90_minutes') }} </label>
                                     </div>
                                 </div>
                                 @error('slot_duration')
@@ -245,7 +246,6 @@
                     <div id="map_canvas" class="w-auto" style="height: 250px;"></div>
                 </div>
             </div>
-
             <div class="row">
                 <div class="col-md-6">
                     <div class="row">
@@ -282,7 +282,8 @@
                             @enderror
                         </div>
                         <div class="col-md-12 mb-3">
-                            <label for="" class="form-label default-price-title">{{ trans('labels.sport_default_price') }}</label>
+                            <label for=""
+                                class="form-label default-price-title">{{ trans('labels.sport_default_price') }}</label>
                             <div class="row row-cols-md-4" id="sport_prices_input">
                                 @foreach ($getsportslist as $sport)
                                     @if (in_array($sport->id, $sport_id))
@@ -291,10 +292,10 @@
                                             <div class="col mb-2" id="{{ $sport->name . $sport->id }}"
                                                 style="display:none">
                                     @endif
-                                    <label class="form-label"
-                                        for="">{{ $sport->name }}</label>
+                                    <label class="form-label" for="">{{ $sport->name }}</label>
                                     <div class="input-group">
-                                        <span class="input-group-text" id="basic-addon1"><i class="fa fa-dollar"></i></span>
+                                        <span class="input-group-text" id="basic-addon1"><i
+                                                class="fa fa-dollar"></i></span>
                                         <input type="number" class="form-control" name="dome_price[]"
                                             value="{{ Helper::get_dome_price($dome->id, $sport->id) }}" placeholder="0"
                                             {{ in_array($sport->id, $sport_id) ? '' : 'disabled' }}>
@@ -339,7 +340,6 @@
                 <button type="submit" class="btn btn-primary mt-2 float-end">{{ trans('labels.submit') }}</button>
             </div>
         </div>
-
         </div>
     </form>
 @endsection
@@ -350,9 +350,9 @@
     </script>
     <script type="text/javascript">
         $('input[data-sport-name]').click(function() {
-            if($('input[data-sport-name]:checked').length > 0){
+            if ($('input[data-sport-name]:checked').length > 0) {
                 $('.default-price-title').show();
-            }else{
+            } else {
                 $('.default-price-title').hide();
             }
             if (this.checked) {
@@ -363,158 +363,6 @@
                 $('#' + $(this).attr('data-show-input')).find('input[type=number]').attr('disabled', true);
             }
         });
-        $(function() {
-            "use strict";
-            if($('input[data-sport-name]:checked').length > 0){
-                $('.default-price-title').show();
-            }else{
-                $('.default-price-title').hide();
-            }
-            $(".time_picker").timepicker({
-                interval: 60,
-            });
-            initMap();
-        });
-        // Google Map For Location
-        if ($('#textLat').val().length == 0) {
-            var lat = -33.8688197;
-            var lng = 151.2092955;
-        } else {
-            var lat = parseFloat($('#textLat').val());
-            var lng = parseFloat($('#textLng').val());
-        }
-
-        function initMap() {
-            if (!document.getElementById('map_canvas')) {
-                return false;
-            }
-            var myLatLng = {
-                lat: lat,
-                lng: lng
-            };
-            var map = new google.maps.Map(document.getElementById('map_canvas'), {
-                center: myLatLng,
-                zoom: 13
-            });
-            var marker = new google.maps.Marker({
-                position: myLatLng,
-                map: map,
-                title: 'Domez Location',
-                draggable: false
-            });
-            google.maps.event.addListener(marker, 'dragend', function(marker) {
-                var latLng = marker.latLng;
-                var lat = document.getElementById('textLat').innerHTML = latLng.lat();
-                var lng = document.getElementById('textLng').innerHTML = latLng.lng();
-                $('#textLat').val(lat);
-                $('#textLng').val(lng);
-            });
-
-            var autocomplete = new google.maps.places.Autocomplete(document.getElementById('address'));
-            google.maps.event.addListener(autocomplete, 'place_changed',
-                function() {
-                    var place = autocomplete.getPlace();
-                    var latValue = place.geometry.location.lat();
-                    var lngValue = place.geometry.location.lng();
-                    var latInput = document.getElementById('textLat');
-                    var lngInput = document.getElementById('textLng');
-                    let country = place.address_components.find(function(component) {
-                        return component.types[0] == "country";
-                    });
-                    let state = place.address_components.find(function(component) {
-                        return component.types[0] == "administrative_area_level_1";
-                    });
-                    let city = place.address_components.find(function(component) {
-                        return component.types[0] == "locality";
-                    });
-                    latInput.value = latValue;
-                    lngInput.value = lngValue;
-                    var map = new google.maps.Map(document.getElementById('map_canvas'), {
-                        center: {
-                            lat: latValue,
-                            lng: lngValue
-                        },
-                        zoom: 13
-                    });
-                    var marker = new google.maps.Marker({
-                        position: {
-                            lat: latValue,
-                            lng: lngValue
-                        },
-                        map: map,
-                        title: 'Domez Location',
-                        draggable: false
-                    });
-                    $('#pin_code').val(getZipCode(latInput.value, lngInput.value));
-                    $('#city').val(city.long_name);
-                    $('#state').val(state.long_name);
-                    $('#country').val(country.long_name);
-                });
-
-        }
-
-        function getZipCode(lat, lng) {
-            var zipcode = '';
-            $.ajax({
-                url: 'https://maps.googleapis.com/maps/api/geocode/json?latlng=' + lat + ',' + lng +
-                    '&key=AIzaSyCvlZaKvRSMouyH9pDgGC6pMGADfytOrsA',
-                type: "GET",
-                dataType: 'json',
-                async: false,
-                success: function(data) {
-                    var results = data.results;
-                    results[0].address_components.forEach(element => {
-                        if (element.types[0] == "postal_code") {
-                            zipcode = element.long_name;
-                        }
-                    });
-                }
-            });
-            return zipcode;
-        }
-
-        function deletedata(id, url) {
-            "use strict";
-            swalWithBootstrapButtons
-                .fire({
-                    icon: 'warning',
-                    title: are_you_sure,
-                    showCancelButton: true,
-                    allowOutsideClick: false,
-                    allowEscapeKey: false,
-                    confirmButtonText: yes,
-                    cancelButtonText: no,
-                    reverseButtons: true,
-                    showLoaderOnConfirm: true,
-                    preConfirm: function() {
-                        return new Promise(function(resolve, reject) {
-                            $.ajax({
-                                type: "GET",
-                                url: url,
-                                data: {
-                                    id: id,
-                                },
-                                dataType: "json",
-                                success: function(response) {
-                                    if (response.status == 1) {
-                                        location.reload();
-                                    } else {
-                                        swal_cancelled(wrong);
-                                        return false;
-                                    }
-                                },
-                                error: function(response) {
-                                    swal_cancelled(wrong);
-                                    return false;
-                                },
-                            });
-                        });
-                    },
-                }).then((result) => {
-                    if (!result.isConfirmed) {
-                        result.dismiss === Swal.DismissReason.cancel
-                    }
-                })
-        }
     </script>
+    <script src="{{ url('resources/views/admin/domes/domes.js') }}"></script>
 @endsection

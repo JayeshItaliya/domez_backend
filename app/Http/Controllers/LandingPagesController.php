@@ -51,7 +51,6 @@ class LandingPagesController extends Controller
             'message.required' => 'Message is required.',
             'message.max' => 'Maximum limit of characters allowed are 500.',
         ]);
-
         $enquiry = new Enquiries();
         $enquiry->type = 2;
         $enquiry->name = $request->name;
@@ -59,7 +58,6 @@ class LandingPagesController extends Controller
         $enquiry->subject = $request->subject;
         $enquiry->message = $request->message;
         $enquiry->save();
-
         return redirect()->back()->with('success', trans('messages.success'));
     }
     public function dome_request(Request $request)
@@ -84,7 +82,6 @@ class LandingPagesController extends Controller
                 return response()->json(['status' => 1, 'message' => "OTP Verification Successfull"], 200);
             }
         }
-
         $request->validate([
             'name' => 'required',
             'email' => 'required|email',
@@ -108,7 +105,6 @@ class LandingPagesController extends Controller
             'dome_country.required' => 'Dome Country is required.',
             'dome_address.required' => 'Dome Address is required.',
         ]);
-
         $enquiry = new Enquiries();
         $enquiry->type = 3;
         $enquiry->name = $request->name;
@@ -122,7 +118,6 @@ class LandingPagesController extends Controller
         $enquiry->dome_country = $request->dome_country;
         $enquiry->venue_address = $request->dome_address;
         $enquiry->save();
-
         return redirect('/')->with('success', trans('messages.success'));
     }
     public function split_payment(Request $request)
@@ -138,16 +133,7 @@ class LandingPagesController extends Controller
                         $intent = \Stripe\PaymentIntent::create([
                             'amount' => $request->amount * 100,
                             'currency' => 'cad',
-                            'payment_method_types' => [
-                                'card',
-                                // 'bancontact',
-                                // 'eps',
-                                // 'giropay',
-                                // 'ideal',
-                                // 'p24',
-                                // 'sepa_debit',
-                                // 'sofort',
-                            ],
+                            'payment_method_types' => ['card'],
                             'description' => 'Booking Split Payment',
                             'receipt_email' => $request->email,
                         ]);
@@ -169,19 +155,16 @@ class LandingPagesController extends Controller
         try {
             $checktransaction = Transaction::where('transaction_id', $request->transaction_id)->first();
             if (empty($checktransaction)) {
-
                 $checkbooking = Booking::where('token', $request->booking_token)->first();
                 $checkbooking->due_amount -= $request->amount;
                 $checkbooking->paid_amount += $request->amount;
                 $checkbooking->save();
-
                 $newcheckbooking = Booking::where('token', $request->booking_token)->first();
                 if ($newcheckbooking->due_amount == 0) {
                     $newcheckbooking->booking_status = 1;
                     $newcheckbooking->payment_status = 1;
                     $newcheckbooking->save();
                 }
-
                 $checkbooking1 = Booking::where('token', $request->booking_token)->first();
                 $transaction = new Transaction();
                 $transaction->type = 1;
@@ -194,13 +177,11 @@ class LandingPagesController extends Controller
                 $transaction->transaction_id = $request->transaction_id;
                 $transaction->amount = $request->amount;
                 $transaction->save();
-
                 if ($checkbooking1->due_amount > 0) {
                     $totalpendingplayers = $checkbooking1->players - $checkbooking1->transactions->count();
                     $checkbooking1->min_split_amount = $totalpendingplayers > 1 ? $checkbooking1->due_amount / $totalpendingplayers : $checkbooking1->due_amount;
                     $checkbooking1->save();
                 }
-
                 if ($checkbooking1->booking_status == 1 && $checkbooking1->payment_status == 1) {
                     $title = $checkbooking1->booking_type == 1 ? 'Dome Booking' : 'League Booking';
                     $tokens[] = $checkbooking1->user_info->fcm_token;

@@ -116,7 +116,6 @@
         </div>
     </div>
 @endsection
-
 @section('scripts')
     <script>
         var select_date = {{ Js::from(trans('labels.select_date')) }};

@@ -1,7 +1,5 @@
 <?php
-
 namespace App\Http\Controllers\admin;
-
 use App\Http\Controllers\Controller;
 use App\Models\BookingSlots;
 use App\Models\Domes;
@@ -12,7 +10,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Carbon\Carbon;
-
 class DomesPriceController extends Controller
 {
     public function index(Request $request)
@@ -27,11 +24,6 @@ class DomesPriceController extends Controller
     }
     public function store(Request $request)
     {
-
-        // SetPricesDaysSlots == status == 1 == Available (Full)
-        // SetPricesDaysSlots == status == 2 == occupied
-        // SetPricesDaysSlots == status == 3 == Half Available
-
         try {
             if ($request->has('id') && $request->id != "") {
                 SetPricesDaysSlots::where('set_prices_id', $request->id)->delete();
@@ -46,7 +38,6 @@ class DomesPriceController extends Controller
             $set_prices->start_date = $request->start_date;
             $set_prices->end_date = $request->end_date;
             $set_prices->save();
-
             $start_date = Carbon::parse($request->start_date);
             $end_date = Carbon::parse($request->end_date);
             for ($date = $start_date; $date->lte($end_date); $date->addDay()) {
@@ -81,7 +72,6 @@ class DomesPriceController extends Controller
                     }
                 }
             }
-
             return redirect('admin/set-prices')->with('success', trans('messages.success'));
         } catch (\Throwable $th) {
             return redirect()->back()->with('error', trans('messages.wrong'));

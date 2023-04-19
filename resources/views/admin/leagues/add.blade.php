@@ -4,7 +4,6 @@
     <link rel="stylesheet"
         href="{{ url('storage\app\public\admin\plugins\multi-select\select2-bootstrap-5-theme.min.css') }}" />
 @endsection
-
 @section('title')
     {{ trans('labels.add_league') }}
 @endsection

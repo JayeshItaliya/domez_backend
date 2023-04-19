@@ -39,17 +39,14 @@ Route::group(['middleware' => 'SetTimeZoneMiddleware'], function () {
     // Landing Page Route
     Route::get('/', [LandingPagesController::class, 'landing']);
     Route::get('contact', [LandingPagesController::class, 'contact']);
-
     Route::get('privacy-policy', [LandingPagesController::class, 'privacy_policy']);
     Route::get('terms-conditions', [LandingPagesController::class, 'terms_conditions']);
     Route::get('cancellation-policies', [LandingPagesController::class, 'cancellation_policies']);
     Route::get('refund-policies', [LandingPagesController::class, 'refund_policies']);
-
     Route::post('store-general-enquiries', [LandingPagesController::class, 'store_general_enquiries']);
     Route::post('dome-request', [LandingPagesController::class, 'dome_request']);
     Route::get('payment/{token}', [LandingPagesController::class, 'split_payment']);
     Route::post('payment/process', [LandingPagesController::class, 'split_payment_process']);
-
     // Authentication
     Route::get('login', [AuthenticationController::class, 'index']);
     Route::post('checklogin', [AuthenticationController::class, 'checklogin']);
@@ -60,7 +57,6 @@ Route::group(['middleware' => 'SetTimeZoneMiddleware'], function () {
     Route::get('verification', [AuthenticationController::class, 'verification']);
     Route::post('verify', [AuthenticationController::class, 'verify']);
     Route::get('resend-otp', [AuthenticationController::class, 'resend']);
-
     Route::group(['middleware' => ['LanguageMiddleware', 'auth'], 'prefix' => 'admin'], function () {
 
         // Development Purpose
@@ -71,18 +67,27 @@ Route::group(['middleware' => 'SetTimeZoneMiddleware'], function () {
         Route::get('dashboard', [AdminController::class, 'dashboard']);
         Route::get('calendar', [BookingController::class, 'calendar']);
         Route::get('change-lang-{lang}', [SettingsController::class, 'change_language']);
-        // Domes
-        Route::get('domes', [DomesController::class, 'index']);
-        Route::get('domes/details-{id}', [DomesController::class, 'dome_details']);
-        // Leagues
-        Route::get('leagues', [LeagueController::class, 'index']);
-        Route::get('leagues/details-{id}', [LeagueController::class, 'leaguedetails']);
-        //  Transaction
+        Route::group(['prefix' => 'domes'], function () {
+            Route::get('/', [DomesController::class, 'index']);
+            Route::get('details-{id}', [DomesController::class, 'dome_details']);
+        });
+        Route::group(['prefix' => 'leagues'], function () {
+            Route::get('/', [LeagueController::class, 'index']);
+            Route::get('details-{id}', [LeagueController::class, 'leaguedetails']);
+        });
         Route::group(['prefix' => 'transactions'], function () {
             Route::get('/', [TransactionController::class, 'index']);
             Route::get('details-{id}', [TransactionController::class, 'details']);
         });
-        //  Bookings
+        Route::group(['prefix' => 'payment-gateway'], function () {
+            Route::get('stripe', [PaymentGatewayController::class, 'stripe']);
+            Route::post('store-stripe', [PaymentGatewayController::class, 'store_stripe']);
+        });
+        Route::group(['prefix' => 'supports'], function () {
+            Route::get('/', [EnquiryController::class, 'supports']);
+            Route::post('store-ticket', [EnquiryController::class, 'store_ticket']);
+            Route::post('ticket-reply', [EnquiryController::class, 'ticket_reply']);
+        });
         Route::group(['prefix' => 'bookings'], function () {
             Route::get('/', [BookingController::class, 'index']);
             Route::get('/filter-data', [BookingController::class, 'index']);
@@ -90,7 +95,6 @@ Route::group(['middleware' => 'SetTimeZoneMiddleware'], function () {
             Route::get('delete', [BookingController::class, 'deletedata']);
             Route::get('cancel', [BookingController::class, 'cancel_booking']);
         });
-        // Enquiry
         Route::group(['prefix' => 'enquiries'], function () {
             Route::get('dome-requests', [EnquiryController::class, 'dome_requests']);
             Route::get('dome-request-status', [EnquiryController::class, 'dome_request_status']);
@@ -101,37 +105,18 @@ Route::group(['middleware' => 'SetTimeZoneMiddleware'], function () {
             Route::get('help-support', [EnquiryController::class, 'help_support']);
             Route::post('help-support-reply', [EnquiryController::class, 'help_support_reply']);
         });
-        // Settings
         Route::group(['prefix' => 'settings'], function () {
             Route::get('/', [AdminController::class, 'settings']);
-
             Route::get('edit-profile', [SettingsController::class, 'show_profile']);
             Route::post('check-email-exist', [SettingsController::class, 'checkemailexist']);
             Route::post('verify-email', [SettingsController::class, 'verifyemail']);
             Route::post('update-profile', [SettingsController::class, 'update_profile']);
             Route::post('change-password', [SettingsController::class, 'change_password']);
-
             Route::get('email-setting', [SettingsController::class, 'email_setting']);
             Route::post('email-setting', [SettingsController::class, 'store_email_setting']);
-            Route::get('twilio-setting', [SettingsController::class, 'twilio_setting']);
-            Route::post('twilio-setting', [SettingsController::class, 'store_twilio_setting']);
             Route::get('stripe-setting', [SettingsController::class, 'stripe_setting']);
         });
 
-        //  Payment Gateway
-        Route::group(['prefix' => 'payment-gateway'], function () {
-            Route::get('stripe', [PaymentGatewayController::class, 'stripe']);
-            Route::post('store-stripe', [PaymentGatewayController::class, 'store_stripe']);
-        });
-
-        // Supports
-        Route::group(['prefix' => 'supports'], function () {
-            Route::get('/', [EnquiryController::class, 'supports']);
-            Route::post('store-ticket', [EnquiryController::class, 'store_ticket']);
-            Route::post('ticket-reply', [EnquiryController::class, 'ticket_reply']);
-        });
-
-        // Vendors
         Route::group(['middleware' => 'AdminMiddleware'], function () {
             Route::group(['prefix' => 'cms'], function () {
                 Route::get('privacy-policy', [SettingsController::class, 'privacy_policy']);
@@ -215,14 +200,12 @@ Route::group(['middleware' => 'SetTimeZoneMiddleware'], function () {
             });
         });
         Route::group(['middleware' => 'VendorAndEmployeeMiddleware'], function () {
-            //  Leagues
             Route::group(['prefix' => 'leagues'], function () {
                 Route::get('edit-{id}', [LeagueController::class, 'edit']);
                 Route::get('image_delete', [LeagueController::class, 'image_delete']);
                 Route::post('update-{id}', [LeagueController::class, 'store']);
                 Route::get('sports-fields', [LeagueController::class, 'getsportsandfields']);
             });
-            // Set Prices
             Route::group(['prefix' => 'set-prices'], function () {
                 Route::get('/', [DomesPriceController::class, 'index']);
                 Route::get('add', [DomesPriceController::class, 'add']);
@@ -232,7 +215,6 @@ Route::group(['middleware' => 'SetTimeZoneMiddleware'], function () {
                 Route::get('delete-slot', [DomesPriceController::class, 'deleteslot']);
                 Route::get('getsports', [DomesPriceController::class, 'getsportslist']);
             });
-            //  Reviews
             Route::group(['prefix' => 'reviews'], function () {
                 Route::get('', [ReviewController::class, 'index']);
                 Route::post('reply', [ReviewController::class, 'replymessage']);

@@ -147,7 +147,7 @@
                                 </a>
                                 @if (in_array(Auth::user()->type, [2, 4]) && $bookingdata->booking_status == 2)
                                     <a class="cursor-pointer me-2" href="javascript:void(0)"
-                                        onclick="cancel_booking('{{ $bookingdata->id }}','{{ URL::to('admin/bookings/cancel') }}')">
+                                        onclick="deletedata('{{ $bookingdata->id }}','{{ URL::to('admin/bookings/cancel') }}')">
                                         <svg width="18" height="18" viewBox="0 0 18 18" fill="none"
                                             xmlns="http://www.w3.org/2000/svg">
                                             <path
@@ -169,108 +169,5 @@
 @endsection
 @section('scripts')
     <script src={{ url('storage/app/public/admin/plugins/flatpickr/flatpickr.js') }}></script>
-    <script>
-        $(function() {
-            $(".filter_content").appendTo($(".fixed-table-toolbar .float-left"));
-            $('.date-range-picker').flatpickr({
-                mode: "range",
-                // maxDate: "today",
-                placeHolder: "Select Date",
-                dateFormat: "Y-m-d",
-                onClose: function(selectedDates, dateStr, instance) {
-                    window.location.href = window.location.href.replace(window.location.search, '') +
-                        "?type=" + $('#type').val() + "&filter=" + $('#filter').val() + "&dates=" +
-                        dateStr;
-                }
-            });
-        });
-
-        function deletedata(id, url) {
-            "use strict";
-            swalWithBootstrapButtons
-                .fire({
-                    icon: 'warning',
-                    title: are_you_sure,
-                    showCancelButton: true,
-                    allowOutsideClick: false,
-                    allowEscapeKey: false,
-                    confirmButtonText: yes,
-                    cancelButtonText: no,
-                    reverseButtons: true,
-                    showLoaderOnConfirm: true,
-                    preConfirm: function() {
-                        return new Promise(function(resolve, reject) {
-                            $.ajax({
-                                type: "GET",
-                                url: url,
-                                data: {
-                                    id: id,
-                                },
-                                dataType: "json",
-                                success: function(response) {
-                                    if (response.status == 1) {
-                                        location.reload();
-                                    } else {
-                                        swal_cancelled(wrong);
-                                        return false;
-                                    }
-                                },
-                                error: function(response) {
-                                    swal_cancelled(wrong);
-                                    return false;
-                                },
-                            });
-                        });
-                    },
-                }).then((result) => {
-                    if (!result.isConfirmed) {
-                        result.dismiss === Swal.DismissReason.cancel
-                    }
-                })
-        }
-
-        function cancel_booking(id, url) {
-            "use strict";
-            swalWithBootstrapButtons
-                .fire({
-                    icon: 'warning',
-                    title: are_you_sure,
-                    showCancelButton: true,
-                    allowOutsideClick: false,
-                    allowEscapeKey: false,
-                    confirmButtonText: yes,
-                    cancelButtonText: no,
-                    reverseButtons: true,
-                    showLoaderOnConfirm: true,
-                    preConfirm: function() {
-                        return new Promise(function(resolve, reject) {
-                            $.ajax({
-                                type: "GET",
-                                url: url,
-                                data: {
-                                    id: id,
-                                },
-                                dataType: "json",
-                                success: function(response) {
-                                    if (response.status == 1) {
-                                        location.reload();
-                                    } else {
-                                        swal_cancelled(wrong);
-                                        return false;
-                                    }
-                                },
-                                error: function(response) {
-                                    swal_cancelled(wrong);
-                                    return false;
-                                },
-                            });
-                        });
-                    },
-                }).then((result) => {
-                    if (!result.isConfirmed) {
-                        result.dismiss === Swal.DismissReason.cancel
-                    }
-                })
-        }
-    </script>
+    <script src="{{ url('resources/views/admin/bookings/bookings.js') }}"></script>
 @endsection

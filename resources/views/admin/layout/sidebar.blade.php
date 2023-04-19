@@ -162,7 +162,6 @@
                         </a>
                     </ul>
                 </div>
-
                 <a href="#cms" class="nav-item {{ request()->is('admin/cms*') ? 'active' : '' }}"
                     data-bs-toggle="collapse" role="button"
                     aria-expanded="{{ request()->is('admin/cms*') ? 'true' : 'false' }}" aria-controls="cms">
@@ -228,10 +227,6 @@
                             <span
                                 class="nav-link {{ request()->is('admin/settings/email-setting') ? 'active' : '' }}">{{ trans('labels.email_settings') }}</span>
                         </a>
-                        {{-- <a href="{{ URL::to('admin/settings/twilio-setting') }}" class="nav-item">
-                            <span
-                                class="nav-link {{ request()->is('admin/settings/twilio-setting') ? 'active' : '' }}">{{ trans('labels.twilio_settings') }}</span>
-                        </a> --}}
                     @endif
                 </ul>
             </div>

@@ -1,7 +1,5 @@
 <?php
-
 namespace App\Http\Controllers\api;
-
 use App\Http\Controllers\Controller;
 use App\Helper\Helper;
 use App\Models\Domes;
@@ -11,7 +9,6 @@ use App\Models\League;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-
 class HomeController extends Controller
 {
     public function sportslist(Request $request)
@@ -38,7 +35,7 @@ class HomeController extends Controller
             $enquiries->email = $request->email;
             $enquiries->subject = $request->subject;
             $enquiries->message = $request->message;
-            $enquiries->type = 1;   // 1=HelpCenter,2=GeneralEnquiry,3=DomesRequest
+            $enquiries->type = 1;
             $enquiries->save();
             return response()->json(["status" => 1, "message" => "Query Submitted Successfully"], 200);
         } catch (\Throwable $th) {
@@ -53,9 +50,6 @@ class HomeController extends Controller
         if ($request->venue_address == "") {
             return response()->json(["status" => 0, "message" => "Enter Venue Address"], 200);
         }
-        // if ($request->name == "") {
-        //     return response()->json(["status" => 0, "message" => "Enter Name"], 200);
-        // }
         $comment  = $request->comment ?? '';
         $send_mail = Helper::invite_dome($request->venue_name, $request->venue_address, $request->name, $request->email, $request->phone, $comment);
         if ($send_mail == 1) {
@@ -82,11 +76,9 @@ class HomeController extends Controller
             if (!in_array($request->type, [1, 2])) {
                 return response()->json(["status" => 0, "message" => "Invalid Request!!"], 200);
             }
-
             if ($request->sport_id == "" && $request->lat == "" && $request->lng == "" && $request->start_price == "" && $request->end_price == "") {
                 return response()->json(["status" => 0, "message" => "Please Select Atleast One Filter"], 200);
             }
-
             $getfilterlist = [];
             if ($request->type == 1) {
                 $getfilterlist = Domes::with('dome_image')->where('is_deleted', 2)->select('domes.*');
@@ -152,7 +144,6 @@ class HomeController extends Controller
                 }
                 $getfilterlist = $getfilterlist->paginate(20);
             }
-
             $responsedata = [];
             foreach ($getfilterlist as $data) {
                 $checkuser = User::where('id', $request->user_id)->where('type', 3)->first();

@@ -1,7 +1,5 @@
 <?php
-
 namespace App\Http\Controllers\api;
-
 use App\Helper\Helper;
 use App\Http\Controllers\Controller;
 use App\Models\Booking;
@@ -11,7 +9,6 @@ use App\Models\User;
 use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-
 class LeagueController extends Controller
 {
     public function leagues_list(Request $request)
@@ -53,7 +50,6 @@ class LeagueController extends Controller
                     + sin(radians(" . $lat . "))
                     * sin(radians(lat))) AS distance")
                     )->where('domes.is_deleted', 2);
-                    // The Distance Will Be in Kilometers
                     $getarounddomes = $getarounddomes->having('distance', '<=', $request->kilometer > 0 ? $request->kilometer : 10000);
                     if ($request->sport_id != "") {
                         $getarounddomes = $getarounddomes->whereRaw("find_in_set('" . $request->sport_id . "',sport_id)");
@@ -106,7 +102,6 @@ class LeagueController extends Controller
     public function getleaguedataobject($id, $user_id)
     {
         $league = League::where('id', $id)->where('is_deleted', 2)->first();
-        // ->whereDate('booking_deadline', '>=', date('Y-m-d'))
         if (empty($league)) {
             return $league_data = 1;
         }

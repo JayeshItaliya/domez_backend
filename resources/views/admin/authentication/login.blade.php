@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -19,7 +18,6 @@
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{{ url('storage/app/public/admin/css/custom.css') }}">
 </head>
-
 <body>
     <style>
         :root {
@@ -100,5 +98,4 @@
     <script src="{{ url('storage/app/public/admin/js/toastr/toastr.min.js') }}"></script>
     <script src="{{ url('storage/app/public/admin/js/custom.js') }}"></script>
 </body>
-
 </html>

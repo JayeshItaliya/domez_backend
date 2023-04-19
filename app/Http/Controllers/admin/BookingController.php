@@ -1,7 +1,5 @@
 <?php
-
 namespace App\Http\Controllers\admin;
-
 use App\Helper\Helper;
 use App\Http\Controllers\Controller;
 use App\Models\Booking;
@@ -16,18 +14,19 @@ use Carbon\Carbon;
 use Carbon\CarbonImmutable;
 use Carbon\CarbonPeriod;
 use Illuminate\Support\Facades\Hash;
-
 class BookingController extends Controller
-{
+{ 
     public function index(Request $request)
     {
         $now = CarbonImmutable::today();
         $weekStartDate = $now->startOfWeek();
         $weekEndDate = $now->endOfWeek();
-
         $getbookingslist = Booking::select('*');
         if (in_array(auth()->user()->type, [2, 4])) {
             $getbookingslist = $getbookingslist->where('vendor_id', auth()->user()->type == 2 ? auth()->user()->id : auth()->user()->vendor_id);
+        }
+        if (auth()->user()->type == 5) {
+            $getbookingslist = $getbookingslist->where('provider_id', auth()->user()->id);
         }
         if ($request->has('type') && in_array($request->type, ['domes', 'leagues'])) {
             if ($request->type == 'domes') {
@@ -73,13 +72,11 @@ class BookingController extends Controller
         if ($request->ajax()) {
             try {
                 if ($request->has('manage_slot') && $request->manage_slot == 1) {
-
                     $slot_price = $request->slot_price;
                     $slot_time = $request->slot_time;
                     $slot = $request->slot;
                     $old_slot_id = $request->old_slot_id;
                     $new_slot_id = $request->new_slot_id;
-
                     $checkoldslot = SetPricesDaysSlots::where('id', $request->old_slot_id)->first();
                     $checknewslot = SetPricesDaysSlots::where('id', $request->new_slot_id)->first();
                     if (empty($checknewslot)) {
@@ -87,7 +84,6 @@ class BookingController extends Controller
                     } else if (@$checknewslot->status == 0) {
                         return response()->json(['status' => 0, 'message' => 'Slot is Anavailable'], 200);
                     }
-
                     $bookingdata->end_time = date('H:i', strtotime($slot_time));
                     $bookingdata->sub_total += $slot_price;
                     $bookingdata->due_amount += $slot_price;
@@ -95,7 +91,6 @@ class BookingController extends Controller
                     $bookingdata->slots = $bookingdata->slots . ',' . $slot;
                     $bookingdata->token = str_replace(['$', '/', '.', '|'], '', Hash::make($bookingdata->booking_id));
                     $bookingdata->save();
-
                     $time1 = Carbon::parse($checknewslot->end_time);
                     $time2 = Carbon::parse(date('H:i', strtotime($slot_time)));
                     if ($time1->eq($time2)) {
@@ -111,11 +106,9 @@ class BookingController extends Controller
                         $checknewslot->price -= $slot_price;
                         $checknewslot->save();
                     }
-
                     return response()->json(['status' => 1, 'message' => trans('messages.success')], 200);
                 } else {
                     $old_slot_id = @SetPricesDaysSlots::where('sport_id', $bookingdata->sport_id)->whereDate('date', $bookingdata->start_date)->whereTime('end_time', $bookingdata->end_time)->first()->id;
-
                     $checkslot = SetPricesDaysSlots::where('id', $request->slot_id)->first();
                     if (empty($checkslot) || $checkslot->status == 0) {
                         return response()->json(['status' => 0, 'message' => trans('messages.invalid_slot')], 200);
@@ -134,10 +127,8 @@ class BookingController extends Controller
                         data-slot-price="' . $price . '"
                         data-slot="' . date('h:i A', strtotime($checkslot->start_time)) . ' - ' . $value . '"
                         onchange="manageslot(this)"><label class="form-check-label rounded px-2 py-1 d-grid" for="check123' . $keyy . '">' . date('h:i A', strtotime($checkslot->start_time)) . ' - ' . $value . '<span><b>(' . Helper::currency_format($price) . ')<b></span> </label></div>';
-                        // $html .= '<div class="form-check"><input class="form-check-input" type="radio" name="text" value="' . $value . '" id="check123' . $keyy . '"><label class="form-check-label" for="check123' . $keyy . '">' . $xtime . ' - ' . $value . '(' . Helper::currency_format($price) . ')</label></div>';
                     }
                     $html .= '</div><div class="text-center"><button type="button" class="btn btn-primary btn-submit" onclick="submitdata()" style="display:none">' . trans('labels.submit') . '</button></div>';
-
                     return response()->json(['status' => 1, 'message' => trans('messages.success'), 'slots' => $html], 200);
                 }
             } catch (\Throwable $th) {
@@ -198,7 +189,6 @@ class BookingController extends Controller
         if (empty($checkuser)) {
             return response()->json(['status' => 0, 'message' => 'User Not Found'], 200);
         }
-
         if ($request->payment_type == 1) {
             if ($request->payment_method == 1) {
                 if ($request->card_number == "") {
@@ -213,7 +203,6 @@ class BookingController extends Controller
                 if ($request->card_cvv == "") {
                     return response()->json(["status" => 0, "message" => "Please Enter Card CVV"], 200);
                 }
-                // Payment Type = 1=Card, 2=Apple Pay, 3=Google Pay
                 if ($request->payment_type == 1) {
                     try {
                         $stripekey = Helper::stripe_data()->secret_key;
@@ -257,7 +246,6 @@ class BookingController extends Controller
                 if ($request->card_cvv == "") {
                     return response()->json(["status" => 0, "message" => "Please Enter Card CVV"], 200);
                 }
-                // Payment Type = 1=Card, 2=Apple Pay, 3=Google Pay
                 if ($request->payment_type == 1) {
                     try {
                         $stripekey = Helper::stripe_data()->secret_key;
@@ -284,7 +272,6 @@ class BookingController extends Controller
                 }
             }
         }
-        // Payment Type = 1=Card, 2=Apple Pay, 3=Google Pay
         $transaction = new Transaction();
         $transaction->type = 1;
         $transaction->vendor_id = $request->vendor_id;

@@ -1,7 +1,5 @@
 <?php
-
 namespace App\Http\Controllers\admin;
-
 use App\Http\Controllers\Controller;
 use App\Models\Booking;
 use App\Models\Sports;
@@ -17,7 +15,6 @@ use Carbon\Carbon;
 use Carbon\CarbonImmutable;
 use Illuminate\Support\Facades\DB;
 use App\Helper\Helper;
-
 class DomesController extends Controller
 {
     public function index(Request $request)
@@ -32,7 +29,6 @@ class DomesController extends Controller
         $sports = Sports::where('is_available', 1)->where('is_deleted', 2)->get();
         return view('admin.domes.index', compact('domes', 'sports', 'domes_count'));
     }
-
     public function add(Request $request)
     {
         if (auth()->user()->dome_limit < Domes::where('vendor_id', auth()->user()->vendor_id)->count()) {
@@ -42,7 +38,6 @@ class DomesController extends Controller
             return redirect('admin/domes');
         }
     }
-
     public function store(Request $request)
     {
         $request->validate([
@@ -62,7 +57,6 @@ class DomesController extends Controller
             'description.required' => trans('messages.description_required'),
             'address.required' => trans('messages.address_required'),
         ]);
-
         $dome = new Domes();
         $dome->vendor_id = auth()->user()->id;
         $dome->sport_id = implode(",", $request->sport_id);
@@ -81,7 +75,6 @@ class DomesController extends Controller
         $dome->benefits = implode("|", $request->benefits);
         $dome->benefits_description = $request->benefits_description;
         $dome->save();
-
         if ($request->has('dome_images')) {
             $request->validate([
                 'dome_images.*' => 'mimes:png,jpg,jpeg,svg',
@@ -113,18 +106,15 @@ class DomesController extends Controller
         }
         return redirect('admin/domes')->with('success', trans('messages.success'));
     }
-
     public function dome_details(Request $request)
     {
         $getdomedata = Domes::find($request->id);
         $now = CarbonImmutable::today();
         $weekStartDate = $now->startOfWeek();
         $weekEndDate = $now->endOfWeek();
-
         $confirmed_bookings = trans('labels.confirmed_bookings');
         $pending_bookings = trans('labels.pending_bookings');
         $cancelled_bookings = trans('labels.cancelled_bookings');
-
         if ($request->filtertype == "this_month") {
             // For Dome Revenue Chart
             $dome_revenue = Booking::where('dome_id', $getdomedata->id)->where('booking_status', 1)->orderBy('created_at')->whereMonth('created_at', Carbon::now()->month)->sum('paid_amount') * 88 / 100;
@@ -155,7 +145,6 @@ class DomesController extends Controller
             // For Dome Revenue Chart
             $dome_revenue = Booking::where('dome_id', $getdomedata->id)->where('booking_status', 1)->orderBy('created_at')->whereYear('created_at', Carbon::now()->year)->sum('paid_amount') * 88 / 100;
             $dome_revenue_data = Booking::where('dome_id', $getdomedata->id)->where('booking_status', 1)->orderBy('created_at')->whereYear('created_at', Carbon::now()->year)->select(DB::raw("MONTHNAME(created_at) as titles"), DB::raw('SUM(paid_amount*88/100) as amount'))->groupBy('titles')->pluck('titles', 'amount');
-
             // For Bookings Overview Chart
             $total_bookings = Booking::where('dome_id', $getdomedata->id)->whereYear('created_at', Carbon::now()->year)->count();
             $total_bookings_data = Booking::where('dome_id', $getdomedata->id)->selectRaw("
@@ -181,11 +170,9 @@ class DomesController extends Controller
         } elseif ($request->filtertype == "custom_date") {
             $weekStartDate = explode(' to ', $request->filterdates)[0];
             $weekEndDate = explode(' to ', $request->filterdates)[1];
-
             // For Dome Revenue Chart
             $dome_revenue = Booking::where('dome_id', $getdomedata->id)->where('booking_status', 1)->orderBy('created_at')->whereBetween('created_at', [$weekStartDate, $weekEndDate])->sum('paid_amount') * 88 / 100;
             $dome_revenue_data = Booking::where('dome_id', $getdomedata->id)->where('booking_status', 1)->orderBy('created_at')->whereBetween('created_at', [$weekStartDate, $weekEndDate])->select(DB::raw('DATE_FORMAT(created_at, "%d-%m-%Y") as titles'), DB::raw('SUM(paid_amount*88/100) as amount'))->groupBy('titles')->pluck('titles', 'amount');
-
             // For Bookings Overview Chart
             $total_bookings = Booking::where('dome_id', $getdomedata->id)->whereBetween('created_at', [$weekStartDate, $weekEndDate])->count();
             $total_bookings_data = Booking::where('dome_id', $getdomedata->id)->selectRaw("
@@ -213,8 +200,6 @@ class DomesController extends Controller
             $dome_revenue = Booking::where('dome_id', $getdomedata->id)->where('booking_status', 1)->orderBy('created_at')->whereBetween('created_at', [$weekStartDate, $weekEndDate])->sum('paid_amount') * 88 / 100;
             $dome_revenue_data = Booking::where('dome_id', $getdomedata->id)->where('booking_status', 1)->orderBy('created_at')->whereBetween('created_at', [$weekStartDate, $weekEndDate])->select(DB::raw('DATE_FORMAT(created_at, "%d-%m-%Y") as titles'), DB::raw('SUM(paid_amount*88/100) as amount'))->groupBy('titles')->pluck('titles', 'amount');
 
-
-
             // For Bookings Overview Chart
             $total_bookings = Booking::where('dome_id', $getdomedata->id)->whereBetween('created_at', [$weekStartDate, $weekEndDate])->count();
             $total_bookings_data = Booking::where('dome_id', $getdomedata->id)->selectRaw("
@@ -238,14 +223,11 @@ class DomesController extends Controller
                 ];
             }
         }
-
         $dome_revenue_labels = $dome_revenue_data->values();
         $dome_revenue_data = $dome_revenue_data->keys();
-
         $bookings_labels = collect($bokingschartdata)->pluck('name');
         $bookings_data = collect($bokingschartdata)->pluck('data');
         $bookings_data_colors = collect($bokingschartdata)->pluck('colors');
-
         if (!empty($getdomedata)) {
             if ($request->ajax()) {
                 return response()->json(['total_bookings' => $total_bookings, 'bookings_labels' => $bookings_labels, 'bookings_data' => $bookings_data, 'bookings_data_colors' => $bookings_data_colors, 'dome_revenue' => Helper::currency_format($dome_revenue), 'dome_revenue_labels' => $dome_revenue_labels, 'dome_revenue_data' => $dome_revenue_data]);
@@ -256,14 +238,12 @@ class DomesController extends Controller
         }
         return redirect('admin/domes');
     }
-
     public function edit(Request $request)
     {
         $dome = Domes::with('dome_images')->find($request->id);
         $getsportslist = Sports::where('is_available', 1)->where('is_deleted', 2)->get();
         return view('admin.domes.edit', compact('dome', 'getsportslist'));
     }
-
     public function update(Request $request)
     {
         $request->validate([
@@ -283,7 +263,6 @@ class DomesController extends Controller
             'description.required' => trans('messages.description_required'),
             'address.required' => trans('messages.address_required'),
         ]);
-
         $dome = Domes::find($request->id);
         $dome->sport_id = implode(",", $request->sport_id);
         $dome->name = $request->dome_name;
@@ -302,7 +281,6 @@ class DomesController extends Controller
         $dome->benefits = implode("|", $request->benefits);
         $dome->benefits_description = $request->benefits_description;
         $dome->save();
-
         if ($request->has('dome_images')) {
             $request->validate([
                 'dome_images.*' => 'image|mimes:png,jpg,jpeg,svg',
@@ -319,7 +297,6 @@ class DomesController extends Controller
                 $domeimage->save();
             }
         }
-
         foreach ($request->sport_id as $key => $sport) {
             $checksportexist =  SetPrices::where('dome_id', $dome->id)->where('sport_id', $sport)->where('price_type', 1)->first();
             if (empty($checksportexist)) {
@@ -336,7 +313,6 @@ class DomesController extends Controller
         }
         return redirect('admin/domes')->with('success', trans('messages.success'));
     }
-
     public function delete(Request $request)
     {
         try {
@@ -354,7 +330,6 @@ class DomesController extends Controller
             return response()->json(['status' => 0, 'message' => trans('messages.wrong')], 200);
         }
     }
-
     public function image_delete(Request $request)
     {
         try {

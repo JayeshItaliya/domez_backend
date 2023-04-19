@@ -57,11 +57,9 @@
                     if (empty($stripe)) {
                         $show_connect_btn = 1;
                     }
-
                 @endphp
                 {!! $html !!}
             @endif
-
             <div class="card">
                 <div class="card-body">
                     <div class="row">
@@ -111,11 +109,9 @@
                                 </div>
                             @endif
                         @endif
-
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
 @endsection

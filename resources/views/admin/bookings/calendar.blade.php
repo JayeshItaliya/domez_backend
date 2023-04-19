@@ -9,31 +9,26 @@
             --fc-event-border-color: var(--bs-primary);
             --fc-today-bg-color: rgba(var(--bs-secondary-rgb), .15);
         }
-
         .fc-button {
             background-color: transparent !important;
             color: var(--bs-primary) !important;
             border-color: var(--bs-primary) !important;
         }
-
         .fc-button.fc-button-active {
             background-color: var(--bs-primary) !important;
             color: white !important;
             border-color: var(--bs-primary) !important;
         }
-
         .fc-prev-button,
         .fc-next-button {
             background-color: transparent !important;
             color: black !important;
             border-color: transparent !important;
         }
-
         .fc-event-title {
             font-size: 12px;
             line-height: 1;
         }
-
         .fc-daygrid-event {
             padding: 0 3px;
         }
@@ -76,9 +71,6 @@
         $(function() {
             var calendarEl = document.getElementById('calendar');
             var calendar = new FullCalendar.Calendar(calendarEl, {
-                // initialDate: '2024-05-05',
-                // eventDisplay: 'list-item',
-                // timeFormat: 'h:mm a',
                 initialView: 'timeGridWeek',
                 dayMaxEvents: true,
                 headerToolbar: {
@@ -91,8 +83,6 @@
                         {
                             title: "#{{ $booking->booking_id }}",
                             start: "{{ $booking->start_date }}",
-                            // start: {{ Js::from($booking->start_date) }} + ' ' + {{ Js::from($booking->start_time) }},
-                            // end: {{ Js::from($booking->start_date) }} + ' ' + {{ Js::from($booking->end_time) }},
                             url: "{{ URL::to('admin/bookings/details-' . $booking->booking_id) }}",
                             dome_name: '{{ $booking->dome_name != '' ? Str::limit($booking->dome_name->name, 20) : '' }}',
                             users_name: '{{ $booking->customer_name != '' ? Str::limit($booking->customer_name, 20) : '' }}',
@@ -129,16 +119,13 @@
                 fcChangeIconsPositions();
             });
         });
-
         function fcChangeIconsPositions() {
-
             $(".fc-event-main").addClass('text-wrap');
             $(".fc-toolbar-title").addClass('mx-3');
             $(".fc-toolbar-title").parent().addClass('d-flex align-items-center');
             $(".fc-toolbar-title").before($(".fc-prev-button"));
             $(".fc-toolbar-title").after($(".fc-next-button"));
             $(".fc-next-button").addClass('m-0');
-
             $('.fc-dayGridMonth-button').html('<i class="fa-light fa-grid-2"></i>');
             $('.fc-timeGridWeek-button').html('<i class="fa-regular fa-chart-tree-map"></i>');
             $('.fc-timeGridDay-button').html('<i class="fa-solid fa-grip-lines"></i>');

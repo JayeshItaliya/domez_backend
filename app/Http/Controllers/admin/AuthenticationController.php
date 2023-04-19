@@ -1,23 +1,18 @@
 <?php
-
 namespace App\Http\Controllers\admin;
-
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use App\Helper\Helper;
 use Illuminate\Support\Str;
-
 class AuthenticationController extends Controller
 {
     public function index(Request $request)
     {
         return view('admin.authentication.login');
     }
-
     public function checklogin(Request $request)
     {
         $request->validate([
@@ -68,23 +63,19 @@ class AuthenticationController extends Controller
             return redirect()->back()->with('error', trans('messages.email_pass_invalid'));
         }
     }
-
     public function logout(Request $request)
     {
         Auth::logout();
         return redirect('/')->with('success', trans('messages.success'));
     }
-
     public function verification(Request $request)
     {
         return view('admin.authentication.verification');
     }
-
     public function forgot_password(Request $request)
     {
         return view('admin.authentication.forgot_password');
     }
-
     public function send_pass(Request $request)
     {
         $request->validate([
@@ -106,12 +97,10 @@ class AuthenticationController extends Controller
             return redirect()->back()->with('error', trans('messages.invalid_email'));
         }
     }
-
     public function check_mail(Request $request)
     {
         return view('admin.authentication.check_mail');
     }
-
     public function resend(Request $request)
     {
         $otp = rand(1000, 9999);
@@ -126,7 +115,6 @@ class AuthenticationController extends Controller
             return redirect()->back()->with('error', trans('messages.email_error'));
         }
     }
-
     public function verify(Request $request)
     {
         if (implode("", $request->otp) == "") {

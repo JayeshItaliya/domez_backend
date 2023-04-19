@@ -1,14 +1,11 @@
 <?php
-
 namespace App\Http\Controllers\admin;
-
 use App\Http\Controllers\Controller;
 use App\Models\Booking;
 use App\Models\Sports;
 use App\Models\Domes;
 use App\Models\Field;
 use Illuminate\Http\Request;
-
 class FieldController extends Controller
 {
     public function index(Request $request)

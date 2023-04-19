@@ -1,13 +1,9 @@
 <?php
-
 namespace App\Http\Controllers\admin;
-
 use App\Http\Controllers\Controller;
 use App\Models\Booking;
 use Illuminate\Http\Request;
-
 use App\Models\User;
-
 class UserController extends Controller
 {
     public function index(Request $request)
@@ -33,7 +29,6 @@ class UserController extends Controller
             'email_address.email' => trans('messages.valid_email'),
             'email_address.unique' => trans('messages.email_exist'),
         ]);
-
         if ($request->has('profile_image')) {
             $request->validate([
                     'profile_image' => 'mimes:png,jpg,jpeg,svg|max:500'
@@ -56,7 +51,6 @@ class UserController extends Controller
             $user->image = $new_name;
         }
         $user->save();
-
         return redirect('admin/users')->with('success', trans('messages.success'));
     }
     public function user_details(Request $request)

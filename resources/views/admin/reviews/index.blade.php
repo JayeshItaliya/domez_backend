@@ -32,7 +32,6 @@
     <div class="card">
         <div class="card-body">
             <div class="table-responsive">
-
                 <table id="bootstrapTable" class="table-responsive">
                     <thead>
                         <tr>
@@ -83,7 +82,6 @@
                                         -
                                     @endif
                                 </td>
-
                             </tr>
                         @endforeach
                     </tbody>

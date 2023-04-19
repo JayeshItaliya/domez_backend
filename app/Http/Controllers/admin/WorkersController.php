@@ -1,19 +1,16 @@
 <?php
-
 namespace App\Http\Controllers\admin;
-
 use App\Helper\Helper;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
-
 class WorkersController extends Controller
 {
     public function index(Request $request)
     {
-        $workers = User::where('type', 4)->where('is_deleted', 2)->orderBy('created_at', 'desc')->get();
+        $workers = User::where('vendor_id', auth()->user()->id)->where('type', 4)->where('is_deleted', 2)->orderBy('created_at', 'desc')->get();
         return view('admin.workers.index', compact('workers'));
     }
     public function store_worker(Request $request)
@@ -39,7 +36,6 @@ class WorkersController extends Controller
         $user = User::find($request->id);
         $user->is_available = $request->status;
         $user->save();
-
         return 1;
     }
     public function delete(Request $request)
@@ -47,7 +43,6 @@ class WorkersController extends Controller
         $worker = User::find($request->id);
         $worker->is_deleted = $request->status;
         $worker->save();
-
         return 1;
     }
 }

@@ -1,7 +1,5 @@
 <?php
-
 namespace App\Http\Controllers\api;
-
 use App\Helper\Helper;
 use App\Http\Controllers\Controller;
 use App\Models\User;
@@ -13,7 +11,6 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Socialite\Facades\Socialite;
 use Laravel\Socialite\Two\User as OAuthTwoUser;
-
 class AuthenticationController extends Controller
 {
     public function sign_in(Request $request)
@@ -351,7 +348,6 @@ class AuthenticationController extends Controller
     //     // dd(Socialite::driver($provider));
     //     $socialUser = Socialite::driver($provider)->userFromToken($token);
     //     $user = $this->getLocalUser($socialUser);
-
     //     $client = DB::table('oauth_clients')
     //         ->where('password_client', true)
     //         ->first();
@@ -361,7 +357,6 @@ class AuthenticationController extends Controller
     //             'status' => Response::HTTP_INTERNAL_SERVER_ERROR
     //         ], Response::HTTP_INTERNAL_SERVER_ERROR);
     //     }
-
     //     $data = [
     //         'grant_type' => 'social',
     //         'client_id' => $client->id,
@@ -370,12 +365,10 @@ class AuthenticationController extends Controller
     //         'access_token' => $token
     //     ];
     //     $request = Request::create('/oauth/token', 'POST', $data);
-
     //     $content = json_decode(app()->handle($request)->getContent());
     //     if (isset($content->error) && $content->error === 'invalid_request') {
     //         return response()->json(['error' => true, 'message' => $content->message]);
     //     }
-
     //     return response()->json(
     //         [
     //             'error' => false,
@@ -392,7 +385,6 @@ class AuthenticationController extends Controller
     //         Response::HTTP_OK
     //     );
     // }
-
     /**
      * @param  OAuthTwoUser  $socialUser
      * @return User|null
@@ -400,11 +392,9 @@ class AuthenticationController extends Controller
     protected function getLocalUser(OAuthTwoUser $socialUser): ?User
     {
         $user = User::where('email', $socialUser->email)->first();
-
         if (!$user) {
             $user = $this->registerAppleUser($socialUser);
         }
-
         return $user;
     }
 }

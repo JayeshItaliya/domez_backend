@@ -1,13 +1,10 @@
 <?php
-
 namespace App\Http\Controllers\api;
-
 use App\Http\Controllers\Controller;
 use App\Models\Domes;
 use App\Models\Review;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-
 class ReviewController extends Controller
 {
     public function review(Request $request)
@@ -49,7 +46,6 @@ class ReviewController extends Controller
             return response()->json(["status" => 0, "message" => 'Dome Not Found'], 200);
         }
     }
-
     public function rattinglist(Request $request)
     {
         if ($request->dome_id == "") {
@@ -78,7 +74,6 @@ class ReviewController extends Controller
                     DB::raw('(CASE WHEN reviews.replied_at IS NULL THEN "" ELSE DATE_FORMAT(reviews.replied_at, "%d %M %Y") END) AS replied_at'),
                     DB::raw("CONCAT('" . url('storage/app/public/admin/images/profiles') . "/', users_table.image) AS user_image")
                 )->orderByDesc('reviews.id')->paginate(5);
-
             return response()->json(["status" => 1, "message" => "Successful", 'rattinglist' => $rattinglist], 200);
         } else {
             return response()->json(["status" => 0, "message" => 'Dome Not Found'], 200);

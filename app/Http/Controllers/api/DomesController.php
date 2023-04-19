@@ -1,7 +1,5 @@
 <?php
-
 namespace App\Http\Controllers\api;
-
 use App\Helper\Helper;
 use App\Http\Controllers\Controller;
 use App\Models\Booking;
@@ -12,7 +10,6 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
-
 class DomesController extends Controller
 {
     public function domes_list(Request $request)
@@ -32,11 +29,9 @@ class DomesController extends Controller
                     foreach ($recentbookings as $booking) {
                         $dome = Domes::where('id', $booking->dome_id)->where('is_deleted', 2)->first();
                         if (!empty($dome)) {
-
                             $start_date_time = Carbon::createFromFormat('Y-m-d h:i A', $booking->start_date . ' ' . date('h:i A', strtotime($booking->end_time)));
                             $now = Carbon::now();
                             $current_date_time = $now->format('Y-m-d h:i A');
-
                             $domes_list[] = [
                                 "id" => $dome->id,
                                 "name" => $dome->name,
@@ -122,9 +117,7 @@ class DomesController extends Controller
                     + sin(radians(" . $lat . "))
                     * sin(radians(lat))) AS distance")
                     )->where('domes.is_deleted', 2);
-                    // The Distance Will Be in Kilometers
                     $getarounddomes = $getarounddomes->having('distance', '<=', $request->kilometer > 0 ? $request->kilometer : 10000);
-
                     if ($request->sport_id != "") {
                         $getarounddomes = $getarounddomes->whereRaw("find_in_set('" . $request->sport_id . "',sport_id)");
                     }
@@ -132,7 +125,6 @@ class DomesController extends Controller
                         $getarounddomes = $getarounddomes->whereBetween('price', [$request->min_price, $request->max_price]);
                     }
                     $getarounddomes = $getarounddomes->orderBy('distance')->get();
-
                     foreach ($getarounddomes as $dome) {
                         $domes_list[] = [
                             "id" => $dome->id,
@@ -182,7 +174,6 @@ class DomesController extends Controller
                 'benefit_image' => '',
             ];
         }
-
         $review = Review::where('dome_id', $dome->id)->selectRaw('SUM(ratting)/COUNT(user_id) AS avg_rating')->first()->avg_rating;
         $images = Review::where('reviews.dome_id', $dome->id)
             ->join('users AS users_table', function ($query) {

@@ -193,13 +193,12 @@ class Helper
         $booking = Booking::find($booking_id);
         try {
             Stripe\Stripe::setApiKey(Helper::stripe_data()->secret_key);
-            // ---- Get Transaction Charge Details From Stripe ---- //
             $transactions = $booking->transactions->pluck('transaction_id');
             foreach ($transactions as $transaction) {
                 $payment_intent = PaymentIntent::retrieve($transaction);
                 $refunds = Refund::create([
                     'charge' => $payment_intent->charges->data[0]->id,
-                    'amount' => $payment_intent->charges->data[0]->amount, // the amount to refund in cents
+                    'amount' => $payment_intent->charges->data[0]->amount,
                 ]);
                 $refunded_amount[] = $refunds->amount / 100;
             }
@@ -254,7 +253,6 @@ class Helper
             curl_close($ch);
             return $result;
         } catch (\Throwable $th) {
-            //throw $th;
         }
     }
 

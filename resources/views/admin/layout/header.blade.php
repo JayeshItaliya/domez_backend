@@ -168,33 +168,6 @@
                         <li class="dropwdown-item notifications d-flex justify-content-center align-items-center cursor-pointer py-1" data-next="{{ URL::to('admin/bookings') }}"> View All </li>
                     @endif
                 </ul>
-                {{-- <ul class="dropdown-menu box-shadow border-0 my-3" style="width: 350px;">
-                    <li class="dropdown-item">
-                        <div class="d-flex align-items-center justify-content-between">
-                            <div class="d-flex align-items-center pe-5">
-                                <h6 class="me-3 fs-7">{{ trans('labels.all_notifications') }}</h6>
-                                <span class="badge text-bg-warning text-white">01</span>
-                            </div>
-                            <a href="#" class="text-primary text-decoration-underline fs-7 ps-5">{{ trans('labels.mark_read') }}</a>
-                        </div>
-                    </li>
-                    <li>
-                        <hr class="dropdown-divider">
-                    </li>
-                    <li class="dropwdown-item notifications">
-                        <div class="notification-avatar">
-                            <img src="{{ Helper::image_path('default.png') }}" alt="" width="40" height="40" class="me-3">
-                            <div class="notification-header">
-                                <p class="fs-7">John Doe</p>
-                                <span class="fs-7 text-muted">2 min ago</span>
-                            </div>
-                        </div>
-                        <div class="notification-body"></div>
-                    </li>
-                    <li>
-                        <hr class="dropdown-divider">
-                    </li>
-                </ul> --}}
             </li>
             <li class="dropdown">
                 <a href="#" class="nav-item profile-icon py-2" role="button" data-bs-toggle="dropdown"

@@ -616,7 +616,6 @@
             autoplay: true,
             autoplayHoverPause: true,
             autoplayTimeout: 2000,
-            // responsiveClass: true,
             responsive: {
                 1400: {
                     items: 4,

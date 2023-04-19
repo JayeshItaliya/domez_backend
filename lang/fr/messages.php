@@ -62,13 +62,11 @@ return [
     'invalid_dome' => 'Domo no válido',
     'no_data' => '¡¡No se encontraron datos!!',
 
-    // Sweetalert
     'are_you_sure' => '¿Estás seguro?',
     'yes' => 'Sí',
     'no' => 'No',
     'oops' => '¡¡Vaya..!!',
 
-    // Notes
     'forgot_password_note' => "Ingrese la dirección de correo electrónico asociada con su cuenta y le enviaremos un enlace para restablecer su contraseña.",
     'check_mail_note' => "Hemos enviado instrucciones para recuperar la contraseña a su correo electrónico."
 ];

@@ -48,7 +48,6 @@
                                 <label class="form-label" for="dome">{{ trans('labels.select_dome') }}</label>
                                 <select class="form-select" required name="dome" id="dome"
                                     data-next="{{ URL::to('/admin/leagues/sports-fields') }}">
-
                                     @foreach ($domes as $dome)
                                         <option value="{{ $dome->id }}" data-start-time="{{ $dome->start_time }}"
                                             data-end-time="{{ $dome->end_time }}"
@@ -67,11 +66,6 @@
                                 <label class="form-label" for="field">{{ trans('labels.select_field') }}</label>
                                 <select class="form-select" required name="field[]" id="field"
                                     data-placeholder="{{ trans('labels.select') }}" multiple>
-                                    {{-- @foreach ($fields as $field)
-                                        <option value="{{ $field->id }}"
-                                            {{ in_array($field->id, explode(',', $getleaguedata->field_id)) ? 'selected' : '' }}>
-                                            {{ $field->name }}</option>
-                                    @endforeach --}}
                                 </select>
                                 @error('field')
                                     <span class="text-danger"> {{ $message }} </span>
@@ -109,14 +103,6 @@
                 <div class="col-md-6">
                     <label for="" class="form-label">{{ trans('labels.select_sports') }}</label>
                     <div class="d-flex radio-editer">
-                        {{-- @foreach ($sports as $key => $sport)
-                            <div class="form-check pe-3">
-                                <input type="radio" name="sport" class="form-check-input" value="{{ $sport->id }}"
-                                    id="radio{{ $key }}"
-                                    {{ $sport->id == $getleaguedata->sport_id ? 'checked' : '' }}>
-                                <label class="form-check-label" for="radio{{ $key }}">{{ $sport->name }}</label>
-                            </div>
-                        @endforeach --}}
                     </div>
                     @error('sport')
                         <span class="text-danger"> {{ $message }} </span>
@@ -259,7 +245,6 @@
                             <div class="form-group">
                                 <label class="form-label">{{ trans('labels.team_limit') }}</label>
                                 <select class="form-select" required id="team_limit" name="team_limit">
-
                                     @for ($i = 5; $i <= 20; $i++)
                                         <option value="{{ $i }}"
                                             {{ $i == $getleaguedata->team_limit ? 'selected' : '' }}>{{ $i }}

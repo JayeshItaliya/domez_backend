@@ -37,7 +37,6 @@
     <form class="card" action="{{ URL::to('admin/domes/store') }}" method="post" enctype="multipart/form-data">
         @csrf
         <div class="card-body">
-
             <div class="row">
                 <div class="col-md-6">
                     <div class="row">
@@ -135,7 +134,6 @@
                                 </div>
                             </div>
                         </div>
-                        {{-- Amenities description --}}
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label class="form-label"
@@ -218,7 +216,6 @@
                     <div id="map_canvas" class="w-auto" style="height: 250px;"></div>
                 </div>
             </div>
-
             <div class="row">
                 <div class="col-md-6">
                     <div class="row">
@@ -252,7 +249,8 @@
                             @enderror
                         </div>
                         <div class="col-md-12">
-                            <label for="" class="form-label default-price-title">{{ trans('labels.sport_default_price') }}</label>
+                            <label for=""
+                                class="form-label default-price-title">{{ trans('labels.sport_default_price') }}</label>
                             <div class="row row-cols-md-4" id="sport_prices_input"></div>
                         </div>
                     </div>
@@ -273,14 +271,11 @@
                     </div>
                 </div>
             </div>
-
             <div class="row">
                 <div class="col-auto">
-
                     <button type="submit" class="btn btn-primary mt-2 float-end">{{ trans('labels.submit') }}</button>
                 </div>
             </div>
-
         </div>
     </form>
 @endsection
@@ -291,13 +286,11 @@
     </script>
     <script type="text/javascript">
         $('input[data-sport-name]').click(function() {
-
-            if($('input[data-sport-name]:checked').length > 0){
+            if ($('input[data-sport-name]:checked').length > 0) {
                 $('.default-price-title').show();
-            }else{
+            } else {
                 $('.default-price-title').hide();
             }
-
             if (this.checked) {
                 let html = '<div class="col mb-2" id="' + $(this).attr("data-sport-name") + '' + $(this).val() +
                     '"><label class="form-label" for="dome_price' + $(this).val() + '">' + $(this).attr(
@@ -310,111 +303,6 @@
                 $('#' + $(this).attr("data-sport-name") + '' + $(this).val()).remove();
             }
         });
-        $(function() {
-            "use strict";
-            $('.default-price-title').hide();
-            $(".time_picker").timepicker({
-                interval: 60,
-            });
-            initMap();
-        });
-
-        // Google Map For Location
-        if ($('#textLat').val().length == 0) {
-            var lat = -33.8688197;
-            var lng = 151.2092955;
-        } else {
-            var lat = $('#textLat').val();
-            var lng = $('#textLng').val();
-        }
-
-        function initMap() {
-            if (!document.getElementById('map_canvas')) {
-                return false;
-            }
-            var myLatLng = {
-                lat: lat,
-                lng: lng
-            };
-            var map = new google.maps.Map(document.getElementById('map_canvas'), {
-                center: myLatLng,
-                zoom: 13
-            });
-            var marker = new google.maps.Marker({
-                position: myLatLng,
-                map: map,
-                title: 'Domez Location',
-                draggable: false
-            });
-            google.maps.event.addListener(marker, 'dragend', function(marker) {
-                var latLng = marker.latLng;
-                var lat = document.getElementById('textLat').innerHTML = latLng.lat();
-                var lng = document.getElementById('textLng').innerHTML = latLng.lng();
-                $('#textLat').val(lat);
-                $('#textLng').val(lng);
-            });
-
-            var autocomplete = new google.maps.places.Autocomplete(document.getElementById('address'));
-            google.maps.event.addListener(autocomplete, 'place_changed',
-                function() {
-                    var place = autocomplete.getPlace();
-                    var latValue = place.geometry.location.lat();
-                    var lngValue = place.geometry.location.lng();
-                    var latInput = document.getElementById('textLat');
-                    var lngInput = document.getElementById('textLng');
-                    let country = place.address_components.find(function(component) {
-                        return component.types[0] == "country";
-                    });
-                    let state = place.address_components.find(function(component) {
-                        return component.types[0] == "administrative_area_level_1";
-                    });
-                    let city = place.address_components.find(function(component) {
-                        return component.types[0] == "locality";
-                    });
-                    latInput.value = latValue;
-                    lngInput.value = lngValue;
-                    var map = new google.maps.Map(document.getElementById('map_canvas'), {
-                        center: {
-                            lat: latValue,
-                            lng: lngValue
-                        },
-                        zoom: 13
-                    });
-                    var marker = new google.maps.Marker({
-                        position: {
-                            lat: latValue,
-                            lng: lngValue
-                        },
-                        map: map,
-                        title: 'Domez Location',
-                        draggable: false
-                    });
-                    $('#pin_code').val(getZipCode(latInput.value, lngInput.value));
-                    $('#city').val(city.long_name);
-                    $('#state').val(state.long_name);
-                    $('#country').val(country.long_name);
-                });
-
-        }
-
-        function getZipCode(lat, lng) {
-            var zipcode = '';
-            $.ajax({
-                url: 'https://maps.googleapis.com/maps/api/geocode/json?latlng=' + lat + ',' + lng +
-                    '&key=AIzaSyCvlZaKvRSMouyH9pDgGC6pMGADfytOrsA',
-                type: "GET",
-                dataType: 'json',
-                async: false,
-                success: function(data) {
-                    var results = data.results;
-                    results[0].address_components.forEach(element => {
-                        if (element.types[0] == "postal_code") {
-                            zipcode = element.long_name;
-                        }
-                    });
-                }
-            });
-            return zipcode;
-        }
     </script>
+    <script src="{{ url('resources/views/admin/domes/domes.js') }}"></script>
 @endsection

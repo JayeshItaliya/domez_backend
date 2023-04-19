@@ -1,7 +1,5 @@
 <?php
-
 namespace App\Http\Controllers\admin;
-
 use App\Helper\Helper;
 use App\Http\Controllers\Controller;
 use App\Models\Enquiries;
@@ -10,7 +8,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
-
 class EnquiryController extends Controller
 {
     public function dome_requests(Request $request)
@@ -44,13 +41,11 @@ class EnquiryController extends Controller
                 $message->from(env('MAIL_USERNAME'))->subject($data['title']);
                 $message->to($data['email']);
             });
-
             if (!empty(User::where('type', 2)->where('email', $enquiry_data->email)->first())) {
                 User::where('type', 2)->where('email', $enquiry_data->email)->increment('dome_limit');
             } else {
                 $user = new User();
                 $user->type = 2;
-
                 $user->login_type = 1;
                 $user->name = $enquiry_data->name;
                 $user->email = $enquiry_data->email;
@@ -59,11 +54,9 @@ class EnquiryController extends Controller
                 $user->is_verified = 1;
                 $user->save();
             }
-
             $enquiry_data->is_accepted = 1;
             $enquiry_data->is_replied = 1;
             $enquiry_data->save();
-
             return response()->json(['status' => 1], 200);
         } catch (\Throwable $th) {
             return response()->json(['status' => 0], 200);
@@ -78,7 +71,6 @@ class EnquiryController extends Controller
             return response()->json(['status' => 0], 200);
         }
     }
-
     public function general_enquiry(Request $request)
     {
         $enquiries = Enquiries::where('type', 2)->where('is_replied', 2)->where('is_accepted', 2)->where('is_deleted', 2)->orderByDesc('id')->get();

@@ -1,4 +1,3 @@
-// Preloader
 $(window).on("load", function () {
     "use strict";
     $("#status").delay(500).fadeOut("slow"),
@@ -48,7 +47,8 @@ $(function () {
         });
         $('#bootstrapTable').removeClass('table-bordered');
     }
-}); // Common for all sweetalerts
+}); 
+// Common for all sweetalerts
 const swalWithBootstrapButtons = Swal.mixin({
     customClass: {
         confirmButton: "btn btn-success mx-2",
@@ -139,4 +139,48 @@ function change_status(id, status, url) {
             }
             hidepreloader();
         });
+}
+
+function deletedata(id, url) {
+    "use strict";
+    swalWithBootstrapButtons
+        .fire({
+            icon: 'warning',
+            title: are_you_sure,
+            showCancelButton: true,
+            allowOutsideClick: false,
+            allowEscapeKey: false,
+            confirmButtonText: yes,
+            cancelButtonText: no,
+            reverseButtons: true,
+            showLoaderOnConfirm: true,
+            preConfirm: function () {
+                return new Promise(function (resolve, reject) {
+                    $.ajax({
+                        type: "GET",
+                        url: url,
+                        data: {
+                            id: id,
+                        },
+                        dataType: "json",
+                        success: function (response) {
+                            if (response.status == 1) {
+                                location.reload();
+                            } else {
+                                swal_cancelled(wrong);
+                                return false;
+                            }
+                        },
+                        error: function (response) {
+                            swal_cancelled(wrong);
+                            return false;
+                        },
+                    });
+                });
+            },
+        }).then((result) => {
+            if (!result.isConfirmed) {
+                result.dismiss === Swal.DismissReason.cancel
+            }
+        })
 }

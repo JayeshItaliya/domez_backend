@@ -80,7 +80,6 @@
                     </div>
                 </div>
             </div>
-
             <table id="bootstrapTable">
                 <thead>
                     <tr>

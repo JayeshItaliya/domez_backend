@@ -359,7 +359,6 @@
             });
         });
         $('#contact_us').submit(function(e) {
-            // e.preventDefault();
             if ($.trim($('#name').val()) == "") {
                 $('#name').addClass('is-invalid');
                 return false;

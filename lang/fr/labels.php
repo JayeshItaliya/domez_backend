@@ -68,7 +68,6 @@ return [
     'terms_conditions' => 'Conditions générales',
     'edit_profile' => 'Modifier le profil',
     'email_settings' => 'Paramètres de messagerie',
-    'twilio_settings' => 'Paramètres Twilio',
     'stripe_settings' => 'Paramètres Stripe',
     'public_key' => 'Clé publique',
     'secret_key' => 'Clé secrète',

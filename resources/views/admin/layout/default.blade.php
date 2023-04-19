@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -24,7 +23,6 @@
         }
     </style>
 </head>
-
 <body>
     <!-- PreLoader -->
     <div id="preloader">
@@ -43,7 +41,6 @@
                 --bs-secondary-rgb: 87, 167, 0;
                 --border-default: 1px solid rgba(var(--bs-primary-rgb), 0.25);
             }
-
             .flatpickr-day.selected,
             .flatpickr-day.startRange,
             .flatpickr-day.endRange,
@@ -87,7 +84,6 @@
         <div id="danger_color" style="color: var(--bs-danger)"></div>
         <div id="lightSecondaryColor" style="color: rgba(var(--bs-secondary-rgb),0.75)"></div>
     </main>
-
     <button class="btn btn-primary position-fixed top-50 end-0 fs-5" style="z-index: 99" data-bs-toggle="offcanvas"
         data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
         <i class="fa-regular fa-gear"></i>
@@ -155,10 +151,8 @@
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
-
     <!-- Javascript -->
     <script src="{{ url('storage/app/public/admin/js/jquery/jquery.min.js') }}"></script>
     <script src="{{ url('storage/app/public/admin/js/bootstrap/bootstrap.bundle.min.js') }}"></script>
@@ -180,7 +174,6 @@
         let secondary_color = $('#secondaryColor').css('color');
         let light_secondary_color = $('#lightSecondaryColor').css('color');
         let danger_color = $('#danger_color').css('color');
-
         function getCookie(name) {
             "use strict";
             var cookie_name = name + "=";
@@ -192,7 +185,6 @@
             }
             return;
         }
-
         function hexToRgb(hex) {
             var hexString = (hex.charAt(0) == "#") ? hex.substring(1, 7) : hex;
             var hexInt = parseInt(hexString, 16);
@@ -222,17 +214,14 @@
         } else {
             $('#secondary_color').val($.trim(bodyStyles.getPropertyValue('--bs-secondary')));
         }
-
         if ($.trim(getCookie("font_family")) != "") {
             document.documentElement.style.setProperty('--bs-font-sans-serif', getCookie("font_family"));
             document.documentElement.style.setProperty('--bs-font-sans-serif', "'" + getCookie("font_family") +
                 "', sans-serif");
             $("input[name=font_family][value=" + getCookie('font_family') + "]").prop("checked", true);
-
         } else {
             $('#font_family').val($.trim(bodyStyles.getPropertyValue('--bs-font-sans-serif')));
         }
-
         toastr.options = {
             "closeButton": true,
             "positionClass": "toast-bottom-right",
@@ -256,5 +245,4 @@
     <script src="{{ url('storage/app/public/admin/js/custom.js') }}"></script>
     @yield('scripts')
 </body>
-
 </html>

@@ -6,7 +6,6 @@ if (is_vendor) {
         $('.fixed-table-toolbar .btn-group').append(html);
     })
 }
-
 function fieldinactive(id, type, url) {
     "use strict";
     swalWithBootstrapButtons
@@ -43,7 +42,6 @@ function fieldinactive(id, type, url) {
                         dataType: "json",
                         success: function (response) {
                             if (response.status == 1) {
-                                // toastr.success(response.message);
                                 location.reload();
                             } else {
                                 Swal.disableLoading();
@@ -64,50 +62,4 @@ function fieldinactive(id, type, url) {
             }
         })
 
-
-}
-
-function deletedata(id, url) {
-    "use strict";
-    swalWithBootstrapButtons
-        .fire({
-            icon: 'warning',
-            title: are_you_sure,
-            showCancelButton: true,
-            allowOutsideClick: false,
-            allowEscapeKey: false,
-            confirmButtonText: yes,
-            cancelButtonText: no,
-            reverseButtons: true,
-            showLoaderOnConfirm: true,
-            preConfirm: function () {
-                return new Promise(function (resolve, reject) {
-                    $.ajax({
-                        type: "GET",
-                        url: url,
-                        data: {
-                            id: id,
-                        },
-                        dataType: "json",
-                        success: function (response) {
-                            if (response.status == 1) {
-                                toastr.success(response.message);
-                                location.reload();
-                            } else {
-                                swal_cancelled(wrong);
-                                return false;
-                            }
-                        },
-                        error: function (response) {
-                            swal_cancelled(wrong);
-                            return false;
-                        },
-                    });
-                });
-            },
-        }).then((result) => {
-            if (!result.isConfirmed) {
-                result.dismiss === Swal.DismissReason.cancel
-            }
-        })
 }
