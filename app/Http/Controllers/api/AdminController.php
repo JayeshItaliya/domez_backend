@@ -7,11 +7,11 @@ class AdminController extends Controller
 {
     public function optimize(Request $request)
     {
-        // Artisan::call('optimize');
         Artisan::call('config:clear');
         Artisan::call('cache:clear');
         Artisan::call('route:clear');
         Artisan::call('view:clear');
+        Artisan::call('optimize');
         return response()->json(["status" => 1, "message" => "Successful"], 200);
     }
 }
