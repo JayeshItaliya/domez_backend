@@ -71,5 +71,6 @@ class Kernel extends HttpKernel
         'EmployeeMiddleware' => \App\Http\Middleware\EmployeeMiddleware::class,
         'ProviderMiddleware' => \App\Http\Middleware\ProviderMiddleware::class,
         'VendorAndEmployeeMiddleware' => \App\Http\Middleware\VendorAndEmployeeMiddleware::class,
+        'VEPMiddleware' => \App\Http\Middleware\VEPMiddleware::class,
     ];
 }

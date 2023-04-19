@@ -157,7 +157,11 @@ class LeagueController extends Controller
     }
     public function edit(Request $request)
     {
-        $getleaguedata = League::find($request->id);
+        $getleaguedata = League::where('id',$request->id)->where('vendor_id', auth()->user()->type == 2 ? auth()->user()->id : auth()->user()->vendor_id);
+        if (auth()->user()->type == 5) {
+            $getleaguedata = $getleaguedata->where('provider_id', auth()->user()->id);
+        }
+        $getleaguedata = $getleaguedata->first();
         abort_if(empty($getleaguedata),404);
         $vendor_id = auth()->user()->type == 2 ? auth()->user()->id : auth()->user()->vendor_id;
         $getdomedata = Domes::where('id', $getleaguedata->dome_id)->where('vendor_id', $vendor_id)->where('is_deleted', 2)->first();

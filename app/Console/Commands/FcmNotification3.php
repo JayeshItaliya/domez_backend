@@ -30,7 +30,7 @@ class FcmNotification3 extends Command
                 $title = "We Value Your Feedback!";
                 $body = 'We would greatly appreciate it if you could spare a few moments to share your feedback by leaving a review';
                 $tokens[] = $booking->user_info->fcm_token;
-                $d = Helper::send_notification($title, $body, $type, $booking->booking_id, '', $tokens);
+                Helper::send_notification($title, $body, $type, $booking->booking_id, '', $tokens);
                 $this->info(' Sended Notification For Review to BOOKIN_ID(' . $booking->id . ') And USER(' . $booking->user_info->id . ')');
             }
         }

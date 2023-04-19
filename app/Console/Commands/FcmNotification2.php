@@ -26,7 +26,7 @@ class FcmNotification2 extends Command
             $body = 'Get ready to show your skills and have a great time with fellow participants! Good luck and have a blast!';
             $tokens[] = $booking->user_info->fcm_token;
             Helper::send_notification($title, $body, $type, $booking->booking_id, '', $tokens);
-            $this->info(' Sended Notification to BOOKIN_ID(' . $booking->id.') And USER('.$booking->user_info->id.')');
+            $this->info(' Sended Notification For BOOKIN_ID(' . $booking->id.') To USER('.$booking->user_info->id.')');
         }
     }
 }

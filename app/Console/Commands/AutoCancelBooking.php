@@ -27,8 +27,8 @@ class AutoCancelBooking extends Command
                     if ($refund == 1) {
                         $data = ['title' => 'Booking Cancelled - Payment Not Made', 'email' => $booking->customer_email, 'bookingdata' => $booking];
                         Mail::send('email.auto_booking_cancel', $data, function ($message) use ($data) {
-                            $message->from($data['email'])->subject($data['title']);
-                            $message->to(env('MAIL_USERNAME'));
+                            $message->from(env('MAIL_USERNAME'))->subject($data['title']);
+                            $message->to($data['email']);
                         });
                         $this->info('Booking Updated & Refunded =====> ' . $booking->id);
                     } else {
@@ -43,8 +43,8 @@ class AutoCancelBooking extends Command
                     if ($refund == 1) {
                         $data = ['title' => 'Booking Cancelled - Payment Not Made', 'email' => $booking->customer_email, 'bookingdata' => $booking];
                         Mail::send('email.auto_booking_cancel', $data, function ($message) use ($data) {
-                            $message->from($data['email'])->subject($data['title']);
-                            $message->to(env('MAIL_USERNAME'));
+                            $message->from(env('MAIL_USERNAME'))->subject($data['title']);
+                            $message->to($data['email']);
                         });
                         $this->info('Booking Updated & Refunded =====> ' . $booking->id);
                     } else {

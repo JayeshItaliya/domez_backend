@@ -185,7 +185,7 @@ $(function () {
         var dayname = $(this).attr('data-day-name');
         var check = 1;
         $('.card-body-' + dayname + '  input').each(function () {
-            if ($(this).val() === '') {
+            if ($(this).val() === '' || $(this).val() == 0) {
                 check = 0;
             }
             if (check == 0) {

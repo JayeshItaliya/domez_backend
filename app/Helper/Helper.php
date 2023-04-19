@@ -10,10 +10,10 @@ use App\Models\Favourite;
 use App\Models\PaymentGateway;
 use App\Models\SetPrices;
 use App\Models\Sports;
-use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\URL;
 use Stripe;
 use Stripe\Refund;
 use Stripe\PaymentIntent;
@@ -123,48 +123,6 @@ class Helper
     {
         return @CMS::where('type', $type)->select('content')->first()->content;
     }
-    // public static function verificationsms($mobile, $otp)
-    // {
-    //     try {
-    //         $getconfiguration = OTPConfiguration::where('status', 1)->first();
-    //         if (!empty($getconfiguration)) {
-    //             if ($getconfiguration->name == "twilio") {
-    //                 $sid    = env('TWILIO_SID');
-    //                 $token  = env('TWILIO_AUTH_TOKEN');
-    //                 $twilio = new Client($sid, $token);
-    //                 $message = $twilio->messages->create($mobile, array("from" => env('TWILIO_PHONE_NUMBER'), "body" => "Your Verification Code is : " . $otp));
-    //             }
-    //             if ($getconfiguration->name == "msg91") {
-    //                 $curl = curl_init();
-    //                 curl_setopt_array($curl, array(
-    //                     CURLOPT_URL => "https://api.msg91.com/api/v5/otp?template_id=" . $getconfiguration->msg_template_id . "&mobile=" . $mobile . "&authkey=" . $getconfiguration->msg_authkey . "",
-    //                     CURLOPT_RETURNTRANSFER => true,
-    //                     CURLOPT_ENCODING => "",
-    //                     CURLOPT_MAXREDIRS => 10,
-    //                     CURLOPT_TIMEOUT => 30,
-    //                     CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-    //                     CURLOPT_CUSTOMREQUEST => "GET",
-    //                     CURLOPT_HTTPHEADER => array("content-type: application/json"),
-    //                 ));
-    //                 $response = curl_exec($curl);
-    //                 $err = curl_error($curl);
-    //                 curl_close($curl);
-    //             }
-    //             return 1;
-    //         }
-    //         return 0;
-    //     } catch (\Throwable $th) {
-    //         return 0;
-    //     }
-    // }
-    public static function get_noti_count($type)
-    {
-        $getcount = Enquiries::where('type', $type)->where('is_replied', 2)->count();
-        if ($type == 5 && auth()->user()->type != 1) {
-            $getcount = Enquiries::where('type', $type)->where('vendor_id', auth()->user()->type == 2 ? auth()->user()->id : auth()->user()->vendor_id)->where('is_replied', 2)->count();
-        }
-        return $getcount;
-    }
     public static function get_slot_duration($dome_id)
     {
         $getduration = Domes::find($dome_id);
@@ -213,12 +171,12 @@ class Helper
     }
     public static function send_notification($title, $body, $type, $booking_id, $league_id, $tokens)
     {
-        // TYPE  =  1  ->  AUTO ---  Aftre Create Booking --> in case of split payment --> Notify to complete payment in 2 hours to confirm the booking
-        // TYPE  =  2  ->  CRON ---  Send Notitification One Day Before to League Booked Users To Notify That League Is going To Start Tomorrow
-        // TYPE  =  3  ->  CRON ---  Send Notification to User to notify to add the review When User has not added The Review On Booking End time
-        // TYPE  =  5  ->  AUTO ---  DOME BOOKING IS CONFIRMED (booking_id)
-        // TYPE  =  6  ->  AUTO ---  LEAGUE BOOKING IS CONFIRMED (booking_id)
-        // TYPE  =  4  ->  AUTO ---  NEW LEAGUE IS ADDED BY DOME OWNER (only those users who've been favourited that dome) (league_id)
+        // TYPE  =  1  ->  MANUAL ---  Aftre Create Booking --> in case of split payment --> Notify to complete payment in 2 hours to confirm the booking
+        // TYPE  =  2  ->  AUTO   ---  Send Notitification One Day Before to League Booked Users To Notify That League Is going To Start Tomorrow
+        // TYPE  =  3  ->  AUTO   ---  Send Notification to User to notify to add the review When User has not added The Review On Booking End time
+        // TYPE  =  5  ->  MANUAL ---  DOME BOOKING IS CONFIRMED (booking_id)
+        // TYPE  =  6  ->  MANUAL ---  LEAGUE BOOKING IS CONFIRMED (booking_id)
+        // TYPE  =  4  ->  MANUAL ---  NEW LEAGUE IS ADDED BY DOME OWNER (only those users who've been favourited that dome) (league_id)
         try {
             is_array($tokens) ? $gettokens = $tokens : $gettokens[] = $tokens;
             $title = $title == "" ? "Domez Notification" : $title;
@@ -257,9 +215,74 @@ class Helper
     }
 
     // Used For Admins Only
+    public static function get_noti_count($type)
+    {
+        $getcount = Enquiries::where('type', $type)->where('is_replied', 2)->count();
+        if ($type == 5 && auth()->user()->type != 1) {
+            $getcount = Enquiries::where('type', $type)->where('vendor_id', auth()->user()->type == 2 ? auth()->user()->id : auth()->user()->vendor_id)->where('is_replied', 2)->count();
+        }
+        return $getcount;
+    }
     public static function getTodayBookings()
     {
         $getbookings = Booking::where('vendor_id', auth()->user()->type == 2 ? auth()->user()->id : auth()->user()->vendor_id)->whereDate('created_at', date('Y-m-d'))->orderByDesc('id')->take(5)->get();
         return $getbookings;
     }
+    public static function breadcrumb_home_li()
+    {
+        $html = '<li class="breadcrumb-item">
+                    <a href="' . route('admins.dashboard') . '">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home"
+                            width="20" height="20" viewBox="0 0 24 24" stroke-width="2"
+                            stroke="var(--bs-secondary)" fill="none" stroke-linecap="round"
+                            stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                            <polyline points="5 12 3 12 12 3 21 12 19 12" />
+                            <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+                            <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+                        </svg>
+                    </a>
+                </li>';
+        return $html;
+    }
+
+
+
+
+
+
+    // public static function verificationsms($mobile, $otp)
+    // {
+    //     try {
+    //         $getconfiguration = OTPConfiguration::where('status', 1)->first();
+    //         if (!empty($getconfiguration)) {
+    //             if ($getconfiguration->name == "twilio") {
+    //                 $sid    = env('TWILIO_SID');
+    //                 $token  = env('TWILIO_AUTH_TOKEN');
+    //                 $twilio = new Client($sid, $token);
+    //                 $message = $twilio->messages->create($mobile, array("from" => env('TWILIO_PHONE_NUMBER'), "body" => "Your Verification Code is : " . $otp));
+    //             }
+    //             if ($getconfiguration->name == "msg91") {
+    //                 $curl = curl_init();
+    //                 curl_setopt_array($curl, array(
+    //                     CURLOPT_URL => "https://api.msg91.com/api/v5/otp?template_id=" . $getconfiguration->msg_template_id . "&mobile=" . $mobile . "&authkey=" . $getconfiguration->msg_authkey . "",
+    //                     CURLOPT_RETURNTRANSFER => true,
+    //                     CURLOPT_ENCODING => "",
+    //                     CURLOPT_MAXREDIRS => 10,
+    //                     CURLOPT_TIMEOUT => 30,
+    //                     CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+    //                     CURLOPT_CUSTOMREQUEST => "GET",
+    //                     CURLOPT_HTTPHEADER => array("content-type: application/json"),
+    //                 ));
+    //                 $response = curl_exec($curl);
+    //                 $err = curl_error($curl);
+    //                 curl_close($curl);
+    //             }
+    //             return 1;
+    //         }
+    //         return 0;
+    //     } catch (\Throwable $th) {
+    //         return 0;
+    //     }
+    // }
 }

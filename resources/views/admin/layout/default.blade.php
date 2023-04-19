@@ -170,6 +170,7 @@
         let no_data = {{ Js::from(trans('messages.no_data')) }};
         let is_vendor = {{ Js::from(Auth::user()->type == 2 ? true : false) }};
         let is_employee = {{ Js::from(Auth::user()->type == 4 ? true : false) }};
+        let is_provider = {{ Js::from(Auth::user()->type == 5 ? true : false) }};
         let primary_color = $('#primaryColor').css('color');
         let secondary_color = $('#secondaryColor').css('color');
         let light_secondary_color = $('#lightSecondaryColor').css('color');
