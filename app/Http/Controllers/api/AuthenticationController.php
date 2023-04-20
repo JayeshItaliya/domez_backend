@@ -341,24 +341,32 @@ class AuthenticationController extends Controller
         );
         return $data;
     }
-    public function apple_login(Request $request)
-    {
-        $client = new \GuzzleHttp\Client();
+    // public function apple_login(Request $request)
+    // {
+    //     $segments = explode('.', $request->token);
+    //     $header = json_decode(base64_decode($segments[0]), true);
+    //     $payload = json_decode(base64_decode($segments[1]), true);
+    //     $signature = base64_decode($segments[2]);
 
-        $response = $client->get('https://api.apple.com/auth/realms/appleid/userinfo', [
-            'headers' => [
-                'Authorization' => 'Bearer ' . $request->token,
-            ],
-        ]);
+    //     $key = openssl_pkey_get_public(file_get_contents('storage/app/public/admin/plugins/apple_private_key.pem'));
+    //     $data = $segments[0].$segments[1];
+    //     $verified = openssl_verify($data, $signature, $key, OPENSSL_ALGO_SHA256);
+    //     dd($payload['iss']);
+    //     if ($payload['iss'] !== 'https://appleid.apple.com') {
+    //         dd('Invalid issuer');
+    //     }
 
-        $data = json_decode($response->getBody()->getContents(), true);
+    //     if ($payload['aud'] !== env('APPLE_CLIENT_ID')) {
+    //         dd('Invalid audience');
+    //     }
 
-        dd($data);
-    }
-    /**
-     * @param  OAuthTwoUser  $socialUser
-     * @return User|null
-     */
+    //     if ($payload['exp'] < time()) {
+    //         dd('Token has expired');
+    //     }
+
+    //     $userId = $payload['email'] ?? $payload['sub'];
+    // }
+
     protected function getLocalUser(OAuthTwoUser $socialUser): ?User
     {
         $user = User::where('email', $socialUser->email)->first();
