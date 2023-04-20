@@ -92,7 +92,7 @@ class AuthenticationController extends Controller
                 'name' => $request->name,
                 'email' => $request->email,
                 'countrycode' => $request->countrycode,
-                'phone' => $request->phone,
+                'phone' => $request->phone ?? "",
                 'password' => $request->password,
                 'otp' => $otp
             );

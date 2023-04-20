@@ -364,9 +364,6 @@ class BookingController extends Controller
     }
     public function cancelbooking(Request $request)
     {
-        // -------------------- NOTE ---------------------- //
-        // -------- cancellation fees will be 3.50% ------- //
-        // ------------------------------------------------ //
         if ($request->booking_id == "") {
             return response()->json(["status" => 0, "message" => "Booking ID Required"], 200);
         }
@@ -380,6 +377,9 @@ class BookingController extends Controller
                 if ($refund == 1) {
                     $checkbooking->cancellation_reason = $request->cancellation_reason ?? '';
                     $checkbooking->save();
+                    $title = 'Booking Cancellation Confirmation';
+                    $description = "We're sorry to hear that you have cancelled your booking. Here are the details of your cancellation:";
+                    Helper::booking_cancelled_email($title, $description, $checkbooking, 3);
                     return response()->json(['status' => 1, 'message' => 'Booking Has Been Successfully Cancelled'], 200);
                 } else {
                     return response()->json(['status' => 0, 'message' => 'Something Went Wrong..!!'], 200);

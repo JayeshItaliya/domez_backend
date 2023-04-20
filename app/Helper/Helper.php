@@ -13,7 +13,6 @@ use App\Models\Sports;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\URL;
 use Stripe;
 use Stripe\Refund;
 use Stripe\PaymentIntent;
@@ -52,6 +51,20 @@ class Helper
         }
 
         return $path;
+    }
+    public static function booking_cancelled_email($title, $description, $bookingdata, $type)
+    {
+        try {
+            // $type == 1(ByAutoCancel) == 2(ByDomeOwner) == 3(ByCustomer)
+            $data = ['title' => $title, 'email' => $bookingdata->customer_email, 'type' => $type, 'description' => $description, 'bookingdata' => $bookingdata];
+            Mail::send('email.auto_booking_cancel', $data, function ($message) use ($data) {
+                $message->from(env('MAIL_USERNAME'))->subject($data['title']);
+                $message->to($data['email']);
+            });
+            return 1;
+        } catch (\Throwable $th) {
+            return 0;
+        }
     }
     public static function verificationemail($email, $name, $otp)
     {

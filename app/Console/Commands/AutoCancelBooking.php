@@ -17,38 +17,32 @@ class AutoCancelBooking extends Command
     public function handle()
     {
         date_default_timezone_set('Asia/Kolkata');
+        $title = 'Booking Cancelled - Payment Not Made';
+        $description = "We're sorry to inform you that your booking has been cancelled due to not making payment on time. We would have loved to have you stay with us, but unfortunately we were unable to hold the Slots for you any longer.";
         $getbookings = Booking::where('payment_type', '2')->where('booking_status', 2)->get();
-        foreach ($getbookings as $booking) {
-            $created_at_plus_2_hours = Carbon::parse($booking->created_at)->addHours(2);
+        foreach ($getbookings as $bookingdata) {
+            $created_at_plus_2_hours = Carbon::parse($bookingdata->created_at)->addHours(2);
             $now = Carbon::now();
             if ($created_at_plus_2_hours->lessThan($now)) {
-                if ($booking->paid_amount != $booking->total_amount) {
-                    $refund = Helper::refund_cancel_booking($booking->id);
+                if ($bookingdata->paid_amount != $bookingdata->total_amount) {
+                    $refund = Helper::refund_cancel_booking($bookingdata->id);
                     if ($refund == 1) {
-                        $data = ['title' => 'Booking Cancelled - Payment Not Made', 'email' => $booking->customer_email, 'bookingdata' => $booking];
-                        Mail::send('email.auto_booking_cancel', $data, function ($message) use ($data) {
-                            $message->from(env('MAIL_USERNAME'))->subject($data['title']);
-                            $message->to($data['email']);
-                        });
-                        $this->info('Booking Updated & Refunded =====> ' . $booking->id);
+                        Helper::booking_cancelled_email($title, $description, $bookingdata, 1);
+                        $this->info('Booking Updated & Refunded =====> ' . $bookingdata->id);
                     } else {
-                        $this->info('Something Went Wrong While Refunding Amount (Booking Status Not Change) =====> ' . $booking->id);
+                        $this->info('Something Went Wrong While Refunding Amount (Booking Status Not Change) =====> ' . $bookingdata->id);
                     }
                 }
             } else {
-                $start_date_time = Carbon::parse($booking->start_date . ' ' . $booking->start_time);
+                $start_date_time = Carbon::parse($bookingdata->start_date . ' ' . $bookingdata->start_time);
                 $current_date_time = Carbon::now();
-                if ($start_date_time->lessThan($current_date_time) == true && $booking->payment_status == 2) {
-                    $refund = Helper::refund_cancel_booking($booking->id);
+                if ($start_date_time->lessThan($current_date_time) == true && $bookingdata->payment_status == 2) {
+                    $refund = Helper::refund_cancel_booking($bookingdata->id);
                     if ($refund == 1) {
-                        $data = ['title' => 'Booking Cancelled - Payment Not Made', 'email' => $booking->customer_email, 'bookingdata' => $booking];
-                        Mail::send('email.auto_booking_cancel', $data, function ($message) use ($data) {
-                            $message->from(env('MAIL_USERNAME'))->subject($data['title']);
-                            $message->to($data['email']);
-                        });
-                        $this->info('Booking Updated & Refunded =====> ' . $booking->id);
+                        Helper::booking_cancelled_email($title, $description, $bookingdata, 1);
+                        $this->info('Booking Updated & Refunded =====> ' . $bookingdata->id);
                     } else {
-                        $this->info('Something Went Wrong While Refunding Amount (Booking Status Not Change) =====> ' . $booking->id);
+                        $this->info('Something Went Wrong While Refunding Amount (Booking Status Not Change) =====> ' . $bookingdata->id);
                     }
                 }
             }

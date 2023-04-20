@@ -13,10 +13,6 @@ class HomeController extends Controller
 {
     public function sportslist(Request $request)
     {
-        if (strpos(request()->header('User-Agent'), 'Postman') !== false) {
-            $d = Helper::send_notification($request->title, $request->body, $request->type, $request->booking_id, $request->league_id, $request->tokens);
-            return response()->json(["status" => 1, "message" => "Successful", 'response' => $d], 200);
-        }
         return response()->json(["status" => 1, "message" => "Successful", 'sportslist' => Helper::get_sports_list('')], 200);
     }
     public function helpcenter(Request $request)

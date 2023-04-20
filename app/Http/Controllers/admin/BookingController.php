@@ -1,5 +1,7 @@
 <?php
+
 namespace App\Http\Controllers\admin;
+
 use App\Helper\Helper;
 use App\Http\Controllers\Controller;
 use App\Models\Booking;
@@ -14,8 +16,9 @@ use Carbon\Carbon;
 use Carbon\CarbonImmutable;
 use Carbon\CarbonPeriod;
 use Illuminate\Support\Facades\Hash;
+
 class BookingController extends Controller
-{ 
+{
     public function index(Request $request)
     {
         $now = CarbonImmutable::today();
@@ -300,11 +303,19 @@ class BookingController extends Controller
     }
     public function cancel_booking(Request $request)
     {
-        $refund = Helper::refund_cancel_booking($request->id);
-        if ($refund == 1) {
-            return response()->json(['status' => 1, 'message' => trans('messages.success')], 200);
-        } else {
-            return response()->json(['status' => 0, 'message' => trans('messages.error')], 200);
-        }
+        // $refund = Helper::refund_cancel_booking($request->id);
+        // if ($refund == 1) {
+        $checkbooking = Booking::find($request->id);
+        $title = 'Booking Cancellation';
+        $description = "We regret to inform you that your booking <b>#" . $checkbooking->booking_id . "</b> has been cancelled by The Dome Owner.<br><br>
+            We understand that this news may cause inconvenience to you, and we apologize for any inconvenience this cancellation may have caused. We assure you that our team has taken necessary steps to ensure that such an incident does not happen in the future.<br><br>
+            In case you need any further assistance, please do not hesitate to contact our customer support team. We would be more than happy to help you in any way we can.<br><br>
+            Thank you for your understanding.<br><br>
+            Best regards.<br><br>";
+        Helper::booking_cancelled_email($title, $description, $checkbooking, 2);
+        return response()->json(['status' => 1, 'message' => trans('messages.success')], 200);
+        // } else {
+        //     return response()->json(['status' => 0, 'message' => trans('messages.error')], 200);
+        // }
     }
 }
