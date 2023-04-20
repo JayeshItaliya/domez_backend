@@ -1,16 +1,16 @@
 <?php
+
 namespace App\Http\Controllers\api;
+
 use App\Helper\Helper;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Symfony\Component\HttpFoundation\Response;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-use Laravel\Socialite\Facades\Socialite;
 use Laravel\Socialite\Two\User as OAuthTwoUser;
+
 class AuthenticationController extends Controller
 {
     public function sign_in(Request $request)
@@ -341,50 +341,20 @@ class AuthenticationController extends Controller
         );
         return $data;
     }
-    // public function apple_login(Request $request)
-    // {
-    //     $provider = 'apple';
-    //     $token = $request->bearerToken();
-    //     // dd(Socialite::driver($provider));
-    //     $socialUser = Socialite::driver($provider)->userFromToken($token);
-    //     $user = $this->getLocalUser($socialUser);
-    //     $client = DB::table('oauth_clients')
-    //         ->where('password_client', true)
-    //         ->first();
-    //     if (!$client) {
-    //         return response()->json([
-    //             'message' => trans('validation.passport.client_error'),
-    //             'status' => Response::HTTP_INTERNAL_SERVER_ERROR
-    //         ], Response::HTTP_INTERNAL_SERVER_ERROR);
-    //     }
-    //     $data = [
-    //         'grant_type' => 'social',
-    //         'client_id' => $client->id,
-    //         'client_secret' => $client->secret,
-    //         'provider' => 'apple',
-    //         'access_token' => $token
-    //     ];
-    //     $request = Request::create('/oauth/token', 'POST', $data);
-    //     $content = json_decode(app()->handle($request)->getContent());
-    //     if (isset($content->error) && $content->error === 'invalid_request') {
-    //         return response()->json(['error' => true, 'message' => $content->message]);
-    //     }
-    //     return response()->json(
-    //         [
-    //             'error' => false,
-    //             'data' => [
-    //                 'user' => $user,
-    //                 'meta' => [
-    //                     'token' => $content->access_token,
-    //                     'expired_at' => $content->expires_in,
-    //                     'refresh_token' => $content->refresh_token,
-    //                     'type' => 'Bearer'
-    //                 ],
-    //             ]
-    //         ],
-    //         Response::HTTP_OK
-    //     );
-    // }
+    public function apple_login(Request $request)
+    {
+        $client = new \GuzzleHttp\Client();
+
+        $response = $client->get('https://api.apple.com/auth/realms/appleid/userinfo', [
+            'headers' => [
+                'Authorization' => 'Bearer ' . $request->token,
+            ],
+        ]);
+
+        $data = json_decode($response->getBody()->getContents(), true);
+
+        dd($data);
+    }
     /**
      * @param  OAuthTwoUser  $socialUser
      * @return User|null
