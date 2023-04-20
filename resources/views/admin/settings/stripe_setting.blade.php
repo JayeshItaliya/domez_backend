@@ -24,7 +24,7 @@
         <div class="card-body">
             @if (auth()->user()->type == 2)
                 @php
-                    $redirectUri = 'http://192.168.0.121/domez_backend/connects';
+                    $redirectUri = 'https://domez.io/connects';
                     $authorizeUrl = 'https://connect.stripe.com/oauth/authorize' . '?response_type=code' . '&client_id=' . env('STRIPE_CLIENT_ID') . '&scope=read_write' . '&redirect_uri=' . urlencode($redirectUri);
                     Stripe\Stripe::setApiKey(Helper::stripe_data()->secret_key);
                     $html = '';

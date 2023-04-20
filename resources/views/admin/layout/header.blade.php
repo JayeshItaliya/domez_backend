@@ -34,7 +34,7 @@
         </div> --}}
         <ul class="nav-icons">
             {{-- Only use for development purpose --}}
-            @if (in_array(Auth::user()->type, [1, 2, 4]))
+            @if (in_array(Auth::user()->type, [1, 2, 4]) && env('APP_ENV') == 'local')
                 <li class="dropdown">
                     <a href="{{ URL::to('admin/login-dev') }}"
                         class="btn btn-primary">{{ Auth::user()->type == 1 ? 'Login as Dome Owner' : 'Login as Admin' }}</a>
