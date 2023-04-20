@@ -171,7 +171,7 @@ class Helper
                     'charge' => $payment_intent->charges->data[0]->id,
                     'amount' => $payment_intent->charges->data[0]->amount,
                 ]);
-                $refunded_amount[] = $refunds->amount / 100;
+                $refunded_amount[] = $payment_intent->charges->data[0]->amount / 100;
             }
             $booking->refunded_amount = array_sum($refunded_amount);
             $booking->payment_status = 3;

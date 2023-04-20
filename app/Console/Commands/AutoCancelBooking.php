@@ -27,6 +27,8 @@ class AutoCancelBooking extends Command
                 if ($bookingdata->paid_amount != $bookingdata->total_amount) {
                     $refund = Helper::refund_cancel_booking($bookingdata->id);
                     if ($refund == 1) {
+                        $bookingdata->cancelled_by = 1;
+                        $bookingdata->save();
                         Helper::booking_cancelled_email($title, $description, $bookingdata, 1);
                         $this->info('Booking Updated & Refunded =====> ' . $bookingdata->id);
                     } else {
@@ -39,6 +41,8 @@ class AutoCancelBooking extends Command
                 if ($start_date_time->lessThan($current_date_time) == true && $bookingdata->payment_status == 2) {
                     $refund = Helper::refund_cancel_booking($bookingdata->id);
                     if ($refund == 1) {
+                        $bookingdata->cancelled_by = 1;
+                        $bookingdata->save();
                         Helper::booking_cancelled_email($title, $description, $bookingdata, 1);
                         $this->info('Booking Updated & Refunded =====> ' . $bookingdata->id);
                     } else {

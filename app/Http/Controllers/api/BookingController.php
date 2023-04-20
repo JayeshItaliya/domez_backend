@@ -375,6 +375,7 @@ class BookingController extends Controller
             try {
                 $refund = Helper::refund_cancel_booking($checkbooking->id);
                 if ($refund == 1) {
+                    $checkbooking->cancelled_by = 3;
                     $checkbooking->cancellation_reason = $request->cancellation_reason ?? '';
                     $checkbooking->save();
                     $title = 'Booking Cancellation Confirmation';
