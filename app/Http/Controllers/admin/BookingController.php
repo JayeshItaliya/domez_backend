@@ -5,13 +5,8 @@ namespace App\Http\Controllers\admin;
 use App\Helper\Helper;
 use App\Http\Controllers\Controller;
 use App\Models\Booking;
-use App\Models\Domes;
-use App\Models\Field;
 use App\Models\SetPricesDaysSlots;
-use App\Models\Transaction;
-use App\Models\User;
 use Illuminate\Http\Request;
-use Stripe;
 use Carbon\Carbon;
 use Carbon\CarbonImmutable;
 use Carbon\CarbonPeriod;
@@ -141,155 +136,6 @@ class BookingController extends Controller
         $slots = SetPricesDaysSlots::where('sport_id', $bookingdata->sport_id)->whereDate('date', date('Y-m-d', strtotime($bookingdata->start_date)))->get();
         return view('admin.bookings.details', compact('bookingdata', 'slots'));
     }
-    public function booking(Request $request)
-    {
-        if ($request->user_id == "") {
-            return response()->json(['status' => 0, 'message' => 'Enter Login User ID'], 200);
-        }
-        if ($request->field_id == "") {
-            return response()->json(['status' => 0, 'message' => 'Enter Field ID'], 200);
-        }
-        if ($request->customer_name == "") {
-            return response()->json(['status' => 0, 'message' => 'Enter Customer Name'], 200);
-        }
-        if ($request->customer_email == "") {
-            return response()->json(['status' => 0, 'message' => 'Enter Customer Email'], 200);
-        }
-        if ($request->customer_mobile == "") {
-            return response()->json(['status' => 0, 'message' => 'Enter Customer Mobile'], 200);
-        }
-        if ($request->players == "") {
-            return response()->json(['status' => 0, 'message' => 'Enter Players'], 200);
-        }
-        if ($request->start_date == "") {
-            return response()->json(['status' => 0, 'message' => 'Select Booking Date'], 200);
-        }
-        if ($request->start_time == "") {
-            return response()->json(['status' => 0, 'message' => 'Enter Start Time'], 200);
-        }
-        if ($request->end_time == "") {
-            return response()->json(['status' => 0, 'message' => 'Enter End Time'], 200);
-        }
-        if ($request->total_amount == "") {
-            return response()->json(['status' => 0, 'message' => 'Enter Booking Total Amount'], 200);
-        }
-        if ($request->payment_type == "") {
-            return response()->json(['status' => 0, 'message' => 'Select Payment Type'], 200);
-        }
-        $checkfield = Field::find($request->field_id);
-        if (empty($checkfield)) {
-            return response()->json(['status' => 0, 'message' => 'Field Not Found'], 200);
-        }
-        $checkdome = Domes::find($checkfield->dome_id);
-        if (empty($checkdome)) {
-            return response()->json(['status' => 0, 'message' => 'Invalid Dome ID'], 200);
-        }
-        $checkvendor = User::find($checkdome->vendor_id);
-        if (empty($checkvendor)) {
-            return response()->json(['status' => 0, 'message' => 'Invalid Dome Vendor ID'], 200);
-        }
-        $checkuser = User::find($request->user_id);
-        if (empty($checkuser)) {
-            return response()->json(['status' => 0, 'message' => 'User Not Found'], 200);
-        }
-        if ($request->payment_type == 1) {
-            if ($request->payment_method == 1) {
-                if ($request->card_number == "") {
-                    return response()->json(["status" => 0, "message" => "Please Enter Card Number"], 200);
-                }
-                if ($request->card_exp_month == "") {
-                    return response()->json(["status" => 0, "message" => "Please Enter Card Expire Month"], 200);
-                }
-                if ($request->card_exp_year == "") {
-                    return response()->json(["status" => 0, "message" => "Please Enter Card Expire Year"], 200);
-                }
-                if ($request->card_cvv == "") {
-                    return response()->json(["status" => 0, "message" => "Please Enter Card CVV"], 200);
-                }
-                if ($request->payment_type == 1) {
-                    try {
-                        $stripekey = Helper::stripe_data()->secret_key;
-                        $stripe = new \Stripe\StripeClient($stripekey);
-                        $gettoken = $stripe->tokens->create([
-                            'card' => [
-                                'number' => $request->card_number,
-                                'exp_month' => $request->card_exp_month,
-                                'exp_year' => $request->card_exp_year,
-                                'cvc' => $request->card_cvv,
-                            ],
-                        ]);
-                        Stripe\Stripe::setApiKey($stripekey);
-                        $payment = Stripe\Charge::create([
-                            "amount" => $request->total_amount * 100,
-                            "currency" => "CAD",
-                            "source" => $gettoken->id,
-                            "description" => "Domez Payment",
-                        ]);
-                        $transaction_id = $payment->id;
-                    } catch (\Throwable $th) {
-                        return response()->json(['status' => 0, 'message' => "Payment Failed"], 200);
-                    }
-                }
-            }
-        }
-        if ($request->payment_type == 2) {
-            if ($request->partial_amount == "") {
-                return response()->json(["status" => 0, "message" => "Enter Partial Amount"], 200);
-            }
-            if ($request->payment_method == 1) {
-                if ($request->card_number == "") {
-                    return response()->json(["status" => 0, "message" => "Please Enter Card Number"], 200);
-                }
-                if ($request->card_exp_month == "") {
-                    return response()->json(["status" => 0, "message" => "Please Enter Card Expire Month"], 200);
-                }
-                if ($request->card_exp_year == "") {
-                    return response()->json(["status" => 0, "message" => "Please Enter Card Expire Year"], 200);
-                }
-                if ($request->card_cvv == "") {
-                    return response()->json(["status" => 0, "message" => "Please Enter Card CVV"], 200);
-                }
-                if ($request->payment_type == 1) {
-                    try {
-                        $stripekey = Helper::stripe_data()->secret_key;
-                        $stripe = new \Stripe\StripeClient($stripekey);
-                        $gettoken = $stripe->tokens->create([
-                            'card' => [
-                                'number' => $request->card_number,
-                                'exp_month' => $request->card_exp_month,
-                                'exp_year' => $request->card_exp_year,
-                                'cvc' => $request->card_cvv,
-                            ],
-                        ]);
-                        Stripe\Stripe::setApiKey($stripekey);
-                        $payment = Stripe\Charge::create([
-                            "amount" => $request->partial_amount * 100,
-                            "currency" => "CAD",
-                            "source" => $gettoken->id,
-                            "description" => "Domez Payment",
-                        ]);
-                        $transaction_id = $payment->id;
-                    } catch (\Throwable $th) {
-                        return response()->json(['status' => 0, 'message' => "Payment Failed"], 200);
-                    }
-                }
-            }
-        }
-        $transaction = new Transaction();
-        $transaction->type = 1;
-        $transaction->vendor_id = $request->vendor_id;
-        $transaction->dome_id = $request->dome_id;
-        $transaction->user_id = $request->user_id;
-        $transaction->payment_type = $request->payment_type;
-        $transaction->transaction_id = $transaction_id;
-        $transaction->amount = $request->amount;
-        $transaction->save();
-    }
-    public function check_booking(Request $request)
-    {
-        $checkbooking = Booking::where('start_date', $request->start_date)->where('start_time', '!=', $request->start_time)->where('end_time', '!=', $request->end_time)->get();
-        return response()->json($checkbooking, 200);
-    }
     public function deletedata(Request $request)
     {
         try {
@@ -303,19 +149,23 @@ class BookingController extends Controller
     }
     public function cancel_booking(Request $request)
     {
-        // $refund = Helper::refund_cancel_booking($request->id);
-        // if ($refund == 1) {
         $checkbooking = Booking::find($request->id);
-        $title = 'Booking Cancellation';
-        $description = "We regret to inform you that your booking <b>#" . $checkbooking->booking_id . "</b> has been cancelled by The Dome Owner.<br><br>
+        if($checkbooking->booking_status == 3){
+            return response()->json(['status' => 0, 'message' => trans('messages.already_cancelled')], 200);
+        }
+        $refund = Helper::refund_cancel_booking($request->id);
+        if ($refund == 1) {
+            $checkbooking->cancelled_by = 2;
+            $title = 'Booking Cancellation';
+            $description = "We regret to inform you that your booking <b>#" . $checkbooking->booking_id . "</b> has been cancelled by The Dome Owner.<br><br>
             We understand that this news may cause inconvenience to you, and we apologize for any inconvenience this cancellation may have caused. We assure you that our team has taken necessary steps to ensure that such an incident does not happen in the future.<br><br>
             In case you need any further assistance, please do not hesitate to contact our customer support team. We would be more than happy to help you in any way we can.<br><br>
             Thank you for your understanding.<br><br>
             Best regards.<br><br>";
-        Helper::booking_cancelled_email($title, $description, $checkbooking, 2);
-        return response()->json(['status' => 1, 'message' => trans('messages.success')], 200);
-        // } else {
-        //     return response()->json(['status' => 0, 'message' => trans('messages.error')], 200);
-        // }
+            Helper::booking_cancelled_email($title, $description, $checkbooking, 2);
+            return response()->json(['status' => 1, 'message' => trans('messages.success')], 200);
+        } else {
+            return response()->json(['status' => 0, 'message' => trans('messages.error')], 200);
+        }
     }
 }
