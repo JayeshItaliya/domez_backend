@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 20, 2023 at 06:14 AM
+-- Generation Time: Apr 20, 2023 at 03:10 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -61,6 +61,7 @@ CREATE TABLE `bookings` (
   `customer_email` varchar(255) NOT NULL,
   `customer_mobile` varchar(255) DEFAULT NULL,
   `team_name` varchar(255) DEFAULT NULL COMMENT 'For Leagues Booking Only',
+  `cancelled_by` tinyint(4) NOT NULL COMMENT '1=ByAuto, 2=ByDomeOwner, 3=ByCustomer',
   `cancellation_reason` text DEFAULT NULL,
   `is_payment_released` tinyint(4) NOT NULL DEFAULT 2 COMMENT '1=Yes, 2=No',
   `is_review_noti_send` tinyint(4) DEFAULT 2,
@@ -72,18 +73,18 @@ CREATE TABLE `bookings` (
 -- Dumping data for table `bookings`
 --
 
-INSERT INTO `bookings` (`id`, `type`, `vendor_id`, `provider_id`, `dome_id`, `league_id`, `user_id`, `sport_id`, `field_id`, `booking_id`, `slots`, `start_date`, `end_date`, `start_time`, `end_time`, `sub_total`, `service_fee`, `hst`, `total_amount`, `paid_amount`, `due_amount`, `min_split_amount`, `refunded_amount`, `payment_mode`, `payment_type`, `payment_status`, `booking_status`, `token`, `players`, `customer_name`, `customer_email`, `customer_mobile`, `team_name`, `cancellation_reason`, `is_payment_released`, `is_review_noti_send`, `created_at`, `updated_at`) VALUES
-(1, 1, 2, NULL, 35, NULL, 85, 10, '8', '1e218ad7', '06:00 AM - 09:00 AM', '2023-04-29', NULL, '06:00:00', '09:00:00', 140, 7, 7, 154.00, 154.00, 0.00, NULL, 0, 1, 1, 1, 1, '2y10MiJUBkyeZCnObwxdYz6eZcGdRfzWeG0aUOsKLZZmgvujCZRWovm', 12, NULL, 'soham@gmail.com', NULL, '', NULL, 2, 2, '2023-04-14 11:00:15', '2023-04-14 11:00:15'),
-(2, 1, 2, NULL, 35, NULL, 87, 10, '2', 'ceba46c6', '06:00 AM - 07:30 AM', '2023-04-26', NULL, '06:00:00', '07:30:00', 220, 11, 11, 242.00, 242.00, 0.00, NULL, 0, 1, 1, 1, 1, '2y105BAtUsJk86zyK4B71e6au6vlMfjqCBjYjcw8mZvoEfUQB8NNwi', 12, NULL, 'gfg@gmail.com', NULL, '', NULL, 2, 2, '2023-04-14 11:27:48', '2023-04-14 11:27:48'),
-(3, 1, 2, NULL, 35, NULL, 88, 10, '8', 'b21ab368', '03:00 PM - 06:00 PM', '2023-04-15', NULL, '15:00:00', '18:00:00', 180, 9, 9, 4.00, 4.00, 0.00, NULL, 0, 1, 1, 1, 1, '2y10gGR37HV8thhvY75lUu5OvbNO8NauJLioRDDJ2nuRbVyMakYy8b', 12, NULL, 'dsa@gmail.com', NULL, '', NULL, 1, 2, '2023-04-14 11:30:46', '2023-04-17 06:58:03'),
-(4, 2, 2, NULL, 35, 11, 7, 6, '35,33,32,31,30', '14a7c4fd', NULL, '2023-05-01', '2023-06-30', '09:00:00', '11:00:00', 250, 12.5, 12.5, 275.00, 275.00, 0.00, NULL, 275, 1, 1, 3, 3, '2y10RBBUDzuqBTXkqF7ukwHOTyVroQu35jduoRIRTmJSMzqVSxbga', 23, 'test1', 'dummy@yopmail.com', '5445435435', 'test', '', 2, 2, '2023-04-17 09:37:35', '2023-04-17 09:38:01'),
-(5, 2, 2, NULL, 35, 1, 7, 6, '32,30', '9901cbd8', NULL, '2023-05-26', '2023-08-25', '09:00:00', '13:00:00', 350, 17.5, 17.5, 385.00, 385.00, 0.00, NULL, 0, 1, 1, 1, 1, '2y10QqrDdBv6pBmenditk0vZe1YKjK2OnpoqF2ppJBj4cwqEexnQ7cb2', 23, 'test1', 'dummy@yopmail.com', '5445435435', 'bcnccj', NULL, 2, 2, '2023-04-17 09:40:21', '2023-04-17 09:40:21'),
-(6, 1, 2, NULL, 35, NULL, 7, 10, '2', 'f8a1bf14', '04:30 PM - 06:00 PM', '2023-04-17', NULL, '16:30:00', '18:00:00', 150, 7.5, 7.5, 165.00, 165.00, 0.00, NULL, 0, 1, 1, 1, 1, '2y10nK5mK3eVrVo9OlchdM2zOkojggqNE1iDKYQVcB9iGpjBm0rXjyC', 12, 'test1', 'dummy@yopmail.com', '5445435435', '', NULL, 2, 2, '2023-04-17 09:41:30', '2023-04-17 09:41:30'),
-(7, 1, 2, NULL, 35, NULL, 7, 10, '8', 'd7797546', '01:30 PM - 03:00 PM', '2023-04-18', NULL, '13:30:00', '15:00:00', 170, 8.5, 8.5, 187.00, 187.00, 0.00, NULL, 0, 1, 1, 1, 1, '2y10RJuRlX3AUtGl9U6lCvirEcnTjSQe3fhEBbJfqFiBkxqYebbta', 12, 'test1', 'dummy@yopmail.com', '5445435435', '', NULL, 2, 2, '2023-04-17 09:42:46', '2023-04-17 09:42:46'),
-(8, 1, 2, NULL, 35, NULL, 7, 10, '2', 'b70e088b', '07:30 AM - 09:00 AM', '2023-04-18', NULL, '07:30:00', '09:00:00', 130, 6.5, 6.5, 143.00, 143.00, 0.00, NULL, 0, 1, 1, 1, 1, '2y10OTi4Kw2k4W0DqcpenQgDHeGtmiRHVfXMaEvfYnCK0DTQ6OzlEo0Iu', 12, 'test1', 'dummy@yopmail.com', '5445435435', '', NULL, 2, 2, '2023-04-17 09:50:10', '2023-04-17 09:50:10'),
-(9, 2, 2, NULL, 35, 1, 7, 6, '32,30', '524cbde3', NULL, '2023-05-26', '2023-08-25', '09:00:00', '13:00:00', 350, 17.5, 17.5, 385.00, 385.00, 0.00, NULL, 0, 1, 1, 1, 1, '2y10LN0vylonXHwYYEl58vSYefoRmhisp4k5nmK14YVtrj0CbSIyhxi', 55, 'test1', 'dummy@yopmail.com', '5445435435', '55', NULL, 2, 2, '2023-04-17 09:58:11', '2023-04-17 09:58:11'),
-(10, 2, 2, NULL, 35, 16, 7, 6, '35,33,32,31,30', '576b55d3', NULL, '2023-04-28', '2023-07-28', '09:00:00', '15:00:00', 150, 7.5, 7.5, 165.00, 165.00, 0.00, NULL, 0, 1, 1, 1, 1, '2y108YxzQUzLzwJzV6RMaRAYX6djpVt2sADevI86IzjBS5u4mf1qGvS', 55, 'test1', 'dummy@yopmail.com', '5445435435', 'kk', NULL, 2, 2, '2023-04-17 10:17:20', '2023-04-17 10:17:20'),
-(11, 2, 2, NULL, 35, 1, 7, 6, '32,30', 'bdc69f18', NULL, '2023-05-26', '2023-08-25', '09:00:00', '13:00:00', 350, 17.5, 17.5, 385.00, 385.00, 0.00, NULL, 0, 1, 1, 1, 1, '2y10ebAnHmsfVlHXKoduiNO0u3VK3HtwuCIrGZjkaAjdY5MmkW0pHlku', 33, 'test1', 'dummy@yopmail.com', '5445435435', '332', NULL, 2, 2, '2023-04-17 10:32:53', '2023-04-17 10:32:53');
+INSERT INTO `bookings` (`id`, `type`, `vendor_id`, `provider_id`, `dome_id`, `league_id`, `user_id`, `sport_id`, `field_id`, `booking_id`, `slots`, `start_date`, `end_date`, `start_time`, `end_time`, `sub_total`, `service_fee`, `hst`, `total_amount`, `paid_amount`, `due_amount`, `min_split_amount`, `refunded_amount`, `payment_mode`, `payment_type`, `payment_status`, `booking_status`, `token`, `players`, `customer_name`, `customer_email`, `customer_mobile`, `team_name`, `cancelled_by`, `cancellation_reason`, `is_payment_released`, `is_review_noti_send`, `created_at`, `updated_at`) VALUES
+(1, 1, 2, NULL, 35, NULL, 85, 10, '8', '1e218ad7', '06:00 AM - 09:00 AM', '2023-04-29', NULL, '06:00:00', '09:00:00', 140, 7, 7, 154.00, 154.00, 0.00, NULL, 0, 1, 1, 1, 1, '2y10MiJUBkyeZCnObwxdYz6eZcGdRfzWeG0aUOsKLZZmgvujCZRWovm', 12, NULL, 'soham@gmail.com', NULL, '', 0, NULL, 2, 2, '2023-04-14 11:00:15', '2023-04-14 11:00:15'),
+(2, 1, 2, NULL, 35, NULL, 87, 10, '2', 'ceba46c6', '06:00 AM - 07:30 AM', '2023-04-26', NULL, '06:00:00', '07:30:00', 220, 11, 11, 242.00, 242.00, 0.00, NULL, 0, 1, 1, 1, 1, '2y105BAtUsJk86zyK4B71e6au6vlMfjqCBjYjcw8mZvoEfUQB8NNwi', 12, NULL, 'gfg@gmail.com', NULL, '', 0, NULL, 2, 2, '2023-04-14 11:27:48', '2023-04-14 11:27:48'),
+(3, 1, 2, NULL, 35, NULL, 88, 10, '8', 'b21ab368', '03:00 PM - 06:00 PM', '2023-04-15', NULL, '15:00:00', '18:00:00', 180, 9, 9, 4.00, 4.00, 0.00, NULL, 0, 1, 1, 1, 1, '2y10gGR37HV8thhvY75lUu5OvbNO8NauJLioRDDJ2nuRbVyMakYy8b', 12, NULL, 'dsa@gmail.com', NULL, '', 0, NULL, 1, 2, '2023-04-14 11:30:46', '2023-04-17 06:58:03'),
+(4, 2, 2, NULL, 35, 11, 7, 6, '35,33,32,31,30', '14a7c4fd', NULL, '2023-05-01', '2023-06-30', '09:00:00', '11:00:00', 250, 12.5, 12.5, 275.00, 275.00, 0.00, NULL, 275, 1, 1, 3, 3, '2y10RBBUDzuqBTXkqF7ukwHOTyVroQu35jduoRIRTmJSMzqVSxbga', 23, 'test1', 'dummy@yopmail.com', '5445435435', 'test', 0, '', 2, 2, '2023-04-17 09:37:35', '2023-04-17 09:38:01'),
+(5, 2, 2, NULL, 35, 1, 7, 6, '32,30', '9901cbd8', NULL, '2023-05-26', '2023-08-25', '09:00:00', '13:00:00', 350, 17.5, 17.5, 385.00, 385.00, 0.00, NULL, 0, 1, 1, 1, 1, '2y10QqrDdBv6pBmenditk0vZe1YKjK2OnpoqF2ppJBj4cwqEexnQ7cb2', 23, 'test1', 'dummy@yopmail.com', '5445435435', 'bcnccj', 0, NULL, 2, 2, '2023-04-17 09:40:21', '2023-04-17 09:40:21'),
+(6, 1, 2, NULL, 35, NULL, 7, 10, '2', 'f8a1bf14', '04:30 PM - 06:00 PM', '2023-04-17', NULL, '16:30:00', '18:00:00', 150, 7.5, 7.5, 165.00, 165.00, 0.00, NULL, 0, 1, 1, 1, 1, '2y10nK5mK3eVrVo9OlchdM2zOkojggqNE1iDKYQVcB9iGpjBm0rXjyC', 12, 'test1', 'dummy@yopmail.com', '5445435435', '', 0, NULL, 2, 2, '2023-04-17 09:41:30', '2023-04-20 05:07:02'),
+(7, 1, 2, NULL, 35, NULL, 7, 10, '8', 'd7797546', '01:30 PM - 03:00 PM', '2023-04-18', NULL, '13:30:00', '15:00:00', 170, 8.5, 8.5, 187.00, 187.00, 0.00, NULL, 0, 1, 1, 1, 3, '2y10RJuRlX3AUtGl9U6lCvirEcnTjSQe3fhEBbJfqFiBkxqYebbta', 12, 'test1', 'dummy@yopmail.com', '5445435435', '', 2, NULL, 2, 2, '2023-04-17 09:42:46', '2023-04-17 09:42:46'),
+(8, 1, 2, NULL, 35, NULL, 7, 10, '2', 'b70e088b', '07:30 AM - 09:00 AM', '2023-04-18', NULL, '07:30:00', '09:00:00', 130, 6.5, 6.5, 143.00, 143.00, 0.00, NULL, 0, 1, 1, 1, 1, '2y10OTi4Kw2k4W0DqcpenQgDHeGtmiRHVfXMaEvfYnCK0DTQ6OzlEo0Iu', 12, 'test1', 'dummy@yopmail.com', '5445435435', '', 0, NULL, 2, 2, '2023-04-17 09:50:10', '2023-04-20 05:07:02'),
+(9, 2, 2, NULL, 35, 1, 7, 6, '32,30', '524cbde3', NULL, '2023-05-26', '2023-08-25', '09:00:00', '13:00:00', 350, 17.5, 17.5, 385.00, 385.00, 0.00, NULL, 0, 1, 1, 1, 1, '2y10LN0vylonXHwYYEl58vSYefoRmhisp4k5nmK14YVtrj0CbSIyhxi', 55, 'test1', 'dummy@yopmail.com', '5445435435', '55', 0, NULL, 2, 2, '2023-04-17 09:58:11', '2023-04-17 09:58:11'),
+(10, 2, 2, NULL, 35, 16, 7, 6, '35,33,32,31,30', '576b55d3', NULL, '2023-04-28', '2023-07-28', '09:00:00', '15:00:00', 150, 7.5, 7.5, 165.00, 165.00, 0.00, NULL, 0, 1, 1, 1, 1, '2y108YxzQUzLzwJzV6RMaRAYX6djpVt2sADevI86IzjBS5u4mf1qGvS', 55, 'test1', 'dummy@yopmail.com', '5445435435', 'kk', 0, NULL, 2, 2, '2023-04-17 10:17:20', '2023-04-17 10:17:20'),
+(11, 2, 2, NULL, 35, 1, 7, 6, '32,30', 'bdc69f18', NULL, '2023-05-26', '2023-08-25', '09:00:00', '13:00:00', 350, 17.5, 17.5, 385.00, 385.00, 0.00, NULL, 0, 1, 1, 1, 2, '2y10ebAnHmsfVlHXKoduiNO0u3VK3HtwuCIrGZjkaAjdY5MmkW0pHlku', 33, 'test1', 'dummy@yopmail.com', '5445435435', '332', 0, NULL, 2, 2, '2023-04-17 10:32:53', '2023-04-17 10:32:53');
 
 -- --------------------------------------------------------
 
@@ -169,7 +170,7 @@ CREATE TABLE `dome_images` (
 
 INSERT INTO `dome_images` (`id`, `dome_id`, `league_id`, `images`, `created_at`, `updated_at`) VALUES
 (17, 35, NULL, 'dome-63f33f137daf5.png', '2023-02-20 04:06:19', '2023-02-20 04:06:19'),
-(34, NULL, 1, 'league-63f33f137daf5.png', '2023-02-20 05:06:09', '2023-02-20 05:06:09'),
+(34, NULL, 1, 'league-6437ba0ebcf322.png', '2023-02-20 05:06:09', '2023-02-20 05:06:09'),
 (35, NULL, 11, 'league-63f33f137daf5.png', '2023-02-20 05:06:44', '2023-02-20 05:06:44'),
 (41, NULL, 16, 'league-6437ba0ebcf32.png', '2023-04-13 08:15:10', '2023-04-13 08:15:10'),
 (42, 53, NULL, 'dome-643f94fc606fb.jpg', '2023-04-19 07:15:08', '2023-04-19 07:15:08'),
