@@ -41,7 +41,7 @@ class PaymentDistribution extends Command
                     if (count($getbookingids) > 0) {
                         $gettotalamount = Booking::whereIn('id', $getbookingids)->sum('total_amount');
                         $amount = $gettotalamount * 88 / 100;
-                        $transfer = Transfer::create([
+                        Transfer::create([
                             'amount' => $amount * 100,
                             'currency' => 'CAD',
                             'destination' => $getaccountid->account_id,
