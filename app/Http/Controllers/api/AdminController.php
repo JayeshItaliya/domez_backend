@@ -11,7 +11,7 @@ class AdminController extends Controller
         Artisan::call('cache:clear');
         Artisan::call('route:clear');
         Artisan::call('view:clear');
-        Artisan::call('optimize');
+        // Artisan::call('optimize');
         return response()->json(["status" => 1, "message" => "Successful"], 200);
     }
 }
