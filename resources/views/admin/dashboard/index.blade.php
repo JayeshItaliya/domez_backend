@@ -113,26 +113,31 @@
                     --fc-event-border-color: var(--bs-primary);
                     --fc-today-bg-color: rgba(var(--bs-secondary-rgb), .15);
                 }
+
                 .fc-button {
                     background-color: transparent !important;
                     color: var(--bs-primary) !important;
                     border-color: var(--bs-primary) !important;
                 }
+
                 .fc-button.fc-button-active {
                     background-color: var(--bs-primary) !important;
                     color: white !important;
                     border-color: var(--bs-primary) !important;
                 }
+
                 .fc-prev-button,
                 .fc-next-button {
                     background-color: transparent !important;
                     color: black !important;
                     border-color: transparent !important;
                 }
+
                 .fc-event-title {
                     font-size: 12px;
                     line-height: 1;
                 }
+
                 .fc-daygrid-event {
                     padding: 0 3px;
                 }
@@ -314,6 +319,7 @@
                 fcChangeIconsPositions();
             });
         });
+
         function fcChangeIconsPositions() {
             $(".fc-event-main").addClass('text-wrap');
             $(".fc-toolbar-title").addClass('mx-3');
@@ -354,6 +360,14 @@
         var dome_owners_title = {{ Js::from(trans('labels.dome_owners')) }};
         var dome_owners_labels = {{ Js::from($dome_owners_labels) }};
         var dome_owners_data = {{ Js::from($dome_owners_data) }};
+        $(function(params) {
+            create_income_chart(income_labels, income_data);
+            create_booking_chart(booking_labels, booking_data);
+            bookings_overview_chart(bookings_overview_labels, bookings_overview_data, arr);
+            create_revenue_chart(revenue_labels, revenue_data);
+            create_users_chart(users_labels, users_data);
+            create_dome_owners_chart(dome_owners_labels, dome_owners_data);
+        });
     </script>
     <script src="{{ url('resources/views/admin/dashboard/dashboard.js') }}"></script>
 @endsection

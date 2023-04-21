@@ -101,7 +101,7 @@ class AdminController extends Controller
             $getbookingsforsmallchart = $getbookingsforsmallchart->where('vendor_id', $vendor_id);
             $getbookingsforsmallchart = $getbookingsforsmallchart->where('vendor_id', $vendor_id);
             $getbookingsforoverviewchart = $getbookingsforoverviewchart->where('vendor_id', $vendor_id);
-            $total_bookings_overview_data = $getbookingsforoverviewchart->where('vendor_id', $vendor_id);
+            $total_bookings_overview_data = $total_bookings_overview_data->where('vendor_id', $vendor_id);
         }
         if ($request->filtertype == "this_month") {
             // For Income Chart
@@ -191,11 +191,11 @@ class AdminController extends Controller
         }
         $bokingsoverviewchartdata = [];
         $total_bookings_overview_data = $total_bookings_overview_data->groupBy('booking_status')->orderBy('booking_status')->get();
-        foreach ($total_bookings_overview_data as $d) {
+        foreach ($total_bookings_overview_data as $checkd) {
             $bokingsoverviewchartdata[] = [
-                'name' => $d->status,
-                'data' => $d->total,
-                'colors' => $d->colors
+                'name' => $checkd->status,
+                'data' => $checkd->total,
+                'colors' => $checkd->colors
             ];
         }
         $bookings_overview_labels = collect($bokingsoverviewchartdata)->pluck('name');

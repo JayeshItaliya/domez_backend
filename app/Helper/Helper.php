@@ -243,19 +243,21 @@ class Helper
     }
     public static function breadcrumb_home_li()
     {
-        $html = '<li class="breadcrumb-item">
-                    <a href="' . route('admins.dashboard') . '">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home"
-                            width="20" height="20" viewBox="0 0 24 24" stroke-width="2"
-                            stroke="var(--bs-secondary)" fill="none" stroke-linecap="round"
-                            stroke-linejoin="round">
-                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                            <polyline points="5 12 3 12 12 3 21 12 19 12" />
-                            <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
-                            <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
-                        </svg>
-                    </a>
-                </li>';
+        $html = '<li class="breadcrumb-item"> <a href="' . route('admins.dashboard') . '"> <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="20" height="20" viewBox="0 0 24 24" stroke-width="2" stroke="var(--bs-secondary)" fill="none" stroke-linecap="round" stroke-linejoin="round"> <path stroke="none" d="M0 0h24v24H0z" fill="none" /> <polyline points="5 12 3 12 12 3 21 12 19 12" /> <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" /> <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" /> </svg> </a> </li>';
+        return $html;
+    }
+    public static function get_svg($type)
+    {
+        // type == 1(View/DetailPage) == 2(Edit/Update) == 3(Delete)
+        if ($type == 1) {
+            $html = '<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-eye" width="24" height="24" viewBox="0 0 24 24" stroke-width="1" stroke="var(--bs-info)" fill="none" stroke-linecap="round" stroke-linejoin="round"> <path stroke="none" d="M0 0h24v24H0z" fill="none"></path> <path d="M12 12m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"></path> <path d="M22 12c-2.667 4.667 -6 7 -10 7s-7.333 -2.333 -10 -7c2.667 -4.667 6 -7 10 -7s7.333 2.333 10 7"> </path> </svg>';
+        }
+        if ($type == 2) {
+            $html = '<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-edit" width="25" height="25" viewBox="0 0 24 24" stroke-width="1" stroke="var(--bs-warning)" fill="none" stroke-linecap="round" stroke-linejoin="round"> <path stroke="none" d="M0 0h24v24H0z" fill="none" /> <path d="M9 7h-3a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-3" /> <path d="M9 15h3l8.5 -8.5a1.5 1.5 0 0 0 -3 -3l-8.5 8.5v3" /> <line x1="16" y1="5" x2="19" y2="8" /> </svg>';
+        }
+        if ($type == 3) {
+            $html = '';
+        }
         return $html;
     }
 

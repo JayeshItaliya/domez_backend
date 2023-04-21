@@ -13,7 +13,7 @@
                     aria-label="breadcrumb">
                     <ol class="breadcrumb m-0">
                         {!! Helper::breadcrumb_home_li() !!}
-                        <li class="breadcrumb-item">{{ trans('labels.users') }}</li>
+                        <li class="breadcrumb-item"><a href="{{ URL::to('admin/users') }}">{{ trans('labels.users_list') }}</a></li>
                         <li class="breadcrumb-item active" aria-current="page">{{ trans('labels.user_details') }}</li>
                     </ol>
                 </nav>

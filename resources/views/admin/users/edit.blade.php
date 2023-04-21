@@ -13,7 +13,7 @@
                     aria-label="breadcrumb">
                     <ol class="breadcrumb m-0">
                         {!! Helper::breadcrumb_home_li() !!}
-                        <li class="breadcrumb-item">{{ trans('labels.users') }}</li>
+                        <li class="breadcrumb-item"><a href="{{ URL::to('admin/users') }}">{{ trans('labels.users_list') }}</a></li>
                         <li class="breadcrumb-item active" aria-current="page">{{ trans('labels.edit_user') }}</li>
                     </ol>
                 </nav>
@@ -68,7 +68,8 @@
                             </div>
                         </div>
                         <div class="col-md-12">
-                            <button type="submit" class="btn btn-primary">{{ trans('labels.submit') }}</button>
+                            <button type="submit" class="btn btn-primary me-3">{{ trans('labels.submit') }}</button>
+                            <a href="{{ URL::to('admin/users') }}" class="btn btn-outline-danger">{{ trans('labels.cancel') }}</a>
                         </div>
                     </div>
                 </div>
