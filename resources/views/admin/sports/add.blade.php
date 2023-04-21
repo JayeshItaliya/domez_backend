@@ -27,22 +27,30 @@
                         enctype="multipart/form-data">
                         @csrf
                         <div class="card-body">
-                            <div class="mb-4">
-                                <label class="form-label" for="name">{{ trans('labels.sports_name') }}</label>
-                                <input type="text" id="cat_name" name="name" class="form-control"
-                                    value="{{ old('name') }}" placeholder="{{ trans('labels.sports_name') }}">
-                                @error('name')
-                                    <span class="text-danger">{{ $message }}</span>
-                                @enderror
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="form-label" for="name">{{ trans('labels.sports_name') }}</label>
+                                    <input type="text" id="cat_name" name="name" class="form-control"
+                                        value="{{ old('name') }}" placeholder="{{ trans('labels.sports_name') }}">
+                                    @error('name')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
+                                </div>
                             </div>
-                            <div class="mb-4">
-                                <label class="form-label" for="image">{{ trans('labels.images') }}</label>
-                                <input type="file" id="image" name="image" class="form-control">
-                                @error('image')
-                                    <span class="text-danger">{{ $message }}</span>
-                                @enderror
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="form-label" for="image">{{ trans('labels.image') }}</label>
+                                    <input type="file" id="image" name="image" class="form-control">
+                                    @error('image')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
+                                </div>
                             </div>
-                            <button type="submit" class="btn btn-primary">{{ trans('labels.submit') }}</button>
+                            <div class="col-md-12">
+                                <button type="submit" class="btn btn-primary me-3">{{ trans('labels.submit') }}</button>
+                                <a href="{{ URL::to('admin/sports') }}"
+                                    class="btn btn-outline-danger">{{ trans('labels.cancel') }}</a>
+                            </div>
                         </div>
                     </form>
                 </div>

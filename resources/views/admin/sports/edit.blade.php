@@ -11,7 +11,8 @@
                     aria-label="breadcrumb">
                     <ol class="breadcrumb m-0">
                         {!! Helper::breadcrumb_home_li() !!}
-                        <li class="breadcrumb-item"><a href="{{ URL::to('admin/sports') }}">{{ trans('labels.sports') }}</a></li>
+                        <li class="breadcrumb-item"><a href="{{ URL::to('admin/sports') }}">{{ trans('labels.sports') }}</a>
+                        </li>
                         <li class="breadcrumb-item active" aria-current="page">{{ trans('labels.edit_sports') }}</li>
                     </ol>
                 </nav>
@@ -26,24 +27,30 @@
                         enctype="multipart/form-data">
                         @csrf
                         <div class="card-body">
-                            <div class="mb-4">
-                                <label class="form-label" for="name">{{ trans('labels.sports_name') }}</label>
-                                <input type="text" id="name" name="name" class="form-control"
-                                    value="{{ $sportsdata->name }}" placeholder="{{ trans('labels.sports_name') }}">
-                                @error('name')
-                                    <span class="text-danger">{{ $message }}</span>
-                                @enderror
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="form-label" for="name">{{ trans('labels.sports_name') }}</label>
+                                    <input type="text" id="name" name="name" class="form-control"
+                                        value="{{ $sportsdata->name }}" placeholder="{{ trans('labels.sports_name') }}">
+                                    @error('name')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
+                                </div>
                             </div>
-                            <div class="mb-4">
-                                <label class="form-label" for="image">{{ trans('labels.images') }}</label>
-                                <input type="file" id="image" name="image" class="form-control">
-                                @error('image')
-                                    <span class="text-danger">{{ $message }}</span>
-                                @enderror
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="form-label" for="image">{{ trans('labels.image') }}</label>
+                                    <input type="file" id="image" name="image" class="form-control">
+                                    @error('image')
+                                        <span class="text-danger">{{ $message }}</span> <br>
+                                    @enderror
+                                    <img src="{{ Helper::image_path($sportsdata->image) }}" alt="category image" class="avatar avatar-lg my-3"><br>
+                                </div>
                             </div>
-                            <img src="{{ Helper::image_path($sportsdata->image) }}" alt="category image"
-                                class="avatar avatar-lg mb-4"><br>
-                            <button type="submit" class="btn btn-primary">{{ trans('labels.submit') }}</button>
+                            <div class="col-md-12">
+                                <button type="submit" class="btn btn-primary me-3">{{ trans('labels.submit') }}</button>
+                                <a href="{{ URL::to('admin/sports') }}" class="btn btn-outline-danger">{{ trans('labels.cancel') }}</a>
+                            </div>
                         </div>
                     </form>
                 </div>

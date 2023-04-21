@@ -1,16 +1,18 @@
 $(function () {
     $(".filter_content").appendTo($(".fixed-table-toolbar .float-left"));
-    $('.date-range-picker').flatpickr({
-        mode: "range",
-        // maxDate: "today",
-        placeHolder: "Select Date",
-        dateFormat: "Y-m-d",
-        onClose: function (selectedDates, dateStr, instance) {
-            window.location.href = window.location.href.replace(window.location.search, '') +
-                "?type=" + $('#type').val() + "&filter=" + $('#filter').val() + "&dates=" +
-                dateStr;
-        }
-    });
+    if ($('body').find('.date-range-picker').length > 0) {
+        $('.date-range-picker').flatpickr({
+            mode: "range",
+            // maxDate: "today",
+            placeHolder: "Select Date",
+            dateFormat: "Y-m-d",
+            onClose: function (selectedDates, dateStr, instance) {
+                window.location.href = window.location.href.replace(window.location.search, '') +
+                    "?type=" + $('#type').val() + "&filter=" + $('#filter').val() + "&dates=" +
+                    dateStr;
+            }
+        });
+    }
 });
 
 

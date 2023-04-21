@@ -41,10 +41,7 @@ $(function () {
         }
     });
 })
-
 // Income Chart(Small)
-create_income_chart(income_labels, income_data);
-
 function create_income_chart(income_labels, income_data) {
     var options = {
         series: [{
@@ -106,7 +103,6 @@ $('.income-filter').on('change', function () {
     }
     makeincomefilter('')
 });
-
 function makeincomefilter(dates) {
     $.ajax({
         headers: {
@@ -134,10 +130,7 @@ function makeincomefilter(dates) {
         }
     });
 }
-
 // Bookings Chart(Small)
-create_booking_chart(booking_labels, booking_data);
-
 function create_booking_chart(booking_labels, booking_data) {
     var options = {
         series: [{
@@ -199,7 +192,6 @@ $('.booking-filter').on('change', function () {
     }
     makebookingfilter('')
 });
-
 function makebookingfilter(dates) {
     $.ajax({
         headers: {
@@ -228,8 +220,6 @@ function makebookingfilter(dates) {
     });
 }
 // Bookings Overview Chart
-bookings_overview_chart(bookings_overview_labels, bookings_overview_data, arr);
-
 function bookings_overview_chart(bookings_overview_labels, bookings_overview_data, arr) {
     var bookings_data_colors = $.map(arr, function (val, i) {
         if (val == 'primary_color') {
@@ -277,7 +267,6 @@ $('.bookings-overview-filter').on('change', function () {
     }
     makebookingsoverviewfilter('')
 });
-
 function makebookingsoverviewfilter(dates) {
     $.ajax({
         headers: {
@@ -307,8 +296,6 @@ function makebookingsoverviewfilter(dates) {
     });
 }
 // Total Revenue Chart
-create_revenue_chart(revenue_labels, revenue_data);
-
 function create_revenue_chart(revenue_labels, revenue_data) {
     var options = {
         series: [{
@@ -374,7 +361,6 @@ $('.revenue-filter').on('change', function () {
     }
     makerevenuefilter('')
 });
-
 function makerevenuefilter(dates) {
     $.ajax({
         headers: {
@@ -403,8 +389,6 @@ function makerevenuefilter(dates) {
     });
 }
 // Total Users Chart
-create_users_chart(users_labels, users_data);
-
 function create_users_chart(users_labels, users_data) {
     var options = {
         series: [{
@@ -452,7 +436,6 @@ $('.users-filter').on('change', function () {
     }
     makeusersfilter('')
 });
-
 function makeusersfilter(dates) {
     $.ajax({
         headers: {
@@ -481,8 +464,6 @@ function makeusersfilter(dates) {
     });
 }
 // Total Dome Owners Chart
-create_dome_owners_chart(dome_owners_labels, dome_owners_data);
-
 function create_dome_owners_chart(dome_owners_labels, dome_owners_data) {
     var options = {
         series: [{
@@ -538,7 +519,6 @@ $('.dome-owners-filter').on('change', function () {
     }
     makedomeownersfilter('')
 });
-
 function makedomeownersfilter(dates) {
     $.ajax({
         headers: {

@@ -103,18 +103,18 @@ class AuthenticationController extends Controller
     }
     public function verify(Request $request)
     {
-        $checkemail = User::where('email', $request->email)->first();
-        if ($request->name == "") {
-            return response()->json(["status" => 0, "message" => "Please Enter Your Name"], 200);
-        }
         if ($request->email == "") {
             return response()->json(["status" => 0, "message" => "Please Enter Email"], 200);
         }
-        if ($request->phone == "") {
-            return response()->json(["status" => 0, "message" => "Please Enter Phone Number"], 200);
-        }
+        $checkemail = User::where('email', $request->email)->first();
         if (!empty($checkemail)) {
             return response()->json(["status" => 0, "message" => "Email Already Exists"], 200);
+        }
+        if ($request->name == "") {
+            return response()->json(["status" => 0, "message" => "Please Enter Your Name"], 200);
+        }
+        if ($request->phone == "") {
+            return response()->json(["status" => 0, "message" => "Please Enter Phone Number"], 200);
         }
         if ($request->password == "") {
             return response()->json(["status" => 0, "message" => "Please Enter Password"], 200);
@@ -237,9 +237,6 @@ class AuthenticationController extends Controller
         $user->countrycode = $request->countrycode ?? "";
         $user->fcm_token = $request->fcm_token ?? '';
         $user->google_id = $request->uid;
-        if ($request->image != "") {
-            $user->image = $request->image;
-        }
         $user->is_verified = $request->is_verified == true ? 1 : 2;
         if ($user->save()) {
             $userdata = $this->getuserprofileobject($user->id);
@@ -270,9 +267,6 @@ class AuthenticationController extends Controller
         $user->countrycode = $request->countrycode ?? "";
         $user->fcm_token = $request->fcm_token ?? '';
         $user->facebook_id = $request->uid;
-        if ($request->image != "") {
-            $user->image = $request->image;
-        }
         $user->is_verified = 1;
         if ($user->save()) {
             $userdata = $this->getuserprofileobject($user->id);
