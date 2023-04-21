@@ -45,43 +45,21 @@
                                         </div>
                                     </div>
                                 </td>
-                                <td>
-                                    <img class="border-radius"
+                                <td> <img class="border-radius"
                                         src="{{ Helper::image_path($provider->login_type == 1 ? 'email.svg' : ($provider->login_type == 2 ? 'google.svg' : ($provider->login_type == 3 ? 'apple.svg' : ($provider->login_type == 4 ? 'facebook.svg' : '')))) }}"
-                                        width="25" height="25">
-                                </td>
+                                        width="25" height="25"> </td>
                                 <td><span
                                         class="badge rounded-pill cursor-pointer text-bg-{{ $provider->is_available == 1 ? 'success' : 'danger' }}"
                                         onclick="change_status('{{ $provider->id }}','{{ $provider->is_available == 1 ? 2 : 1 }}','{{ URL::to('admin/providers/change_status') }}')">{{ $provider->is_available == 1 ? 'Active' : 'Inactive' }}</span>
                                 </td>
                                 <td>
-                                    <a class="cursor-pointer me-2"
-                                        href="{{ URL::to('admin/providers/edit-' . $provider->id) }}">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-edit"
-                                            width="25" height="25" viewBox="0 0 24 24" stroke-width="1"
-                                            stroke="var(--bs-warning)" fill="none" stroke-linecap="round"
-                                            stroke-linejoin="round">
-                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                            <path d="M9 7h-3a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-3" />
-                                            <path d="M9 15h3l8.5 -8.5a1.5 1.5 0 0 0 -3 -3l-8.5 8.5v3" />
-                                            <line x1="16" y1="5" x2="19" y2="8" />
-                                        </svg>
-                                    </a>
+                                    <a class="cursor-pointer me-2" href="javascript:void(0);" data-bs-target="#editprovider"
+                                        onclick="edit_provider(this)" data-bs-toggle="modal"
+                                        data-show-name="{{ $provider->name }}" data-show-id="{{ $provider->id }}"
+                                        data-show-email="{{ $provider->email }}"> {!! Helper::get_svg(2) !!} </a>
                                     <a class="cursor-pointer me-2"
                                         onclick="deletedata('{{ $provider->id }}','{{ URL::to('admin/providers/delete') }}')"
-                                        class="mx-2">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash"
-                                            width="25" height="25" viewBox="0 0 24 24" stroke-width="1"
-                                            stroke="var(--bs-danger)" fill="none" stroke-linecap="round"
-                                            stroke-linejoin="round">
-                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                            <line x1="4" y1="7" x2="20" y2="7" />
-                                            <line x1="10" y1="11" x2="10" y2="17" />
-                                            <line x1="14" y1="11" x2="14" y2="17" />
-                                            <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
-                                            <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
-                                        </svg>
-                                    </a>
+                                        class="mx-2"> {!! Helper::get_svg(3) !!} </a>
                                 </td>
                             </tr>
                         @endforeach
@@ -114,6 +92,32 @@
                         <label class="form-label fw-bold" for="password">{{ trans('labels.password') }}</label>
                         <input type="password" class="form-control" name="password" id="password"
                             placeholder="{{ trans('labels.password') }}">
+                    </div>
+                    <button type="submit" class="btn btn-primary w-auto float-end">{{ trans('labels.submit') }}</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="editprovider" tabindex="-1" aria-labelledby="editproviderLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editproviderLabel">{{ trans('labels.edit') }}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form class="modal-body" action="{{ URL::to('admin/providers/edit') }}" method="POST"
+                    id="update_provider">
+                    @csrf
+                    <input type="hidden" class="form-control" name="id" id="p_" required>
+                    <div class="form-group">
+                        <label class="form-label fw-bold" for="name">{{ trans('labels.name') }}</label>
+                        <input type="text" class="form-control" name="name" id="provider_name"
+                            placeholder="{{ trans('labels.name') }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label fw-bold" for="email">{{ trans('labels.email') }}</label>
+                        <input type="email" class="form-control" name="email" id="provider_email"
+                            placeholder="{{ trans('labels.email') }}" required>
                     </div>
                     <button type="submit" class="btn btn-primary w-auto float-end">{{ trans('labels.submit') }}</button>
                 </form>

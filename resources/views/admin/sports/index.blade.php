@@ -48,15 +48,7 @@
                             <td class="action">
                                 <a href="{{ URL::to('admin/sports/edit-') . $sport->id }}" class="text-warning me-2"
                                     data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Edit">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-edit"
-                                        width="25" height="25" viewBox="0 0 24 24" stroke-width="1"
-                                        stroke="var(--bs-warning)" fill="none" stroke-linecap="round"
-                                        stroke-linejoin="round">
-                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                        <path d="M9 7h-3a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-3" />
-                                        <path d="M9 15h3l8.5 -8.5a1.5 1.5 0 0 0 -3 -3l-8.5 8.5v3" />
-                                        <line x1="16" y1="5" x2="19" y2="8" />
-                                    </svg>
+                                    {!! Helper::get_svg(2) !!}
                                 </a>
                                 <a data-bs-toggle="tooltip" data-bs-placement="bottom"
                                     data-bs-title="{{ $sport->is_deleted == 2 ? 'Delete' : 'Recover' }}"

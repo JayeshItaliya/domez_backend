@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -23,6 +24,7 @@
         }
     </style>
 </head>
+
 <body>
     <!-- PreLoader -->
     <div id="preloader">
@@ -41,6 +43,7 @@
                 --bs-secondary-rgb: 87, 167, 0;
                 --border-default: 1px solid rgba(var(--bs-primary-rgb), 0.25);
             }
+
             .flatpickr-day.selected,
             .flatpickr-day.startRange,
             .flatpickr-day.endRange,
@@ -171,10 +174,13 @@
         let is_vendor = {{ Js::from(Auth::user()->type == 2 ? true : false) }};
         let is_employee = {{ Js::from(Auth::user()->type == 4 ? true : false) }};
         let is_provider = {{ Js::from(Auth::user()->type == 5 ? true : false) }};
+        let plus_svg_icon =
+            '<svg xmlns="http://www.w3.org/2000/svg" class="icon-tabler icon-tabler-plus" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="var(--bs-primary)" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" /></svg>';
         let primary_color = $('#primaryColor').css('color');
         let secondary_color = $('#secondaryColor').css('color');
         let light_secondary_color = $('#lightSecondaryColor').css('color');
         let danger_color = $('#danger_color').css('color');
+
         function getCookie(name) {
             "use strict";
             var cookie_name = name + "=";
@@ -186,6 +192,7 @@
             }
             return;
         }
+
         function hexToRgb(hex) {
             var hexString = (hex.charAt(0) == "#") ? hex.substring(1, 7) : hex;
             var hexInt = parseInt(hexString, 16);
@@ -239,11 +246,12 @@
         @if (Session::has('warning'))
             toastr.warning("{{ session('warning') }}");
         @endif
-        $('.notifications.cursor-pointer').on('click',function(){
+        $('.notifications.cursor-pointer').on('click', function() {
             location.href = $(this).attr('data-next');
         });
     </script>
     <script src="{{ url('storage/app/public/admin/js/custom.js') }}"></script>
     @yield('scripts')
 </body>
+
 </html>

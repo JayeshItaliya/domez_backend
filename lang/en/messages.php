@@ -67,4 +67,6 @@ return [
     'check_mail_note' => "We have sent a password recover instructions to your email.",
     // -------------------
     'already_cancelled' => "Booking has been already cancelled",
+    'invalid_employee' => "Invalid Employee",
+    'invalid_provider' => "Invalid Provider",
 ];

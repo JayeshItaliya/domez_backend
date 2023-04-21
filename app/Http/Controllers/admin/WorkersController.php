@@ -9,6 +9,7 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Validator;
 
 class WorkersController extends Controller
 {
@@ -38,6 +39,36 @@ class WorkersController extends Controller
             $workers->is_verified = 1;
             $workers->password = Hash::make($request->password);
             $workers->save();
+            return redirect()->back()->with('success', trans('messages.success'));
+        } catch (\Throwable $th) {
+            return redirect()->back()->with('error', trans('messages.wrong'));
+        }
+    }
+    public function edit_worker(Request $request)
+    {
+        $checkuser = User::find($request->id);
+        if (empty($checkuser)) {
+            return redirect()->back()->with('error', trans('messages.invalid_employee'));
+        }
+        try {
+            $validator = Validator::make($request->input(), [
+                'name' => 'required',
+                'email' => 'required|email|unique:users,email,' . $checkuser->id,
+            ], [
+                'name.required' => trans('messages.name_required'),
+                'email.required' => trans('messages.email_required'),
+                'email.email' => trans('messages.valid_email'),
+                'email.unique' => trans('messages.email_exist'),
+            ]);
+            if ($validator->fails()) {
+                foreach ($validator->errors()->toArray() as $key => $error) {
+                    return redirect()->back()->with('error', $error[0]);
+                    break;
+                }
+            }
+            $checkuser->name = $request->name;
+            $checkuser->email = $request->email;
+            $checkuser->save();
             return redirect()->back()->with('success', trans('messages.success'));
         } catch (\Throwable $th) {
             return redirect()->back()->with('error', trans('messages.wrong'));

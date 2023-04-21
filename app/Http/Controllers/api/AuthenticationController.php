@@ -35,7 +35,6 @@ class AuthenticationController extends Controller
                             $otp = rand(1000, 9999);
                             $user = User::where('email', $request->email)->first();
                             $user->otp = $otp;
-                            $user->otp = $otp;
                             $user->save();
                             $send_mail = Helper::verificationemail($request->email, $checkuser->name, $otp);
                             if ($send_mail == 1) {

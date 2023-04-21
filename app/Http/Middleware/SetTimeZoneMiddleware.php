@@ -16,7 +16,7 @@ class SetTimeZoneMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        date_default_timezone_set('Asia/Kolkata');
+        date_default_timezone_set(env('SET_TIMEZONE'));
         return $next($request);
     }
 }

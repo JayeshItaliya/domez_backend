@@ -162,6 +162,7 @@ Route::group(['middleware' => 'SetTimeZoneMiddleware'], function () {
                 Route::post('store-worker', [WorkersController::class, 'store_worker']);
                 Route::get('change_status', [WorkersController::class, 'change_status']);
                 Route::get('delete', [WorkersController::class, 'delete']);
+                Route::post('edit', [WorkersController::class, 'edit_worker']);
             });
             //  Providers
             Route::group(['prefix' => 'providers'], function () {
@@ -169,6 +170,7 @@ Route::group(['middleware' => 'SetTimeZoneMiddleware'], function () {
                 Route::post('store-worker', [ProvidersController::class, 'store_worker']);
                 Route::get('change_status', [ProvidersController::class, 'change_status']);
                 Route::get('delete', [ProvidersController::class, 'delete']);
+                Route::post('edit', [ProvidersController::class, 'edit_provider']);
             });
             //  Leagues
             Route::group(['prefix' => 'leagues'], function () {

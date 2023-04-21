@@ -51,46 +51,19 @@
                                     src="{{ Helper::image_path($vendor->login_type == 1 ? 'email.svg' : ($vendor->login_type == 2 ? 'google.svg' : ($vendor->login_type == 3 ? 'apple.svg' : ($vendor->login_type == 4 ? 'facebook.svg' : '')))) }}"
                                     width="25" height="25">
                             </td>
-                            <td><span class="badge rounded-pill cursor-pointer text-bg-{{ $vendor->is_available == 1 ? 'success' : 'danger' }}"
+                            <td><span
+                                    class="badge rounded-pill cursor-pointer text-bg-{{ $vendor->is_available == 1 ? 'success' : 'danger' }}"
                                     onclick="change_status('{{ $vendor->id }}','{{ $vendor->is_available == 1 ? 2 : 1 }}','{{ URL::to('admin/vendors/change_status') }}')">{{ $vendor->is_available == 1 ? trans('labels.active') : trans('labels.inactive') }}</span>
                             </td>
                             <td>
                                 <a class="cursor-pointer me-2"
                                     href="{{ URL::to('admin/vendors/dome-owner-details-' . $vendor->id) }}">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-eye"
-                                        width="24" height="24" viewBox="0 0 24 24" stroke-width="1" stroke="var(--bs-info)"
-                                        fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                        <path d="M12 12m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"></path>
-                                        <path
-                                            d="M22 12c-2.667 4.667 -6 7 -10 7s-7.333 -2.333 -10 -7c2.667 -4.667 6 -7 10 -7s7.333 2.333 10 7">
-                                        </path>
-                                    </svg>
-                                </a>
+                                    {!! Helper::get_svg(1) !!} </a>
                                 <a class="cursor-pointer me-2" href="{{ URL::to('admin/vendors/edit-' . $vendor->id) }}">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-edit"
-                                        width="25" height="25" viewBox="0 0 24 24" stroke-width="1" stroke="var(--bs-warning)"
-                                        fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                        <path d="M9 7h-3a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-3" />
-                                        <path d="M9 15h3l8.5 -8.5a1.5 1.5 0 0 0 -3 -3l-8.5 8.5v3" />
-                                        <line x1="16" y1="5" x2="19" y2="8" />
-                                    </svg>
-                                </a>
+                                    {!! Helper::get_svg(2) !!} </a>
                                 <a class="cursor-pointer me-2"
                                     onclick="vendor_delete('{{ $vendor->id }}','{{ $vendor->is_deleted == 2 ? 1 : 2 }}','{{ URL::to('admin/vendors/delete') }}')"
-                                    class="mx-2">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash"
-                                        width="25" height="25" viewBox="0 0 24 24" stroke-width="1" stroke="var(--bs-danger)"
-                                        fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                        <line x1="4" y1="7" x2="20" y2="7" />
-                                        <line x1="10" y1="11" x2="10" y2="17" />
-                                        <line x1="14" y1="11" x2="14" y2="17" />
-                                        <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
-                                        <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
-                                    </svg>
-                                </a>
+                                    class="mx-2"> {!! Helper::get_svg(3) !!} </a>
                             </td>
                         </tr>
                     @endforeach
@@ -100,5 +73,5 @@
     </div>
 @endsection
 @section('scripts')
-<script src="{{ url('resources/views/admin/vendors/vendors.js') }}"></script>
+    <script src="{{ url('resources/views/admin/vendors/vendors.js') }}"></script>
 @endsection

@@ -58,33 +58,12 @@
                                 </td>
                                 <td>
                                     <a class="cursor-pointer me-2" href="javascript:void(0);" data-bs-target="#editworker"
-                                        data-bs-toggle="modal" data-show-name="{{ $enquiry->name }}"
-                                        data-show-email="{{ $enquiry->email }}">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-edit"
-                                            width="25" height="25" viewBox="0 0 24 24" stroke-width="1"
-                                            stroke="var(--bs-warning)" fill="none" stroke-linecap="round"
-                                            stroke-linejoin="round">
-                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                            <path d="M9 7h-3a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-3" />
-                                            <path d="M9 15h3l8.5 -8.5a1.5 1.5 0 0 0 -3 -3l-8.5 8.5v3" />
-                                            <line x1="16" y1="5" x2="19" y2="8" />
-                                        </svg>
-                                    </a>
+                                        onclick="edit_worker(this)" data-bs-toggle="modal"
+                                        data-show-name="{{ $worker->name }}" data-show-id="{{ $worker->id }}"
+                                        data-show-email="{{ $worker->email }}"> {!! Helper::get_svg(2) !!} </a>
                                     <a class="cursor-pointer me-2"
                                         onclick="deletedata('{{ $worker->id }}','{{ URL::to('admin/workers/delete') }}')"
-                                        class="mx-2">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash"
-                                            width="25" height="25" viewBox="0 0 24 24" stroke-width="1"
-                                            stroke="var(--bs-danger)" fill="none" stroke-linecap="round"
-                                            stroke-linejoin="round">
-                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                            <line x1="4" y1="7" x2="20" y2="7" />
-                                            <line x1="10" y1="11" x2="10" y2="17" />
-                                            <line x1="14" y1="11" x2="14" y2="17" />
-                                            <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
-                                            <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
-                                        </svg>
-                                    </a>
+                                        class="mx-2"> {!! Helper::get_svg(3) !!}</a>
                                 </td>
                             </tr>
                         @endforeach
@@ -129,21 +108,21 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="editworkerLabel">{{ trans('labels.add_worker') }}</h5>
+                    <h5 class="modal-title" id="editworkerLabel">{{ trans('labels.edit') }}</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form class="modal-body" action="{{ URL::to('admin/workers/edit-' . $worker->id) }}" method="POST"
-                    id="update_worker">
+                <form class="modal-body" action="{{ URL::to('admin/workers/edit') }}" method="POST" id="update_worker">
                     @csrf
+                    <input type="hidden" class="form-control" name="id" id="w_" required>
                     <div class="form-group">
                         <label class="form-label fw-bold" for="name">{{ trans('labels.name') }}</label>
-                        <input type="text" class="form-control" name="name" id="name"
-                            placeholder="{{ trans('labels.name') }}">
+                        <input type="text" class="form-control" name="name" id="worker_name"
+                            placeholder="{{ trans('labels.name') }}" required>
                     </div>
                     <div class="form-group">
                         <label class="form-label fw-bold" for="email">{{ trans('labels.email') }}</label>
-                        <input type="email" class="form-control" name="email" id="email"
-                            placeholder="{{ trans('labels.email') }}">
+                        <input type="email" class="form-control" name="email" id="worker_email"
+                            placeholder="{{ trans('labels.email') }}" required>
                     </div>
                     <button type="submit" class="btn btn-primary w-auto float-end">{{ trans('labels.submit') }}</button>
                 </form>

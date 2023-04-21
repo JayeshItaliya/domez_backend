@@ -84,25 +84,25 @@
                 </ul>
             </li>
             <li class="dropdown">
-                    @if (
-                        (auth()->user()->type == 1 &&
-                            (Helper::get_noti_count(1) > 0 || Helper::get_noti_count(2) > 0 || Helper::get_noti_count(3) > 0)) ||
-                            (in_array(auth()->user()->type, [2, 4]) && count(Helper::getTodayBookings()) > 0))
-                <a href="#" class="nav-item notification-icon position-relative" role="button"
-                    data-bs-toggle="dropdown" aria-expanded="false">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-bell" width="20"
-                        height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="var(--bs-secondary)"
-                        fill="none" stroke-linecap="round" stroke-linejoin="round">
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                        <path
-                            d="M10 5a2 2 0 0 1 4 0a7 7 0 0 1 4 6v3a4 4 0 0 0 2 3h-16a4 4 0 0 0 2 -3v-3a7 7 0 0 1 4 -6" />
-                        <path d="M9 17v1a3 3 0 0 0 6 0v-1" />
-                    </svg>
+                @if (
+                    (auth()->user()->type == 1 &&
+                        (Helper::get_noti_count(1) > 0 || Helper::get_noti_count(2) > 0 || Helper::get_noti_count(3) > 0)) ||
+                        (in_array(auth()->user()->type, [2, 4]) && count(Helper::getTodayBookings()) > 0))
+                    <a href="#" class="nav-item notification-icon position-relative" role="button"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-bell" width="20"
+                            height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="var(--bs-secondary)"
+                            fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                            <path
+                                d="M10 5a2 2 0 0 1 4 0a7 7 0 0 1 4 6v3a4 4 0 0 0 2 3h-16a4 4 0 0 0 2 -3v-3a7 7 0 0 1 4 -6" />
+                            <path d="M9 17v1a3 3 0 0 0 6 0v-1" />
+                        </svg>
                         <span
                             class="position-absolute top-0 start-100 translate-middle p-1 bg-danger border border-light rounded-circle"
                             style="background-color:#FE3B30 !important;"></span>
-                        </a>
-                        @endif
+                    </a>
+                @endif
                 <ul class="dropdown-menu box-shadow border-0 my-3" style="width: 350px;">
                     @if (auth()->user()->type == 1 && Helper::get_noti_count(3) > 0)
                         <li class="dropwdown-item notifications d-flex justify-content-between align-items-center cursor-pointer py-1"
@@ -165,7 +165,8 @@
                         <li>
                             <hr class="dropdown-divider">
                         </li>
-                        <li class="dropwdown-item notifications d-flex justify-content-center align-items-center cursor-pointer py-1" data-next="{{ URL::to('admin/bookings') }}"> View All </li>
+                        <li class="dropwdown-item notifications d-flex justify-content-center align-items-center cursor-pointer py-1"
+                            data-next="{{ URL::to('admin/bookings') }}"> View All </li>
                     @endif
                 </ul>
             </li>
@@ -176,8 +177,27 @@
                 </a>
                 <ul class="dropdown-menu box-shadow border-0 my-3">
                     <li class="white-space-nowrap px-3">
+                        @php
+                            $now = \Carbon\Carbon::now();
+                            $greeting = 'Good evening';
+                            if ($now->hour >= 5 && $now->hour < 12) {
+                                $greeting = 'Good morning';
+                            } elseif ($now->hour >= 12 && $now->hour < 18) {
+                                $greeting = 'Good afternoon';
+                            }
+                        @endphp
                         <p><strong>{{ trans('labels.good_morning') }}</strong> {{ Auth::user()->name }}</p>
-                        <small class="text-muted">{{ Auth::user()->type == 1 ? 'Admin' : 'Dome Owner' }}</small>
+                        <small class="text-muted">
+                            @if (Auth::user()->type == 1)
+                                {{ trans('labels.admin') }}
+                            @elseif (Auth::user()->type == 2)
+                                {{ trans('labels.dome_owner') }}
+                            @elseif (Auth::user()->type == 4)
+                                {{ trans('labels.employee') }}
+                            @elseif (Auth::user()->type == 5)
+                                {{ trans('labels.provider') }}
+                            @endif
+                        </small>
                     </li>
                     <li>
                         <hr class="dropdown-divider">

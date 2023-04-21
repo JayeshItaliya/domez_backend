@@ -108,6 +108,7 @@ $('#field').select2({
 $('body').on('change', '.radio-editer input[type=radio]', function () {
     getfields($(this).val());
 });
+
 function getfields(sport) {
     if ($.trim(sport) == "") {
         sport = $('.radio-editer').find(':checked').val();
@@ -129,7 +130,7 @@ function getfields(sport) {
                 if (response.fieldsdata.length > 0) {
                     $.each(response.fieldsdata, function (arrayIndex, elementValue) {
                         var selected = $.inArray(elementValue.id, field_selected) !== -1 ? 'selected' : '';
-                        $('#field').append('<option value="' + elementValue.id + '"  '+selected+'  >' + elementValue.name + '</option>');
+                        $('#field').append('<option value="' + elementValue.id + '"  ' + selected + '  >' + elementValue.name + '</option>');
                     });
                 } else {
                     $('#field').append('<option value="" selected disabled>' + no_data + '</option>');
@@ -183,7 +184,7 @@ $(function () {
     }
     if (is_vendor || is_employee || is_provider) {
         let html =
-            '<a href="' + window.location.href.replace(window.location.search, '') + '/add" class="btn-custom-primary"><svg xmlns="http://www.w3.org/2000/svg" class="icon-tabler icon-tabler-plus" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="var(--bs-primary)" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" /></svg></a>';
+            '<a href="' + window.location.href.replace(window.location.search, '') + '/add" class="btn-custom-primary">' + plus_svg_icon + '</a>';
         $('.fixed-table-toolbar .btn-group').append(html);
     }
 });
