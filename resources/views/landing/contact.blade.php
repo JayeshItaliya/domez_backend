@@ -273,8 +273,21 @@
     <script src="{{ url('storage/app/public/admin/js/custom.js') }}"></script>
     <script>
         toastr.options = {
-            "closeButton": true
+            "closeButton": true,
+            "positionClass": "toast-bottom-right",
         }
+        @if (Session::has('success'))
+            toastr.success("{{ session('success') }}");
+        @endif
+        @if (Session::has('error'))
+            toastr.error("{{ session('error') }}");
+        @endif
+        @if (Session::has('info'))
+            toastr.info("{{ session('info') }}");
+        @endif
+        @if (Session::has('warning'))
+            toastr.warning("{{ session('warning') }}");
+        @endif
         $(function() {
             $('form, input,textarea ').attr("autocomplete", 'off');
             $('#contact_us input:not(#name , #email, #otp) ,#contact_us_submit').prop('disabled', true);

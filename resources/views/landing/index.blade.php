@@ -591,6 +591,10 @@
     <script src="{{ url('storage/app/public/admin/plugins/owl_carousel/owl.carousel.js') }}"></script>
     <script src="{{ url('storage/app/public/admin/js/custom.js') }}"></script>
     <script>
+        toastr.options = {
+            "closeButton": true,
+            "positionClass": "toast-bottom-right",
+        }
         @if (Session::has('success'))
             toastr.success("{{ session('success') }}");
         @endif

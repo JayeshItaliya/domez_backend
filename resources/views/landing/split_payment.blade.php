@@ -303,6 +303,22 @@
     <script src="{{ url('storage/app/public/admin/js/custom.js') }}"></script>
 </body>
 <script>
+    toastr.options = {
+        "closeButton": true,
+        "positionClass": "toast-bottom-right",
+    }
+    @if (Session::has('success'))
+        toastr.success("{{ session('success') }}");
+    @endif
+    @if (Session::has('error'))
+        toastr.error("{{ session('error') }}");
+    @endif
+    @if (Session::has('info'))
+        toastr.info("{{ session('info') }}");
+    @endif
+    @if (Session::has('warning'))
+        toastr.warning("{{ session('warning') }}");
+    @endif
     if ({{ Js::from($checkbooking->booking_status) }} == 1 && {{ Js::from($checkbooking->due_amount) }} <= 0) {
         $('.card').find('.col-md-6').eq(1).remove();
         $('.card').find('.col-md-6').eq(0).addClass('col-12').removeClass('col-md-6');
