@@ -3,76 +3,58 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Login Credentials</title>
     <style>
-        /* Basic styling */
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f2f2f2;
-            padding: 20px;
-        }
-
-        h1 {
-            color: #0066cc;
-            text-align: center;
-        }
-
-        table {
-            background-color: #fff;
-            border-collapse: collapse;
+        /* Company Logo */
+        .logo {
+            display: block;
             margin: 0 auto;
         }
 
-        th,
-        td {
-            padding: 10px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
+        /* Email Body */
+        .email-body {
+            max-width: 600px;
+            margin: 0 auto;
+            font-family: Arial, sans-serif;
+            font-size: 16px;
+            line-height: 1.5;
+            color: #333333;
         }
 
-        th {
-            background-color: #0066cc;
-            color: #fff;
+        /* Button */
+        .btn {
+            display: inline-block;
+            background-color: #000000;
+            color: #ffffff !important;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            margin-top: 20px;
         }
 
-        /* Responsive design for mobile devices */
-        @media only screen and (max-width: 600px) {
-            table {
-                width: 100%;
-            }
-
-            td {
-                display: block;
-                text-align: center;
-            }
-
-            td:before {
-                content: attr(data-label);
-                font-weight: bold;
-                display: inline-block;
-                margin-bottom: 5px;
-            }
+        /* Button Hover */
+        .btn:hover {
+            background-color: #000000;
+            color: #ffffff;
         }
     </style>
 </head>
 
 <body>
-    <h1>Login Credentials</h1>
-    <table>
-        <tr>
-            <th>Username:</th>
-            <td data-label="{{ $name }}">{{ $name }}</td>
-        </tr>
-        <tr>
-            <th>Email:</th>
-            <td data-label="{{ $email }}">{{ $email }}</td>
-        </tr>
-        <tr>
-            <th>Password:</th>
-            <td data-label="{{ $password }}">{{ $password }}</td>
-        </tr>
-    </table>
-    <p style="font-size:0.9em;">Regards,<br />Domez Team</p>
+    <!-- Company Logo -->
+    <img class="logo" src="{{ $logo }}" style="text-align:center" alt="Company Logo">
+    <h1 style="text-align:center;color:#468F72;">Welcome to Domez!</h1>
+
+    <!-- Email Body -->
+    <div class="email-body">
+        <p>Hi {{ $name }}! Here is your login credentials</p>
+
+        <p>Email: <strong>{{ $email }}</strong></p>
+        <p>Password: <strong>{{ $password }}</strong></p>
+
+        <a class="btn" href="{{ URL::to('/F') }}">Visit Our Website</a>
+
+        <p style="font-size:0.9em;">Regards,<br />Domez Team</p>
+    </div>
 </body>
 
 </html>
