@@ -23,7 +23,7 @@
         /* Button */
         .btn {
             display: inline-block;
-            background-color: #007bff;
+            background-color: #000000;
             color: #ffffff !important;
             text-decoration: none;
             padding: 10px 20px;
@@ -33,7 +33,7 @@
 
         /* Button Hover */
         .btn:hover {
-            background-color: #0062cc;
+            background-color: #000000;
             color: #ffffff;
         }
     </style>
@@ -46,7 +46,7 @@
 
     <!-- Email Body -->
     <div class="email-body">
-        <p>Dear {{ $name }}, Congratulations! Your request has been accepted.</p>
+        <p>Congratulations {{ $name }}! Your request has been accepted.</p>
 
         <p>Thank you for your interest in Domez. We are pleased to inform you that your application has been accepted
             and we look forward to welcoming you to Domez. You can now access your admin panel using the login details
@@ -55,10 +55,9 @@
         <p>Email: <strong>{{ $email }}</strong></p>
         <p>Password: <strong>{{ $password }}</strong></p>
 
-        <p>Please visit the following URL to log in:</p>
-        <p><a href="{{ URL::to('login') }}">{{ URL::to('login') }}</a></p>
-
         <a class="btn" href="{{ URL::to('/F') }}">Visit Our Website</a>
+
+        <p style="font-size:0.9em;">Regards,<br />Domez Team</p>
     </div>
 </body>
 

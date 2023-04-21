@@ -118,6 +118,7 @@
             </div>
             <p class="footer">If you have any questions or concerns, please don't hesitate to contact us.</p>
         @endif
+        <p style="font-size:0.9em;">Regards,<br />Domez Team</p>
     </div>
 </body>
 

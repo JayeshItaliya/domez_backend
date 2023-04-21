@@ -1,5 +1,7 @@
 <?php
+
 namespace App\Http\Controllers\admin;
+
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
@@ -7,6 +9,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use App\Helper\Helper;
 use Illuminate\Support\Str;
+
 class AuthenticationController extends Controller
 {
     public function index(Request $request)
@@ -60,6 +63,7 @@ class AuthenticationController extends Controller
             Auth::logout();
             return redirect()->back()->with('error', trans('messages.email_pass_invalid'));
         } else {
+            // dd(132);
             return redirect()->back()->with('error', trans('messages.email_pass_invalid'));
         }
     }

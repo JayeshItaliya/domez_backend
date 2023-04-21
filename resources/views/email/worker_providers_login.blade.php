@@ -72,6 +72,7 @@
             <td data-label="{{ $password }}">{{ $password }}</td>
         </tr>
     </table>
+    <p style="font-size:0.9em;">Regards,<br />Domez Team</p>
 </body>
 
 </html>

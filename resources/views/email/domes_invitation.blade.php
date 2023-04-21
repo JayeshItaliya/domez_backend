@@ -31,6 +31,7 @@
                 <td style="height:40px;">&nbsp;</td>
             </tr>
         </table>
-        <hr style="border:none;border-top:1px solid #eee" />
+        <hr style="border:none;border-top:1px solid #eee"/>
+        <p style="font-size:0.9em;">Regards,<br/>Domez Team</p>
     </div>
 </div>

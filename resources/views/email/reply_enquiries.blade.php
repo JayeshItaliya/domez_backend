@@ -6,10 +6,10 @@
                     <img src="{{ $logo }}" alt="Logo">
                 </a>
             </div>
-            <p style="font-size:1.1em">Hi, {{ $name }}</p>
+            <p style="font-size:1.1em">Hi {{ $name }},</p>
             <h4>Thank you for choosing Domez.</h4>
             <p>{{ $reply }}</p>
-            <p style="font-size:0.9em;">Regards,<br />Domez</p>
+            <p style="font-size:0.9em;">Regards,<br />Domez Team</p>
             <hr style="border:none;border-top:1px solid #eee" />
         </div>
     </div>
@@ -64,7 +64,7 @@
             <p>Dear {{ $name }},</p>
             <p>Thank you for contacting us regarding {{ $subject }}. We appreciate your interest in Domez.</p>
             <p><strong>Reply:</strong><br>{{ $reply }}</p><br>
-            <p style="font-size:0.9em;">Regards,<br />Domez</p>
+            <p style="font-size:0.9em;">Regards,<br />Domez Team</p>
         </div>
     </body>
 
