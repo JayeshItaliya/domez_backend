@@ -57,8 +57,9 @@
                                         onclick="change_status('{{ $worker->id }}','{{ $worker->is_available == 1 ? 2 : 1 }}','{{ URL::to('admin/workers/change_status') }}')">{{ $worker->is_available == 1 ? 'Active' : 'Inactive' }}</span>
                                 </td>
                                 <td>
-                                    <a class="cursor-pointer me-2"
-                                        href="{{ URL::to('admin/workers/edit-' . $worker->id) }}">
+                                    <a class="cursor-pointer me-2" href="javascript:void(0);" data-bs-target="#editworker"
+                                        data-bs-toggle="modal" data-show-name="{{ $enquiry->name }}"
+                                        data-show-email="{{ $enquiry->email }}">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-edit"
                                             width="25" height="25" viewBox="0 0 24 24" stroke-width="1"
                                             stroke="var(--bs-warning)" fill="none" stroke-linecap="round"
@@ -92,6 +93,7 @@
             </div>
         </div>
     </div>
+    {{-- Add Worker --}}
     <div class="modal fade" id="addworker" tabindex="-1" aria-labelledby="addworkerLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -116,6 +118,32 @@
                         <label class="form-label fw-bold" for="password">{{ trans('labels.password') }}</label>
                         <input type="password" class="form-control" name="password" id="password"
                             placeholder="{{ trans('labels.password') }}">
+                    </div>
+                    <button type="submit" class="btn btn-primary w-auto float-end">{{ trans('labels.submit') }}</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    {{-- Edit Worker --}}
+    <div class="modal fade" id="editworker" tabindex="-1" aria-labelledby="editworkerLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editworkerLabel">{{ trans('labels.add_worker') }}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form class="modal-body" action="{{ URL::to('admin/workers/edit-' . $worker->id) }}" method="POST"
+                    id="update_worker">
+                    @csrf
+                    <div class="form-group">
+                        <label class="form-label fw-bold" for="name">{{ trans('labels.name') }}</label>
+                        <input type="text" class="form-control" name="name" id="name"
+                            placeholder="{{ trans('labels.name') }}">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label fw-bold" for="email">{{ trans('labels.email') }}</label>
+                        <input type="email" class="form-control" name="email" id="email"
+                            placeholder="{{ trans('labels.email') }}">
                     </div>
                     <button type="submit" class="btn btn-primary w-auto float-end">{{ trans('labels.submit') }}</button>
                 </form>
