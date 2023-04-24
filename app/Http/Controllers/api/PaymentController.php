@@ -1,5 +1,7 @@
 <?php
+
 namespace App\Http\Controllers\api;
+
 use App\Helper\Helper;
 use App\Http\Controllers\Controller;
 use App\Models\Booking;
@@ -14,6 +16,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Str;
+
 class PaymentController extends Controller
 {
     public function stripe_key(Request $request)
@@ -153,7 +156,7 @@ class PaymentController extends Controller
             $booking = new Booking();
             $booking->type = $request->booking_type;
             $booking->vendor_id = $dome->vendor_id;
-            if($league->provider_id != ""){
+            if (@$league->provider_id != "") {
                 $booking->provider_id = $league->provider_id;
             }
             if ($request->booking_type == 1) {
@@ -194,7 +197,7 @@ class PaymentController extends Controller
             $booking->booking_status = $booking->payment_status == 1 ? 1 : 2;
             $booking->token = str_replace(['$', '/', '.', '|'], '', Hash::make($booking_id));
             $booking->save();
-            
+
             $transaction = new Transaction();
             $transaction->type = 1;
             $transaction->vendor_id = $dome->vendor_id;
@@ -239,6 +242,7 @@ class PaymentController extends Controller
             });
             return response()->json(['status' => 1, "message" => "Successful", "transaction_id" => $transaction_id, "booking_id" => $booking->id, "payment_link" => URL::to('/payment/' . $booking->token),], 200);
         } catch (\Throwable $th) {
+            dd($th);
             return response()->json(['status' => 0, "message" => "Something Went Wrong..!!"], 200);
         }
     }
