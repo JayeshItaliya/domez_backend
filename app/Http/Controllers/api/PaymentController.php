@@ -242,7 +242,6 @@ class PaymentController extends Controller
             });
             return response()->json(['status' => 1, "message" => "Successful", "transaction_id" => $transaction_id, "booking_id" => $booking->id, "payment_link" => URL::to('/payment/' . $booking->token),], 200);
         } catch (\Throwable $th) {
-            dd($th);
             return response()->json(['status' => 0, "message" => "Something Went Wrong..!!"], 200);
         }
     }
