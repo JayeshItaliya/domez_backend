@@ -32,7 +32,7 @@ use App\Http\Controllers\LandingPagesController;
 |
 */
 
-if (!request()->secure() && env('APP_ENV') === 'production') {
+if (!request()->secure()) {
     redirect()->to(env('APP_URL'))->send();
 }
 
