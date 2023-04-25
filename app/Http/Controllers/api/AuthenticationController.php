@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Laravel\Socialite\Facades\Socialite;
 use Laravel\Socialite\Two\User as OAuthTwoUser;
 
 class AuthenticationController extends Controller
@@ -334,31 +335,11 @@ class AuthenticationController extends Controller
         );
         return $data;
     }
-    // public function apple_login(Request $request)
-    // {
-    //     $segments = explode('.', $request->token);
-    //     $header = json_decode(base64_decode($segments[0]), true);
-    //     $payload = json_decode(base64_decode($segments[1]), true);
-    //     $signature = base64_decode($segments[2]);
-
-    //     $key = openssl_pkey_get_public(file_get_contents('storage/app/public/admin/plugins/apple_private_key.pem'));
-    //     $data = $segments[0].$segments[1];
-    //     $verified = openssl_verify($data, $signature, $key, OPENSSL_ALGO_SHA256);
-    //     dd($payload['iss']);
-    //     if ($payload['iss'] !== 'https://appleid.apple.com') {
-    //         dd('Invalid issuer');
-    //     }
-
-    //     if ($payload['aud'] !== env('APPLE_CLIENT_ID')) {
-    //         dd('Invalid audience');
-    //     }
-
-    //     if ($payload['exp'] < time()) {
-    //         dd('Token has expired');
-    //     }
-
-    //     $userId = $payload['email'] ?? $payload['sub'];
-    // }
+    public function apple_login(Request $request)
+    {
+        $appleUser = Socialite::driver('apple')->stateless()->userFromToken($request->bearerToken());
+        dd($appleUser);
+    }
 
     protected function getLocalUser(OAuthTwoUser $socialUser): ?User
     {
