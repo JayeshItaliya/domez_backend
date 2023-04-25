@@ -12,6 +12,14 @@ use Illuminate\Support\Facades\Validator;
 use Laravel\Socialite\Facades\Socialite;
 use Laravel\Socialite\Two\User as OAuthTwoUser;
 
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
+use JWTAuth;
+use Tymon\JWTAuth\Exceptions\JWTException;
+
+
+use App\Services\JwtService;
+
 class AuthenticationController extends Controller
 {
     public function sign_in(Request $request)
@@ -335,10 +343,87 @@ class AuthenticationController extends Controller
         );
         return $data;
     }
+
     public function apple_login(Request $request)
     {
-        $appleUser = Socialite::driver('apple')->stateless()->userFromToken($request->bearerToken());
-        dd($appleUser);
+        try {
+
+            $appleToken = '000225.01937fb47e8b481f89943bbba78a9d15.0657';
+
+            $appleValidationUrl = 'https://appleid.apple.com/auth/token';
+            $appleClientId = env('APPLE_CLIENT_ID');
+            // $appleClientSecret = env('APPLE_CLIENT_SECRET');
+
+            $clientId = env('APPLE_CLIENT_ID');
+            $teamId = env('APPLE_TEAM_ID');
+            $keyId = env('APPLE_KEY_ID');
+            $privateKey = config('services.apple.client_secret');
+            $jwtService = new JwtService();
+            // $appleClientSecret = $jwtService->generateClientSecret($clientId, $teamId, $keyId, $privateKey);
+            $appleClientSecret = 'eyJraWQiOiI3MjRXN1pYQzJEIiwiYWxnIjoiRVMyNTYiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJMOEJXSzc0TTc1IiwiaWF0IjoxNjgyNDA3NzM0LCJleHAiOjE2OTc5NTk3MzQsImF1ZCI6Imh0dHBzOi8vYXBwbGVpZC5hcHBsZS5jb20iLCJzdWIiOiJjb20uZG9tZXouaW8uZG9tZXoifQ.ayRY3mX_P8wtumGBFWGW-aXZynqD63-tRrp_olsbm_EN4Df5bSCTlrp8_qVDie76Ft2czQ9Tqj-URFChpcIAYQ';
+            dump($appleClientSecret);
+
+            $response = Http::asForm()->post($appleValidationUrl, [
+                'grant_type' => 'authorization_code',
+                'code' => $appleToken,
+                'client_id' => $appleClientId,
+                'client_secret' => $appleClientSecret,
+            ]);
+
+            dd($response);
+
+            // Handle the response from Apple
+            if ($response->successful()) {
+                // If the token is valid, store it in the database or use it to authenticate the user
+                $appleAccessToken = $response->json()['access_token'];
+                // ...
+            } else {
+                // If the token is invalid, return an error response to the mobile application
+                return response()->json(['error' => 'Invalid token'], 400);
+            }
+        } catch (\Throwable $th) {
+            dd(111, $th);
+        }
+
+        // $client = DB::table('oauth_clients')
+        //     ->where('password_client', true)
+        //     ->first();
+        // if (!$client) {
+        //     return response()->json([
+        //         'message' => trans('validation.passport.client_error'),
+        //         'status' => Response::HTTP_INTERNAL_SERVER_ERROR
+        //     ], Response::HTTP_INTERNAL_SERVER_ERROR);
+        // }
+        // $data = [
+        //     'grant_type' => 'social',
+        //     'client_id' => $client->id,
+        //     'client_secret' => $client->secret,
+        //     'provider' => 'apple',
+        //     'access_token' => $token
+        // ];
+        // $request = Request::create('/oauth/token', 'POST', $data);
+        // $content = json_decode(app()->handle($request)->getContent());
+        // if (isset($content->error) && $content->error === 'invalid_request') {
+        //     return response()->json(['error' => true, 'message' => $content->message]);
+        // }
+        // return response()->json(
+        //     [
+        //         'error' => false,
+        //         'data' => [
+        //             'user' => $user,
+        //             'meta' => [
+        //                 'token' => $content->access_token,
+        //                 'expired_at' => $content->expires_in,
+        //                 'refresh_token' => $content->refresh_token,
+        //                 'type' => 'Bearer'
+        //             ],
+        //         ]
+        //     ],
+        //     Response::HTTP_OK
+        // );
+
+        // $appleUser = Socialite::driver('apple')->stateless()->userFromToken($request->bearerToken());
+        // dd($appleUser);
     }
 
     protected function getLocalUser(OAuthTwoUser $socialUser): ?User
@@ -347,6 +432,18 @@ class AuthenticationController extends Controller
         if (!$user) {
             $user = $this->registerAppleUser($socialUser);
         }
+        return $user;
+    }
+    protected function registerAppleUser(OAuthTwoUser $socialUser): ?User
+    {
+        $user = User::create(
+            [
+                'full_name' => request()->fullName ? request()->fullName : 'Apple User',
+                'email' => $socialUser->email,
+                'password' => Str::random(30), // Social users are password-less
+
+            ]
+        );
         return $user;
     }
 }
