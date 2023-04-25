@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 25, 2023 at 12:38 PM
--- Server version: 10.4.27-MariaDB
--- PHP Version: 8.2.0
+-- Generation Time: Apr 25, 2023 at 02:02 PM
+-- Server version: 10.4.28-MariaDB
+-- PHP Version: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -61,7 +61,7 @@ CREATE TABLE `bookings` (
   `customer_email` varchar(255) NOT NULL,
   `customer_mobile` varchar(255) DEFAULT NULL,
   `team_name` varchar(255) DEFAULT NULL COMMENT 'For Leagues Booking Only',
-  `cancelled_by` tinyint(4) NOT NULL COMMENT '1=ByAuto, 2=ByDomeOwner, 3=ByCustomer',
+  `cancelled_by` tinyint(4) DEFAULT NULL COMMENT '1=ByAuto, 2=ByDomeOwner, 3=ByCustomer',
   `cancellation_reason` text DEFAULT NULL,
   `is_payment_released` tinyint(4) NOT NULL DEFAULT 2 COMMENT '1=Yes, 2=No',
   `is_review_noti_send` tinyint(4) DEFAULT 2,

@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::create('set_prices_days_slots', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('set_prices_id');
             $table->foreign('set_prices_id')->references('id')->on('set_prices');
             $table->integer('dome_id')->nullable();
             $table->integer('sport_id')->nullable();
