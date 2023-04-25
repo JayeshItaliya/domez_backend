@@ -15,9 +15,11 @@ return new class extends Migration
     {
         Schema::create('payment_gateways', function (Blueprint $table) {
             $table->id();
-            $table->integer('type')->comment('1=Stripe');
-            $table->string('public_key');
-            $table->string('secret_key');
+            $table->tinyInteger('type')->comment('1=Stripe');
+            $table->integer('vendor_id');
+            $table->string('account_id')->nullable();
+            $table->string('public_key')->nullable();
+            $table->string('secret_key')->nullable();
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent();
         });

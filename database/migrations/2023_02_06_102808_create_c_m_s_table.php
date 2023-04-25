@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('cms', function (Blueprint $table) {
             $table->id();
-            $table->integer('type')->comment('1=Privacy Policy, 2=Terms & Conditions, 3=Refund Policy');
+            $table->tinyInteger('type')->comment('1=Privacy Policy, 2=Terms & Conditions, 3=Refund Policy, 4=Cancelllation Policy');
             $table->longText('content');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent();

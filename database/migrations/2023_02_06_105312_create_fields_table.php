@@ -19,12 +19,14 @@ return new class extends Migration
             $table->integer('dome_id');
             $table->string('sport_id');
             $table->string('name');
-            $table->double('area', 8, 2)->default(0);
+            $table->double('area', 8, 2)->default(0.00);
             $table->integer('min_person');
             $table->integer('max_person');
             $table->string('image');
-            $table->tinyInteger('is_available')->default(1)->comment('1=yes,2=no');
-            $table->tinyInteger('is_deleted')->default(2)->comment('1=yes,2=no');
+            $table->date('maintenance_date')->nullable()->comment('1=Yes, 2=No');
+            $table->tinyInteger('in_maintenance')->default(2)->comment('1=Yes, 2=No');
+            $table->tinyInteger('is_available')->default(1)->comment('1=Yes, 2=No');
+            $table->tinyInteger('is_deleted')->default(2)->comment('1=Yes, 2=No');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent();
         });

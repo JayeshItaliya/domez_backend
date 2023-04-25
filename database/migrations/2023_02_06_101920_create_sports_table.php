@@ -17,8 +17,8 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('image');
-            $table->tinyInteger('is_available')->default(1)->comment('1=yes,2=no');
-            $table->tinyInteger('is_deleted')->default(2)->comment('1=yes,2=no');
+            $table->tinyInteger('is_available')->default(1)->comment('1=Yes, 2=No');
+            $table->tinyInteger('is_deleted')->default(2)->comment('1=Yes, 2=No');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent();
         });

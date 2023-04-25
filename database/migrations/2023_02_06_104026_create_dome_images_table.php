@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('dome_images', function (Blueprint $table) {
             $table->id();
-            $table->integer('vendor_id');
-            $table->integer('dome_id');
+            $table->integer('dome_id')->nullable();
+            $table->integer('league_id')->nullable();
             $table->string('images');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent();
