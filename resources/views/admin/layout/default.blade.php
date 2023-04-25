@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="{{ url('storage/app/public/admin/css/toastr/toastr.min.css') }}">
     <link rel="stylesheet" href="{{ url('storage/app/public/admin/css/timepicker/jquery.timepicker.min.css') }}">
     <link rel="stylesheet" href="{{ url('storage/app/public/admin/plugins/bootstrap_table/bootstrap-table.min.css') }}">
-    <link rel="stylesheet" href="{{ url('storage/app/public/admin/css/custom.min.js') }}">
+    <link rel="stylesheet" href="{{ url('storage/app/public/admin/css/custom.min.css') }}">
     <link rel="stylesheet" href="{{ url('storage/app/public/admin/css/responsive.min.css') }}">
     @yield('styles')
     <style>

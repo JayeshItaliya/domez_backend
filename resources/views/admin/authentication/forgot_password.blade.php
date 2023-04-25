@@ -17,7 +17,7 @@
     <!-- Toastr CSS -->
     <link rel="stylesheet" href="{{ url('storage/app/public/admin/css/toastr/toastr.min.css') }}">
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="{{ url('storage/app/public/admin/css/custom.min.js') }}">
+    <link rel="stylesheet" href="{{ url('storage/app/public/admin/css/custom.min.css') }}">
 </head>
 <body>
     <style>
