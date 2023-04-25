@@ -70,6 +70,6 @@
     <script src="{{ url('storage/app/public/admin/js/bootstrap/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ url('storage/app/public/admin/js/sweetalert/sweetalert2.min.js') }}"></script>
     <script src="{{ url('storage/app/public/admin/js/toastr/toastr.min.js') }}"></script>
-    <script src="{{ url('storage/app/public/admin/js/custom.js') }}"></script>
+    <script src="{{ url('storage/app/public/admin/js/custom.min.css') }}"></script>
 </body>
 </html>

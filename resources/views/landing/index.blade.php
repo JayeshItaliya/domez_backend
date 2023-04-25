@@ -589,7 +589,7 @@
     <script src="{{ url('storage/app/public/admin/js/toastr/toastr.min.js') }}"></script>
     <script src="{{ url('storage/app/public/admin/js/slick/slick.min.js') }}"></script>
     <script src="{{ url('storage/app/public/admin/plugins/owl_carousel/owl.carousel.js') }}"></script>
-    <script src="{{ url('storage/app/public/admin/js/custom.js') }}"></script>
+    <script src="{{ url('storage/app/public/admin/js/custom.min.css') }}"></script>
     <script>
         toastr.options = {
             "closeButton": true,
