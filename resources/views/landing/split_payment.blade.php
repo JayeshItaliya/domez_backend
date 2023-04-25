@@ -300,7 +300,7 @@
     <script src="{{ url('storage/app/public/admin/js/sweetalert/sweetalert2.min.js') }}"></script>
     <script src="{{ url('storage/app/public/admin/js/toastr/toastr.min.js') }}"></script>
     <script src="{{ url('storage/app/public/admin/js/slick/slick.min.js') }}"></script>
-    <script src="{{ url('storage/app/public/admin/js/custom.min.css') }}"></script>
+    <script src="{{ url('storage/app/public/admin/js/custom.min.js') }}"></script>
 </body>
 <script>
     toastr.options = {

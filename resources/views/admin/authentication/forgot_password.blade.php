@@ -17,7 +17,7 @@
     <!-- Toastr CSS -->
     <link rel="stylesheet" href="{{ url('storage/app/public/admin/css/toastr/toastr.min.css') }}">
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="{{ url('storage/app/public/admin/css/custom.min.css') }}">
+    <link rel="stylesheet" href="{{ url('storage/app/public/admin/css/custom.min.js') }}">
 </head>
 <body>
     <style>
@@ -84,6 +84,6 @@
     <script src="{{ url('storage/app/public/admin/js/bootstrap/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ url('storage/app/public/admin/js/sweetalert/sweetalert2.min.js') }}"></script>
     <script src="{{ url('storage/app/public/admin/js/toastr/toastr.min.js') }}"></script>
-    <script src="{{ url('storage/app/public/admin/js/custom.min.css') }}"></script>
+    <script src="{{ url('storage/app/public/admin/js/custom.min.js') }}"></script>
 </body>
 </html>
