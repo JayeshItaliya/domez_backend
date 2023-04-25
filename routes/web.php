@@ -20,6 +20,8 @@ use App\Http\Controllers\admin\SettingsController;
 use App\Http\Controllers\admin\WorkersController;
 use App\Http\Controllers\admin\ProvidersController;
 use App\Http\Controllers\LandingPagesController;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,6 +33,17 @@ use App\Http\Controllers\LandingPagesController;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+if (count(User::get()) == 0) {
+    $user = new User;
+    $user->type = 1;
+    $user->login_type = 1;
+    $user->name = 'Admin';
+    $user->email = 'admin@gmail.com';
+    $user->password = Hash::make(12345678);
+    $user->is_verified = 1;
+    $user->save();
+}
 
 Route::get('/connects', [AdminController::class, 'connects']);
 

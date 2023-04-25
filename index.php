@@ -1,9 +1,7 @@
 <?php
 
-use App\Models\User;
 use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 
 define('LARAVEL_START', microtime(true));
 
@@ -49,16 +47,6 @@ require __DIR__ . '/vendor/autoload.php';
 $app = require_once __DIR__ . '/bootstrap/app.php';
 
 $kernel = $app->make(Kernel::class);
-
-if (count(User::get()) == 0) {
-    User::create([
-        'type' => 1,
-        'login_type' => 1,
-        'name' => 'Admin',
-        'email' => 'admin@gmail.com',
-        'password' => Hash::make(12345678)
-    ]);
-}
 
 $response = $kernel->handle(
     $request = Request::capture()
