@@ -19,13 +19,13 @@
     <!-- Toastr CSS -->
     <link rel="stylesheet" href="{{ url('storage/app/public/admin/css/toastr/toastr.min.css') }}">
     <!-- slick Css -->
-    <link rel="stylesheet" href="{{ url('storage/app/public/admin/css/slick/slick.css') }}">
+    <link rel="stylesheet" href="{{ url('storage/app/public/admin/css/slick/slick.min.css') }}">
     <!-- animate compact Css -->
-    <link rel="stylesheet" href="{{ url('storage/app/public/admin/css/animate.css') }}">
+    <link rel="stylesheet" href="{{ url('storage/app/public/admin/css/animate.min.css') }}">
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="{{ url('storage/app/public/admin/css/landing.css') }}">
+    <link rel="stylesheet" href="{{ url('storage/app/public/admin/css/landing.min.css') }}">
     <!-- responsive Css -->
-    <link rel="stylesheet" href="{{ url('storage/app/public/admin/css/responsive.css') }}">
+    <link rel="stylesheet" href="{{ url('storage/app/public/admin/css/responsive.min.css') }}">
     <script src="https://js.stripe.com/v3/"></script>
 </head>
 
