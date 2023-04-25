@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 20, 2023 at 03:10 PM
+-- Generation Time: Apr 25, 2023 at 12:38 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -84,7 +84,8 @@ INSERT INTO `bookings` (`id`, `type`, `vendor_id`, `provider_id`, `dome_id`, `le
 (8, 1, 2, NULL, 35, NULL, 7, 10, '2', 'b70e088b', '07:30 AM - 09:00 AM', '2023-04-18', NULL, '07:30:00', '09:00:00', 130, 6.5, 6.5, 143.00, 143.00, 0.00, NULL, 0, 1, 1, 1, 1, '2y10OTi4Kw2k4W0DqcpenQgDHeGtmiRHVfXMaEvfYnCK0DTQ6OzlEo0Iu', 12, 'test1', 'dummy@yopmail.com', '5445435435', '', 0, NULL, 2, 2, '2023-04-17 09:50:10', '2023-04-20 05:07:02'),
 (9, 2, 2, NULL, 35, 1, 7, 6, '32,30', '524cbde3', NULL, '2023-05-26', '2023-08-25', '09:00:00', '13:00:00', 350, 17.5, 17.5, 385.00, 385.00, 0.00, NULL, 0, 1, 1, 1, 1, '2y10LN0vylonXHwYYEl58vSYefoRmhisp4k5nmK14YVtrj0CbSIyhxi', 55, 'test1', 'dummy@yopmail.com', '5445435435', '55', 0, NULL, 2, 2, '2023-04-17 09:58:11', '2023-04-17 09:58:11'),
 (10, 2, 2, NULL, 35, 16, 7, 6, '35,33,32,31,30', '576b55d3', NULL, '2023-04-28', '2023-07-28', '09:00:00', '15:00:00', 150, 7.5, 7.5, 165.00, 165.00, 0.00, NULL, 0, 1, 1, 1, 1, '2y108YxzQUzLzwJzV6RMaRAYX6djpVt2sADevI86IzjBS5u4mf1qGvS', 55, 'test1', 'dummy@yopmail.com', '5445435435', 'kk', 0, NULL, 2, 2, '2023-04-17 10:17:20', '2023-04-17 10:17:20'),
-(11, 2, 2, NULL, 35, 1, 7, 6, '32,30', 'bdc69f18', NULL, '2023-05-26', '2023-08-25', '09:00:00', '13:00:00', 350, 17.5, 17.5, 385.00, 385.00, 0.00, NULL, 0, 1, 1, 1, 2, '2y10ebAnHmsfVlHXKoduiNO0u3VK3HtwuCIrGZjkaAjdY5MmkW0pHlku', 33, 'test1', 'dummy@yopmail.com', '5445435435', '332', 0, NULL, 2, 2, '2023-04-17 10:32:53', '2023-04-17 10:32:53');
+(11, 2, 2, NULL, 35, 1, 7, 6, '32,30', 'bdc69f18', NULL, '2023-05-26', '2023-08-25', '09:00:00', '13:00:00', 350, 17.5, 17.5, 385.00, 385.00, 0.00, NULL, 0, 1, 1, 1, 2, '2y10ebAnHmsfVlHXKoduiNO0u3VK3HtwuCIrGZjkaAjdY5MmkW0pHlku', 33, 'test1', 'dummy@yopmail.com', '5445435435', '332', 0, NULL, 2, 2, '2023-04-17 10:32:53', '2023-04-17 10:32:53'),
+(12, 1, 2, NULL, 35, NULL, 7, 10, '2', 'a6d0bc3a', '03:00 PM - 04:30 PM', '2023-04-24', NULL, '15:00:00', '16:30:00', 120, 6, 6, 132.00, 132.00, 0.00, NULL, 0, 1, 1, 1, 1, '2y107ln8XkEY7XHMazR4X6qyO5ia38opK6GIH3DMRnoeHygjhbrVheK', 12, 'test1', 'dummy@yopmail.com', '5445435435', '', 0, NULL, 2, 2, '2023-04-24 06:28:09', '2023-04-24 06:28:09');
 
 -- --------------------------------------------------------
 
@@ -649,7 +650,7 @@ INSERT INTO `set_prices_days_slots` (`id`, `set_prices_id`, `dome_id`, `sport_id
 (112, 29, 35, 10, '2023-04-24', '10:30:00', '12:00:00', 'monday', 80, 1, '2023-04-06 07:26:32', '2023-04-06 07:26:32'),
 (113, 29, 35, 10, '2023-04-24', '12:00:00', '13:30:00', 'monday', 90, 1, '2023-04-06 07:26:32', '2023-04-06 07:26:32'),
 (114, 29, 35, 10, '2023-04-24', '13:30:00', '15:00:00', 'monday', 100, 1, '2023-04-06 07:26:32', '2023-04-06 07:26:32'),
-(115, 29, 35, 10, '2023-04-24', '15:00:00', '16:30:00', 'monday', 120, 1, '2023-04-06 07:26:32', '2023-04-06 07:26:32'),
+(115, 29, 35, 10, '2023-04-24', '15:00:00', '16:30:00', 'monday', 120, 0, '2023-04-06 07:26:32', '2023-04-24 06:28:09'),
 (116, 29, 35, 10, '2023-04-24', '16:30:00', '18:00:00', 'monday', 150, 1, '2023-04-06 07:26:32', '2023-04-06 07:26:32'),
 (117, 29, 35, 10, '2023-04-25', '06:00:00', '07:30:00', 'tuesday', 120, 1, '2023-04-06 07:26:32', '2023-04-06 07:26:32'),
 (118, 29, 35, 10, '2023-04-25', '07:30:00', '09:00:00', 'tuesday', 130, 1, '2023-04-06 07:26:32', '2023-04-06 07:26:32'),
@@ -1557,7 +1558,8 @@ INSERT INTO `transactions` (`id`, `type`, `vendor_id`, `dome_id`, `league_id`, `
 (8, 1, 2, 35, NULL, 7, 'b70e088b', NULL, 1, 'pi_3Mxoh5FysF0okTxJ0lg6ZLoT', 143.00, 1, '2023-04-17 09:50:10', '2023-04-17 04:42:03'),
 (9, 1, 2, 35, 1, 7, '524cbde3', NULL, 1, 'pi_3MxoocFysF0okTxJ1YGBlu3a', 385.00, 1, '2023-04-17 09:58:11', '2023-04-17 04:42:03'),
 (10, 1, 2, 35, 16, 7, '576b55d3', NULL, 1, 'pi_3Mxp7BFysF0okTxJ0o28MQ6w', 165.00, 1, '2023-04-17 10:17:20', '2023-04-17 04:48:04'),
-(11, 1, 2, 35, 1, 7, 'bdc69f18', NULL, 1, 'pi_3MxpMMFysF0okTxJ0zpnVZeJ', 385.00, 2, '2023-04-17 10:32:54', '2023-04-17 10:32:54');
+(11, 1, 2, 35, 1, 7, 'bdc69f18', NULL, 1, 'pi_3MxpMMFysF0okTxJ0zpnVZeJ', 385.00, 2, '2023-04-17 10:32:54', '2023-04-17 10:32:54'),
+(12, 1, 2, 35, NULL, 7, 'a6d0bc3a', NULL, 1, 'pi_3N0IkdFysF0okTxJ0kkkQmpb', 132.00, 2, '2023-04-24 06:28:09', '2023-04-24 06:28:09');
 
 -- --------------------------------------------------------
 
@@ -1630,14 +1632,13 @@ INSERT INTO `users` (`id`, `type`, `login_type`, `vendor_id`, `dome_limit`, `nam
 (58, 2, 1, NULL, NULL, 'Sitara Domez', 'sitaradome@yopmail.com', 'CA', '84651151', '$2y$10$z0eXm5BtjQQP77GHRvJAGOIp1osY2Lx0NvMvmkpTgPzpiTUvnIlri', NULL, NULL, NULL, NULL, NULL, 'default.png', 1, 1, 2, '2023-09-06 00:03:03', '2023-02-22 04:12:48'),
 (59, 2, 1, NULL, NULL, 'Coras Domez', 'corasdomez@yopmail.com', 'CA', '654565615', '$2y$10$z0eXm5BtjQQP77GHRvJAGOIp1osY2Lx0NvMvmkpTgPzpiTUvnIlri', NULL, NULL, NULL, NULL, NULL, 'default.png', 1, 1, 2, '2023-10-06 00:03:03', '2023-02-22 04:12:48'),
 (60, 2, 1, NULL, NULL, 'Just Play Domez', 'justplaydomez@yopmail.com', 'CA', '5854854', '$2y$10$z0eXm5BtjQQP77GHRvJAGOIp1osY2Lx0NvMvmkpTgPzpiTUvnIlri', NULL, NULL, NULL, NULL, NULL, 'default.png', 1, 1, 2, '2023-10-06 00:03:03', '2023-02-22 04:12:48'),
-(61, 4, 1, 2, NULL, 'hiren', 'hirenitaliya@gmail.com', NULL, NULL, '$2y$10$JrluFobu/xBEBKQZY1kr6.gAJe4QGuWZP6Ugp6ctXHWz4My5lnfeO', NULL, NULL, NULL, NULL, NULL, 'default.png', 1, 1, 2, '2023-03-29 09:29:58', '2023-03-29 09:29:58'),
+(61, 4, 1, 2, NULL, 'Employee 1', 'emp1@gmail.com', NULL, NULL, '$2y$10$JrluFobu/xBEBKQZY1kr6.gAJe4QGuWZP6Ugp6ctXHWz4My5lnfeO', NULL, NULL, NULL, NULL, NULL, 'default.png', 1, 1, 2, '2023-03-29 09:29:58', '2023-04-21 10:05:29'),
 (62, 3, 1, NULL, NULL, NULL, 's@gmail.com', NULL, NULL, '$2y$10$Em2kx11cJcQLN9iM2mK/ueOh7FrLUkTYOPxRt3AurFEAbITt67ZsK', NULL, NULL, NULL, NULL, NULL, 'default.png', 1, 1, 2, '2023-04-05 08:49:20', '2023-04-05 08:49:20'),
 (63, 3, 1, NULL, NULL, 'santosh', 'santosh.vrajtechnosys@gmail.com', 'IN', '9998557245', '$2y$10$yd.DhVEEvTXUpF4M9mSueOwGzllrd8IGtUoa.PY9zA2Cl/DRQHW5O', NULL, NULL, NULL, NULL, NULL, 'default.png', 1, 1, 2, '2023-04-06 04:58:01', '2023-04-06 04:58:01'),
 (64, 3, 1, NULL, NULL, NULL, 'null', NULL, NULL, '$2y$10$LhL0JeLWTAEE5atbggy4qO0Rq2bWdUpOiRAkeQZEEGoTsPdyE7zXG', NULL, NULL, NULL, NULL, NULL, 'default.png', 1, 1, 2, '2023-04-06 08:41:38', '2023-04-06 08:41:38'),
 (65, 3, 1, NULL, NULL, NULL, 'abcd@gmail.com', NULL, NULL, '$2y$10$g0vu7lRdsBxOGbJiSPg0N.b6q/Q9Auvfdfi.sIQoiisl9xwM15sci', NULL, NULL, NULL, NULL, NULL, 'default.png', 1, 1, 2, '2023-04-06 08:47:26', '2023-04-06 08:47:26'),
 (66, 3, 1, NULL, NULL, 'soham', 'domez@gmail.com', 'CA', '6359478772', '$2y$10$1cbNnJ379uwLbf0cBlmooupypHFEzQDVdZWL5jgA0XHfnYseLtpD2', NULL, NULL, NULL, '', NULL, 'default.png', 1, 1, 2, '2023-04-06 08:54:44', '2023-04-09 05:28:40'),
-(67, 3, 2, NULL, NULL, 'Diya Developer', 'developeratdiyatechlab@gmail.com', '', 'null', NULL, '118229769592452480997', NULL, NULL, NULL, NULL, 'https://lh3.googleusercontent.com/a/AEdFTp4r8T_I6OUXFxYm5WjEdOTdiYMQERdYw0OWZi7V=s96-c', 1, 1, 2, '2023-04-06 08:58:37', '2023-04-06 08:58:37'),
-(68, 3, 4, NULL, NULL, 'diwakar', 'tdiwakarkumar@gmail.com', '', '', NULL, NULL, NULL, NULL, NULL, NULL, 'default.png', 1, 1, 2, '2023-04-06 09:47:10', '2023-04-06 09:47:10'),
+(94, 3, 2, NULL, NULL, 'Soham Shah', 'developersoham7@gmail.com', '', '', NULL, '102066544323619435645', NULL, NULL, '', NULL, 'default.png', 1, 1, 2, '2023-04-21 11:27:41', '2023-04-21 11:27:41'),
 (69, 3, 1, NULL, NULL, 'diwakar', 'shivakar@gmail.com', 'CA', '1556699777', '$2y$10$gOpL3PLWkmtYfV81XSRZuOZYDR.msIC0w/Vve5g8/qbjGLzGZ3xze', NULL, NULL, NULL, '', NULL, 'profiles-642ebfd246f2a.png', 1, 1, 2, '2023-04-06 09:50:53', '2023-04-08 12:03:43'),
 (70, 3, 1, NULL, NULL, 'test1', 'merry@gmail.com', 'CA', '6359478772', '$2y$10$2FVv8hx6eQKUDRINeMQPV.zLye95Og0u1GhYlXUV419PLAJIx6Bfm', NULL, NULL, NULL, '', NULL, 'default.png', 1, 1, 2, '2023-04-06 10:06:53', '2023-04-06 10:06:53'),
 (71, 3, 1, NULL, NULL, 'Harshi Soham', 'harshisoham@gmail.com', 'IN', '6359496669', '$2y$10$Hq1ytlv4YIGouAbVxUAxaOE7ABZH.MgbC1LPWKmt41N/hHmRigaqu', NULL, NULL, NULL, '', NULL, 'default.png', 1, 1, 2, '2023-04-06 10:12:50', '2023-04-06 10:21:27'),
@@ -1650,7 +1651,7 @@ INSERT INTO `users` (`id`, `type`, `login_type`, `vendor_id`, `dome_limit`, `nam
 (78, 3, 1, NULL, NULL, 'Soham', 'soham.vrajtechnosys@gmail.com', 'CA', '6358948725', '$2y$10$v5XC2Y7ekv6ZYL.IYcXKauF1STHmgnEjJx0VuDEeYpFMhtAHTx84S', NULL, NULL, NULL, '', NULL, 'default.png', 1, 1, 2, '2023-04-09 05:52:45', '2023-04-09 05:52:45'),
 (79, 3, 1, NULL, NULL, 'soham', 'diwakar.vrajtechnosys@gmail.com', 'CA', '6359478771', '$2y$10$Be57UGLm2GgtihGkP.Knz.wCWMBqSNoFG/XxBrKgV9kSt7st6qNaW', NULL, NULL, NULL, '', NULL, 'profiles-64352dccc1211.png', 1, 1, 2, '2023-04-10 08:42:48', '2023-04-11 09:52:12'),
 (87, 3, 1, NULL, NULL, NULL, 'gfg@gmail.com', NULL, NULL, '$2y$10$5gLBQ6MVQKwmE54vsWMa3OXtdwUCVWyvEZyx9zP83niqpn19n8IbW', NULL, NULL, NULL, NULL, NULL, 'default.png', 1, 1, 2, '2023-04-14 11:27:48', '2023-04-14 11:27:48'),
-(80, 5, 1, 2, NULL, 'provider', 'provider@yopmail.com', NULL, NULL, '$2y$10$cqtH6uTTZ9sx12dNQFpbE.n3TECEuOAcfLzEee00b2fVdu/1OOJiW', NULL, NULL, NULL, NULL, NULL, 'default.png', 1, 1, 2, '2023-04-11 15:11:21', '2023-04-11 15:11:21'),
+(80, 5, 1, 2, NULL, 'provider 123', 'provider@yopmail.com', NULL, NULL, '$2y$10$cqtH6uTTZ9sx12dNQFpbE.n3TECEuOAcfLzEee00b2fVdu/1OOJiW', NULL, NULL, NULL, NULL, NULL, 'default.png', 1, 1, 2, '2023-04-11 15:11:21', '2023-04-21 10:10:53'),
 (81, 3, 1, NULL, NULL, NULL, 'developersoham7@gmail.com', NULL, NULL, '$2y$10$Xv4oGUmtEuQFstrD1lJQVe67wvLXchUTCbvrSaCP4MxRvx5uxTak2', NULL, NULL, NULL, NULL, NULL, 'default.png', 1, 1, 2, '2023-04-12 05:24:59', '2023-04-12 05:24:59'),
 (82, 3, 1, NULL, NULL, NULL, 'sohamshah7120@gmaill.com', NULL, NULL, '$2y$10$OfttbpfmvnSI18VY5i/UDuwRc2zf702UdCAoW5xtUjd/lX6a3RW0y', NULL, NULL, NULL, NULL, NULL, 'default.png', 1, 1, 2, '2023-04-12 06:11:12', '2023-04-12 06:11:12'),
 (83, 3, 1, NULL, NULL, NULL, 'sohamshah712@gmail.com', NULL, NULL, '$2y$10$/BbeN7fZ86aVJyoVK12vSeJUe5hXeMYHwOXTtio7f7XO7KlUt7b/y', NULL, NULL, NULL, NULL, NULL, 'default.png', 1, 1, 2, '2023-04-12 06:53:04', '2023-04-12 06:53:04'),
@@ -1769,7 +1770,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `bookings`
 --
 ALTER TABLE `bookings`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `cms`
@@ -1853,13 +1854,13 @@ ALTER TABLE `sports`
 -- AUTO_INCREMENT for table `transactions`
 --
 ALTER TABLE `transactions`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=94;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=95;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
