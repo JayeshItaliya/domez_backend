@@ -116,7 +116,7 @@
             toastr.warning("{{ session('warning') }}");
         @endif
     </script>
-    <script src="{{ url('storage/app/public/admin/js/custom.min.css') }}"></script>
+    <script src="{{ url('storage/app/public/admin/js/custom.min.js') }}"></script>
 </body>
 
 </html>

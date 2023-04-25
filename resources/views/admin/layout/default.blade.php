@@ -250,7 +250,7 @@
             location.href = $(this).attr('data-next');
         });
     </script>
-    <script src="{{ url('storage/app/public/admin/js/custom.min.css') }}"></script>
+    <script src="{{ url('storage/app/public/admin/js/custom.min.js') }}"></script>
     @yield('scripts')
 </body>
 
