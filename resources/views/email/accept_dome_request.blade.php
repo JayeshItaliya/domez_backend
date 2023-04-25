@@ -55,7 +55,7 @@
         <p>Email: <strong>{{ $email }}</strong></p>
         <p>Password: <strong>{{ $password }}</strong></p>
 
-        <a class="btn" href="{{ URL::to('/F') }}">Visit Our Website</a>
+        <a class="btn" href="{{ URL::to('login') }}">Login</a>
 
         <p style="font-size:0.9em;">Regards,<br />Domez Team</p>
     </div>
