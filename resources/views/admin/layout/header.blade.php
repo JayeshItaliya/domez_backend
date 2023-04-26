@@ -48,7 +48,7 @@
                 @endif
             @endif
             {{-- Only use for development purpose --}}
-            
+
             {{-- <li class="dropdown">
                 <a href="#" class="nav-item currency-icon" role="button" data-bs-toggle="dropdown"
                     aria-expanded="false">
@@ -184,12 +184,12 @@
                             $now = \Carbon\Carbon::now();
                             $greeting = 'Good evening';
                             if ($now->hour >= 5 && $now->hour < 12) {
-                                $greeting = 'Good morning';
+                                $greeting = 'Helllo';
                             } elseif ($now->hour >= 12 && $now->hour < 18) {
                                 $greeting = 'Good afternoon';
                             }
                         @endphp
-                        <p><strong>{{ trans('labels.good_morning') }}</strong> {{ Auth::user()->name }}</p>
+                        <p><strong>{{ trans('labels.hello') }}</strong> {{ Auth::user()->name }}</p>
                         <small class="text-muted">
                             @if (Auth::user()->type == 1)
                                 {{ trans('labels.admin') }}

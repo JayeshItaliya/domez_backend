@@ -38,7 +38,7 @@ return [
 'french' => 'Français',
 'all_notifications' => 'Toutes les notifications',
 'mark_read' => 'Marquer tout comme lu',
-'good_morning' => 'Bonjour,',
+'hello' => 'Bonjour,',
 'account_settings' => 'Paramètres du compte',
 'log_out' => 'Déconnexion',
 'loading' => 'Chargement...',

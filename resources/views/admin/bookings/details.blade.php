@@ -27,7 +27,7 @@
                     @if (
                         (Auth::user()->type == 2 || Auth::user()->type == 4) &&
                             date('Y-m-d') == date('Y-m-d', strtotime($bookingdata->start_date)) &&
-                            $bookingdata->league_id != '')
+                            $bookingdata->league_id == '')
                         <a href="javascript:;" class="btn btn-outline-primary extend-time" data-bs-toggle="modal"
                             data-bs-target="#slotsmodal"><i class="fa fa-plus"></i> {{ trans('labels.extend_time') }} </a>
                     @endif
