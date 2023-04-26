@@ -18,7 +18,7 @@ class VendorController extends Controller
 {
     public function index(Request $request)
     {
-        $vendors = User::where('type', 2)->where('is_deleted', 2)->orderBy('created_at', 'desc')->get();
+        $vendors = User::where('type', 2)->where('is_deleted', 2)->orderBy('id', 'desc')->get();
         return view('admin.vendors.index', compact('vendors'));
     }
     public function add(Request $request)
