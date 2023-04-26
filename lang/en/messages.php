@@ -52,7 +52,7 @@ return [
     'image_required' => 'Please Enter Image',
     'valid_image' => 'The Images must be a image type of file',
     'valid_image_type' => 'The Images must be a file of type: PNG, JPG, JPEG, SVG',
-    'valid_image_size' => 'The image must not be greater than 500KB.',
+    'valid_image_size' => 'The image must not be greater than 5MB.',
     'invalid_email' => 'Invalid Email Address',
     'invalid_otp' => 'Invalid OTP',
     'invalid_dome' => 'Invalid Dome',

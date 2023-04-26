@@ -45,7 +45,7 @@
                                     </div>
                                 </div>
                             </td>
-                            <td>{{ $vendor->phone }}</td>
+                            <td>{{ $vendor->phone != '' ? '+1' . $vendor->phone : '' }}</td>
                             <td>
                                 <img class="border-radius"
                                     src="{{ Helper::image_path($vendor->login_type == 1 ? 'email.svg' : ($vendor->login_type == 2 ? 'google.svg' : ($vendor->login_type == 3 ? 'apple.svg' : ($vendor->login_type == 4 ? 'facebook.svg' : '')))) }}"

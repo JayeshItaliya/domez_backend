@@ -22,8 +22,7 @@
             </div>
         </div>
     </div>
-    <form class="card" action="{{ URL::to('admin/domes/update-' . $dome->id) }}" method="post"
-        enctype="multipart/form-data">
+    <form class="card" action="{{ URL::to('admin/domes/update-' . $dome->id) }}" method="post" enctype="multipart/form-data">
         @csrf
         <div class="card-body">
             <div class="row">

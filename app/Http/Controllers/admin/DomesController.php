@@ -30,7 +30,7 @@ class DomesController extends Controller
         return view('admin.domes.index', compact('domes', 'sports', 'domes_count'));
     }
     public function add(Request $request)
-    {
+    {dd(Domes::where('vendor_id', auth()->user()->vendor_id)->count() , auth()->user()->dome_limit , auth()->user()->id);
         if (Domes::where('vendor_id', auth()->user()->vendor_id)->count() < auth()->user()->dome_limit) {
             $getsportslist = Sports::where('is_available', 1)->where('is_deleted', 2)->get();
             return view('admin.domes.add', compact('getsportslist'));

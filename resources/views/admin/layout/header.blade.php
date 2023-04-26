@@ -34,18 +34,21 @@
         </div> --}}
         <ul class="nav-icons">
             {{-- Only use for development purpose --}}
-            @if (in_array(Auth::user()->type, [1, 2, 4]) && env('APP_ENV') == 'local')
-                <li class="dropdown">
-                    <a href="{{ URL::to('admin/login-dev') }}"
-                        class="btn btn-primary">{{ Auth::user()->type == 1 ? 'Login as Dome Owner' : 'Login as Admin' }}</a>
-                </li>
-            @endif
-            @if (Auth::user()->type == 2)
-                <li class="dropdown ms-3">
-                    <a href="{{ URL::to('admin/login-emp') }}" class="btn btn-primary">Login as Employee</a>
-                </li>
+            @if (env('APP_ENV') == 'local')
+                @if (in_array(Auth::user()->type, [1, 2, 4]))
+                    <li class="dropdown">
+                        <a href="{{ URL::to('admin/login-dev') }}"
+                            class="btn btn-primary">{{ Auth::user()->type == 1 ? 'Login as Dome Owner' : 'Login as Admin' }}</a>
+                    </li>
+                @endif
+                @if (Auth::user()->type == 2)
+                    <li class="dropdown ms-3">
+                        <a href="{{ URL::to('admin/login-emp') }}" class="btn btn-primary">Login as Employee</a>
+                    </li>
+                @endif
             @endif
             {{-- Only use for development purpose --}}
+            
             {{-- <li class="dropdown">
                 <a href="#" class="nav-item currency-icon" role="button" data-bs-toggle="dropdown"
                     aria-expanded="false">

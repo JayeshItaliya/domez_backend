@@ -41,14 +41,14 @@
                                 <td>{{ $i++ }}</td>
                                 <td>{{ $enquiry->name }}</td>
                                 <td>{{ $enquiry->email }}</td>
-                                <td>{{ $enquiry->phone }}</td>
+                                <td>{{ $enquiry->phone != '' ? '+1' . $enquiry->phone : '' }}</td>
                                 <td>{{ $enquiry->dome_name }}</td>
                                 <td>{{ $enquiry->dome_country }}</td>
                                 <td class="d-flex align-items-center">
                                     @if ($enquiry->is_replied == 2)
                                         <span class="badge rounded-pill cursor-pointer reply-pill me-2 reply_action"
                                             data-show-name="{{ $enquiry->name }}" data-show-email="{{ $enquiry->email }}"
-                                            data-show-phone="{{ $enquiry->phone }}"
+                                            data-show-phone="{{ $enquiry->phone != '' ? '+1' . $enquiry->phone : '' }}"
                                             data-show-dome-name="{{ $enquiry->dome_name }}"
                                             data-show-dome-zipcode="{{ $enquiry->dome_zipcode }}"
                                             data-show-dome-city="{{ $enquiry->dome_city }}"

@@ -39,8 +39,7 @@
                                 <label for="email_address" class="form-label">{{ trans('labels.email_address') }}</label>
                                 <div class="input-group">
                                     <input type="email" name="email" class="form-control" id="email_address"
-                                        value="{{ Auth::user()->email }}"
-                                        placeholder="{{ trans('labels.email_address') }}"
+                                        value="{{ Auth::user()->email }}" placeholder="{{ trans('labels.email_address') }}"
                                         data-next="{{ URL::to('admin/settings/check-email-exist') }}" required>
                                     <span class="input-group-text my-spinner" id="basic-addon1">
                                         <div class="spinner-border spinner-border-sm text-dark" role="status">
@@ -51,11 +50,17 @@
                             </div>
                         </div>
                         <div class="col-md-4">
-                            <div class="mb-3">
+                            <div class="form-group">
                                 <label for="phone" class="form-label">{{ trans('labels.phone_number') }}</label>
-                                <input type="number" name="phone" class="form-control" id="phone"
-                                    value="{{ Auth::user()->phone }}" placeholder="{{ trans('labels.phone_number') }}"
-                                    required>
+                                <div class="input-group">
+                                    <input type="hidden" name="country" id="country" value="91">
+                                    <input type="tel" id="phone" name="phone"
+                                        class="form-control custom-input rounded mb-3"
+                                        placeholder="{{ trans('labels.phone_number') }}" value="{{ Auth::user()->phone }}" required>
+                                </div>
+                                @error('phone')
+                                    <span class="text-danger">{{ $message }}</span>
+                                @enderror
                             </div>
                         </div>
                         <div class="col-md-4">
@@ -152,5 +157,8 @@
     </div>
 @endsection
 @section('scripts')
+    <script src="{{ url('storage/app/public/admin/js/intelTelInput/intlTelInput.min.js') }}"></script>
+    <link rel="stylesheet" href="{{ url('storage/app/public/admin/js/intelTelInput/intlTelInput.min.css') }}">
+    <script src="{{ url('storage/app/public/admin/js/intelTelInput/utils.js') }}"></script>
     <script src="{{ url('resources/views/admin/settings/settings.js') }}"></script>
 @endsection

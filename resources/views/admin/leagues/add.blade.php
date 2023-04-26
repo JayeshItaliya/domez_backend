@@ -99,7 +99,7 @@
                             <div class="form-group">
                                 <label for="start_date" class="form-label">{{ trans('labels.start_date') }}</label>
                                 <input type="date" required class="form-control" name="start_date" id="start_date"
-                                    min="{{ date('Y-m-d') }}">
+                                    value="{{ old('start_date') }}" min="{{ date('Y-m-d') }}">
                                 @error('start_date')
                                     <span class="text-danger"> {{ $message }} </span>
                                 @enderror
@@ -109,7 +109,7 @@
                             <div class="form-group">
                                 <label for="end_date" class="form-label">{{ trans('labels.end_date') }}</label>
                                 <input type="date" required class="form-control" name="end_date" id="end_date"
-                                    disabled>
+                                    value="{{ old('end_date') }}" disabled>
                                 @error('end_date')
                                     <span class="text-danger"> {{ $message }} </span>
                                 @enderror
@@ -241,7 +241,7 @@
                                 <div class="input-group">
                                     <span class="input-group-text" id="basic-addon1"><i class="fa fa-dollar"></i></span>
                                     <input type="number" required class="form-control" name="price" id="price"
-                                    value="{{ old('price') }}" placeholder="{{ trans('labels.price_per_team') }}">
+                                        value="{{ old('price') }}" placeholder="{{ trans('labels.price_per_team') }}">
                                 </div>
                                 @error('price')
                                     <span class="text-danger"> {{ $message }} </span>

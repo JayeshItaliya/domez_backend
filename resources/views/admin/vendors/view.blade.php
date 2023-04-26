@@ -67,7 +67,7 @@
                             <label>{{ trans('labels.phone_number') }}</label>
                         </div>
                         <div class="col-md-8">
-                            <span class="text-muted fs-7">{{ $dome_owner->phone }}</span>
+                            <span class="text-muted fs-7">{{ $dome_owner->phone != '' ? '+1' . $dome_owner->phone : '' }}</span>
                         </div>
                     </div>
                 </div>

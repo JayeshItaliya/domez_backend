@@ -28,7 +28,7 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="name" class="form-label">{{ trans('labels.name') }}</label>
-                        <input type="text" id="name" name="name" placeholder="{{ trans('labels.name') }}"
+                        <input type="text" id="name" name="name" placeholder="{{ trans('labels.name') }}" value="{{ old('name') }}"
                             class="form-control">
                         @error('name')
                             <span class="text-danger">{{ $message }}</span>
@@ -39,7 +39,7 @@
                     <div class="form-group">
                         <label for="email" class="form-label">{{ trans('labels.email') }}</label>
                         <input type="text" id="email" name="email"
-                            placeholder="{{ trans('labels.email_address') }}" class="form-control">
+                            placeholder="{{ trans('labels.email_address') }}" class="form-control" value="{{ old('email') }}">
                         @error('email')
                             <span class="text-danger">{{ $message }}</span>
                         @enderror
@@ -49,7 +49,7 @@
                     <div class="form-group">
                         <label for="password" class="form-label">{{ trans('labels.password') }}</label>
                         <input type="password" id="password" name="password" placeholder="{{ trans('labels.password') }}"
-                            class="form-control">
+                            class="form-control" value="{{ old('password') }}">
                         @error('password')
                             <span class="text-danger">{{ $message }}</span>
                         @enderror
@@ -61,7 +61,7 @@
                         <div class="input-group">
                             <input type="hidden" name="country" id="country" value="91">
                             <input type="tel" id="phone" name="phone"
-                                class="form-control custom-input rounded mb-3" placeholder="{{ trans('labels.phone_number') }}" value="">
+                                class="form-control custom-input rounded mb-3" placeholder="{{ trans('labels.phone_number') }}" value="{{ old('phone') }}">
                         </div>
                         @error('phone')
                             <span class="text-danger">{{ $message }}</span>
@@ -93,7 +93,7 @@
     <script>
         var input = $('#phone');
         var iti = intlTelInput(input.get(0))
-        iti.setCountry("in");
+        iti.setCountry("ca");
         input.on('countrychange', function(e) {
             $('#country').val(iti.getSelectedCountryData().dialCode);
         });

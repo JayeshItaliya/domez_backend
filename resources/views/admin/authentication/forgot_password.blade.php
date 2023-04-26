@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -19,6 +20,7 @@
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{{ url('storage/app/public/admin/css/custom.min.css') }}">
 </head>
+
 <body>
     <style>
         :root {
@@ -50,14 +52,14 @@
                         @csrf
                         <div class="form-floating">
                             <input type="email" name="email" id="email" class="form-control"
-                                placeholder="{{ trans('labels.email_address') }}">
+                                value="{{ old('email') }}" placeholder="{{ trans('labels.email_address') }}">
                             <label for="email">{{ trans('labels.email_address') }}</label>
                         </div>
                         <button type="submit"
                             class="btn btn-secondary w-100 mt-2">{{ trans('labels.continue') }}</button>
                         <div class="border-bottom my-4"></div>
                         <div class="text-center">
-                            <span>{{ trans('labels.back_to') }} <a href="{{ URL::to('/login') }}"
+                            <span>{{ trans('labels.back_to') }} <a href="{{ URL::to('login') }}"
                                     class="text-secondary">{{ trans('labels.sign_in') }}</a></span>
                         </div>
                     </form>
@@ -86,4 +88,5 @@
     <script src="{{ url('storage/app/public/admin/js/toastr/toastr.min.js') }}"></script>
     <script src="{{ url('storage/app/public/admin/js/custom.min.js') }}"></script>
 </body>
+
 </html>

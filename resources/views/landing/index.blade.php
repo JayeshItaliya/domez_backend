@@ -378,8 +378,7 @@
                 <div class="row  align-items-center">
                     <div class="col-lg-6 pt-sm-5">
                         <div class="game-details-text" data-wow-duration="2s">
-                            <h2 class="wow fadeInDown  delay-0-2s animated">Do you have any questions? We are here to
-                                help!</h2>
+                            <h2 class="wow fadeInDown  delay-0-2s animated">Do you have any questions? We are here to help!</h2>
                             <form action="{{ URL::to('store-general-enquiries') }}" method="post">
                                 @csrf
                                 <div class="row">

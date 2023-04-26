@@ -114,8 +114,7 @@
                                     <label for="otp" class="from-label fw-semibold">OTP</label>
                                     <div class="input-group">
                                         <input type="otp" id="otp" name="otp"
-                                            value="{{ old('otp') }}" class="form-control" placeholder="OTP"
-                                            value="{{ old('otp') }}" required>
+                                            value="{{ old('otp') }}" class="form-control" placeholder="OTP" required>
                                         <button class="btn btn-success dmz-button verify_otp" type="button"
                                             id="button-addon2">Verify</button>
                                     </div>

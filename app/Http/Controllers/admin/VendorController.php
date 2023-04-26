@@ -42,7 +42,7 @@ class VendorController extends Controller
         if ($request->has('profile')) {
             $request->validate(
                 [
-                    'profile' => 'mimes:png,jpg,jpeg,svg|max:500',
+                    'profile' => 'mimes:png,jpg,jpeg,svg|max:5120',
                 ],
                 [
                     'profile.mimes' => trans('messages.valid_image_type'),
@@ -221,7 +221,7 @@ class VendorController extends Controller
         if ($request->has('profile')) {
             $request->validate(
                 [
-                    'profile' => 'mimes:png,jpg,jpeg,svg|max:500'
+                    'profile' => 'mimes:png,jpg,jpeg,svg|max:5120'
                 ],
                 [
                     'profile.mimes' => trans('messages.valid_image_type'),

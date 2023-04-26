@@ -43,7 +43,7 @@
                                 <label class="form-label" for="dome_hst">{{ trans('labels.hst') }}</label>
                                 <div class="input-group">
                                     <input type="number" id="dome_hst" name="dome_hst" class="form-control"
-                                        placeholder="{{ trans('labels.hst') }}">
+                                        value="{{ old('dome_hst') }}" placeholder="{{ trans('labels.hst') }}">
                                     <span class="input-group-text">%</span>
                                 </div>
                             </div>
@@ -81,8 +81,8 @@
                                             {{ trans('labels.60_minutes') }} </label>
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="slot_duration"
-                                            value="2" id="slot_duration2">
+                                        <input class="form-check-input" type="radio" name="slot_duration" value="2"
+                                            id="slot_duration2">
                                         <label class="form-check-label" for="slot_duration2">
                                             {{ trans('labels.90_minutes') }} </label>
                                     </div>
@@ -150,7 +150,7 @@
                                     for="benefits_description">{{ trans('labels.amenities_description') }}<span
                                         class="form-label-secondary px-2">{{ trans('labels.optional') }}</span></label>
                                 <textarea class="form-control" name="benefits_description" value="{{ old('benefits_description') }}"
-                                    id="benefits_description" rows="4" placeholder="Please Enter Benefits Description"></textarea>
+                                    id="benefits_description" rows="4" placeholder="Please Enter Benefits Description">{{ old('benefits_description') }}</textarea>
                                 @error('benefits_description')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror

@@ -20,7 +20,7 @@ class Authenticate
         if (Auth::user() && in_array(Auth::user()->type, [1, 2, 4, 5])) {
             return $next($request);
         } else {
-            return redirect('/login');
+            return redirect('login');
         }
     }
 }

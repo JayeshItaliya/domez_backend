@@ -31,7 +31,7 @@ class FieldController extends Controller
             'field_name' => 'required|numeric',
             'min_person' => 'required',
             'max_person' => 'required',
-            'field_image' => 'required|image|mimes:png,jpg,jpeg,svg|max:500',
+            'field_image' => 'required|image|mimes:png,jpg,jpeg,svg|max:5120',
         ], [
             'dome.required' => trans('messages.select_dome'),
             'sport_id.required' => trans('messages.select_sport'),
@@ -74,7 +74,7 @@ class FieldController extends Controller
             'field_name' => 'required|numeric',
             'min_person' => 'required',
             'max_person' => 'required',
-            'field_image' => 'image|mimes:png,jpg,jpeg,svg|max:500',
+            'field_image' => 'image|mimes:png,jpg,jpeg,svg|max:5120',
         ], [
             'dome.required' => trans('messages.select_dome'),
             'sport_id.required' => trans('messages.select_sport'),

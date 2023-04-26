@@ -37,7 +37,8 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="email" class="form-label">{{ trans('labels.email') }}</label>
-                        <input type="text" id="email" name="email" placeholder="{{ trans('labels.email') }}" class="form-control" value="{{ $user->email }}">
+                        <input type="text" id="email" name="email" placeholder="{{ trans('labels.email') }}"
+                            class="form-control" value="{{ $user->email }}">
                         @error('email')
                             <span class="text-danger">{{ $message }}</span>
                         @enderror
@@ -49,7 +50,8 @@
                         <div class="input-group">
                             <input type="hidden" name="country" id="country" value="91">
                             <input type="tel" id="phone" name="phone"
-                                class="form-control custom-input rounded mb-3" placeholder="{{ trans('labels.phone_number') }}" value="{{ $user->phone }}">
+                                class="form-control custom-input rounded mb-3"
+                                placeholder="{{ trans('labels.phone_number') }}" value="{{ $user->phone }}">
                         </div>
                         @error('phone')
                             <span class="text-danger">{{ $message }}</span>
@@ -68,7 +70,22 @@
                 </div>
             </div>
             <button type="submit" class="btn btn-primary w-auto me-2">{{ trans('labels.submit') }}</button>
-            <a href="{{ URL::to('admin/vendors') }}" class="btn btn-outline-danger w-auto">{{ trans('labels.cancel') }}</a>
+            <a href="{{ URL::to('admin/vendors') }}"
+                class="btn btn-outline-danger w-auto">{{ trans('labels.cancel') }}</a>
         </div>
     </form>
+@endsection
+@section('scripts')
+    <script src="{{ url('storage/app/public/admin/js/intelTelInput/intlTelInput.min.js') }}"></script>
+    <link rel="stylesheet" href="{{ url('storage/app/public/admin/js/intelTelInput/intlTelInput.min.css') }}">
+    <script src="{{ url('storage/app/public/admin/js/intelTelInput/utils.js') }}"></script>
+    <script>
+        var input = $('#phone');
+        var iti = intlTelInput(input.get(0))
+        iti.setCountry("ca");
+        input.on('countrychange', function(e) {
+            $('#country').val(iti.getSelectedCountryData().dialCode);
+        });
+        $('.iti--allow-dropdown').addClass('w-100');
+    </script>
 @endsection

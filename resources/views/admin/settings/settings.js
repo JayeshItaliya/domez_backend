@@ -79,3 +79,15 @@ $('.btn_verify').on('click', function () {
         }
     });
 });
+
+
+
+
+
+var input = $('#phone');
+var iti = intlTelInput(input.get(0))
+iti.setCountry("ca");
+input.on('countrychange', function (e) {
+    $('#country').val(iti.getSelectedCountryData().dialCode);
+});
+$('.iti--allow-dropdown').addClass('w-100');

@@ -13,7 +13,8 @@
                     aria-label="breadcrumb">
                     <ol class="breadcrumb m-0">
                         {!! Helper::breadcrumb_home_li() !!}
-                        <li class="breadcrumb-item"><a href="{{ URL::to('admin/users') }}">{{ trans('labels.users_list') }}</a></li>
+                        <li class="breadcrumb-item"><a
+                                href="{{ URL::to('admin/users') }}">{{ trans('labels.users_list') }}</a></li>
                         <li class="breadcrumb-item active" aria-current="page">{{ trans('labels.edit_user') }}</li>
                     </ol>
                 </nav>
@@ -48,11 +49,17 @@
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <div class="mb-3">
-                                <label for="phone_number" class="form-label">{{ trans('labels.phone_number') }}</label>
-                                <input type="number" class="form-control" id="phone_number" name="phone_number"
-                                    value="{{ $user->phone }}" placeholder="{{ trans('labels.phone_number') }}">
-                                @error('phone_number')<span class="text-danger">{{ $message }}</span>@enderror
+                            <div class="form-group">
+                                <label for="phone" class="form-label">{{ trans('labels.phone_number') }}</label>
+                                <div class="input-group">
+                                    <input type="hidden" name="country" id="country" value="91">
+                                    <input type="tel" id="phone" name="phone_number"
+                                        class="form-control custom-input rounded mb-3"
+                                        placeholder="{{ trans('labels.phone_number') }}" value="{{ $user->phone }}">
+                                </div>
+                                @error('phone_number')
+                                    <span class="text-danger">{{ $message }}</span>
+                                @enderror
                             </div>
                         </div>
                         <div class="col-lg-6 col-md-12">
@@ -60,7 +67,9 @@
                                 <label class="form-label" for="profile_image">{{ trans('labels.profile_image') }}</label>
                                 <input type="file" class="form-control mt-2 mb-4" id="profile_image"
                                     name="profile_image">
-                                    @error('profile_image')<span class="text-danger">{{ $message }}</span>@enderror
+                                @error('profile_image')
+                                    <span class="text-danger">{{ $message }}</span>
+                                @enderror
                                 <div class="add-league-img mt-2">
                                     <img src="{{ Helper::image_path($user->image) }}" width="70" height="70"
                                         class="rounded" style="object-fit: cover; object-position:center;">
@@ -69,11 +78,26 @@
                         </div>
                         <div class="col-md-12">
                             <button type="submit" class="btn btn-primary me-3">{{ trans('labels.submit') }}</button>
-                            <a href="{{ URL::to('admin/users') }}" class="btn btn-outline-danger">{{ trans('labels.cancel') }}</a>
+                            <a href="{{ URL::to('admin/users') }}"
+                                class="btn btn-outline-danger">{{ trans('labels.cancel') }}</a>
                         </div>
                     </div>
                 </div>
             </form>
         </div>
     </div>
+@endsection
+@section('scripts')
+    <script src="{{ url('storage/app/public/admin/js/intelTelInput/intlTelInput.min.js') }}"></script>
+    <link rel="stylesheet" href="{{ url('storage/app/public/admin/js/intelTelInput/intlTelInput.min.css') }}">
+    <script src="{{ url('storage/app/public/admin/js/intelTelInput/utils.js') }}"></script>
+    <script>
+        var input = $('#phone');
+        var iti = intlTelInput(input.get(0))
+        iti.setCountry("ca");
+        input.on('countrychange', function(e) {
+            $('#country').val(iti.getSelectedCountryData().dialCode);
+        });
+        $('.iti--allow-dropdown').addClass('w-100');
+    </script>
 @endsection

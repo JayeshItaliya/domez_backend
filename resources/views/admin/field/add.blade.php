@@ -30,8 +30,7 @@
                             <select class="form-select" name="dome" id="dome"
                                 data-next="{{ URL::to('/admin/fields/getsports') }}">
                                 @foreach ($dome as $data)
-                                    <option value="{{ $data->id }}" class="text-capitalize">{{ $data->name }}
-                                    </option>
+                                    <option value="{{ $data->id }}" class="text-capitalize">{{ $data->name }}</option>
                                 @endforeach
                             </select>
                             @error('dome')
@@ -92,7 +91,7 @@
                         <label class="form-label" for="field_area">{{ trans('labels.field_area') }}</label>
                         <div class="input-group">
                             <input type="text" class="form-control" id="field_area" name="field_area"
-                                placeholder="{{ trans('labels.field_area') }}">
+                                value="{{ old('field_area') }}" placeholder="{{ trans('labels.field_area') }}">
                             <span class="input-group-text">{{ trans('labels.sqft') }}</span>
                         </div>
                         @error('field_area')
@@ -103,7 +102,8 @@
                 <div class="col-sm-6">
                     <div class="form-group mb-4">
                         <label class="form-label" for="field_image">{{ trans('labels.field_image') }}</label>
-                        <input type="file" class="form-control" id="field_image" name="field_image">
+                        <input type="file" class="form-control" id="field_image" name="field_image"
+                            value="{{ old('field_image') }}">
                         @error('field_image')
                             <span class="text-danger">{{ $message }}</span>
                         @enderror

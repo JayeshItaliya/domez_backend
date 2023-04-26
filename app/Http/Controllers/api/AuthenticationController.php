@@ -294,7 +294,7 @@ class AuthenticationController extends Controller
                 'name' => 'required',
                 'email' => 'required|email|unique:users,email,' . $checkuser->id,
                 'phone' => 'required|unique:users,phone,' . $checkuser->id,
-                'image' => 'image|max:500',
+                'image' => 'image|max:5120',
             ], [
                 'name.required' => 'Please Enter Name',
                 'email.required' => 'Please Enter Email',
@@ -303,7 +303,7 @@ class AuthenticationController extends Controller
                 'phone.required' => 'Please Enter phone',
                 'phone.unique' => 'This Phone is Already Taken',
                 'image.image' => 'Please select only image type of file',
-                'image.max' => 'The image must not be greater than 500KB.',
+                'image.max' => 'The image must not be greater than 5MB.',
             ]);
             if ($validator->fails()) {
                 foreach ($validator->errors()->toArray() as $key => $error) {
