@@ -64,5 +64,8 @@ return [
     'no' => 'Non',
     'oops' => 'Oops..!!',
     'forgot_password_note' => "Entrez l'adresse email associée à votre compte et nous vous enverrons un lien pour réinitialiser votre mot de passe.",
-    'check_mail_note' => "Nous avons envoyé des instructions de récupération de mot de passe à votre adresse email."
+    'check_mail_note' => "Nous avons envoyé des instructions de récupération de mot de passe à votre adresse email.",
+    'already_cancelled' => "La réservation a déjà été annulée",
+    'invalid_employee' => "Employé invalide",
+    'invalid_provider' => "Fournisseur invalide",
 ];

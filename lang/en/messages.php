@@ -65,7 +65,6 @@ return [
     'oops' => 'Oops..!!',
     'forgot_password_note' => "Enter the email address associated with your account and we'll send you a link to reset your password.",
     'check_mail_note' => "We have sent a password recover instructions to your email.",
-    // -------------------
     'already_cancelled' => "Booking has been already cancelled",
     'invalid_employee' => "Invalid Employee",
     'invalid_provider' => "Invalid Provider",

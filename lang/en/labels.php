@@ -265,7 +265,6 @@ return [
     'add_new_price' => 'Add New Price',
     'edit_set_price' => 'Edit Price',
     'raise_ticket' => 'Raise Ticket',
-    // -------
     'employee' => 'Employee',
     'admin' => 'Admin',
     'provider' => 'Provider',

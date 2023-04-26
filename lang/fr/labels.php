@@ -265,4 +265,7 @@ return [
 'add_new_price' => 'Ajouter un nouveau prix',
 'edit_set_price' => 'Modifier le prix',
 'raise_ticket' => 'Ouvrir un ticket',
+'employee' => 'Employé',
+'admin' => 'Administrateur',
+'provider' => 'Fournisseur',
 ];

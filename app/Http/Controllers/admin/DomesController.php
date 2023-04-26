@@ -78,7 +78,7 @@ class DomesController extends Controller
         $dome->save();
         if ($request->has('dome_images')) {
             $request->validate([
-                'dome_images.*' => 'mimes:png,jpg,jpeg,svg',
+                'dome_images.*' => 'required|image|mimes:png,jpg,jpeg,svg|max:5120',
             ], [
                 'dome_images.mimes' => trans('messages.valid_image_type'),
             ]);
