@@ -1,5 +1,7 @@
 <?php
+
 namespace App\Http\Controllers\admin;
+
 use App\Helper\Helper;
 use App\Http\Controllers\Controller;
 use App\Models\CMS;
@@ -8,7 +10,9 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
+
 class SettingsController extends Controller
 {
     public function privacy_policy(Request $request)
@@ -94,12 +98,12 @@ class SettingsController extends Controller
             'encryption.required' => trans('messages.required'),
         ]);
         $envFile = base_path('.env');
-        file_put_contents($envFile, str_replace('MAIL_MAILER=' . env('MAIL_MAILER'), 'MAIL_MAILER=' . $request->mailer, file_get_contents($envFile)));
-        file_put_contents($envFile, str_replace('MAIL_HOST=' . env('MAIL_HOST'), 'MAIL_HOST=' . $request->host, file_get_contents($envFile)));
-        file_put_contents($envFile, str_replace('MAIL_PORT=' . env('MAIL_PORT'), 'MAIL_PORT=' . $request->port, file_get_contents($envFile)));
-        file_put_contents($envFile, str_replace('MAIL_USERNAME=' . env('MAIL_USERNAME'), 'MAIL_USERNAME=' . $request->username, file_get_contents($envFile)));
-        file_put_contents($envFile, str_replace('MAIL_PASSWORD=' . env('MAIL_PASSWORD'), 'MAIL_PASSWORD=' . $request->password, file_get_contents($envFile)));
-        file_put_contents($envFile, str_replace('MAIL_ENCRYPTION=' . env('MAIL_ENCRYPTION'), 'MAIL_ENCRYPTION=' . $request->encryption, file_get_contents($envFile)));
+        file_put_contents($envFile, str_replace('MAIL_MAILER=' . config('app.mail_mailer'), 'MAIL_MAILER=' . $request->mailer, file_get_contents($envFile)));
+        file_put_contents($envFile, str_replace('MAIL_HOST=' . config('app.mail_host'), 'MAIL_HOST=' . $request->host, file_get_contents($envFile)));
+        file_put_contents($envFile, str_replace('MAIL_PORT=' . config('app.mail_port'), 'MAIL_PORT=' . $request->port, file_get_contents($envFile)));
+        file_put_contents($envFile, str_replace('MAIL_USERNAME=' . config('app.mail_username'), 'MAIL_USERNAME=' . $request->username, file_get_contents($envFile)));
+        file_put_contents($envFile, str_replace('MAIL_PASSWORD=' . config('app.mail_password'), 'MAIL_PASSWORD=' . $request->password, file_get_contents($envFile)));
+        file_put_contents($envFile, str_replace('MAIL_ENCRYPTION=' . config('app.mail_encryption'), 'MAIL_ENCRYPTION=' . $request->encryption, file_get_contents($envFile)));
         return redirect()->back()->with('success', trans('messages.success'));
     }
     public function stripe_setting(Request $request)
@@ -204,6 +208,11 @@ class SettingsController extends Controller
         ]);
         if (Hash::check($request->current_password, auth()->user()->password)) {
             User::where('id', auth()->user()->id)->update(['password' => Hash::make($request->new_password)]);
+            $data = ['title' => 'Password Updated', 'email' => auth()->user()->email, 'logo' => Helper::image_path('logo.png')];
+            Mail::send('email.change_password', $data, function ($message) use ($data) {
+                $message->from(config('app.mail_username'))->subject($data['title']);
+                $message->to($data['email']);
+            });
             return redirect()->back()->with('success', trans('messages.success'));
         } else {
             return redirect()->back()->with('error', trans('messages.old_password_invalid'));

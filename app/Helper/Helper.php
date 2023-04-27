@@ -58,7 +58,7 @@ class Helper
             // $type == 1(ByAutoCancel) == 2(ByDomeOwner) == 3(ByCustomer)
             $data = ['title' => $title, 'email' => $bookingdata->customer_email, 'type' => $type, 'description' => $description, 'bookingdata' => $bookingdata];
             Mail::send('email.auto_booking_cancel', $data, function ($message) use ($data) {
-                $message->from(env('MAIL_USERNAME'))->subject($data['title']);
+                $message->from(config('app.mail_username'))->subject($data['title']);
                 $message->to($data['email']);
             });
             return 1;
@@ -71,7 +71,7 @@ class Helper
         $data = ['title' => 'Email Verification', 'email' => $email, 'name' => $name, 'otp' => $otp, 'logo' => Helper::image_path('logo.png')];
         try {
             Mail::send('email.otp_verification', $data, function ($message) use ($data) {
-                $message->from(env('MAIL_USERNAME'))->subject($data['title']);
+                $message->from(config('app.mail_username'))->subject($data['title']);
                 $message->to($data['email']);
             });
             return 1;
@@ -84,7 +84,7 @@ class Helper
         $data = ['title' => 'Forgot Password', 'email' => $email, 'name' => $name, 'password' => $password, 'logo' => Helper::image_path('logo.png')];
         try {
             Mail::send('email.forgot_password', $data, function ($message) use ($data) {
-                $message->from(env('MAIL_USERNAME'))->subject($data['title']);
+                $message->from(config('app.mail_username'))->subject($data['title']);
                 $message->to($data['email']);
             });
             return 1;
@@ -97,8 +97,8 @@ class Helper
         $data = ['title' => 'New Domes Invitation', 'email' => $email, 'name' => $name, 'venue_name' => $venue_name, 'venue_address' => $venue_address, 'phone' => $phone, 'comment' => $comment, 'logo' => Helper::image_path('logo.png')];
         try {
             Mail::send('email.domes_invitation', $data, function ($message) use ($data) {
-                $message->from(env('MAIL_USERNAME'))->subject($data['title']);
-                $message->to(env('MAIL_USERNAME'));
+                $message->from(config('app.mail_username'))->subject($data['title']);
+                $message->to(config('app.mail_username'));
             });
             return 1;
         } catch (\Throwable $th) {

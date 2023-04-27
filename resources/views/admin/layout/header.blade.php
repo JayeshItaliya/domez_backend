@@ -111,7 +111,7 @@
                         <li class="dropwdown-item notifications d-flex justify-content-between align-items-center cursor-pointer py-1"
                             data-next="{{ URL::to('admin/enquiries/dome-requests') }}">
                             <span> <i class="me-2 fa-solid fa-code-pull-request"></i>
-                                {{ trans('labels.domes_requests') }} </span>
+                                {{ trans('labels.dome_requests') }} </span>
                             <small class="badge bg-primary rounded-pill"
                                 style="font-size: 10px;height:fit-content;">{{ Helper::get_noti_count(3) }}</small>
                         </li>
@@ -180,16 +180,8 @@
                 </a>
                 <ul class="dropdown-menu box-shadow border-0 my-3">
                     <li class="white-space-nowrap px-3">
-                        @php
-                            $now = \Carbon\Carbon::now();
-                            $greeting = 'Good evening';
-                            if ($now->hour >= 5 && $now->hour < 12) {
-                                $greeting = 'Helllo';
-                            } elseif ($now->hour >= 12 && $now->hour < 18) {
-                                $greeting = 'Good afternoon';
-                            }
-                        @endphp
-                        <p><strong>{{ trans('labels.hello') }}</strong> {{ Auth::user()->name }}</p>
+                        <p class="text-capitalize"><strong>{{ trans('labels.hello') }}</strong>
+                            {{ Auth::user()->name }}</p>
                         <small class="text-muted">
                             @if (Auth::user()->type == 1)
                                 {{ trans('labels.admin') }}

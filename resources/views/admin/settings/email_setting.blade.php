@@ -30,19 +30,19 @@
                             <div class="form-group">
                                 <label for="mailer" class="form-label">{{ trans('labels.mailer') }}</label>
                                 <input type="text" class="form-control" name="mailer" id="mailer"
-                                    value="{{ env('MAIL_MAILER') }}" placeholder="{{ trans('labels.mailer') }}">
+                                    value="{{ config('app.mail_mailer') }}" placeholder="{{ trans('labels.mailer') }}">
                                     @error('mailer') <span class="text-danger">{{$message}}</span> @enderror
                             </div>
                             <div class="form-group">
                                 <label for="port" class="form-label">{{ trans('labels.port') }}</label>
                                 <input type="text" class="form-control" name="port" id="port"
-                                    value="{{ env('MAIL_PORT') }}" placeholder="Enter Port">
+                                    value="{{ config('app.mail_port') }}" placeholder="Enter Port">
                                     @error('port') <span class="text-danger">{{$message}}</span> @enderror
                             </div>
                             <div class="form-group">
                                 <label for="password" class="form-label">{{ trans('labels.password') }}</label>
                                 <input type="password" class="form-control" name="password" id="password"
-                                    value="{{ env('MAIL_PASSWORD') }}" placeholder="{{ trans('labels.password') }}">
+                                    value="{{ config('app.mail_password') }}" placeholder="{{ trans('labels.password') }}">
                                     @error('password') <span class="text-danger">{{$message}}</span> @enderror
                             </div>
                         </div>
@@ -50,22 +50,22 @@
                             <div class="form-group">
                                 <label for="host" class="form-label">{{ trans('labels.host') }}</label>
                                 <input type="text" class="form-control" name="host" id="host"
-                                    value="{{ env('MAIL_HOST') }}" placeholder="{{ trans('labels.host') }}">
+                                    value="{{ config('app.mail_host') }}" placeholder="{{ trans('labels.host') }}">
                                     @error('host') <span class="text-danger">{{$message}}</span> @enderror
                             </div>
                             <div class="form-group">
                                 <label class="form-label" for="username">{{ trans('labels.username') }}</label>
                                 <input type="text" class="form-control" name="username" id="username"
-                                    value="{{ env('MAIL_USERNAME') }}" placeholder="{{ trans('labels.username') }}">
+                                    value="{{ config('app.mail_username') }}" placeholder="{{ trans('labels.username') }}">
                                     @error('username') <span class="text-danger">{{$message}}</span> @enderror
                             </div>
                             <div class="form-group">
                                 <label for="encryption" class="form-label">{{ trans('labels.encryption') }}</label>
                                 <select class="form-select" name="encryption" id="encryption">
-                                    <option value="ssl" {{ env('MAIL_ENCRYPTION') == 'ssl' ? 'selected' : '' }}>
+                                    <option value="ssl" {{ config('app.mail_encryption') == 'ssl' ? 'selected' : '' }}>
                                         {{ trans('labels.ssl') }}</option>
                                     <option selected value="tls"
-                                        {{ env('MAIL_ENCRYPTION') == 'tls' ? 'selected' : '' }}>{{ trans('labels.tls') }}
+                                        {{ config('app.mail_encryption') == 'tls' ? 'selected' : '' }}>{{ trans('labels.tls') }}
                                     </option>
                                 </select>
                                 @error('encryption') <span class="text-danger">{{$message}}</span> @enderror

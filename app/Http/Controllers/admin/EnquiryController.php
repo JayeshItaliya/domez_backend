@@ -12,7 +12,12 @@ class EnquiryController extends Controller
 {
     public function dome_requests(Request $request)
     {
-        $enquiries = Enquiries::where('type', 3)->where('is_accepted', 2)->where('is_deleted', 2)->orderByDesc('id')->get();
+        if (auth()->user()->type == 1) {
+            $enquiries = Enquiries::where('type', 3)->where('is_accepted', 2)->where('is_deleted', 2)->orderByDesc('id')->get();
+        } else {
+            $enquiries = Enquiries::where('type', 3)->where('vendor_id', auth()->user()->type == 2 ? auth()->user()->id : auth()->user()->vendor_id)->where('is_accepted', 2)->where('is_deleted', 2)->orderByDesc('id')->get();
+        }
+
         return view('admin.enquiry.dome_requests', compact('enquiries'));
     }
     public function dome_request_reply(Request $request)
@@ -21,7 +26,7 @@ class EnquiryController extends Controller
             $enquiry_data = Enquiries::find($request->id);
             $data = ['title' => 'Reply: Inquiry about Dome Registration', 'type' => $enquiry_data->type, 'email' => $enquiry_data->email, 'name' => $enquiry_data->name, 'reply' => $request->reply, 'logo' => Helper::image_path('logo.png')];
             Mail::send('email.reply_enquiries', $data, function ($message) use ($data) {
-                $message->from(env('MAIL_USERNAME'))->subject($data['title']);
+                $message->from(config('app.mail_username'))->subject($data['title']);
                 $message->to($data['email']);
             });
             $enquiry_data->is_replied = 1;
@@ -38,7 +43,7 @@ class EnquiryController extends Controller
             $enquiry_data = Enquiries::find($request->id);
             $data = ['title' => 'Reply: Dome Request Accepted', 'email' => $enquiry_data->email, 'name' => $enquiry_data->name, 'password' => $password, 'logo' => Helper::image_path('logo.png')];
             Mail::send('email.accept_dome_request', $data, function ($message) use ($data) {
-                $message->from(env('MAIL_USERNAME'))->subject($data['title']);
+                $message->from(config('app.mail_username'))->subject($data['title']);
                 $message->to($data['email']);
             });
             if (!empty(User::where('type', 2)->where('email', $enquiry_data->email)->first())) {
@@ -47,6 +52,7 @@ class EnquiryController extends Controller
                 $user = new User();
                 $user->type = 2;
                 $user->login_type = 1;
+                $user->dome_limit = 1;
                 $user->name = $enquiry_data->name;
                 $user->email = $enquiry_data->email;
                 $user->password = Hash::make($password);
@@ -82,7 +88,7 @@ class EnquiryController extends Controller
             $enquiry_data = Enquiries::find($request->id);
             $data = ['title' => 'Reply to Enquiry - Domez', 'type' => $enquiry_data->type, 'email' => $enquiry_data->email, 'name' => $enquiry_data->name, 'subject' => $enquiry_data->subject, 'reply' => $request->reply];
             Mail::send('email.reply_enquiries', $data, function ($message) use ($data) {
-                $message->from(env('MAIL_USERNAME'))->subject($data['title']);
+                $message->from(config('app.mail_username'))->subject($data['title']);
                 $message->to($data['email']);
             });
             $enquiry_data->is_replied = 1;
@@ -103,7 +109,7 @@ class EnquiryController extends Controller
             $enquiry_data = Enquiries::find($request->id);
             $data = ['title' => 'Reply to Enquiry - Domez App', 'type' => $enquiry_data->type, 'email' => $enquiry_data->email, 'name' => $enquiry_data->user_info->name, 'subject' => $enquiry_data->subject, 'reply' => $request->reply];
             Mail::send('email.reply_enquiries', $data, function ($message) use ($data) {
-                $message->from(env('MAIL_USERNAME'))->subject($data['title']);
+                $message->from(config('app.mail_username'))->subject($data['title']);
                 $message->to($data['email']);
             });
             $enquiry_data->is_replied = 1;
@@ -143,7 +149,7 @@ class EnquiryController extends Controller
             $enquiry_data = Enquiries::find($request->id);
             $data = ['title' => 'Reply to Ticket - Domez Owner', 'type' => $enquiry_data->type, 'email' => $enquiry_data->email, 'name' => $enquiry_data->user_info->name, 'subject' => $enquiry_data->subject, 'reply' => $request->reply];
             Mail::send('email.reply_enquiries', $data, function ($message) use ($data) {
-                $message->from(env('MAIL_USERNAME'))->subject($data['title']);
+                $message->from(config('app.mail_username'))->subject($data['title']);
                 $message->to($data['email']);
             });
             $enquiry_data->is_replied = 1;

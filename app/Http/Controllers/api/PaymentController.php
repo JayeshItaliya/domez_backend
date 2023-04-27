@@ -237,7 +237,7 @@ class PaymentController extends Controller
             }
             $data = ['title' => 'Booking Receipt', 'email' => $booking->customer_email, 'bookingdata' => $booking];
             Mail::send('email.booking_confirmation', $data, function ($message) use ($data) {
-                $message->from(env('MAIL_USERNAME'))->subject($data['title']);
+                $message->from(config('app.mail_username'))->subject($data['title']);
                 $message->to($data['email']);
             });
             return response()->json(['status' => 1, "message" => "Successful", "transaction_id" => $transaction_id, "booking_id" => $booking->id, "payment_link" => URL::to('/payment/' . $booking->token),], 200);

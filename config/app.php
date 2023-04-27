@@ -69,7 +69,7 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    'timezone' => env('SET_TIMEZONE'),
 
     /*
     |--------------------------------------------------------------------------
@@ -142,6 +142,21 @@ return [
         'driver' => 'file',
         // 'store'  => 'redis',
     ],
+
+    'mail_mailer' => env('mail_mailer'),
+    'mail_host' => env('MAIL_HOST'),
+    'mail_port' => env('MAIL_PORT'),
+    'mail_username' => env('MAIL_USERNAME'),
+    'mail_password' => env('MAIL_PASSWORD'),
+    'mail_encryption' => env('MAIL_ENCRYPTION'),
+    'mail_from_address' => env('MAIL_FROM_ADDRESS'),
+    'mail_from_name' => env('MAIL_FROM_NAME'),
+
+
+
+
+
+
 
     /*
     |--------------------------------------------------------------------------

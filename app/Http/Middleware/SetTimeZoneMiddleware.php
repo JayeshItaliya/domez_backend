@@ -16,7 +16,7 @@ class SetTimeZoneMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        date_default_timezone_set(env('SET_TIMEZONE'));
+        date_default_timezone_set(config('app.timezone'));
         return $next($request);
     }
 }

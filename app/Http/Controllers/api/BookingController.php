@@ -176,7 +176,7 @@ class BookingController extends Controller
             $data = SetPricesDaysSlots::where('dome_id', $getdomedata->id)->where('sport_id', $request->sport_id)->whereDate('date', date('Y-m-d', strtotime($request->date)))->get();
             foreach ($data as $key => $slot) {
                 $new_slot = date('h:i A', strtotime($slot->start_time)) . ' - ' . date('h:i A', strtotime($slot->end_time));
-                $today =  Carbon::now(new \DateTimeZone(env('SET_TIMEZONE')));
+                $today =  Carbon::now(new \DateTimeZone(config('app.timezone')));
                 $last = Carbon::parse(date('h:i A', strtotime($slot->start_time)));
                 $status = $slot->status;
                 $getdata = League::select('name', 'start_date', 'end_date', 'start_time', 'end_time')->where('dome_id', $getdomedata->id)->where('sport_id', $request->sport_id)->where('is_deleted', 2)->whereRaw('? BETWEEN start_date AND end_date', [date('Y-m-d', strtotime($request->date))])->get();
@@ -235,7 +235,7 @@ class BookingController extends Controller
     //                 $slot_start_time__ = $item->format("h:i A");
     //                 $slot_end_time__ = $item->addMinutes($my_interval)->format("h:i A");
     //                 $slot =  $slot_start_time__ . ' - ' . $slot_end_time__;
-    //                 $today = Carbon::now(new \DateTimeZone(env('SET_TIMEZONE')));
+    //                 $today = Carbon::now(new \DateTimeZone(config('app.timezone')));
     //                 $last = Carbon::parse($slot_start_time__);
     //                 if (date('Y-m-d') == date('Y-m-d', strtotime($request->date))) {
     //                     if ($today->lt($last)) {
@@ -281,7 +281,7 @@ class BookingController extends Controller
     //             $data = SetPricesDaysSlots::where('set_prices_id', $checkpricetype->id)->whereDate('date', date('Y-m-d', strtotime($request->date)))->get();
     //             foreach ($data as $key => $slot) {
     //                 $new_slot = date('h:i A', strtotime($slot->start_time)) . ' - ' . date('h:i A', strtotime($slot->end_time));
-    //                 $today =  Carbon::now(new \DateTimeZone(env('SET_TIMEZONE')));
+    //                 $today =  Carbon::now(new \DateTimeZone(config('app.timezone')));
     //                 $last = Carbon::parse(date('h:i A', strtotime($slot->start_time)));
     //                 $status = $slot->status;
     //                 $getdata = League::select('name', 'start_date', 'end_date', 'start_time', 'end_time')->where('dome_id', $getdomedata->id)->where('sport_id', $request->sport_id)->where('is_deleted', 2)->whereRaw('? BETWEEN start_date AND end_date', [date('Y-m-d', strtotime($request->date))])->get();

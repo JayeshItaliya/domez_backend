@@ -4,35 +4,42 @@
             @if (Auth::user()->type != 5)
                 <a href="{{ URL::to('admin/dashboard') }}"
                     class="nav-item {{ request()->is('admin/dashboard') ? 'active' : '' }}">
-                    <i class="fa-regular fa-table-columns {{ request()->is('admin/dashboard') ? 'text-secondary' : '' }}"></i>
+                    <i
+                        class="fa-regular fa-table-columns {{ request()->is('admin/dashboard') ? 'text-secondary' : '' }}"></i>
                     <span class="mx-3">{{ trans('labels.dashboard') }}</span>
                 </a>
             @endif
             @if (Auth::user()->type == 2)
                 <a href="{{ URL::to('admin/workers') }}"
                     class="nav-item {{ request()->is('admin/workers*') ? 'active' : '' }}">
-                    <i class="fa-regular fa-chalkboard-user {{ request()->is('admin/workers*') ? 'text-secondary' : '' }}"></i>
+                    <i
+                        class="fa-regular fa-chalkboard-user {{ request()->is('admin/workers*') ? 'text-secondary' : '' }}"></i>
                     <span class="mx-3">{{ trans('labels.workers') }}</span>
                 </a>
                 <a href="{{ URL::to('admin/providers') }}"
                     class="nav-item {{ request()->is('admin/providers*') ? 'active' : '' }}">
-                    <i class="fa-regular fa-square-user {{ request()->is('admin/providers*') ? 'text-secondary' : '' }}"></i>
+                    <i
+                        class="fa-regular fa-square-user {{ request()->is('admin/providers*') ? 'text-secondary' : '' }}"></i>
                     <span class="mx-3">{{ trans('labels.providers') }}</span>
                 </a>
             @endif
             @if (Auth::user()->type == 1)
                 <a href="{{ URL::to('admin/vendors') }}"
                     class="nav-item {{ request()->is('admin/vendors*') ? 'active' : '' }}">
-                    <i class="fa-regular fa-circle-user {{ request()->is('admin/vendors*') ? 'text-secondary' : '' }}"></i>
+                    <i
+                        class="fa-regular fa-circle-user {{ request()->is('admin/vendors*') ? 'text-secondary' : '' }}"></i>
                     <span class="mx-3">{{ trans('labels.dome_owners') }}</span>
                 </a>
-                <a href="{{ URL::to('admin/users') }}" class="nav-item {{ request()->is('admin/users*') ? 'active' : '' }}">
-                    <i class="fa-regular fa-user-check {{ request()->is('admin/users*') ? 'text-secondary' : '' }}"></i>
+                <a href="{{ URL::to('admin/users') }}"
+                    class="nav-item {{ request()->is('admin/users*') ? 'active' : '' }}">
+                    <i
+                        class="fa-regular fa-user-check {{ request()->is('admin/users*') ? 'text-secondary' : '' }}"></i>
                     <span class="mx-3">{{ trans('labels.users') }}</span>
                 </a>
                 <a href="{{ URL::to('admin/sports') }}"
                     class="nav-item {{ request()->is('admin/sports*') ? 'active' : '' }}">
-                    <i class="fa-regular fa-basketball {{ request()->is('admin/sports*') ? 'text-secondary' : '' }}"></i>
+                    <i
+                        class="fa-regular fa-basketball {{ request()->is('admin/sports*') ? 'text-secondary' : '' }}"></i>
                     <span class="mx-3">{{ trans('labels.sports') }}</span>
                 </a>
             @endif
@@ -42,7 +49,8 @@
                     data-bs-toggle="collapse" role="button"
                     aria-expanded="{{ request()->is('admin/domes*') || request()->is('admin/field*') || request()->is('admin/set-prices*') ? 'true' : 'false' }}"
                     aria-controls="domesmanagement">
-                    <i class="fa-regular fa-igloo {{ request()->is('admin/domes*') || request()->is('admin/field*') || request()->is('admin/set-prices*') ? 'text-secondary' : '' }}"></i>
+                    <i
+                        class="fa-regular fa-igloo {{ request()->is('admin/domes*') || request()->is('admin/field*') || request()->is('admin/set-prices*') ? 'text-secondary' : '' }}"></i>
                     <div class="ms-3 d-flex align-items-center justify-content-between w-100">
                         <span> {{ trans('labels.domes_management') }} </span>
                         <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-down"
@@ -78,40 +86,51 @@
             @endif
             <a href="{{ URL::to('admin/leagues') }}"
                 class="nav-item {{ request()->is('admin/leagues*') ? 'active' : '' }}">
-                <i class="fa-regular fa-ranking-star {{ request()->is('admin/leagues*') ? 'text-secondary' : '' }}"></i>
+                <i
+                    class="fa-regular fa-ranking-star {{ request()->is('admin/leagues*') ? 'text-secondary' : '' }}"></i>
                 <span class="mx-3">{{ trans('labels.leagues') }}</span>
             </a>
             <a href="{{ URL::to('admin/bookings') }}"
                 class="nav-item {{ request()->is('admin/bookings*') ? 'active' : '' }}">
-                <i class="fa-regular fa-calendar-circle-plus {{ request()->is('admin/bookings*') ? 'text-secondary' : '' }}"></i>
+                <i
+                    class="fa-regular fa-calendar-circle-plus {{ request()->is('admin/bookings*') ? 'text-secondary' : '' }}"></i>
                 <span class="mx-3">{{ trans('labels.bookings') }}</span>
             </a>
             @if (in_array(Auth::user()->type, [1, 2]))
                 <a href="{{ URL::to('admin/transactions') }}"
                     class="nav-item {{ request()->is('admin/transactions*') ? 'active' : '' }}">
-                    <i class="fa-regular fa-money-from-bracket {{ request()->is('admin/transactions*') ? 'text-secondary' : '' }}"></i>
+                    <i
+                        class="fa-regular fa-money-from-bracket {{ request()->is('admin/transactions*') ? 'text-secondary' : '' }}"></i>
                     <span class="mx-3">{{ trans('labels.transactions') }}</span>
                 </a>
             @endif
             @if (Auth::user()->type != 5)
                 <a href="{{ URL::to('admin/calendar') }}"
                     class="nav-item {{ request()->is('admin/calendar*') ? 'active' : '' }}">
-                    <i class="fa-regular fa-calendar-lines {{ request()->is('admin/calendar*') ? 'text-secondary' : '' }}"></i>
+                    <i
+                        class="fa-regular fa-calendar-lines {{ request()->is('admin/calendar*') ? 'text-secondary' : '' }}"></i>
                     <span class="mx-3">{{ trans('labels.calendar') }}</span>
                 </a>
             @endif
             @if (in_array(Auth::user()->type, [2, 4]))
                 <a href="{{ URL::to('admin/reviews') }}"
                     class="nav-item {{ request()->is('admin/reviews*') ? 'active' : '' }}">
-                    <i class="fa-regular fa-star-exclamation {{ request()->is('admin/reviews*') ? 'text-secondary' : '' }}"></i>
+                    <i
+                        class="fa-regular fa-star-exclamation {{ request()->is('admin/reviews*') ? 'text-secondary' : '' }}"></i>
                     <span class="mx-3">{{ trans('labels.reviews') }}</span>
                 </a>
+                @if (Auth::user()->type == 2)
+                    <a href="{{ URL::to('admin/enquiries/dome-requests') }}"
+                        class="nav-item {{ request()->is('admin/enquiries/dome-requests*') ? 'active' : '' }}">
+                        <i class="fa-regular fa-comments-question {{ request()->is('admin/enquiries*') ? 'text-secondary' : '' }}"></i>
+                        <span class="mx-3">{{ trans('labels.dome_requests') }}</span>
+                    </a>
+                @endif
             @endif
             @if (Auth::user()->type == 1)
                 <a href="#enquiry" class="nav-item {{ request()->is('admin/enquiries*') ? 'active' : '' }}"
                     data-bs-toggle="collapse" role="button"
-                    aria-expanded="{{ request()->is('admin/enquiries*') ? 'true' : 'false' }}"
-                    aria-controls="enquiry">
+                    aria-expanded="{{ request()->is('admin/enquiries*') ? 'true' : 'false' }}" aria-controls="enquiry">
                     <i class="fa-regular fa-comments-question {{ request()->is('admin/enquiries*') ? 'text-secondary' : '' }}"></i>
                     <div class="ms-3 d-flex align-items-center justify-content-between w-100">
                         <span class="position-relative">{{ trans('labels.enquiry') }}
@@ -136,7 +155,7 @@
                         <a href="{{ URL::to('admin/enquiries/dome-requests') }}"
                             class="nav-item d-flex justify-contewnt-between">
                             <span
-                                class="nav-link w-100 {{ request()->is('admin/enquiries/dome-requests') ? 'active' : '' }}">{{ trans('labels.domes_requests') }}</span>
+                                class="nav-link w-100 {{ request()->is('admin/enquiries/dome-requests') ? 'active' : '' }}">{{ trans('labels.dome_requests') }}</span>
                             @if (Helper::get_noti_count(3) > 0)
                                 <small class="badge bg-danger rounded-pill"
                                     style="font-size: 10px;height:fit-content;background-color:#FE3B30 !important;">{{ Helper::get_noti_count(3) }}</small>
@@ -165,7 +184,8 @@
                 <a href="#cms" class="nav-item {{ request()->is('admin/cms*') ? 'active' : '' }}"
                     data-bs-toggle="collapse" role="button"
                     aria-expanded="{{ request()->is('admin/cms*') ? 'true' : 'false' }}" aria-controls="cms">
-                    <i class="fa-regular fa-shield-check {{ request()->is('admin/cms*') ? 'text-secondary' : '' }}"></i>
+                    <i
+                        class="fa-regular fa-shield-check {{ request()->is('admin/cms*') ? 'text-secondary' : '' }}"></i>
                     <div class="ms-3 d-flex align-items-center justify-content-between w-100">
                         <span>{{ trans('labels.cms') }}</span>
                         <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-down"
@@ -233,7 +253,8 @@
             @if (Auth::user()->type != 5)
                 <a href="{{ URL::to('admin/supports') }}"
                     class="nav-item {{ request()->is('admin/supports*') ? 'active' : '' }}">
-                    <i class="fa-regular fa-circle-question" {{ request()->is('admin/supports*') ? 'text-secondary' : '' }}></i>
+                    <i class="fa-regular fa-circle-question"
+                        {{ request()->is('admin/supports*') ? 'text-secondary' : '' }}></i>
                     <div class="d-flex justify-content-between w-100 aling-items-center">
                         <span class="mx-3">{{ trans('labels.supports') }}</span>
                         @if (Helper::get_noti_count(5) > 0)
