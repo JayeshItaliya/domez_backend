@@ -163,6 +163,7 @@ class BookingController extends Controller
                 $period = new CarbonPeriod(date('h:i A', strtotime($getdomedata->start_time)), $my_interval . ' minutes', date("h:i A", strtotime("-$my_interval minutes", strtotime($getdomedata->end_time))));
                 foreach ($period as $item) {
                     $new = new SetPricesDaysSlots();
+                    $new ->dome_id = $getdomedata->id;
                     $new->date = date('Y-m-d', strtotime($request->date));
                     $new->start_time = $item->format("H:i");
                     $new->sport_id = $request->sport_id;
