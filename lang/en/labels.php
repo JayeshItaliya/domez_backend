@@ -38,7 +38,7 @@ return [
     'french' => 'French',
     'all_notifications' => 'All Notifications',
     'mark_read' => 'Mark as all read',
-    'hello' => 'Helllo,',
+    'hello' => 'Hello,',
     'account_settings' => 'Account Settings',
     'log_out' => 'Log Out',
     'loading' => 'Loading...',

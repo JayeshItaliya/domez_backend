@@ -346,84 +346,33 @@ class AuthenticationController extends Controller
 
     public function apple_login(Request $request)
     {
-        try {
-
-            $appleToken = '000225.01937fb47e8b481f89943bbba78a9d15.0657';
-
-            $appleValidationUrl = 'https://appleid.apple.com/auth/token';
-            $appleClientId = env('APPLE_CLIENT_ID');
-            // $appleClientSecret = env('APPLE_CLIENT_SECRET');
-
-            $clientId = env('APPLE_CLIENT_ID');
-            $teamId = env('APPLE_TEAM_ID');
-            $keyId = env('APPLE_KEY_ID');
-            $privateKey = config('services.apple.client_secret');
-            $jwtService = new JwtService();
-            // $appleClientSecret = $jwtService->generateClientSecret($clientId, $teamId, $keyId, $privateKey);
-            $appleClientSecret = 'eyJraWQiOiI3MjRXN1pYQzJEIiwiYWxnIjoiRVMyNTYiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJMOEJXSzc0TTc1IiwiaWF0IjoxNjgyNDA3NzM0LCJleHAiOjE2OTc5NTk3MzQsImF1ZCI6Imh0dHBzOi8vYXBwbGVpZC5hcHBsZS5jb20iLCJzdWIiOiJjb20uZG9tZXouaW8uZG9tZXoifQ.ayRY3mX_P8wtumGBFWGW-aXZynqD63-tRrp_olsbm_EN4Df5bSCTlrp8_qVDie76Ft2czQ9Tqj-URFChpcIAYQ';
-            dump($appleClientSecret);
-
-            $response = Http::asForm()->post($appleValidationUrl, [
-                'grant_type' => 'authorization_code',
-                'code' => $appleToken,
-                'client_id' => $appleClientId,
-                'client_secret' => $appleClientSecret,
-            ]);
-
-            dd($response);
-
-            // Handle the response from Apple
-            if ($response->successful()) {
-                // If the token is valid, store it in the database or use it to authenticate the user
-                $appleAccessToken = $response->json()['access_token'];
-                // ...
-            } else {
-                // If the token is invalid, return an error response to the mobile application
-                return response()->json(['error' => 'Invalid token'], 400);
-            }
-        } catch (\Throwable $th) {
-            dd(111, $th);
+        if ($request->email == "") {
+            return response()->json(["status" => 0, "message" => "Please Enter Email"], 200);
         }
-
-        // $client = DB::table('oauth_clients')
-        //     ->where('password_client', true)
-        //     ->first();
-        // if (!$client) {
-        //     return response()->json([
-        //         'message' => trans('validation.passport.client_error'),
-        //         'status' => Response::HTTP_INTERNAL_SERVER_ERROR
-        //     ], Response::HTTP_INTERNAL_SERVER_ERROR);
-        // }
-        // $data = [
-        //     'grant_type' => 'social',
-        //     'client_id' => $client->id,
-        //     'client_secret' => $client->secret,
-        //     'provider' => 'apple',
-        //     'access_token' => $token
-        // ];
-        // $request = Request::create('/oauth/token', 'POST', $data);
-        // $content = json_decode(app()->handle($request)->getContent());
-        // if (isset($content->error) && $content->error === 'invalid_request') {
-        //     return response()->json(['error' => true, 'message' => $content->message]);
-        // }
-        // return response()->json(
-        //     [
-        //         'error' => false,
-        //         'data' => [
-        //             'user' => $user,
-        //             'meta' => [
-        //                 'token' => $content->access_token,
-        //                 'expired_at' => $content->expires_in,
-        //                 'refresh_token' => $content->refresh_token,
-        //                 'type' => 'Bearer'
-        //             ],
-        //         ]
-        //     ],
-        //     Response::HTTP_OK
-        // );
-
-        // $appleUser = Socialite::driver('apple')->stateless()->userFromToken($request->bearerToken());
-        // dd($appleUser);
+        $checkuser = User::where('email', $request->email)->where('login_type', 3)->where('is_deleted', 2)->first();
+        if (!empty($checkuser) && $checkuser->login_type == 3) {
+            $userdata = $this->getuserprofileobject($checkuser->id);
+            return response()->json(["status" => 1, "message" => "Succesfully Login", 'userdata' => $userdata], 200);
+        }
+        if ($request->fcm_token == "") {
+            return response()->json(["status" => 0, "message" => "Please Enter FCM Token"], 200);
+        }
+        $user = new User();
+        $user->type = 3;
+        $user->login_type = 3;
+        $user->name = $request->name ?? "";
+        $user->email = $request->email;
+        $user->phone = $request->phone ?? "";
+        $user->countrycode = $request->countrycode ?? "";
+        $user->fcm_token = $request->fcm_token ?? '';
+        $user->apple_id = $request->uid;
+        $user->is_verified = 1;
+        if ($user->save()) {
+            $userdata = $this->getuserprofileobject($user->id);
+            return response()->json(["status" => 1, "message" => "Succesfully Login", 'userdata' => $userdata], 200);
+        } else {
+            return response()->json(["status" => 0, "message" => "Something Went Wrong..!!"], 200);
+        }
     }
 
     protected function getLocalUser(OAuthTwoUser $socialUser): ?User

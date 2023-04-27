@@ -235,14 +235,14 @@ class PaymentController extends Controller
                 $body = 'Thank you for your Booking with us! Please complete the payment within the next 2 hours to ensure that your booking is Confirmed.';
                 Helper::send_notification($title, $body, $type, $booking_id, '', $tokens);
             }
-            $data = ['title' => 'Booking Receipt', 'email' => $booking->customer_email, 'bookingdata' => $booking];
+            $data = ['title' => 'Booking Receipt', 'email' => $booking->customer_email, 'bookingdata' => $booking, 'logo'=>Helper::image_path('logo.png')];
             Mail::send('email.booking_confirmation', $data, function ($message) use ($data) {
                 $message->from(config('app.mail_username'))->subject($data['title']);
                 $message->to($data['email']);
             });
             return response()->json(['status' => 1, "message" => "Successful", "transaction_id" => $transaction_id, "booking_id" => $booking->id, "payment_link" => URL::to('/payment/' . $booking->token),], 200);
         } catch (\Throwable $th) {
-            return response()->json(['status' => 0, "message" => "Something Went Wrong..!!"], 200);
+            return response()->json(['status' => 0, "message" => 'Something went wrong..'], 200);
         }
     }
 }
