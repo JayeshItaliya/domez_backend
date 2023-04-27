@@ -150,7 +150,7 @@
                                     for="benefits_description">{{ trans('labels.amenities_description') }}<span
                                         class="form-label-secondary px-2">{{ trans('labels.optional') }}</span></label>
                                 <textarea class="form-control" name="benefits_description" value="{{ old('benefits_description') }}"
-                                    id="benefits_description" rows="4" placeholder="Please Enter Benefits Description">{{ old('benefits_description') }}</textarea>
+                                    id="benefits_description" rows="4" placeholder="Please Enter Benefits Description" maxlength="100">{{ old('benefits_description') }}</textarea>
                                 @error('benefits_description')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
@@ -213,8 +213,8 @@
                             </div>
                         </div>
                     </div>
-                    <input type="hidden" name="lat" id="textLat" value="">
-                    <input type="hidden" name="lng" id="textLng" value="">
+                    <input type="hidden" name="lat" id="textLat" value="{{ old('lat') }}">
+                    <input type="hidden" name="lng" id="textLng" value="{{ old('lng') }}">
                     @error('lat')
                         <span class="text-danger">{{ $message }}</span>
                     @enderror

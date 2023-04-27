@@ -1,5 +1,7 @@
 <?php
+
 namespace App\Http\Controllers\admin;
+
 use App\Helper\Helper;
 use App\Http\Controllers\Controller;
 use App\Models\Enquiries;
@@ -8,14 +10,15 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
+
 class EnquiryController extends Controller
 {
     public function dome_requests(Request $request)
     {
         if (auth()->user()->type == 1) {
-            $enquiries = Enquiries::where('type', 3)->where('is_accepted', 2)->where('is_deleted', 2)->orderByDesc('id')->get();
+            $enquiries = Enquiries::where('type', 3)->orderByDesc('id')->get();
         } else {
-            $enquiries = Enquiries::where('type', 3)->where('vendor_id', auth()->user()->type == 2 ? auth()->user()->id : auth()->user()->vendor_id)->where('is_accepted', 2)->where('is_deleted', 2)->orderByDesc('id')->get();
+            $enquiries = Enquiries::where('type', 3)->where('vendor_id', auth()->user()->type == 2 ? auth()->user()->id : auth()->user()->vendor_id)->orderByDesc('id')->get();
         }
 
         return view('admin.enquiry.dome_requests', compact('enquiries'));
@@ -60,6 +63,7 @@ class EnquiryController extends Controller
                 $user->is_verified = 1;
                 $user->save();
             }
+            $enquiry_data->vendor_id = $user->id;
             $enquiry_data->is_accepted = 1;
             $enquiry_data->is_replied = 1;
             $enquiry_data->save();
@@ -71,7 +75,7 @@ class EnquiryController extends Controller
     public function dome_request_delete(Request $request)
     {
         try {
-            Enquiries::where('id', $request->id)->update(['is_deleted' => 1, 'is_replied' => 1]);
+            Enquiries::where('id', $request->id)->update(['is_accepted' => 3, 'is_replied' => 1]);
             return response()->json(['status' => 1], 200);
         } catch (\Throwable $th) {
             return response()->json(['status' => 0], 200);

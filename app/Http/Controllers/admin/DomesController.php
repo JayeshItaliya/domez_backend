@@ -351,6 +351,7 @@ class DomesController extends Controller
     {
         try {
             $enquiry = new Enquiries();
+            $enquiry->vendor_id = auth()->user()->id;
             $enquiry->type = 3;
             $enquiry->name = auth()->user()->name;
             $enquiry->email = auth()->user()->email;

@@ -268,4 +268,6 @@ return [
     'employee' => 'Employé',
     'admin' => 'Administrateur',
     'provider' => 'Fournisseur',
+    'verified' => 'vérifié',
+    'declined' => 'Diminué',
 ];

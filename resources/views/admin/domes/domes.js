@@ -1,6 +1,6 @@
 $(function () {
     $('.total-bookings-picker, .dome-revenue-picker').hide();
-    if ( $('.total-bookings-picker').length > 0) {
+    if ($('.total-bookings-picker').length > 0) {
         $('.total-bookings-picker').flatpickr({
             mode: "range",
             maxDate: "today",
@@ -10,7 +10,7 @@ $(function () {
             }
         });
     }
-    if ( $('.dome-revenue-picker').length > 0) {
+    if ($('.dome-revenue-picker').length > 0) {
         $('.dome-revenue-picker').flatpickr({
             mode: "range",
             maxDate: "today",
@@ -201,12 +201,12 @@ $(function () {
     });
     initMap();
 });
-if (document.getElementById('textLat')) {
-    var lat = -33.8688197;
-    var lng = 151.2092955;
-} else {
+if (document.getElementById('textLat') && $('#textLat').val() != "") {
     var lat = parseFloat($('#textLat').val());
     var lng = parseFloat($('#textLng').val());
+} else {
+    var lat = -33.8688197;
+    var lng = 151.2092955;
 }
 
 function initMap() {

@@ -29,7 +29,10 @@
                             <th>{{ trans('labels.phone_number') }}</th>
                             <th>{{ trans('labels.dome_name') }}</th>
                             <th>{{ trans('labels.country') }}</th>
-                            <th>{{ trans('labels.action') }}</th>
+                            <th>{{ trans('labels.status') }}</th>
+                            @if (auth()->user()->type == 1)
+                                <th>{{ trans('labels.action') }}</th>
+                            @endif
                         </tr>
                     </thead>
                     <tbody>
@@ -44,33 +47,52 @@
                                 <td>{{ $enquiry->phone != '' ? '+1' . $enquiry->phone : '' }}</td>
                                 <td>{{ $enquiry->dome_name }}</td>
                                 <td>{{ $enquiry->dome_country }}</td>
-                                <td class="d-flex align-items-center">
-                                    @if ($enquiry->is_replied == 2)
-                                        <span class="badge rounded-pill cursor-pointer reply-pill me-2 reply_action"
-                                            data-show-name="{{ $enquiry->name }}" data-show-email="{{ $enquiry->email }}"
-                                            data-show-phone="{{ $enquiry->phone != '' ? '+1' . $enquiry->phone : '' }}"
-                                            data-show-dome-name="{{ $enquiry->dome_name }}"
-                                            data-show-dome-zipcode="{{ $enquiry->dome_zipcode }}"
-                                            data-show-dome-city="{{ $enquiry->dome_city }}"
-                                            data-show-dome-state="{{ $enquiry->dome_state }}"
-                                            data-show-dome-country="{{ $enquiry->dome_country }}"
-                                            data-id="{{ $enquiry->id }}" data-bs-target="#reply_modal"
-                                            data-bs-toggle="modal" style="height: fit-content">
-                                            <svg width="10" height="9" viewBox="0 0 10 9" fill="none"
-                                                xmlns="http://www.w3.org/2000/svg">
-                                                <path
-                                                    d="M3.25833 3.70833L1.125 6.04167L3.25833 8.375M1.125 6.04167H6.99167C7.55746 6.04167 8.10008 5.79583 8.50016 5.35825C8.90024 4.92066 9.125 4.32717 9.125 3.70833C9.125 3.08949 8.90024 2.496 8.50016 2.05842C8.10008 1.62083 7.55746 1.375 6.99167 1.375H6.45833"
-                                                    stroke="#2196F3" stroke-width="1.25" stroke-linecap="round"
-                                                    stroke-linejoin="round" />
-                                            </svg>
-                                            {{ trans('labels.reply') }}
-                                        </span>
+                                <td>
+                                    @if ($enquiry->is_accepted == 1)
+                                        <span
+                                            class="badge rounded-pill cursor-pointer text-bg-success">{{ trans('labels.verified') }}</span>
+                                    @elseif ($enquiry->is_accepted == 2)
+                                        <span
+                                            class="badge rounded-pill cursor-pointer text-bg-warning">{{ trans('labels.pending') }}</span>
+                                    @else
+                                        <span
+                                            class="badge rounded-pill cursor-pointer text-bg-danger">{{ trans('labels.declined') }}</span>
                                     @endif
-                                    <i class="fa-regular fa-circle-check me-2 text-success fs-4 cursor-pointer"
-                                        onclick="deletedata('{{ $enquiry->id }}','{{ URL::to('admin/enquiries/dome-request-status') }}')"></i>
-                                    <i class="fa-regular fa-circle-xmark text-danger fs-4 cursor-pointer"
-                                        onclick="deletedata('{{ $enquiry->id }}','{{ URL::to('admin/enquiries/dome-request-delete') }}')"></i>
                                 </td>
+                                @if (auth()->user()->type == 1)
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            @if ($enquiry->is_replied == 2)
+                                                <span class="badge rounded-pill cursor-pointer reply-pill me-2 reply_action"
+                                                    data-show-name="{{ $enquiry->name }}"
+                                                    data-show-email="{{ $enquiry->email }}"
+                                                    data-show-phone="{{ $enquiry->phone != '' ? '+1' . $enquiry->phone : '' }}"
+                                                    data-show-dome-name="{{ $enquiry->dome_name }}"
+                                                    data-show-dome-zipcode="{{ $enquiry->dome_zipcode }}"
+                                                    data-show-dome-city="{{ $enquiry->dome_city }}"
+                                                    data-show-dome-state="{{ $enquiry->dome_state }}"
+                                                    data-show-dome-country="{{ $enquiry->dome_country }}"
+                                                    data-id="{{ $enquiry->id }}" data-bs-target="#reply_modal"
+                                                    data-bs-toggle="modal" style="height: fit-content">
+                                                    <svg width="10" height="9" viewBox="0 0 10 9" fill="none"
+                                                        xmlns="http://www.w3.org/2000/svg">
+                                                        <path
+                                                            d="M3.25833 3.70833L1.125 6.04167L3.25833 8.375M1.125 6.04167H6.99167C7.55746 6.04167 8.10008 5.79583 8.50016 5.35825C8.90024 4.92066 9.125 4.32717 9.125 3.70833C9.125 3.08949 8.90024 2.496 8.50016 2.05842C8.10008 1.62083 7.55746 1.375 6.99167 1.375H6.45833"
+                                                            stroke="#2196F3" stroke-width="1.25" stroke-linecap="round"
+                                                            stroke-linejoin="round" />
+                                                    </svg>
+                                                    {{ trans('labels.reply') }}
+                                                </span>
+                                            @endif
+                                            @if ($enquiry->is_accepted == 2)
+                                                <i class="fa-regular fa-circle-check me-2 text-success fs-4 cursor-pointer"
+                                                    onclick="deletedata('{{ $enquiry->id }}','{{ URL::to('admin/enquiries/dome-request-status') }}')"></i>
+                                                <i class="fa-regular fa-circle-xmark text-danger fs-4 cursor-pointer"
+                                                    onclick="deletedata('{{ $enquiry->id }}','{{ URL::to('admin/enquiries/dome-request-delete') }}')"></i>
+                                            @endif
+                                        </div>
+                                    </td>
+                                @endif
                             </tr>
                         @endforeach
                     </tbody>

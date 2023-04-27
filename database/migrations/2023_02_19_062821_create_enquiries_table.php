@@ -30,7 +30,7 @@ return new class extends Migration
             $table->string('subject')->nullable();
             $table->string('message')->nullable();
             $table->tinyInteger('is_replied')->default(2)->comment('1=Yes, 2=No');
-            $table->tinyInteger('is_accepted')->default(2)->comment('1=Yes, 2=No');
+            $table->tinyInteger('is_accepted')->default(2)->comment('1=Yes, 2=Pending, 3=No');
             $table->tinyInteger('is_deleted')->default(2)->comment('1=Yes, 2=No');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent();
