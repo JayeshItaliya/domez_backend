@@ -63,7 +63,7 @@ class AuthenticationController extends Controller
             Auth::logout();
             return redirect()->back()->with('error', trans('messages.email_pass_invalid'));
         } else {
-            // dd(132);
+
             return redirect()->back()->with('error', trans('messages.email_pass_invalid'));
         }
     }

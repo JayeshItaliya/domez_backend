@@ -95,7 +95,6 @@ class BookingController extends Controller
                         });
                         $sendmail = 1;
                     } catch (\Throwable $th) {
-                        dd($th->getMessage(), $th);
                         return response()->json(['status' => 0, 'message' => trans('messages.email_error')], 200);
                     }
                     if ($sendmail == 1) {
