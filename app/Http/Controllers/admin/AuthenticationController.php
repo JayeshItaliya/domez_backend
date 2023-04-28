@@ -97,6 +97,7 @@ class AuthenticationController extends Controller
                 $checkuser->save();
                 return redirect('check-mail')->with('success', trans('messages.email_sent'));
             }
+            return redirect()->back()->with('error', trans('messages.email_error'));
         } else {
             return redirect()->back()->with('error', trans('messages.invalid_email'));
         }

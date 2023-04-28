@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,12 +14,10 @@
     <!-- Fontawesome CSS -->
     <link rel="stylesheet" href="{{ url('storage/app/public/admin/css/fontawesome/all.min.css') }}">
     <!-- Sweetalert CSS -->
-    <link rel="stylesheet" href="{{ url('storage/app/public/admin/css/sweetalert/sweetalert2.min.css') }}">
-    <!-- Toastr CSS -->
-    <link rel="stylesheet" href="{{ url('storage/app/public/admin/css/toastr/toastr.min.css') }}">
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{{ url('storage/app/public/admin/css/custom.min.css') }}">
 </head>
+
 <body>
     <style>
         :root {
@@ -43,7 +42,7 @@
                     <div class="logo"><img src="{{ Helper::image_path('logo_dark.png') }}" alt=""
                             srcset=""></div>
                     <h4 class="text-secondary text-center fw-semibold text-capitalize mb-4">{{ trans('labels.hi') }},
-                        {{ trans('check_email') }}</h4>
+                        {{ trans('labels.check_email') }}</h4>
                     <p class="text-center fw-semibold mb-4">{{ trans('messages.check_mail_note') }}</p>
                     <a href="{{ URL::to('/') }}" class="btn btn-secondary w-100 mt-2">{{ trans('labels.back_to') }}
                         {{ trans('labels.sign_in') }}</a>
@@ -68,8 +67,12 @@
     <!-- Javascript -->
     <script src="{{ url('storage/app/public/admin/js/jquery/jquery.min.js') }}"></script>
     <script src="{{ url('storage/app/public/admin/js/bootstrap/bootstrap.bundle.min.js') }}"></script>
-    <script src="{{ url('storage/app/public/admin/js/sweetalert/sweetalert2.min.js') }}"></script>
-    <script src="{{ url('storage/app/public/admin/js/toastr/toastr.min.js') }}"></script>
-    <script src="{{ url('storage/app/public/admin/js/custom.min.js') }}"></script>
+    <script>
+        $(window).on("load", function() {
+            "use strict";
+            $("#status").delay(500).fadeOut("slow"), $("#preloader").delay(500).fadeOut("slow")
+        })
+    </script>
 </body>
+
 </html>

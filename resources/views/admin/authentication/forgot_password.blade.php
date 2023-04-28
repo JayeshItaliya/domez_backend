@@ -50,10 +50,14 @@
                     <p class="text-center ">{{ trans('messages.forgot_password_note') }}</p>
                     <form action="{{ URL::to('send-pass') }}" method="POST" class="card-body pb-0">
                         @csrf
-                        <div class="form-floating">
-                            <input type="email" name="email" id="email" class="form-control"
-                                value="{{ old('email') }}" placeholder="{{ trans('labels.email_address') }}">
-                            <label for="email">{{ trans('labels.email_address') }}</label>
+                        <div class="form-group">
+                            <div class="form-floating mb-0">
+                                <input type="email" name="email" id="email" class="form-control" value="{{ old('email') }}" placeholder="{{ trans('labels.email_address') }}">
+                                <label for="email">{{ trans('labels.email_address') }}</label>
+                            </div>
+                            @error('email')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
                         </div>
                         <button type="submit"
                             class="btn btn-secondary w-100 mt-2">{{ trans('labels.continue') }}</button>
@@ -87,6 +91,24 @@
     <script src="{{ url('storage/app/public/admin/js/sweetalert/sweetalert2.min.js') }}"></script>
     <script src="{{ url('storage/app/public/admin/js/toastr/toastr.min.js') }}"></script>
     <script src="{{ url('storage/app/public/admin/js/custom.min.js') }}"></script>
+    <script>
+        toastr.options = {
+            "closeButton": true,
+            "positionClass": "toast-bottom-right",
+        }
+        @if (Session::has('success'))
+            toastr.success("{{ session('success') }}");
+        @endif
+        @if (Session::has('error'))
+            toastr.error("{{ session('error') }}");
+        @endif
+        @if (Session::has('info'))
+            toastr.info("{{ session('info') }}");
+        @endif
+        @if (Session::has('warning'))
+            toastr.warning("{{ session('warning') }}");
+        @endif
+    </script>
 </body>
 
 </html>
