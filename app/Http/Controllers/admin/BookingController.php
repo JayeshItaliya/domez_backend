@@ -11,6 +11,8 @@ use Carbon\Carbon;
 use Carbon\CarbonImmutable;
 use Carbon\CarbonPeriod;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\URL;
 
 class BookingController extends Controller
 {
@@ -82,29 +84,45 @@ class BookingController extends Controller
                     } else if (@$checknewslot->status == 0) {
                         return response()->json(['status' => 0, 'message' => 'Slot is Anavailable'], 200);
                     }
-                    $bookingdata->end_time = date('H:i', strtotime($slot_time));
-                    $bookingdata->sub_total += $slot_price;
-                    $bookingdata->due_amount += $slot_price;
-                    $bookingdata->total_amount += $slot_price;
-                    $bookingdata->slots = $bookingdata->slots . ',' . $slot;
-                    $bookingdata->token = str_replace(['$', '/', '.', '|'], '', Hash::make($bookingdata->booking_id));
-                    $bookingdata->save();
-                    $time1 = Carbon::parse($checknewslot->end_time);
-                    $time2 = Carbon::parse(date('H:i', strtotime($slot_time)));
-                    if ($time1->eq($time2)) {
-                        $checknewslot->status = 0;
-                        $checknewslot->save();
-                    } else {
-                        $checkold = $request->old_slot_id + 1;
-                        if ($checkold == $request->new_slot_id) {
-                            $checkoldslot->end_time = date('H:i', strtotime($slot_time));
-                            $checkoldslot->save();
-                        }
-                        $checknewslot->start_time = date('H:i', strtotime($slot_time));
-                        $checknewslot->price -= $slot_price;
-                        $checknewslot->save();
+                    try {
+                        $service_fee = $slot_price * 5 / 100;
+                        $hst = $slot_price * $bookingdata->dome_info->hst / 100;
+                        $total_amount = $slot_price + $service_fee + $hst;
+                        $data = ['title' => 'Booking Extend Time', 'email' => $bookingdata->customer_email, 'logo' => Helper::image_path('logo.png'), 'booking_id' => $bookingdata->booking_id, 'booking_date' => $bookingdata->start_date, 'time' => $slot, '', 'payment_link' => URL::to('/payment/' . $bookingdata->token), 'sub_total' => Helper::currency_format($slot_price), 'service_fee' => Helper::currency_format($service_fee), 'hst' => Helper::currency_format($hst), 'total_amount' => Helper::currency_format($total_amount)];
+                        Mail::send('email.extend_time', $data, function ($message) use ($data) {
+                            $message->from(config('app.mail_username'))->subject($data['title']);
+                            $message->to($data['email']);
+                        });
+                        $sendmail = 1;
+                    } catch (\Throwable $th) {
+                        dd($th->getMessage(), $th);
+                        return response()->json(['status' => 0, 'message' => trans('messages.email_error')], 200);
                     }
-                    return response()->json(['status' => 1, 'message' => trans('messages.success')], 200);
+                    if ($sendmail == 1) {
+                        $bookingdata->end_time = date('H:i', strtotime($slot_time));
+                        $bookingdata->sub_total += $slot_price;
+                        $bookingdata->due_amount += $slot_price;
+                        $bookingdata->total_amount += $slot_price;
+                        $bookingdata->slots = $bookingdata->slots . ',' . $slot;
+                        $bookingdata->token = str_replace(['$', '/', '.', '|'], '', Hash::make($bookingdata->booking_id));
+                        $bookingdata->save();
+                        $time1 = Carbon::parse($checknewslot->end_time);
+                        $time2 = Carbon::parse(date('H:i', strtotime($slot_time)));
+                        if ($time1->eq($time2)) {
+                            $checknewslot->status = 0;
+                            $checknewslot->save();
+                        } else {
+                            $checkold = $request->old_slot_id + 1;
+                            if ($checkold == $request->new_slot_id) {
+                                $checkoldslot->end_time = date('H:i', strtotime($slot_time));
+                                $checkoldslot->save();
+                            }
+                            $checknewslot->start_time = date('H:i', strtotime($slot_time));
+                            $checknewslot->price -= $slot_price;
+                            $checknewslot->save();
+                        }
+                        return response()->json(['status' => 1, 'message' => trans('messages.success')], 200);
+                    }
                 } else {
                     $old_slot_id = @SetPricesDaysSlots::where('sport_id', $bookingdata->sport_id)->whereDate('date', $bookingdata->start_date)->whereTime('end_time', $bookingdata->end_time)->first()->id;
                     $checkslot = SetPricesDaysSlots::where('id', $request->slot_id)->first();
@@ -124,7 +142,7 @@ class BookingController extends Controller
                         data-new-slot-id="' . $checkslot->id . '"
                         data-slot-price="' . $price . '"
                         data-slot="' . date('h:i A', strtotime($checkslot->start_time)) . ' - ' . $value . '"
-                        onchange="manageslot(this)"><label class="form-check-label rounded px-2 py-1 d-grid" for="check123' . $keyy . '">' . date('h:i A', strtotime($checkslot->start_time)) . ' - ' . $value . '<span><b>(' . Helper::currency_format($price) . ')<b></span> </label></div>';
+                        onchange="manageslot(this)"><label class="form-check-label rounded px-2 py-1 d-grid" for="check123' . $keyy . '">' . date('h:i A', strtotime($checkslot->start_time)) . ' - ' . $value . '<span><b>(' . Helper::currency_format($price) . ')</b></span> </label></div>';
                     }
                     $html .= '</div><div class="text-center"><button type="button" class="btn btn-primary btn-submit" onclick="submitdata()" style="display:none">' . trans('labels.submit') . '</button></div>';
                     return response()->json(['status' => 1, 'message' => trans('messages.success'), 'slots' => $html], 200);
@@ -150,7 +168,7 @@ class BookingController extends Controller
     public function cancel_booking(Request $request)
     {
         $checkbooking = Booking::find($request->id);
-        if($checkbooking->booking_status == 3){
+        if ($checkbooking->booking_status == 3) {
             return response()->json(['status' => 0, 'message' => trans('messages.already_cancelled')], 200);
         }
         $refund = Helper::refund_cancel_booking($request->id);
