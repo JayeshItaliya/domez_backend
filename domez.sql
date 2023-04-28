@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 25, 2023 at 02:02 PM
+-- Generation Time: Apr 28, 2023 at 06:27 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -148,7 +148,8 @@ CREATE TABLE `domes` (
 
 INSERT INTO `domes` (`id`, `vendor_id`, `sport_id`, `name`, `price`, `hst`, `address`, `pin_code`, `city`, `state`, `country`, `slot_duration`, `start_time`, `end_time`, `description`, `lat`, `lng`, `benefits`, `benefits_description`, `is_deleted`, `created_at`, `updated_at`) VALUES
 (35, 2, '6,7,8,10', 'Domez', 0.00, 5.00, 'Costen Tax Solutions, Inc, Birdneck Road North, Virginia Beach, VA, USA', '23451', 'Summerside', 'Prince Edward Island', 'Canada', 1, '06:00 AM', '08:00 PM', 'DESCRIPTION', '28.5156729', '-81.4824233', 'Free Wifi|Changing Room|Parking|Pool|Others', 'Our All sports boasts an impressive range of amenities, all designed to enhance your experience and ensure you have everything you need to make the most of your time on the field. From ample parking to clean and modern restroom facilities, we strive to provide a comfortable and enjoyable environment for all our guests. Our well-maintained playing surface is perfect for a variety of sports, and we offer an array of equipment to help you get the most out of your game. Additionally, our knowledgeable staff is always available to assist you with any questions or concerns you may have. Come experience the best in sports field amenities with us!', 2, '2023-02-20 03:57:09', '2023-04-09 05:56:28'),
-(53, 51, '10,11,12', 'Lorem Dome', 0.00, 0.00, 'Hirabag, Surat, Gujarat, India', '395006', 'Surat', 'Gujarat', 'India', 1, '11:00 AM', '05:00 PM', 'Lorem is ipsum the description for the dome to work on the industry. Lorem is ipsum the description', '21.211125', '72.8630434', 'Free Wifi|Changing Room|Parking|Pool|Others', 'Lorem is Amenities the Description for the values to for the world to get. Lorem is Amenities the Description for the values to for the world to get. Lorem is Amenities the Description for the values to for the world to get. Lorem is Amenities the Description for the values to for the world to get. Lorem is Amenities the Description for the values to for the world to get.', 2, '2023-04-19 07:15:08', '2023-04-19 11:25:29');
+(53, 51, '10,11,12', 'Lorem Dome', 0.00, 0.00, 'Hirabag, Surat, Gujarat, India', '395006', 'Surat', 'Gujarat', 'India', 1, '11:00 AM', '05:00 PM', 'Lorem is ipsum the description for the dome to work on the industry. Lorem is ipsum the description', '21.211125', '72.8630434', 'Free Wifi|Changing Room|Parking|Pool|Others', 'Lorem is Amenities the Description for the values to for the world to get. Lorem is Amenities the Description for the values to for the world to get. Lorem is Amenities the Description for the values to for the world to get. Lorem is Amenities the Description for the values to for the world to get. Lorem is Amenities the Description for the values to for the world to get.', 2, '2023-04-19 07:15:08', '2023-04-19 11:25:29'),
+(54, 95, '9', 'Xplore', 0.00, 0.00, 'XPLORE - Game Zone in Surat, Surat - Dumas Road, opp. magdalla, Piplod Gam, Gail Colony, Magdalla, Surat, Gujarat, India', '394518', 'Surat', 'Gujarat', 'India', 1, '11:00 AM', '11:00 PM', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the', '21.1404783', '72.7551998', 'Free Wifi|Changing Room|Parking|Pool', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the', 2, '2023-04-27 07:35:32', '2023-04-27 07:35:32');
 
 -- --------------------------------------------------------
 
@@ -200,7 +201,7 @@ CREATE TABLE `enquiries` (
   `subject` varchar(255) DEFAULT NULL,
   `message` varchar(255) DEFAULT NULL,
   `is_replied` tinyint(1) NOT NULL DEFAULT 2 COMMENT '1=Yes, 2=No',
-  `is_accepted` tinyint(1) NOT NULL DEFAULT 2 COMMENT '1=Yes, 2=No',
+  `is_accepted` tinyint(1) NOT NULL DEFAULT 2 COMMENT '1=Yes, 2=Pending, 3=No',
   `is_deleted` tinyint(1) NOT NULL DEFAULT 2 COMMENT '1=Yes, 2=No',
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
@@ -212,12 +213,11 @@ CREATE TABLE `enquiries` (
 
 INSERT INTO `enquiries` (`id`, `vendor_id`, `type`, `dome_name`, `dome_zipcode`, `dome_city`, `dome_state`, `dome_country`, `venue_name`, `venue_address`, `name`, `email`, `phone`, `subject`, `message`, `is_replied`, `is_accepted`, `is_deleted`, `created_at`, `updated_at`) VALUES
 (1, NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'shivakar@gmail.com', NULL, 'heyyya', 'hello big big issues', 2, 2, 2, '2023-04-06 09:58:12', '2023-04-09 04:17:30'),
-(2, NULL, 3, 'test', NULL, 'test', 'test', 'test', NULL, 'test', 'test', 'test@yopmail.com', '1234567890', NULL, NULL, 2, 2, 2, '2023-04-08 12:54:42', '2023-04-09 04:59:56'),
 (3, NULL, 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'James', 'james@yopmail.com', NULL, 'Lorem Ipsum', 'Lorem si dummy text to ttyype settiugng Lorem si dummy text to ttyype settiugng Lorem si dummy text to ttyype settiugng Lorem si dummy text to ttyype settiugng Lorem si dummy text to ttyype settiugng Lorem si dummy text to ttyype settiugng Lorem si dummy ', 2, 2, 2, '2023-04-09 04:21:49', '2023-04-09 04:21:49'),
 (5, NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'dummy@yopmail.com', NULL, 'dome inquiry', 'I have one dome.Can I join with you?', 2, 2, 2, '2023-04-12 11:59:22', '2023-04-12 11:59:22'),
 (6, NULL, 4, NULL, NULL, NULL, NULL, NULL, 'asdfs', 'asd', 'soham', 'dummy@yopmail.com', NULL, NULL, '', 2, 2, 2, '2023-04-12 12:40:59', '2023-04-12 12:40:59'),
 (7, NULL, 4, NULL, NULL, NULL, NULL, NULL, 'dscdsfdsew', 'dswfdsf', NULL, 'dummy@yopmail.com', NULL, NULL, '', 2, 2, 2, '2023-04-12 13:12:29', '2023-04-12 13:12:29'),
-(8, NULL, 3, 'James Dome', '123465', 'test city', 'test state', 'test country', NULL, 'test address', 'Lorem Dome', 'loremdome@yopmail.com', '8945454546', NULL, NULL, 1, 1, 2, '2023-04-19 09:07:37', '2023-04-19 09:08:35');
+(11, 96, 3, 'test', 'test', 'test', 'test', 'test', NULL, 'test', 'Rahul Ghaskata', 'rahul.vrajtechnosys@gmail.com', '0123456798', NULL, NULL, 2, 2, 2, '2023-04-27 13:09:50', '2023-04-27 13:09:50');
 
 -- --------------------------------------------------------
 
@@ -289,7 +289,7 @@ CREATE TABLE `fields` (
 
 INSERT INTO `fields` (`id`, `vendor_id`, `dome_id`, `sport_id`, `name`, `area`, `min_person`, `max_person`, `image`, `maintenance_date`, `in_maintenance`, `is_available`, `is_deleted`, `created_at`, `updated_at`) VALUES
 (2, 2, 35, '10', '2', 452.00, 5, 30, 'field-6712.jpg', NULL, 2, 1, 2, '2023-02-20 05:57:52', '2023-04-12 11:24:28'),
-(8, 2, 35, '10', '3', 452.00, 10, 20, 'field-3851.jpg', '2023-04-13', 1, 1, 2, '2023-02-20 05:57:52', '2023-04-11 11:21:23'),
+(8, 2, 35, '10', '3', 452.00, 10, 20, 'field-3851.jpg', NULL, 2, 1, 2, '2023-02-20 05:57:52', '2023-04-26 07:02:49'),
 (14, 2, 35, '10', '4', 452.00, 5, 30, 'field-8856.jpg', NULL, 2, 1, 2, '2023-02-20 05:57:52', '2023-03-16 06:11:51'),
 (20, 2, 35, '10', '5', 452.00, 10, 20, 'field-4042.jpg', NULL, 2, 1, 2, '2023-02-20 05:57:52', '2023-03-16 06:12:09'),
 (26, 2, 35, '10', '6', 452.00, 5, 30, 'field-9648.jpg', NULL, 2, 1, 2, '2023-02-20 05:57:52', '2023-03-16 06:14:23'),
@@ -508,7 +508,8 @@ INSERT INTO `set_prices` (`id`, `vendor_id`, `dome_id`, `sport_id`, `start_date`
 (30, 51, 53, 10, NULL, NULL, 1, 120, '2023-04-19 07:15:08', '2023-04-19 07:15:08'),
 (31, 51, 53, 11, NULL, NULL, 1, 150, '2023-04-19 07:15:08', '2023-04-19 07:15:08'),
 (32, 51, 53, 12, NULL, NULL, 1, 180, '2023-04-19 07:15:08', '2023-04-19 07:15:08'),
-(33, 51, 53, 10, '2023-04-19', '2023-06-30', 2, 0, '2023-04-19 11:44:42', '2023-04-19 11:44:42');
+(33, 51, 53, 10, '2023-04-19', '2023-06-30', 2, 0, '2023-04-19 11:44:42', '2023-04-19 11:44:42'),
+(34, 95, 54, 9, NULL, NULL, 1, 1000, '2023-04-27 07:35:32', '2023-04-27 07:35:32');
 
 -- --------------------------------------------------------
 
@@ -1659,7 +1660,9 @@ INSERT INTO `users` (`id`, `type`, `login_type`, `vendor_id`, `dome_limit`, `nam
 (85, 3, 1, NULL, NULL, NULL, 'soham@gmail.com', NULL, NULL, '$2y$10$3Jgb6YFWvR69LrV/vdGY9.k9/mKwdE58z3yA.dTE1eyvyRpXXqWG2', NULL, NULL, NULL, NULL, NULL, 'default.png', 1, 1, 2, '2023-04-12 07:49:14', '2023-04-12 07:49:14'),
 (86, 3, 1, NULL, NULL, NULL, 'dfvdfv@gmail.com', NULL, NULL, '$2y$10$6BC8DWEf02k/lbAQA7wLxuIHz7af2zDhCz.2zZ6CGxWWGO4srmNKq', NULL, NULL, NULL, NULL, NULL, 'default.png', 1, 1, 2, '2023-04-12 07:53:26', '2023-04-12 07:53:26'),
 (88, 3, 1, NULL, NULL, NULL, 'dsa@gmail.com', NULL, NULL, '$2y$10$9LYV5uhNGg8IbviMLjykr..yi7AZAUK.v61jDzToSzMgf8dy.zbkS', NULL, NULL, NULL, NULL, NULL, 'default.png', 1, 1, 2, '2023-04-14 11:30:46', '2023-04-14 11:30:46'),
-(93, 5, 1, 51, NULL, 'Lorem Provider', 'loremprovider@yopmail.com', NULL, NULL, '$2y$10$cPLiVS76oFh05Tq1Y0rOsOv3kcXq2xkdktl4EKqRt1eoJHIionpbu', NULL, NULL, NULL, NULL, NULL, 'default.png', 1, 1, 2, '2023-04-19 11:45:44', '2023-04-19 11:45:44');
+(93, 5, 1, 51, NULL, 'Lorem Provider', 'loremprovider@yopmail.com', NULL, NULL, '$2y$10$cPLiVS76oFh05Tq1Y0rOsOv3kcXq2xkdktl4EKqRt1eoJHIionpbu', NULL, NULL, NULL, NULL, NULL, 'default.png', 1, 1, 2, '2023-04-19 11:45:44', '2023-04-19 11:45:44'),
+(95, 2, 1, NULL, 1, 'Dhrutish Ramoliya', 'dhrutish.vrajtechnosys@gmail.com', NULL, '0123456789', '$2y$10$Z0JamgmvCxagvyI0ics1..ypXYBSVmTepm0RHkpT9ux5LdN5dik0m', NULL, NULL, NULL, NULL, NULL, 'profiles-644a0f6f15a2d.jpg', 1, 1, 2, '2023-04-27 05:58:07', '2023-04-27 06:15:11'),
+(96, 2, 1, NULL, 1, 'Rahul Ghaskata', 'rahul.vrajtechnosys@gmail.com', NULL, '0123456798', '$2y$10$vdGrEPZuxEa.qq3AqFp1A.ZLg/CGabEx3utypXLGZUUjJJf1gpcsi', NULL, NULL, NULL, NULL, NULL, 'default.png', 1, 1, 2, '2023-04-27 09:51:01', '2023-04-27 13:10:40');
 
 --
 -- Indexes for dumped tables
@@ -1782,7 +1785,7 @@ ALTER TABLE `cms`
 -- AUTO_INCREMENT for table `domes`
 --
 ALTER TABLE `domes`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
 
 --
 -- AUTO_INCREMENT for table `dome_images`
@@ -1794,7 +1797,7 @@ ALTER TABLE `dome_images`
 -- AUTO_INCREMENT for table `enquiries`
 --
 ALTER TABLE `enquiries`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `favourites`
@@ -1836,7 +1839,7 @@ ALTER TABLE `reviews`
 -- AUTO_INCREMENT for table `set_prices`
 --
 ALTER TABLE `set_prices`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- AUTO_INCREMENT for table `set_prices_days_slots`
@@ -1860,7 +1863,7 @@ ALTER TABLE `transactions`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=95;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=97;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
