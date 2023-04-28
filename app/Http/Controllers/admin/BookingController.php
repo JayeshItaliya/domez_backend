@@ -84,6 +84,8 @@ class BookingController extends Controller
                     } else if (@$checknewslot->status == 0) {
                         return response()->json(['status' => 0, 'message' => 'Slot is Anavailable'], 200);
                     }
+                    $bookingdata->token = str_replace(['$', '/', '.', '|'], '', Hash::make($bookingdata->booking_id));
+                    $bookingdata->save();
                     try {
                         $service_fee = $slot_price * 5 / 100;
                         $hst = $slot_price * $bookingdata->dome_info->hst / 100;
@@ -103,7 +105,6 @@ class BookingController extends Controller
                         $bookingdata->due_amount += $slot_price;
                         $bookingdata->total_amount += $slot_price;
                         $bookingdata->slots = $bookingdata->slots . ',' . $slot;
-                        $bookingdata->token = str_replace(['$', '/', '.', '|'], '', Hash::make($bookingdata->booking_id));
                         $bookingdata->save();
                         $time1 = Carbon::parse($checknewslot->end_time);
                         $time2 = Carbon::parse(date('H:i', strtotime($slot_time)));
