@@ -76,6 +76,12 @@ class EnquiryController extends Controller
     {
         try {
             Enquiries::where('id', $request->id)->update(['is_accepted' => 3, 'is_replied' => 1]);
+            $enquiry = Enquiries::find($request->id);
+            $data = ['title' => 'Reply: Dome Request Declined', 'email' => $enquiry->email, 'name' => $enquiry->name, 'logo' => Helper::image_path('logo.png')];
+            Mail::send('email.decline_dome_request', $data, function ($message) use ($data) {
+                $message->from(config('app.mail_username'))->subject($data['title']);
+                $message->to($data['email']);
+            });
             return response()->json(['status' => 1], 200);
         } catch (\Throwable $th) {
             return response()->json(['status' => 0], 200);
