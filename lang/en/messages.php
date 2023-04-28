@@ -69,4 +69,6 @@ return [
     'already_cancelled' => "Booking has been already cancelled",
     'invalid_employee' => "Invalid Employee",
     'invalid_provider' => "Invalid Provider",
+    // -----
+    'unavailable_slot' => "Slot is Anavailable",
 ];
