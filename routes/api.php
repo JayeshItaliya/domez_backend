@@ -44,7 +44,9 @@ Route::group(['middleware' => 'SetTimeZoneMiddleware'], function () {
     Route::get('sportslist', [HomeController::class, 'sportslist']);
     Route::post('helpcenter', [HomeController::class, 'helpcenter']);
 
+    Route::get('stripe-key', [PaymentController::class, 'stripe_key']);
     Route::post('payment', [PaymentController::class, 'payment']);
+    Route::post('split-payment', [PaymentController::class, 'split_payment_process']);
 
     Route::post('domes-list', [DomesController::class, 'domes_list']);
     Route::get('dome-details-{id}', [DomesController::class, 'domes_details']);
@@ -70,5 +72,4 @@ Route::group(['middleware' => 'SetTimeZoneMiddleware'], function () {
     Route::get('avg-ratting-{id}', [ReviewController::class, 'avg_rating']);
     Route::get('rattinglist-{dome_id}', [ReviewController::class, 'rattinglist']);
 
-    Route::get('stripe-key', [PaymentController::class, 'stripe_key']);
 });

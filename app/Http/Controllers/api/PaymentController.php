@@ -245,4 +245,54 @@ class PaymentController extends Controller
             return response()->json(['status' => 0, "message" => 'Something went wrong..'], 200);
         }
     }
+    public function split_payment_process(Request $request)
+    {
+        try {
+            $checktransaction = Transaction::where('transaction_id', $request->transaction_id)->first();
+            if (empty($checktransaction)) {
+                $checkbooking = Booking::where('id', $request->booking_id)->first();
+                $checkbooking->due_amount -= $request->amount;
+                $checkbooking->paid_amount += $request->amount;
+                $checkbooking->save();
+                $newcheckbooking = Booking::where('id', $request->booking_id)->first();
+                if ($newcheckbooking->due_amount == 0) {
+                    $newcheckbooking->booking_status = 1;
+                    $newcheckbooking->payment_status = 1;
+                    $newcheckbooking->save();
+                }
+                $checkbooking1 = Booking::where('id', $request->booking_id)->first();
+                $transaction = new Transaction();
+                $transaction->type = 1;
+                $transaction->vendor_id = $checkbooking1->vendor_id;
+                $transaction->dome_id = $checkbooking1->dome_id;
+                $transaction->league_id = $checkbooking1->league_id;
+                $transaction->booking_id = $checkbooking1->booking_id;
+                $transaction->contributor_name = $request->contributor_name;
+                $transaction->payment_method = $request->payment_method;
+                $transaction->transaction_id = $request->transaction_id;
+                $transaction->amount = $request->amount;
+                $transaction->save();
+                if ($checkbooking1->due_amount > 0) {
+                    $totalpendingplayers = $checkbooking1->players - $checkbooking1->transactions->count();
+                    $checkbooking1->min_split_amount = $totalpendingplayers > 1 ? $checkbooking1->due_amount / $totalpendingplayers : $checkbooking1->due_amount;
+                    $checkbooking1->save();
+                }
+                if ($checkbooking1->booking_status == 1 && $checkbooking1->payment_status == 1) {
+                    $title = $checkbooking1->booking_type == 1 ? 'Dome Booking' : 'League Booking';
+                    $tokens[] = $checkbooking1->user_info->fcm_token;
+                    if ($checkbooking1->booking_type == 1) {
+                        $body = 'Payment Successful. Dome Booking has been Confirmed.';
+                        $type = 5;
+                    } else {
+                        $body = 'Payment Successful. League Booking has been Confirmed.';
+                        $type = 6;
+                    }
+                    Helper::send_notification($title, $body, $type, $checkbooking1->booking_id, '', $tokens);
+                }
+            }
+            return response()->json(['status' => 1, 'message' => 'Payment Successfull'], 200);
+        } catch (\Throwable $th) {
+            return response()->json(['status' => 0, 'message' => 'Something Went Wrong..!!'], 200);
+        }
+    }
 }
