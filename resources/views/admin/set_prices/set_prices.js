@@ -186,6 +186,11 @@ $(function () {
         $('.card-body-' + dayname + '  input').each(function () {
             if ($(this).val() === '' || $(this).val() == 0) {
                 check = 0;
+                $(this).addClass('is-invalid')
+                $(this).parent().find('.input-group-text').addClass('border-danger')
+            }else{
+                $(this).removeClass('is-invalid')
+                $(this).parent().find('.input-group-text').removeClass('border-danger')
             }
             if (check == 0) {
                 return false;
