@@ -20,30 +20,33 @@ class ProvidersController extends Controller
     }
     public function store_worker(Request $request)
     {
-        try {
-            $data = ['title' => 'Domez Providers Login Credentials', 'email' => $request->email, 'name' => $request->name, 'password' => $request->password, 'logo' => Helper::image_path('logo.png')];
-            Mail::send('email.worker_providers_login', $data, function ($message) use ($data) {
-                $message->from(config('app.mail_username'))->subject($data['title']);
-                $message->to($data['email']);
-            });
-        } catch (Exception $ex) {
-            return redirect()->back()->with('error', trans('messages.email_error'));
+        if (empty(User::where('email', $request->email)->first())) {
+            try {
+                $data = ['title' => 'Domez Providers Login Credentials', 'email' => $request->email, 'name' => $request->name, 'password' => $request->password, 'logo' => Helper::image_path('logo.png')];
+                Mail::send('email.worker_providers_login', $data, function ($message) use ($data) {
+                    $message->from(config('app.mail_username'))->subject($data['title']);
+                    $message->to($data['email']);
+                });
+                try {
+                    $providers = new User();
+                    $providers->type = 5;
+                    $providers->login_type = 1;
+                    $providers->vendor_id = auth()->user()->id;
+                    $providers->name = $request->name;
+                    $providers->email = $request->email;
+                    $providers->is_verified = 1;
+                    $providers->password = Hash::make($request->password);
+                    $providers->save();
+                    return redirect()->back()->with('success', trans('messages.success'));
+                } catch (\Throwable $th) {
+                    return redirect()->back()->with('error', trans('messages.wrong'));
+                }
+            } catch (Exception $ex) {
+                return redirect()->back()->with('error', trans('messages.email_error'));
+            }
+        } else {
+            return redirect()->back()->with('error', trans('messages.email_exist'));
         }
-        try {
-            $providers = new User();
-            $providers->type = 5;
-            $providers->login_type = 1;
-            $providers->vendor_id = auth()->user()->id;
-            $providers->name = $request->name;
-            $providers->email = $request->email;
-            $providers->is_verified = 1;
-            $providers->password = Hash::make($request->password);
-            $providers->save();
-            return redirect()->back()->with('success', trans('messages.success'));
-        } catch (\Throwable $th) {
-            return redirect()->back()->with('error', trans('messages.wrong'));
-        }
-        return redirect()->back()->with('success', 'success');
     }
     public function change_status(Request $request)
     {

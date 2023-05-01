@@ -84,7 +84,7 @@ class LandingPagesController extends Controller
         }
         $request->validate([
             'name' => 'required',
-            'email' => 'required|email',
+            'email' => 'required|email|unique:users,email',
             'phone' => 'required',
             'dome_name' => 'required',
             'dome_address' => 'required',
@@ -96,6 +96,7 @@ class LandingPagesController extends Controller
             'name.required' => 'Name is required.',
             'email.required' => 'Email is required.',
             'email.email' => 'Invalid Email Address.',
+            'email.unique' => trans('messages.email_exist'),
             'phone.required' => 'Phone is required.',
             'dome_name.required' => 'Dome Name is required.',
             'dome_address.required' => 'Dome Name is required.',
