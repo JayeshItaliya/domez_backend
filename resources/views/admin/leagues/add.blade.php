@@ -189,12 +189,13 @@
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label class="form-label" for="max_player"></label>
-                                <select class="form-select" required id="max_player" name="max_player">
+                                <select class="form-select" required id="max_player" name="max_player"
+                                    data-max-players="{{ old('max_player') }}">
                                     <option value="" disabled selected>{{ trans('labels.max_player') }}</option>
-                                    @for ($i = 1; $i <= 30; $i++)
+                                    {{-- @for ($i = 1; $i <= 30; $i++)
                                         <option value="{{ $i }}"
                                             {{ $i == old('max_player') ? 'selected' : '' }}>{{ $i }}</option>
-                                    @endfor
+                                    @endfor --}}
                                 </select>
                                 @error('max_player')
                                     <span class="text-danger"> {{ $message }} </span>
