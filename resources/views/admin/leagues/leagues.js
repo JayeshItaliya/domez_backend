@@ -27,14 +27,25 @@ $('#from_age').on('change', function () {
     });
 }).change();
 $('#min_player').on('change', function () {
-    var min_player = $(this).val();
-    $("#max_player").find("option").each(function (index, el) {
-        if ($(this).val() <= min_player) {
-            $(this).attr('disabled', true);
-        } else {
-            $(this).attr('disabled', false);
-        }
-    });
+    var min_player = parseInt($(this).val());
+    $('#max_player option:not(:first)').remove();
+    if (min_player == '') {
+        $("#max_player").attr('disabled', true);
+        return false;
+    }
+    if (min_player == 30) {
+        $('#max_player').append('<option value="' + min_player + '" >' + min_player + '</option>');
+        return false;
+    }
+    min_player += 1;
+    for (var i = min_player; i <= 30; i++) {
+        let selected = $.trim($('#max_player').attr('data-max-players')) == i ? 'selected' : '';
+        $('#max_player').append('<option value="' + i + '"  ' + selected + ' >' + i + '</option>');
+    }
+    $('#max_player option:first').attr('disabled', false);
+    setTimeout(function (params) {
+        $('#max_player option:first').attr('disabled', true);
+    }, 500);
 }).change();
 $('#dome').on('change', function () {
     min_time = $(this).find(':selected').attr('data-start-time');

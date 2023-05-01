@@ -82,7 +82,7 @@ class BookingController extends Controller
                     if (empty($checknewslot)) {
                         return response()->json(['status' => 0, 'message' => trans('messages.invalid_slot')], 200);
                     } else if (@$checknewslot->status == 0) {
-                        return response()->json(['status' => 0, 'message' => 'Slot is Anavailable'], 200);
+                        return response()->json(['status' => 0, 'message' => trans('messages.unavailable_slot')], 200);
                     }
                     $bookingdata->token = str_replace(['$', '/', '.', '|'], '', Hash::make($bookingdata->booking_id));
                     $bookingdata->save();

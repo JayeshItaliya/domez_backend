@@ -70,4 +70,6 @@ return [
     'invalid_employee' => "Invalid Employee",
     'invalid_provider' => "Invalid Provider",
     'hst_required' => "HST Required",
+    // -----
+    'unavailable_slot' => "Slot is Anavailable",
 ];
