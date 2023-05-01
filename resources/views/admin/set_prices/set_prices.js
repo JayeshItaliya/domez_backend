@@ -131,18 +131,18 @@ $('body').on('focus', ".start.time_picker", function () {
             if (start_time_minutes <= max_time_minutes) {
                 if (start_time_minutes == max_time_minutes) {
                     end_max_time = start_time;
-                    $("button[data-day-name='" + $(element).attr('data-day-name') + "']").attr("disabled", true).addClass("disabled");
+                    $("button[data-day-name='" + $(element).attr('data-day-name') + "'].appendbtn").attr("disabled", true).addClass("disabled");
                 } else {
                     var check_end_max_time = new Date(dateString + ' ' + end_max_time);
                     var end_max_time_minutes = check_end_max_time.getHours() * 60 + check_end_max_time.getMinutes();
                     if (end_max_time_minutes <= max_time_minutes) {
                         if (end_max_time_minutes == max_time_minutes) {
                             end_max_time = max_time;
-                            $("button[data-day-name='" + $(element).attr('data-day-name') + "']").attr("disabled", true).addClass("disabled");
+                            $("button[data-day-name='" + $(element).attr('data-day-name') + "'].appendbtn").attr("disabled", true).addClass("disabled");
                         } else {}
                     } else {
                         end_max_time = max_time;
-                        $("button[data-day-name='" + $(element).attr('data-day-name') + "']").attr("disabled", true).addClass("disabled");
+                        $("button[data-day-name='" + $(element).attr('data-day-name') + "'].appendbtn").attr("disabled", true).addClass("disabled");
                     }
                 }
             } else {
@@ -165,7 +165,7 @@ $('body').on('focus', ".start.time_picker", function () {
                     var timepicker = element.timepicker();
                     start_time = timepicker.format(time);
                     if (start_time == max_time) {
-                        $("button[data-day-name='" + $(element).attr('data-day-name') + "']").attr("disabled", true).addClass("disabled");
+                        $("button[data-day-name='" + $(element).attr('data-day-name') + "'].appendbtn").attr("disabled", true).addClass("disabled");
                     }
                 }
             });
@@ -188,11 +188,11 @@ $(function () {
         $('.card-body-' + dayname + '  input').each(function () {
             if ($(this).val() === '' || $(this).val() == 0) {
                 check = 0;
-                $(this).addClass('is-invalid')
-                $(this).parent().find('.input-group-text').addClass('border-danger')
+                $(this).addClass('is-invalid');
+                $(this).parent().find('.input-group-text').addClass('border-danger');
             }else{
-                $(this).removeClass('is-invalid')
-                $(this).parent().find('.input-group-text').removeClass('border-danger')
+                $(this).removeClass('is-invalid');
+                $(this).parent().find('.input-group-text').removeClass('border-danger');
             }
             if (check == 0) {
                 return false;

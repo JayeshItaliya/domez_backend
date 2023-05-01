@@ -72,4 +72,5 @@ Route::group(['middleware' => 'SetTimeZoneMiddleware'], function () {
     Route::get('avg-ratting-{id}', [ReviewController::class, 'avg_rating']);
     Route::get('rattinglist-{dome_id}', [ReviewController::class, 'rattinglist']);
 
+    Route::get('cms-pages', [HomeController::class, 'cmspages']);
 });

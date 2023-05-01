@@ -63,6 +63,15 @@ class HomeController extends Controller
             return response()->json(["status" => 0, "message" => "Email Error"], 200);
         }
     }
+    public function cmspages(Request $request)
+    {
+        try {
+            return response()->json(["status" => 1, "message" => "Successful","privacy_policy" => Helper::cms(1),"terms_condition" => Helper::cms(2),"refund_policy" => Helper::cms(3),"cancellation_policy" => Helper::cms(4)], 200);
+        } catch (\Throwable $th) {
+            return response()->json(["status" => 0, "message" => "Something Went Wrong..!!"], 200);
+        }
+    }
+
     public function filter(Request $request)
     {
         try {
