@@ -69,7 +69,7 @@ return [
     'already_cancelled' => "Booking has been already cancelled",
     'invalid_employee' => "Invalid Employee",
     'invalid_provider' => "Invalid Provider",
-    'hst_required' => "HST Required",
     // -----
+    'hst_required' => "HST Required",
     'unavailable_slot' => "Slot is Anavailable",
 ];
