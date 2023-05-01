@@ -2,7 +2,7 @@ if (is_vendor) {
     $(document).ready(function () {
         let html =
             '<a href="' + window.location.href.replace(window.location.search, '') +
-            '/add" class="btn-custom-primary">'+plus_svg_icon+'</a>';
+            '/add" class="btn-custom-primary">' + plus_svg_icon + '</a>';
         $('.fixed-table-toolbar .btn-group').append(html);
     })
 }
@@ -101,4 +101,29 @@ $('#dome').on('change', function () {
             return false;
         }
     });
+}).change();
+
+
+
+
+$('#min_person').on('change', function () {
+    var min_person = parseInt($(this).val());
+    $('#max_person option:not(:first)').remove();
+    if (min_person == '') {
+        $("#max_person").attr('disabled', true);
+        return false;
+    }
+    if (min_person == 30) {
+        $('#max_person').append('<option value="' + min_person + '" >' + min_person + '</option>');
+        return false;
+    }
+    min_person += 1;
+    for (var i = min_person; i <= 30; i++) {
+        let selected = $.trim($('#max_person').attr('data-max-persons')) == i ? 'selected' : '';
+        $('#max_person').append('<option value="' + i + '"  ' + selected + ' >' + i + '</option>');
+    }
+    $('#max_person option:first').attr('disabled', false);
+    setTimeout(function (params) {
+        $('#max_person option:first').attr('disabled', true);
+    }, 500);
 }).change();

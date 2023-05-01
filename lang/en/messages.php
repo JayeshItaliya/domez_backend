@@ -18,7 +18,7 @@ return [
     "new_password_diffrent" => "New password must be different to old password",
     'password_required' => 'Please Passsword',
     'password_min_length' => 'Password must be at least 8 characters in length',
-    'confirm_password_same' => 'Confirm Password must be same as New Password',
+    'confirm_password_same' => '',
     'account_deleted' => 'Account has been deleted',
     'account_inactive' => 'Account has been inactive',
     'email_sent' => 'Email has been Sent Successfully',
@@ -69,4 +69,5 @@ return [
     'already_cancelled' => "Booking has been already cancelled",
     'invalid_employee' => "Invalid Employee",
     'invalid_provider' => "Invalid Provider",
+    'hst_required' => "HST Required",
 ];

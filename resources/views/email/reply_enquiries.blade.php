@@ -1,18 +1,94 @@
 @if ($type == 3)
-    <div style="font-family: Helvetica,Arial,sans-serif;min-width:1000px;overflow:auto;line-height:2">
-        <div style="margin:50px auto;width:70%;padding:20px 0">
-            <div style="border-bottom:1px solid #eee">
-                <a href="{{ URL::to('/') }}" style="font-size:1.4em;color: #00bac7;text-decoration:none;font-weight:600">
+    <!DOCTYPE html>
+    <html>
+
+    <head>
+        <meta charset="UTF-8">
+        <title>Inquiry Reply</title>
+        <style>
+            /* Global styles */
+            body {
+                font-family: Arial, sans-serif;
+                font-size: 16px;
+                line-height: 1.5;
+                color: #333333;
+                background-color: #f6f6f6;
+            }
+
+            /* Email container */
+            .email-container {
+                max-width: 600px;
+                margin: 0 auto;
+                background-color: #ffffff;
+                padding: 30px;
+                border-radius: 10px;
+                box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            }
+
+            /* Header */
+            .header {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                margin-bottom: 30px;
+            }
+
+            .header h1 {
+                font-size: 24px;
+                font-weight: bold;
+                color: #333333;
+                margin: 0;
+            }
+
+            /* Message */
+            .message {
+                margin-bottom: 30px;
+            }
+
+            .message p {
+                margin: 0 0 20px;
+            }
+
+            .message h2 {
+                font-size: 20px;
+                font-weight: bold;
+                color: #333333;
+                margin: 0;
+            }
+
+            /* Footer */
+            .footer {
+                border-top: 1px solid #dddddd;
+                padding-top: 30px;
+                margin-top: 30px;
+                text-align: center;
+            }
+
+            .footer p {
+                margin: 0;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="email-container">
+            <div class="header">
+                <a href="{{ URL::to('/') }}">
                     <img src="{{ $logo }}" alt="Logo">
                 </a>
             </div>
-            <p style="font-size:1.1em">Hi {{ $name }},</p>
-            <h4>Thank you for choosing Domez.</h4>
-            <p>{{ $reply }}</p>
-            <p style="font-size:0.9em;">Regards,<br />Domez Team</p>
-            <hr style="border:none;border-top:1px solid #eee" />
+            <div class="message">
+                <p>Dear {{ $name }},</p>
+                <p>Thank you for your inquiry. We appreciate your interest in our platform.</p>
+                <p>{{ $reply }}</p>
+                <p>If you have any further questions or concerns, please do not hesitate to contact us.</p>
+                <p>Regards,</p>
+                <p>Domez Team</p>
+            </div>
         </div>
-    </div>
+    </body>
+
+    </html>
 @endif
 
 @if (in_array($type, [1, 2, 5]))

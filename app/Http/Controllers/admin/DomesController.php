@@ -46,6 +46,7 @@ class DomesController extends Controller
         $request->validate([
             'sport_id' => 'required',
             'dome_name' => 'required',
+            'dome_hst' => 'required',
             'dome_price' => 'required',
             'start_time' => 'required',
             'end_time' => 'required',
@@ -54,6 +55,7 @@ class DomesController extends Controller
         ], [
             'sport_id.required' => trans('messages.select_sport'),
             'dome_name.required' => trans('messages.name_required'),
+            'dome_hst.required' => trans('messages.hst_required'),
             'dome_price.required' => trans('messages.price_required'),
             'start_time.required' => trans('messages.start_time_required'),
             'end_time.required' => trans('messages.end_time_required'),
@@ -64,6 +66,7 @@ class DomesController extends Controller
         $dome->vendor_id = auth()->user()->id;
         $dome->sport_id = implode(",", $request->sport_id);
         $dome->name = $request->dome_name;
+        $dome->hst = $request->dome_hst;
         $dome->price = 0;
         $dome->address = $request->address;
         $dome->start_time = $request->start_time;
@@ -253,6 +256,7 @@ class DomesController extends Controller
         $request->validate([
             'sport_id' => 'required',
             'dome_name' => 'required',
+            'dome_hst' => 'required',
             'dome_price' => 'required',
             'start_time' => 'required',
             'end_time' => 'required',
@@ -261,6 +265,7 @@ class DomesController extends Controller
         ], [
             'sport_id.required' => trans('messages.select_sport'),
             'dome_name.required' => trans('messages.name_required'),
+            'dome_hst.required' => trans('messages.hst_required'),
             'dome_price.required' => trans('messages.price_required'),
             'start_time.required' => trans('messages.start_time_required'),
             'end_time.required' => trans('messages.end_time_required'),
@@ -270,6 +275,7 @@ class DomesController extends Controller
         $dome = Domes::find($request->id);
         $dome->sport_id = implode(",", $request->sport_id);
         $dome->name = $request->dome_name;
+        $dome->hst = $request->dome_hst;
         $dome->price = $request->dome_price;
         $dome->address = $request->address;
         $dome->pin_code = $request->pin_code;
