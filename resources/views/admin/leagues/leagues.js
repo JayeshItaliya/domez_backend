@@ -17,24 +17,36 @@ $('#start_date').on('change', function () {
     }
 }).change();
 $('#from_age').on('change', function () {
-    var from_age = $(this).val();
-    $("#to_age").find("option").each(function (index, el) {
-        if ($(this).val() <= from_age) {
-            $(this).attr('disabled', true);
-        } else {
-            $(this).attr('disabled', false);
-        }
-    });
+    var from_age = parseInt($(this).val());
+    if (from_age == '') {
+        $("#to_age").attr('disabled', true);
+        return false;
+    }
+    $('#to_age option:not(:first)').remove();
+    $('#to_age option:first').attr('disabled', false);
+    if (from_age == 50) {
+        $('#to_age').append('<option value="' + from_age + '" selected >' + from_age + '</option>');
+        $('#to_age option:first').attr('disabled', true);
+        return false;
+    }
+    from_age += 1;
+    for (var i = from_age; i <= 50; i++) {
+        let selected = $.trim($('#to_age').attr('data-to-age')) == i ? 'selected' : '';
+        $('#to_age').append('<option value="' + i + '"  ' + selected + ' >' + i + '</option>');
+    }
+    $('#to_age option:first').attr('disabled', true);
 }).change();
 $('#min_player').on('change', function () {
     var min_player = parseInt($(this).val());
-    $('#max_player option:not(:first)').remove();
     if (min_player == '') {
         $("#max_player").attr('disabled', true);
         return false;
     }
+    $('#max_player option:not(:first)').remove();
+    $('#max_player option:first').attr('disabled', false);
     if (min_player == 30) {
-        $('#max_player').append('<option value="' + min_player + '" >' + min_player + '</option>');
+        $('#max_player').append('<option value="' + min_player + '" selected >' + min_player + '</option>');
+        $('#max_player option:first').attr('disabled', true);
         return false;
     }
     min_player += 1;
@@ -42,10 +54,7 @@ $('#min_player').on('change', function () {
         let selected = $.trim($('#max_player').attr('data-max-players')) == i ? 'selected' : '';
         $('#max_player').append('<option value="' + i + '"  ' + selected + ' >' + i + '</option>');
     }
-    $('#max_player option:first').attr('disabled', false);
-    setTimeout(function (params) {
-        $('#max_player option:first').attr('disabled', true);
-    }, 500);
+    $('#max_player option:first').attr('disabled', true);
 }).change();
 $('#dome').on('change', function () {
     min_time = $(this).find(':selected').attr('data-start-time');

@@ -159,12 +159,13 @@
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label class="form-label" for="to_age"></label>
-                                <select class="form-select" required id="to_age" name="to_age">
+                                <select class="form-select" required id="to_age" name="to_age"
+                                    data-to-age="{{ old('to_age') }}">
                                     <option value="" disabled selected>{{ trans('labels.to_age') }}</option>
-                                    @for ($i = 12; $i <= 50; $i++)
+                                    {{-- @for ($i = 12; $i <= 50; $i++)
                                         <option value="{{ $i }}" {{ $i == old('to_age') ? 'selected' : '' }}>
                                             {{ $i }}</option>
-                                    @endfor
+                                    @endfor --}}
                                 </select>
                                 @error('to_age')
                                     <span class="text-danger"> {{ $message }} </span>
