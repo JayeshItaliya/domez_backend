@@ -9,16 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-use Laravel\Socialite\Facades\Socialite;
 use Laravel\Socialite\Two\User as OAuthTwoUser;
-
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Http;
-use JWTAuth;
-use Tymon\JWTAuth\Exceptions\JWTException;
-
-
-use App\Services\JwtService;
 
 class AuthenticationController extends Controller
 {
@@ -136,12 +127,12 @@ class AuthenticationController extends Controller
         $user = new User();
         $user->type = 3;
         $user->login_type = 1;
-        $user->name = $request->name;
+        $user->name = $request->name ?? "";
         $user->email = $request->email;
         $user->phone = $request->phone ?? "";
         $user->countrycode = $request->countrycode ?? "";
         $user->password = Hash::make($request->password);
-        $user->fcm_token = $request->fcm_token ?? '';
+        $user->fcm_token = $request->fcm_token ?? "";
         $user->is_verified = 1;
         $user->save();
         $userdata = $this->getuserprofileobject($user->id);
@@ -239,11 +230,11 @@ class AuthenticationController extends Controller
         $user = new User();
         $user->type = 3;
         $user->login_type = 2;
-        $user->name = $request->name;
+        $user->name = $request->name ?? "";
         $user->email = $request->email;
         $user->phone = $request->phone ?? "";
         $user->countrycode = $request->countrycode ?? "";
-        $user->fcm_token = $request->fcm_token ?? '';
+        $user->fcm_token = $request->fcm_token ?? "";
         $user->google_id = $request->uid;
         $user->is_verified = $request->is_verified == true ? 1 : 2;
         if ($user->save()) {
@@ -269,11 +260,11 @@ class AuthenticationController extends Controller
         $user = new User();
         $user->type = 3;
         $user->login_type = 4;
-        $user->name = $request->name;
+        $user->name = $request->name ?? "";
         $user->email = $request->email;
         $user->phone = $request->phone ?? "";
         $user->countrycode = $request->countrycode ?? "";
-        $user->fcm_token = $request->fcm_token ?? '';
+        $user->fcm_token = $request->fcm_token ?? "";
         $user->facebook_id = $request->uid;
         $user->is_verified = 1;
         if ($user->save()) {
