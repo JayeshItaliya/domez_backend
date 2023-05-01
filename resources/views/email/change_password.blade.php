@@ -59,7 +59,7 @@
         <h1>Password Changed Successfully</h1>
         <p>Your password has been changed successfully. If you did not initiate this change, please contact us
             immediately.</p>
-        <a href="mailto:domez@domez.io" style="color: #ffffff">Contact Us</a>
+        <a href="{{ URL::to('login') }}" style="color: #ffffff">Login</a>
     </div>
 </body>
 

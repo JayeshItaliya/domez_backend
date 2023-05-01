@@ -37,7 +37,7 @@
         .btn {
             display: inline-block;
             background-color: #000;
-            color: #fff;
+            color: #fff !important;
             padding: 10px 20px;
             border-radius: 5px;
             text-decoration: none;
@@ -57,7 +57,7 @@
         <p>Please don't hesitate to contact us if you have any further questions.</p>
         <p>Best regards,</p>
         <p>Domez Team</p>
-        <a href="#" class="btn">Go to our website</a>
+        <a href="{{ URL::to('/') }}" class="btn" style="color: white !important">Go to our website</a>
     </div>
 </body>
 
