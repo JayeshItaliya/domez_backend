@@ -53,7 +53,7 @@
                             <div class="form-group">
                                 <label for="phone" class="form-label">{{ trans('labels.phone_number') }}</label>
                                 <div class="input-group">
-                                    <input type="hidden" name="country" id="country" value="91">
+                                    <input type="hidden" name="country" id="country" value="1">
                                     <input type="tel" id="phone" name="phone"
                                         class="form-control custom-input rounded mb-3"
                                         placeholder="{{ trans('labels.phone_number') }}" value="{{ Auth::user()->phone }}" required>

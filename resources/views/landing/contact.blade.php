@@ -114,7 +114,8 @@
                                     <label for="otp" class="from-label fw-semibold">OTP</label>
                                     <div class="input-group">
                                         <input type="otp" id="otp" name="otp"
-                                            value="{{ old('otp') }}" class="form-control" placeholder="OTP" required>
+                                            value="{{ old('otp') }}" class="form-control" placeholder="OTP"
+                                            required>
                                         <button class="btn btn-success dmz-button verify_otp" type="button"
                                             id="button-addon2">Verify</button>
                                     </div>
@@ -124,8 +125,14 @@
                                 </div>
                                 <div class="col-lg-6 form-group">
                                     <label for="phone" class="from-label fw-semibold">Phone Number</label>
-                                    <input type="text" id="phone" name="phone" value="{{ old('phone') }}"
-                                        class="form-control" placeholder="Phone Number" required>
+                                    {{-- <input type="text" id="phone" name="phone" value="{{ old('phone') }}"
+                                        class="form-control" placeholder="Phone Number" required> --}}
+                                    <div class="input-group">
+                                        <input type="hidden" name="country" id="country" value="1">
+                                        <input type="tel" id="phone" name="phone" class="form-control"
+                                            placeholder="Phone Number" value="{{ old('phone') }}" required
+                                            style="border-radius: 5px">
+                                    </div>
                                     @error('phone')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
@@ -269,7 +276,19 @@
     <script src="{{ url('storage/app/public/admin/js/sweetalert/sweetalert2.min.js') }}"></script>
     <script src="{{ url('storage/app/public/admin/js/toastr/toastr.min.js') }}"></script>
     <script src="{{ url('storage/app/public/admin/js/slick/slick.min.js') }}"></script>
+    <script src="{{ url('storage/app/public/admin/js/intelTelInput/intlTelInput.min.js') }}"></script>
+    <link rel="stylesheet" href="{{ url('storage/app/public/admin/js/intelTelInput/intlTelInput.min.css') }}">
+    <script src="{{ url('storage/app/public/admin/js/intelTelInput/utils.js') }}"></script>
     <script src="{{ url('storage/app/public/admin/js/custom.min.js') }}"></script>
+    <script>
+        var input = $('#phone');
+        var iti = intlTelInput(input.get(0))
+        iti.setCountry("ca");
+        input.on('countrychange', function(e) {
+            $('#country').val(iti.getSelectedCountryData().dialCode);
+        });
+        $('.iti--allow-dropdown').addClass('w-100');
+    </script>
     <script>
         toastr.options = {
             "closeButton": true,

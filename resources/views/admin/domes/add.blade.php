@@ -76,13 +76,13 @@
                                 <div class="d-flex gap-3">
                                     <div class="form-check">
                                         <input class="form-check-input" type="radio" name="slot_duration" value="1"
-                                            id="slot_duration1" checked>
+                                            id="slot_duration1" {{ old('slot_duration') == 1 ? 'checked' : '' }} checked>
                                         <label class="form-check-label" for="slot_duration1">
                                             {{ trans('labels.60_minutes') }} </label>
                                     </div>
                                     <div class="form-check">
                                         <input class="form-check-input" type="radio" name="slot_duration" value="2"
-                                            id="slot_duration2">
+                                            id="slot_duration2" {{ old('slot_duration') == 2 ? 'checked' : '' }}>
                                         <label class="form-check-label" for="slot_duration2">
                                             {{ trans('labels.90_minutes') }} </label>
                                     </div>

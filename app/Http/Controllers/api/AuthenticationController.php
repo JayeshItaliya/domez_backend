@@ -335,7 +335,7 @@ class AuthenticationController extends Controller
         $checkuser = User::find($id);
         $data = array(
             'id' => $checkuser->id,
-            'name' => $checkuser->name,
+            'name' => $checkuser->name ?? "",
             'email' => $checkuser->email,
             'countrycode' => $checkuser->countrycode ?? "",
             'phone' => $checkuser->phone ?? "",

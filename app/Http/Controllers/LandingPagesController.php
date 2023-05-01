@@ -41,7 +41,7 @@ class LandingPagesController extends Controller
             'name' => 'required',
             'email' => 'required|email',
             'subject' => 'required|max:150',
-            'message' => 'required|max:5120',
+            'message' => 'required|max:500',
         ], [
             'name.required' => 'Name is required.',
             'email.required' => 'Email is required.',
