@@ -22,10 +22,17 @@
             </div>
         </div>
     </div>
-    <form class="card" action="{{ URL::to('admin/domes/update-' . $dome->id) }}" method="post" enctype="multipart/form-data">
+    <form class="card" action="{{ URL::to('admin/domes/update-' . $dome->id) }}" method="post"
+        enctype="multipart/form-data">
         @csrf
         <div class="card-body">
             <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group text-end">
+                        <button type="button" class="btn btn-outline-info" data-bs-toggle="modal"
+                            data-bs-target="#exampleModal">{{ trans('labels.edit_working_hours') }}</button>
+                    </div>
+                </div>
                 <div class="col-md-6">
                     <div class="row">
                         <div class="col-md-12">
@@ -81,9 +88,8 @@
                                             {{ trans('labels.60_minutes') }} </label>
                                     </div>
                                     <div class="form-check mb-0">
-                                        <input class="form-check-input" type="radio" name="slot_duration"
-                                            value="2" {{ $dome->slot_duration == 2 ? 'checked' : '' }}
-                                            id="slot_duration2">
+                                        <input class="form-check-input" type="radio" name="slot_duration" value="2"
+                                            {{ $dome->slot_duration == 2 ? 'checked' : '' }} id="slot_duration2">
                                         <label class="form-check-label" for="slot_duration2">
                                             {{ trans('labels.90_minutes') }} </label>
                                     </div>
@@ -323,6 +329,50 @@
                     </div>
                 </div>
             @endforeach
+        </div>
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">{{ trans('labels.add_working_hours') }}
+                        </h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <label class="col-md-4 col-form-label"></label>
+                            <div class="form-group col-md-4 text-center">
+                                <label><strong>{{ trans('labels.opening_time') }}</strong></label>
+                            </div>
+                            <div class="form-group col-md-4 text-center">
+                                <label><strong>{{ trans('labels.closing_time') }}</strong></label>
+                            </div>
+                        </div>
+                        @foreach ($dome['working_hours'] as $key => $time)
+                            <div class="row">
+                                <label
+                                    class="col-md-4 col-form-label">{{ trans('labels.' . strtolower($time->day)) }}</label>
+                                <input type="hidden" name="day[]" value="{{ strtolower($time->day) }}">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control time_picker__" placeholder="{{ trans('labels.opening_time') }}" name="open_time[]" value="{{ $time->open_time }}">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control time_picker__" placeholder="{{ trans('labels.closing_time') }}" name="close_time[]" value="{{ $time->close_time }}">
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-danger"
+                            data-bs-dismiss="modal">{{ trans('labels.close') }}</button>
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="row">
             <div class="col-12">

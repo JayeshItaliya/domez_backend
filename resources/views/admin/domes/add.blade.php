@@ -1,6 +1,11 @@
 @extends('admin.layout.default')
 @section('styles')
     <link rel="stylesheet" href="{{ url('storage/app/public/admin/css/timepicker/jquery.timepicker.min.css') }}">
+    <style>
+        .ui-timepicker-container {
+            z-index: 9999 !important;
+        }
+    </style>
 @endsection
 @section('title')
     {{ trans('labels.add_dome') }}
@@ -22,13 +27,15 @@
             </div>
         </div>
     </div>
-    <form class="card" action="{{ URL::to('admin/domes/store') }}" method="post" enctype="multipart/form-data">
+    <form class="card" action="{{ URL::to('admin/domes/store') }}" method="post" enctype="multipart/form-data"
+        id="adddome">
         @csrf
         <div class="card-body">
             <div class="row">
                 <div class="col-md-12">
                     <div class="form-group text-end">
-                        <button type="button" class="btn btn-outline-info">Add working Hours</button>
+                        <button type="button" class="btn btn-outline-info" data-bs-toggle="modal"
+                            data-bs-target="#exampleModal">{{ trans('labels.add_working_hours') }}</button>
                     </div>
                 </div>
                 <div class="col-md-6">
@@ -37,7 +44,7 @@
                             <div class="form-group">
                                 <label class="form-label" for="dome_name">{{ trans('labels.dome_name') }}</label>
                                 <input type="text" id="dome_name" name="dome_name" value="{{ old('dome_name') }}"
-                                    class="form-control" placeholder="Please Enter Dome Name">
+                                    class="form-control" placeholder="{{ trans('labels.dome_name') }}">
                                 @error('dome_name')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
@@ -276,12 +283,64 @@
                             <div class="form-group">
                                 <label class="form-label"
                                     for="description">{{ trans('labels.dome_description') }}</label>
-                                <textarea class="form-control" name="description" value="{{ old('description') }}" id="description" rows="5"
-                                    placeholder="{{ trans('labels.dome_description') }}" maxlength="100"></textarea>
+                                <textarea class="form-control" name="description" id="description" rows="5"
+                                    placeholder="{{ trans('labels.dome_description') }}" maxlength="100">{{ old('description') }}</textarea>
                                 @error('description')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">{{ trans('labels.add_working_hours') }}
+                            </h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            @php
+                                $days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
+                            @endphp
+                            <div class="row">
+                                <label class="col-md-4 col-form-label"></label>
+                                <div class="form-group col-md-4 text-center">
+                                    <label><strong>{{ trans('labels.opening_time') }}</strong></label>
+                                </div>
+                                <div class="form-group col-md-4 text-center">
+                                    <label><strong>{{ trans('labels.closing_time') }}</strong></label>
+                                </div>
+                            </div>
+                            @foreach ($days as $key => $day)
+                                <div class="row">
+                                    <label
+                                        class="col-md-4 col-form-label">{{ trans('labels.' . strtolower($day)) }}</label>
+                                    <input type="hidden" name="day[]" value="{{ strtolower($day) }}">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control time_picker__"
+                                                placeholder="{{ trans('labels.opening_time') }}" name="open_time[]"
+                                                @if (old('open_time')) value="{{ old('open_time')[$key] }}" @endif>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control time_picker__"
+                                                placeholder="{{ trans('labels.closing_time') }}" name="close_time[]"
+                                                @if (old('close_time')) value="{{ old('close_time')[$key] }}" @endif>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-outline-danger"
+                                data-bs-dismiss="modal">{{ trans('labels.close') }}</button>
                         </div>
                     </div>
                 </div>

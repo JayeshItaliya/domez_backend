@@ -17,6 +17,7 @@ use Carbon\Carbon;
 use Carbon\CarbonImmutable;
 use Illuminate\Support\Facades\DB;
 use App\Helper\Helper;
+use App\Models\WorkingHours;
 
 class DomesController extends Controller
 {
@@ -48,8 +49,6 @@ class DomesController extends Controller
             'dome_name' => 'required',
             'dome_hst' => 'required',
             'dome_price' => 'required',
-            'start_time' => 'required',
-            'end_time' => 'required',
             'description' => 'required',
             'address' => 'required',
         ], [
@@ -57,8 +56,6 @@ class DomesController extends Controller
             'dome_name.required' => trans('messages.name_required'),
             'dome_hst.required' => trans('messages.hst_required'),
             'dome_price.required' => trans('messages.price_required'),
-            'start_time.required' => trans('messages.start_time_required'),
-            'end_time.required' => trans('messages.end_time_required'),
             'description.required' => trans('messages.description_required'),
             'address.required' => trans('messages.address_required'),
         ]);
@@ -69,8 +66,8 @@ class DomesController extends Controller
         $dome->hst = $request->dome_hst;
         $dome->price = 0;
         $dome->address = $request->address;
-        $dome->start_time = $request->start_time;
-        $dome->end_time = $request->end_time;
+        $dome->start_time = $request->start_time ?? $request->start_time;
+        $dome->end_time = $request->end_time ?? $request->end_time;
         $dome->description = $request->description;
         $dome->lat = $request->lat;
         $dome->lng = $request->lng;
@@ -79,9 +76,18 @@ class DomesController extends Controller
         $dome->state = $request->state;
         $dome->country = $request->country;
         $dome->slot_duration = $request->slot_duration;
-        $dome->benefits = implode("|", $request->benefits);
+        $dome->benefits = $request->benefits != '' ? implode("|", $request->benefits) : '';
         $dome->benefits_description = $request->benefits_description;
         $dome->save();
+        foreach ($request->day as $key => $dayname) {
+            $wh = new WorkingHours();
+            $wh->vendor_id = auth()->user()->id;
+            $wh->dome_id = $dome->id;
+            $wh->day = strtolower($dayname);
+            $wh->open_time = $request->open_time[$key];
+            $wh->close_time = $request->close_time[$key];
+            $wh->save();
+        }
         if ($request->has('dome_images')) {
             $request->validate([
                 'dome_images.*' => 'required|image|mimes:png,jpg,jpeg,svg|max:5120',
