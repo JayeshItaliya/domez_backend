@@ -18,6 +18,7 @@ use Carbon\CarbonImmutable;
 use Illuminate\Support\Facades\DB;
 use App\Helper\Helper;
 use App\Models\WorkingHours;
+use Illuminate\Support\Facades\Mail;
 
 class DomesController extends Controller
 {
@@ -376,6 +377,16 @@ class DomesController extends Controller
             $enquiry->dome_country = $request->dome_country;
             $enquiry->is_exist = 1;
             $enquiry->save();
+            $user_data = ['title' => 'New Dome Request', 'admin' => Helper::admin_data()->name, 'enquirydata' => $enquiry, 'logo' => Helper::image_path('logo.png')];
+            Mail::send('email.request_new_dome', $user_data, function ($message) use ($user_data) {
+                $message->from(config('app.mail_username'))->subject($user_data['title']);
+                $message->to(Helper::admin_data()->email);
+            });
+            $data = ['title' => 'New Dome Request', 'email' => $enquiry->email, 'name' => $enquiry->name, 'logo' => Helper::image_path('logo.png')];
+            Mail::send('email.new_dome_enquiry', $data, function ($message) use ($data) {
+                $message->from(config('app.mail_username'))->subject($data['title']);
+                $message->to($data['email']);
+            });
             return redirect()->back()->with('success', trans('messages.success'));
         } catch (\Throwable $th) {
             return redirect()->back()->with('error', trans('messages.error'));
