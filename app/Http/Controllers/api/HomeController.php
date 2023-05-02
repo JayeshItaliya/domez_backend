@@ -169,7 +169,7 @@ class HomeController extends Controller
                     "league_name" => $request->type == 1 ? '' : $data->name,
                     "dome_id" => $request->type == 1 ? '' : $data->dome_id,
                     "dome_name" => $request->type == 1 ? $data->name : $data->dome_info->name,
-                    "price" => $request->type == 1 ? Helper::get_dome_price($data->id->id, explode(',', $data->sport_id)[0]) : $data->price,
+                    "price" => $request->type == 1 ? Helper::get_dome_price($data->id, explode(',', $data->sport_id)[0]) : $data->price,
                     "image" => $image,
                     "city" => $request->type == 1 ? $data->city : $data->dome_info->city,
                     "state" => $request->type == 1 ? $data->state : $data->dome_info->state,

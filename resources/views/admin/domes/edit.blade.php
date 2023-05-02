@@ -48,7 +48,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        {{-- <div class="col-md-3">
                             <div class="form-group">
                                 <label for="start_time" class="form-label">{{ trans('labels.start_time') }}</label>
                                 <input type="text" class="form-control time_picker" name="start_time"
@@ -69,18 +69,18 @@
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
-                        </div>
+                        </div> --}}
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="slot_duration" class="form-label">{{ trans('labels.slot_duration') }}</label>
                                 <div class="d-flex gap-3">
-                                    <div class="form-check">
+                                    <div class="form-check mb-0">
                                         <input class="form-check-input" type="radio" name="slot_duration" value="1"
                                             {{ $dome->slot_duration == 1 ? 'checked' : '' }} id="slot_duration1">
                                         <label class="form-check-label" for="slot_duration1">
                                             {{ trans('labels.60_minutes') }} </label>
                                     </div>
-                                    <div class="form-check">
+                                    <div class="form-check mb-0">
                                         <input class="form-check-input" type="radio" name="slot_duration"
                                             value="2" {{ $dome->slot_duration == 2 ? 'checked' : '' }}
                                             id="slot_duration2">
