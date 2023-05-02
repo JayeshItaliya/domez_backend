@@ -44,13 +44,14 @@ class EnquiryController extends Controller
         try {
             $password = Str::random(8);
             $enquiry_data = Enquiries::find($request->id);
-            $data = ['title' => 'Reply: Dome Request Accepted', 'email' => $enquiry_data->email, 'name' => $enquiry_data->name, 'password' => $password, 'logo' => Helper::image_path('logo.png')];
+            $data = ['title' => 'Reply: Dome Request Accepted', 'email' => $enquiry_data->email, 'name' => $enquiry_data->name, 'password' => $password, 'is_exist' => $enquiry_data->is_exist, 'logo' => Helper::image_path('logo.png')];
             Mail::send('email.accept_dome_request', $data, function ($message) use ($data) {
                 $message->from(config('app.mail_username'))->subject($data['title']);
                 $message->to($data['email']);
             });
             if (!empty(User::where('type', 2)->where('email', $enquiry_data->email)->first())) {
                 User::where('type', 2)->where('email', $enquiry_data->email)->increment('dome_limit');
+                $user = User::where('type', 2)->where('email', $enquiry_data->email)->first();
             } else {
                 $user = new User();
                 $user->type = 2;
