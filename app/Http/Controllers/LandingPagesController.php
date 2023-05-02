@@ -67,7 +67,7 @@ class LandingPagesController extends Controller
             session()->put('verification_otp', $otp);
             $mail = Helper::verificationemail($request->email, $request->name, $otp);
             if ($mail == 1) {
-                return response()->json(['status' => 1, 'message' => "Account Verification Otp email has been sent to you."], 200);
+                return response()->json(['status' => 1, 'message' => "Account verification otp email has been sent to you."], 200);
             } else {
                 return response()->json(['status' => 0, 'message' => "Email error!!"], 200);
             }

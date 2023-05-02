@@ -275,4 +275,6 @@ return [
     'send_you_code_on' => 'We’ve send you code on',
     'check_spam_folder' => 'Did not receive the email? check your spam folder',
     'registration_date'=> 'Registration Date',
+    'exist'=> 'Existing',
+    'new'=> 'New',
 ];
