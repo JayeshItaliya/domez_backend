@@ -374,6 +374,7 @@ class DomesController extends Controller
             $enquiry->dome_city = $request->dome_city;
             $enquiry->dome_state = $request->dome_state;
             $enquiry->dome_country = $request->dome_country;
+            $enquiry->is_exist = 1;
             $enquiry->save();
             return redirect()->back()->with('success', trans('messages.success'));
         } catch (\Throwable $th) {

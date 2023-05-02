@@ -94,10 +94,10 @@
                     <h2 class="text-capitalize">the most advanced <br> booking system for your dome</h2>
                     <p>get bookings faster than ever before through the DOMEZ
                         mobile application!</p>
-                    <a href="{{ URL::to('contact') }}" class="btn btn-success dmz-button px-4" data-bs-toggle="tooltip"
-                        data-bs-placement="right"
-                        data-bs-title="Dear Dome Owner, If you want to join your dome service with us then please press the get to connect button and send your details to the master admin.">Get
-                        Started</a>
+                    <span style="letter-spacing: 0; text-transform:capitalize" class="d-inline-block" tabindex="0" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-custom-class="custom-popover"
+                        data-bs-content="Dear Dome Owner, If you want to join your dome service with us then please press the get to connect button and send your details to the master admin.">
+                        <a href="{{ URL::to('contact') }}" class="btn btn-success dmz-button">Get Started</a>
+                    </span>
                 </div>
                 <div class="banner-images wow fadeInDown animated animated">
                     <img class="w-100" src="{{ url('storage/app/public/admin/images/landing/OBJECTS.png') }}" />
@@ -179,15 +179,13 @@
         <section class="game-details">
             <div class="container">
                 <div class="row align-items-center justify-content-center">
-                    <div
-                        class="col-md-6 right-column m-0 align-items-center text-md-start text-center ps-3 pe-3">
+                    <div class="col-md-6 right-column m-0 align-items-center text-md-start text-center ps-3 pe-3">
                         <div class="game-details-img" data-wow-duration="2s">
                             <img class="w-100"
                                 src="{{ url('storage/app/public/admin/images/landing/game-play-1.png') }}" />
                         </div>
                     </div>
-                    <div
-                        class="col-md-6 right-column m-0 align-items-center text-md-start  ps-3 pe-3">
+                    <div class="col-md-6 right-column m-0 align-items-center text-md-start  ps-3 pe-3">
                         <div class="game-details-text" data-wow-duration="2s">
                             <h2 class="wow fadeInDown  delay-0-2s animated">Monitor Your Revenue,<br>Number of Bookings
                                 and<br>Number of Users Daily.</h2>
@@ -210,8 +208,7 @@
                     </div>
                 </div>
                 <div class="row game-play align-items-center pt-md-5 pt-sm-4 pt-3">
-                    <div
-                        class="col-md-6 right-column m-0 align-items-center text-md-start  ps-3 pe-3">
+                    <div class="col-md-6 right-column m-0 align-items-center text-md-start  ps-3 pe-3">
                         <div class="game-details-text" data-wow-duration="2s">
                             <h2 class="wow fadeInDown  delay-0-2s animated">Domez Solved the Problem!</h2>
                             <p class="text-muted fw-semibold" style="text-align: justify">Now each player can pay
@@ -224,8 +221,7 @@
                                 class="btn btn-success dmz-button wow fadeInRight delay-0-2s animated">Get Started</a>
                         </div>
                     </div>
-                    <div
-                        class="col-md-6 right-column m-0 align-items-center text-md-start text-center ps-3 pe-3">
+                    <div class="col-md-6 right-column m-0 align-items-center text-md-start text-center ps-3 pe-3">
                         <div class="game-details-img game-details-img" data-wow-duration="2s">
                             <img class="w-100"
                                 src="{{ url('storage/app/public/admin/images/landing/game-play-2.png') }}" />
@@ -237,19 +233,19 @@
         <section class="book-sports">
             <div class="container">
                 <div class="row align-items-center justify-content-center">
-                    <div
-                        class="col-md-6 right-column m-0 align-items-center text-md-start text-center ps-3 pe-3">
+                    <div class="col-md-6 right-column m-0 align-items-center text-md-start text-center ps-3 pe-3">
                         <div class="game-details-img" data-wow-duration="2s">
                             <img class="w-100"
                                 src="{{ url('storage/app/public/admin/images/landing/Book.png') }}" />
                         </div>
                     </div>
-                    <div
-                        class="col-md-6 right-column m-0 align-items-center text-md-start  ps-3 pe-3">
+                    <div class="col-md-6 right-column m-0 align-items-center text-md-start  ps-3 pe-3">
                         <div class="game-details-text" data-wow-duration="2s">
-                            <h2 class="wow fadeInDown  delay-0-2s animated text-capitalize">Start Your Own<br>Leagues</h2>
+                            <h2 class="wow fadeInDown  delay-0-2s animated text-capitalize">Start Your Own<br>Leagues
+                            </h2>
                             <p class="text-muted fw-semibold" style="text-align: justify">DOMEZ provides you with the
-                                opportunity to take full control over the management, organization, revenue and operations of the leagues, which
+                                opportunity to take full control over the management, organization, revenue and
+                                operations of the leagues, which
                                 is a crucial step toward providing a better experience for participants and spectators.
                                 Additionally, by running the league in-house, your management can ensure that the league
                                 operates at the highest standards and is managed with the utmost professionalism. And
@@ -378,7 +374,8 @@
                 <div class="row  align-items-center">
                     <div class="col-lg-6 pt-sm-5">
                         <div class="game-details-text" data-wow-duration="2s">
-                            <h2 class="wow fadeInDown  delay-0-2s animated">Do you have any questions? We are here to help!</h2>
+                            <h2 class="wow fadeInDown  delay-0-2s animated">Do you have any questions? We are here to
+                                help!</h2>
                             <form action="{{ URL::to('store-general-enquiries') }}" method="post">
                                 @csrf
                                 <div class="row">
@@ -551,7 +548,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-3 col-sm-6 mb-3 ps-sm-0  footer-form-content wow fadeInDown delay-0-4s animated">
+                    <div
+                        class="col-lg-3 col-sm-6 mb-3 ps-sm-0  footer-form-content wow fadeInDown delay-0-4s animated">
                         <div style="display: grid; justify-content:center;">
                             <h6 class="fw-Medium mb-4">Available on</h6>
                             <div class="footer-form">
@@ -590,6 +588,11 @@
     <script src="{{ url('storage/app/public/admin/plugins/owl_carousel/owl.carousel.js') }}"></script>
     <script src="{{ url('storage/app/public/admin/js/custom.min.js') }}"></script>
     <script>
+        const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
+        const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl))
+
+
+
         toastr.options = {
             "closeButton": true,
             "positionClass": "toast-bottom-right",

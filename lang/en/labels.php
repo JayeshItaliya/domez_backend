@@ -288,4 +288,6 @@ return [
     'edit_working_hours'=> 'Edit working Hours',
     'view_working_hours'=> 'View working Hours',
     'close'=> 'Close',
+    'exist'=> 'Existing',
+    'new'=> 'New',
 ];
