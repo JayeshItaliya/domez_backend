@@ -23,7 +23,7 @@ class ProvidersController extends Controller
         if (empty(User::where('email', $request->email)->first())) {
             try {
                 $data = ['title' => 'Domez Providers Login Credentials', 'email' => $request->email, 'name' => $request->name, 'password' => $request->password, 'logo' => Helper::image_path('logo.png')];
-                Mail::send('email.worker_providers_login', $data, function ($message) use ($data) {
+                Mail::send('email.share_login_details', $data, function ($message) use ($data) {
                     $message->from(config('app.mail_username'))->subject($data['title']);
                     $message->to($data['email']);
                 });
