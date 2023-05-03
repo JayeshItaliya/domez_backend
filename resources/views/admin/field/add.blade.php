@@ -30,7 +30,8 @@
                             <select class="form-select" name="dome" id="dome"
                                 data-next="{{ URL::to('/admin/fields/getsports') }}">
                                 @foreach ($dome as $data)
-                                    <option value="{{ $data->id }}" class="text-capitalize">{{ $data->name }}</option>
+                                    <option value="{{ $data->id }}" class="text-capitalize"
+                                        {{ old('dome' == $data->id ?? 'selected') }}>{{ $data->name }}</option>
                                 @endforeach
                             </select>
                             @error('dome')
@@ -62,8 +63,7 @@
                                 <option value="" class="text-capitalize" disabled selected>
                                     {{ trans('labels.min_player') }}</option>
                                 @for ($i = 1; $i < 100; $i++)
-                                    <option value="{{ $i }}" class="text-capitalize">{{ $i }}
-                                    </option>
+                                    <option value="{{ $i }}" {{ old('min_person' == $i ?? 'selected') }} class="text-capitalize">{{ $i }}</option>
                                 @endfor
                             </select>
                             @error('min_person')
@@ -71,7 +71,8 @@
                             @enderror
                         </div>
                         <div class="col-6">
-                            <select class="form-select" name="max_person" id="max_person" data-max-players="{{ old('max_person') }}">
+                            <select class="form-select" name="max_person" id="max_person"
+                                data-max-players="{{ old('max_person') }}">
                                 <option value="" class="text-capitalize" disabled selected>
                                     {{ trans('labels.max_player') }}
                                 </option>

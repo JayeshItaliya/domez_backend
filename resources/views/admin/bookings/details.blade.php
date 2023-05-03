@@ -32,7 +32,7 @@
                             data-bs-target="#slotsmodal"><i class="fa fa-plus"></i> {{ trans('labels.extend_time') }} </a>
                     @endif
                 </div>
-                <div class="col-lg-4">
+                <div class="col-lg-5www">
                     <div class="px-3 py-2 d-flex">
                         <div class="col-md-4"> <label>{{ trans('labels.dome_owner') }}</label> </div>
                         <div class="col-md-8"> <span
@@ -40,7 +40,7 @@
                     </div>
                 </div>
                 <div class="bg-gray">
-                    <div class="col-lg-4">
+                    <div class="col-lg-5">
                         <div class="px-3 py-2 d-flex">
                             <div class="col-md-4"> <label>{{ trans('labels.dome_name') }}</label> </div>
                             <div class="col-md-8"> <span
@@ -48,7 +48,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-4">
+                <div class="col-lg-5">
                     <div class="px-3 py-2 d-flex">
                         <div class="col-md-4"> <label>{{ trans('labels.field_name') }}</label> </div>
                         <div class="col-md-8">
@@ -57,7 +57,7 @@
                     </div>
                 </div>
                 <div class="bg-gray">
-                    <div class="col-lg-4">
+                    <div class="col-lg-5">
                         <div class="px-3 py-2 d-flex">
                             <div class="col-md-4">
                                 <label>{{ trans('labels.customer_name') }}</label>
@@ -68,7 +68,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-4">
+                <div class="col-lg-5">
                     <div class="px-3 py-2 d-flex">
                         <div class="col-md-4">
                             <label>{{ trans('labels.customer_email') }}</label>
@@ -90,7 +90,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-4">
+                <div class="col-lg-5">
                     <div class="px-3 py-2 d-flex">
                         <div class="col-md-4">
                             <label>{{ trans('labels.players') }}</label>
@@ -101,7 +101,7 @@
                     </div>
                 </div>
                 <div class="bg-gray">
-                    <div class="col-lg-4">
+                    <div class="col-lg-5">
                         <div class="px-3 py-2 d-flex">
                             <div class="col-md-4">
                                 <label>{{ trans('labels.booking_date') }}</label>
@@ -113,7 +113,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-4">
+                <div class="col-lg-5">
                     <div class="px-3 py-2 d-flex">
                         <div class="col-md-4">
                             <label>{{ trans('labels.start_time') }}</label>
@@ -124,7 +124,7 @@
                     </div>
                 </div>
                 <div class="bg-gray">
-                    <div class="col-lg-4">
+                    <div class="col-lg-5">
                         <div class="px-3 py-2 d-flex">
                             <div class="col-md-4">
                                 <label>{{ trans('labels.end_time') }}</label>
@@ -135,7 +135,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-4">
+                <div class="col-lg-5">
                     <div class="px-3 py-2 d-flex">
                         <div class="col-md-4">
                             <label>{{ trans('labels.total_amount') }}</label>
@@ -147,7 +147,7 @@
                     </div>
                 </div>
                 <div class="bg-gray">
-                    <div class="col-lg-4">
+                    <div class="col-lg-5">
                         <div class="px-3 py-2 d-flex">
                             <div class="col-md-4">
                                 <label>{{ trans('labels.paid_amount') }}</label>
@@ -159,7 +159,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-4">
+                <div class="col-lg-5">
                     <div class="px-3 py-2 d-flex">
                         <div class="col-md-4">
                             <label>{{ trans('labels.due_amount') }}</label>
@@ -171,7 +171,7 @@
                     </div>
                 </div>
                 <div class="bg-gray">
-                    <div class="col-lg-4">
+                    <div class="col-lg-5">
                         <div class="px-3 py-2 d-flex">
                             <div class="col-md-4">
                                 <label>{{ trans('labels.refunded_amount') }}</label>
@@ -183,7 +183,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-4">
+                <div class="col-lg-5">
                     <div class="px-3 py-2 d-flex">
                         <div class="col-md-4">
                             <label>{{ trans('labels.payment_status') }}</label>
@@ -203,7 +203,7 @@
                     </div>
                 </div>
                 <div class="bg-gray">
-                    <div class="col-lg-4">
+                    <div class="col-lg-5">
                         <div class="px-3 py-2 d-flex">
                             <div class="col-md-4">
                                 <label>{{ trans('labels.status') }}</label>

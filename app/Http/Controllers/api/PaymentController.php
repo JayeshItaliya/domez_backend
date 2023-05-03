@@ -113,14 +113,20 @@ class PaymentController extends Controller
             }
             $checkuser = User::where('email', $request->customer_email)->first();
             if (empty($checkuser)) {
+                $password = Str::random(8);
                 $user = new User();
                 $user->type = 3;
                 $user->login_type = 1;
                 $user->email = $request->customer_email;
-                $user->password = Hash::make(Str::random(8));
+                $user->password = Hash::make($password);
                 $user->is_verified = 1;
                 $user->fcm_token = $request->fcm_token;
                 $user->save();
+                $data = ['title' => 'Domez App Login Credential', 'email' => $user->email, 'name' => $request->name ?? '', 'password' => $password, 'logo' => Helper::image_path('logo.png')];
+                Mail::send('email.share_login_details', $data, function ($message) use ($data) {
+                    $message->from(config('app.mail_username'))->subject($data['title']);
+                    $message->to($data['email']);
+                });
             } else {
                 $user = $checkuser;
             }
@@ -235,7 +241,7 @@ class PaymentController extends Controller
                 $body = 'Thank you for your Booking with us! Please complete the payment within the next 2 hours to ensure that your booking is Confirmed.';
                 Helper::send_notification($title, $body, $type, $booking_id, '', $tokens);
             }
-            $data = ['title' => 'Booking Receipt', 'email' => $booking->customer_email, 'bookingdata' => $booking, 'logo'=>Helper::image_path('logo.png')];
+            $data = ['title' => 'Booking Receipt', 'email' => $booking->customer_email, 'bookingdata' => $booking, 'logo' => Helper::image_path('logo.png')];
             Mail::send('email.booking_confirmation', $data, function ($message) use ($data) {
                 $message->from(config('app.mail_username'))->subject($data['title']);
                 $message->to($data['email']);

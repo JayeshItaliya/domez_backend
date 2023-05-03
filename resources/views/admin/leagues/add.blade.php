@@ -39,7 +39,7 @@
                                         <option value="{{ $dome->id }}" data-start-time="{{ $dome->start_time }}"
                                             data-end-time="{{ $dome->end_time }}"
                                             data-slot-duration="{{ $dome->slot_duration }}"
-                                            {{ $dome->id == old('dome') ? 'selected' : '' }}>{{ $dome->name }}</option>
+                                            {{ $dome->id == old('dome') ?? 'selected'}}>{{ $dome->name }}</option>
                                     @endforeach
                                 </select>
                                 @error('dome')
