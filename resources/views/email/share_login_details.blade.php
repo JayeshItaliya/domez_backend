@@ -42,7 +42,7 @@
 <body>
     <!-- Company Logo -->
     <img class="logo" src="{{ $logo }}" style="text-align:center" alt="Company Logo">
-    <h1 style="text-align:center;color:#468F72;">Welcome to Domez!</h1>
+    <h1 style="text-align:center;color:#000;">Welcome to Domez!</h1>
 
     <!-- Email Body -->
     <div class="email-body">
