@@ -17,13 +17,6 @@ class SetTimeZoneMiddleware
     public function handle(Request $request, Closure $next)
     {
         date_default_timezone_set(config('app.timezone'));
-        if (config('app.env') == 'production') {
-            if (strpos($request->header('User-Agent'), 'Mobile') !== false || strpos($request->header('User-Agent'), 'Android') !== false || strpos($request->header('User-Agent'), 'iPhone') !== false) {
-                // Request is coming from a mobile device
-            } else {
-                abort(404);
-            }
-        }
         return $next($request);
     }
 }

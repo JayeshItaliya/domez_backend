@@ -27,6 +27,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 Route::group(['middleware' => 'SetTimeZoneMiddleware'], function () {
+    
     Route::get('optimize', [AdminController::class, 'optimize']);
 
     Route::post('sign-up', [AuthenticationController::class, 'sign_up']);
