@@ -8,6 +8,7 @@ use App\Models\Booking;
 use App\Models\Transaction;
 use Illuminate\Support\Facades\URL;
 use App\Helper\Helper;
+use Illuminate\Support\Facades\Mail;
 
 class LandingPagesController extends Controller
 {
@@ -67,7 +68,7 @@ class LandingPagesController extends Controller
             session()->put('verification_otp', $otp);
             $mail = Helper::verificationemail($request->email, $request->name, $otp);
             if ($mail == 1) {
-                return response()->json(['status' => 1, 'message' => "Account Verification Otp email has been sent to you."], 200);
+                return response()->json(['status' => 1, 'message' => "Account verification otp email has been sent to you."], 200);
             } else {
                 return response()->json(['status' => 0, 'message' => "Email error!!"], 200);
             }
@@ -119,6 +120,16 @@ class LandingPagesController extends Controller
         $enquiry->dome_country = $request->dome_country;
         $enquiry->venue_address = $request->dome_address;
         $enquiry->save();
+        $user_data = ['title' => 'New Dome Request', 'admin' => Helper::admin_data()->name, 'enquirydata' => $enquiry, 'logo' => Helper::image_path('logo.png')];
+        Mail::send('email.request_new_dome', $user_data, function ($message) use ($user_data) {
+            $message->from(config('app.mail_username'))->subject($user_data['title']);
+            $message->to(Helper::admin_data()->email);
+        });
+        $data = ['title' => 'New Dome Request', 'email' => $enquiry->email, 'name' => $enquiry->name, 'logo' => Helper::image_path('logo.png')];
+        Mail::send('email.new_dome_enquiry', $data, function ($message) use ($data) {
+            $message->from(config('app.mail_username'))->subject($data['title']);
+            $message->to($data['email']);
+        });
         return redirect('/')->with('success', trans('messages.success'));
     }
     public function split_payment(Request $request)

@@ -59,7 +59,7 @@
                     <div class="form-group">
                         <label for="phone" class="form-label">{{ trans('labels.phone_number') }}</label>
                         <div class="input-group">
-                            <input type="hidden" name="country" id="country" value="91">
+                            <input type="hidden" name="country" id="country" value="">
                             <input type="tel" id="phone" name="phone"
                                 class="form-control custom-input rounded mb-3" placeholder="{{ trans('labels.phone_number') }}" value="{{ old('phone') }}">
                         </div>
@@ -94,7 +94,7 @@
         var input = $('#phone');
         var iti = intlTelInput(input.get(0))
         iti.setCountry("ca");
-        input.on('countrychange', function(e) {
+        input.on('change', function(e) {
             $('#country').val(iti.getSelectedCountryData().dialCode);
         });
         $('.iti--allow-dropdown').addClass('w-100');

@@ -1,4 +1,17 @@
 $(function () {
+    "use strict";
+    if ($('input[data-sport-name]:checked').length > 0) {
+        $('.default-price-title').show();
+    } else {
+        $('.default-price-title').hide();
+    }
+    $('.time_picker__').timepicker({
+        interval: 60,
+        dynamic: false,
+        dropdown: true,
+        scrollbar: true,
+        timeFormat: 'HH:mm',
+    });
     $('.total-bookings-picker, .dome-revenue-picker').hide();
     if ($('.total-bookings-picker').length > 0) {
         $('.total-bookings-picker').flatpickr({
@@ -20,7 +33,30 @@ $(function () {
             }
         });
     }
-})
+    initMap();
+});
+
+$('#adddome').on('submit', function () {
+    var check = 1;
+    $('.time_picker__').each(function () {
+        if ($.trim($(this).val()) == '') {
+            $(this).addClass('is-invalid');
+            check = 0;
+        } else {
+            $(this).removeClass('is-invalid');
+        }
+        if (check == 0) {
+            return false;
+        }
+    });
+    if (check == 0) {
+        if ($('#exampleModal').is(':hidden')) {
+            $('#exampleModal').modal('show');
+        }
+        return false;
+    }
+});
+
 function dome_revenue_chart(dome_revenue_labels, dome_revenue_data) {
     var options = {
         series: [{
@@ -84,6 +120,7 @@ $('.dome-revenue-filter').on('change', function () {
     }
     domerevenuefilter('')
 });
+
 function domerevenuefilter(dates) {
     $.ajax({
         headers: {
@@ -111,6 +148,7 @@ function domerevenuefilter(dates) {
         }
     });
 }
+
 function bookings_chart(bookings_labels, bookings_data, arr) {
     var bookings_data_colors = $.map(arr, function (val, i) {
         if (val == 'primary_color') {
@@ -189,18 +227,6 @@ function totalbookingsfilter(dates) {
     });
 }
 
-$(function () {
-    "use strict";
-    if ($('input[data-sport-name]:checked').length > 0) {
-        $('.default-price-title').show();
-    } else {
-        $('.default-price-title').hide();
-    }
-    $(".time_picker").timepicker({
-        interval: 60,
-    });
-    initMap();
-});
 if (document.getElementById('textLat') && $('#textLat').val() != "") {
     var lat = parseFloat($('#textLat').val());
     var lng = parseFloat($('#textLng').val());

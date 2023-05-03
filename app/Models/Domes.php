@@ -25,4 +25,8 @@ class Domes extends Model
     {
         return $this->hasMany('App\Models\SetPrices', 'dome_id', 'id')->where('price_type', 1)->select('sport_id', 'price');
     }
+    public function working_hours()
+    {
+        return $this->hasMany('App\Models\WorkingHours', 'dome_id', 'id')->select('vendor_id', 'dome_id', 'day', 'open_time', 'close_time');
+    }
 }

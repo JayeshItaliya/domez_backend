@@ -17,6 +17,8 @@ use Carbon\Carbon;
 use Carbon\CarbonImmutable;
 use Illuminate\Support\Facades\DB;
 use App\Helper\Helper;
+use App\Models\WorkingHours;
+use Illuminate\Support\Facades\Mail;
 
 class DomesController extends Controller
 {
@@ -48,8 +50,6 @@ class DomesController extends Controller
             'dome_name' => 'required',
             'dome_hst' => 'required',
             'dome_price' => 'required',
-            'start_time' => 'required',
-            'end_time' => 'required',
             'description' => 'required',
             'address' => 'required',
         ], [
@@ -57,8 +57,6 @@ class DomesController extends Controller
             'dome_name.required' => trans('messages.name_required'),
             'dome_hst.required' => trans('messages.hst_required'),
             'dome_price.required' => trans('messages.price_required'),
-            'start_time.required' => trans('messages.start_time_required'),
-            'end_time.required' => trans('messages.end_time_required'),
             'description.required' => trans('messages.description_required'),
             'address.required' => trans('messages.address_required'),
         ]);
@@ -69,8 +67,8 @@ class DomesController extends Controller
         $dome->hst = $request->dome_hst;
         $dome->price = 0;
         $dome->address = $request->address;
-        $dome->start_time = $request->start_time;
-        $dome->end_time = $request->end_time;
+        $dome->start_time = $request->start_time ?? $request->start_time;
+        $dome->end_time = $request->end_time ?? $request->end_time;
         $dome->description = $request->description;
         $dome->lat = $request->lat;
         $dome->lng = $request->lng;
@@ -79,9 +77,18 @@ class DomesController extends Controller
         $dome->state = $request->state;
         $dome->country = $request->country;
         $dome->slot_duration = $request->slot_duration;
-        $dome->benefits = implode("|", $request->benefits);
+        $dome->benefits = $request->benefits != '' ? implode("|", $request->benefits) : '';
         $dome->benefits_description = $request->benefits_description;
         $dome->save();
+        foreach ($request->day as $key => $dayname) {
+            $wh = new WorkingHours();
+            $wh->vendor_id = auth()->user()->id;
+            $wh->dome_id = $dome->id;
+            $wh->day = strtolower($dayname);
+            $wh->open_time = $request->open_time[$key];
+            $wh->close_time = $request->close_time[$key];
+            $wh->save();
+        }
         if ($request->has('dome_images')) {
             $request->validate([
                 'dome_images.*' => 'required|image|mimes:png,jpg,jpeg,svg|max:5120',
@@ -368,7 +375,18 @@ class DomesController extends Controller
             $enquiry->dome_city = $request->dome_city;
             $enquiry->dome_state = $request->dome_state;
             $enquiry->dome_country = $request->dome_country;
+            $enquiry->is_exist = 1;
             $enquiry->save();
+            $user_data = ['title' => 'New Dome Request', 'admin' => Helper::admin_data()->name, 'enquirydata' => $enquiry, 'logo' => Helper::image_path('logo.png')];
+            Mail::send('email.request_new_dome', $user_data, function ($message) use ($user_data) {
+                $message->from(config('app.mail_username'))->subject($user_data['title']);
+                $message->to(Helper::admin_data()->email);
+            });
+            $data = ['title' => 'New Dome Request', 'email' => $enquiry->email, 'name' => $enquiry->name, 'logo' => Helper::image_path('logo.png')];
+            Mail::send('email.new_dome_enquiry', $data, function ($message) use ($data) {
+                $message->from(config('app.mail_username'))->subject($data['title']);
+                $message->to($data['email']);
+            });
             return redirect()->back()->with('success', trans('messages.success'));
         } catch (\Throwable $th) {
             return redirect()->back()->with('error', trans('messages.error'));
