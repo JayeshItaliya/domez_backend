@@ -25,10 +25,10 @@ class DomesController extends Controller
     public function index(Request $request)
     {
         if (auth()->user()->type == 1) {
-            $domes = Domes::with('dome_image', 'dome_owner')->where('is_deleted', 2)->get();
+            $domes = Domes::with('dome_image','current_day_wh', 'dome_owner')->where('is_deleted', 2)->get();
             $domes_count = 0;
         } else {
-            $domes = Domes::with('dome_image')->where('vendor_id', auth()->user()->type == 2 ? auth()->user()->id : auth()->user()->vendor_id)->where('is_deleted', 2)->get();
+            $domes = Domes::with('dome_image','current_day_wh')->where('vendor_id', auth()->user()->type == 2 ? auth()->user()->id : auth()->user()->vendor_id)->where('is_deleted', 2)->get();
             $domes_count = Domes::where('vendor_id', auth()->user()->type == 2 ? auth()->user()->id : auth()->user()->vendor_id)->count();
         }
         $sports = Sports::where('is_available', 1)->where('is_deleted', 2)->get();
@@ -67,8 +67,6 @@ class DomesController extends Controller
         $dome->hst = $request->dome_hst;
         $dome->price = 0;
         $dome->address = $request->address;
-        $dome->start_time = $request->start_time ?? $request->start_time;
-        $dome->end_time = $request->end_time ?? $request->end_time;
         $dome->description = $request->description;
         $dome->lat = $request->lat;
         $dome->lng = $request->lng;
@@ -265,8 +263,6 @@ class DomesController extends Controller
             'dome_name' => 'required',
             'dome_hst' => 'required',
             'dome_price' => 'required',
-            'start_time' => 'required',
-            'end_time' => 'required',
             'description' => 'required',
             'address' => 'required',
         ], [
@@ -274,8 +270,6 @@ class DomesController extends Controller
             'dome_name.required' => trans('messages.name_required'),
             'dome_hst.required' => trans('messages.hst_required'),
             'dome_price.required' => trans('messages.price_required'),
-            'start_time.required' => trans('messages.start_time_required'),
-            'end_time.required' => trans('messages.end_time_required'),
             'description.required' => trans('messages.description_required'),
             'address.required' => trans('messages.address_required'),
         ]);
@@ -290,14 +284,30 @@ class DomesController extends Controller
         $dome->state = $request->state;
         $dome->country = $request->country;
         $dome->slot_duration = $request->slot_duration;
-        $dome->start_time = $request->start_time;
-        $dome->end_time = $request->end_time;
         $dome->description = $request->description;
         $dome->lat = $request->lat;
         $dome->lng = $request->lng;
-        $dome->benefits = implode("|", $request->benefits);
+        $dome->benefits = $request->benefits != '' ? implode("|", $request->benefits) : '';
         $dome->benefits_description = $request->benefits_description;
         $dome->save();
+        if (count($dome['working_hours']) == 0) {
+            foreach ($request->day as $key => $dayname) {
+                $wh = new WorkingHours();
+                $wh->vendor_id = auth()->user()->id;
+                $wh->dome_id = $dome->id;
+                $wh->day = strtolower($dayname);
+                $wh->open_time = $request->open_time[$key];
+                $wh->close_time = $request->close_time[$key];
+                $wh->save();
+            }
+        } else {
+            foreach ($request->day as $key => $dayname) {
+                $wh = WorkingHours::find($dayname);
+                $wh->open_time = $request->open_time[$key];
+                $wh->close_time = $request->close_time[$key];
+                $wh->save();
+            }
+        }
         if ($request->has('dome_images')) {
             $request->validate([
                 'dome_images.*' => 'image|mimes:png,jpg,jpeg,svg',

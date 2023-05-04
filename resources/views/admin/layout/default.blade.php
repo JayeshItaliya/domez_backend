@@ -180,6 +180,7 @@
         let secondary_color = $('#secondaryColor').css('color');
         let light_secondary_color = $('#lightSecondaryColor').css('color');
         let danger_color = $('#danger_color').css('color');
+        let bs_spinner = '<div class="text-center"><div class="spinner-border" role="status"><span class="visually-hidden">Loading...</span></div></div>';
 
         function getCookie(name) {
             "use strict";

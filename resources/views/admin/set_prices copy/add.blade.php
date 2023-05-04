@@ -78,7 +78,70 @@
                         @php
                             $days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
                         @endphp
-                        <div class="slot-days"></div>
+                        <div class="row mb-5">
+                            @foreach ($days as $dayname)
+                                <div class="col-md-6">
+                                    <input type="hidden" name="daynames[]" value="{{ $dayname }}">
+                                    <div class="card mb-3">
+                                        <div class="card-header">
+                                            <h6>{{ ucfirst($dayname) }}</h6>
+                                        </div>
+                                        <div class="card-body card-body-{{ $dayname }}">
+                                            <div class="row my-2 {{ $dayname }}-row">
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <div class="input-group">
+                                                            <input type="text"
+                                                                class="form-control start time_picker border-end-0"
+                                                                name="start_time[{{ $dayname }}][]"
+                                                                data-day-name="{{ $dayname }}"
+                                                                placeholder="{{ trans('labels.start_time') }}" />
+                                                            <span class="input-group-text bg-transparent border-start-0"><i
+                                                                    class="fa-regular fa-clock"></i> </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <div class="input-group">
+                                                            <input type="text"
+                                                                class="form-control end time_picker border-end-0"
+                                                                name="end_time[{{ $dayname }}][]"
+                                                                data-day-name="{{ $dayname }}"
+                                                                placeholder="{{ trans('labels.end_time') }}" />
+                                                            <span class="input-group-text bg-transparent border-start-0"><i
+                                                                    class="fa-regular fa-clock"></i> </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <div class="input-group">
+                                                            <input type="number" value=""
+                                                                class="form-control border-end-0"
+                                                                name="price[{{ $dayname }}][]"
+                                                                placeholder="{{ trans('labels.price') }}">
+                                                            <span class="input-group-text bg-transparent border-start-0">
+                                                                <i class="fa-solid fa-dollar-sign"></i> </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-1">
+                                                    <div class="form-group">
+                                                        <button type="button"
+                                                            class="btn btn-sm btn-outline-primary appendbtn"
+                                                            data-day-name="{{ $dayname }}">
+                                                            <i class="fa fa-plus"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="{{ $dayname }} extra_fields"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
                     </div>
                 </div>
                 <div class="d-flex justify-content-end mt-3">

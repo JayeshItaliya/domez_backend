@@ -27,6 +27,10 @@ class Domes extends Model
     }
     public function working_hours()
     {
-        return $this->hasMany('App\Models\WorkingHours', 'dome_id', 'id')->select('vendor_id', 'dome_id', 'day', 'open_time', 'close_time');
+        return $this->hasMany('App\Models\WorkingHours', 'dome_id', 'id')->select('id', 'vendor_id', 'dome_id', 'day', 'open_time', 'close_time');
+    }
+    public function current_day_wh()
+    {
+        return $this->hasOne('App\Models\WorkingHours', 'dome_id', 'id')->where('day', date('l'))->select('id', 'vendor_id', 'dome_id', 'day', 'open_time', 'close_time');
     }
 }

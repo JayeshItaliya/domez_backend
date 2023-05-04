@@ -32,9 +32,6 @@ $('#dome').on('change', function () {
             type: $(this).attr('data-from'),
         },
         method: 'GET',
-        beforeSend: function (response) {
-            $('.slot-days').html(bs_spinner);
-        },
         success: function (response) {
             if (response.status == 1) {
                 $('#sport option:not(:first)').remove();
@@ -47,7 +44,6 @@ $('#dome').on('change', function () {
                     $('#sport').append('<option value="" selected disabled>' + no_data +
                         '</option>');
                 }
-                $('.slot-days').html(response.slotdayshtml)
             } else {
                 toastr.error(response.message);
                 return false;
@@ -68,9 +64,6 @@ $('#storesetprices').on('submit', function () {
             if ($(this).parent().hasClass('input-group')) {
                 $(this).next().addClass('border-danger')
             }
-            if ($(this).hasClass('time_picker')) {
-                $(this).parent().parent().parent().parent().parent().parent().parent().prev().find('button').click();
-            }
             check = 0;
         } else {
             $(this).removeClass('is-invalid');
@@ -86,27 +79,17 @@ $('#storesetprices').on('submit', function () {
         return false;
     }
 });
+// $('body').on('focus', ".time_picker", function () {
+//     "use strict";
+//     $(this).timepicker({
+//         interval: my_interval,
+//     });
+// });
 // var time1 = new Date('2023-04-08T10:00:00');
 // var time2 = new Date('2023-04-08T11:30:00');
 // var diffMs = time2 - time1;
 // var diffMins = Math.floor((diffMs / 1000) / 60);    // Output: 90
 var end_max_time = '';
-$('body').on('click', ".accordion-header", function () {
-    max_time = $(this).attr('data-end-time');
-    min_time = $(this).attr('data-start-time');
-    if ($(this).next().find('.start.time_picker').length == 1) {
-        var checkval = $.trim($(this).next().find('.end.time_picker').val());
-        if (checkval != '') {
-            min_time = checkval;
-        }
-    } else if ($(this).next().find('.start.time_picker').length > 1) {
-        var checkval1 = $.trim($(this).next().find('.end.time_picker:last').val());
-        if (checkval1 != '') {
-            min_time = checkval1;
-        }
-    }
-    start_time = min_time;
-});
 $('body').on('focus', ".start.time_picker", function () {
     "use strict";
     $(this).timepicker({
@@ -132,14 +115,14 @@ $('body').on('focus', ".start.time_picker", function () {
             start_time = start_time.toLocaleString('en-US', {
                 hour: 'numeric',
                 minute: 'numeric',
-                hour24: true
+                hour12: true
             });
             var dateObj = new Date(dateString + ' ' + start_time);
             dateObj.setMinutes(dateObj.getMinutes() + 30);
             var end_max_time = dateObj.toLocaleString('en-US', {
                 hour: 'numeric',
                 minute: 'numeric',
-                hour24: true
+                hour12: true
             });
             var check_start_time = new Date(dateString + ' ' + start_time);
             var start_time_minutes = check_start_time.getHours() * 60 + check_start_time.getMinutes();
@@ -148,18 +131,18 @@ $('body').on('focus', ".start.time_picker", function () {
             if (start_time_minutes <= max_time_minutes) {
                 if (start_time_minutes == max_time_minutes) {
                     end_max_time = start_time;
-                    disable_btn($(element).attr('data-day-name'));
+                    $("button[data-day-name='" + $(element).attr('data-day-name') + "'].appendbtn").attr("disabled", true).addClass("disabled");
                 } else {
                     var check_end_max_time = new Date(dateString + ' ' + end_max_time);
                     var end_max_time_minutes = check_end_max_time.getHours() * 60 + check_end_max_time.getMinutes();
                     if (end_max_time_minutes <= max_time_minutes) {
                         if (end_max_time_minutes == max_time_minutes) {
                             end_max_time = max_time;
-                            disable_btn($(element).attr('data-day-name'));
+                            $("button[data-day-name='" + $(element).attr('data-day-name') + "'].appendbtn").attr("disabled", true).addClass("disabled");
                         } else {}
                     } else {
                         end_max_time = max_time;
-                        disable_btn($(element).attr('data-day-name'));
+                        $("button[data-day-name='" + $(element).attr('data-day-name') + "'].appendbtn").attr("disabled", true).addClass("disabled");
                     }
                 }
             } else {
@@ -182,7 +165,7 @@ $('body').on('focus', ".start.time_picker", function () {
                     var timepicker = element.timepicker();
                     start_time = timepicker.format(time);
                     if (start_time == max_time) {
-                        disable_btn($(element).attr('data-day-name'));
+                        $("button[data-day-name='" + $(element).attr('data-day-name') + "'].appendbtn").attr("disabled", true).addClass("disabled");
                     }
                 }
             });
@@ -197,7 +180,7 @@ $(function () {
         $('.fixed-table-toolbar .btn-group').append(html);
     }
     var counter = 1;
-    $('body').on('click', ".appendbtn", function () {
+    $(".appendbtn").on('click', function () {
         "use strict";
         counter++;
         var dayname = $(this).attr('data-day-name');
@@ -207,7 +190,7 @@ $(function () {
                 check = 0;
                 $(this).addClass('is-invalid');
                 $(this).parent().find('.input-group-text').addClass('border-danger');
-            } else {
+            }else{
                 $(this).removeClass('is-invalid');
                 $(this).parent().find('.input-group-text').removeClass('border-danger');
             }
@@ -219,38 +202,23 @@ $(function () {
             return false;
         }
         var html =
-        '<div class="row my-2 ' + dayname + '-row " id="remove' + counter +
-        '"><div class="col-md-4"><div class="form-group"><div class="input-group"><input type="text" class="form-control start time_picker border-end-0" name="start_time[' +
-        dayname + '][]" data-day-name="' + dayname + '" required placeholder="' + start_time_title +
+            '<div class="row my-2 ' + dayname + '-row " id="remove' + counter +
+            '"><div class="col-md-4"><div class="form-group"><div class="input-group"><input type="text" class="form-control start time_picker border-end-0" name="start_time[' +
+            dayname + '][]" data-day-name="' + dayname + '" required placeholder="' + start_time_title +
             '" /> <span class="input-group-text bg-transparent border-start-0"><i class="fa-regular fa-clock"></i> </span> </div></div></div><div class="col-md-4"><div class="form-group"><div class="input-group"><input type="text" class="form-control end time_picker border-end-0" name="end_time[' +
             dayname + '][]" data-day-name="' + dayname + '" required placeholder="' + end_time_title +
             '" /> <span class="input-group-text bg-transparent border-start-0"><i class="fa-regular fa-clock"></i> </span> </div></div></div><div class="col-md-3"><div class="form-group"><div class="input-group"><input type="number" value="" class="form-control border-end-0" name="price[' +
             dayname + '][]" required placeholder="' + price +
             '" /> <span class="input-group-text bg-transparent border-start-0"> <i class="fa-solid fa-dollar-sign"></i> </span> </div></div></div><div class="col-md-1"><div class="form-group"><button class="btn btn-sm btn-outline-danger" data-day-name="' + dayname + '" onclick="removeslot(' +
             counter + ',this)"><i class="fa fa-close"></i></button></div></div></div>'
-            $('.' + dayname + '.extra_fields').append(html);
-        });
+        $('.' + dayname + '.extra_fields').append(html);
     });
-
-function disable_btn(dayname) {
-    $("button[data-day-name='" + dayname + "'].appendbtn").attr("disabled", false).removeClass("disabled");
-    $("body").find('.btn-reset-slots[data-day-name='+dayname+']').removeClass("d-none");
-}
-function reset_slots(el) {
-    "use strict";
-    $('.extra_fields.' + $(el).attr('data-day-name')).html('');
-    var last_time = $('.' + $(el).attr('data-day-name') + '-row').find('.end.time_picker').val();
-    start_time = last_time;
-    $('.' + $(el).attr('data-day-name') + '-row').find('input').val('');
-    $('.' + $(el).attr('data-day-name') + '-row').find('.appendbtn').attr('disabled', false);
-    $(el).addClass('d-none');
-}
+});
 
 function removeslot(id, el) {
     "use strict";
     $('#remove' + id).remove();
 }
-
 // $('body').on('blur', '.start.time_picker', function () {
 //     "use strict";
 //     setTimeout(() => {

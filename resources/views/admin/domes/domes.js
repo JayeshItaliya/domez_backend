@@ -36,7 +36,7 @@ $(function () {
     initMap();
 });
 
-$('#adddome').on('submit', function () {
+$('#adddome, #editdome').on('submit', function () {
     var check = 1;
     $('.time_picker__').each(function () {
         if ($.trim($(this).val()) == '') {

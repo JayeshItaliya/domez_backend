@@ -165,7 +165,7 @@
                             <div class="form-group">
                                 <label class="form-label" for="to_age"></label>
                                 <select class="form-select" required id="to_age" name="to_age" data-to-age="{{ $getleaguedata->to_age }}">
-                                    <option value="" disabled selected>{{ trans('labels.to_age') }}</option>
+                                    <option value="" disabled selected>{{ trans('labels.to') }}</option>
                                     {{-- @for ($i = 12; $i <= 50; $i++)
                                         <option value="{{ $i }}"
                                             {{ $i == $getleaguedata->to_age ? 'selected' : '' }}>

@@ -260,41 +260,6 @@
         </div>
     </div>
     <div class="row">
-        <style>
-            :root {
-                --fc-event-bg-color: var(--bs-primary);
-                --fc-event-border-color: var(--bs-primary);
-                --fc-today-bg-color: rgba(var(--bs-secondary-rgb), .15);
-            }
-
-            .fc-button {
-                background-color: transparent !important;
-                color: var(--bs-primary) !important;
-                border-color: var(--bs-primary) !important;
-            }
-
-            .fc-button.fc-button-active {
-                background-color: var(--bs-primary) !important;
-                color: white !important;
-                border-color: var(--bs-primary) !important;
-            }
-
-            .fc-prev-button,
-            .fc-next-button {
-                background-color: transparent !important;
-                color: black !important;
-                border-color: transparent !important;
-            }
-
-            .fc-event-title {
-                font-size: 12px;
-                line-height: 1;
-            }
-
-            .fc-daygrid-event {
-                padding: 0 3px;
-            }
-        </style>
         @if (auth()->user()->type != 4)
             <div class="col-lg-8">
                 <div class="card h-100">
@@ -346,6 +311,50 @@
                         </div>
                     </div>
                     <div id="bookings_chart"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">{{ trans('labels.edit_working_hours') }}</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <label class="col-md-4 col-form-label"></label>
+                        <div class="form-group col-md-4 text-center">
+                            <label><strong>{{ trans('labels.opening_time') }}</strong></label>
+                        </div>
+                        <div class="form-group col-md-4 text-center">
+                            <label><strong>{{ trans('labels.closing_time') }}</strong></label>
+                        </div>
+                    </div>
+                    @foreach ($getdomedata['working_hours'] as $key => $time)
+                        <div class="row">
+                            <label class="col-md-4 col-form-label">{{ trans('labels.' . strtolower($time->day)) }}</label>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <input type="text" class="form-control time_picker__"
+                                        placeholder="{{ trans('labels.opening_time') }}" name="open_time[]"
+                                        value="{{ date('H:i', strtotime($time->open_time)) }}">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <input type="text" class="form-control time_picker__"
+                                        placeholder="{{ trans('labels.closing_time') }}" name="close_time[]"
+                                        value="{{ date('H:i', strtotime($time->close_time)) }}">
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-danger"
+                        data-bs-dismiss="modal">{{ trans('labels.close') }}</button>
                 </div>
             </div>
         </div>

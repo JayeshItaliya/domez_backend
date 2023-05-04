@@ -1,6 +1,11 @@
 @extends('admin.layout.default')
 @section('styles')
     <link rel="stylesheet" href="{{ url('storage/app/public/admin/css/timepicker/jquery.timepicker.min.css') }}">
+    <style>
+        .ui-timepicker-container {
+            z-index: 9999 !important;
+        }
+    </style>
 @endsection
 @section('title')
     {{ trans('labels.edit_dome') }}
@@ -23,7 +28,7 @@
         </div>
     </div>
     <form class="card" action="{{ URL::to('admin/domes/update-' . $dome->id) }}" method="post"
-        enctype="multipart/form-data">
+        enctype="multipart/form-data" id="editdome">
         @csrf
         <div class="card-body">
             <div class="row">
@@ -335,8 +340,7 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="exampleModalLabel">{{ trans('labels.add_working_hours') }}
-                        </h1>
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">{{ trans('labels.edit_working_hours') }}</h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
@@ -349,23 +353,54 @@
                                 <label><strong>{{ trans('labels.closing_time') }}</strong></label>
                             </div>
                         </div>
-                        @foreach ($dome['working_hours'] as $key => $time)
-                            <div class="row">
-                                <label
-                                    class="col-md-4 col-form-label">{{ trans('labels.' . strtolower($time->day)) }}</label>
-                                <input type="hidden" name="day[]" value="{{ strtolower($time->day) }}">
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <input type="text" class="form-control time_picker__" placeholder="{{ trans('labels.opening_time') }}" name="open_time[]" value="{{ $time->open_time }}">
+                        @if (count($dome['working_hours']) > 0)
+                            @foreach ($dome['working_hours'] as $key => $time)
+                                <div class="row">
+                                    <label
+                                        class="col-md-4 col-form-label">{{ trans('labels.' . strtolower($time->day)) }}</label>
+                                    <input type="hidden" name="day[]" value="{{ $time->id }}">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control time_picker__"
+                                                placeholder="{{ trans('labels.opening_time') }}" name="open_time[]"
+                                                value="{{ date('H:i', strtotime($time->open_time)) }}">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control time_picker__"
+                                                placeholder="{{ trans('labels.closing_time') }}" name="close_time[]"
+                                                value="{{ date('H:i', strtotime($time->close_time)) }}">
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <input type="text" class="form-control time_picker__" placeholder="{{ trans('labels.closing_time') }}" name="close_time[]" value="{{ $time->close_time }}">
+                            @endforeach
+                        @else
+                            @php
+                                $days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
+                            @endphp
+                            @foreach ($days as $key => $day)
+                                <div class="row">
+                                    <label
+                                        class="col-md-4 col-form-label">{{ trans('labels.' . strtolower($day)) }}</label>
+                                    <input type="hidden" name="day[]" value="{{ strtolower($day) }}">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control time_picker__"
+                                                placeholder="{{ trans('labels.opening_time') }}" name="open_time[]"
+                                                @if (old('open_time')) value="{{ old('open_time')[$key] }}" @endif>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control time_picker__"
+                                                placeholder="{{ trans('labels.closing_time') }}" name="close_time[]"
+                                                @if (old('close_time')) value="{{ old('close_time')[$key] }}" @endif>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        @endforeach
+                            @endforeach
+                        @endif
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-outline-danger"

@@ -187,7 +187,7 @@ return [
     'others' => 'Autre',
     'age' => 'Âge',
     'from_age' => 'De',
-    'to_age' => 'À',
+    'to' => 'À',
     'min_player' => 'Joueurs min',
     'max_player' => 'Joueurs max',
     'team_limit' => 'Limite déquipe',

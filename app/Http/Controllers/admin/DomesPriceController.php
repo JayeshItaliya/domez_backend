@@ -1,5 +1,7 @@
 <?php
+
 namespace App\Http\Controllers\admin;
+
 use App\Http\Controllers\Controller;
 use App\Models\BookingSlots;
 use App\Models\Domes;
@@ -10,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Carbon\Carbon;
+
 class DomesPriceController extends Controller
 {
     public function index(Request $request)
@@ -61,8 +64,10 @@ class DomesPriceController extends Controller
                                 $slots->dome_id = $request->dome;
                                 $slots->sport_id = $request->sport;
                                 $slots->date = $date->format('Y-m-d');
-                                $slots->start_time = Carbon::createFromFormat('h:i A', $data)->format('H:i');
-                                $slots->end_time = Carbon::createFromFormat('h:i A', $endtimearray[$key])->format('H:i');
+                                $slots->start_time = $data;
+                                $slots->end_time = $endtimearray[$key];
+                                // $slots->start_time = Carbon::createFromFormat('h:i A', $data)->format('H:i');
+                                // $slots->end_time = Carbon::createFromFormat('h:i A', $endtimearray[$key])->format('H:i');
                                 $slots->day = $dayname;
                                 $slots->price = $pricearay[$key];
                                 $slots->status = 1;
@@ -88,7 +93,9 @@ class DomesPriceController extends Controller
                 //     $sports = $sports->whereNotIn('id', $getexists);
                 // }
                 $sports = $sports->where('is_available', 1)->where('is_deleted', 2)->orderByDesc('id')->get();
-                return response()->json(['status' => 1, 'message' => trans('messages.success'), 'sportsdata' => $sports], 200);
+                $dome = $getdomedata['working_hours'];
+                $slotdayshtml = view('admin.set_prices.slot_days',compact('dome'))->render();
+                return response()->json(['status' => 1, 'message' => trans('messages.success'), 'sportsdata' => $sports, 'slotdayshtml' => $slotdayshtml], 200);
             }
             return response()->json(['status' => 0, 'message' => trans('messages.invalid_dome')], 200);
         } catch (\Throwable $th) {
@@ -97,7 +104,7 @@ class DomesPriceController extends Controller
     }
     public function edit(Request $request)
     {
-        $getslotpricedata = SetPrices::find($request->id);
+        $getslotpricedata = SetPrices::findOrFail($request->id);
         $getdomeslist = Domes::where('vendor_id', auth()->user()->type == 2 ? auth()->user()->id : auth()->user()->vendor_id)->where('is_deleted', 2)->orderByDesc('id')->get();
         $getslots = SetPricesDaysSlots::where('set_prices_id', $request->id)->select('day')->groupBy(DB::raw('day'))->orderBy('id')->get();
         $getdaysslots = [];

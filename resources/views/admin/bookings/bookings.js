@@ -31,9 +31,7 @@ $('.d-none').on('change', function () {
         method: 'get',
         beforeSend: function (response) {
             $('.' + $(this).attr('data-show-target')).show();
-            $('.lists').html(
-                '<div class="text-center"><div class="spinner-border" role="status"><span class="visually-hidden">Loading...</span></div></div>'
-            );
+            $('.lists').html(bs_spinner);
         },
         success: function (response) {
             if (response.status == 0) {
@@ -84,9 +82,7 @@ function submitdata() {
         },
         method: 'get',
         beforeSend: function (response) {
-            $('.lists').html(
-                '<div class="text-center"><div class="spinner-border" role="status"><span class="visually-hidden">Loading...</span></div></div>'
-            );
+            $('.lists').html(bs_spinner);
         },
         success: function (response) {
             if (response.status == 0) {
