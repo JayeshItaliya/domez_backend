@@ -83,7 +83,7 @@
                 </thead>
                 <tbody>
                     @php $i = 1; @endphp
-                    @foreach ($getbookingslist as $bookingdata)
+                    @foreach ($bookingslist as $bookingdata)
                         <tr>
                             <td>{{ $i++ }}</td>
                             <td>{{ $bookingdata->booking_id }}</td>

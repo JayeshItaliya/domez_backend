@@ -16,7 +16,7 @@ $(function () {
 });
 
 
-$('.d-none').on('change', function () {
+$('.main-slots').on('change', function () {
     "use strict";
     $.ajax({
         headers: {

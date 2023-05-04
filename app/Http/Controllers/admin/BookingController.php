@@ -53,8 +53,13 @@ class BookingController extends Controller
                 $getbookingslist = $getbookingslist->whereBetween('start_date', [$weekStartDate, $weekEndDate]);
             }
         }
-        $getbookingslist = $getbookingslist->orderByDesc('id')->get();
-        return view('admin.bookings.index', compact('getbookingslist'));
+        $getbookingslist = $getbookingslist->get();
+        // Filter the bookings based on their order date
+        $today_orders = $getbookingslist->where('start_date', date('Y-m-d'));
+        $future_orders = $getbookingslist->where('start_date', '>', date('Y-m-d'));
+        $past_orders = $getbookingslist->where('start_date', '<', date('Y-m-d'));
+        $bookingslist = $today_orders->concat($future_orders)->concat($past_orders);
+        return view('admin.bookings.index', compact('bookingslist'));
     }
     public function calendar(Request $request)
     {
@@ -89,6 +94,7 @@ class BookingController extends Controller
                     try {
                         $service_fee = $slot_price * 5 / 100;
                         $hst = $slot_price * $bookingdata->dome_info->hst / 100;
+                        dd($hst);
                         $total_amount = $slot_price + $service_fee + $hst;
                         $data = ['title' => 'Booking Extend Time', 'email' => $bookingdata->customer_email, 'logo' => Helper::image_path('logo.png'), 'booking_id' => $bookingdata->booking_id, 'booking_date' => $bookingdata->start_date, 'time' => $slot,  'payment_link' => URL::to('/payment/' . $bookingdata->token), 'sub_total' => Helper::currency_format($slot_price), 'service_fee' => Helper::currency_format($service_fee), 'hst' => Helper::currency_format($hst), 'total_amount' => Helper::currency_format($total_amount)];
                         Mail::send('email.extend_time', $data, function ($message) use ($data) {
@@ -132,7 +138,7 @@ class BookingController extends Controller
                     $my_interval = 30;
                     $makeslots = new CarbonPeriod(date('h:i A', strtotime($checkslot->start_time)), $my_interval . ' minutes', date('h:i A', strtotime("-$my_interval minutes", strtotime($checkslot->end_time))));
                     $price = 0;
-                    $html = '<div class="row">';
+                    $html = '<hr><div class="row">';
                     foreach ($makeslots as $keyy => $slot) {
                         $price += round($checkslot->price / $makeslots->count(), 0);
                         $xtime = $slot->format('h:i A');
