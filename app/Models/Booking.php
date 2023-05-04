@@ -59,7 +59,7 @@ class Booking extends Model
     }
     public function dome_info()
     {
-        return $this->hasOne('App\Models\Domes', 'id', 'dome_id')->select('id', 'name', 'sport_id', 'address', 'state', 'city');
+        return $this->hasOne('App\Models\Domes', 'id', 'dome_id')->select('id', 'name', 'sport_id', 'address', 'state', 'city', 'hst');
     }
     public function transactions()
     {

@@ -43,6 +43,7 @@ $('.main-slots').on('change', function () {
             return false;
         },
         error: function (e) {
+            console.log(e);
             toastr.error(wrong);
             return false;
         }
@@ -82,12 +83,14 @@ function submitdata() {
         },
         method: 'get',
         beforeSend: function (response) {
+            $('.btn-close').prop('disabled', true);
             $('.lists').html(bs_spinner);
         },
         success: function (response) {
             if (response.status == 0) {
                 $('.lists').html(html);
                 $('.lists button[type="button"]').hide();
+                $('.btn-close').prop('disabled', false);
                 toastr.error(response.message);
             } else {
                 toastr.success(response.message);
@@ -97,6 +100,7 @@ function submitdata() {
         },
         error: function (e) {
             $('.lists').html(html);
+            $('.btn-close').prop('disabled', false);
             $('.lists button[type="button"]').hide();
             toastr.error(wrong);
             return false;

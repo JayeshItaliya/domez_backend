@@ -94,7 +94,6 @@ class BookingController extends Controller
                     try {
                         $service_fee = $slot_price * 5 / 100;
                         $hst = $slot_price * $bookingdata->dome_info->hst / 100;
-                        dd($hst);
                         $total_amount = $slot_price + $service_fee + $hst;
                         $data = ['title' => 'Booking Extend Time', 'email' => $bookingdata->customer_email, 'logo' => Helper::image_path('logo.png'), 'booking_id' => $bookingdata->booking_id, 'booking_date' => $bookingdata->start_date, 'time' => $slot,  'payment_link' => URL::to('/payment/' . $bookingdata->token), 'sub_total' => Helper::currency_format($slot_price), 'service_fee' => Helper::currency_format($service_fee), 'hst' => Helper::currency_format($hst), 'total_amount' => Helper::currency_format($total_amount)];
                         Mail::send('email.extend_time', $data, function ($message) use ($data) {
@@ -109,6 +108,8 @@ class BookingController extends Controller
                         $bookingdata->end_time = date('H:i', strtotime($slot_time));
                         $bookingdata->sub_total += $slot_price;
                         $bookingdata->due_amount += $slot_price;
+                        $bookingdata->service_fee += $service_fee;
+                        $bookingdata->hst += $hst;
                         $bookingdata->total_amount += $slot_price;
                         $bookingdata->slots = $bookingdata->slots . ',' . $slot;
                         $bookingdata->save();

@@ -291,4 +291,5 @@ return [
     'exist' => 'Existing',
     'new' => 'New',
     'reset_slots' => 'Reset Slots',
+    'slots' => 'Slots',
 ];

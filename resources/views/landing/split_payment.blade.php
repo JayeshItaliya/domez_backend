@@ -419,7 +419,7 @@
                 },
             });
         }
-        if (config('app.env') == 'local') {
+        if ({{ Js::from(config('app.env')) }} == 'local') {
             $('#receipt_name').val('James Loice');
             $('#receipt_email').val('james@yopmail.com');
         }
