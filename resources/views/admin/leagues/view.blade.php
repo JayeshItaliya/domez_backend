@@ -11,8 +11,8 @@
                     aria-label="breadcrumb">
                     <ol class="breadcrumb m-0">
                         {!! Helper::breadcrumb_home_li() !!}
-                        <li class="breadcrumb-item"><a
-                                href="{{ URL::to('admin/leagues') }}">{{ trans('labels.leagues') }}</a></li>
+                        <li class="breadcrumb-item"><a href="{{ URL::to('admin/leagues') }}">{{ trans('labels.leagues') }}</a>
+                        </li>
                         <li class="breadcrumb-item active" aria-current="page">{{ trans('labels.league_details') }}</li>
                     </ol>
                 </nav>
@@ -39,11 +39,7 @@
                             <label>{{ trans('labels.fields') }}</label>
                         </div>
                         <div class="col-auto">
-                            <span class="text-muted fs-7">
-                                @foreach ($fields as $field)
-                                    {{ $field->name }} {{ !$loop->last ? '&' : '' }}
-                                @endforeach
-                            </span>
+                            <span class="text-muted fs-7">{{ $getleaguedata->fields_name() }}</span>
                         </div>
                     </div>
                 </div>
@@ -206,7 +202,8 @@
             <div class="px-3 py-2 d-flex">
                 @foreach ($getleaguedata['league_images'] as $images)
                     <div class="col-auto me-3">
-                        <img src="{{ $images->image }}" alt="" width="100" height="60" class="rounded" style="object-fit: cover; object-position:center;">
+                        <img src="{{ $images->image }}" alt="" width="100" height="60" class="rounded"
+                            style="object-fit: cover; object-position:center;">
                     </div>
                 @endforeach
             </div>

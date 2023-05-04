@@ -110,7 +110,7 @@ class BookingController extends Controller
             $booking_details = [
                 "id" => $booking->id,
                 "type" => $booking->type,
-                "field" => $booking->field_id,
+                "field" => $booking->fields_name(),
                 "dome_name" => $dome->name,
                 "league_name" => $booking->league_id != '' ? $league->name : '',
                 "days" => $booking->league_id != '' ? implode(' | ', $daylist) : '',

@@ -63,7 +63,7 @@
                     <div class="px-3 py-2 d-flex">
                         <div class="col-md-4"> <label>{{ trans('labels.field_name') }}</label> </div>
                         <div class="col-md-8">
-                            <span class="text-muted fs-7 mx-3">{{ $bookingdata->field_id }}</span>
+                            <span class="text-muted fs-7 mx-3">{{ $bookingdata->fields_name() }}</span>
                         </div>
                     </div>
                 </div>

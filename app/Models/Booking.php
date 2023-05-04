@@ -65,4 +65,10 @@ class Booking extends Model
     {
         return $this->hasMany('App\Models\Transaction', 'booking_id', 'booking_id')->select('transaction_id', 'amount');
     }
+    public function fields_name()
+    {
+        $fieldIds = explode(',', $this->field_id);
+        $field_names = Field::whereIn('id', $fieldIds)->get()->pluck('name')->toArray();
+        return implode(', ', $field_names);
+    }
 }
