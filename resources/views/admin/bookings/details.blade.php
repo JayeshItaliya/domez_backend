@@ -32,7 +32,18 @@
                             data-bs-target="#slotsmodal"><i class="fa fa-plus"></i> {{ trans('labels.extend_time') }} </a>
                     @endif
                 </div>
-                <div class="col-lg-5www">
+                @if ($bookingdata->type == 2)
+                    <div class="bg-gray">
+                        <div class="col-lg-5">
+                            <div class="px-3 py-2 d-flex">
+                                <div class="col-md-4"> <label>{{ trans('labels.league_name') }}</label> </div>
+                                <div class="col-md-8"> <span
+                                        class="text-muted fs-7 mx-3">{{ $bookingdata['league_info']->name }}</span> </div>
+                            </div>
+                        </div>
+                    </div>
+                @endif
+                <div class="col-lg-5">
                     <div class="px-3 py-2 d-flex">
                         <div class="col-md-4"> <label>{{ trans('labels.dome_owner') }}</label> </div>
                         <div class="col-md-8"> <span
@@ -63,7 +74,7 @@
                                 <label>{{ trans('labels.customer_name') }}</label>
                             </div>
                             <div class="col-md-8">
-                                <span class="text-muted fs-7 mx-3">{{ $bookingdata['user_info']->name }}</span>
+                                <span class="text-muted fs-7 mx-3">{{ $bookingdata['user_info']->name ?? '-' }}</span>
                             </div>
                         </div>
                     </div>
@@ -79,13 +90,13 @@
                     </div>
                 </div>
                 <div class="bg-gray">
-                    <div class=" col-lg-4">
+                    <div class=" col-lg-5">
                         <div class="px-3 py-2 d-flex">
                             <div class="col-md-4">
                                 <label>{{ trans('labels.customer_phone') }}</label>
                             </div>
                             <div class="col-md-8">
-                                <span class="text-muted fs-7 mx-3">{{ $bookingdata['user_info']->phone }}</span>
+                                <span class="text-muted fs-7 mx-3">{{ $bookingdata['user_info']->phone ?? '-' }}</span>
                             </div>
                         </div>
                     </div>
@@ -104,11 +115,11 @@
                     <div class="col-lg-5">
                         <div class="px-3 py-2 d-flex">
                             <div class="col-md-4">
-                                <label>{{ trans('labels.booking_date') }}</label>
+                                <label>{{ $bookingdata->type == 1 ? trans('labels.booking_date') : trans('labels.date') }}</label>
                             </div>
                             <div class="col-md-8">
-                                <span
-                                    class="text-muted fs-7 mx-3">{{ Helper::date_format($bookingdata->start_date) }}</span>
+                                <span class="text-muted fs-7 mx-3">{{ Helper::date_format($bookingdata->start_date) }}
+                                    {{ $bookingdata->type == 2 ? trans('labels.to') . ' ' . Helper::date_format($bookingdata->end_date) : '' }}</span>
                             </div>
                         </div>
                     </div>
@@ -265,6 +276,7 @@
                                         $labelcolor = 'bg-dark text-white';
                                     }
                                 @endphp
+                                @dump($slot->status)
                                 <input class="form-check-input d-none main-slots" type="radio" name="flexRadioDefault"
                                     id="check{{ $key }}" {{ $inputattr }}
                                     data-booking-id="{{ $bookingdata->booking_id }}" data-slot-id="{{ $slot->id }}"
