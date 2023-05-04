@@ -373,7 +373,7 @@
                         "data-sport-name") +
                     '</label><div class="input-group"><span class="input-group-text" id="basic-addon1"><i class="fa fa-dollar"></i></span><input type="number" class="form-control" id="dome_price' +
                     $(this).val() +
-                    '" name="dome_price[]" placeholder="Price" value="0" required></div></div>';
+                    '" name="dome_price[]" placeholder="Price" required></div></div>';
                 $('#sport_prices_input').append(html);
             } else {
                 $('#' + $(this).attr("data-sport-name") + '' + $(this).val()).remove();

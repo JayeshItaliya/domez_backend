@@ -54,9 +54,9 @@
                                 @endforeach
                             </td>
                             <td>{{ $dome->country }}</td>
-                            <td>{{ $dome['current_day_wh'] != '' ? date('h:i A', strtotime($dome['current_day_wh']->open_time)) : '-' }}
+                            <td>{{ $dome->day_working_hours('') != '' ? date('h:i A', strtotime($dome->day_working_hours('')->open_time)) : '-' }}
                             </td>
-                            <td>{{ $dome['current_day_wh'] != '' ? date('h:i A', strtotime($dome['current_day_wh']->close_time)) : '-' }}
+                            <td>{{ $dome->day_working_hours('') != '' ? date('h:i A', strtotime($dome->day_working_hours('')->close_time)) : '-' }}
                             </td>
                             <td>
                                 <a class="cursor-pointer me-2" href="{{ URL::to('admin/domes/details-' . $dome->id) }}">

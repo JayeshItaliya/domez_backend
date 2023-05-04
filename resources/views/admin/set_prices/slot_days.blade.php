@@ -12,10 +12,7 @@
                             <span class="d-flex justify-content-between align-items-center w-100">
                                 <b>{{ ucfirst($time->day) }}</b>
                                 <span class="mx-3">
-                                    {{ date('H:i', strtotime($time->open_time)) }} -
-                                    {{ date('H:i', strtotime($time->close_time)) }}
-                                    {{-- <br> {{ date('h:i A', strtotime($time->open_time)) }} -
-                                    {{ date('h:i A', strtotime($time->close_time)) }} --}}
+                                    {{ date('H:i', strtotime($time->open_time)) . ' - ' . date('H:i', strtotime($time->close_time)) }}
                                 </span>
                             </span>
                         </button>
@@ -23,7 +20,7 @@
                     <div id="collapse{{ $key }}" class="accordion-collapse collapse"
                         aria-labelledby="heading{{ $key + 1 }}" data-bs-parent="#accordionExample">
                         <div class="accordion-body">
-                            <input type="hidden" name="daynames[]" value="monday">
+                            <input type="hidden" name="daynames[]" value="{{ $time->day }}">
                             <div class="card-body card-body-{{ $time->day }}">
                                 <div class="row my-2 {{ $time->day }}-row">
                                     <div class="col-md-4">
@@ -54,7 +51,7 @@
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <div class="input-group">
-                                                <input type="number" value="" class="form-control border-end-0"
+                                                <input type="number" class="form-control border-end-0"
                                                     name="price[{{ $time->day }}][]"
                                                     placeholder="{{ trans('labels.price') }}">
                                                 <span class="input-group-text bg-transparent border-start-0">
@@ -74,10 +71,9 @@
                                 <div class="{{ $time->day }} extra_fields"></div>
                                 <div class="col-12 text-center">
                                     <button type="button" class="btn btn-outline-dark btn-reset-slots d-none"
-                                        onclick="reset_slots(this)" data-day-name="{{ $time->day }}"><b><i
+                                        onclick="reset_slots(this)" data-days-name="{{ $time->day }}"><b><i
                                                 class="fa-light fa-arrow-rotate-right fa-spin"></i></b>
-                                        {{ trans('labels.reset_slots') }}
-                                    </button>
+                                        {{ trans('labels.reset_slots') }} </button>
                                 </div>
                             </div>
                         </div>

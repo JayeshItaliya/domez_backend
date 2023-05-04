@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
@@ -29,8 +30,19 @@ class Domes extends Model
     {
         return $this->hasMany('App\Models\WorkingHours', 'dome_id', 'id')->select('id', 'vendor_id', 'dome_id', 'day', 'open_time', 'close_time');
     }
-    public function current_day_wh()
+    public function day_working_hours($value)
     {
-        return $this->hasOne('App\Models\WorkingHours', 'dome_id', 'id')->where('day', date('l'))->select('id', 'vendor_id', 'dome_id', 'day', 'open_time', 'close_time');
+        $date = Carbon::parse($value);
+        $dayname = '';
+        if (!is_null($date)) {
+            $dayname = strtolower($date->format('l'));
+        } else if (Carbon::hasTranslation(strtolower($value), 'en')) {
+            $dayname = strtolower($value);
+        }
+        $data = WorkingHours::where('dome_id', $this->id)
+            ->where('day', $dayname != '' ? $dayname : date('l'))
+            ->select('id', 'vendor_id', 'dome_id', 'day', 'open_time', 'close_time')
+            ->first();
+        return $data;
     }
 }

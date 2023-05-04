@@ -12,6 +12,7 @@ use App\Models\League;
 use App\Models\SetPrices;
 use App\Models\Review;
 use App\Models\SetPricesDaysSlots;
+use App\Models\Sports;
 use App\Models\Transaction;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
@@ -79,70 +80,69 @@ class BookingController extends Controller
     public function booking_details(Request $request)
     {
         $booking = Booking::find($request->id);
-        if (!empty($booking)) {
-            $dome = Domes::with('dome_image')->where('id', $booking->dome_id)->where('is_deleted', 2)->first();
-            if ($booking->league_id != '') {
-                $league = League::find($booking->league_id);
-                $datetime1 = new DateTime($league->start_date);
-                $datetime2 = new DateTime($league->end_date);
-                $interval = $datetime1->diff($datetime2);
-                $startDate2 = new \DateTime(date('m/d'));
-                $endDate2 = new \DateTime(date('m/d', strtotime("+7 day")));
-                for ($date = $startDate2; $date < $endDate2; $date->modify('+1 day')) {
-                    $daylist[] = $date->format('D');
-                }
-            }
-            $defaultimagebaseurl = url('storage/app/public/admin/images/profiles');
-            $gettransaction = Transaction::leftJoin('users AS user', function ($query) {
-                $query->on('transactions.user_id', '=', 'user.id');
-            })
-                ->where('transactions.booking_id', $booking->booking_id)->select(
-                    'transactions.user_id',
-                    'transactions.contributor_name',
-                    'transactions.amount',
-                    DB::raw("CASE WHEN transactions.user_id IS NULL THEN 0 ELSE transactions.user_id END as user_id"),
-                    DB::raw("CASE WHEN transactions.contributor_name IS NULL THEN '' ELSE transactions.contributor_name END as contributor_name"),
-                    DB::raw("CASE WHEN transactions.user_id IS NULL THEN '{$defaultimagebaseurl}/default.png' ELSE '' END as contributor_image_url"),
-                    DB::raw("CASE WHEN transactions.user_id IS NOT NULL THEN '{$defaultimagebaseurl}/user.image' ELSE '' END as user_image"),
-                )->get()->toArray();
-
-            $is_ratting_exist = Review::where('dome_id', $booking->dome_id)->where('user_id', $booking->user_id)->first();
-            $booking_details = [
-                "id" => $booking->id,
-                "type" => $booking->type,
-                "field" => $booking->field_id,
-                "dome_name" => $dome->name,
-                "league_name" => $booking->league_id != '' ? $league->name : '',
-                "days" => $booking->league_id != '' ? implode(' | ', $daylist) : '',
-                "total_games" => $booking->league_id != '' ? $interval->format('%a') : '',
-                "date" => $booking->type != 2 ? date('M d,Y', strtotime($booking->start_date)) : date('M d', strtotime($booking->start_date)) . ' To ' . date('M d', strtotime($booking->end_date)),
-                "time" => date('h:i A', strtotime($booking->start_time)) . ' To ' . date('h:i A', strtotime($booking->end_time)),
-                "players" => $booking->players,
-                "address" => $dome->address,
-                "city" => $dome->city,
-                "state" => $dome->state,
-                "sub_total" => $booking->sub_total,
-                "service_fee" => $booking->service_fee,
-                "hst" => $booking->hst,
-                "total_amount" => $booking->total_amount,
-                "paid_amount" => $booking->paid_amount,
-                "due_amount" => $booking->due_amount,
-                "booking_status" => $booking->booking_status == 3 ? 'Cancelled' : '',
-                "image" => $dome->dome_image->image,
-                "payment_status" => $booking->payment_status == 1 ? 'Paid' : 'In Progress',
-                "booking_created_at" => $booking->created_at,
-                "user_info" => $booking->user_info,
-                "payment_link" => URL::to('/payment/' . $booking->token),
-                "other_contributors" => $gettransaction,
-                "start_date" => $booking->start_date ?? "",
-                "end_date" => $booking->end_date ?? "",
-                "dome_id" => $booking->dome_id,
-                "is_ratting_exist" => !empty($is_ratting_exist) ? 1 : 0,
-            ];
-            return response()->json(["status" => 1, "message" => "Success", 'booking_details' => $booking_details], 200);
-        } else {
+        if (empty($booking)) {
             return response()->json(["status" => 0, "message" => "Booking Not Found"], 200);
         }
+        $dome = Domes::with('dome_image')->where('id', $booking->dome_id)->where('is_deleted', 2)->first();
+        if ($booking->league_id != '') {
+            $league = League::find($booking->league_id);
+            $datetime1 = new DateTime($league->start_date);
+            $datetime2 = new DateTime($league->end_date);
+            $interval = $datetime1->diff($datetime2);
+            $startDate2 = new \DateTime(date('m/d'));
+            $endDate2 = new \DateTime(date('m/d', strtotime("+7 day")));
+            for ($date = $startDate2; $date < $endDate2; $date->modify('+1 day')) {
+                $daylist[] = $date->format('D');
+            }
+        }
+        $defaultimagebaseurl = url('storage/app/public/admin/images/profiles');
+        $gettransaction = Transaction::leftJoin('users AS user', function ($query) {
+            $query->on('transactions.user_id', '=', 'user.id');
+        })
+            ->where('transactions.booking_id', $booking->booking_id)->select(
+                'transactions.user_id',
+                'transactions.contributor_name',
+                'transactions.amount',
+                DB::raw("CASE WHEN transactions.user_id IS NULL THEN 0 ELSE transactions.user_id END as user_id"),
+                DB::raw("CASE WHEN transactions.contributor_name IS NULL THEN '' ELSE transactions.contributor_name END as contributor_name"),
+                DB::raw("CASE WHEN transactions.user_id IS NULL THEN '{$defaultimagebaseurl}/default.png' ELSE '' END as contributor_image_url"),
+                DB::raw("CASE WHEN transactions.user_id IS NOT NULL THEN '{$defaultimagebaseurl}/user.image' ELSE '' END as user_image"),
+            )->get()->toArray();
+
+        $is_ratting_exist = Review::where('dome_id', $booking->dome_id)->where('user_id', $booking->user_id)->first();
+        $booking_details = [
+            "id" => $booking->id,
+            "type" => $booking->type,
+            "field" => $booking->field_id,
+            "dome_name" => $dome->name,
+            "league_name" => $booking->league_id != '' ? $league->name : '',
+            "days" => $booking->league_id != '' ? implode(' | ', $daylist) : '',
+            "total_games" => $booking->league_id != '' ? $interval->format('%a') : '',
+            "date" => $booking->type != 2 ? date('M d,Y', strtotime($booking->start_date)) : date('M d', strtotime($booking->start_date)) . ' To ' . date('M d', strtotime($booking->end_date)),
+            "time" => date('h:i A', strtotime($booking->start_time)) . ' To ' . date('h:i A', strtotime($booking->end_time)),
+            "players" => $booking->players,
+            "address" => $dome->address,
+            "city" => $dome->city,
+            "state" => $dome->state,
+            "sub_total" => $booking->sub_total,
+            "service_fee" => $booking->service_fee,
+            "hst" => $booking->hst,
+            "total_amount" => $booking->total_amount,
+            "paid_amount" => $booking->paid_amount,
+            "due_amount" => $booking->due_amount,
+            "booking_status" => $booking->booking_status == 3 ? 'Cancelled' : '',
+            "image" => $dome->dome_image->image,
+            "payment_status" => $booking->payment_status == 1 ? 'Paid' : 'In Progress',
+            "booking_created_at" => $booking->created_at,
+            "user_info" => $booking->user_info,
+            "payment_link" => URL::to('/payment/' . $booking->token),
+            "other_contributors" => $gettransaction,
+            "start_date" => $booking->start_date ?? "",
+            "end_date" => $booking->end_date ?? "",
+            "dome_id" => $booking->dome_id,
+            "is_ratting_exist" => !empty($is_ratting_exist) ? 1 : 0,
+        ];
+        return response()->json(["status" => 1, "message" => "Success", 'booking_details' => $booking_details], 200);
     }
     public function avl_fields(Request $request)
     {
@@ -232,17 +232,21 @@ class BookingController extends Controller
         }
         $getdomedata = Domes::where('id', $request->dome_id)->where('is_deleted', 2)->first();
         if (!empty($getdomedata)) {
-            $my_interval = Helper::get_slot_duration($getdomedata->id);
             if ($request->date == "") {
                 return response()->json(["status" => 0, "message" => 'Please Enter Date'], 200);
             }
             if ($request->sport_id == "") {
                 return response()->json(["status" => 0, "message" => 'Please Enter Sport ID'], 200);
             }
+            $checkslot = Sports::where('id', $request->sport_id)->where('is_available', 1)->where('is_deleted', 2)->first();
+            if (empty($checkslot) || !in_array($request->sport_id, explode(',', $getdomedata->sport_id))) {
+                return response()->json(["status" => 0, "message" => 'Invalid Sport'], 200);
+            }
+            $my_interval = Helper::get_slot_duration($getdomedata->id);
             $gettotlaslots = SetPricesDaysSlots::where('dome_id', $getdomedata->id)->where('sport_id', $request->sport_id)->whereDate('date', date('Y-m-d', strtotime($request->date)))->count();
             if ($gettotlaslots == 0) {
-                $start_time__ = $getdomedata['current_day_wh']->open_time;
-                $end_time__ = $getdomedata['current_day_wh']->close_time;
+                $start_time__ = $getdomedata->day_working_hours($request->date)->open_time;
+                $end_time__ = $getdomedata->day_working_hours($request->date)->close_time;
                 $period = new CarbonPeriod(date('h:i A', strtotime($start_time__)), $my_interval . ' minutes', date("h:i A", strtotime("-$my_interval minutes", strtotime($end_time__))));
                 foreach ($period as $item) {
                     $new = new SetPricesDaysSlots();

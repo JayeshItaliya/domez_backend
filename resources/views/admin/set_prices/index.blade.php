@@ -27,7 +27,6 @@
                         <th>{{ trans('labels.sports') }}</th>
                         <th>{{ trans('labels.start_date') }}</th>
                         <th>{{ trans('labels.end_date') }}</th>
-                        <th>{{ trans('labels.price') }}</th>
                         <th>{{ trans('labels.action') }}</th>
                     </tr>
                 </thead>
@@ -40,7 +39,6 @@
                             <td>{{ $setprice['sport_info']->name }}</td>
                             <td>{{ $setprice->start_date != '' ? Helper::date_format($setprice->start_date) : '-' }} </td>
                             <td>{{ $setprice->end_date != '' ? Helper::date_format($setprice->end_date) : '-' }} </td>
-                            <td>{{ Helper::currency_format($setprice->price) }}</td>
                             <td>
                                 @if ($setprice->price_type == 2)
                                     {{-- <a class="cursor-pointer me-2" href="{{ URL::to('admin/set-prices/edit-' . $setprice->id) }}"> {!! Helper::get_svg(2) !!} </a> --}}

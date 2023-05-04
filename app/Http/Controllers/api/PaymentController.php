@@ -47,17 +47,6 @@ class PaymentController extends Controller
         }
         if ($request->booking_type == 1) {
             $dome = Domes::where('id', $request->dome_id)->where('is_deleted', 2)->first();
-            foreach (explode(',', $request->slots) as $key => $slot) {
-                $check = SetPricesDaysSlots::where('start_time', date('H:i', strtotime(explode(' - ', $slot)[0])))->where('end_time', date('H:i', strtotime(explode(' - ', $slot)[1])))->where('sport_id', $request->sport_id)->whereDate('date', date('Y-m-d', strtotime($request->start_date)))->where('status', 0)->first();
-                if (!empty($check)) {
-                    return response()->json(["status" => 0, "message" => "Time Slots Has been selected "], 200);
-                }
-            }
-        } else {
-            $league = League::where('id', $request->league_id)->whereDate('booking_deadline', '>=', date('Y-m-d'))->where('is_deleted', 2)->first();
-            $dome = @$league->dome_info;
-        }
-        if ($request->booking_type == 1) {
             if ($request->dome_id == "") {
                 return response()->json(["status" => 0, "message" => "Please Enter Dome ID"], 200);
             }
@@ -89,7 +78,15 @@ class PaymentController extends Controller
             $sport_id = $request->sport_id;
             $field_id = $request->field_id;
             $team_name = '';
+            foreach (explode(',', $request->slots) as $key => $slot) {
+                $check = SetPricesDaysSlots::where('start_time', date('H:i', strtotime(explode(' - ', $slot)[0])))->where('end_time', date('H:i', strtotime(explode(' - ', $slot)[1])))->where('sport_id', $request->sport_id)->whereDate('date', date('Y-m-d', strtotime($request->start_date)))->where('status', 0)->first();
+                if (!empty($check)) {
+                    return response()->json(["status" => 0, "message" => "Time Slots Has been selected "], 200);
+                }
+            }
         } else {
+            $league = League::where('id', $request->league_id)->whereDate('booking_deadline', '>=', date('Y-m-d'))->where('is_deleted', 2)->first();
+            $dome = @$league->dome_info;
             if ($request->league_id == "") {
                 return response()->json(["status" => 0, "message" => "Please Enter League ID"], 200);
             }
@@ -175,9 +172,9 @@ class PaymentController extends Controller
             $booking->sport_id = $sport_id;
             $booking->field_id = $field_id;
             $booking->booking_id = $booking_id;
-            $booking->customer_name = $user->name != "" ? $user->name : null;
+            $booking->customer_name = $user->name ?? '';
             $booking->customer_email = $user->email;
-            $booking->customer_mobile = $user->phone != "" ? $user->phone : null;
+            $booking->customer_mobile = $user->phone ?? '';
             $booking->team_name = $team_name;
             $booking->players = $request->players;
             if ($request->booking_type == 1) {

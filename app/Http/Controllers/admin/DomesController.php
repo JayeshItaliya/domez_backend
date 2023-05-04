@@ -25,10 +25,10 @@ class DomesController extends Controller
     public function index(Request $request)
     {
         if (auth()->user()->type == 1) {
-            $domes = Domes::with('dome_image','current_day_wh', 'dome_owner')->where('is_deleted', 2)->get();
+            $domes = Domes::with('dome_image', 'dome_owner')->where('is_deleted', 2)->get();
             $domes_count = 0;
         } else {
-            $domes = Domes::with('dome_image','current_day_wh')->where('vendor_id', auth()->user()->type == 2 ? auth()->user()->id : auth()->user()->vendor_id)->where('is_deleted', 2)->get();
+            $domes = Domes::with('dome_image')->where('vendor_id', auth()->user()->type == 2 ? auth()->user()->id : auth()->user()->vendor_id)->where('is_deleted', 2)->get();
             $domes_count = Domes::where('vendor_id', auth()->user()->type == 2 ? auth()->user()->id : auth()->user()->vendor_id)->count();
         }
         $sports = Sports::where('is_available', 1)->where('is_deleted', 2)->get();

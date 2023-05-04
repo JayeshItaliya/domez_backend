@@ -306,10 +306,8 @@ class AuthenticationController extends Controller
             $checkuser->countrycode = $request->countrycode;
             $checkuser->phone = $request->phone;
             if ($request->has('image')) {
-                if (Str::contains($checkuser->image, 'user')) {
-                    if ($checkuser->image != 'default.png' && file_exists('storage/app/public/admin/images/profiles/' . $checkuser->image)) {
-                        unlink('storage/app/public/admin/images/profiles/' . $checkuser->image);
-                    }
+                if ($checkuser->image != 'default.png' && file_exists('storage/app/public/admin/images/profiles/' . $checkuser->image)) {
+                    unlink('storage/app/public/admin/images/profiles/' . $checkuser->image);
                 }
                 $new_name = 'profiles-' . uniqId() . '.' . $request->image->getClientOriginalExtension();
                 $request->image->move(storage_path('app\public\admin\images\profiles'), $new_name);

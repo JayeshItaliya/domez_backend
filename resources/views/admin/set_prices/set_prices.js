@@ -219,30 +219,31 @@ $(function () {
             return false;
         }
         var html =
-        '<div class="row my-2 ' + dayname + '-row " id="remove' + counter +
-        '"><div class="col-md-4"><div class="form-group"><div class="input-group"><input type="text" class="form-control start time_picker border-end-0" name="start_time[' +
-        dayname + '][]" data-day-name="' + dayname + '" required placeholder="' + start_time_title +
+            '<div class="row my-2 ' + dayname + '-row " id="remove' + counter +
+            '"><div class="col-md-4"><div class="form-group"><div class="input-group"><input type="text" class="form-control start time_picker border-end-0" name="start_time[' +
+            dayname + '][]" data-day-name="' + dayname + '" required placeholder="' + start_time_title +
             '" /> <span class="input-group-text bg-transparent border-start-0"><i class="fa-regular fa-clock"></i> </span> </div></div></div><div class="col-md-4"><div class="form-group"><div class="input-group"><input type="text" class="form-control end time_picker border-end-0" name="end_time[' +
             dayname + '][]" data-day-name="' + dayname + '" required placeholder="' + end_time_title +
             '" /> <span class="input-group-text bg-transparent border-start-0"><i class="fa-regular fa-clock"></i> </span> </div></div></div><div class="col-md-3"><div class="form-group"><div class="input-group"><input type="number" value="" class="form-control border-end-0" name="price[' +
             dayname + '][]" required placeholder="' + price +
             '" /> <span class="input-group-text bg-transparent border-start-0"> <i class="fa-solid fa-dollar-sign"></i> </span> </div></div></div><div class="col-md-1"><div class="form-group"><button class="btn btn-sm btn-outline-danger" data-day-name="' + dayname + '" onclick="removeslot(' +
             counter + ',this)"><i class="fa fa-close"></i></button></div></div></div>'
-            $('.' + dayname + '.extra_fields').append(html);
-        });
+        $('.' + dayname + '.extra_fields').append(html);
     });
+});
 
 function disable_btn(dayname) {
-    $("button[data-day-name='" + dayname + "'].appendbtn").attr("disabled", false).removeClass("disabled");
-    $("body").find('.btn-reset-slots[data-day-name='+dayname+']').removeClass("d-none");
+    $("button[data-day-name='" + dayname + "'].appendbtn").attr("disabled", true);
+    $("body").find('.btn-reset-slots[data-days-name=' + dayname + ']').removeClass("d-none");
 }
+
 function reset_slots(el) {
     "use strict";
-    $('.extra_fields.' + $(el).attr('data-day-name')).html('');
-    var last_time = $('.' + $(el).attr('data-day-name') + '-row').find('.end.time_picker').val();
+    $('.' + $(el).attr('data-days-name') + '.extra_fields').html('');
+    var last_time = $('.' + $(el).attr('data-days-name') + '-row').find('.end.time_picker').val();
     start_time = last_time;
-    $('.' + $(el).attr('data-day-name') + '-row').find('input').val('');
-    $('.' + $(el).attr('data-day-name') + '-row').find('.appendbtn').attr('disabled', false);
+    $('.' + $(el).attr('data-days-name') + '-row').find('input').val('');
+    $('.' + $(el).attr('data-days-name') + '-row').find('.appendbtn').attr('disabled', false);
     $(el).addClass('d-none');
 }
 

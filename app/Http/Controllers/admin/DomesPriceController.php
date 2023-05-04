@@ -106,7 +106,8 @@ class DomesPriceController extends Controller
     {
         $getslotpricedata = SetPrices::findOrFail($request->id);
         $getdomeslist = Domes::where('vendor_id', auth()->user()->type == 2 ? auth()->user()->id : auth()->user()->vendor_id)->where('is_deleted', 2)->orderByDesc('id')->get();
-        $getslots = SetPricesDaysSlots::where('set_prices_id', $request->id)->select('day')->groupBy(DB::raw('day'))->orderBy('id')->get();
+        $getslots = SetPricesDaysSlots::where('set_prices_id', $request->id)->groupBy(DB::raw('day'))->orderBy('id')->get();
+        dd($getslots);
         $getdaysslots = [];
         foreach ($getslots as $key => $day) {
             $slots = SetPricesDaysSlots::select('id', 'start_time', 'end_time', 'price')->where('set_prices_id', $request->id)->where('day', $day->day)->orderBy('id')->get();
