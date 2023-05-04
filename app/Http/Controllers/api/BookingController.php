@@ -239,7 +239,6 @@ class BookingController extends Controller
             if ($request->sport_id == "") {
                 return response()->json(["status" => 0, "message" => 'Please Enter Sport ID'], 200);
             }
-            dd(Helper::get_dome_price($request->dome_id, $request->sport_id));
             $gettotlaslots = SetPricesDaysSlots::where('dome_id', $getdomedata->id)->where('sport_id', $request->sport_id)->whereDate('date', date('Y-m-d', strtotime($request->date)))->count();
             if ($gettotlaslots == 0) {
                 $start_time__ = $getdomedata['current_day_wh']->open_time;
