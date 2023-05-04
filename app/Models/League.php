@@ -34,4 +34,10 @@ class League extends Model
     {
         return $this->hasOne('App\Models\Sports', 'id', 'sport_id')->select('id', 'name');
     }
+    public function fields_name()
+    {
+        $fieldIds = explode(',', $this->field_id);
+        $field_names = Field::whereIn('id', $fieldIds)->get()->pluck('name')->toArray();
+        return implode(', ', $field_names);
+    }
 }

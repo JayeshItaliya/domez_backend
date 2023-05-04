@@ -63,7 +63,7 @@
                     <div class="px-3 py-2 d-flex">
                         <div class="col-md-4"> <label>{{ trans('labels.field_name') }}</label> </div>
                         <div class="col-md-8">
-                            <span class="text-muted fs-7 mx-3">{{ $bookingdata->field_id }}</span>
+                            <span class="text-muted fs-7 mx-3">{{ $bookingdata->fields_name() }}</span>
                         </div>
                     </div>
                 </div>
@@ -241,11 +241,11 @@
             </div>
         @endif
     </div>
-    <div class="modal fade" id="slotsmodal" tabindex="-1" aria-labelledby="slotsmodalLabel" aria-hidden="true">
+    <div class="modal fade" id="slotsmodal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="slotsmodalLabel" aria-hidden="true">
         <div class="modal-lg modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="slotsmodalLabel">Slots</h5>
+                    <h5 class="modal-title" id="slotsmodalLabel">{{ trans('labels.slots') }}</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -276,7 +276,6 @@
                                         $labelcolor = 'bg-dark text-white';
                                     }
                                 @endphp
-                                @dump($slot->status)
                                 <input class="form-check-input d-none main-slots" type="radio" name="flexRadioDefault"
                                     id="check{{ $key }}" {{ $inputattr }}
                                     data-booking-id="{{ $bookingdata->booking_id }}" data-slot-id="{{ $slot->id }}"
@@ -293,10 +292,6 @@
                         @endforeach
                     </div>
                     <div class="lists"></div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-outline-danger"
-                        data-bs-dismiss="modal">{{ trans('labels.cancel') }}</button>
                 </div>
             </div>
         </div>

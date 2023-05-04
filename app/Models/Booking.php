@@ -59,10 +59,16 @@ class Booking extends Model
     }
     public function dome_info()
     {
-        return $this->hasOne('App\Models\Domes', 'id', 'dome_id')->select('id', 'name', 'sport_id', 'address', 'state', 'city');
+        return $this->hasOne('App\Models\Domes', 'id', 'dome_id')->select('id', 'name', 'sport_id', 'address', 'state', 'city', 'hst');
     }
     public function transactions()
     {
         return $this->hasMany('App\Models\Transaction', 'booking_id', 'booking_id')->select('transaction_id', 'amount');
+    }
+    public function fields_name()
+    {
+        $fieldIds = explode(',', $this->field_id);
+        $field_names = Field::whereIn('id', $fieldIds)->get()->pluck('name')->toArray();
+        return implode(', ', $field_names);
     }
 }

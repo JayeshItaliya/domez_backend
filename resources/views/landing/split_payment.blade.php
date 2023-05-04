@@ -419,8 +419,10 @@
                 },
             });
         }
-        $('#receipt_name').val('James Loice');
-        $('#receipt_email').val('james@yopmail.com');
+        if ({{ Js::from(config('app.env')) }} == 'local') {
+            $('#receipt_name').val('James Loice');
+            $('#receipt_email').val('james@yopmail.com');
+        }
         $('#btnamount').on('click', function() {
             if ($.trim($('#receipt_name').val()) == "") {
                 $('#receipt_name').addClass('is-invalid');

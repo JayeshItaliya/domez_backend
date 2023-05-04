@@ -173,8 +173,7 @@ class LeagueController extends Controller
     public function leaguedetails(Request $request)
     {
         $getleaguedata = League::find($request->id);
-        $fields = Field::whereIn('id', explode(',', $getleaguedata->field_id))->where('is_available', 1)->where('is_deleted', 2)->get();
-        return view('admin.leagues.view', compact('getleaguedata', 'fields'));
+        return view('admin.leagues.view', compact('getleaguedata'));
     }
     public function delete(Request $request)
     {
