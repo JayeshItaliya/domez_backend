@@ -72,7 +72,6 @@ class BookingController extends Controller
     }
     public function details(Request $request)
     {
-        // dd(Booking::with('field_info'));
         $bookingdata = Booking::where('booking_id', $request->booking_id)->first();
         abort_if(empty($bookingdata), 404);
         if ($request->ajax()) {
