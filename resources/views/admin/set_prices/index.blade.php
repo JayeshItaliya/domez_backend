@@ -39,13 +39,12 @@
                             <td>{{ $setprice['sport_info']->name }}</td>
                             <td>{{ $setprice->start_date != '' ? Helper::date_format($setprice->start_date) : '-' }} </td>
                             <td>{{ $setprice->end_date != '' ? Helper::date_format($setprice->end_date) : '-' }} </td>
-
                             <td>
                                 @if ($setprice->price_type == 2)
-                                    <a class="cursor-pointer me-2" href="{{ URL::to('admin/set-prices/edit-' . $setprice->id) }}"> {!! Helper::get_svg(1) !!} </a>
-                                    <a class="cursor-pointer me-2"
+                                    <a class="cursor-pointer me-2" href="{{ URL::to('admin/set-prices/show-' . $setprice->id) }}"> {!! Helper::get_svg(1) !!} </a>
+                                    {{-- <a class="cursor-pointer me-2"
                                         onclick="deletedata('{{ $setprice->id }}','{{ URL::to('admin/set-prices/delete') }}')">
-                                        {!! Helper::get_svg(3) !!} </a>
+                                        {!! Helper::get_svg(3) !!} </a> --}}
                                 @else
                                     --
                                 @endif
