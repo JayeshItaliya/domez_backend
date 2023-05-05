@@ -94,7 +94,7 @@ class DomesPriceController extends Controller
                 // }
                 $sports = $sports->where('is_available', 1)->where('is_deleted', 2)->orderByDesc('id')->get();
                 $dome = $getdomedata['working_hours'];
-                $slotdayshtml = view('admin.set_prices.slot_days',compact('dome'))->render();
+                $slotdayshtml = view('admin.set_prices.slot_days', compact('dome'))->render();
                 return response()->json(['status' => 1, 'message' => trans('messages.success'), 'sportsdata' => $sports, 'slotdayshtml' => $slotdayshtml], 200);
             }
             return response()->json(['status' => 0, 'message' => trans('messages.invalid_dome')], 200);
@@ -106,8 +106,7 @@ class DomesPriceController extends Controller
     {
         $getslotpricedata = SetPrices::findOrFail($request->id);
         $getdomeslist = Domes::where('vendor_id', auth()->user()->type == 2 ? auth()->user()->id : auth()->user()->vendor_id)->where('is_deleted', 2)->orderByDesc('id')->get();
-        $getslots = SetPricesDaysSlots::where('set_prices_id', $request->id)->groupBy(DB::raw('day'))->orderBy('id')->get();
-        dd($getslots);
+        $getslots = SetPricesDaysSlots::where('set_prices_id', $request->id)->select('day')->groupBy(DB::raw('day'))->orderBy('id')->get();
         $getdaysslots = [];
         foreach ($getslots as $key => $day) {
             $slots = SetPricesDaysSlots::select('id', 'start_time', 'end_time', 'price')->where('set_prices_id', $request->id)->where('day', $day->day)->orderBy('id')->get();
@@ -116,7 +115,8 @@ class DomesPriceController extends Controller
                 'slots' => $slots,
             ];
         }
-        return view('admin.set_prices.edit', compact('getslotpricedata', 'getdaysslots', 'getdomeslist'));
+        $getdata = SetPricesDaysSlots::where('set_prices_id', $request->id)->groupBy('date')->get();
+        return view('admin.set_prices.edit', compact('getslotpricedata', 'getdaysslots', 'getdomeslist', 'getdata'));
     }
     public function validate_start_end_time(Request $request)
     {

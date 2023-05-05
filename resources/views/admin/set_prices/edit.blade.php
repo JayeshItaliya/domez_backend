@@ -22,6 +22,27 @@
         <form id="storesetprices" action="{{ URL::to('admin/set-prices/store') }}" method="post">
             @csrf
             <div class="card-body">
+
+                <div class="row">
+                    @foreach ($getdata as $data)
+                        <div class="col-md-4">
+                            <h2>{{ Helper::date_format($data->date) }}</h2>
+                            <h4>{{ date('l', strtotime($data->date)) }}</h4>
+                            @php
+                                // $getslots = App\Models\SetPricesDaysSlots::where('set_prices_id', $data->id)->where('dome_id', $data->dome_id)->where('sport_id', $data->sport_id)->whereDate('date', strtotime($data->date))->get();
+                                $getslots = App\Models\SetPricesDaysSlots::where('dome_id', $data->dome_id)
+                                    ->where('sport_id', $data->sport_id)
+                                    ->whereDate('date', date('Y-m-d', strtotime($data->date)))
+                                    ->get();
+                            @endphp
+                            @foreach ($getslots as $slot)
+                                <p> {{ date('h:i A', strtotime($slot->start_time)) . ' - ' . date('h:i A', strtotime($slot->end_time)) }}
+                                </p>
+                            @endforeach
+                        </div>
+                    @endforeach
+                </div>
+
                 <div class="row">
                     <div class="col-md-12 mt-4">
                         <div class="row">
