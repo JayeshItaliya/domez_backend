@@ -399,7 +399,7 @@ class DomesController extends Controller
             });
             return redirect()->back()->with('success', trans('messages.success'));
         } catch (\Throwable $th) {
-            return redirect()->back()->with('error', trans('messages.error'));
+            return redirect()->back()->with('error', trans('messages.wrong'));
         }
     }
 }
