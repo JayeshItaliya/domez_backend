@@ -42,7 +42,7 @@
 
                             <td>
                                 @if ($setprice->price_type == 2)
-                                    <a class="cursor-pointer me-2" href="{{ URL::to('admin/set-prices/edit-' . $setprice->id) }}"> {!! Helper::get_svg(2) !!} </a>
+                                    <a class="cursor-pointer me-2" href="{{ URL::to('admin/set-prices/edit-' . $setprice->id) }}"> {!! Helper::get_svg(1) !!} </a>
                                     <a class="cursor-pointer me-2"
                                         onclick="deletedata('{{ $setprice->id }}','{{ URL::to('admin/set-prices/delete') }}')">
                                         {!! Helper::get_svg(3) !!} </a>
