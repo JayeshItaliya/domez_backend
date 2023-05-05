@@ -173,9 +173,6 @@ $(function () {
         dropdown: true,
         scrollbar: true,
         timeFormat: 'HH:mm',
-        startTime: start_time,
-        minTime: min_time,
-        maxTime: max_time,
         change: function (time) {
             var element = $(this);
             var timepicker = element.timepicker();
@@ -189,7 +186,6 @@ $(function () {
                 timeFormat: 'HH:mm',
                 startTime: timepicker.format(time),
                 minTime: timepicker.format(time),
-                maxTime: max_time,
             });
         }
     });
@@ -201,8 +197,6 @@ $(function () {
             scrollbar: true,
             timeFormat: 'HH:mm',
             startTime: start_time,
-            minTime: min_time,
-            maxTime: max_time,
         });
     }
     if (is_vendor || is_employee || is_provider) {

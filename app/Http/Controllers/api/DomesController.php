@@ -142,7 +142,7 @@ class DomesController extends Controller
                             "booking_type" => 0,
                             "booking_payment_type" => 0,
                             "booking_date" => "",
-                            "total_fields" => Field::where('dome_id', $dome->id)->where('is_deleted', 2)->count(),
+                            "total_fields" => Field::where('dome_id', $dome->id)->where('is_available', 1)->where('is_deleted', 2)->count(),
                             "sports_list" => Helper::get_sports_list($dome->sport_id),
                         ];
                     }
@@ -191,15 +191,15 @@ class DomesController extends Controller
         if (!empty($dome)) {
             $dome_data = array(
                 'id' => $dome->id,
-                'total_fields' => Field::where('dome_id', $id)->whereIn('sport_id', explode(',', $dome->sports_id))->where('is_available', 1)->where('is_deleted', 2)->count(),
+                'total_fields' => Field::where('dome_id', $id)->where('is_available', 1)->where('is_deleted', 2)->count(),
                 'name' => $dome->name,
                 'price' => Helper::get_dome_price($dome->id, explode(',', $dome->sport_id)[0]),
                 'hst' => $dome->hst,
                 'address' => $dome->address,
                 'city' => $dome->city,
                 'state' => $dome->state,
-                'start_time' => $dome->day_working_hours('')->start_time,
-                'end_time' => $dome->day_working_hours('')->end_time,
+                'start_time' => $dome->day_working_hours('')->open_time,
+                'end_time' => $dome->day_working_hours('')->close_time,
                 'description' => $dome->description,
                 'lat' => $dome->lat,
                 'lng' => $dome->lng,
