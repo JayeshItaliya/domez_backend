@@ -231,8 +231,8 @@ if (document.getElementById('textLat') && $('#textLat').val() != "") {
     var lat = parseFloat($('#textLat').val());
     var lng = parseFloat($('#textLng').val());
 } else {
-    var lat = -33.8688197;
-    var lng = 151.2092955;
+    var lat = 43.651070;
+    var lng = -79.347015;
 }
 
 function initMap() {
