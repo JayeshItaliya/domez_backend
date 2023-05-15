@@ -343,9 +343,9 @@ class AuthenticationController extends Controller
             $userdata = $this->getuserprofileobject($checkuser->id);
             return response()->json(["status" => 1, "message" => "Succesfully Login", 'userdata' => $userdata], 200);
         }
-        if ($request->fcm_token == "") {
-            return response()->json(["status" => 0, "message" => "Please Enter FCM Token"], 200);
-        }
+        // if ($request->fcm_token == "") {
+        //     return response()->json(["status" => 0, "message" => "Please Enter FCM Token"], 200);
+        // }
         $user = new User();
         $user->type = 3;
         $user->login_type = 3;
