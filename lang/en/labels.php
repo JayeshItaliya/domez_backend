@@ -137,7 +137,7 @@ return [
     'dome_location' => 'Dome Location',
     'select_sports' => 'Select Sports',
     'select_sport' => 'Select Sport',
-    'optional' => '(Optinal)',
+    'optional' => '(Optional)',
     'amenities' => 'Amenities',
     'amenities_description' => 'Amenities Description',
     'free_wifi' => 'Free Wifi',

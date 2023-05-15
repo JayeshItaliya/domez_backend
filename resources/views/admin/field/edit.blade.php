@@ -51,8 +51,8 @@
                 </div>
                 <div class="mb-4 col-sm-4">
                     <label class="form-label" for="field_name">{{ trans('labels.field_name') }}</label>
-                    <input type="number" id="field_name" name="field_name" value="{{ $field->name }}"
-                        class="form-control" placeholder="{{ trans('labels.field_name') }}">
+                    <input type="text" id="field_name" name="field_name" value="{{ $field->name }}"
+                        class="form-control" placeholder="{{ trans('labels.field_name') }}" max-character-err="{{ trans('messages.max_char_field_name') }}">
                     @error('field_name')
                         <span class="text-danger">{{ $message }}</span>
                     @enderror

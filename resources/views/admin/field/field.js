@@ -1,11 +1,22 @@
-if (is_vendor) {
-    $(document).ready(function () {
-        let html =
-            '<a href="' + window.location.href.replace(window.location.search, '') +
-            '/add" class="btn-custom-primary">' + plus_svg_icon + '</a>';
-        $('.fixed-table-toolbar .btn-group').append(html);
-    })
-}
+$(function () {
+    if (is_vendor) {
+        $('.fixed-table-toolbar .btn-group').append('<a href="' + window.location.href.replace(window.location.search, '') + '/add" class="btn-custom-primary">' + plus_svg_icon + '</a>');
+    }
+    $('#field_name').on('input', function () {
+        var inputValue = $(this).val();
+        var inputValue = inputValue.replace(/[^a-zA-Z0-9]/g, '');
+        if (inputValue.length > 30) {
+            $(this).addClass('is-invalid');
+            inputValue = inputValue.substring(0, 30);
+            $('.field_error').html($(this).attr('max-character-err'));
+        } else {
+            $(this).removeClass('is-invalid');
+            $('.field_error').html('');
+        }
+        $(this).val(inputValue);
+    });
+});
+
 function fieldinactive(id, type, url) {
     "use strict";
     swalWithBootstrapButtons
@@ -63,7 +74,6 @@ function fieldinactive(id, type, url) {
         })
 
 }
-
 $('#dome').on('change', function () {
     "use strict";
     if ($.trim($(this).val()) == '') {
@@ -102,10 +112,6 @@ $('#dome').on('change', function () {
         }
     });
 }).change();
-
-
-
-
 $('#min_person').on('change', function () {
     var min_person = parseInt($(this).val());
     $('#max_person option:not(:first)').remove();
