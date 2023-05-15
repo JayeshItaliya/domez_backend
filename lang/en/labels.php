@@ -270,7 +270,6 @@ return [
     'provider' => 'Provider',
     'verified' => 'Verified',
     'declined' => 'Declined',
-    // ---
     'enter_verification_code' => 'Enter Verification Code',
     'send_you_code_on' => 'We’ve send you code on',
     'check_spam_folder' => 'Did not receive the email? check your spam folder',
