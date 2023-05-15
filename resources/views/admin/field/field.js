@@ -124,7 +124,7 @@ $('#min_person').on('change', function () {
         return false;
     }
     min_person += 1;
-    for (var i = min_person; i <= 30; i++) {
+    for (var i = min_person; i <= 100; i++) {
         let selected = $.trim($('#max_person').attr('data-max-persons')) == i ? 'selected' : '';
         $('#max_person').append('<option value="' + i + '"  ' + selected + ' >' + i + '</option>');
     }

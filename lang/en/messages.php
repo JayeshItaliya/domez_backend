@@ -18,7 +18,7 @@ return [
     "new_password_diffrent" => "New password must be different to old password",
     'password_required' => 'Please Passsword',
     'password_min_length' => 'Password must be at least 8 characters in length',
-    'confirm_password_same' => '',
+    'confirm_password_same' => 'New Password and Confirm Password must be same',
     'account_deleted' => 'Account has been deleted',
     'account_inactive' => 'Account has been inactive',
     'email_sent' => 'Email has been Sent Successfully',
