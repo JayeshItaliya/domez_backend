@@ -63,7 +63,7 @@
                             <select class="form-select" name="min_person" id="min_person">
                                 <option value="" class="text-capitalize" disabled selected>
                                     {{ trans('labels.min_player') }}</option>
-                                @for ($i = 1; $i < 100; $i++)
+                                @for ($i = 1; $i < 30; $i++)
                                     <option value="{{ $i }}" {{ old('min_person' == $i ?? 'selected') }} class="text-capitalize">{{ $i }}</option>
                                 @endfor
                             </select>
