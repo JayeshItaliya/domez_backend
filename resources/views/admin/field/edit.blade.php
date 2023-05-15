@@ -77,7 +77,7 @@
                             <select class="form-select" name="max_person" id="max_person">
                                 <option value="" class="text-capitalize" disabled>{{ trans('labels.max_player') }}
                                 </option>
-                                @for ($i = 1; $i < 100; $i++)
+                                @for ($i = 1; $i < 30; $i++)
                                     <option value="{{ $i }}" class="text-capitalize"
                                         {{ $field->max_person == $i ? 'selected' : '' }}>{{ $i }}</option>
                                 @endfor
