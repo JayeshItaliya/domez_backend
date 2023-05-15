@@ -73,4 +73,5 @@ return [
     'hst_required' => "HST Required",
     'unavailable_slot' => "Slot is Anavailable",
     'max_char_field_name' => "Maximum characters exceeded for field name",
+    'field_area_required' => 'Please Enter Field Area',
 ];
