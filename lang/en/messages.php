@@ -74,6 +74,6 @@ return [
     'max_char_field_name' => "Maximum characters exceeded for field name",
     'field_area_required' => 'Please Enter Field Area',
 
-    'warning_part_one' => 'Kindly add at least One field to Dome : ',
-    'warning_part_two' => 'for Sport : ',
+    'warning_part_one' => ' Field is missing in ',
+    'warning_part_two' => ', Please add at least one field.',
 ];

@@ -69,9 +69,11 @@ return [
     'already_cancelled' => "La réservation a déjà été annulée",
     'invalid_employee' => "Employé invalide",
     'invalid_provider' => "Fournisseur invalide",
-    // -----
     'hst_required' => "HST requis",
     'unavailable_slot' => "Créneau non disponible",
     'max_char_field_name' => "Nombre maximal de caractères dépassé pour le nom du champ",
     'field_area_required' => 'Veuillez entrer la superficie du champ',
+    
+    'warning_part_one' => ' Champ manquant dans ',
+    'warning_part_two' => ', Veuillez ajouter au moins un champ.',
 ];
