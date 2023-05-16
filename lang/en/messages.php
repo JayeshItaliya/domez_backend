@@ -73,4 +73,7 @@ return [
     'unavailable_slot' => "Slot is Anavailable",
     'max_char_field_name' => "Maximum characters exceeded for field name",
     'field_area_required' => 'Please Enter Field Area',
+
+    'warning_part_one' => 'Kindly add at least One field to Dome : ',
+    'warning_part_two' => 'for Sport : ',
 ];

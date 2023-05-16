@@ -78,9 +78,17 @@
                     @include('admin.layout.sidebar')
                 @endif
                 <div class="content-wrapper me-3">
-                    {{-- <div class="alert alert-warning" role="alert">
-                        A simple warning alert—check it out!
-                    </div> --}}
+                    @if (auth()->user()->type == 2)
+                        @php
+                            $has_fields = Helper::dome_has_fields(auth()->user()->id);
+                        @endphp
+                        @if ($has_fields['status'] == 1)
+                            <div class="alert alert-danger" role="alert">
+                                <i class="fa-regular fa-triangle-exclamation fa-fade me-2"></i>
+                                {{ trans('messages.warning_part_one') }}<b>{{ $has_fields['dome_name'] }}</b>{{ trans('messages.warning_part_two') }}<b>{{ $check['sport_name'] }}</b>
+                            </div>
+                        @endif
+                    @endif
                     @yield('contents')
                 </div>
             </div>
