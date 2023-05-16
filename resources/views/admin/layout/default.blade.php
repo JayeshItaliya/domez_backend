@@ -85,7 +85,8 @@
                         @if ($has_fields['status'] == 1)
                             <div class="alert alert-danger" role="alert">
                                 <i class="fa-regular fa-triangle-exclamation fa-fade me-2"></i>
-                                {{ trans('messages.warning_part_one') }}<b>{{ $has_fields['dome_name'] }}</b>{{ trans('messages.warning_part_two') }}<b>{{ $check['sport_name'] }}</b>
+                                <b>{{ $has_fields['sport_name'] }}</b> Field is missing in <b>{{ $has_fields['dome_name'] }}</b>, Please add at least one field.
+                                {{-- {{ trans('messages.warning_part_one') }}<b>{{ $has_fields['dome_name'] }}</b>{{ trans('messages.warning_part_two') }}<b>{{ $has_fields['sport_name'] }}</b> --}}
                             </div>
                         @endif
                     @endif

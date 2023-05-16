@@ -271,7 +271,7 @@ class Helper
     public static function dome_has_fields($id)
     {
         $dome_owner = User::where('id', $id)->first();
-        $domes = Domes::where('vendor_id', $dome_owner->id)->get();
+        $domes = Domes::where('vendor_id', $dome_owner->id)->where('is_deleted', 2)->get();
         foreach ($domes as $dome) {
             $check_fields = Field::where('dome_id', $dome->id)->get();
             if (count($check_fields) == 0) {
