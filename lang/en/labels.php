@@ -1,6 +1,7 @@
 <?php
 return [
     'website_title' => 'Domez',
+    'theme_customize' => 'Theme Customizer',
     'hi' => 'Hi',
     'welcome_back' => 'Welcome Back',
     'email_address' => 'Email Address',
