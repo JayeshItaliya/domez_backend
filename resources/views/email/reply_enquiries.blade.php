@@ -78,12 +78,12 @@
                 </a>
             </div>
             <div class="message">
-                <p>Dear {{ $name }},</p>
-                <p>Thank you for your inquiry. We appreciate your interest in our platform.</p>
+                {{-- <p>Dear {{ $name }},</p>
+                <p>Thank you for your inquiry. We appreciate your interest in our platform.</p> --}}
                 <p>{{ $reply }}</p>
-                <p>If you have any further questions or concerns, please do not hesitate to contact us.</p>
+                {{-- <p>If you have any further questions or concerns, please do not hesitate to contact us.</p>
                 <p>Regards,</p>
-                <p>Domez Team</p>
+                <p>Domez Team</p> --}}
             </div>
         </div>
     </body>
