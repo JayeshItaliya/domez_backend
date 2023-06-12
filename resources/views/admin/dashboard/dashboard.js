@@ -121,7 +121,7 @@ function makeincomefilter(dates) {
         success: function (response) {
             hidepreloader();
             $('.total-income').html(response.total_income_data_sum);
-            create_income_chart(response.income_labels, response.income_data)
+            create_income_chart(response.revenue_labels, response.revenue_data)
         },
         error: function (e) {
             hidepreloader();

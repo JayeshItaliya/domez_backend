@@ -46,7 +46,7 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <h1 class="text-white mb-2 total-income">
-                                        {{ Helper::currency_format($total_income_data_sum) }}</h1>
+                                        {{ Helper::currency_format($total_revenue_data_sum) }}</h1>
                                     <p class="text-white text-opacity-75">{{ trans('labels.total_income') }}</p>
                                 </div>
                                 <div class="col-md-6" style="z-index: 9;">

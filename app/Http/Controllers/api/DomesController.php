@@ -62,7 +62,7 @@ class DomesController extends Controller
                     if (count($popular_domes) > 0) {
                         foreach ($popular_domes as $pdome) {
                             $dome = Domes::where('id', $pdome->dome_id)->where('is_deleted', 2)->whereRaw("find_in_set('" . $request->sport_id . "',sport_id)")->first();
-                            $total_fields = Field::where('dome_id', $dome->id)->where('is_deleted', 2)->count();
+                            $total_fields = Field::where('dome_id', @$dome->id)->where('is_deleted', 2)->count();
                             if (!empty($dome) && $total_fields > 0) {
                                 $domes_list[] = [
                                     "id" => $dome->id,

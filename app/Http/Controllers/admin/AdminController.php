@@ -202,8 +202,8 @@ class AdminController extends Controller
         $bookings_overview_data = collect($bokingsoverviewchartdata)->pluck('data');
         $bookings_data_colors = collect($bokingsoverviewchartdata)->pluck('colors');
 
-        $income_labels = $total_income_data->keys();
-        $income_data = $total_income_data->values();
+        $income_labels = $total_revenue_data->values();
+        $income_data = $total_revenue_data->keys();
         $booking_labels =  @$otherformatforbookingsmallchart == 1 ? collect($total_bookings_data)->pluck('titles') : $total_bookings_data->keys();
         $booking_data =  @$otherformatforbookingsmallchart == 1 ? collect($total_bookings_data)->pluck('bookings') : $total_bookings_data->values();
         $revenue_labels = $total_revenue_data->values();
@@ -213,7 +213,7 @@ class AdminController extends Controller
         $dome_owners_labels = @$otherformatfordomez == 1 ? collect($total_dome_owners_data)->pluck('titles') : $total_dome_owners_data->values();
         $dome_owners_data = @$otherformatfordomez == 1 ? collect($total_dome_owners_data)->pluck('users') : $total_dome_owners_data->keys();
         if ($request->ajax()) {
-            return response()->json(['total_income_data_sum' => Helper::currency_format($total_income_data_sum), 'income_labels' => $income_labels, 'income_data' => $income_data, 'total_bookings_count' => $total_bookings_count, 'booking_labels' => $booking_labels, 'booking_data' => $booking_data, 'total_revenue_data_sum' => Helper::currency_format($total_revenue_data_sum), 'revenue_labels' => $revenue_labels, 'revenue_data' => $revenue_data, 'total_users_data_sum' => $total_users_data_sum, 'users_labels' => $users_labels, 'users_data' => $users_data, 'total_dome_owners_data_sum' => $total_dome_owners_data_sum, 'dome_owners_labels' => $dome_owners_labels, 'dome_owners_data' => $dome_owners_data, 'total_bookings_overview' => $total_bookings_overview, 'bookings_overview_labels' => $bookings_overview_labels, 'bookings_overview_data' => $bookings_overview_data, 'bookings_data_colors' => $bookings_data_colors]);
+            return response()->json(['total_income_data_sum' => Helper::currency_format($total_revenue_data_sum), 'income_labels' => $income_labels, 'income_data' => $income_data, 'total_bookings_count' => $total_bookings_count, 'booking_labels' => $booking_labels, 'booking_data' => $booking_data, 'total_revenue_data_sum' => Helper::currency_format($total_revenue_data_sum), 'revenue_labels' => $revenue_labels, 'revenue_data' => $revenue_data, 'total_users_data_sum' => $total_users_data_sum, 'users_labels' => $users_labels, 'users_data' => $users_data, 'total_dome_owners_data_sum' => $total_dome_owners_data_sum, 'dome_owners_labels' => $dome_owners_labels, 'dome_owners_data' => $dome_owners_data, 'total_bookings_overview' => $total_bookings_overview, 'bookings_overview_labels' => $bookings_overview_labels, 'bookings_overview_data' => $bookings_overview_data, 'bookings_data_colors' => $bookings_data_colors]);
         } else {
             return view('admin.dashboard.index', compact('getbookingslist', 'total_income_data_sum', 'income_labels', 'income_data', 'total_bookings_count', 'booking_labels', 'booking_data', 'total_revenue_data_sum', 'revenue_labels', 'revenue_data', 'total_users_data_sum', 'users_labels', 'users_data', 'total_dome_owners_data_sum', 'dome_owners_labels', 'dome_owners_data', 'total_bookings_overview', 'bookings_overview_labels', 'bookings_overview_data', 'bookings_data_colors'));
         }
