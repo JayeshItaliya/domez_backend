@@ -313,7 +313,7 @@
                         <div class="form-group">
                             <label class="form-label" for="description">{{ trans('labels.dome_description') }}</label>
                             <textarea class="form-control" name="description" id="description" rows="5"
-                                placeholder="{{ trans('labels.dome_description') }}" maxlength="100">{{ $dome->description }}</textarea>
+                                placeholder="{{ trans('labels.dome_description') }}" maxlength="300">{{ $dome->description }}</textarea>
                             @error(' description')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
