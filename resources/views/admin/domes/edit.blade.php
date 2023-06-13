@@ -43,7 +43,7 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label class="form-label" for="dome_name">{{ trans('labels.dome_name') }}</label>
-                                <input type="text" id="dome_name" name="dome_name" value="{{ $dome->name }}"
+                                <input type="text" id="dome_name" name="dome_name" value="{{ !empty(old('dome_name')) ? old('dome_name') : $dome->name }}"
                                     class="form-control" placeholder="Please Enter Dome Name">
                                 @error('dome_name')
                                     <span class="text-danger">{{ $message }}</span>
@@ -55,7 +55,7 @@
                                 <label class="form-label" for="dome_hst">{{ trans('labels.hst') }}</label>
                                 <div class="input-group">
                                     <input type="number" id="dome_hst" name="dome_hst" class="form-control"
-                                        placeholder="{{ trans('labels.hst') }}" value="{{ $dome->hst }}">
+                                        placeholder="{{ trans('labels.hst') }}" value="{{ !empty(old('dome_hst')) ? old('dome_hst') : $dome->hst }}">
                                     <span class="input-group-text">%</span>
                                 </div>
                             </div>

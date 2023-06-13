@@ -52,6 +52,8 @@ class DomesController extends Controller
             'dome_price' => 'required',
             'description' => 'required',
             'address' => 'required',
+            'benefits' => 'array',
+            'benefits.*' => 'in:Free Wifi,Changing Room,Parking,Pool,Others',
         ], [
             'sport_id.required' => trans('messages.select_sport'),
             'dome_name.required' => trans('messages.name_required'),
