@@ -88,13 +88,13 @@
                                 <div class="d-flex gap-3">
                                     <div class="form-check mb-0">
                                         <input class="form-check-input" type="radio" name="slot_duration" value="1"
-                                            {{ $dome->slot_duration == 1 ? 'checked' : '' }} id="slot_duration1">
+                                            {{ $dome->slot_duration == 1 ? 'checked' : ( !empty(old('slot_duration')) && old('slot_duration') == 1 ? 'checked' : '' ) }} id="slot_duration1">
                                         <label class="form-check-label" for="slot_duration1">
                                             {{ trans('labels.60_minutes') }} </label>
                                     </div>
                                     <div class="form-check mb-0">
                                         <input class="form-check-input" type="radio" name="slot_duration" value="2"
-                                            {{ $dome->slot_duration == 2 ? 'checked' : '' }} id="slot_duration2">
+                                            {{ $dome->slot_duration == 2 ? 'checked' : ( !empty(old('slot_duration')) && old('slot_duration') == 2 ? 'checked' : '' ) }} id="slot_duration2">
                                         <label class="form-check-label" for="slot_duration2">
                                             {{ trans('labels.90_minutes') }} </label>
                                     </div>
@@ -118,7 +118,7 @@
                                         <div class="form-check mb-0">
                                             <input type="checkbox" id="free_wifi" name="benefits[]" value="Free Wifi"
                                                 class="form-check-input"
-                                                {{ in_array('Free Wifi', $benefit) ? 'checked' : '' }}>
+                                                {{ in_array('Free Wifi', $benefit) ? 'checked' : ( !empty(old('benefits')) && in_array('Free Wifi', old('benefits')) ? 'checked' : '' ) }}>
                                             <label class="form-check-label"
                                                 for="free_wifi">{{ trans('labels.free_wifi') }}</label>
                                         </div>
@@ -127,7 +127,7 @@
                                         <div class="form-check mb-0">
                                             <input type="checkbox" id="changing_room" name="benefits[]"
                                                 value="Changing Room" class="form-check-input"
-                                                {{ in_array('Changing Room', $benefit) ? 'checked' : '' }}>
+                                                {{ in_array('Changing Room', $benefit) ? 'checked' : ( !empty(old('benefits')) && in_array('Changing Room', old('benefits')) ? 'checked' : '' ) }}>
                                             <label class="form-check-label"
                                                 for="changing_room">{{ trans('labels.changing_room') }}</label>
                                         </div>
@@ -136,7 +136,7 @@
                                         <div class="form-check mb-0">
                                             <input type="checkbox" id="parking" name="benefits[]" value="Parking"
                                                 class="form-check-input"
-                                                {{ in_array('Parking', $benefit) ? 'checked' : '' }}>
+                                                {{ in_array('Parking', $benefit) ? 'checked' : ( !empty(old('benefits')) && in_array('Parking', old('benefits')) ? 'checked' : '' ) }}>
                                             <label class="form-check-label"
                                                 for="parking">{{ trans('labels.parking') }}</label>
                                         </div>
@@ -145,7 +145,7 @@
                                         <div class="form-check mb-0">
                                             <input type="checkbox" id="pool" name="benefits[]" value="Pool"
                                                 class="form-check-input"
-                                                {{ in_array('Pool', $benefit) ? 'checked' : '' }}>
+                                                {{ in_array('Pool', $benefit) ? 'checked' : ( !empty(old('benefits')) && in_array('Pool', old('benefits')) ? 'checked' : '' ) }}>
                                             <label class="form-check-label"
                                                 for="pool">{{ trans('labels.pool') }}</label>
                                         </div>
@@ -154,7 +154,7 @@
                                         <div class="form-check mb-0">
                                             <input type="checkbox" id="others" name="benefits[]" value="Others"
                                                 class="form-check-input"
-                                                {{ in_array('Pool', $benefit) ? 'checked' : '' }}>
+                                                {{ in_array('Others', $benefit) ? 'checked' : ( !empty(old('benefits')) && in_array('Others', old('benefits')) ? 'checked' : '' ) }}>
                                             <label class="form-check-label"
                                                 for="others">{{ trans('labels.others') }}</label>
                                         </div>
