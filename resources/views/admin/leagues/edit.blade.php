@@ -52,9 +52,8 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label class="form-label" for="field">{{ trans('labels.select_field') }}</label>
-                                <select class="form-select" required name="field[]" id="field"
-                                    data-placeholder="{{ trans('labels.select') }}" multiple>
-                                </select>
+                                <select class="form-select" name="field[]" id="field"
+                                    data-placeholder="{{ trans('labels.select') }}" multiple required></select>
                                 @error('field')
                                     <span class="text-danger"> {{ $message }} </span>
                                 @enderror
@@ -67,8 +66,8 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="name" class="form-label">{{ trans('labels.league_name') }}</label>
-                                <input type="text" required class="form-control" id="name" name="name"
-                                    value="{{ $getleaguedata->name }}" placeholder="{{ trans('labels.league_name') }}">
+                                <input type="text" class="form-control" id="name" name="name"
+                                    value="{{ !empty(old('name')) ? old('name') : $getleaguedata->name }}" placeholder="{{ trans('labels.league_name') }}" required>
                                 @error('name')
                                     <span class="text-danger"> {{ $message }} </span>
                                 @enderror
@@ -164,7 +163,8 @@
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label class="form-label" for="to_age"></label>
-                                <select class="form-select" required id="to_age" name="to_age" data-to-age="{{ $getleaguedata->to_age }}">
+                                <select class="form-select" required id="to_age" name="to_age"
+                                    data-to-age="{{ $getleaguedata->to_age }}">
                                     <option value="" disabled selected>{{ trans('labels.to') }}</option>
                                     {{-- @for ($i = 12; $i <= 50; $i++)
                                         <option value="{{ $i }}"
@@ -196,7 +196,8 @@
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label class="form-label" for="max_player"></label>
-                                <select class="form-select" required id="max_player" name="max_player" data-max-players="{{ $getleaguedata->max_player }}">
+                                <select class="form-select" required id="max_player" name="max_player"
+                                    data-max-players="{{ $getleaguedata->max_player }}">
                                     <option value="" disabled selected>{{ trans('labels.max_player') }}</option>
                                     {{-- @for ($i = 1; $i <= 30; $i++)
                                         <option value="{{ $i }}"
@@ -250,7 +251,8 @@
                                 <div class="input-group">
                                     <span class="input-group-text" id="basic-addon1"><i class="fa fa-dollar"></i></span>
                                     <input type="number" required class="form-control" name="price" id="price"
-                                        value="{{ $getleaguedata->price }}" placeholder="{{ trans('labels.price_per_team') }}">
+                                        value="{{ $getleaguedata->price }}"
+                                        placeholder="{{ trans('labels.price_per_team') }}">
                                 </div>
                                 @error('price')
                                     <span class="text-danger"> {{ $message }} </span>

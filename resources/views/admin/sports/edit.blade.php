@@ -31,7 +31,7 @@
                                 <div class="form-group">
                                     <label class="form-label" for="name">{{ trans('labels.sports_name') }}</label>
                                     <input type="text" id="name" name="name" class="form-control"
-                                        value="{{ $sportsdata->name }}" placeholder="{{ trans('labels.sports_name') }}">
+                                        value="{{ !empty(old('name')) ? old('name') : $sportsdata->name }}" placeholder="{{ trans('labels.sports_name') }}">
                                     @error('name')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror

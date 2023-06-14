@@ -43,7 +43,8 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label class="form-label" for="dome_name">{{ trans('labels.dome_name') }}</label>
-                                <input type="text" id="dome_name" name="dome_name" value="{{ !empty(old('dome_name')) ? old('dome_name') : $dome->name }}"
+                                <input type="text" id="dome_name" name="dome_name"
+                                    value="{{ !empty(old('dome_name')) ? old('dome_name') : $dome->name }}"
                                     class="form-control" placeholder="Please Enter Dome Name">
                                 @error('dome_name')
                                     <span class="text-danger">{{ $message }}</span>
@@ -55,7 +56,8 @@
                                 <label class="form-label" for="dome_hst">{{ trans('labels.hst') }}</label>
                                 <div class="input-group">
                                     <input type="number" id="dome_hst" name="dome_hst" class="form-control"
-                                        placeholder="{{ trans('labels.hst') }}" value="{{ !empty(old('dome_hst')) ? old('dome_hst') : $dome->hst }}">
+                                        placeholder="{{ trans('labels.hst') }}"
+                                        value="{{ !empty(old('dome_hst')) ? old('dome_hst') : $dome->hst }}">
                                     <span class="input-group-text">%</span>
                                 </div>
                             </div>
@@ -88,13 +90,15 @@
                                 <div class="d-flex gap-3">
                                     <div class="form-check mb-0">
                                         <input class="form-check-input" type="radio" name="slot_duration" value="1"
-                                            {{ $dome->slot_duration == 1 ? 'checked' : ( !empty(old('slot_duration')) && old('slot_duration') == 1 ? 'checked' : '' ) }} id="slot_duration1">
+                                            {{ $dome->slot_duration == 1 ? 'checked' : (!empty(old('slot_duration')) && old('slot_duration') == 1 ? 'checked' : '') }}
+                                            id="slot_duration1">
                                         <label class="form-check-label" for="slot_duration1">
                                             {{ trans('labels.60_minutes') }} </label>
                                     </div>
                                     <div class="form-check mb-0">
                                         <input class="form-check-input" type="radio" name="slot_duration" value="2"
-                                            {{ $dome->slot_duration == 2 ? 'checked' : ( !empty(old('slot_duration')) && old('slot_duration') == 2 ? 'checked' : '' ) }} id="slot_duration2">
+                                            {{ $dome->slot_duration == 2 ? 'checked' : (!empty(old('slot_duration')) && old('slot_duration') == 2 ? 'checked' : '') }}
+                                            id="slot_duration2">
                                         <label class="form-check-label" for="slot_duration2">
                                             {{ trans('labels.90_minutes') }} </label>
                                     </div>
@@ -118,7 +122,7 @@
                                         <div class="form-check mb-0">
                                             <input type="checkbox" id="free_wifi" name="benefits[]" value="Free Wifi"
                                                 class="form-check-input"
-                                                {{ in_array('Free Wifi', $benefit) ? 'checked' : ( !empty(old('benefits')) && in_array('Free Wifi', old('benefits')) ? 'checked' : '' ) }}>
+                                                {{ in_array('Free Wifi', $benefit) ? 'checked' : (!empty(old('benefits')) && in_array('Free Wifi', old('benefits')) ? 'checked' : '') }}>
                                             <label class="form-check-label"
                                                 for="free_wifi">{{ trans('labels.free_wifi') }}</label>
                                         </div>
@@ -127,7 +131,7 @@
                                         <div class="form-check mb-0">
                                             <input type="checkbox" id="changing_room" name="benefits[]"
                                                 value="Changing Room" class="form-check-input"
-                                                {{ in_array('Changing Room', $benefit) ? 'checked' : ( !empty(old('benefits')) && in_array('Changing Room', old('benefits')) ? 'checked' : '' ) }}>
+                                                {{ in_array('Changing Room', $benefit) ? 'checked' : (!empty(old('benefits')) && in_array('Changing Room', old('benefits')) ? 'checked' : '') }}>
                                             <label class="form-check-label"
                                                 for="changing_room">{{ trans('labels.changing_room') }}</label>
                                         </div>
@@ -136,7 +140,7 @@
                                         <div class="form-check mb-0">
                                             <input type="checkbox" id="parking" name="benefits[]" value="Parking"
                                                 class="form-check-input"
-                                                {{ in_array('Parking', $benefit) ? 'checked' : ( !empty(old('benefits')) && in_array('Parking', old('benefits')) ? 'checked' : '' ) }}>
+                                                {{ in_array('Parking', $benefit) ? 'checked' : (!empty(old('benefits')) && in_array('Parking', old('benefits')) ? 'checked' : '') }}>
                                             <label class="form-check-label"
                                                 for="parking">{{ trans('labels.parking') }}</label>
                                         </div>
@@ -145,7 +149,7 @@
                                         <div class="form-check mb-0">
                                             <input type="checkbox" id="pool" name="benefits[]" value="Pool"
                                                 class="form-check-input"
-                                                {{ in_array('Pool', $benefit) ? 'checked' : ( !empty(old('benefits')) && in_array('Pool', old('benefits')) ? 'checked' : '' ) }}>
+                                                {{ in_array('Pool', $benefit) ? 'checked' : (!empty(old('benefits')) && in_array('Pool', old('benefits')) ? 'checked' : '') }}>
                                             <label class="form-check-label"
                                                 for="pool">{{ trans('labels.pool') }}</label>
                                         </div>
@@ -154,7 +158,7 @@
                                         <div class="form-check mb-0">
                                             <input type="checkbox" id="others" name="benefits[]" value="Others"
                                                 class="form-check-input"
-                                                {{ in_array('Others', $benefit) ? 'checked' : ( !empty(old('benefits')) && in_array('Others', old('benefits')) ? 'checked' : '' ) }}>
+                                                {{ in_array('Others', $benefit) ? 'checked' : (!empty(old('benefits')) && in_array('Others', old('benefits')) ? 'checked' : '') }}>
                                             <label class="form-check-label"
                                                 for="others">{{ trans('labels.others') }}</label>
                                         </div>
@@ -168,7 +172,7 @@
                                     for="benefits_description">{{ trans('labels.amenities_description') }}<span
                                         class="form-label-secondary px-2">{{ trans('labels.optional') }}</span></label>
                                 <textarea class="form-control" name="benefits_description" id="benefits_description" rows="4"
-                                    placeholder="Please Enter Benefits Description">{{ $dome->benefits_description }}</textarea>
+                                    placeholder="Please Enter Benefits Description">{{ !empty(old('benefits_description')) ? old('benefits_description') : $dome->benefits_description }}</textarea>
                                 @error('benefits_description')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
@@ -183,7 +187,7 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label class="form-label" for="address">{{ trans('labels.dome_address') }}</label>
-                                <input type="text" class="form-control" name="address" value="{{ $dome->address }}"
+                                <input type="text" class="form-control" name="address" value="{{ !empty(old('address')) ? old('address') : $dome->address }}"
                                     id="address" placeholder="{{ trans('labels.dome_address') }}">
                                 @error('address')
                                     <span class="text-danger">{{ $message }}</span>
@@ -194,7 +198,7 @@
                             <div class="form-group">
                                 <label for="pin_code" class="form-label">{{ trans('labels.pincode') }}</label>
                                 <input type="text" class="form-control" name="pin_code" id="pin_code"
-                                    value="{{ $dome->pin_code }}" placeholder="{{ trans('labels.pincode') }}" readonly>
+                                    value="{{ !empty(old('pin_code')) ? old('pin_code') : $dome->pin_code }}" placeholder="{{ trans('labels.pincode') }}" readonly>
                                 @error('pin_code')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
@@ -204,7 +208,7 @@
                             <div class="form-group">
                                 <label for="city" class="form-label">{{ trans('labels.city') }}</label>
                                 <input type="text" class="form-control" name="city" id="city"
-                                    value="{{ $dome->city }}" placeholder="{{ trans('labels.city') }}" readonly>
+                                    value="{{ !empty(old('city')) ? old('city') : $dome->city }}" placeholder="{{ trans('labels.city') }}" readonly>
                                 @error('city')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
@@ -214,7 +218,7 @@
                             <div class="form-group">
                                 <label for="state" class="form-label">{{ trans('labels.state') }}</label>
                                 <input type="text" class="form-control" name="state" id="state"
-                                    value="{{ $dome->state }}" placeholder="{{ trans('labels.state') }}" readonly>
+                                    value="{{ !empty(old('state')) ? old('state') : $dome->state }}" placeholder="{{ trans('labels.state') }}" readonly>
                                 @error('state')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
@@ -224,15 +228,15 @@
                             <div class="form-group">
                                 <label for="country" class="form-label">{{ trans('labels.country') }}</label>
                                 <input type="text" class="form-control" name="country" id="country"
-                                    value="{{ $dome->country }}" placeholder="{{ trans('labels.country') }}" readonly>
+                                    value="{{ !empty(old('country')) ? old('country') : $dome->country }}" placeholder="{{ trans('labels.country') }}" readonly>
                                 @error('country')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
                         </div>
                     </div>
-                    <input type="hidden" name="lat" id="textLat" value="{{ $dome->lat }}">
-                    <input type="hidden" name="lng" id="textLng" value="{{ $dome->lng }}">
+                    <input type="hidden" name="lat" id="textLat" value="{{ !empty(old('lat')) ? old('lat') : $dome->lat }}">
+                    <input type="hidden" name="lng" id="textLng" value="{{ !empty(old('lng')) ? old('lng') : $dome->lng }}">
                     @error('lat')
                         <span class="text-danger">{{ $message }}</span>
                     @enderror
@@ -313,7 +317,7 @@
                         <div class="form-group">
                             <label class="form-label" for="description">{{ trans('labels.dome_description') }}</label>
                             <textarea class="form-control" name="description" id="description" rows="5"
-                                placeholder="{{ trans('labels.dome_description') }}" maxlength="300">{{ $dome->description }}</textarea>
+                                placeholder="{{ trans('labels.dome_description') }}" maxlength="300">{{ !empty(old('dome_description')) ? old('dome_description') : $dome->dome_description }}</textarea>
                             @error(' description')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror

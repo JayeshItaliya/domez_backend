@@ -163,8 +163,8 @@ class EnquiryController extends Controller
                 $message->from(config('app.mail_username'))->subject($data['title']);
                 $message->to($data['email']);
             });
-            $enquiry_data->is_replied = 1;
-            $enquiry_data->save();
+            // $enquiry_data->is_replied = 1;
+            // $enquiry_data->save();
             return redirect()->back()->with('success', trans('messages.success'));
         } catch (\Throwable $th) {
             return redirect()->back()->with('error', trans('messages.wrong'));

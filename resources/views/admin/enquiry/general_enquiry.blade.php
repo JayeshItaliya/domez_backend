@@ -94,7 +94,7 @@
                         </div>
                         <div class="col-md-12 mb-2">
                             <label for="reply" class="form-label fw-bold">{{ trans('labels.reply') }}</label>
-                            <textarea class="form-control" name="reply" placeholder="{{ trans('labels.reply') }}" autocomplete="off"
+                            <textarea class="form-control" id="ckeditor" name="reply" placeholder="{{ trans('labels.reply') }}" autocomplete="off"
                                 rows="4" required></textarea>
                         </div>
                     </div>
@@ -105,7 +105,11 @@
     </div>
 @endsection
 @section('scripts')
-    <script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ckeditor/4.12.1/ckeditor.js"></script>
+<script>
+        CKEDITOR.replace('ckeditor', {
+            height: '300',
+        });
         $('#reply_general_enquiry_form').on('submit', function() {
             if ($('#reply_general_enquiry_form textarea').val() == "") {
                 $('#reply_general_enquiry_form textarea').addClass('is-invalid');

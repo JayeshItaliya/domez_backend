@@ -28,7 +28,7 @@
                     <div class="form-group">
                         <label for="name" class="form-label">{{ trans('labels.name') }}</label>
                         <input type="text" id="name" name="name" placeholder="{{ trans('labels.name') }}"
-                            class="form-control" value="{{ $user->name }}">
+                            class="form-control" value="{{ !empty(old('name')) ? old('name') : $user->name }}">
                         @error('name')
                             <span class="text-danger">{{ $message }}</span>
                         @enderror
@@ -38,7 +38,7 @@
                     <div class="form-group">
                         <label for="email" class="form-label">{{ trans('labels.email') }}</label>
                         <input type="text" id="email" name="email" placeholder="{{ trans('labels.email') }}"
-                            class="form-control" value="{{ $user->email }}">
+                            class="form-control" value="{{ !empty(old('email')) ? old('email') : $user->email }}">
                         @error('email')
                             <span class="text-danger">{{ $message }}</span>
                         @enderror
@@ -51,7 +51,7 @@
                             <input type="hidden" name="country" id="country" value="91">
                             <input type="tel" id="phone" name="phone"
                                 class="form-control custom-input rounded mb-3"
-                                placeholder="{{ trans('labels.phone_number') }}" value="{{ $user->phone }}">
+                                placeholder="{{ trans('labels.phone_number') }}" value="{{ !empty(old('country')) ? old('country') : $user->phone }}">
                         </div>
                         @error('phone')
                             <span class="text-danger">{{ $message }}</span>

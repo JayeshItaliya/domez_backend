@@ -43,17 +43,22 @@
                             <tr>
                                 <td>{{ $i++ }}</td>
                                 <td>{{ $enquiry->name }}</td>
-                                <td>{{ $enquiry->email }} <span class="badge rounded-pill cursor-pointer text-bg-{{$enquiry->is_exist == 1 ? 'info' : 'warning'}}">{{$enquiry->is_exist == 1 ? trans('labels.exist') : trans('labels.new') }}</span></td>
+                                <td>{{ $enquiry->email }} <span
+                                        class="badge rounded-pill cursor-pointer text-bg-{{ $enquiry->is_exist == 1 ? 'info' : 'warning' }}">{{ $enquiry->is_exist == 1 ? trans('labels.exist') : trans('labels.new') }}</span>
+                                </td>
                                 <td>{{ $enquiry->phone != '' ? '+1' . $enquiry->phone : '' }}</td>
                                 <td>{{ $enquiry->dome_name }}</td>
                                 <td>{{ $enquiry->dome_country }}</td>
                                 <td>
                                     @if ($enquiry->is_accepted == 1)
-                                        <span class="badge rounded-pill cursor-pointer text-bg-success">{{ trans('labels.verified') }}</span>
+                                        <span
+                                            class="badge rounded-pill cursor-pointer text-bg-success">{{ trans('labels.verified') }}</span>
                                     @elseif ($enquiry->is_accepted == 2)
-                                        <span class="badge rounded-pill cursor-pointer text-bg-warning">{{ trans('labels.pending') }}</span>
+                                        <span
+                                            class="badge rounded-pill cursor-pointer text-bg-warning">{{ trans('labels.pending') }}</span>
                                     @else
-                                        <span class="badge rounded-pill cursor-pointer text-bg-danger">{{ trans('labels.declined') }}</span>
+                                        <span
+                                            class="badge rounded-pill cursor-pointer text-bg-danger">{{ trans('labels.declined') }}</span>
                                     @endif
                                 </td>
                                 @if (auth()->user()->type == 1)
@@ -143,8 +148,8 @@
                         </div>
                         <div class="col-md-12 mb-2">
                             <label for="reply" class="form-label fw-bold">{{ trans('labels.reply') }}</label>
-                            <textarea class="form-control" name="reply" placeholder="{{ trans('labels.reply') }}" autocomplete="off"
-                                rows="4" required></textarea>
+                            <textarea class="form-control" id="ckeditor" name="reply" placeholder="{{ trans('labels.reply') }}"
+                                autocomplete="off" rows="4" required></textarea>
                         </div>
                     </div>
                     <button type="submit" class="btn btn-primary float-end">{{ trans('labels.submit') }}</button>
@@ -154,7 +159,11 @@
     </div>
 @endsection
 @section('scripts')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ckeditor/4.12.1/ckeditor.js"></script>
     <script>
+        CKEDITOR.replace('ckeditor', {
+            height: '300',
+        });
         $('#reply_dome_request_form').on('submit', function() {
             if ($('#reply_dome_request_form textarea').val() == "") {
                 $('#reply_dome_request_form textarea').addClass('is-invalid');

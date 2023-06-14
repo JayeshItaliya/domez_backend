@@ -32,7 +32,7 @@
                             <div class="mb-3">
                                 <label for="name" class="form-label">{{ trans('labels.name') }}</label>
                                 <input type="text" class="form-control" name="name" id="name"
-                                    value="{{ $user->name }}" placeholder="{{ trans('labels.name') }}">
+                                    value="{{ !empty(old('name')) ? old('name') : $user->name }}" placeholder="{{ trans('labels.name') }}">
                                 @error('name')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
@@ -42,7 +42,7 @@
                             <div class="mb-3">
                                 <label for="email_address" class="form-label">{{ trans('labels.email_address') }}</label>
                                 <input type="email" class="form-control" id="email_address" name="email_address"
-                                    value="{{ $user->email }}" placeholder="{{ trans('labels.email_address') }}">
+                                    value="{{ !empty(old('email_address')) ? old('email_address') : $user->email }}" placeholder="{{ trans('labels.email_address') }}">
                                 @error('email_address')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
@@ -55,7 +55,7 @@
                                     <input type="hidden" name="country" id="country" value="91">
                                     <input type="tel" id="phone" name="phone_number"
                                         class="form-control custom-input rounded mb-3"
-                                        placeholder="{{ trans('labels.phone_number') }}" value="{{ $user->phone }}">
+                                        placeholder="{{ trans('labels.phone_number') }}" value="{{ !empty(old('country')) ? old('country') : $user->phone }}">
                                 </div>
                                 @error('phone_number')
                                     <span class="text-danger">{{ $message }}</span>
