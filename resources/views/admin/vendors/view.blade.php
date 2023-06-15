@@ -108,7 +108,7 @@
                                                     <label>{{ trans('labels.start_time') }}</label>
                                                 </div>
                                                 <div class="col-md-8">
-                                                    <span class="text-muted fs-7">{{ $dome->start_time }}</span>
+                                                    <span class="text-muted fs-7">{{ Helper::time_format($dome->day_working_hours('')->open_time) }}</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -130,7 +130,7 @@
                                                     <label>{{ trans('labels.end_time') }}</label>
                                                 </div>
                                                 <div class="col-md-8">
-                                                    <span class="text-muted fs-7">{{ $dome->end_time }}</span>
+                                                    <span class="text-muted fs-7">{{ Helper::time_format($dome->day_working_hours('')->close_time) }}</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -231,7 +231,7 @@
                                                     <ul class="d-flex flex-wrap">
                                                         @foreach ($sports as $sport)
                                                             <li class="text-muted fs-7 me-3" style="list-style: inside">
-                                                                {{ $sport->name }}</li>
+                                                                {{ Helper::currency_format(Helper::get_dome_price($dome->id,$sport->id)) }}</li>
                                                         @endforeach
                                                     </ul>
                                                 </div>

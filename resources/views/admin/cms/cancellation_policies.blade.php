@@ -23,7 +23,7 @@
         <div class="card">
             <form class="card-body" action="{{ URL::to('admin/cms/store') }}" method="post">
                 @csrf
-                <textarea id="ckeditor" name="content">{{ old('content') != Helper::cms(4) ? old('content') : Helper::cms(4) }}</textarea>
+                <textarea id="ckeditor" name="content">{{ old('content') != "" && old('content') != Helper::cms(4) ? old('content') : Helper::cms(4) }}</textarea>
                 @error('content')
                     <p class="text-danger my-2">{{ $message }}</p>
                 @enderror

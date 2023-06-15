@@ -46,7 +46,7 @@
                             @endif
                             <td>{{ $league->name }}</td>
                             <td>{{ Helper::date_format($league->booking_deadline) }}</td>
-                            <td>{{ $league->dome_info->name }}</td>
+                            <td>{{ @$league->dome_info->name }}</td>
                             <td>
                                 {{ $league->sport_info->name }}
                             </td>

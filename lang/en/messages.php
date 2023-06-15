@@ -18,7 +18,7 @@ return [
     "new_password_diffrent" => "New password must be different to old password",
     'password_required' => 'Please Passsword',
     'password_min_length' => 'Password must be at least 8 characters in length',
-    'confirm_password_same' => '',
+    'confirm_password_same' => 'New Password and Confirm Password must be same',
     'account_deleted' => 'Account has been deleted',
     'account_inactive' => 'Account has been inactive',
     'email_sent' => 'Email has been Sent Successfully',
@@ -69,8 +69,11 @@ return [
     'already_cancelled' => "Booking has been already cancelled",
     'invalid_employee' => "Invalid Employee",
     'invalid_provider' => "Invalid Provider",
-    // -----
     'hst_required' => "HST Required",
     'unavailable_slot' => "Slot is Anavailable",
     'max_char_field_name' => "Maximum characters exceeded for field name",
+    'field_area_required' => 'Please Enter Field Area',
+
+    'warning_part_one' => ' Field is missing in ',
+    'warning_part_two' => ', Please add at least one field.',
 ];

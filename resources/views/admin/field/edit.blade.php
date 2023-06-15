@@ -33,7 +33,8 @@
                                 <option disabled selected>{{ trans('labels.select') }}</option>
                                 @foreach ($dome as $data)
                                     <option value="{{ $data->id }}" class="text-capitalize"
-                                        {{ $field->dome_id == $data->id ? 'selected' : '' }}>{{ $data->name }}</option>
+                                        {{ !empty(old('dome')) && old('dome') == $data->id ? 'selected' : ($field->dome_id == $data->id ? 'selected' : '') }}>
+                                        {{ $data->name }}</option>
                                 @endforeach
                             </select>
                             @error('dome')
@@ -42,7 +43,8 @@
                         </div>
                         <div class="col-sm-6">
                             <label class="form-label" for="sport_id">{{ trans('labels.select_sport') }}</label>
-                            <select class="form-select" name="sport_id" id="sport_id" data-sport-selected="{{ $field->sport_id }}"></select>
+                            <select class="form-select" name="sport_id" id="sport_id"
+                                data-sport-selected="{{ $field->sport_id }}"></select>
                             @error('sport_id')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
@@ -51,8 +53,9 @@
                 </div>
                 <div class="mb-4 col-sm-4">
                     <label class="form-label" for="field_name">{{ trans('labels.field_name') }}</label>
-                    <input type="text" id="field_name" name="field_name" value="{{ $field->name }}"
-                        class="form-control" placeholder="{{ trans('labels.field_name') }}" max-character-err="{{ trans('messages.max_char_field_name') }}">
+                    <input type="text" id="field_name" name="field_name" value="{{ !empty(old('field_name')) ? old('field_name') : $field->name }}"
+                        class="form-control" placeholder="{{ trans('labels.field_name') }}"
+                        max-character-err="{{ trans('messages.max_char_field_name') }}">
                     @error('field_name')
                         <span class="text-danger">{{ $message }}</span>
                     @enderror
@@ -77,7 +80,7 @@
                             <select class="form-select" name="max_person" id="max_person">
                                 <option value="" class="text-capitalize" disabled>{{ trans('labels.max_player') }}
                                 </option>
-                                @for ($i = 1; $i < 100; $i++)
+                                @for ($i = 1; $i < 30; $i++)
                                     <option value="{{ $i }}" class="text-capitalize"
                                         {{ $field->max_person == $i ? 'selected' : '' }}>{{ $i }}</option>
                                 @endfor
@@ -93,7 +96,7 @@
                         <label class="form-label" for="field_area">{{ trans('labels.field_area') }}</label>
                         <div class="input-group">
                             <input type="text" class="form-control" id="field_area" name="field_area"
-                                placeholder="{{ trans('labels.field_area') }}" value="{{ $field->area }}">
+                                placeholder="{{ trans('labels.field_area') }}" value="{{ !empty(old('field_area')) ? old('field_area') : $field->area }}">
                             <span class="input-group-text">{{ trans('labels.sqft') }}</span>
                         </div>
                         @error('field_area')
@@ -109,8 +112,8 @@
                             <span class="text-danger">{{ $message }}</span>
                         @enderror
                         <div class="avatar avatar-lg mt-4">
-                            <img src="{{ Helper::image_path($field->image) }}" alt="..." width="100"
-                                height="60" class="rounded">
+                            <img src="{{ Helper::image_path($field->image) }}" alt="..." width="100" height="60"
+                                class="rounded">
                         </div>
                     </div>
                 </div>

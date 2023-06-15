@@ -22,7 +22,7 @@
         <div class="card">
             <form class="card-body" action="{{ URL::to('admin/cms/store') }}" method="post">
                 @csrf
-                <textarea id="ckeditor" name="content">{{ old('content') != Helper::cms(3) ? old('content') : Helper::cms(3) }}</textarea>
+                <textarea id="ckeditor" name="content">{{ old('content') != "" && old('content') != Helper::cms(3) ? old('content') : Helper::cms(3) }}</textarea>
                 @error('content') <p class="text-danger my-2">{{ $message }}</p> @enderror
                 <button type="submit" name="refund_policy" value="1" class="btn btn-primary mt-3">{{ trans('labels.submit') }}</button>
             </form>

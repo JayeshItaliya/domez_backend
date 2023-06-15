@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 05, 2023 at 03:50 AM
+-- Generation Time: May 16, 2023 at 12:16 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -185,6 +185,7 @@ CREATE TABLE `enquiries` (
   `subject` varchar(255) DEFAULT NULL,
   `message` varchar(255) DEFAULT NULL,
   `is_replied` tinyint(1) NOT NULL DEFAULT 2 COMMENT '1=Yes, 2=No',
+  `is_exist` tinyint(4) NOT NULL DEFAULT 2 COMMENT 'Dome Owner (1=Yes, 2=No ) ',
   `is_accepted` tinyint(1) NOT NULL DEFAULT 2 COMMENT '1=Yes, 2=Pending, 3=No',
   `is_deleted` tinyint(1) NOT NULL DEFAULT 2 COMMENT '1=Yes, 2=No',
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
@@ -195,14 +196,14 @@ CREATE TABLE `enquiries` (
 -- Dumping data for table `enquiries`
 --
 
-INSERT INTO `enquiries` (`id`, `vendor_id`, `type`, `dome_name`, `dome_zipcode`, `dome_city`, `dome_state`, `dome_country`, `venue_name`, `venue_address`, `name`, `email`, `phone`, `subject`, `message`, `is_replied`, `is_accepted`, `is_deleted`, `created_at`, `updated_at`) VALUES
-(1, NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'shivakar@gmail.com', NULL, 'heyyya', 'hello big big issues', 2, 2, 2, '2023-04-06 09:58:12', '2023-04-09 04:17:30'),
-(3, NULL, 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'James', 'james@yopmail.com', NULL, 'Lorem Ipsum', 'Lorem si dummy text to ttyype settiugng Lorem si dummy text to ttyype settiugng Lorem si dummy text to ttyype settiugng Lorem si dummy text to ttyype settiugng Lorem si dummy text to ttyype settiugng Lorem si dummy text to ttyype settiugng Lorem si dummy ', 2, 2, 2, '2023-04-09 04:21:49', '2023-04-09 04:21:49'),
-(5, NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'dummy@yopmail.com', NULL, 'dome inquiry', 'I have one dome.Can I join with you?', 2, 2, 2, '2023-04-12 11:59:22', '2023-04-12 11:59:22'),
-(6, NULL, 4, NULL, NULL, NULL, NULL, NULL, 'asdfs', 'asd', 'soham', 'dummy@yopmail.com', NULL, NULL, '', 2, 2, 2, '2023-04-12 12:40:59', '2023-04-12 12:40:59'),
-(7, NULL, 4, NULL, NULL, NULL, NULL, NULL, 'dscdsfdsew', 'dswfdsf', NULL, 'dummy@yopmail.com', NULL, NULL, '', 2, 2, 2, '2023-04-12 13:12:29', '2023-04-12 13:12:29'),
-(11, 96, 3, 'test', 'test', 'test', 'test', 'test', NULL, 'test', 'Rahul Ghaskata', 'rahul.vrajtechnosys@gmail.com', '0123456798', NULL, NULL, 2, 2, 2, '2023-04-27 13:09:50', '2023-04-27 13:09:50'),
-(12, 97, 3, 'Shott', NULL, 'test', 'test', 'test', NULL, 'test', 'hiren', 'hiren@yopmail.com', '1234567890', NULL, NULL, 1, 1, 2, '2023-05-04 10:32:11', '2023-05-04 10:33:54');
+INSERT INTO `enquiries` (`id`, `vendor_id`, `type`, `dome_name`, `dome_zipcode`, `dome_city`, `dome_state`, `dome_country`, `venue_name`, `venue_address`, `name`, `email`, `phone`, `subject`, `message`, `is_replied`, `is_exist`, `is_accepted`, `is_deleted`, `created_at`, `updated_at`) VALUES
+(1, NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'shivakar@gmail.com', NULL, 'heyyya', 'hello big big issues', 2, 2, 2, 2, '2023-04-06 09:58:12', '2023-04-09 04:17:30'),
+(3, NULL, 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'James', 'james@yopmail.com', NULL, 'Lorem Ipsum', 'Lorem si dummy text to ttyype settiugng Lorem si dummy text to ttyype settiugng Lorem si dummy text to ttyype settiugng Lorem si dummy text to ttyype settiugng Lorem si dummy text to ttyype settiugng Lorem si dummy text to ttyype settiugng Lorem si dummy ', 2, 2, 2, 2, '2023-04-09 04:21:49', '2023-04-09 04:21:49'),
+(5, NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'dummy@yopmail.com', NULL, 'dome inquiry', 'I have one dome.Can I join with you?', 2, 2, 2, 2, '2023-04-12 11:59:22', '2023-04-12 11:59:22'),
+(6, NULL, 4, NULL, NULL, NULL, NULL, NULL, 'asdfs', 'asd', 'soham', 'dummy@yopmail.com', NULL, NULL, '', 2, 2, 2, 2, '2023-04-12 12:40:59', '2023-04-12 12:40:59'),
+(7, NULL, 4, NULL, NULL, NULL, NULL, NULL, 'dscdsfdsew', 'dswfdsf', NULL, 'dummy@yopmail.com', NULL, NULL, '', 2, 2, 2, 2, '2023-04-12 13:12:29', '2023-04-12 13:12:29'),
+(11, 96, 3, 'test', 'test', 'test', 'test', 'test', NULL, 'test', 'Rahul Ghaskata', 'rahul.vrajtechnosys@gmail.com', '0123456798', NULL, NULL, 2, 2, 2, 2, '2023-04-27 13:09:50', '2023-04-27 13:09:50'),
+(12, 97, 3, 'Shott', NULL, 'test', 'test', 'test', NULL, 'test', 'hiren', 'hiren@yopmail.com', '1234567890', NULL, NULL, 1, 2, 1, 2, '2023-05-04 10:32:11', '2023-05-04 10:33:54');
 
 -- --------------------------------------------------------
 

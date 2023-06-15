@@ -116,7 +116,7 @@
                                     <div class="col-auto">
                                         <div class="form-check mb-0">
                                             <input type="checkbox" id="free_wifi" name="benefits[]" value="Free Wifi"
-                                                class="form-check-input">
+                                                class="form-check-input" {{ (!empty(old('benefits')) && in_array('Free Wifi', old('benefits'))) ? 'checked' : '' }}>
                                             <label class="form-check-label"
                                                 for="free_wifi">{{ trans('labels.free_wifi') }}</label>
                                         </div>
@@ -124,7 +124,7 @@
                                     <div class="col-auto">
                                         <div class="form-check mb-0">
                                             <input type="checkbox" id="changing_room" name="benefits[]"
-                                                value="Changing Room" class="form-check-input">
+                                                value="Changing Room" class="form-check-input" {{ (!empty(old('benefits')) && in_array('Changing Room', old('benefits'))) ? 'checked' : '' }}>
                                             <label class="form-check-label"
                                                 for="changing_room">{{ trans('labels.changing_room') }}</label>
                                         </div>
@@ -132,7 +132,7 @@
                                     <div class="col-auto">
                                         <div class="form-check mb-0">
                                             <input type="checkbox" id="parking" name="benefits[]" value="Parking"
-                                                class="form-check-input">
+                                                class="form-check-input" {{ (!empty(old('benefits')) && in_array('Parking', old('benefits'))) ? 'checked' : '' }}>
                                             <label class="form-check-label"
                                                 for="parking">{{ trans('labels.parking') }}</label>
                                         </div>
@@ -140,7 +140,7 @@
                                     <div class="col-auto">
                                         <div class="form-check mb-0">
                                             <input type="checkbox" id="pool" name="benefits[]" value="Pool"
-                                                class="form-check-input">
+                                                class="form-check-input" {{ (!empty(old('benefits')) && in_array('Pool', old('benefits'))) ? 'checked' : '' }}>
                                             <label class="form-check-label"
                                                 for="pool">{{ trans('labels.pool') }}</label>
                                         </div>
@@ -148,7 +148,7 @@
                                     <div class="col-auto">
                                         <div class="form-check mb-0">
                                             <input type="checkbox" id="others" name="benefits[]" value="Others"
-                                                class="form-check-input">
+                                                class="form-check-input" {{ (!empty(old('benefits')) && in_array('Others', old('benefits'))) ? 'checked' : '' }}>
                                             <label class="form-check-label"
                                                 for="others">{{ trans('labels.others') }}</label>
                                         </div>
@@ -162,7 +162,7 @@
                                     for="benefits_description">{{ trans('labels.amenities_description') }}<span
                                         class="form-label-secondary px-2">{{ trans('labels.optional') }}</span></label>
                                 <textarea class="form-control" name="benefits_description" value="{{ old('benefits_description') }}"
-                                    id="benefits_description" rows="4" placeholder="Please Enter Benefits Description" maxlength="100">{{ old('benefits_description') }}</textarea>
+                                    id="benefits_description" rows="4" placeholder="Please Enter Benefits Description" maxlength="300">{{ old('benefits_description') }}</textarea>
                                 @error('benefits_description')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
@@ -259,7 +259,7 @@
                                         <div class="form-check">
                                             <input type="checkbox" id="{{ $data->name }}" name="sport_id[]"
                                                 class="form-check-input" value="{{ $data->id }}"
-                                                data-sport-name="{{ $data->name }}">
+                                                data-sport-name="{{ $data->name }}" {{ (!empty(old('sport_id')) && in_array($data->id, old('sport_id'))) ? 'checked' : '' }}>>
                                             <label class="form-check-label"
                                                 for="{{ $data->name }}">{{ $data->name }}</label>
                                         </div>
@@ -284,7 +284,7 @@
                                 <label class="form-label"
                                     for="description">{{ trans('labels.dome_description') }}</label>
                                 <textarea class="form-control" name="description" id="description" rows="5"
-                                    placeholder="{{ trans('labels.dome_description') }}" maxlength="100">{{ old('description') }}</textarea>
+                                    placeholder="{{ trans('labels.dome_description') }}" maxlength="300">{{ old('description') }}</textarea>
                                 @error('description')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror

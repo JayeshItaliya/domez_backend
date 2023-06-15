@@ -201,10 +201,13 @@ class SettingsController extends Controller
             'confirm_password' => 'required|same:new_password|min:8',
         ], [
             'current_password.required' => trans('messages.old_password_required'),
+            'current_password.min' => trans('messages.password_min_length'),
             'new_password.required' => trans('messages.new_password_required'),
             'new_password.different' => trans('messages.new_password_diffrent'),
+            'new_password.min' => trans('messages.password_min_length'),
             'confirm_password.required' => trans('messages.confirm_password_required'),
-            'confirm_password.same' => trans('messages.confirm_password_same')
+            'confirm_password.same' => trans('messages.confirm_password_same'),
+            'confirm_password.min' => trans('messages.password_min_length'),
         ]);
         if (Hash::check($request->current_password, auth()->user()->password)) {
             User::where('id', auth()->user()->id)->update(['password' => Hash::make($request->new_password)]);

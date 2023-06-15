@@ -78,6 +78,17 @@
                     @include('admin.layout.sidebar')
                 @endif
                 <div class="content-wrapper me-3">
+                    @if (auth()->user()->type == 2)
+                        @php
+                            $has_fields = Helper::dome_has_fields(auth()->user()->id);
+                        @endphp
+                        @if (@$has_fields['status'] == 1)
+                            <div class="alert alert-danger" role="alert">
+                                <i class="fa-regular fa-triangle-exclamation fa-fade me-2"></i>
+                                <b>{{ $has_fields['sport_name'] }}</b>{{ trans('messages.warning_part_one') }}<b>{{ $has_fields['dome_name'] }}</b>{{ trans('messages.warning_part_two') }}
+                            </div>
+                        @endif
+                    @endif
                     @yield('contents')
                 </div>
             </div>
@@ -87,19 +98,21 @@
         <div id="danger_color" style="color: var(--bs-danger)"></div>
         <div id="lightSecondaryColor" style="color: rgba(var(--bs-secondary-rgb),0.75)"></div>
     </main>
-    <button class="btn btn-primary position-fixed top-50 end-0 fs-5 btn-gear-custom" style="z-index: 99" data-bs-toggle="offcanvas"
-        data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
+    <button class="btn btn-primary position-fixed top-50 end-0 fs-5 btn-gear-custom" style="z-index: 99"
+        data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
         <i class="fa-light fa-gear"></i>
     </button>
     <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel"
         style="width: 400px">
-        <div class="offcanvas-header justify-content-end">
+        <div class="offcanvas-header justify-content-between">
+            <h5 class="fw-bold"><i class="fa-solid fa-palette fa-beat me-2"></i>{{ trans('labels.theme_customize') }}
+            </h5>
             <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div class="offcanvas-body">
             <div class="card mb-5">
                 <div class="card-header bg-transparent">
-                    <h5>{{ trans('labels.change_colors') }}</h5>
+                    <h6>{{ trans('labels.change_colors') }}</h6>
                 </div>
                 <div class="card-body">
                     <div class="row">
@@ -122,7 +135,7 @@
             </div>
             <div class="card">
                 <div class="card-header bg-transparent">
-                    <h5>{{ trans('labels.font_family') }}</h5>
+                    <h6>{{ trans('labels.font_family') }}</h6>
                 </div>
                 <div class="card-body">
                     <div class="form-check">
@@ -133,7 +146,8 @@
                         </label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="font_family" id="inter" value="Inter">
+                        <input class="form-check-input" type="radio" name="font_family" id="inter"
+                            value="Inter">
                         <label class="form-check-label cursor-pointer" for="inter">
                             {{ trans('labels.inter') }}
                         </label>
@@ -180,7 +194,8 @@
         let secondary_color = $('#secondaryColor').css('color');
         let light_secondary_color = $('#lightSecondaryColor').css('color');
         let danger_color = $('#danger_color').css('color');
-        let bs_spinner = '<div class="text-center"><div class="spinner-border" role="status"><span class="visually-hidden">Loading...</span></div></div>';
+        let bs_spinner =
+            '<div class="text-center"><div class="spinner-border" role="status"><span class="visually-hidden">Loading...</span></div></div>';
 
         function getCookie(name) {
             "use strict";

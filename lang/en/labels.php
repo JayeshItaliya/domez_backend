@@ -1,6 +1,7 @@
 <?php
 return [
     'website_title' => 'Domez',
+    'theme_customize' => 'Theme Customizer',
     'hi' => 'Hi',
     'welcome_back' => 'Welcome Back',
     'email_address' => 'Email Address',
@@ -154,7 +155,7 @@ return [
     '90_minutes' => '90 Minutes',
     'image' => 'Image',
     'sport_name' => 'Sport Name',
-    'sport_default_price' => 'Sports Default Rate w/o Per Hour',
+    'sport_default_price' => 'Sports Default Rate',
     'add_field' => 'Add Field',
     'field_name' => 'Field Name/Number',
     'min_person' => 'Min Players',
@@ -270,7 +271,6 @@ return [
     'provider' => 'Provider',
     'verified' => 'Verified',
     'declined' => 'Declined',
-    // ---
     'enter_verification_code' => 'Enter Verification Code',
     'send_you_code_on' => 'We’ve send you code on',
     'check_spam_folder' => 'Did not receive the email? check your spam folder',

@@ -52,6 +52,8 @@ class DomesController extends Controller
             'dome_price' => 'required',
             'description' => 'required',
             'address' => 'required',
+            'benefits' => 'array',
+            'benefits.*' => 'in:Free Wifi,Changing Room,Parking,Pool,Others',
         ], [
             'sport_id.required' => trans('messages.select_sport'),
             'dome_name.required' => trans('messages.name_required'),
@@ -91,7 +93,10 @@ class DomesController extends Controller
             $request->validate([
                 'dome_images.*' => 'required|image|mimes:png,jpg,jpeg,svg|max:5120',
             ], [
+                'dome_images.required' => trans('messages.image_required'),
+                'dome_images.image' => trans('messages.valid_image'),
                 'dome_images.mimes' => trans('messages.valid_image_type'),
+                'dome_images.max' => trans('messages.valid_image_size'),
             ]);
             foreach ($request->file('dome_images') as $img) {
                 $domeimage = new DomeImages();
@@ -310,10 +315,11 @@ class DomesController extends Controller
         }
         if ($request->has('dome_images')) {
             $request->validate([
-                'dome_images.*' => 'image|mimes:png,jpg,jpeg,svg',
+                'dome_images.*' => 'image|mimes:png,jpg,jpeg,svg|max:5120',
             ], [
                 'dome_images.image' => trans('messages.valid_image'),
                 'dome_images.mimes' => trans('messages.valid_image_type'),
+                'dome_images.max' => trans('messages.valid_image_size'),
             ]);
             foreach ($request->file('dome_images') as $img) {
                 $domeimage = new DomeImages();

@@ -102,7 +102,7 @@
         </div>
     </div>
     <div class="modal fade" id="replysupport" tabindex="-1" aria-labelledby="replysupportLabel" aria-hidden="true">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <form class="modal-body" action="{{ URL::To('admin/supports/ticket-reply') }}" method="POST"
                     id="ticket_reply">
@@ -130,7 +130,7 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label for="reply" class="form-label fw-bold">{{ trans('labels.reply') }}</label>
-                                <textarea class="form-control" name="reply" placeholder="{{ trans('labels.reply') }}" autocomplete="off"
+                                <textarea class="form-control" id="ckeditor" name="reply" placeholder="{{ trans('labels.reply') }}" autocomplete="off"
                                     rows="4"></textarea>
                             </div>
                         </div>
@@ -142,7 +142,11 @@
     </div>
 @endsection
 @section('scripts')
-    <script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ckeditor/4.12.1/ckeditor.js"></script>
+<script>
+        CKEDITOR.replace('ckeditor', {
+            height: '300',
+        });
         if (is_vendor || is_employee) {
             $(document).ready(function() {
                 let html =

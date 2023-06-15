@@ -7,6 +7,7 @@ use App\Models\CMS;
 use App\Models\Domes;
 use App\Models\Enquiries;
 use App\Models\Favourite;
+use App\Models\Field;
 use App\Models\PaymentGateway;
 use App\Models\SetPrices;
 use App\Models\Sports;
@@ -267,6 +268,27 @@ class Helper
         return User::where('type', 1)->first();
     }
 
+    public static function dome_has_fields($id)
+    {
+        $dome_owner = User::where('id', $id)->first();
+        $domes = Domes::where('vendor_id', $dome_owner->id)->where('is_deleted', 2)->get();
+        foreach ($domes as $dome) {
+            $check_fields = Field::where('dome_id', $dome->id)->get();
+            if (count($check_fields) == 0) {
+                return ['status' => 0];
+            } else {
+                $dome_sports = explode(',', $dome->sport_id);
+                foreach ($dome_sports as $dome_sport) {
+                    $avl_sport_fields = Field::where('dome_id', $dome->id)->where('sport_id', $dome_sport)->get();
+                    if (count($avl_sport_fields) == 0) {
+                        return ['status' => 1, 'dome_name' => $dome->name, 'sport_name' => Sports::find($dome_sport)->name];
+                    } else {
+                        return ['status' => 0];
+                    }
+                }
+            }
+        }
+    }
 
 
 
