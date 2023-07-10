@@ -176,7 +176,7 @@ class SettingsController extends Controller
         $user->name = $request->name;
         $user->email = $request->email;
         $user->phone = $request->phone;
-        if ($request->has('profile')) {
+        if ($request->has('image')) {
             $request->validate([
                 'profile' => 'image|mimes:png,jpg,jpeg,svg|max:5120'
             ], [
