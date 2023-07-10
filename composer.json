@@ -18,7 +18,6 @@
         "socialiteproviders/manager": "*",
         "stripe/stripe-php": "^10.0",
         "symfony/var-dumper": "^6.0",
-        "twilio/sdk": "*",
         "tymon/jwt-auth": "^2.0"
     },
     "require-dev": {

@@ -73,7 +73,7 @@ return [
     'unavailable_slot' => "Slot is Anavailable",
     'max_char_field_name' => "Maximum characters exceeded for field name",
     'field_area_required' => 'Please Enter Field Area',
-
     'warning_part_one' => ' Field is missing in ',
     'warning_part_two' => ', Please add at least one field.',
+    "old_password_invalid" => "Old password is invalid",
 ];
