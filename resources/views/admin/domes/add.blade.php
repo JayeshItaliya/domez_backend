@@ -259,7 +259,7 @@
                                         <div class="form-check">
                                             <input type="checkbox" id="{{ $data->name }}" name="sport_id[]"
                                                 class="form-check-input" value="{{ $data->id }}"
-                                                data-sport-name="{{ $data->name }}" {{ (!empty(old('sport_id')) && in_array($data->id, old('sport_id'))) ? 'checked' : '' }}>>
+                                                data-sport-name="{{ $data->name }}" {{ (!empty(old('sport_id')) && in_array($data->id, old('sport_id'))) ? 'checked' : '' }}>
                                             <label class="form-check-label"
                                                 for="{{ $data->name }}">{{ $data->name }}</label>
                                         </div>

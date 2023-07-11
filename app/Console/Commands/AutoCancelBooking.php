@@ -20,6 +20,7 @@ class AutoCancelBooking extends Command
         $title = 'Booking Cancelled - Payment Not Made';
         $description = "We're sorry to inform you that your booking has been cancelled due to not making payment on time. We would have loved to have you stay with us, but unfortunately we were unable to hold the Slots for you any longer.";
         $getbookings = Booking::where('payment_type', '2')->where('booking_status', 2)->get();
+        // dd($getbookings->toArray());
         foreach ($getbookings as $bookingdata) {
             $created_at_plus_2_hours = Carbon::parse($bookingdata->created_at)->addHours(2);
             $now = Carbon::now();
@@ -32,7 +33,7 @@ class AutoCancelBooking extends Command
                         Helper::booking_cancelled_email($title, $description, $bookingdata, 1);
                         $this->info('Booking Updated & Refunded =====> ' . $bookingdata->id);
                     } else {
-                        $this->info('Something Went Wrong While Refunding Amount (Booking Status Not Change) =====> ' . $bookingdata->id);
+                        $this->info(' From If -- Something Went Wrong While Refunding Amount (Booking Status Not Change) =====> ' . $bookingdata->id);
                     }
                 }
             } else {

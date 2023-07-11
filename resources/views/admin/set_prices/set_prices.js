@@ -1,7 +1,15 @@
-var min_time = '';
-var max_time = '';
-var start_time = '';
 var my_interval = 60;
+var {
+    min_time,
+    max_time,
+    start_time,
+    end_max_time,
+    lastOpenedAccordion
+} = '';
+// var time1 = new Date('2023-04-08T10:00:00');
+// var time2 = new Date('2023-04-08T11:30:00');
+// var diffMs = time2 - time1;
+// var diffMins = Math.floor((diffMs / 1000) / 60);    // Output: 90
 $('#start_date').on('change', function () {
     "use strict";
     if ($.trim($(this).val()) != "") {
@@ -16,7 +24,6 @@ $('#dome').on('change', function () {
     }
     min_time = $(this).find(':selected').attr('data-start-time');
     max_time = $(this).find(':selected').attr('data-end-time');
-    // $('.start-end-time').html('('+min_time+' - '+max_time+')');
     my_interval = $.trim($(this).find(':selected').attr('data-slot-duration')) == 2 ? 90 : 60;
     if (start_time == '') {
         start_time = min_time;
@@ -86,12 +93,14 @@ $('#storesetprices').on('submit', function () {
         return false;
     }
 });
-// var time1 = new Date('2023-04-08T10:00:00');
-// var time2 = new Date('2023-04-08T11:30:00');
-// var diffMs = time2 - time1;
-// var diffMins = Math.floor((diffMs / 1000) / 60);    // Output: 90
-var end_max_time = '';
 $('body').on('click', ".accordion-header", function () {
+    var st = $(lastOpenedAccordion + ' .card-body .extra_fields').find('.start.time_picker:last').val();
+    var et = $(lastOpenedAccordion + ' .card-body .extra_fields').find('.end.time_picker:last').val();
+    if (($.trim(st) == '' && $.trim(et) == '') || ($.trim(st) != '' && $.trim(et) == '') || ($.trim(st) == '' && $.trim(et) != '')) {
+        var cl = $(lastOpenedAccordion + ' .card-body .extra_fields').find('.end.time_picker:last');
+        $(cl).parent().parent().parent().parent().remove();
+    }
+    lastOpenedAccordion = $(this).find('.accordion-button').attr('data-bs-target');
     max_time = $(this).attr('data-end-time');
     min_time = $(this).attr('data-start-time');
     if ($(this).next().find('.start.time_picker').length == 1) {
@@ -197,11 +206,15 @@ $(function () {
         $('.fixed-table-toolbar .btn-group').append(html);
     }
     var counter = 1;
-    $('body').on('click', ".appendbtn", function () {
+    $(document).on('click', ".appendbtn", function () {
         "use strict";
         counter++;
         var dayname = $(this).attr('data-day-name');
         var check = 1;
+        var d = $(this).parent().parent().parent().parent().find('.end.time_picker:last').val();
+        if ($.trim(d) != '') {
+            start_time = d;
+        }
         $('.card-body-' + dayname + '  input').each(function () {
             if ($(this).val() === '' || $(this).val() == 0) {
                 check = 0;
@@ -249,7 +262,14 @@ function reset_slots(el) {
 
 function removeslot(id, el) {
     "use strict";
-    $('#remove' + id).remove();
+    var st = $(el).parent().parent().parent().parent().find('.start.time_picker:last').val();
+    var et = $(el).parent().parent().parent().parent().find('.end.time_picker:last').val();
+    if (($.trim(st) == '' && $.trim(et) == '') || ($.trim(st) != '' && $.trim(et) == '') || ($.trim(st) == '' && $.trim(et) != '')) {
+        var cl = $(el).parent().parent().parent().parent().find('.end.time_picker:last');
+        $(cl).parent().parent().parent().parent().remove();
+    }
+    var el = $('#remove' + id);
+    el.remove();
 }
 
 // $('body').on('blur', '.start.time_picker', function () {

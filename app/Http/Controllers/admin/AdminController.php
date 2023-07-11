@@ -24,7 +24,10 @@ class AdminController extends Controller
     public function login_dev(Request $request)
     {
         if (Auth::user()->type == 1) {
-            Auth::loginUsingId(2);
+            $uid = @User::where('type',2)->first()->id;
+            if($uid){
+                Auth::loginUsingId($uid);
+            }
         } else {
             Auth::loginUsingId(1);
         }

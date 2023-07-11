@@ -181,6 +181,7 @@ class Helper
             $booking->save();
             return 1;
         } catch (\Throwable $th) {
+            dd($th);
             return 0;
         }
     }
