@@ -166,11 +166,6 @@
                                 <select class="form-select" required id="to_age" name="to_age"
                                     data-to-age="{{ $getleaguedata->to_age }}">
                                     <option value="" disabled selected>{{ trans('labels.to') }}</option>
-                                    {{-- @for ($i = 12; $i <= 50; $i++)
-                                        <option value="{{ $i }}"
-                                            {{ $i == $getleaguedata->to_age ? 'selected' : '' }}>
-                                            {{ $i }}</option>
-                                    @endfor --}}
                                 </select>
                                 @error('to_age')
                                     <span class="text-danger"> {{ $message }} </span>
@@ -199,11 +194,6 @@
                                 <select class="form-select" required id="max_player" name="max_player"
                                     data-max-players="{{ $getleaguedata->max_player }}">
                                     <option value="" disabled selected>{{ trans('labels.max_player') }}</option>
-                                    {{-- @for ($i = 1; $i <= 30; $i++)
-                                        <option value="{{ $i }}"
-                                            {{ $i == $getleaguedata->max_player ? 'selected' : '' }}>{{ $i }}
-                                        </option>
-                                    @endfor --}}
                                 </select>
                                 @error('max_player')
                                     <span class="text-danger"> {{ $message }} </span>

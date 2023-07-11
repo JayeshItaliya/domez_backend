@@ -44,7 +44,6 @@
                     </div>
                     <h4 class="text-secondary text-center fw-semibold text-capitalize mb-4">
                         {{ trans('labels.enter_verification_code') }}</h4>
-                    {{-- <p class="text-center fw-semibold mb-2">We send you on mail.</p> --}}
                     @if (session()->has('verification_email') && session()->get('verification_email') != '')
                         <small class="text-muted text-center"> {{ trans('labels.send_you_code_on') }}
                             {{ session()->get('verification_email') }}</small>
@@ -67,9 +66,6 @@
                         <button type="submit"
                             class="btn btn-primary w-100 mt-2 mb-4">{{ trans('labels.continue') }}</button>
                         <p class="text-center fw-semibold mb-3 fs-7">{{ trans('labels.check_spam_folder') }}</p>
-                        {{-- <div class="text-center">
-                            <a href="#" class="btn btn-outline-secondary w-100">Resend Code</a>
-                        </div> --}}
                     </form>
                 </div>
             </div>

@@ -72,7 +72,6 @@
             </div>
         </div>
     </div>
-    {{-- Add Worker --}}
     <div class="modal fade" id="addworker" tabindex="-1" aria-labelledby="addworkerLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -103,7 +102,6 @@
             </div>
         </div>
     </div>
-    {{-- Edit Worker --}}
     <div class="modal fade" id="editworker" tabindex="-1" aria-labelledby="editworkerLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
