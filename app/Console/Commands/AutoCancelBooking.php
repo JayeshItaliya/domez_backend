@@ -20,7 +20,6 @@ class AutoCancelBooking extends Command
         $title = 'Booking Cancelled - Payment Not Made';
         $description = "We're sorry to inform you that your booking has been cancelled due to not making payment on time. We would have loved to have you stay with us, but unfortunately we were unable to hold the Slots for you any longer.";
         $getbookings = Booking::where('payment_type', '2')->where('booking_status', 2)->get();
-        // dd($getbookings->toArray());
         foreach ($getbookings as $bookingdata) {
             $created_at_plus_2_hours = Carbon::parse($bookingdata->created_at)->addHours(2);
             $now = Carbon::now();

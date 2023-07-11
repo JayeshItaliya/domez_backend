@@ -34,7 +34,6 @@ class PaymentDistribution extends Command
             }else{
                 $checkaccount = Account::retrieve($getaccountid->account_id);
                 if ($checkaccount->charges_enabled === false || $checkaccount->payouts_enabled === false) {
-                    // dd(111);
                 } else {
                     $getbookingidsdome = Booking::select('id')->where('vendor_id', $vendor->id)->where('is_payment_released', 2)->where('booking_status', 1)->where('payment_status', 1)->where('type', 1)->whereDate('start_date', '<', date('Y-m-d'))->get()->pluck('id')->toArray();
                     $getbookingidsleague = Booking::select('id')->where('vendor_id', $vendor->id)->where('is_payment_released', 2)->where('booking_status', 1)->where('payment_status', 1)->where('type', 2)->whereDate('end_date', '<', date('Y-m-d'))->get()->pluck('id')->toArray();
