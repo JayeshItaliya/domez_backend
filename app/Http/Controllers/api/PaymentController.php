@@ -240,8 +240,7 @@ class PaymentController extends Controller
             return response()->json(['status' => 1, "message" => "Successful", "transaction_id" => $transaction_id, "booking_id" => $booking->id, "payment_link" => URL::to('/payment/' . $booking->token),], 200);
         } catch (\Throwable $th) {
             DB::rollback();
-            return response()->json(['status' => 0, "message" => $th->getMessage()], 200);
-            // return response()->json(['status' => 0, "message" => 'Something went wrong..'], 200);
+            return response()->json(['status' => 0, "message" => 'Something went wrong..'], 200);
         }
     }
     public function split_payment_process(Request $request)
