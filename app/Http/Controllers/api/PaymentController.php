@@ -15,6 +15,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
 class PaymentController extends Controller
@@ -155,6 +156,7 @@ class PaymentController extends Controller
         $amount = $request->payment_type == 1 ? $request->total_amount : $request->paid_amount;
         $booking_id = bin2hex(random_bytes(4));
         $transaction_id = $request->transaction_id;
+        DB::beginTransaction();
         try {
             $booking = new Booking();
             $booking->type = $request->booking_type;
@@ -222,15 +224,10 @@ class PaymentController extends Controller
                 }
             }
             $title = $request->booking_type == 1 ? 'Dome Booking' : 'League Booking';
+            $body = 'Thank you for making '.$title;
             $tokens[] = $user->fcm_token;
             if ($booking->payment_status == 1) {
-                if ($request->booking_type == 1) {
-                    $body = 'Thank you for making Dome Booking.';
-                    $type = 5;
-                } else {
-                    $body = 'Thank you for making League Booking.';
-                    $type = 6;
-                }
+                $type = $request->booking_type == 1 ? 5 : 6;
                 Helper::send_notification($title, $body, $type, $booking_id, '', $tokens);
             }
             if ($booking->payment_type == 2) {
@@ -238,14 +235,13 @@ class PaymentController extends Controller
                 $body = 'Thank you for your Booking with us! Please complete the payment within the next 2 hours to ensure that your booking is Confirmed.';
                 Helper::send_notification($title, $body, $type, $booking_id, '', $tokens);
             }
-            $data = ['title' => 'Booking Receipt', 'email' => $booking->customer_email, 'bookingdata' => $booking, 'logo' => Helper::image_path('logo.png')];
-            Mail::send('email.booking_confirmation', $data, function ($message) use ($data) {
-                $message->from(config('app.mail_username'))->subject($data['title']);
-                $message->to($data['email']);
-            });
+            Helper::booking_confirmation($booking);
+            DB::commit();
             return response()->json(['status' => 1, "message" => "Successful", "transaction_id" => $transaction_id, "booking_id" => $booking->id, "payment_link" => URL::to('/payment/' . $booking->token),], 200);
         } catch (\Throwable $th) {
-            return response()->json(['status' => 0, "message" => 'Something went wrong..'], 200);
+            DB::rollback();
+            return response()->json(['status' => 0, "message" => $th->getMessage()], 200);
+            // return response()->json(['status' => 0, "message" => 'Something went wrong..'], 200);
         }
     }
     public function split_payment_process(Request $request)

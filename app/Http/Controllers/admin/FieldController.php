@@ -28,7 +28,7 @@ class FieldController extends Controller
         $request->validate([
             'dome' => 'required',
             'sport_id' => 'required',
-            'field_name' => 'required|numeric',
+            'field_name' => 'required',
             'field_area' => 'required',
             'min_person' => 'required',
             'max_person' => 'required',
@@ -37,7 +37,6 @@ class FieldController extends Controller
             'dome.required' => trans('messages.select_dome'),
             'sport_id.required' => trans('messages.select_sport'),
             'field_name.required' => trans('messages.field_name_required'),
-            'field_name.numeric' => trans('messages.numbers_only'),
             'field_area.required' => trans('messages.field_area_required'),
             'min_person.required' => trans('messages.select_minimum_person'),
             'max_person.required' => trans('messages.select_maximum_person'),
@@ -47,8 +46,7 @@ class FieldController extends Controller
             'field_image.max' => trans('messages.valid_image_size'),
         ]);
         $new_name = 'field-' . uniqid() . '.' . $request->field_image->getClientOriginalExtension();
-        $path = storage_path('app\public\admin\images\fields');
-        $request->field_image->move($path, $new_name);
+        $request->field_image->move(storage_path('app\public\admin\images\fields'), $new_name);
         $field = new Field();
         $field->vendor_id = auth()->user()->id;
         $field->dome_id = $request->dome;
@@ -73,7 +71,7 @@ class FieldController extends Controller
         $request->validate([
             'dome' => 'required',
             'sport_id' => 'required',
-            'field_name' => 'required|numeric',
+            'field_name' => 'required',
             'field_area' => 'required',
             'min_person' => 'required',
             'max_person' => 'required',
@@ -82,7 +80,6 @@ class FieldController extends Controller
             'dome.required' => trans('messages.select_dome'),
             'sport_id.required' => trans('messages.select_sport'),
             'field_name.required' => trans('messages.field_name_required'),
-            'field_name.numeric' => trans('messages.numbers_only'),
             'field_area.required' => trans('messages.field_area_required'),
             'min_person.required' => trans('messages.select_minimum_person'),
             'max_person.required' => trans('messages.select_maximum_person'),
@@ -103,8 +100,7 @@ class FieldController extends Controller
                 unlink('storage/app/public/admin/images/fields/' . $field->image);
             }
             $new_name = 'field-' . uniqid() . '.' . $request->field_image->getClientOriginalExtension();
-            $path = storage_path('app\public\admin\images\fields');
-            $request->field_image->move($path, $new_name);
+            $request->field_image->move(storage_path('app\public\admin\images\fields'), $new_name);
             $field->image = $new_name;
         }
         $field->save();

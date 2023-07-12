@@ -215,7 +215,7 @@ class DomesController extends Controller
         } else {
             // For Dome Revenue Chart
             $dome_revenue = Booking::where('dome_id', $getdomedata->id)->where('booking_status', 1)->orderBy('created_at')->whereBetween('created_at', [$weekStartDate, $weekEndDate])->sum('paid_amount') * 88 / 100;
-            $dome_revenue_data = Booking::where('dome_id', $getdomedata->id)->where('booking_status', 1)->orderBy('created_at')->whereBetween('created_at', [$weekStartDate, $weekEndDate])->select(DB::raw('DATE_FORMAT(created_at, "%d-%m-%Y") as titles'), DB::raw('SUM(paid_amount*88/100) as amount'))->groupBy('titles')->pluck('titles', 'amount');
+            $dome_revenue_data = Booking::where('dome_id', $getdomedata->id)->where('booking_status', 1)->orderBy('created_at')->whereBetween('created_at', [$weekStartDate, $weekEndDate])->select(DB::raw('DATE_FORMAT(created_at, "%d-%m-%Y") as titles'), DB::raw('SUM(paid_amount*88/100) as amount'))->groupBy('titles')->pluck('amount', 'titles');
 
             // For Bookings Overview Chart
             $total_bookings = Booking::where('dome_id', $getdomedata->id)->whereBetween('created_at', [$weekStartDate, $weekEndDate])->count();
@@ -240,8 +240,9 @@ class DomesController extends Controller
                 ];
             }
         }
-        $dome_revenue_labels = $dome_revenue_data->values();
-        $dome_revenue_data = $dome_revenue_data->keys();
+        $dome_revenue_labels = $dome_revenue_data->keys();
+        $dome_revenue_data = $dome_revenue_data->values();
+
         $bookings_labels = collect($bokingschartdata)->pluck('name');
         $bookings_data = collect($bokingschartdata)->pluck('data');
         $bookings_data_colors = collect($bokingschartdata)->pluck('colors');

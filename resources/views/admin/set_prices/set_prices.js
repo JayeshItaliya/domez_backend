@@ -242,6 +242,7 @@ $(function () {
             '" /> <span class="input-group-text bg-transparent border-start-0"> <i class="fa-solid fa-dollar-sign"></i> </span> </div></div></div><div class="col-md-1"><div class="form-group"><button class="btn btn-sm btn-outline-danger" data-day-name="' + dayname + '" onclick="removeslot(' +
             counter + ',this)"><i class="fa fa-close"></i></button></div></div></div>'
         $('.' + dayname + '.extra_fields').append(html);
+        $("body").find('.btn-reset-slots[data-days-name=' + dayname + ']').removeClass("d-none");
     });
 });
 

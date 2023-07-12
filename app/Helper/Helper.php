@@ -107,6 +107,19 @@ class Helper
             return 0;
         }
     }
+    public static function booking_confirmation($bookingdata)
+    {
+        $data = ['title' => 'Booking Receipt', 'email' => $bookingdata->customer_email, 'bookingdata' => $bookingdata];
+        try {
+            Mail::send('email.booking_confirmation', $data, function ($message) use ($data) {
+                $message->from(config('app.mail_username'))->subject($data['title']);
+                $message->to($data['email']);
+            });
+            return 1;
+        } catch (\Throwable $th) {
+            return 0;
+        }
+    }
     public static function is_fav($user_id, $dome_id, $league_id)
     {
         $checkfav = Favourite::where('user_id', $user_id);

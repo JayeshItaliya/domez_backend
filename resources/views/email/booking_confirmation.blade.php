@@ -68,7 +68,7 @@
     <div class="container">
         <div style="display: flex; justify-content:center; margin-top: 0px; margin-bottom: 20px">
             <!-- Company Logo -->
-            <img class="logo" src="{{ $logo }}" style="text-align:center" alt="Company Logo">
+            <img class="logo" src="{{ Helper::image_path('logo.png') }}" style="text-align:center" alt="Company Logo">
         </div>
         <h1 style="text-align: center;">Booking Receipt</h1>
         <p style="text-align: center;">Thank you for booking with us. Here are the details of your reservation.</p>
