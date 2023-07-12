@@ -245,6 +245,7 @@ class PaymentController extends Controller
     }
     public function split_payment_process(Request $request)
     {
+        DB::beginTransaction();
         try {
             $checktransaction = Transaction::where('transaction_id', $request->transaction_id)->first();
             if (empty($checktransaction)) {
@@ -288,8 +289,10 @@ class PaymentController extends Controller
                     Helper::send_notification($title, $body, $type, $checkbooking1->booking_id, '', $tokens);
                 }
             }
+            DB::commit();
             return response()->json(['status' => 1, 'message' => 'Payment Successfull'], 200);
         } catch (\Throwable $th) {
+            DB::rollback();
             return response()->json(['status' => 0, 'message' => 'Something Went Wrong..!!'], 200);
         }
     }
