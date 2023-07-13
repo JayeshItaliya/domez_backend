@@ -32,7 +32,6 @@
 
 <body>
     <div class="layout">
-        {{-- Header Area Start  --}}
         <header class="container header-section">
             <nav class="navbar navbar-expand-lg navbar-light">
                 <a class="navbar-brand logo-img" href="{{ URL::to('/') }}">
@@ -85,8 +84,6 @@
                 </div>
             </nav>
         </header>
-        {{-- Header Area End --}}
-        {{-- Main Banner Area Start --}}
         <section class="main-banner">
             <div class="container">
                 <div class="banner-content wow fadeInDown animated animated" data-wow-duration="2s">
@@ -104,7 +101,6 @@
                 </div>
             </div>
         </section>
-        {{-- Main Banner Area End --}}
         {{-- Most Popular Sports Area Start --}}
         <section class="properly-games small-padding">
             <div class="container">
@@ -270,7 +266,6 @@
                                 </div>
                                 <div class="client-infomation mt-4 pt-2">
                                     <div class="client-name">Eddie Jacobs</div>
-                                    {{-- <div class="client-designation">Hocky Power</div> --}}
                                 </div>
                                 <div class="review-star">
                                     <i class="fa-solid fa-star text-warning"></i>
@@ -295,7 +290,6 @@
                                 </div>
                                 <div class="client-infomation mt-4 pt-2">
                                     <div class="client-name">Jessica Wislson</div>
-                                    {{-- <div class="client-designation">Hocky Power</div> --}}
                                 </div>
                                 <div class="review-star">
                                     <i class="fa-solid fa-star text-warning"></i>
@@ -321,7 +315,6 @@
                                 </div>
                                 <div class="client-infomation mt-4 pt-2">
                                     <div class="client-name">James Carter</div>
-                                    {{-- <div class="client-designation">Hocky Power</div> --}}
                                 </div>
                                 <div class="review-star">
                                     <i class="fa-solid fa-star text-warning"></i>
@@ -347,7 +340,6 @@
                                 </div>
                                 <div class="client-infomation mt-4 pt-2">
                                     <div class="client-name">Wirag Wilow</div>
-                                    {{-- <div class="client-designation">Hocky Power</div> --}}
                                 </div>
                                 <div class="review-star">
                                     <i class="fa-solid fa-star text-warning"></i>

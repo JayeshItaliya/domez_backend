@@ -91,8 +91,7 @@
                             <div class="row justify-content-center">
                                 <div class="col-lg-6 form-group">
                                     <label for="name" class="from-label fw-semibold">Name</label>
-                                    <input type="text" id="name" name="name" value="{{ old('name') }}"
-                                        class="form-control" placeholder="Name" required>
+                                    <input type="text" id="name" name="name" value="{{ old('name') }}" class="form-control" placeholder="Name" required>
                                     @error('name')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
@@ -100,11 +99,8 @@
                                 <div class="col-lg-6 form-group">
                                     <label for="email" class="from-label fw-semibold">Email</label>
                                     <div class="input-group">
-                                        <input type="email" id="email" name="email"
-                                            value="{{ old('email') }}" class="form-control" placeholder="Email"
-                                            required>
-                                        <button class="btn btn-success dmz-button send_otp"
-                                            type="button">Verify</button>
+                                        <input type="email" id="email" name="email" value="{{ old('email') }}" class="form-control" placeholder="Email" required>
+                                        <button class="btn btn-success dmz-button send_otp" type="button">Verify</button>
                                     </div>
                                     @error('email')
                                         <span class="text-danger">{{ $message }}</span>
@@ -113,11 +109,8 @@
                                 <div class="form-group d-none" id="verify_otp">
                                     <label for="otp" class="from-label fw-semibold">OTP</label>
                                     <div class="input-group">
-                                        <input type="otp" id="otp" name="otp"
-                                            value="{{ old('otp') }}" class="form-control" placeholder="OTP"
-                                            required>
-                                        <button class="btn btn-success dmz-button verify_otp" type="button"
-                                            id="button-addon2">Verify</button>
+                                        <input type="otp" id="otp" name="otp" value="{{ old('otp') }}" class="form-control" placeholder="OTP" required>
+                                        <button class="btn btn-success dmz-button verify_otp" type="button" id="button-addon2">Verify</button>
                                     </div>
                                     @error('otp')
                                         <span class="text-danger">{{ $message }}</span>
@@ -125,8 +118,6 @@
                                 </div>
                                 <div class="col-lg-6 form-group">
                                     <label for="phone" class="from-label fw-semibold">Phone Number</label>
-                                    {{-- <input type="text" id="phone" name="phone" value="{{ old('phone') }}"
-                                        class="form-control" placeholder="Phone Number" required> --}}
                                     <div class="input-group">
                                         <input type="hidden" name="country" id="country" value="1">
                                         <input type="tel" id="phone" name="phone" class="form-control"
@@ -228,14 +219,10 @@
                         <div style="display: grid; justify-content:center;">
                             <h6 class="fw-Medium mb-4">Support</h6>
                             <div class="footer-link link">
-                                <p class="mb-2"> <a href="{{ URL::to('privacy-policy') }}"
-                                        class="text-reset text-copyright mb-2">Privacy & Policy</a> </p>
-                                <p class="mb-2"> <a href="{{ URL::to('terms-conditions') }}"
-                                        class="text-reset text-copyright">Terms Of Service</a> </p>
-                                <p class="mb-2"> <a href="{{ URL::to('cancellation-policies') }}"
-                                        class="text-reset text-copyright">Cancellation Policy</a> </p>
-                                <p class="mb-2"> <a href="{{ URL::to('refund-policies') }}"
-                                        class="text-reset text-copyright">Refund Policy</a> </p>
+                                <p class="mb-2"> <a href="{{ URL::to('privacy-policy') }}" class="text-reset text-copyright mb-2">Privacy & Policy</a> </p>
+                                <p class="mb-2"> <a href="{{ URL::to('terms-conditions') }}" class="text-reset text-copyright">Terms Of Service</a> </p>
+                                <p class="mb-2"> <a href="{{ URL::to('cancellation-policies') }}" class="text-reset text-copyright">Cancellation Policy</a> </p>
+                                <p class="mb-2"> <a href="{{ URL::to('refund-policies') }}" class="text-reset text-copyright">Refund Policy</a> </p>
                             </div>
                         </div>
                     </div>

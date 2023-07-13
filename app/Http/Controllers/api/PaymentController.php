@@ -120,7 +120,7 @@ class PaymentController extends Controller
                 $user->is_verified = 1;
                 $user->fcm_token = $request->fcm_token;
                 $user->save();
-                $data = ['title' => 'Domez App Login Credential', 'email' => $user->email, 'name' => $request->name ?? '', 'password' => $password, 'logo' => Helper::image_path('logo.png')];
+                $data = ['title' => 'Domez App Login Credential', 'email' => $user->email, 'name' => $request->name ?? '', 'password' => $password];
                 Mail::send('email.share_login_details', $data, function ($message) use ($data) {
                     $message->from(config('app.mail_username'))->subject($data['title']);
                     $message->to($data['email']);

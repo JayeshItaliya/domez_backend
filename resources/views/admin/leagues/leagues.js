@@ -2,6 +2,55 @@ var min_time = '';
 var max_time = '';
 var start_time = $('#start_time').val();
 var my_interval = 60;
+
+if (document.getElementById('days')) {
+    $('#days').selectpicker();
+}
+$('#field').select2({
+    theme: "bootstrap-5",
+    width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
+    placeholder: $(this).data('placeholder'),
+    closeOnSelect: false,
+});
+$(function () {
+    $('.start.time_picker').timepicker({
+        interval: my_interval,
+        dynamic: false,
+        dropdown: true,
+        scrollbar: true,
+        timeFormat: 'HH:mm',
+        change: function (time) {
+            var element = $(this);
+            var timepicker = element.timepicker();
+            $('.end.time_picker').val('');
+            $('.end.time_picker').timepicker('destroy');
+            $('.end.time_picker').timepicker({
+                interval: my_interval,
+                dynamic: false,
+                dropdown: true,
+                scrollbar: true,
+                timeFormat: 'HH:mm',
+                startTime: timepicker.format(time),
+                minTime: timepicker.format(time),
+            });
+        }
+    });
+    if ($.trim($('.end.time_picker').val()) != "") {
+        $('.end.time_picker').timepicker({
+            interval: my_interval,
+            dynamic: false,
+            dropdown: true,
+            scrollbar: true,
+            timeFormat: 'HH:mm',
+            startTime: start_time,
+        });
+    }
+    if (is_vendor || is_employee || is_provider) {
+        let html =
+            '<a href="' + window.location.href.replace(window.location.search, '') + '/add" class="btn-custom-primary">' + plus_svg_icon + '</a>';
+        $('.fixed-table-toolbar .btn-group').append(html);
+    }
+});
 $('#start_date').on('change', function () {
     if ($.trim($(this).val()) != "") {
         $('#end_date, #booking_deadline').attr('disabled', false);
@@ -119,12 +168,6 @@ $('#dome').on('change', function () {
         }
     });
 }).change();
-$('#field').select2({
-    theme: "bootstrap-5",
-    width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
-    placeholder: $(this).data('placeholder'),
-    closeOnSelect: false,
-});
 $('body').on('change', '.radio-editer input[type=radio]', function () {
     getfields($(this).val());
 });
@@ -166,42 +209,3 @@ function getfields(sport) {
         }
     });
 }
-$(function () {
-    $('.start.time_picker').timepicker({
-        interval: my_interval,
-        dynamic: false,
-        dropdown: true,
-        scrollbar: true,
-        timeFormat: 'HH:mm',
-        change: function (time) {
-            var element = $(this);
-            var timepicker = element.timepicker();
-            $('.end.time_picker').val('');
-            $('.end.time_picker').timepicker('destroy');
-            $('.end.time_picker').timepicker({
-                interval: my_interval,
-                dynamic: false,
-                dropdown: true,
-                scrollbar: true,
-                timeFormat: 'HH:mm',
-                startTime: timepicker.format(time),
-                minTime: timepicker.format(time),
-            });
-        }
-    });
-    if ($.trim($('.end.time_picker').val()) != "") {
-        $('.end.time_picker').timepicker({
-            interval: my_interval,
-            dynamic: false,
-            dropdown: true,
-            scrollbar: true,
-            timeFormat: 'HH:mm',
-            startTime: start_time,
-        });
-    }
-    if (is_vendor || is_employee || is_provider) {
-        let html =
-            '<a href="' + window.location.href.replace(window.location.search, '') + '/add" class="btn-custom-primary">' + plus_svg_icon + '</a>';
-        $('.fixed-table-toolbar .btn-group').append(html);
-    }
-});

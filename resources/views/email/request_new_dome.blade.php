@@ -50,7 +50,7 @@
     <div class="container">
         <div style="display: flex; justify-content:center;">
             <!-- Company Logo -->
-            <img class="logo" src="{{ $logo }}" style="text-align:center" alt="Company Logo">
+            <img class="logo" src="{{ Helper::image_path('logo.png') }}" style="text-align:center" alt="Company Logo">
         </div>
         <h1>New Dome Request</h1>
         <p>Hello {{ $admin }},</p>

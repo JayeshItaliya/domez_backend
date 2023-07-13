@@ -9,7 +9,6 @@ use App\Models\Domes;
 use App\Models\Booking;
 use App\Models\Field;
 use App\Models\League;
-use App\Models\SetPrices;
 use App\Models\Review;
 use App\Models\SetPricesDaysSlots;
 use App\Models\Sports;
@@ -262,10 +261,16 @@ class BookingController extends Controller
                 }
             }
             $data = SetPricesDaysSlots::where('dome_id', $getdomedata->id)->where('sport_id', $request->sport_id)->whereDate('date', date('Y-m-d', strtotime($request->date)))->get();
+            $req_date = Carbon::parse($request->date);
             foreach ($data as $key => $slot) {
                 $new_slot = date('h:i A', strtotime($slot->start_time)) . ' - ' . date('h:i A', strtotime($slot->end_time));
+
                 $status = $slot->status;
-                $getdata = League::select('name', 'start_date', 'end_date', 'start_time', 'end_time')->where('dome_id', $getdomedata->id)->where('sport_id', $request->sport_id)->where('is_deleted', 2)->whereRaw('? BETWEEN start_date AND end_date', [date('Y-m-d', strtotime($request->date))])->get();
+
+                // $getdata = League::select('name', 'start_date', 'end_date', 'start_time', 'end_time')->where('dome_id', $getdomedata->id)->where('sport_id', $request->sport_id)->where('is_deleted', 2)->whereRaw('? BETWEEN start_date AND end_date', [date('Y-m-d', strtotime($request->date))])->get();
+
+                $getdata = League::select('name', 'start_date', 'end_date', 'start_time', 'end_time')->where('dome_id', $getdomedata->id)->where('sport_id', $request->sport_id)->where('is_deleted', 2)->whereRaw('? BETWEEN start_date AND end_date', [date('Y-m-d', strtotime($request->date))])->whereRaw("FIND_IN_SET(?, REPLACE(days, ' | ', ','))", [$req_date->format('D')])->get();
+
                 foreach ($getdata as $key => $league) {
                     $leaguestarttime = date('H:i', strtotime($league->start_time));
                     $leagueendtime = date('H:i', strtotime($league->end_time));

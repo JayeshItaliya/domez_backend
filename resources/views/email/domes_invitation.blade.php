@@ -2,7 +2,7 @@
     <div style="margin:50px auto;width:70%;padding:20px 0">
         <div style="border-bottom:1px solid #eee">
             <a href="" style="font-size:1.4em;color: #00bac7;text-decoration:none;font-weight:600">
-                <img src="{{ $logo }}" alt="Logo">
+                <img src="{{ Helper::image_path('logo.png') }}" alt="Logo">
             </a>
         </div>
         <p style="font-size:1.1em">Hello, Admin</p>

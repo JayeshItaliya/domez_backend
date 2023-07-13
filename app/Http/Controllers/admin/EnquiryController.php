@@ -27,7 +27,7 @@ class EnquiryController extends Controller
     {
         try {
             $enquiry_data = Enquiries::find($request->id);
-            $data = ['title' => 'Reply: Inquiry about Dome Registration', 'type' => $enquiry_data->type, 'email' => $enquiry_data->email, 'name' => $enquiry_data->name, 'reply' => $request->reply, 'logo' => Helper::image_path('logo.png')];
+            $data = ['title' => 'Reply: Inquiry about Dome Registration', 'type' => $enquiry_data->type, 'email' => $enquiry_data->email, 'name' => $enquiry_data->name, 'reply' => $request->reply];
             Mail::send('email.reply_enquiries', $data, function ($message) use ($data) {
                 $message->from(config('app.mail_username'))->subject($data['title']);
                 $message->to($data['email']);
@@ -44,7 +44,7 @@ class EnquiryController extends Controller
         try {
             $password = Str::random(8);
             $enquiry_data = Enquiries::find($request->id);
-            $data = ['title' => 'Reply: Dome Request Accepted', 'email' => $enquiry_data->email, 'name' => $enquiry_data->name, 'password' => $password, 'is_exist' => $enquiry_data->is_exist, 'logo' => Helper::image_path('logo.png')];
+            $data = ['title' => 'Reply: Dome Request Accepted', 'email' => $enquiry_data->email, 'name' => $enquiry_data->name, 'password' => $password, 'is_exist' => $enquiry_data->is_exist];
             Mail::send('email.accept_dome_request', $data, function ($message) use ($data) {
                 $message->from(config('app.mail_username'))->subject($data['title']);
                 $message->to($data['email']);
@@ -78,7 +78,7 @@ class EnquiryController extends Controller
         try {
             Enquiries::where('id', $request->id)->update(['is_accepted' => 3, 'is_replied' => 1]);
             $enquiry = Enquiries::find($request->id);
-            $data = ['title' => 'Reply: Dome Request Declined', 'email' => $enquiry->email, 'name' => $enquiry->name, 'logo' => Helper::image_path('logo.png')];
+            $data = ['title' => 'Reply: Dome Request Declined', 'email' => $enquiry->email, 'name' => $enquiry->name];
             Mail::send('email.decline_dome_request', $data, function ($message) use ($data) {
                 $message->from(config('app.mail_username'))->subject($data['title']);
                 $message->to($data['email']);
@@ -163,8 +163,8 @@ class EnquiryController extends Controller
                 $message->from(config('app.mail_username'))->subject($data['title']);
                 $message->to($data['email']);
             });
-            // $enquiry_data->is_replied = 1;
-            // $enquiry_data->save();
+            $enquiry_data->is_replied = 1;
+            $enquiry_data->save();
             return redirect()->back()->with('success', trans('messages.success'));
         } catch (\Throwable $th) {
             return redirect()->back()->with('error', trans('messages.wrong'));

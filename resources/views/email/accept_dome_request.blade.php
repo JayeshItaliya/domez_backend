@@ -4,34 +4,6 @@
 <head>
     <meta charset="UTF-8">
     <style>
-        /* Company Logo */
-        .logo {
-            display: block;
-            margin: 0 auto;
-        }
-
-        /* Email Body */
-        .email-body {
-            max-width: 600px;
-            margin: 0 auto;
-            font-family: Arial, sans-serif;
-            font-size: 16px;
-            line-height: 1.5;
-            color: #333333;
-        }
-
-        /* Button */
-        .btn {
-            display: inline-block;
-            background-color: #000000;
-            color: #ffffff !important;
-            text-decoration: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            margin-top: 20px;
-        }
-
-        /* Button Hover */
         .btn:hover {
             background-color: #000000;
             color: #ffffff;
@@ -41,11 +13,11 @@
 
 <body>
     <!-- Company Logo -->
-    <img class="logo" src="{{ $logo }}" style="text-align:center" alt="Company Logo">
+    <img src="{{ Helper::image_path('logo.png') }}" style="text-align:center;display: block; margin: 0 auto;" alt="Company Logo">
     <h1 style="text-align:center;color:#000;">Welcome to Domez!</h1>
 
     <!-- Email Body -->
-    <div class="email-body">
+    <div style="max-width: 600px; margin: 0 auto; font-family: Arial, sans-serif; font-size: 16px; line-height: 1.5; color: #333333;">
         <p>Congratulations {{ $name }}! Your request has been accepted.</p>
 
         @if ($is_exist == 1)
@@ -65,7 +37,7 @@
 
         <p>Thank you for choosing Domez. We look forward to continuing our partnership with you.</p>
 
-        <a class="btn" href="{{ URL::to('login') }}">Login</a>
+        <a style="display: inline-block; background-color: #000000; color: #ffffff !important; text-decoration: none; padding: 10px 20px; border-radius: 5px; margin-top: 20px;" class="btn"  href="{{ URL::to('login') }}">Login</a>
 
         <p style="font-size:0.9em;">Regards,<br />Domez Team</p>
     </div>

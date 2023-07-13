@@ -70,7 +70,7 @@ class Helper
     }
     public static function verificationemail($email, $name, $otp)
     {
-        $data = ['title' => 'Email Verification', 'email' => $email, 'name' => $name, 'otp' => $otp, 'logo' => Helper::image_path('logo.png')];
+        $data = ['title' => 'Email Verification', 'email' => $email, 'name' => $name, 'otp' => $otp];
         try {
             Mail::send('email.otp_verification', $data, function ($message) use ($data) {
                 $message->from(config('app.mail_username'))->subject($data['title']);
@@ -83,7 +83,7 @@ class Helper
     }
     public static function forgotpassword($email, $name, $password)
     {
-        $data = ['title' => 'Forgot Password', 'email' => $email, 'name' => $name, 'password' => $password, 'logo' => Helper::image_path('logo.png')];
+        $data = ['title' => 'Forgot Password', 'email' => $email, 'name' => $name, 'password' => $password];
         try {
             Mail::send('email.forgot_password', $data, function ($message) use ($data) {
                 $message->from(config('app.mail_username'))->subject($data['title']);
@@ -96,7 +96,7 @@ class Helper
     }
     public static function invite_dome($venue_name, $venue_address, $name, $email, $phone, $comment)
     {
-        $data = ['title' => 'New Domes Invitation', 'email' => $email, 'name' => $name, 'venue_name' => $venue_name, 'venue_address' => $venue_address, 'phone' => $phone, 'comment' => $comment, 'logo' => Helper::image_path('logo.png')];
+        $data = ['title' => 'New Domes Invitation', 'email' => $email, 'name' => $name, 'venue_name' => $venue_name, 'venue_address' => $venue_address, 'phone' => $phone, 'comment' => $comment];
         try {
             Mail::send('email.domes_invitation', $data, function ($message) use ($data) {
                 $message->from(config('app.mail_username'))->subject($data['title']);

@@ -1,8 +1,8 @@
 @extends('admin.layout.default')
 @section('styles')
     <link rel="stylesheet" href="{{ url('storage\app\public\admin\plugins\multi-select\select2.min.css') }}" />
-    <link rel="stylesheet"
-        href="{{ url('storage\app\public\admin\plugins\multi-select\select2-bootstrap-5-theme.min.css') }}" />
+    <link rel="stylesheet" href="{{ url('storage\app\public\admin\plugins\multi-select\select2-bootstrap-5-theme.min.css') }}" />
+    <link rel="stylesheet" href="{{ url('storage\app\public\admin\css\bootstrap\bootstrap-select.min.css') }}" />
 @endsection
 @section('title')
     {{ trans('labels.edit_league') }}
@@ -89,8 +89,7 @@
                 </div>
                 <div class="col-md-6">
                     <label for="" class="form-label">{{ trans('labels.select_sports') }}</label>
-                    <div class="d-flex radio-editer">
-                    </div>
+                    <div class="d-flex radio-editer"></div>
                     @error('sport')
                         <span class="text-danger"> {{ $message }} </span>
                     @enderror
@@ -140,6 +139,24 @@
                                 @enderror
                             </div>
                         </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="form-label" for="days">{{ trans('labels.select_days') }}</label>
+                        <select class="form-control" name="days[]" id="days" multiple required >
+                            <option value="Mon" {{ in_array('Mon',explode(' | ',$getleaguedata->days)) ? 'selected' : '' }}> {{ trans('labels.monday') }} </option>
+                            <option value="Tue" {{ in_array('Tue',explode(' | ',$getleaguedata->days)) ? 'selected' : '' }}> {{ trans('labels.tuesday') }} </option>
+                            <option value="Wed" {{ in_array('Wed',explode(' | ',$getleaguedata->days)) ? 'selected' : '' }}> {{ trans('labels.wednesday') }} </option>
+                            <option value="Thu" {{ in_array('Thu',explode(' | ',$getleaguedata->days)) ? 'selected' : '' }}> {{ trans('labels.thursday') }} </option>
+                            <option value="Fri" {{ in_array('Fri',explode(' | ',$getleaguedata->days)) ? 'selected' : '' }}> {{ trans('labels.friday') }} </option>
+                            <option value="Sat" {{ in_array('Sat',explode(' | ',$getleaguedata->days)) ? 'selected' : '' }}> {{ trans('labels.saturday') }} </option>
+                            <option value="Sun" {{ in_array('Sun',explode(' | ',$getleaguedata->days)) ? 'selected' : '' }}> {{ trans('labels.sunday') }} </option>
+                        </select>
+                        @error('days') <span class="text-danger"> {{ $message }} </span> @enderror
+                        @if ($errors->has('days.0'))
+                            <span class="text-danger"> <br> {{ $errors->first('days.0') }} </span>
+                        @endif
                     </div>
                 </div>
                 <div class="col-md-6">
@@ -260,7 +277,7 @@
                         @endif
                     </div>
                 </div>
-                <div class="row mb-4">
+                <div class="row my-4">
                     @foreach ($getleaguedata['league_images'] as $leagueimages)
                         <div class="avatar avatar-xl col-auto">
                             <div class="dome-img">
@@ -285,8 +302,8 @@
 @endsection
 @section('scripts')
     <script src="{{ url('storage\app\public\admin\plugins\multi-select\select2.min.js') }}"></script>
+    <script src="{{ url('storage\app\public\admin\js\bootstrap\bootstrap-select.min.js') }}"></script>
     <script>
-        // var validatetimeurl = {{ Js::from(URL::to('admin/validate-time')) }};
         $('.radio-editer').parent().show();
         var field_selected = $.map({{ Js::from(explode(',', $getleaguedata->field_id)) }}, function(value) {
             return parseInt(value, 10);

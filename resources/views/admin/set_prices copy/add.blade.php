@@ -73,7 +73,7 @@
                             </div>
                         </div>
                         <div class="col-md-12 my-3">
-                            <p>{{ trans('labels.select_day_wise_price') }} <span class="start-end-time"></span> </p>
+                            <p>{{ trans('labels.select_day_wise_price') }} </p>
                         </div>
                         @php
                             $days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];

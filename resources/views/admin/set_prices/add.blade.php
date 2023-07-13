@@ -31,11 +31,7 @@
                                     <select class="form-select" name="dome" id="dome"
                                         data-next="{{ URL::to('/admin/set-prices/getsports') }}" data-from="add">
                                         @foreach ($getdomeslist as $dome)
-                                            <option value="{{ $dome->id }}" data-start-time="{{ $dome->start_time }}"
-                                                data-end-time="{{ $dome->end_time }}"
-                                                data-slot-duration="{{ $dome->slot_duration }}"
-                                                {{ $dome->id == old('dome') ? 'selected' : '' }}>{{ $dome->name }}
-                                            </option>
+                                            <option value="{{ $dome->id }}" data-start-time="{{ $dome->start_time }}" data-end-time="{{ $dome->end_time }}" data-slot-duration="{{ $dome->slot_duration }}" {{ $dome->id == old('dome') ? 'selected' : '' }}>{{ $dome->name }} </option>
                                         @endforeach
                                     </select>
                                     @error('dome')
@@ -55,8 +51,7 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="start_date" class="form-label">{{ trans('labels.start_date') }}</label>
-                                    <input type="date" class="form-control" name="start_date" id="start_date"
-                                        min="{{ date('Y-m-d') }}" value="{{ old('start_date') }}">
+                                    <input type="date" class="form-control" name="start_date" id="start_date" min="{{ date('Y-m-d') }}" value="{{ old('start_date') }}">
                                     @error('start_date')
                                         <span class="text-danger"> {{ $message }} </span>
                                     @enderror
@@ -73,7 +68,7 @@
                             </div>
                         </div>
                         <div class="col-md-12 my-3">
-                            <p>{{ trans('labels.select_day_wise_price') }} <span class="start-end-time"></span> </p>
+                            <p>{{ trans('labels.select_day_wise_price') }} </p>
                         </div>
                         @php
                             $days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];

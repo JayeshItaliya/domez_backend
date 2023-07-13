@@ -292,4 +292,12 @@ return [
     'new' => 'New',
     'reset_slots' => 'Reset Slots',
     'slots' => 'Slots',
+    'select_days' => 'Select days',
+    'monday' => 'Monday',
+    'tuesday' => 'Tuesday',
+    'wednesday' => 'Wednesday',
+    'thursday' => 'Thursday',
+    'friday' => 'Friday',
+    'saturday' => 'Saturday',
+    'sunday' => 'Sunday',
 ];

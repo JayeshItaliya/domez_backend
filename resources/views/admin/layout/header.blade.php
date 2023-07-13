@@ -80,10 +80,11 @@
                     </svg>
                 </a>
                 <ul class="dropdown-menu box-shadow border-0 my-3">
-                    <li><a class="dropdown-item"
-                            href="{{ URL::to('admin/change-lang-en') }}">{{ trans('labels.english') }}</a></li>
-                    <li><a class="dropdown-item"
-                            href="{{ URL::to('admin/change-lang-fr') }}">{{ trans('labels.french') }}</a></li>
+                    @if (app()->getLocale() == 'en')
+                        <li><a class="dropdown-item" href="{{ URL::to('admin/change-lang-fr') }}">{{ trans('labels.french') }}</a></li>
+                    @else
+                        <li><a class="dropdown-item" href="{{ URL::to('admin/change-lang-en') }}">{{ trans('labels.english') }}</a></li>
+                    @endif
                 </ul>
             </li>
             <li class="dropdown">

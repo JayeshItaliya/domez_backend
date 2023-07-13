@@ -49,7 +49,7 @@
     <div class="container">
         <div style="display: flex; justify-content:center;">
             <!-- Company Logo -->
-            <img class="logo" src="{{ $logo }}" style="text-align:center" alt="Company Logo">
+            <img class="logo" src="{{ Helper::image_path('logo.png') }}" style="text-align:center" alt="Company Logo">
         </div>
         <p>Dear {{ $name }},</p>
         <p>Thank you for your request, however, we regret to inform you that we are unable to fulfill your request at

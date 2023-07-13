@@ -66,8 +66,6 @@ class DomesPriceController extends Controller
                                 $slots->date = $date->format('Y-m-d');
                                 $slots->start_time = $data;
                                 $slots->end_time = $endtimearray[$key];
-                                // $slots->start_time = Carbon::createFromFormat('h:i A', $data)->format('H:i');
-                                // $slots->end_time = Carbon::createFromFormat('h:i A', $endtimearray[$key])->format('H:i');
                                 $slots->day = $dayname;
                                 $slots->price = $pricearay[$key];
                                 $slots->status = 1;

@@ -211,7 +211,7 @@ class SettingsController extends Controller
         ]);
         if (Hash::check($request->current_password, auth()->user()->password)) {
             User::where('id', auth()->user()->id)->update(['password' => Hash::make($request->new_password)]);
-            $data = ['title' => 'Password Updated', 'email' => auth()->user()->email, 'logo' => Helper::image_path('logo.png')];
+            $data = ['title' => 'Password Updated', 'email' => auth()->user()->email];
             Mail::send('email.change_password', $data, function ($message) use ($data) {
                 $message->from(config('app.mail_username'))->subject($data['title']);
                 $message->to($data['email']);

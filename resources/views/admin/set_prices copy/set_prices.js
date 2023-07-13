@@ -16,7 +16,6 @@ $('#dome').on('change', function () {
     }
     min_time = $(this).find(':selected').attr('data-start-time');
     max_time = $(this).find(':selected').attr('data-end-time');
-    // $('.start-end-time').html('('+min_time+' - '+max_time+')');
     my_interval = $.trim($(this).find(':selected').attr('data-slot-duration')) == 2 ? 90 : 60;
     if (start_time == '') {
         start_time = min_time;

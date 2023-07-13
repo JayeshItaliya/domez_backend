@@ -38,7 +38,7 @@
     <div class="container">
         <div style="display: flex; justify-content:center;">
             <!-- Company Logo -->
-            <img class="logo" src="{{ $logo }}" style="text-align:center" alt="Company Logo">
+            <img class="logo" src="{{ Helper::image_path('logo.png') }}" style="text-align:center" alt="Company Logo">
         </div>
         <p>Dear {{ $name }},</p>
         <p>Thank you for your request on our website. We are pleased to inform you that your request has been received

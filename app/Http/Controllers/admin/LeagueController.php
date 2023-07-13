@@ -69,10 +69,12 @@ class LeagueController extends Controller
             'max_player' => 'required',
             'team_limit' => 'required',
             'price' => 'required',
-            // 'start_time' => 'required|date_format:H:i|after_or_equal:' . @$checkdome->start_time,
             'start_time' => 'required|date_format:H:i',
             'end_time' => 'required|date_format:H:i|after:start_time',
             'booking_deadline' => 'required|date|before:start_date',
+
+            'days' => 'required|array|min:1',
+            'days.*' => 'in:Mon,Tue,Wed,Thu,Fri,Sat,Sun',
         ], [
             'dome.required' => trans('messages.select_dome'),
             'field.required' => trans('messages.select_field'),
@@ -90,13 +92,17 @@ class LeagueController extends Controller
             'price.required' => trans('messages.price_required'),
             'start_time.required' => trans('messages.start_time_required'),
             'start_time.date_format' => trans('messages.valid_time_format'),
-            // 'start_time.after_or_equal' => trans('messages.start_time_afterequal_dome_start_time') . ' : ' . @$checkdome->start_time,
             'end_time.required' => trans('messages.end_time_required'),
             'end_time.date_format' => trans('messages.valid_time_format'),
             'end_time.after' => trans('messages.end_time_must_after_start_time'),
             'booking_deadline.required' => trans('messages.booking_deadline_required'),
             'booking_deadline.date' => trans('messages.valid_date'),
             'booking_deadline.before' => trans('messages.booking_deadline_before_start_date'),
+
+            'days.required' => 'Day selection is required.',
+            'days.array' => 'Day selection is in invalid format.',
+            'days.min' => 'Day selection is required.',
+            'days.*.in' => 'Invalid day selected.',
         ]);
         try {
             $league = League::find($request->id);
@@ -118,6 +124,7 @@ class LeagueController extends Controller
             $league->end_date = $request->end_date;
             $league->start_time = $request->start_time;
             $league->end_time = $request->end_time;
+            $league->days = implode(' | ',$request->days);
             $league->from_age = $request->from_age;
             $league->to_age = $request->to_age;
             $league->gender = $request->gender;

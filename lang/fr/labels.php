@@ -292,4 +292,12 @@ return [
     'new' => 'Nouveau',
     'reset_slots' => 'Réinitialiser les créneaux',
     'slots' => 'Créneaux',
+    'select_days' => 'Sélectionnez des jours',
+    'monday' => 'Lundi',
+    'tuesday' => 'Mardi',
+    'wednesday' => 'Mercredi',
+    'thursday' => 'Jeudi',
+    'friday' => 'Vendredi',
+    'saturday' => 'Samedi',
+    'sunday' => 'Dimanche',
 ];
