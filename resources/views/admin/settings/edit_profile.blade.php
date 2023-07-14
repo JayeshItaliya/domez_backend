@@ -30,17 +30,14 @@
                         <div class="col-md-4">
                             <div class="mb-3">
                                 <label for="name" class="form-label">{{ trans('labels.name') }}</label>
-                                <input type="text" name="name" class="form-control" id="name"
-                                    value="{{ Auth::user()->name }}" placeholder="{{ trans('labels.name') }}" required>
+                                <input type="text" name="name" class="form-control" id="name" value="{{ Auth::user()->name }}" placeholder="{{ trans('labels.name') }}" required>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="mb-3">
                                 <label for="email_address" class="form-label">{{ trans('labels.email_address') }}</label>
                                 <div class="input-group">
-                                    <input type="email" name="email" class="form-control" id="email_address"
-                                        value="{{ Auth::user()->email }}" placeholder="{{ trans('labels.email_address') }}"
-                                        data-next="{{ URL::to('admin/settings/check-email-exist') }}" required>
+                                    <input type="email" name="email" class="form-control" id="email_address" value="{{ Auth::user()->email }}" placeholder="{{ trans('labels.email_address') }}" data-next="{{ URL::to('admin/settings/check-email-exist') }}" required>
                                     <span class="input-group-text my-spinner" id="basic-addon1">
                                         <div class="spinner-border spinner-border-sm text-dark" role="status">
                                             <span class="visually-hidden">{{ trans('labels.loading') }}</span>
@@ -54,9 +51,7 @@
                                 <label for="phone" class="form-label">{{ trans('labels.phone_number') }}</label>
                                 <div class="input-group">
                                     <input type="hidden" name="country" id="country" value="1">
-                                    <input type="tel" id="phone" name="phone"
-                                        class="form-control custom-input rounded mb-3"
-                                        placeholder="{{ trans('labels.phone_number') }}" value="{{ Auth::user()->phone }}" required>
+                                    <input type="tel" id="phone" name="phone" class="form-control custom-input rounded mb-3" placeholder="{{ trans('labels.phone_number') }}" value="{{ Auth::user()->phone }}" required>
                                 </div>
                                 @error('phone')
                                     <span class="text-danger">{{ $message }}</span>
@@ -65,8 +60,7 @@
                         </div>
                         <div class="col-md-4">
                             <div class="mb-3">
-                                <label class="form-label">{{ trans('labels.profile_image') }}
-                                    {{ trans('labels.optional') }}</label>
+                                <label class="form-label">{{ trans('labels.profile_image') }} {{ trans('labels.optional') }}</label>
                                 <input type="file" class="form-control mt-2" name="profile">
                                 @error('profile')
                                     <span class="text-danger">{{ $message }}</span>
