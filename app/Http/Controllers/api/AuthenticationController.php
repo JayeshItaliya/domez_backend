@@ -63,14 +63,14 @@ class AuthenticationController extends Controller
         }
         $checkemail = User::where('email', $request->email)->first();
         if (!empty($checkemail)) {
-            return response()->json(["status" => 0, "message" => "This Email is Already Taken"], 200);
+            return response()->json(["status" => 0, "message" => "This email is already registered with an existing account"], 200);
         }
         if ($request->phone == "") {
             return response()->json(["status" => 0, "message" => "Please Enter Phone Number"], 200);
         }
         $checkphone = User::where('phone', $request->phone)->first();
         if (!empty($checkphone)) {
-            return response()->json(["status" => 0, "message" => "This phone number is already taken"], 200);
+            return response()->json(["status" => 0, "message" => "This phone number is already registered with an existing account"], 200);
         }
         if ($request->name == "") {
             return response()->json(["status" => 0, "message" => "Please Enter Your Name"], 200);
@@ -107,7 +107,7 @@ class AuthenticationController extends Controller
         }
         $checkemail = User::where('email', $request->email)->first();
         if (!empty($checkemail)) {
-            return response()->json(["status" => 0, "message" => "Email Already Exists"], 200);
+            return response()->json(["status" => 0, "message" => "This email is already registered with an existing account"], 200);
         }
         if ($request->name == "") {
             return response()->json(["status" => 0, "message" => "Please Enter Your Name"], 200);
@@ -290,9 +290,9 @@ class AuthenticationController extends Controller
                 'name.required' => 'Please Enter Name',
                 'email.required' => 'Please Enter Email',
                 'email.email' => 'Invalid Email Address',
-                'email.unique' => 'This Email is Already Taken',
+                'email.unique' => 'This email is already registered with an existing account',
                 'phone.required' => 'Please Enter phone',
-                'phone.unique' => 'This Phone is Already Taken',
+                'phone.unique' => 'This phone number is already registered with an existing account',
                 'image.image' => 'Please select only image type of file',
                 'image.max' => 'The image must not be greater than 5MB.',
             ]);
