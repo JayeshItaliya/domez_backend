@@ -293,7 +293,7 @@ class PaymentController extends Controller
             return response()->json(['status' => 1, 'message' => 'Payment Successfull'], 200);
         } catch (\Throwable $th) {
             DB::rollback();
-            return response()->json(['status' => 0, 'message' => 'Something Went Wrong..!!'], 200);
+            return response()->json(['status' => 0, 'message' => 'Something went wrong..'], 200);
         }
     }
 }
