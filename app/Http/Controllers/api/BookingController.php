@@ -51,7 +51,7 @@ class BookingController extends Controller
                         "price" => $booking->total_amount,
                         'image' => $dome->dome_image->image,
                         'payment_type' => $booking->payment_type,
-                        'created_at' => $booking->created_at,
+                        'created_at' => Carbon::parse($booking->created_at)->setTimezone(config('app.timezone'))->toDateTimeString(),
                     ];
                 }
             } else {

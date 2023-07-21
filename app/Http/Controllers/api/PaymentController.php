@@ -237,7 +237,7 @@ class PaymentController extends Controller
             }
             Helper::booking_confirmation($booking);
             DB::commit();
-            return response()->json(['status' => 1, "message" => "Successful", "transaction_id" => $transaction_id, "booking_id" => $booking->id, "payment_link" => URL::to('/payment/' . $booking->token),], 200);
+            return response()->json(['status' => 1,"message" => "Successful","transaction_id" => $transaction_id,"booking_id" => $booking->id,"payment_link" => URL::to('/payment/' . $booking->token),"booking_created_at" => Carbon::parse($booking->created_at)->setTimezone(config('app.timezone'))->toDateTimeString(),"current_time" => Carbon::now()->setTimezone(config('app.timezone'))->toDateTimeString(),],200);
         } catch (\Throwable $th) {
             DB::rollback();
             return response()->json(['status' => 0, "message" => 'Something went wrong..'], 200);

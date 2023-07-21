@@ -53,13 +53,13 @@ class BookingController extends Controller
                 $getbookingslist = $getbookingslist->whereBetween('start_date', [$weekStartDate, $weekEndDate]);
             }
         }
-        $getbookingslist = $getbookingslist->get();
+        $getbookingslist = $getbookingslist->orderByDesc('id')->get();
         // Filter the bookings based on their order date
-        $today_orders = $getbookingslist->where('start_date', date('Y-m-d'));
-        $future_orders = $getbookingslist->where('start_date', '>', date('Y-m-d'));
-        $past_orders = $getbookingslist->where('start_date', '<', date('Y-m-d'));
-        $bookingslist = $today_orders->concat($future_orders)->concat($past_orders);
-        return view('admin.bookings.index', compact('bookingslist'));
+        // $today_orders = $getbookingslist->where('start_date', date('Y-m-d'));
+        // $future_orders = $getbookingslist->where('start_date', '>', date('Y-m-d'));
+        // $past_orders = $getbookingslist->where('start_date', '<', date('Y-m-d'));
+        // $bookingslist = $today_orders->concat($future_orders)->concat($past_orders);
+        return view('admin.bookings.index', compact('getbookingslist'));
     }
     public function calendar(Request $request)
     {
