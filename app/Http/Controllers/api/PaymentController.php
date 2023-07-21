@@ -188,8 +188,8 @@ class PaymentController extends Controller
             } else {
                 $booking->start_date = $request->date;
             }
-            $booking->start_time = Carbon::createFromFormat('h:i A', $request->booking_type == 1 ? $request->start_time : $league->start_time)->format('H:i');
-            $booking->end_time = Carbon::createFromFormat('h:i A', $request->booking_type == 1 ? $request->end_time : $league->end_time)->format('H:i');;
+            $booking->start_time = Carbon::createFromFormat('h:i A', $request->booking_type == 1 ? date('h:i A', strtotime($request->start_time)) : date('h:i A', strtotime($league->start_time)))->format('H:i');
+            $booking->end_time = Carbon::createFromFormat('h:i A', $request->booking_type == 1 ? date('h:i A', strtotime($request->end_time)) : date('h:i A', strtotime($league->end_time)))->format('H:i');;
             $booking->sub_total = $request->sub_total;
             $booking->service_fee = $request->service_fee;
             $booking->hst = $request->hst;
@@ -224,7 +224,7 @@ class PaymentController extends Controller
                 }
             }
             $title = $request->booking_type == 1 ? 'Dome Booking' : 'League Booking';
-            $body = 'Thank you for making '.$title;
+            $body = 'Thank you for making ' . $title;
             $tokens[] = $user->fcm_token;
             if ($booking->payment_status == 1) {
                 $type = $request->booking_type == 1 ? 5 : 6;
