@@ -102,12 +102,10 @@ $('body').on('click', ".accordion-header", function () {
     lastOpenedAccordion = $(this).find('.accordion-button').attr('data-bs-target');
     min_time = $(this).attr('data-start-time');
     max_time = $(this).attr('data-end-time');
-    // alert(min_time)
     // var currentDate = new Date().toISOString().slice(0, 10);
     // var endTime = new Date(currentDate + ' ' + min_time);
     // endTime.setMinutes(endTime.getMinutes() - 60);
     // min_time = ('0' + endTime.getHours()).slice(-2) + ':' + ('0' + endTime.getMinutes()).slice(-2);
-    // alert(min_time)
     if ($(this).next().find('.start.time_picker').length == 1) {
         var checkval = $.trim($(this).next().find('.end.time_picker').val());
         if (checkval != '') {
