@@ -300,4 +300,5 @@ return [
     'friday' => 'Friday',
     'saturday' => 'Saturday',
     'sunday' => 'Sunday',
+    'save' => 'Save',
 ];

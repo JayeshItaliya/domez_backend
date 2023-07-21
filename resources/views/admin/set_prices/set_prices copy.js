@@ -103,7 +103,6 @@ $('body').on('click', ".accordion-header", function () {
     lastOpenedAccordion = $(this).find('.accordion-button').attr('data-bs-target');
     max_time = $(this).attr('data-end-time');
     min_time = $(this).attr('data-start-time');
-
     if ($(this).next().find('.start.time_picker').length == 1) {
         var checkval = $.trim($(this).next().find('.end.time_picker').val());
         if (checkval != '') {
@@ -153,50 +152,26 @@ $('body').on('focus', ".start.time_picker", function () {
             });
             var check_start_time = new Date(dateString + ' ' + start_time);
             var start_time_minutes = check_start_time.getHours() * 60 + check_start_time.getMinutes();
-            alert('max_time -- '+max_time)
             var check_max_time = new Date(dateString + ' ' + max_time);
             var max_time_minutes = check_max_time.getHours() * 60 + check_max_time.getMinutes();
             if (start_time_minutes <= max_time_minutes) {
-                alert(111)
                 if (start_time_minutes == max_time_minutes) {
-                    alert(111222)
                     end_max_time = start_time;
                     disable_btn($(element).attr('data-day-name'));
                 } else {
-                    alert(1112223333)
                     var check_end_max_time = new Date(dateString + ' ' + end_max_time);
                     var end_max_time_minutes = check_end_max_time.getHours() * 60 + check_end_max_time.getMinutes();
                     if (end_max_time_minutes <= max_time_minutes) {
-                        alert(11122233334444)
                         if (end_max_time_minutes == max_time_minutes) {
-                            alert('if')
                             end_max_time = max_time;
                             disable_btn($(element).attr('data-day-name'));
-                        } else {
-
-                            var currentDate = new Date().toISOString().slice(0, 10);
-
-                            var startDateString = currentDate + ' ' + start_time;
-                            var specificTimeString = currentDate + ' ' + max_time;
-
-                            var starttime = new Date(startDateString);
-                            var specificTime = new Date(specificTimeString);
-                            var endTime = new Date(starttime.getTime() + (60 * 60 * 1000));
-
-                            if (endTime < specificTime) {
-                                alert('Start Time + 60 Minutes is less than Specific Time -- '+specificTime);
-                            } else {
-                                alert('Start Time + 60 Minutes is greater than or equal to Specific Time -- '+specificTime);
-                            }
-                        }
+                        } else {}
                     } else {
-                        alert(111222333344444444444)
                         end_max_time = max_time;
                         disable_btn($(element).attr('data-day-name'));
                     }
                 }
             } else {
-                alert(5555555)
                 start_time = max_time;
                 end_max_time = max_time;
             }
@@ -223,14 +198,6 @@ $('body').on('focus', ".start.time_picker", function () {
         }
     });
 });
-function parseTimeString(timeStr) {
-    const [hours, minutes] = timeStr.split(':').map(Number);
-    const date = new Date();
-    date.setHours(hours);
-    date.setMinutes(minutes);
-    date.setSeconds(0);
-    return date;
-}
 $(function () {
     "use strict";
     if (is_vendor || is_employee) {

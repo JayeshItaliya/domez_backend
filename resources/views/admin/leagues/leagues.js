@@ -73,13 +73,13 @@ $('#from_age').on('change', function () {
     }
     $('#to_age option:not(:first)').remove();
     $('#to_age option:first').attr('disabled', false);
-    if (from_age == 50) {
+    if (from_age == 89) {
         $('#to_age').append('<option value="' + from_age + '" selected >' + from_age + '</option>');
         $('#to_age option:first').attr('disabled', true);
         return false;
     }
     from_age += 1;
-    for (var i = from_age; i <= 50; i++) {
+    for (var i = from_age; i <= 90; i++) {
         let selected = $.trim($('#to_age').attr('data-to-age')) == i ? 'selected' : '';
         $('#to_age').append('<option value="' + i + '"  ' + selected + ' >' + i + '</option>');
     }

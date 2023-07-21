@@ -2,6 +2,10 @@
 @section('title')
     {{ trans('labels.set_prices') }}
 @endsection
+@section('styles')
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-timepicker/1.10.0/jquery.timepicker.min.css">
+@endsection
 @section('contents')
     <div class="card mb-3">
         <div class="card-body py-2">
@@ -22,6 +26,12 @@
         <form id="storesetprices" action="{{ URL::to('admin/set-prices/store') }}" method="post">
             @csrf
             <div class="card-body">
+
+                {{-- <label for="start-time">Start Time:</label>
+                <input type="text" id="start-time" placeholder="Start Time">
+                <label for="end-time">End Time:</label>
+                <input type="text" id="end-time" placeholder="End Time"> --}}
+
                 <div class="row">
                     <div class="col-md-12 mt-4">
                         <div class="row">
@@ -31,7 +41,11 @@
                                     <select class="form-select" name="dome" id="dome"
                                         data-next="{{ URL::to('/admin/set-prices/getsports') }}" data-from="add">
                                         @foreach ($getdomeslist as $dome)
-                                            <option value="{{ $dome->id }}" data-start-time="{{ $dome->start_time }}" data-end-time="{{ $dome->end_time }}" data-slot-duration="{{ $dome->slot_duration }}" {{ $dome->id == old('dome') ? 'selected' : '' }}>{{ $dome->name }} </option>
+                                            <option value="{{ $dome->id }}" data-start-time="{{ $dome->start_time }}"
+                                                data-end-time="{{ $dome->end_time }}"
+                                                data-slot-duration="{{ $dome->slot_duration }}"
+                                                {{ $dome->id == old('dome') ? 'selected' : '' }}>{{ $dome->name }}
+                                            </option>
                                         @endforeach
                                     </select>
                                     @error('dome')
@@ -51,7 +65,8 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="start_date" class="form-label">{{ trans('labels.start_date') }}</label>
-                                    <input type="date" class="form-control" name="start_date" id="start_date" min="{{ date('Y-m-d') }}" value="{{ old('start_date') }}">
+                                    <input type="date" class="form-control" name="start_date" id="start_date"
+                                        min="{{ date('Y-m-d') }}" value="{{ old('start_date') }}">
                                     @error('start_date')
                                         <span class="text-danger"> {{ $message }} </span>
                                     @enderror
@@ -86,6 +101,36 @@
     </div>
 @endsection
 @section('scripts')
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-timepicker/1.10.0/jquery.timepicker.min.js"></script>
+
+    {{-- <script>
+        $(document).ready(function() {
+            $('#start-time').timepicker({
+                timeFormat: 'HH:mm',
+                interval: 60,
+                minTime: '01:00',
+                maxTime: '23:59', // Set the maximum time to 23:59 (11:59 PM)
+                startTime: '01:00',
+                dynamic: false,
+                dropdown: true
+            });
+
+            $('#end-time').timepicker({
+                timeFormat: 'HH:mm',
+                interval: 60,
+                minTime: '00:00',
+                maxTime: '23:59',
+                startTime: '00:00',
+                dynamic: false,
+                dropdown: true
+            });
+        });
+    </script> --}}
+
+    <script
+        src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places&key=AIzaSyCvlZaKvRSMouyH9pDgGC6pMGADfytOrsA">
+    </script>
     <script>
         let start_time_title = {{ Js::from(trans('labels.start_time')) }};
         let end_time_title = {{ Js::from(trans('labels.end_time')) }};

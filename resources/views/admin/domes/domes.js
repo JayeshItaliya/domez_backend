@@ -1,3 +1,18 @@
+$(document).ready(function () {
+    $('.time_picker__start').timepicker({
+        interval: 10,
+        timeFormat: 'H:mm',
+        minTime: '00:00',
+        maxTime: '23:59',
+    });
+    $('.time_picker__end').timepicker({
+        interval: 10,
+        timeFormat: 'H:mm',
+        maxTime: '24:00',
+        maxTime: '23:59',
+    });
+});
+
 $(function () {
     "use strict";
     if ($('input[data-sport-name]:checked').length > 0) {
@@ -5,13 +20,13 @@ $(function () {
     } else {
         $('.default-price-title').hide();
     }
-    $('.time_picker__').timepicker({
-        interval: 60,
-        dynamic: false,
-        dropdown: true,
-        scrollbar: true,
-        timeFormat: 'HH:mm',
-    });
+    // $('.time_picker__').timepicker({
+    //     interval: 60,
+    //     dynamic: false,
+    //     dropdown: true,
+    //     scrollbar: true,
+    //     timeFormat: 'HH:mm',
+    // });
     $('.total-bookings-picker, .dome-revenue-picker').hide();
     if ($('.total-bookings-picker').length > 0) {
         $('.total-bookings-picker').flatpickr({

@@ -1,6 +1,9 @@
 @extends('admin.layout.default')
 @section('styles')
-    <link rel="stylesheet" href="{{ url('storage/app/public/admin/css/timepicker/jquery.timepicker.min.css') }}">
+
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-timepicker/1.10.0/jquery.timepicker.min.css">
+
     <style>
         .ui-timepicker-container {
             z-index: 9999 !important;
@@ -15,12 +18,10 @@
         <div class="card-body py-2">
             <div class="d-flex align-items-center justify-content-between">
                 <p class="text-secondary fw-semibold">{{ trans('labels.domes') }}</p>
-                <nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='%236c757d'/%3E%3C/svg%3E&#34;);"
-                    aria-label="breadcrumb">
+                <nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='%236c757d'/%3E%3C/svg%3E&#34;);" aria-label="breadcrumb">
                     <ol class="breadcrumb m-0">
                         {!! Helper::breadcrumb_home_li() !!}
-                        <li class="breadcrumb-item"><a href="{{ URL::to('admin/domes') }}">{{ trans('labels.domes') }}</a>
-                        </li>
+                        <li class="breadcrumb-item"><a href="{{ URL::to('admin/domes') }}">{{ trans('labels.domes') }}</a></li>
                         <li class="breadcrumb-item active" aria-current="page">{{ trans('labels.edit_dome') }}</li>
                     </ol>
                 </nav>
@@ -33,8 +34,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="form-group text-end">
-                        <button type="button" class="btn btn-outline-info" data-bs-toggle="modal"
-                            data-bs-target="#exampleModal">{{ trans('labels.edit_working_hours') }}</button>
+                        <button type="button" class="btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#exampleModal">{{ trans('labels.edit_working_hours') }}</button>
                     </div>
                 </div>
                 <div class="col-md-6">
@@ -42,8 +42,7 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label class="form-label" for="dome_name">{{ trans('labels.dome_name') }}</label>
-                                <input type="text" id="dome_name" name="dome_name" value="{{ !empty(old('dome_name')) ? old('dome_name') : $dome->name }}"
-                                    class="form-control" placeholder="Please Enter Dome Name">
+                                <input type="text" id="dome_name" name="dome_name" value="{{ !empty(old('dome_name')) ? old('dome_name') : $dome->name }}" class="form-control" placeholder="Please Enter Dome Name">
                                 @error('dome_name') <span class="text-danger">{{ $message }}</span> @enderror
                             </div>
                         </div>
@@ -51,8 +50,7 @@
                             <div class="form-group">
                                 <label class="form-label" for="dome_hst">{{ trans('labels.hst') }}</label>
                                 <div class="input-group">
-                                    <input type="number" id="dome_hst" name="dome_hst" class="form-control"
-                                        placeholder="{{ trans('labels.hst') }}" value="{{ !empty(old('dome_hst')) ? old('dome_hst') : $dome->hst }}">
+                                    <input type="number" id="dome_hst" name="dome_hst" class="form-control" placeholder="{{ trans('labels.hst') }}" value="{{ !empty(old('dome_hst')) ? old('dome_hst') : $dome->hst }}">
                                     <span class="input-group-text">%</span>
                                 </div>
                             </div>
@@ -60,16 +58,14 @@
                         {{-- <div class="col-md-3">
                             <div class="form-group">
                                 <label for="start_time" class="form-label">{{ trans('labels.start_time') }}</label>
-                                <input type="text" class="form-control time_picker" name="start_time" value="{{ $dome->start_time }}" id="start_time"
-                                    placeholder="{{ trans('labels.start_time') }}" autocomplete="off">
+                                <input type="text" class="form-control time_picker" name="start_time" value="{{ $dome->start_time }}" id="start_time" placeholder="{{ trans('labels.start_time') }}" autocomplete="off">
                                 @error('start_time') <span class="text-danger">{{ $message }}</span> @enderror
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="end_time" class="form-label">{{ trans('labels.end_time') }}</label>
-                                <input type="text" class="form-control time_picker" name="end_time" value="{{ $dome->end_time }}" id="end_time"
-                                    placeholder="{{ trans('labels.end_time') }}" autocomplete="off">
+                                <input type="text" class="form-control time_picker" name="end_time" value="{{ $dome->end_time }}" id="end_time" placeholder="{{ trans('labels.end_time') }}" autocomplete="off">
                                 @error('end_time') <span class="text-danger">{{ $message }}</span> @enderror
                             </div>
                         </div> --}}
@@ -180,8 +176,10 @@
                             </div>
                         </div>
                     </div>
-                    <input type="hidden" name="lat" id="textLat" value="{{ !empty(old('lat')) ? old('lat') : $dome->lat }}">
-                    <input type="hidden" name="lng" id="textLng" value="{{ !empty(old('lng')) ? old('lng') : $dome->lng }}">
+                    <input type="hidden" name="lat" id="textLat"
+                        value="{{ !empty(old('lat')) ? old('lat') : $dome->lat }}">
+                    <input type="hidden" name="lng" id="textLng"
+                        value="{{ !empty(old('lng')) ? old('lng') : $dome->lng }}">
                     @error('lat')
                         <span class="text-danger">{{ $message }}</span>
                     @enderror
@@ -215,7 +213,8 @@
                                     <div class="col-auto">
                                         <div class="form-check">
                                             <input type="checkbox" id="{{ $data->name }}" name="sport_id[]" class="form-check-input" value="{{ $data->id }}"
-                                                data-sport-name="{{ $data->name }}" data-show-input="{{ $data->name . $data->id }}" {{ in_array($data->id, $sport_id) ? 'checked' : '' }}>
+                                                data-sport-name="{{ $data->name }}"
+                                                data-show-input="{{ $data->name . $data->id }}" {{ in_array($data->id, $sport_id) ? 'checked' : '' }}>
                                             <label class="form-check-label" for="{{ $data->name }}">{{ $data->name }}</label>
                                         </div>
                                     </div>
@@ -232,8 +231,9 @@
                                 @foreach ($getsportslist as $sport)
                                     @if (in_array($sport->id, $sport_id))
                                         <div class="col mb-2" id="{{ $sport->name . $sport->id }}">
-                                    @else
-                                        <div class="col mb-2" id="{{ $sport->name . $sport->id }}" style="display:none">
+                                        @else
+                                            <div class="col mb-2" id="{{ $sport->name . $sport->id }}"
+                                                style="display:none">
                                     @endif
                                     <label class="form-label" for="">{{ $sport->name }}</label>
                                     <div class="input-group">
@@ -251,8 +251,11 @@
                     <div class="col-md-12">
                         <div class="form-group">
                             <label class="form-label" for="description">{{ trans('labels.dome_description') }}</label>
-                            <textarea class="form-control" name="description" @required(true) id="description" rows="5" placeholder="{{ trans('labels.dome_description') }}" maxlength="300">{{ !empty(old('dome_description')) ? old('dome_description') : $dome->description }}</textarea>
-                            @error(' description') <span class="text-danger">{{ $message }}</span> @enderror
+                            <textarea class="form-control" name="description" @required(true) id="description" rows="5"
+                                placeholder="{{ trans('labels.dome_description') }}">{{ !empty(old('dome_description')) ? old('dome_description') : $dome->description }}</textarea>
+                            @error(' description')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
                         </div>
                     </div>
                 </div>
@@ -297,14 +300,12 @@
                                     <input type="hidden" name="day[]" value="{{ $time->id }}">
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <input type="text" class="form-control time_picker__"
-                                                placeholder="{{ trans('labels.opening_time') }}" name="open_time[]" value="{{ date('H:i', strtotime($time->open_time)) }}">
+                                            <input type="text" class="form-control time_picker__ time_picker__start" placeholder="{{ trans('labels.opening_time') }}" name="open_time[]" value="{{ date('H:i', strtotime($time->open_time)) }}">
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <input type="text" class="form-control time_picker__"
-                                                placeholder="{{ trans('labels.closing_time') }}" name="close_time[]" value="{{ date('H:i', strtotime($time->close_time)) }}">
+                                            <input type="text" class="form-control time_picker__ time_picker__end" placeholder="{{ trans('labels.closing_time') }}" name="close_time[]" value="{{ date('H:i', strtotime($time->close_time)) }}">
                                         </div>
                                     </div>
                                 </div>
@@ -319,16 +320,12 @@
                                     <input type="hidden" name="day[]" value="{{ strtolower($day) }}">
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <input type="text" class="form-control time_picker__"
-                                                placeholder="{{ trans('labels.opening_time') }}" name="open_time[]"
-                                                @if (old('open_time')) value="{{ old('open_time')[$key] }}" @endif>
+                                            <input type="text" class="form-control time_picker__ time_picker__start" placeholder="{{ trans('labels.opening_time') }}" name="open_time[]" @if (old('open_time')) value="{{ old('open_time')[$key] }}" @endif>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <input type="text" class="form-control time_picker__"
-                                                placeholder="{{ trans('labels.closing_time') }}" name="close_time[]"
-                                                @if (old('close_time')) value="{{ old('close_time')[$key] }}" @endif>
+                                            <input type="text" class="form-control time_picker__ time_picker__end" placeholder="{{ trans('labels.closing_time') }}" name="close_time[]" @if (old('close_time')) value="{{ old('close_time')[$key] }}" @endif>
                                         </div>
                                     </div>
                                 </div>
@@ -336,8 +333,7 @@
                         @endif
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-outline-danger"
-                            data-bs-dismiss="modal">{{ trans('labels.close') }}</button>
+                        <button type="button" class="btn btn-outline-success" data-bs-dismiss="modal">{{ trans('labels.save') }}</button>
                     </div>
                 </div>
             </div>
@@ -352,7 +348,9 @@
     </form>
 @endsection
 @section('scripts')
-    <script src="{{ url('storage/app/public/admin/js/timepicker/jquery.timepicker.min.js') }}" defer=""></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-timepicker/1.10.0/jquery.timepicker.min.js"></script>
+
     <script
         src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places&key=AIzaSyCvlZaKvRSMouyH9pDgGC6pMGADfytOrsA">
     </script>
