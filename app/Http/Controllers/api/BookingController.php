@@ -133,7 +133,7 @@ class BookingController extends Controller
             "image" => $dome->dome_image->image,
             "payment_status" => $booking->payment_status == 1 ? 'Paid' : 'In Progress',
             "booking_created_at" => Carbon::parse($booking->created_at)->setTimezone(config('app.timezone'))->toDateTimeString(),
-            "current_time" => Carbon::now()->setTimezone(config('app.timezone'))->toDateTimeString(),            
+            "current_time" => Carbon::now()->setTimezone(config('app.timezone'))->toDateTimeString(),
             "user_info" => $booking->user_info,
             "payment_link" => URL::to('/payment/' . $booking->token),
             "other_contributors" => $gettransaction,
@@ -255,6 +255,24 @@ class BookingController extends Controller
                     $new->start_time = $item->format("H:i");
                     $new->sport_id = $request->sport_id;
                     $new->end_time = $item->addMinutes($my_interval)->format("H:i");
+                    $new->day = strtolower(date('l', strtotime($request->date)));
+                    $new->price = Helper::get_dome_price($request->dome_id, $request->sport_id);
+                    $new->status = 1;
+                    $new->save();
+                }
+                $data1 = SetPricesDaysSlots::where('dome_id', $getdomedata->id)->where('sport_id', $request->sport_id)->whereDate('date', date('Y-m-d', strtotime($request->date)))->orderByDesc('id')->first();
+
+                $end_time__ = $getdomedata->day_working_hours($request->date)->close_time;
+                $working_end_time = Carbon::parse($end_time__);
+                $last_slot_end_time = Carbon::parse($data1->end_time);
+
+                if($last_slot_end_time->lt($working_end_time)){
+                    $new = new SetPricesDaysSlots();
+                    $new->dome_id = $getdomedata->id;
+                    $new->date = date('Y-m-d', strtotime($request->date));
+                    $new->start_time = $last_slot_end_time->format("H:i");
+                    $new->end_time = $working_end_time->format("H:i");
+                    $new->sport_id = $request->sport_id;
                     $new->day = strtolower(date('l', strtotime($request->date)));
                     $new->price = Helper::get_dome_price($request->dome_id, $request->sport_id);
                     $new->status = 1;

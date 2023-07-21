@@ -1,15 +1,26 @@
 $(document).ready(function () {
     $('.time_picker__start').timepicker({
-        interval: 10,
-        timeFormat: 'H:mm',
+        interval: 60,
+        timeFormat: 'HH:mm',
         minTime: '00:00',
         maxTime: '23:59',
+        scrollbar: true,
+        dynamic: false,
+        dropdown: true
     });
     $('.time_picker__end').timepicker({
-        interval: 10,
-        timeFormat: 'H:mm',
-        maxTime: '24:00',
+        timeFormat: 'HH:mm',
+        interval: 60,
+        minTime: '00:30',
         maxTime: '23:59',
+        scrollbar: true,
+        dynamic: false,
+        dropdown: true
+    });
+    $('.time_picker__end').on('focus', function() {
+        if ($('.ui-timepicker-viewport').find('a:last').html() != '23:59') {
+            $('.ui-timepicker-viewport').append('<li class="ui-menu-item" style="width: 133.312px;"><a class="ui-corner-all">23:59</a></li>');
+        }
     });
 });
 
