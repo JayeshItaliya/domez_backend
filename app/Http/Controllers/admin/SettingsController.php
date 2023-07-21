@@ -178,7 +178,7 @@ class SettingsController extends Controller
         $user->phone = $request->phone;
         if ($request->has('image')) {
             $request->validate([
-                'profile' => 'image|mimes:png,jpg,jpeg,svg|max:5120'
+                'profile' => 'image|mimes:png,jpg,jpeg,svg|max:7168'
             ], [
                 'profile.image' => trans('messages.valid_image'),
                 'profile.mimes' => trans('messages.valid_image_type'),

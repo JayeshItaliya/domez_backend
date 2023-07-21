@@ -4,7 +4,7 @@ $(function () {
     }
     $('#field_name').on('input', function () {
         var inputValue = $(this).val();
-        var inputValue = inputValue.replace(/[^a-zA-Z0-9]/g, '');
+        var inputValue = inputValue.replace(/[^a-zA-Z0-9 ]/g, '');
         if (inputValue.length > 30) {
             $(this).addClass('is-invalid');
             inputValue = inputValue.substring(0, 30);

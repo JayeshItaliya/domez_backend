@@ -132,6 +132,7 @@ $('body').on('focus', ".start.time_picker", function () {
             var element = $(this);
             var timepicker = element.timepicker();
             start_time = timepicker.format(time);
+            alert('start_time -- '+start_time)
             var currentDate = new Date();
             var day = currentDate.getDate();
             var month = currentDate.getMonth() + 1;
@@ -139,6 +140,7 @@ $('body').on('focus', ".start.time_picker", function () {
             var dateString = year + '-' + month + '-' + day;
             start_time = new Date(dateString + ' ' + start_time);
             start_time.setMinutes(start_time.getMinutes() + 60);
+            alert('start_time -- '+start_time)
             start_time = start_time.toLocaleString('en-US', {
                 hour: 'numeric',
                 minute: 'numeric',
@@ -173,19 +175,18 @@ $('body').on('focus', ".start.time_picker", function () {
                             end_max_time = max_time;
                             disable_btn($(element).attr('data-day-name'));
                         } else {
+                            alert('Else....');
 
                             var currentDate = new Date().toISOString().slice(0, 10);
-
                             var startDateString = currentDate + ' ' + start_time;
                             var specificTimeString = currentDate + ' ' + max_time;
 
                             var starttime = new Date(startDateString);
                             var specificTime = new Date(specificTimeString);
-                            var endTime = new Date(starttime.getTime() + (60 * 60 * 1000));
+                            // var endTime = new Date(starttime.getTime() + (60 * 60 * 1000));
 
-                            if (endTime < specificTime) {
-                                alert('Start Time + 60 Minutes is less than Specific Time -- '+specificTime);
-                            } else {
+                            alert('Extended timne '+starttime)
+                            if (starttime >= specificTime) {
                                 alert('Start Time + 60 Minutes is greater than or equal to Specific Time -- '+specificTime);
                             }
                         }

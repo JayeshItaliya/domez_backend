@@ -31,7 +31,7 @@ class UserController extends Controller
         ]);
         if ($request->has('profile_image')) {
             $request->validate([
-                    'profile_image' => 'mimes:png,jpg,jpeg,svg|max:5120'
+                    'profile_image' => 'mimes:png,jpg,jpeg,svg|max:7168'
                 ],[
                     'profile_image.mimes' => trans('messages.valid_image_type'),
                     'profile_image.max' => trans('messages.valid_image_size'),
