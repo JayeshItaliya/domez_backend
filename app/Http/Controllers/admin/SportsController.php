@@ -18,7 +18,7 @@ class SportsController extends Controller
     {
         $request->validate([
             'name' => 'required|unique:sports,name',
-            'image' => 'mimes:png,jpg,jpeg,svg|max:5120'
+            'image' => 'mimes:png,jpg,jpeg,svg|max:7168'
         ], [
             'name.required' => trans('messages.name_required'),
             'name.unique' => trans('messages.sport_exist'),
@@ -68,7 +68,7 @@ class SportsController extends Controller
         ]);
         if ($request->has('image')) {
             $request->validate([
-                'image' => 'mimes:png,jpg,jpeg,svg|max:5120'
+                'image' => 'mimes:png,jpg,jpeg,svg|max:7168'
             ], [
                 'image.mimes' => trans('messages.valid_image_type'),
                 'image.max' => trans('messages.valid_image_size'),

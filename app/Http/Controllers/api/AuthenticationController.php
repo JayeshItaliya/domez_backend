@@ -285,7 +285,7 @@ class AuthenticationController extends Controller
                 'name' => 'required',
                 'email' => 'required|email|unique:users,email,' . $checkuser->id,
                 'phone' => 'required|unique:users,phone,' . $checkuser->id,
-                'image' => 'image|max:5120',
+                'image' => 'image|max:7168',
             ], [
                 'name.required' => 'Please Enter Name',
                 'email.required' => 'Please Enter Email',
