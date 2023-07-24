@@ -89,7 +89,7 @@ $('#storesetprices').on('submit', function () {
         return false;
     }
 });
-$('body').on('click', ".accordion-header", function () {
+$(document).on('click', ".accordion-header", function () {
     var st = $(lastOpenedAccordion + ' .card-body .extra_fields').find('.start.time_picker:last').val();
     var et = $(lastOpenedAccordion + ' .card-body .extra_fields').find('.end.time_picker:last').val();
     if (($.trim(st) == '' && $.trim(et) == '') || ($.trim(st) != '' && $.trim(et) == '') || ($.trim(st) == '' && $.trim(et) != '')) {
@@ -118,7 +118,7 @@ $('body').on('click', ".accordion-header", function () {
     }
     start_time = min_time;
 });
-$('body').on('focus', ".start.time_picker", function () {
+$(document).on('focus', ".start.time_picker", function () {
     "use strict";
     $(this).timepicker({
         interval: my_interval,
@@ -258,7 +258,7 @@ $(function () {
         }
 
         var currentDate = new Date().toISOString().slice(0, 10);
-        var endTime = new Date(currentDate + ' ' + max_time);
+        var endTime = new Date(currentDate + ' ' + day_max_time);
         endTime.setMinutes(endTime.getMinutes() - 60);
         max_time = ('0' + endTime.getHours()).slice(-2) + ':' + ('0' + endTime.getMinutes()).slice(-2);
 
@@ -303,7 +303,7 @@ function removeslot(id, el) {
     el.remove();
 }
 
-// $('body').on('blur', '.start.time_picker', function () {
+// $(document).on('blur', '.start.time_picker', function () {
 //     "use strict";
 //     setTimeout(() => {
 //         var start_time = $(this).val();
@@ -314,7 +314,7 @@ function removeslot(id, el) {
 //         validatetime(start_time, end_time, dome_id, validate_start_time, element);
 //     }, 100);
 // });
-// $('body').on('blur', '.end.time_picker', function () {
+// $(document).on('blur', '.end.time_picker', function () {
 //     "use strict";
 //     var start_time = $(this).parent().parent().parent().prev().find('.start.time_picker').val();
 //     if ($.trim(start_time) == '') {
