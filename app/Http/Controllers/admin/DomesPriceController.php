@@ -18,7 +18,7 @@ class DomesPriceController extends Controller
 {
     public function index(Request $request)
     {
-        
+
         $getsetpriceslist = SetPrices::where('vendor_id', auth()->user()->type == 2 ? auth()->user()->id : auth()->user()->vendor_id)->where('price_type', 2)->orderByDesc('id')->get();
         return view('admin.set_prices.index', compact('getsetpriceslist'));
     }
@@ -102,7 +102,7 @@ class DomesPriceController extends Controller
             return response()->json(['status' => 0, 'message' => trans('messages.wrong')], 200);
         }
     }
-    public function edit(Request $request)
+    public function show(Request $request)
     {
         $getslotpricedata = SetPrices::findOrFail($request->id);
         $getdomeslist = Domes::where('vendor_id', auth()->user()->type == 2 ? auth()->user()->id : auth()->user()->vendor_id)->where('is_deleted', 2)->orderByDesc('id')->get();
@@ -116,7 +116,24 @@ class DomesPriceController extends Controller
             ];
         }
         $getdata = SetPricesDaysSlots::where('set_prices_id', $request->id)->groupBy('date')->get();
-        return view('admin.set_prices.edit', compact('getslotpricedata', 'getdaysslots', 'getdomeslist', 'getdata'));
+        return view('admin.set_prices.show', compact('getslotpricedata', 'getdaysslots', 'getdomeslist', 'getdata'));
+    }
+    public function edit(Request $request)
+    {
+        $getslotpricedata = SetPrices::findOrFail($request->id);
+        // $getdomeslist = Domes::where('vendor_id', auth()->user()->type == 2 ? auth()->user()->id : auth()->user()->vendor_id)->where('is_deleted', 2)->orderByDesc('id')->get();
+        // $getslots = SetPricesDaysSlots::where('set_prices_id', $request->id)->select('day')->groupBy(DB::raw('day'))->orderBy('id')->get();
+        // $getdaysslots = [];
+        // foreach ($getslots as $key => $day) {
+        //     $slots = SetPricesDaysSlots::select('id', 'date', 'start_time', 'end_time', 'price')->where('set_prices_id', $request->id)->where('day', $day->day)->orderBy('id')->get();
+        //     $getdaysslots[] = [
+        //         'day' => $day->day,
+        //         'slots' => $slots->toArray(),
+        //     ];
+        // }
+        $getdata = SetPricesDaysSlots::where('set_prices_id', $request->id)->groupBy('date')->get();
+        // return view('admin.set_prices.edit', compact('getslotpricedata', 'getdaysslots', 'getdomeslist', 'getdata'));
+        return view('admin.set_prices.edit', compact('getslotpricedata','getdata'));
     }
     public function validate_start_end_time(Request $request)
     {
@@ -175,6 +192,18 @@ class DomesPriceController extends Controller
         try {
             SetPrices::find($request->id)->delete();
             SetPricesDaysSlots::where('set_prices_id', $request->id)->delete();
+            return response()->json(['status' => 1, 'message' => trans('messages.success')], 200);
+        } catch (\Throwable $th) {
+            return response()->json(['status' => 0, 'message' => trans('messages.wrong')], 200);
+        }
+    }
+    public function updateslot(Request $request)
+    {
+        dd($request->input());
+        try {
+            $d = SetPricesDaysSlots::find($request->id);
+            $d->price = $request->price;
+            $d->save();
             return response()->json(['status' => 1, 'message' => trans('messages.success')], 200);
         } catch (\Throwable $th) {
             return response()->json(['status' => 0, 'message' => trans('messages.wrong')], 200);

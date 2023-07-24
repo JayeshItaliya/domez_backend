@@ -110,6 +110,12 @@ class BookingController extends Controller
             )->get()->toArray();
 
         $is_ratting_exist = Review::where('dome_id', $booking->dome_id)->where('user_id', $booking->user_id)->first();
+
+
+        $now = Carbon::now();
+        $current_date_time = $now->format('Y-m-d h:i A');
+        $start_date_time = Carbon::createFromFormat('Y-m-d h:i A', $booking->start_date . ' ' . date('h:i A', strtotime($booking->end_time)));
+
         $booking_details = [
             "id" => $booking->id,
             "type" => $booking->type,
@@ -142,6 +148,7 @@ class BookingController extends Controller
             "end_date" => $booking->end_date ?? "",
             "dome_id" => $booking->dome_id,
             "is_ratting_exist" => !empty($is_ratting_exist) ? 1 : 0,
+            "is_active" => $start_date_time->lessThan($current_date_time) == true ? 2 : 1,
         ];
         return response()->json(["status" => 1, "message" => "Success", 'booking_details' => $booking_details], 200);
     }

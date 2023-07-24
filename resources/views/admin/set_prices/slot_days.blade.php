@@ -20,7 +20,6 @@
                     <div id="collapse{{ $key }}" class="accordion-collapse collapse"
                         aria-labelledby="heading{{ $key + 1 }}" data-bs-parent="#accordionExample">
                         <div class="accordion-body">
-                            <input type="hidden" name="daynames[]" value="{{ $time->day }}">
                             <div class="card-body card-body-{{ $time->day }}">
                                 <div class="row my-2 {{ $time->day }}-row">
                                     <div class="col-md-4">

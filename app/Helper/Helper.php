@@ -303,10 +303,9 @@ class Helper
         }
     }
 
-    public static function has_bookings($dome_id,$start_date,$end_date)
+    public static function has_bookings($dome_id, $sport_id, $start_date, $end_date)
     {
-        // dd($start_date,$end_date);
-        $bookings = Booking::where('dome_id', $dome_id)->whereBetween('start_date',[$start_date,$end_date])->count();
+        $bookings = Booking::where('dome_id', $dome_id)->whereBetween('start_date',[$start_date,$end_date])->where('sport_id',$sport_id)->count();
         return $bookings != 0 ? true : false;
     }
 }
