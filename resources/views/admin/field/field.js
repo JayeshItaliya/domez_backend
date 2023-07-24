@@ -80,10 +80,6 @@ $('#dome').on('change', function () {
         return false;
     }
     $.ajax({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
-                'content')
-        },
         url: $(this).attr('data-next'),
         data: {
             id: $(this).val(),

@@ -113,10 +113,6 @@ $('#dome').on('change', function () {
     }
     my_interval = $.trim($(this).find(':selected').attr('data-slot-duration')) == 2 ? 90 : 60;
     $.ajax({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
-                'content')
-        },
         url: $(this).attr('data-next'),
         data: {
             id: $(this).val(),
@@ -177,10 +173,6 @@ function getfields(sport) {
         sport = $('.radio-editer').find(':checked').val();
     }
     $.ajax({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
-                'content')
-        },
         url: $('#dome').attr('data-next'),
         data: {
             id: $('#dome').find(':selected').val(),

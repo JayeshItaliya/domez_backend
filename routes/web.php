@@ -217,13 +217,12 @@ Route::group(['middleware' => 'SetTimeZoneMiddleware'], function () {
             Route::group(['prefix' => 'set-prices'], function () {
                 Route::get('/', [DomesPriceController::class, 'index']);
                 Route::get('add', [DomesPriceController::class, 'add']);
-                Route::get('edit-{id}', [DomesPriceController::class, 'edit']);
-                Route::get('show-{id}', [DomesPriceController::class, 'show']);
+                Route::get('show-{id}', [DomesPriceController::class, 'edit']);
                 Route::post('store', [DomesPriceController::class, 'store']);
                 Route::get('delete', [DomesPriceController::class, 'deletesetprice']);
-                Route::get('delete-slot', [DomesPriceController::class, 'deleteslot']);
                 Route::get('getsports', [DomesPriceController::class, 'getsportslist']);
-                Route::get('update-slot', [DomesPriceController::class, 'updateslot']);
+                Route::post('update-slot', [DomesPriceController::class, 'updateslot']);
+                Route::get('delete-slot', [DomesPriceController::class, 'deleteslot']);
             });
             Route::group(['prefix' => 'reviews'], function () {
                 Route::get('', [ReviewController::class, 'index']);

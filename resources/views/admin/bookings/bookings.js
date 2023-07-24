@@ -19,10 +19,6 @@ $(function () {
 $('.main-slots').on('change', function () {
     "use strict";
     $.ajax({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
-                'content')
-        },
         url: location.href,
         data: {
             booking_id: booking_id,
@@ -67,10 +63,6 @@ function manageslot(el) {
 function submitdata() {
     var html = $('.lists').html();
     $.ajax({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
-                'content')
-        },
         url: location.href,
         data: {
             manage_slot: 1,
