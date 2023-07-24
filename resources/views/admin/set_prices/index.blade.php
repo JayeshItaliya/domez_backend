@@ -43,7 +43,6 @@
                                 @if ($setprice->price_type == 2)
                                     <a class="cursor-pointer me-2" href="{{ URL::to('admin/set-prices/show-' . $setprice->id) }}"> {!! Helper::get_svg(1) !!} </a>
                                     @if (Helper::has_bookings($setprice->dome_name->id, $setprice->sport_id, $setprice->start_date, $setprice->end_date) == false)
-                                        <a class="cursor-pointer me-2" href="{{ URL::to('admin/set-prices/edit-' . $setprice->id) }}"> {!! Helper::get_svg(2) !!}</a>
                                         <a class="cursor-pointer me-2" onclick="deletedata('{{ $setprice->id }}','{{ URL::to('admin/set-prices/delete') }}')"> {!! Helper::get_svg(3) !!} </a>
                                     @endif
                                 @else

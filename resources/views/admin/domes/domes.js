@@ -159,10 +159,6 @@ $('.dome-revenue-filter').on('change', function () {
 
 function domerevenuefilter(dates) {
     $.ajax({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
-                'content')
-        },
         url: $(this).attr('data-next'),
         data: {
             filtertype: $('.dome-revenue-filter').val(),
@@ -236,10 +232,6 @@ $('.total-bookings-filter').on('change', function () {
 
 function totalbookingsfilter(dates) {
     $.ajax({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
-                'content')
-        },
         url: $(this).attr('data-next'),
         data: {
             filtertype: $('.total-bookings-filter').val(),

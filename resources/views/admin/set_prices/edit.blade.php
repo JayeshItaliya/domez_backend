@@ -70,24 +70,30 @@
                                         ->where('sport_id', $data->sport_id)
                                         ->whereDate('date', date('Y-m-d', strtotime($data->date)))
                                         ->get();
+                                    $cnt = App\Models\SetPricesDaysSlots::where('dome_id', $data->dome_id)
+                                        ->where('sport_id', $data->sport_id)
+                                        ->whereDate('date', date('Y-m-d', strtotime($data->date)))
+                                        ->where('status', 0)
+                                        ->count();
                                 @endphp
                                 @foreach ($getslotslist as $slot)
                                     @php
                                         $slot_ = date('h:i A', strtotime($slot->start_time)) . ' - ' . date('h:i A', strtotime($slot->end_time));
                                     @endphp
                                     <div class="d-flex justify-content-center align-items-center gap-2 my-2">
-                                        <p> {{ $slot_ }}
-                                            : <b>{{ Helper::currency_format($slot->price) }}</b> </p>
+                                        <p> {{ $slot_ }} : <b>{{ Helper::currency_format($slot->price) }}</b> </p>
                                         @if ($slot->status == 1)
-                                            <a class="cursor-pointer edit_data" data-sid="{{ $slot->id }}"
+                                            <a class="cursor-pointer edit_slot" data-sid="{{ $slot->id }}"
                                                 data-slot="{{ $slot_ }}" data-price="{{ $slot->price }}">
                                                 {!! Helper::get_svg(2) !!}</a>
-                                            <a class="cursor-pointer"
-                                                onclick="deletedata('{{ $slot->id }}','{{ URL::to('admin/set-prices/delete-slot') }}')">
-                                                {!! Helper::get_svg(3) !!} </a>
                                         @endif
                                     </div>
                                 @endforeach
+                                @if ($cnt == 0)
+                                    <a class="btn btn-sm btn-outline-danger"
+                                        onclick="deleteslots('{{ $data->dome_id }}','{{ $data->sport_id }}','{{ $data->date }}','{{ URL::to('admin/set-prices/delete-slot') }}')">
+                                        {{ trans('labels.delete_all') }} </a>
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -102,69 +108,73 @@
         let end_time_title = {{ Js::from(trans('labels.end_time')) }};
         let price = {{ Js::from(trans('labels.price')) }};
         var validatetimeurl = {{ Js::from(URL::to('admin/validate-time')) }};
-        var es_url = {{ Js::from(URL::to('admin/update-slot')) }};
+        var es_url = {{ Js::from(URL::to('admin/set-prices/update-slot')) }};
+        var title_edit = {{ Js::from(trans('labels.edit')) }};
+        var title_price = {{ Js::from(trans('labels.price')) }};
+        var title_cancel = {{ Js::from(trans('labels.cancel')) }};
     </script>
     <script src="{{ url('resources/views/admin/set_prices/set_prices.js') }}"></script>
     <script>
-        $('.edit_data').on('click', function(e) {
+        $('.edit_slot').on('click', function(e) {
             e.preventDefault();
             var id = $(this).attr('data-sid');
             var price = $(this).attr('data-price');
             var slot = $(this).attr('data-slot');
             swalWithBootstrapButtons.fire({
-                icon: "warning",
-                title: 'Update price',
+                icon: "info",
+                title: title_edit + ' ' + title_price,
                 input: 'number',
                 inputAttributes: {
                     required: true,
-                    min: 0.1,
+                    min: 0,
                     step: '1',
-                    placeholder: 'Price',
+                    placeholder: title_price,
                 },
-                inputValue: 10, // Default value
+                inputValue: price,
                 focusConfirm: false,
                 showCancelButton: !0,
                 allowOutsideClick: !1,
                 allowEscapeKey: !1,
-                confirmButtonText: yes,
-                cancelButtonText: no,
+                confirmButtonText: title_edit,
+                cancelButtonText: title_cancel,
                 reverseButtons: !0,
                 showLoaderOnConfirm: !0,
                 didOpen: function() {
                     $('.swal2-icon').hide();
                 },
-                preConfirm: function(value) {
+                preConfirm: function(price) {
                     return new Promise(function(o, n) {
-                        if (value <= 0 || isNaN(value)) {
-                            Swal.showValidationMessage('Please enter a valid price greater than 0.');
+                        if (price <= 0 || isNaN(price)) {
+                            Swal.showValidationMessage(
+                                'Please enter a valid price greater than 0.');
                             Swal.disableLoading();
                             return false;
                         } else {
                             $.ajax({
                                 type: "POST",
-                                url: ajurl,
+                                url: es_url,
                                 data: {
                                     id: id,
-                                    type: type,
-                                    coins: coins,
-                                    description: description,
+                                    price: price,
                                 },
                                 success: function(t) {
+                                    Swal.disableLoading();
                                     if (t.status == 1) {
-                                        if (t.tblname) {
-                                            $('#' + t.tblname).bootstrapTable(
-                                                'refresh');
-                                            Swal.close();
-                                            showtoast('success', t.message);
-                                        } else {
+                                        toastr.success(t.message);
+                                        $('.swal2-confirm,.swal2-cancel').addClass(
+                                            'disabled').attr('disabled', true);
+                                        setTimeout(() => {
                                             location.reload()
-                                        }
+                                        }, 200);
                                     } else {
-                                        swal_cancelled(t.message);
+                                        Swal.showValidationMessage(t.message);
                                     }
+                                    return false;
                                 },
                                 error: function(t) {
-                                    return swal_cancelled(wrong), !1
+                                    Swal.showValidationMessage(wrong);
+                                    Swal.disableLoading();
+                                    return false;
                                 }
                             })
                         }
@@ -174,5 +184,43 @@
                 t.isConfirmed || (t.dismiss, Swal.DismissReason.cancel)
             })
         });
+
+        function deleteslots(dome, sport, date, e) {
+            "use strict";
+            swalWithBootstrapButtons.fire({
+                icon: "warning",
+                title: are_you_sure,
+                showCancelButton: !0,
+                allowOutsideClick: !1,
+                allowEscapeKey: !1,
+                confirmButtonText: yes,
+                cancelButtonText: no,
+                reverseButtons: !0,
+                showLoaderOnConfirm: !0,
+                preConfirm: function() {
+                    return new Promise(function(o, n) {
+                        $.ajax({
+                            type: "GET",
+                            url: e,
+                            data: {
+                                dome: dome,
+                                sport: sport,
+                                date: date,
+                            },
+                            dataType: "json",
+                            success: function(t) {
+                                if (1 != t.status) return swal_cancelled(wrong), !1;
+                                location.reload()
+                            },
+                            error: function(t) {
+                                return swal_cancelled(wrong), !1
+                            }
+                        })
+                    })
+                }
+            }).then(t => {
+                t.isConfirmed || (t.dismiss, Swal.DismissReason.cancel)
+            })
+        }
     </script>
 @endsection

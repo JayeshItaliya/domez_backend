@@ -105,10 +105,6 @@ $('.income-filter').on('change', function () {
 });
 function makeincomefilter(dates) {
     $.ajax({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
-                'content')
-        },
         url: $(this).attr('data-next'),
         data: {
             filtertype: $('.income-filter').val(),
@@ -194,10 +190,6 @@ $('.booking-filter').on('change', function () {
 });
 function makebookingfilter(dates) {
     $.ajax({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
-                'content')
-        },
         url: $(this).attr('data-next'),
         data: {
             filtertype: $('.booking-filter').val(),
@@ -269,10 +261,6 @@ $('.bookings-overview-filter').on('change', function () {
 });
 function makebookingsoverviewfilter(dates) {
     $.ajax({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
-                'content')
-        },
         url: $(this).attr('data-next'),
         data: {
             filtertype: $('.bookings-overview-filter').val(),
@@ -363,10 +351,6 @@ $('.revenue-filter').on('change', function () {
 });
 function makerevenuefilter(dates) {
     $.ajax({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
-                'content')
-        },
         url: $(this).attr('data-next'),
         data: {
             filtertype: $('.revenue-filter').val(),
@@ -438,10 +422,6 @@ $('.users-filter').on('change', function () {
 });
 function makeusersfilter(dates) {
     $.ajax({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
-                'content')
-        },
         url: $(this).attr('data-next'),
         data: {
             filtertype: $('.users-filter').val(),
@@ -521,10 +501,6 @@ $('.dome-owners-filter').on('change', function () {
 });
 function makedomeownersfilter(dates) {
     $.ajax({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
-                'content')
-        },
         url: $(this).attr('data-next'),
         data: {
             filtertype: $('.dome-owners-filter').val(),

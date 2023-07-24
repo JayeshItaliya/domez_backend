@@ -178,15 +178,15 @@ class DomesPriceController extends Controller
         }
         return response()->json(["status" => 1, "message" => trans('messages.success')], 200);
     }
-    public function deleteslot(Request $request)
-    {
-        try {
-            SetPricesDaysSlots::find($request->id)->delete();
-            return response()->json(['status' => 1, 'message' => trans('messages.success')], 200);
-        } catch (\Throwable $th) {
-            return response()->json(['status' => 0, 'message' => trans('messages.wrong')], 200);
-        }
-    }
+    // public function deleteslot(Request $request)
+    // {
+    //     try {
+    //         SetPricesDaysSlots::find($request->id)->delete();
+    //         return response()->json(['status' => 1, 'message' => trans('messages.success')], 200);
+    //     } catch (\Throwable $th) {
+    //         return response()->json(['status' => 0, 'message' => trans('messages.wrong')], 200);
+    //     }
+    // }
     public function deletesetprice(Request $request)
     {
         try {
@@ -199,11 +199,23 @@ class DomesPriceController extends Controller
     }
     public function updateslot(Request $request)
     {
-        dd($request->input());
         try {
             $d = SetPricesDaysSlots::find($request->id);
-            $d->price = $request->price;
-            $d->save();
+            if ($d) {
+                $d->price = $request->price;
+                $d->save();
+                return response()->json(['status' => 1, 'message' => trans('messages.success')], 200);
+            } else {
+                return response()->json(['status' => 0, 'message' => trans('messages.invalid_request')], 200);
+            }
+        } catch (\Throwable $th) {
+            return response()->json(['status' => 0, 'message' => trans('messages.wrong')], 200);
+        }
+    }
+    public function deleteslot(Request $request)
+    {
+        try {
+            SetPricesDaysSlots::where('dome_id',$request->dome)->where('sport_id',$request->sport)->where('date',$request->date)->delete();
             return response()->json(['status' => 1, 'message' => trans('messages.success')], 200);
         } catch (\Throwable $th) {
             return response()->json(['status' => 0, 'message' => trans('messages.wrong')], 200);

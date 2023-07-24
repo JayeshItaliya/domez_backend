@@ -76,4 +76,5 @@ return [
     'warning_part_one' => ' Champ manquant dans ',
     'warning_part_two' => ', Veuillez ajouter au moins un champ.',
     "old_password_invalid" => "L'ancien mot de passe n'est pas valide",
+    "invalid_request" => "Requête invalide!",
 ];

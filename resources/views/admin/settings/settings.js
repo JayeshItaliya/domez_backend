@@ -7,10 +7,6 @@ $('#email_address').on('change', function () {
         return false;
     }
     $.ajax({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
-                'content')
-        },
         url: $(this).attr('data-next'),
         data: {
             email: email,
@@ -49,10 +45,6 @@ $('.btn_verify').on('click', function () {
     }
     var btntext = $(this).html();
     $.ajax({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
-                'content')
-        },
         url: $(this).attr('data-next'),
         data: {
             otp: $('#otp').val(),

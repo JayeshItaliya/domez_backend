@@ -301,4 +301,5 @@ return [
     'saturday' => 'Samedi',
     'sunday' => 'Dimanche',
     'save' => 'Sauvegarder',
+    'delete_all' => 'Supprimer tout',
 ];
