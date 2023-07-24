@@ -5,7 +5,7 @@
                 <input type="hidden" name="daynames[]" value="{{ $time->day }}">
                 <div class="accordion-item">
                     <h2 class="accordion-header" id="heading{{ $key + 1 }}"
-                        data-start-time="{{ date('H:i', strtotime($time->open_time)) }}"data-end-time="{{ date('H:i', strtotime($time->close_time)) }}">
+                        data-start-time="{{ date('H:i', strtotime($time->open_time)) }}" data-end-time="{{ date('H:i', strtotime($time->close_time)) }}">
                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                             data-bs-target="#collapse{{ $key }}" aria-expanded="false"
                             aria-controls="collapse{{ $key }}">
@@ -60,19 +60,13 @@
                                     </div>
                                     <div class="col-md-1">
                                         <div class="form-group">
-                                            <button type="button" class="btn btn-sm btn-outline-primary appendbtn"
-                                                data-day-name="{{ $time->day }}">
-                                                <i class="fa fa-plus"></i>
-                                            </button>
+                                            <button type="button" class="btn btn-sm btn-outline-primary appendbtn" data-day-name="{{ $time->day }}" data-day-max-time="{{ date('H:i', strtotime($time->close_time)) }}"> <i class="fa fa-plus"></i> </button>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="{{ $time->day }} extra_fields"></div>
                                 <div class="col-12 text-center">
-                                    <button type="button" class="btn btn-outline-dark btn-reset-slots d-none"
-                                        onclick="reset_slots(this)" data-days-name="{{ $time->day }}"><b><i
-                                                class="fa-light fa-arrow-rotate-right fa-spin"></i></b>
-                                        {{ trans('labels.reset_slots') }} </button>
+                                    <button type="button" class="btn btn-outline-dark btn-reset-slots d-none" onclick="reset_slots(this)" data-days-name="{{ $time->day }}"><b><i class="fa-light fa-arrow-rotate-right fa-spin"></i></b> {{ trans('labels.reset_slots') }} </button>
                                 </div>
                             </div>
                         </div>

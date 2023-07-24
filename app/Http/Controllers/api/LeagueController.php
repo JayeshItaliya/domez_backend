@@ -20,13 +20,13 @@ class LeagueController extends Controller
                 $recentbookings = Booking::where('type', 2)->groupBy('league_id')->get();
                 $ids = [];
                 foreach ($recentbookings as $booking) {
-                    $league = League::where('id', $booking->league_id)->where('sport_id', $request->sport_id)->whereDate('booking_deadline', '>=', date('Y-m-d'))->where('is_deleted', 2)->first();
+                    $league = League::where('id', $booking->league_id)->where('sport_id', $request->sport_id)->whereDate('end_date', '>=', date('Y-m-d'))->where('is_deleted', 2)->first();
                     if (!empty($league)) {
                         $ids[] = $booking->league_id;
                         $leagues_list[] = $this->getleaguelistobject($league, $request->user_id);
                     }
                 }
-                $leagues = League::where('sport_id', $request->sport_id)->whereNotIn('id', $ids)->whereDate('booking_deadline', '>=', date('Y-m-d'))->where('is_deleted', 2)->orderByDesc('id')->get();
+                $leagues = League::where('sport_id', $request->sport_id)->whereNotIn('id', $ids)->whereDate('end_date', '>=', date('Y-m-d'))->where('is_deleted', 2)->orderByDesc('id')->get();
                 foreach ($leagues as $league) {
                     $leagues_list[] = $this->getleaguelistobject($league, $request->user_id);
                 }
@@ -58,7 +58,7 @@ class LeagueController extends Controller
                 }
                 $getarounddomes = $getarounddomes->orderBy('distance')->get();
                 foreach ($getarounddomes as $dome) {
-                    $leagues = League::where('dome_id', $dome->id)->where('sport_id', $request->sport_id)->whereDate('booking_deadline', '>=', date('Y-m-d'))->where('is_deleted', 2)->orderByDesc('id')->get();
+                    $leagues = League::where('dome_id', $dome->id)->where('sport_id', $request->sport_id)->whereDate('end_date', '>=', date('Y-m-d'))->where('is_deleted', 2)->orderByDesc('id')->get();
                     foreach ($leagues as $league) {
                         $leagues_list[] = $this->getleaguelistobject($league, $request->user_id);
                     }

@@ -99,10 +99,12 @@ $('body').on('click', ".accordion-header", function () {
     lastOpenedAccordion = $(this).find('.accordion-button').attr('data-bs-target');
     min_time = $(this).attr('data-start-time');
     max_time = $(this).attr('data-end-time');
-    // var currentDate = new Date().toISOString().slice(0, 10);
-    // var endTime = new Date(currentDate + ' ' + min_time);
-    // endTime.setMinutes(endTime.getMinutes() - 60);
-    // min_time = ('0' + endTime.getHours()).slice(-2) + ':' + ('0' + endTime.getMinutes()).slice(-2);
+
+    var currentDate = new Date().toISOString().slice(0, 10);
+    var endTime = new Date(currentDate + ' ' + max_time);
+    endTime.setMinutes(endTime.getMinutes() - 60);
+    max_time = ('0' + endTime.getHours()).slice(-2) + ':' + ('0' + endTime.getMinutes()).slice(-2);
+
     if ($(this).next().find('.start.time_picker').length == 1) {
         var checkval = $.trim($(this).next().find('.end.time_picker').val());
         if (checkval != '') {
@@ -229,6 +231,7 @@ $(function () {
         "use strict";
         counter++;
         var dayname = $(this).attr('data-day-name');
+        var day_max_time = $(this).attr('data-day-max-time');
         var check = 1;
         var last_endtime = $(this).parent().parent().parent().parent().find('.end.time_picker:last').val();
         if ($.trim(last_endtime) != '') {
@@ -253,6 +256,12 @@ $(function () {
         if (last_endtime == max_time) {
             return false;
         }
+
+        var currentDate = new Date().toISOString().slice(0, 10);
+        var endTime = new Date(currentDate + ' ' + max_time);
+        endTime.setMinutes(endTime.getMinutes() - 60);
+        max_time = ('0' + endTime.getHours()).slice(-2) + ':' + ('0' + endTime.getMinutes()).slice(-2);
+
         var html =
             '<div class="row my-2 ' + dayname + '-row " id="remove' + counter +
             '"><div class="col-md-4"><div class="form-group"><div class="input-group"><input type="text" class="form-control start time_picker border-end-0" name="start_time[' +
