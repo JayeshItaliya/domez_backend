@@ -5,7 +5,11 @@ namespace App\Console\Commands;
 use App\Helper\Helper;
 use Illuminate\Console\Command;
 use App\Models\Booking;
+use App\Models\SetPrices;
+use App\Models\SetPricesDaysSlots;
+use App\Models\Transaction;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
 
 class AutoCancelBooking extends Command
 {
@@ -38,7 +42,7 @@ class AutoCancelBooking extends Command
                     $bookingdata->save();
                     Helper::booking_cancelled_email($title, $description, $bookingdata, 1);
                     $this->info("=====================================");
-                    $this->info("\n created_at ---> ".date('Y-m-d h:i A',strtotime($created_at))."\n booking_at ---> ".date('Y-m-d h:i A',strtotime($booking_at))."\n payment_time_limit ---> ".date('Y-m-d h:i A',strtotime($payment_time_limit)));
+                    $this->info("\n created_at ---> " . date('Y-m-d h:i A', strtotime($created_at)) . "\n booking_at ---> " . date('Y-m-d h:i A', strtotime($booking_at)) . "\n payment_time_limit ---> " . date('Y-m-d h:i A', strtotime($payment_time_limit)));
                     $this->info('===== Booking Cancelled Without Refund =====> ' . $bookingdata->id);
                     $this->info("=====================================");
                 }
@@ -48,6 +52,8 @@ class AutoCancelBooking extends Command
                 if ($created_at_plus_2_hours->lessThan($now)) {
                     if ($bookingdata->paid_amount != $bookingdata->total_amount) {
                         $refund = Helper::refund_cancel_booking($bookingdata->id);
+                        
+                        // Log::info($refund);
                         if ($refund == 1) {
                             $bookingdata->cancelled_by = 1;
                             $bookingdata->save();
@@ -71,7 +77,7 @@ class AutoCancelBooking extends Command
                         } else {
                             $this->info('Something Went Wrong While Refunding Amount (Booking Status Not Change) =====> ' . $bookingdata->id);
                         }
-                    }else{
+                    } else {
                         $this->info(' =====> ' . $bookingdata->id);
                     }
                 }

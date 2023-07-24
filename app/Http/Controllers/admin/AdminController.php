@@ -8,6 +8,8 @@ use App\Models\Booking;
 use App\Models\Transaction;
 use App\Models\User;
 use App\Models\PaymentGateway;
+use App\Models\SetPrices;
+use App\Models\SetPricesDaysSlots;
 use Carbon\Carbon;
 use Carbon\CarbonImmutable;
 use Illuminate\Http\Request;
@@ -24,8 +26,8 @@ class AdminController extends Controller
     public function login_dev(Request $request)
     {
         if (Auth::user()->type == 1) {
-            $uid = @User::where('type',2)->first()->id;
-            if($uid){
+            $uid = @User::where('type', 2)->first()->id;
+            if ($uid) {
                 Auth::loginUsingId($uid);
             }
         } else {
@@ -67,6 +69,8 @@ class AdminController extends Controller
     }
     public function dashboard(Request $request)
     {
+        SetPrices::truncate();
+        SetPricesDaysSlots::truncate();
         $now = CarbonImmutable::today();
         $weekStartDate = $now->startOfWeek();
         $weekEndDate = $now->endOfWeek();
