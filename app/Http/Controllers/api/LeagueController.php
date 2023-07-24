@@ -5,6 +5,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Booking;
 use App\Models\Domes;
 use App\Models\League;
+use Carbon\Carbon;
 use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -123,7 +124,7 @@ class LeagueController extends Controller
             // "days" => implode(' | ', $daylist),
             "days" => $league->days,
             "total_games" => $interval->format('%a'),
-            "time" => $league->start_time . ' To ' . $league->end_time,
+            "time" => date('h:i A', strtotime($league->start_time)) . ' To ' . date('h:i A', strtotime($league->end_time)),
             "date" => date('d/m/Y', strtotime($league->start_date)) . ' To ' . date('d/m/Y', strtotime($league->end_date)),
             'gender' => $league->gender == 1 ? 'Men' : ($league->gender == 2 ? 'Women' : 'Mixed'),
             'age' => 'Age '.$league->from_age . ' To Age ' . $league->to_age,
@@ -141,8 +142,9 @@ class LeagueController extends Controller
             'amenities_description' => $league->dome_info->benefits_description,
             'league_images' => $league->league_images,
             'amenities' => $benefits,
-            "booking_deadline" => $league->booking_deadline,
+            "booking_deadline" => Carbon::parse($league->booking_deadline)->setTimezone(config('app.timezone'))->toDateTimeString(),
             "is_fav" => Helper::is_fav($user_id, '', $league->id),
+            'current_time' => Carbon::now()->setTimezone(config('app.timezone'))->toDateTimeString(),
         );
         return $league_data;
     }

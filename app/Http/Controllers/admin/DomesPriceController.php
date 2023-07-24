@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\admin;
 
+use App\Helper\Helper;
 use App\Http\Controllers\Controller;
 use App\Models\BookingSlots;
 use App\Models\Domes;
@@ -17,6 +18,7 @@ class DomesPriceController extends Controller
 {
     public function index(Request $request)
     {
+        
         $getsetpriceslist = SetPrices::where('vendor_id', auth()->user()->type == 2 ? auth()->user()->id : auth()->user()->vendor_id)->where('price_type', 2)->orderByDesc('id')->get();
         return view('admin.set_prices.index', compact('getsetpriceslist'));
     }

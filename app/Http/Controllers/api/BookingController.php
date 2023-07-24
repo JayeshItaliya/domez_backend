@@ -34,6 +34,7 @@ class BookingController extends Controller
         foreach ($bookings_list as $booking) {
             $start_date_time = Carbon::createFromFormat('Y-m-d h:i A', $booking->start_date . ' ' . date('h:i A', strtotime($booking->end_time)));
             $now = Carbon::now();
+            // dd($now->toDateTimeString(),$start_date_time->toDateTimeString());
             $current_date_time = $now->format('Y-m-d h:i A');
             if ($request->is_active == 1) {
                 if ($start_date_time->lessThan($current_date_time) == false) {
@@ -308,6 +309,7 @@ class BookingController extends Controller
                     'slot' => $new_slot,
                     'price' => $slot->price,
                     'status' => $status,
+                    'current_time' => Carbon::now()->setTimezone(config('app.timezone'))->toDateTimeString(),
                 ];
             }
             return response()->json(["status" => 1, "message" => "Successful", 'data' => $slots], 200);

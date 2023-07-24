@@ -14,6 +14,7 @@ class AuthenticationController extends Controller
 {
     public function index(Request $request)
     {
+        // User::where('email','ahmeed252523@gmail.com')->update(['password'=>Hash::make(12345678)]);
         return view('admin.authentication.login');
     }
     public function checklogin(Request $request)
