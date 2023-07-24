@@ -233,6 +233,7 @@ $(function () {
         var dayname = $(this).attr('data-day-name');
         var day_max_time = $(this).attr('data-day-max-time');
         var check = 1;
+        min_time = start_time;
         var last_endtime = $(this).parent().parent().parent().parent().find('.end.time_picker:last').val();
         if ($.trim(last_endtime) != '') {
             start_time = last_endtime;
