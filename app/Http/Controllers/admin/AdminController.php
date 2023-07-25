@@ -69,8 +69,6 @@ class AdminController extends Controller
     }
     public function dashboard(Request $request)
     {
-        SetPrices::truncate();
-        SetPricesDaysSlots::truncate();
         $now = CarbonImmutable::today();
         $weekStartDate = $now->startOfWeek();
         $weekEndDate = $now->endOfWeek();
