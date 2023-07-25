@@ -338,6 +338,7 @@ function getZipCode(lat, lng) {
         type: "GET",
         dataType: 'json',
         async: false,
+        headers:'',
         success: function (data) {
             var results = data.results;
             results[0].address_components.forEach(element => {

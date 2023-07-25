@@ -50,7 +50,7 @@ class EnquiryController extends Controller
                 $message->to($data['email']);
             });
             if (!empty(User::where('type', 2)->where('email', $enquiry_data->email)->first())) {
-                User::where('type', 2)->where('email', $enquiry_data->email)->increment('dome_limit');
+                User::where('type', 2)->where('email', $enquiry_data->email)->update(['dome_limit'=>1]);
                 $user = User::where('type', 2)->where('email', $enquiry_data->email)->first();
             } else {
                 $user = new User();
