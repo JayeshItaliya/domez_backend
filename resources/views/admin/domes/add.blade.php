@@ -205,12 +205,12 @@
                         <div class="col-md-12">
                             <label class="form-label">{{ trans('labels.select_sports') }}</label>
                             <div class="row">
-                                @foreach ($getsportslist as $data)
+                                @foreach ($getsportslist as $key => $data)
                                     <div class="col-auto">
                                         <div class="form-check">
-                                            <input type="checkbox" id="{{ $data->name }}" name="sport_id[]" class="form-check-input" value="{{ $data->id }}"
+                                            <input type="checkbox" id="sport_{{$key}}" name="sport_id[]" class="form-check-input" value="{{ $data->id }}"
                                                 data-sport-name="{{ $data->name }}" {{ !empty(old('sport_id')) && in_array($data->id, old('sport_id')) ? 'checked' : '' }}>
-                                            <label class="form-check-label" for="{{ $data->name }}">{{ $data->name }}</label>
+                                            <label class="form-check-label" for="sport_{{$key}}">{{ $data->name }}</label>
                                         </div>
                                     </div>
                                 @endforeach
@@ -262,7 +262,7 @@
                                     <label class="col-lg-3 col-form-label text-center fw-bold">{{ trans('labels.' . strtolower($day)) }}</label>
                                     <div class="col-lg-3">
                                         <div class="form-group d-grid align-items-end">
-                                            <label class="d-lg-none d-xl-none d-xxl-none">{{ trans('labels.is_closed') }}</label>
+                                            <label class="d-lg-none d-xl-none d-xxl-none">{{ trans('labels.availability') }}</label>
                                             <select class="form-control" name="is_closed[]">
                                                 <option value="2" selected> {{ trans('labels.open') }}</option>
                                                 <option value="1"> {{ trans('labels.closed') }}</option>
