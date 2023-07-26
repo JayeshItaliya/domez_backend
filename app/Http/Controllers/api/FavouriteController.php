@@ -81,7 +81,7 @@ class FavouriteController extends Controller
             if ($request->type == 2) {
                 $favourite = Favourite::where('user_id', $checkuser->id)->where('league_id', '!=', '')->select('league_id')->get();
                 foreach ($favourite as $league) {
-                    $checkleague = League::where('id', $league->league_id)->whereDate('booking_deadline', '>=', date('Y-m-d'))->where('is_deleted', 2)->first();
+                    $checkleague = League::where('id', $league->league_id)->whereDate('end_date', '>=', date('Y-m-d'))->where('is_deleted', 2)->first();
                     if (!empty($checkleague)) {
                         $league_lists[] = [
                             "id" => $checkleague->id,
