@@ -216,6 +216,7 @@ class DomesController extends Controller
                 'sports_list' => Helper::get_sports_list($dome->sport_id),
                 'dome_images' => $dome->dome_images,
                 'working_hours' => array_map(function ($item) {return ['day' => $item['day'],'is_closed' => $item['is_closed'],];}, $dome->working_hours->toArray()),
+                "current_time" => Carbon::now()->setTimezone(config('app.timezone'))->toDateTimeString(),
             );
         }
         return $dome_data;
