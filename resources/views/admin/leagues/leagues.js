@@ -6,13 +6,17 @@ var my_interval = 60;
 if (document.getElementById('days')) {
     $('#days').selectpicker();
 }
-$('#field').select2({
-    theme: "bootstrap-5",
-    width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
-    placeholder: $(this).data('placeholder'),
-    closeOnSelect: false,
-});
+if (document.getElementById('field')) {
+    $('#field').selectpicker();
+}
+// $('#field').select2({
+//     theme: "bootstrap-5",
+//     width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
+//     placeholder: $(this).data('placeholder'),
+//     closeOnSelect: false,
+// });
 $(function () {
+    "use strict";
     $('.start.time_picker').timepicker({
         interval: my_interval,
         dynamic: false,
@@ -52,6 +56,7 @@ $(function () {
     }
 });
 $('#start_date').on('change', function () {
+    "use strict";
     if ($.trim($(this).val()) != "") {
         $('#end_date, #booking_deadline').attr('disabled', false);
         $('#end_date').attr('min', $(this).val());
@@ -64,8 +69,9 @@ $('#start_date').on('change', function () {
         var newDateString = year + '-' + (month < 10 ? '0' + month : month) + '-' + (day < 10 ? '0' + day : day);
         $('#booking_deadline').attr('max', newDateString);
     }
-}).change();
+}).change();;
 $('#from_age').on('change', function () {
+    "use strict";
     var from_age = parseInt($(this).val());
     if (from_age == '') {
         $("#to_age").attr('disabled', true);
@@ -86,6 +92,7 @@ $('#from_age').on('change', function () {
     $('#to_age option:first').attr('disabled', true);
 }).change();
 $('#min_player').on('change', function () {
+    "use strict";
     var min_player = parseInt($(this).val());
     if (min_player == '') {
         $("#max_player").attr('disabled', true);
@@ -106,6 +113,7 @@ $('#min_player').on('change', function () {
     $('#max_player option:first').attr('disabled', true);
 }).change();
 $('#dome').on('change', function () {
+    "use strict";
     min_time = $(this).find(':selected').attr('data-start-time');
     max_time = $(this).find(':selected').attr('data-end-time');
     if (start_time == '') {
@@ -123,6 +131,7 @@ $('#dome').on('change', function () {
             if (response.status == 1) {
                 var html = '';
                 $('.radio-editer').html('');
+
                 if (response.sportsdata.length > 0) {
                     $.each(response.sportsdata, function (arrayIndex, elementValue) {
                         if ($.trim(sport_selected) != '') {
@@ -143,16 +152,7 @@ $('#dome').on('change', function () {
                 } else {
                     $('.radio-editer').html(no_data);
                 }
-                // $('#field option:not(:first)').remove();
-                // if (response.fieldsdata.length > 0) {
-                //     $.each(response.fieldsdata, function (arrayIndex, elementValue) {
-                //         let selected = $.trim($('#field').attr('data-field-selected')) == elementValue.id ? 'selected' : '';
-                //         $('#field').append('<option value="' + elementValue.id + '" ' + selected + ' >' + elementValue.name + '</option>');
-                //     });
-                // } else {
-                //     $('#field').append('<option value="" selected disabled>' + no_data +
-                //         '</option>');
-                // }
+                append_days(response.working_days)
             } else {
                 toastr.error(response.message);
                 return false;
@@ -165,10 +165,12 @@ $('#dome').on('change', function () {
     });
 }).change();
 $('body').on('change', '.radio-editer input[type=radio]', function () {
+    "use strict";
     getfields($(this).val());
 });
 
 function getfields(sport) {
+    "use strict";
     if ($.trim(sport) == "") {
         sport = $('.radio-editer').find(':checked').val();
     }
@@ -181,15 +183,16 @@ function getfields(sport) {
         method: 'GET',
         success: function (response) {
             if (response.status == 1) {
-                $('#field option').remove();
-                if (response.fieldsdata.length > 0) {
-                    $.each(response.fieldsdata, function (arrayIndex, elementValue) {
-                        var selected = $.inArray(elementValue.id, field_selected) !== -1 ? 'selected' : '';
-                        $('#field').append('<option value="' + elementValue.id + '"  ' + selected + '  >' + elementValue.name + '</option>');
-                    });
-                } else {
-                    $('#field').append('<option value="" selected disabled>' + no_data + '</option>');
-                }
+                append_fields(response.fieldsdata)
+                // $('#field option').remove();
+                // if (response.fieldsdata.length > 0) {
+                //     $.each(response.fieldsdata, function (arrayIndex, elementValue) {
+                //         var selected = $.inArray(elementValue.id, field_selected) !== -1 ? 'selected' : '';
+                //         $('#field').append('<option value="' + elementValue.id + '"  ' + selected + '  >' + elementValue.name + '</option>');
+                //     });
+                // } else {
+                //     $('#field').append('<option value="" selected disabled>' + no_data + '</option>');
+                // }
             } else {
                 toastr.error(response.message);
                 return false;
@@ -200,4 +203,49 @@ function getfields(sport) {
             return false;
         }
     });
+}
+
+function append_fields(options) {
+    "use strict";
+    var $select = $('#field');
+    $select.empty();
+    if (options.length > 0) {
+        $.each(options, function (key, value) {
+            var selected__ = $.inArray(value.id, field_selected) !== -1 ? true : false;
+            $select.append($('<option>', {
+                value: value.id,
+                text: value.name,
+                selected: selected__
+            }));
+        });
+    } else {
+        $select.append($('<option>', {
+            value: '',
+            text: no_data,
+            selected: true,
+            disabled: true,
+        }));
+    }
+    $select.selectpicker('refresh');
+}
+
+function append_days(options) {
+    "use strict";
+    const daysMap = {};
+    options.forEach(dayObj => {
+        var dayShort = Object.keys(dayObj)[0];
+        var dayFullName = dayObj[dayShort];
+        daysMap[dayShort] = dayFullName;
+    });
+    var $select = $('#days');
+    $select.empty();
+    $.each(daysMap, function (key, value) {
+        var selected_ = $.inArray(key, days_selected) !== -1 ? true : false;
+        $select.append($('<option>', {
+            value: key,
+            text: value,
+            selected: selected_
+        }));
+    });
+    $select.selectpicker('refresh');
 }

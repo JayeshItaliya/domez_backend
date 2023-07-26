@@ -62,66 +62,74 @@ class DomesController extends Controller
             'description.required' => trans('messages.description_required'),
             'address.required' => trans('messages.address_required'),
         ]);
-        $dome = new Domes();
-        $dome->vendor_id = auth()->user()->id;
-        $dome->sport_id = implode(",", $request->sport_id);
-        $dome->name = $request->dome_name;
-        $dome->hst = $request->dome_hst;
-        $dome->price = 0;
-        $dome->address = $request->address;
-        $dome->description = $request->description;
-        $dome->lat = $request->lat;
-        $dome->lng = $request->lng;
-        $dome->pin_code = $request->pin_code;
-        $dome->city = $request->city;
-        $dome->state = $request->state;
-        $dome->country = $request->country;
-        $dome->slot_duration = $request->slot_duration;
-        $dome->benefits = $request->benefits != '' ? implode("|", $request->benefits) : '';
-        $dome->benefits_description = $request->benefits_description;
-        $dome->save();
-        foreach ($request->day as $key => $dayname) {
-            $wh = new WorkingHours();
-            $wh->vendor_id = auth()->user()->id;
-            $wh->dome_id = $dome->id;
-            $wh->day = strtolower($dayname);
-            $wh->open_time = $request->open_time[$key];
-            $wh->close_time = $request->close_time[$key];
-            $wh->save();
-        }
-        if ($request->has('dome_images')) {
-            $request->validate([
-                'dome_images.*' => 'required|image|mimes:png,jpg,jpeg,svg|max:7168',
-            ], [
-                'dome_images.required' => trans('messages.image_required'),
-                'dome_images.image' => trans('messages.valid_image'),
-                'dome_images.mimes' => trans('messages.valid_image_type'),
-                'dome_images.max' => trans('messages.valid_image_size'),
-            ]);
-            foreach ($request->file('dome_images') as $img) {
-                $domeimage = new DomeImages();
-                $image = 'dome-' . uniqid() . '.' . $img->getClientOriginalExtension();
-                $img->move('storage/app/public/admin/images/domes', $image);
-                $domeimage->dome_id = $dome->id;
-                $domeimage->images = $image;
-                $domeimage->save();
+        DB::beginTransaction();
+        try {
+            $dome = new Domes();
+            $dome->vendor_id = auth()->user()->id;
+            $dome->sport_id = implode(",", $request->sport_id);
+            $dome->name = $request->dome_name;
+            $dome->hst = $request->dome_hst;
+            $dome->price = 0;
+            $dome->address = $request->address;
+            $dome->description = $request->description;
+            $dome->lat = $request->lat;
+            $dome->lng = $request->lng;
+            $dome->pin_code = $request->pin_code;
+            $dome->city = $request->city;
+            $dome->state = $request->state;
+            $dome->country = $request->country;
+            $dome->slot_duration = $request->slot_duration;
+            $dome->benefits = $request->benefits != '' ? implode("|", $request->benefits) : '';
+            $dome->benefits_description = $request->benefits_description;
+            $dome->save();
+            foreach ($request->day as $key => $dayname) {
+                $wh = new WorkingHours();
+                $wh->vendor_id = auth()->user()->id;
+                $wh->dome_id = $dome->id;
+                $wh->day = strtolower($dayname);
+                $wh->open_time = $request->open_time[$key];
+                $wh->close_time = $request->close_time[$key];
+                $wh->is_closed = $request->is_closed[$key];
+                $wh->save();
             }
-        }
-        foreach ($request->sport_id as $key => $sport) {
-            $checksportexist =  SetPrices::where('dome_id', $dome->id)->where('sport_id', $sport)->where('price_type', 1)->first();
-            if (empty($checksportexist)) {
-                $checksportexist = new SetPrices();
-                $checksportexist->vendor_id = auth()->user()->id;
-                $checksportexist->price_type = 1;
+            if ($request->has('dome_images')) {
+                $request->validate([
+                    'dome_images.*' => 'required|image|mimes:png,jpg,jpeg,svg|max:7168',
+                ], [
+                    'dome_images.required' => trans('messages.image_required'),
+                    'dome_images.image' => trans('messages.valid_image'),
+                    'dome_images.mimes' => trans('messages.valid_image_type'),
+                    'dome_images.max' => trans('messages.valid_image_size'),
+                ]);
+                foreach ($request->file('dome_images') as $img) {
+                    $domeimage = new DomeImages();
+                    $image = 'dome-' . uniqid() . '.' . $img->getClientOriginalExtension();
+                    $img->move('storage/app/public/admin/images/domes', $image);
+                    $domeimage->dome_id = $dome->id;
+                    $domeimage->images = $image;
+                    $domeimage->save();
+                }
             }
-            $checksportexist->price = $request->dome_price[$key];
-            $checksportexist->dome_id = $dome->id;
-            $checksportexist->sport_id = $sport;
-            $checksportexist->start_date = null;
-            $checksportexist->end_date = null;
-            $checksportexist->save();
+            foreach ($request->sport_id as $key => $sport) {
+                $checksportexist =  SetPrices::where('dome_id', $dome->id)->where('sport_id', $sport)->where('price_type', 1)->first();
+                if (empty($checksportexist)) {
+                    $checksportexist = new SetPrices();
+                    $checksportexist->vendor_id = auth()->user()->id;
+                    $checksportexist->price_type = 1;
+                }
+                $checksportexist->price = $request->dome_price[$key];
+                $checksportexist->dome_id = $dome->id;
+                $checksportexist->sport_id = $sport;
+                $checksportexist->start_date = null;
+                $checksportexist->end_date = null;
+                $checksportexist->save();
+            }
+            DB::commit();
+            return redirect('admin/domes')->with('success', trans('messages.success'));
+        } catch (\Throwable $th) {
+            DB::rollback();
+            return redirect()->back()->with('error', trans('messages.wrong'));
         }
-        return redirect('admin/domes')->with('success', trans('messages.success'));
     }
     public function dome_details(Request $request)
     {
@@ -224,13 +232,13 @@ class DomesController extends Controller
                 WHEN booking_status = '1' THEN '{$confirmed_bookings}'
                 WHEN booking_status = '2' THEN '{$pending_bookings}'
                 WHEN booking_status = '3' THEN '{$cancelled_bookings}'
-                END as status,
-                CASE
+            END as status,
+            CASE
                 WHEN booking_status = '1' THEN 'primary_color'
                 WHEN booking_status = '2' THEN 'secondary_color'
                 WHEN booking_status = '3' THEN 'danger_color'
-                END as colors,
-                COUNT(*) as total")->whereBetween('created_at', [$weekStartDate, $weekEndDate])->groupBy('booking_status')->orderBy('booking_status')->get();
+            END as colors,
+            COUNT(*) as total")->whereBetween('created_at', [$weekStartDate, $weekEndDate])->groupBy('booking_status')->orderBy('booking_status')->get();
             $bokingschartdata = [];
             foreach ($total_bookings_data as $d) {
                 $bokingschartdata[] = [
@@ -279,73 +287,62 @@ class DomesController extends Controller
             'description.required' => trans('messages.description_required'),
             'address.required' => trans('messages.address_required'),
         ]);
-        $dome = Domes::find($request->id);
-        $dome->sport_id = implode(",", $request->sport_id);
-        $dome->name = $request->dome_name;
-        $dome->hst = $request->dome_hst;
-        $dome->price = $request->dome_price;
-        $dome->address = $request->address;
-        $dome->pin_code = $request->pin_code;
-        $dome->city = $request->city;
-        $dome->state = $request->state;
-        $dome->country = $request->country;
-        $dome->slot_duration = $request->slot_duration;
-        $dome->description = $request->description;
-        $dome->lat = $request->lat;
-        $dome->lng = $request->lng;
-        $dome->benefits = $request->benefits != '' ? implode("|", $request->benefits) : '';
-        $dome->benefits_description = $request->benefits_description;
-        $dome->save();
-        if (count($dome['working_hours']) == 0) {
-            foreach ($request->day as $key => $dayname) {
-                $wh = new WorkingHours();
-                $wh->vendor_id = auth()->user()->id;
-                $wh->dome_id = $dome->id;
-                $wh->day = strtolower($dayname);
-                $wh->open_time = $request->open_time[$key];
-                $wh->close_time = $request->close_time[$key];
-                $wh->save();
+        DB::beginTransaction();
+        try {
+            $dome = Domes::find($request->id);
+            $dome->sport_id = implode(",", $request->sport_id);
+            $dome->name = $request->dome_name;
+            $dome->hst = $request->dome_hst;
+            $dome->price = $request->dome_price;
+            $dome->address = $request->address;
+            $dome->pin_code = $request->pin_code;
+            $dome->city = $request->city;
+            $dome->state = $request->state;
+            $dome->country = $request->country;
+            $dome->slot_duration = $request->slot_duration;
+            $dome->description = $request->description;
+            $dome->lat = $request->lat;
+            $dome->lng = $request->lng;
+            $dome->benefits = $request->benefits != '' ? implode("|", $request->benefits) : '';
+            $dome->benefits_description = $request->benefits_description;
+            $dome->save();
+            if ($request->has('dome_images')) {
+                $request->validate([
+                    'dome_images.*' => 'image|mimes:png,jpg,jpeg,svg|max:7168',
+                ], [
+                    'dome_images.image' => trans('messages.valid_image'),
+                    'dome_images.mimes' => trans('messages.valid_image_type'),
+                    'dome_images.max' => trans('messages.valid_image_size'),
+                ]);
+                foreach ($request->file('dome_images') as $img) {
+                    $domeimage = new DomeImages();
+                    $image = 'dome-' . uniqid() . '.' . $img->getClientOriginalExtension();
+                    $img->move('storage/app/public/admin/images/domes', $image);
+                    $domeimage->dome_id = $dome->id;
+                    $domeimage->images = $image;
+                    $domeimage->save();
+                }
             }
-        } else {
-            foreach ($request->day as $key => $dayname) {
-                $wh = WorkingHours::find($dayname);
-                $wh->open_time = $request->open_time[$key];
-                $wh->close_time = $request->close_time[$key];
-                $wh->save();
+            foreach ($request->sport_id as $key => $sport) {
+                $checksportexist =  SetPrices::where('dome_id', $dome->id)->where('sport_id', $sport)->where('price_type', 1)->first();
+                if (empty($checksportexist)) {
+                    $checksportexist = new SetPrices();
+                    $checksportexist->vendor_id = auth()->user()->id;
+                    $checksportexist->price_type = 1;
+                    $checksportexist->start_date = null;
+                    $checksportexist->end_date = null;
+                    $checksportexist->dome_id = $dome->id;
+                    $checksportexist->sport_id = $sport;
+                }
+                $checksportexist->price = $request->dome_price[$key];
+                $checksportexist->save();
             }
+            DB::commit();
+            return redirect('admin/domes')->with('success', trans('messages.success'));
+        } catch (\Throwable $th) {
+            DB::rollback();
+            return redirect()->back()->with('error', trans('messages.wrong'));
         }
-        if ($request->has('dome_images')) {
-            $request->validate([
-                'dome_images.*' => 'image|mimes:png,jpg,jpeg,svg|max:7168',
-            ], [
-                'dome_images.image' => trans('messages.valid_image'),
-                'dome_images.mimes' => trans('messages.valid_image_type'),
-                'dome_images.max' => trans('messages.valid_image_size'),
-            ]);
-            foreach ($request->file('dome_images') as $img) {
-                $domeimage = new DomeImages();
-                $image = 'dome-' . uniqid() . '.' . $img->getClientOriginalExtension();
-                $img->move('storage/app/public/admin/images/domes', $image);
-                $domeimage->dome_id = $dome->id;
-                $domeimage->images = $image;
-                $domeimage->save();
-            }
-        }
-        foreach ($request->sport_id as $key => $sport) {
-            $checksportexist =  SetPrices::where('dome_id', $dome->id)->where('sport_id', $sport)->where('price_type', 1)->first();
-            if (empty($checksportexist)) {
-                $checksportexist = new SetPrices();
-                $checksportexist->vendor_id = auth()->user()->id;
-                $checksportexist->price_type = 1;
-                $checksportexist->start_date = null;
-                $checksportexist->end_date = null;
-                $checksportexist->dome_id = $dome->id;
-                $checksportexist->sport_id = $sport;
-            }
-            $checksportexist->price = $request->dome_price[$key];
-            $checksportexist->save();
-        }
-        return redirect('admin/domes')->with('success', trans('messages.success'));
     }
     public function delete(Request $request)
     {
@@ -372,6 +369,43 @@ class DomesController extends Controller
                 unlink('storage/app/public/admin/images/domes/' . $image->images);
             }
             $image->delete();
+            return response()->json(['status' => 1, 'message' => trans('messages.success')], 200);
+        } catch (\Throwable $th) {
+            return response()->json(['status' => 0, 'message' => trans('messages.wrong')], 200);
+        }
+    }
+    public function managetime(Request $request)
+    {
+        try {
+            $dome = Domes::find($request->id);
+            if (count($dome['working_hours']) == 0) {
+                foreach ($request->day as $key => $dayname) {
+                    $wh = new WorkingHours();
+                    $wh->vendor_id = auth()->user()->id;
+                    $wh->dome_id = $dome->id;
+                    $wh->day = strtolower($dayname);
+                    $wh->open_time = $request->open_time[$key];
+                    $wh->close_time = $request->close_time[$key];
+                    $wh->is_closed = $request->is_closed[$key];
+                    $wh->save();
+                }
+            } else {
+                foreach ($request->day as $key => $dayname) {
+                    $wh = WorkingHours::find($dayname);
+                    if ($request->is_closed[$key] == 1) {
+                        $dayy = Carbon::parse($wh->day);
+                        $checkleague = League::where('dome_id', $dome->id)->whereRaw("FIND_IN_SET(?, REPLACE(days, ' | ', ','))", [$dayy->format('D')])->whereDate('end_date','>',date('Y-m-d'))->first();
+                        if (!empty($checkleague) && $request->update_ == 1) {
+                        } else {
+                            return response()->json(['status' => 2, 'message' => 'League is running on some days. Are you sure to update working hours!'], 200);
+                        }
+                    }
+                    $wh->open_time = $request->open_time[$key];
+                    $wh->close_time = $request->close_time[$key];
+                    $wh->is_closed = $request->is_closed[$key];
+                    $wh->save();
+                }
+            }
             return response()->json(['status' => 1, 'message' => trans('messages.success')], 200);
         } catch (\Throwable $th) {
             return response()->json(['status' => 0, 'message' => trans('messages.wrong')], 200);

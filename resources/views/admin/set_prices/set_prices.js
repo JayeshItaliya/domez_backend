@@ -102,7 +102,7 @@ $(document).on('click', ".accordion-header", function () {
 
     var currentDate = new Date().toISOString().slice(0, 10);
     var endTime = new Date(currentDate + ' ' + max_time);
-    endTime.setMinutes(endTime.getMinutes() - 60);
+    endTime.setMinutes(endTime.getMinutes() - 30);
     max_time = ('0' + endTime.getHours()).slice(-2) + ':' + ('0' + endTime.getMinutes()).slice(-2);
 
     if ($(this).next().find('.start.time_picker').length == 1) {
@@ -132,6 +132,10 @@ $(document).on('focus', ".start.time_picker", function () {
         change: function (time) {
             var element = $(this);
             $("body").find('.btn-reset-slots[data-days-name=' + $(element).attr('data-day-name') + ']').removeClass("d-none");
+
+            var dmt = $("body").find('.appendbtn[data-day-name=' + $(element).attr('data-day-name') + ']').attr("data-day-max-time");
+            max_time = dmt;
+
             var timepicker = element.timepicker();
             var set_last_val = '';
             start_time = timepicker.format(time);
@@ -260,7 +264,7 @@ $(function () {
 
         var currentDate = new Date().toISOString().slice(0, 10);
         var endTime = new Date(currentDate + ' ' + day_max_time);
-        endTime.setMinutes(endTime.getMinutes() - 60);
+        endTime.setMinutes(endTime.getMinutes() - 30);
         max_time = ('0' + endTime.getHours()).slice(-2) + ':' + ('0' + endTime.getMinutes()).slice(-2);
 
         var html =

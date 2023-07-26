@@ -231,7 +231,7 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label class="form-label" for="description">{{ trans('labels.dome_description') }}</label>
-                                <textarea class="form-control" name="description" id="description" rows="5" placeholder="{{ trans('labels.dome_description') }}" maxlength="300">{{ old('description') }}</textarea>
+                                <textarea class="form-control" name="description" id="description" rows="5" placeholder="{{ trans('labels.dome_description') }}">{{ old('description') }}</textarea>
                                 @error('description') <span class="text-danger">{{ $message }}</span> @enderror
                             </div>
                         </div>
@@ -240,7 +240,7 @@
             </div>
             <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
                 aria-hidden="true">
-                <div class="modal-dialog">
+                <div class="modal-dialog modal-lg">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h1 class="modal-title fs-5" id="exampleModalLabel">{{ trans('labels.add_working_hours') }} </h1>
@@ -250,37 +250,42 @@
                             @php
                                 $days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
                             @endphp
-                            <div class="row">
-                                <label class="col-md-4 col-form-label"></label>
-                                <div class="form-group col-md-4 text-center">
-                                    <label><strong>{{ trans('labels.opening_time') }}</strong></label>
-                                </div>
-                                <div class="form-group col-md-4 text-center">
-                                    <label><strong>{{ trans('labels.closing_time') }}</strong></label>
-                                </div>
+                            <div class="row my-3">
+                                <label class="col-lg-3 col-form-label"></label>
+                                <label class="col-lg-3 text-center mb-0 d-none d-lg-block d-xl-block d-xxl-block fw-bold"> {{ trans('labels.availability') }} </label>
+                                <label class="col-lg-3 text-center mb-0 d-none d-lg-block d-xl-block d-xxl-block fw-bold"> {{ trans('labels.opening_time') }} </label>
+                                <label class="col-lg-3 text-center mb-0 d-none d-lg-block d-xl-block d-xxl-block fw-bold"> {{ trans('labels.closing_time') }} </label>
                             </div>
                             @foreach ($days as $key => $day)
                                 <div class="row">
-                                    <label class="col-md-4 col-form-label">{{ trans('labels.' . strtolower($day)) }}</label>
                                     <input type="hidden" name="day[]" value="{{ strtolower($day) }}">
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <input type="text" class="form-control time_picker__ time_picker__start" placeholder="{{ trans('labels.opening_time') }}" name="open_time[]"
-                                                @if (old('open_time')) value="{{ old('open_time')[$key] }}" @endif>
+                                    <label class="col-lg-3 col-form-label text-center fw-bold">{{ trans('labels.' . strtolower($day)) }}</label>
+                                    <div class="col-lg-3">
+                                        <div class="form-group d-grid align-items-end">
+                                            <label class="d-lg-none d-xl-none d-xxl-none">{{ trans('labels.is_closed') }}</label>
+                                            <select class="form-control" name="is_closed[]">
+                                                <option value="2" selected> {{ trans('labels.open') }}</option>
+                                                <option value="1"> {{ trans('labels.closed') }}</option>
+                                            </select>
                                         </div>
                                     </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <input type="text" class="form-control time_picker__ time_picker__end" placeholder="{{ trans('labels.closing_time') }}" name="close_time[]"
-                                                @if (old('close_time')) value="{{ old('close_time')[$key] }}" @endif>
+                                    <div class="col-lg-3">
+                                        <div class="form-group d-grid align-items-end">
+                                            <label class="d-lg-none d-xl-none d-xxl-none">{{ trans('labels.opening_time') }}</label>
+                                            <input type="text" class="form-control time_picker__ time_picker__start" placeholder="{{ trans('labels.opening_time') }}" name="open_time[]" @if (old('open_time')) value="{{ old('open_time')[$key] }}" @endif>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="form-group d-grid align-items-end">
+                                            <label class="d-lg-none d-xl-none d-xxl-none">{{ trans('labels.closing_time') }}</label>
+                                            <input type="text" class="form-control time_picker__ time_picker__end" placeholder="{{ trans('labels.closing_time') }}" name="close_time[]" @if (old('close_time')) value="{{ old('close_time')[$key] }}" @endif>
                                         </div>
                                     </div>
                                 </div>
                             @endforeach
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-outline-success"
-                                data-bs-dismiss="modal">{{ trans('labels.save') }}</button>
+                            <button type="button" class="btn btn-outline-success" data-bs-dismiss="modal">{{ trans('labels.save') }}</button>
                         </div>
                     </div>
                 </div>

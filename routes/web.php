@@ -199,6 +199,7 @@ Route::group(['middleware' => 'SetTimeZoneMiddleware'], function () {
                 Route::post('update-{id}', [DomesController::class, 'update']);
                 Route::get('delete', [DomesController::class, 'delete']);
                 Route::get('new-request', [DomesController::class, 'new_request']);
+                Route::post('manage-time', [DomesController::class, 'managetime'])->name('manage.working.hours');
             });
             //  Field
             Route::group(['prefix' => 'fields'], function () {

@@ -54,19 +54,13 @@
                                 @endforeach
                             </td>
                             <td>{{ $dome->country }}</td>
-                            <td>{{ $dome->day_working_hours('') != '' ? date('h:i A', strtotime($dome->day_working_hours('')->open_time)) : '-' }}
-                            </td>
-                            <td>{{ $dome->day_working_hours('') != '' ? date('h:i A', strtotime($dome->day_working_hours('')->close_time)) : '-' }}
-                            </td>
+                            <td>{{ $dome->day_working_hours('') != '' ? date('h:i A', strtotime($dome->day_working_hours('')->open_time)) : '-' }}</td>
+                            <td>{{ $dome->day_working_hours('') != '' ? date('h:i A', strtotime($dome->day_working_hours('')->close_time)) : '-' }}</td>
                             <td>
-                                <a class="cursor-pointer me-2" href="{{ URL::to('admin/domes/details-' . $dome->id) }}">
-                                    {!! Helper::get_svg(1) !!} </a>
+                                <a class="cursor-pointer me-2" href="{{ URL::to('admin/domes/details-' . $dome->id) }}"> {!! Helper::get_svg(1) !!} </a>
                                 @if (Auth::user()->type == 2)
-                                    <a class="cursor-pointer me-2" href="{{ URL::to('admin/domes/edit-' . $dome->id) }}">
-                                        {!! Helper::get_svg(2) !!} </a>
-                                    <a class="cursor-pointer me-2"
-                                        onclick="deletedata('{{ $dome->id }}','{{ URL::to('admin/domes/delete') }}')"
-                                        class="mx-2"> {!! Helper::get_svg(3) !!} </a>
+                                    <a class="cursor-pointer me-2" href="{{ URL::to('admin/domes/edit-' . $dome->id) }}"> {!! Helper::get_svg(2) !!} </a>
+                                    <a class="cursor-pointer me-2" onclick="deletedata('{{ $dome->id }}','{{ URL::to('admin/domes/delete') }}')" class="mx-2"> {!! Helper::get_svg(3) !!} </a>
                                 @endif
                             </td>
                         </tr>
@@ -87,38 +81,31 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="dome_name" class="form-label">{{ trans('labels.dome_name') }}</label>
-                        <input type="text" class="form-control" name="dome_name" id="dome_name"
-                            placeholder="{{ trans('labels.dome_name') }}">
+                        <input type="text" class="form-control" name="dome_name" id="dome_name" placeholder="{{ trans('labels.dome_name') }}">
                     </div>
                     <div class="form-group">
                         <label for="dome_address" class="form-label">{{ trans('labels.dome_address') }}</label>
-                        <input type="text" class="form-control" name="dome_address" id="dome_address"
-                            placeholder="{{ trans('labels.dome_address') }}">
+                        <input type="text" class="form-control" name="dome_address" id="dome_address" placeholder="{{ trans('labels.dome_address') }}">
                     </div>
                     <div class="form-group">
                         <label for="dome_city" class="form-label">{{ trans('labels.dome_city') }}</label>
-                        <input type="text" class="form-control" name="dome_city" id="dome_city"
-                            placeholder="{{ trans('labels.dome_city') }}">
+                        <input type="text" class="form-control" name="dome_city" id="dome_city" placeholder="{{ trans('labels.dome_city') }}">
                     </div>
                     <div class="form-group">
                         <label for="dome_zipcode" class="form-label">{{ trans('labels.pincode') }}</label>
-                        <input type="text" class="form-control" name="dome_zipcode" id="dome_zipcode"
-                            placeholder="{{ trans('labels.pincode') }}">
+                        <input type="text" class="form-control" name="dome_zipcode" id="dome_zipcode" placeholder="{{ trans('labels.pincode') }}">
                     </div>
                     <div class="form-group">
                         <label for="dome_state" class="form-label">{{ trans('labels.dome_state') }}</label>
-                        <input type="text" class="form-control" name="dome_state" id="dome_state"
-                            placeholder="{{ trans('labels.dome_state') }}">
+                        <input type="text" class="form-control" name="dome_state" id="dome_state" placeholder="{{ trans('labels.dome_state') }}">
                     </div>
                     <div class="form-group">
                         <label for="dome_country" class="form-label">{{ trans('labels.dome_country') }}</label>
-                        <input type="text" class="form-control" name="dome_country" id="dome_country"
-                            placeholder="{{ trans('labels.dome_country') }}">
+                        <input type="text" class="form-control" name="dome_country" id="dome_country" placeholder="{{ trans('labels.dome_country') }}">
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-outline-danger"
-                        data-bs-dismiss="modal">{{ trans('labels.cancel') }}</button>
+                    <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">{{ trans('labels.cancel') }}</button>
                     <button type="submit" class="btn btn-primary">{{ trans('labels.submit') }}</button>
                 </div>
             </form>
@@ -127,20 +114,15 @@
 @endsection
 @section('scripts')
     <script>
-        let dome_count = {{ Js::from($domes_count) }};
-        let dome_limit = {{ Js::from(Auth::user()->dome_limit) }};
         $(function() {
             if (is_vendor) {
-                if (dome_count < dome_limit) {
-                    let html = '<a href="' + window.location.href.replace(window.location.search, '') +
-                        '/add" class="btn-custom-primary">' + plus_svg_icon + '</a>';
-                    $('.fixed-table-toolbar .btn-group').append(html);
+                let html = '';
+                if ({{ Js::from($domes_count) }} < {{ Js::from(Auth::user()->dome_limit) }}) {
+                    html += '<a href="' + window.location.href.replace(window.location.search, '') + '/add" class="btn-custom-primary">' + plus_svg_icon + '</a>';
                 } else {
-                    let html =
-                        '<a data-bs-toggle="modal" data-bs-target="#new_dome_request" class="btn-custom-primary cursor-pointer">' +
-                        plus_svg_icon + '</a>';
-                    $('.fixed-table-toolbar .btn-group').append(html);
+                    html += '<a href="javascript:;" data-bs-toggle="modal" data-bs-target="#new_dome_request" class="btn-custom-primary">' + plus_svg_icon + '</a>';
                 }
+                $('.fixed-table-toolbar .btn-group').append(html);
             }
         });
     </script>

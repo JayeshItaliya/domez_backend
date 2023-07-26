@@ -294,8 +294,6 @@ class BookingController extends Controller
 
                 $status = $slot->status;
 
-                // $getdata = League::select('name', 'start_date', 'end_date', 'start_time', 'end_time')->where('dome_id', $getdomedata->id)->where('sport_id', $request->sport_id)->where('is_deleted', 2)->whereRaw('? BETWEEN start_date AND end_date', [date('Y-m-d', strtotime($request->date))])->get();
-
                 $getdata = League::select('name', 'start_date', 'end_date', 'start_time', 'end_time')->where('dome_id', $getdomedata->id)->where('sport_id', $request->sport_id)->where('is_deleted', 2)->whereRaw('? BETWEEN start_date AND end_date', [date('Y-m-d', strtotime($request->date))])->whereRaw("FIND_IN_SET(?, REPLACE(days, ' | ', ','))", [$req_date->format('D')])->get();
 
                 foreach ($getdata as $key => $league) {

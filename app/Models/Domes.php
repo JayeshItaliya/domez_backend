@@ -28,7 +28,7 @@ class Domes extends Model
     }
     public function working_hours()
     {
-        return $this->hasMany('App\Models\WorkingHours', 'dome_id', 'id')->select('id', 'vendor_id', 'dome_id', 'day', 'open_time', 'close_time');
+        return $this->hasMany('App\Models\WorkingHours', 'dome_id', 'id')->select('id', 'vendor_id', 'dome_id', 'day', 'open_time', 'close_time', 'is_closed');
     }
     public function day_working_hours($value)
     {
@@ -41,7 +41,7 @@ class Domes extends Model
         }
         $data = WorkingHours::where('dome_id', $this->id)
             ->where('day', $dayname != '' ? $dayname : date('l'))
-            ->select('id', 'vendor_id', 'dome_id', 'day', 'open_time', 'close_time')
+            ->select('id', 'vendor_id', 'dome_id', 'day', 'open_time', 'close_time', 'is_closed')
             ->first();
         return $data;
     }

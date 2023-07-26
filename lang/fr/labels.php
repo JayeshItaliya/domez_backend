@@ -302,4 +302,7 @@ return [
     'sunday' => 'Dimanche',
     'save' => 'Sauvegarder',
     'delete_all' => 'Supprimer tout',
+    'availability' => 'Disponibilité',
+    'open' => 'Ouvrir',
+    'closed' => 'Fermé',
 ];

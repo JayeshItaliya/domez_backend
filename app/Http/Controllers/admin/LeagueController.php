@@ -12,6 +12,7 @@ use App\Models\League;
 use App\Models\Sports;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class LeagueController extends Controller
 {
@@ -38,13 +39,20 @@ class LeagueController extends Controller
         try {
             $getdomedata = Domes::where('id', $request->id)->where('vendor_id', auth()->user()->type == 2 ? auth()->user()->id : auth()->user()->vendor_id)->where('is_deleted', 2)->first();
             if (!empty($getdomedata)) {
+                $working_days = array_reduce($getdomedata->working_hours->toArray(), function ($result, $item) {
+                    if ($item['is_closed'] === 2) {
+                        $abbreviation = ucfirst(substr($item['day'], 0, 3));
+                        $result[] = [(string)$abbreviation => ucfirst($item['day'])];
+                    }
+                    return $result;
+                }, []);
                 $sports = Sports::whereIn('id', explode(',', $getdomedata->sport_id))->where('is_available', 1)->where('is_deleted', 2)->orderByDesc('id')->get();
                 $fields = Field::where('vendor_id', auth()->user()->type == 2 ? auth()->user()->id : auth()->user()->vendor_id)->where('dome_id', $getdomedata->id)->where('is_available', 1)->where('is_deleted', 2);
                 if ($request->has('sport') && $request->sport != "") {
                     $fields = $fields->where('sport_id', $request->sport);
                 }
                 $fields = $fields->orderByDesc('id')->get();
-                return response()->json(['status' => 1, 'message' => trans('messages.success'), 'sportsdata' => $sports, 'fieldsdata' => $fields], 200);
+                return response()->json(['status' => 1, 'message' => trans('messages.success'), 'sportsdata' => $sports, 'fieldsdata' => $fields,'working_days'=>$working_days], 200);
             }
             return response()->json(['status' => 0, 'message' => trans('messages.invalid_dome')], 200);
         } catch (\Throwable $th) {

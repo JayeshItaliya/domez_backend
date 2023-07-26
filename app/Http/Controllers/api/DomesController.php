@@ -173,7 +173,7 @@ class DomesController extends Controller
     }
     public function getdomedataobject($id)
     {
-        $dome = Domes::with('dome_images')->where('id', $id)->where('is_deleted', 2)->first();
+        $dome = Domes::with(['dome_images','working_hours'])->where('id', $id)->where('is_deleted', 2)->first();
         if (empty($dome)) {
             return $dome_data = 1;
         }
@@ -215,6 +215,7 @@ class DomesController extends Controller
                 'benefits' => $benefits,
                 'sports_list' => Helper::get_sports_list($dome->sport_id),
                 'dome_images' => $dome->dome_images,
+                'working_hours' => array_map(function ($item) {return ['day' => $item['day'],'is_closed' => $item['is_closed'],];}, $dome->working_hours->toArray()),
             );
         }
         return $dome_data;
