@@ -262,7 +262,7 @@
                                     <label class="col-lg-3 col-form-label text-center fw-bold">{{ trans('labels.' . strtolower($day)) }}</label>
                                     <div class="col-lg-3">
                                         <div class="form-group d-grid align-items-end">
-                                            <label class="d-lg-none d-xl-none d-xxl-none">{{ trans('labels.availability') }}</label>
+                                            <label class="d-lg-none d-xl-none d-xxl-none">{{ trans('labels.is_closed') }}</label>
                                             <select class="form-control" name="is_closed[]">
                                                 <option value="2" selected> {{ trans('labels.open') }}</option>
                                                 <option value="1"> {{ trans('labels.closed') }}</option>
