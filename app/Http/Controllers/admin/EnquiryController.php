@@ -49,10 +49,19 @@ class EnquiryController extends Controller
                 $message->from(config('app.mail_username'))->subject($data['title']);
                 $message->to($data['email']);
             });
-            if (!empty(User::where('type', 2)->where('email', $enquiry_data->email)->first())) {
-                User::where('type', 2)->where('email', $enquiry_data->email)->update(['dome_limit'=>1]);
-                $user = User::where('type', 2)->where('email', $enquiry_data->email)->first();
+            // Find the user with the given email and type = 2
+            $user = User::where('type', 2)->where('email', $enquiry_data->email)->first();
+
+            if (!empty($user)) {
+                if ($user->dome_limit == 0) {
+                    // If the dome_limit is 0, update it to 1
+                    $user->update(['dome_limit' => 1]);
+                } else {
+                    // If the dome_limit is not 0, increment it by 1
+                    $user->increment('dome_limit');
+                }
             } else {
+                // If the user doesn't exist, create a new one
                 $user = new User();
                 $user->type = 2;
                 $user->login_type = 1;
@@ -64,6 +73,7 @@ class EnquiryController extends Controller
                 $user->is_verified = 1;
                 $user->save();
             }
+
             $enquiry_data->vendor_id = $user->id;
             $enquiry_data->is_accepted = 1;
             $enquiry_data->is_replied = 1;
