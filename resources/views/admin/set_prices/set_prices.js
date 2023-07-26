@@ -225,6 +225,7 @@ $(document).on('focus', ".start.time_picker", function () {
 });
 $(function () {
     "use strict";
+    $('.ui-timepicker-container.ui-timepicker-standard').css('z-index', '9');
     if (is_vendor || is_employee) {
         let html =
             '<a href="' + window.location.href.replace(window.location.search, '') + '/add" class="btn-custom-primary">' + plus_svg_icon + '</a>';
