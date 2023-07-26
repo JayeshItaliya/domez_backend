@@ -363,9 +363,12 @@
                     <div class="modal-body">
                         <div class="row my-3">
                             <label class="col-lg-3 col-form-label"></label>
-                            <label class="col-lg-3 text-center mb-0 d-none d-lg-block d-xl-block d-xxl-block fw-bold"> {{ trans('labels.availability') }} </label>
-                            <label class="col-lg-3 text-center mb-0 d-none d-lg-block d-xl-block d-xxl-block fw-bold"> {{ trans('labels.opening_time') }} </label>
-                            <label class="col-lg-3 text-center mb-0 d-none d-lg-block d-xl-block d-xxl-block fw-bold"> {{ trans('labels.closing_time') }} </label>
+                            <label class="col-lg-3 text-center mb-0 d-none d-lg-block d-xl-block d-xxl-block fw-bold">
+                                {{ trans('labels.availability') }} </label>
+                            <label class="col-lg-3 text-center mb-0 d-none d-lg-block d-xl-block d-xxl-block fw-bold">
+                                {{ trans('labels.opening_time') }} </label>
+                            <label class="col-lg-3 text-center mb-0 d-none d-lg-block d-xl-block d-xxl-block fw-bold">
+                                {{ trans('labels.closing_time') }} </label>
                         </div>
                         @if (count($dome['working_hours']) > 0)
                             @foreach ($dome['working_hours'] as $key => $time)
@@ -375,10 +378,13 @@
                                     <input type="hidden" name="day[]" value="{{ $time->id }}">
                                     <div class="col-lg-3">
                                         <div class="form-group d-grid align-items-end">
-                                            <label class="d-lg-none d-xl-none d-xxl-none">{{ trans('labels.is_closed') }}</label>
+                                            <label
+                                                class="d-lg-none d-xl-none d-xxl-none">{{ trans('labels.availability') }}</label>
                                             <select class="form-control" name="is_closed[]">
-                                                <option value="2" {{ $time->is_closed == 2 ? 'selected' : '' }}> {{ trans('labels.open') }} </option>
-                                                <option value="1" {{ $time->is_closed == 1 ? 'selected' : '' }}> {{ trans('labels.closed') }} </option>
+                                                <option value="2" {{ $time->is_closed == 2 ? 'selected' : '' }}>
+                                                    {{ trans('labels.open') }} </option>
+                                                <option value="1" {{ $time->is_closed == 1 ? 'selected' : '' }}>
+                                                    {{ trans('labels.closed') }} </option>
                                             </select>
                                         </div>
                                     </div>
@@ -414,6 +420,16 @@
                                     <div class="col-lg-3">
                                         <div class="form-group d-grid align-items-end">
                                             <label
+                                                class="d-lg-none d-xl-none d-xxl-none">{{ trans('labels.availability') }}</label>
+                                            <select class="form-control" name="is_closed[]">
+                                                <option value="2" selected> {{ trans('labels.open') }} </option>
+                                                <option value="1"> {{ trans('labels.closed') }} </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="form-group d-grid align-items-end">
+                                            <label
                                                 class="d-lg-none d-xl-none d-xxl-none">{{ trans('labels.opening_time') }}</label>
                                             <input type="text" class="form-control time_picker__ time_picker__start"
                                                 placeholder="{{ trans('labels.opening_time') }}" name="open_time[]"
@@ -429,22 +445,13 @@
                                                 @if (old('close_time')) value="{{ old('close_time')[$key] }}" @endif>
                                         </div>
                                     </div>
-                                    <div class="col-lg-3">
-                                        <div class="form-group d-grid align-items-end">
-                                            <label
-                                                class="d-lg-none d-xl-none d-xxl-none">{{ trans('labels.is_closed') }}</label>
-                                            <select class="form-control" name="is_closed[]">
-                                                <option value="1"> {{ trans('labels.yes') }}</option>
-                                                <option value="2" selected> {{ trans('labels.no') }}</option>
-                                            </select>
-                                        </div>
-                                    </div>
                                 </div>
                             @endforeach
                         @endif
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-outline-success" id="submitBtn" style="display: none;">{{ trans('labels.save') }}</button>
+                        <button type="submit" class="btn btn-outline-success" id="submitBtn"
+                            style="display: none;">{{ trans('labels.save') }}</button>
                         {{-- <button type="button" class="btn btn-outline-success" data-bs-dismiss="modal">{{ trans('labels.save') }}</button> --}}
                     </div>
                 </form>
@@ -474,9 +481,11 @@
                 $('#' + $(this).attr('data-show-input')).find('input[type=number]').attr('disabled', true);
             }
         });
+
         function showSubmitButton() {
             $("#submitBtn").show();
         }
+
         function hideSubmitButton() {
             $("#submitBtn").hide();
         }
@@ -499,10 +508,10 @@
                 },
                 success: function(response) {
                     // if (response.errors && Object.keys(response.errors).length > 0) {
-                        // $.each(response.errors, function(key, value) {
-                        //     toastr.error(value);
-                        //     return false;
-                        // });
+                    // $.each(response.errors, function(key, value) {
+                    //     toastr.error(value);
+                    //     return false;
+                    // });
                     // }
                     hidepreloader();
                     if (response.status == 0) {

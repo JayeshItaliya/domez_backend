@@ -395,9 +395,10 @@ class DomesController extends Controller
                     if ($request->is_closed[$key] == 1) {
                         $dayy = Carbon::parse($wh->day);
                         $checkleague = League::where('dome_id', $dome->id)->whereRaw("FIND_IN_SET(?, REPLACE(days, ' | ', ','))", [$dayy->format('D')])->whereDate('end_date','>',date('Y-m-d'))->first();
-                        if (!empty($checkleague) && $request->update_ == 1) {
-                        } else {
-                            return response()->json(['status' => 2, 'message' => 'League is running on some days. Are you sure to update working hours!'], 200);
+                        if (!empty($checkleague)) {
+                            if($request->update_ != 1){
+                                return response()->json(['status' => 2, 'message' => 'League is running on some days. Are you sure to update working hours!'], 200);
+                            }
                         }
                     }
                     $wh->open_time = $request->open_time[$key];

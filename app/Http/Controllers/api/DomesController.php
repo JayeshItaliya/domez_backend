@@ -196,6 +196,11 @@ class DomesController extends Controller
             'images' => $images,
         ];
         if (!empty($dome)) {
+
+            $workingHours = $dome->working_hours->pluck('is_closed');
+            $indicesWithValueOne = $workingHours->keys()->filter(function ($key) use ($workingHours) {
+                return $workingHours[$key] === 1;
+            });
             $dome_data = array(
                 'id' => $dome->id,
                 'total_fields' => Field::where('dome_id', $id)->where('is_available', 1)->where('is_deleted', 2)->count(),
@@ -215,8 +220,13 @@ class DomesController extends Controller
                 'benefits' => $benefits,
                 'sports_list' => Helper::get_sports_list($dome->sport_id),
                 'dome_images' => $dome->dome_images,
-                'working_hours' => array_map(function ($item) {return ['day' => $item['day'],'is_closed' => $item['is_closed'],];}, $dome->working_hours->toArray()),
                 "current_time" => Carbon::now()->setTimezone(config('app.timezone'))->toDateTimeString(),
+                'closed_days' => $dome->working_hours->pluck('is_closed'),
+                // 'working_hours' => array_map(function ($item) {return ['day' => $item['day'],'is_closed' => $item['is_closed'],];}, $dome->working_hours->toArray()),
+                // 'working_days' => array_reduce($dome->working_hours->toArray(), function ($result, $item) {
+                //         $result[] = [$item['is_closed']];
+                //         return $result;
+                //     }, []),
             );
         }
         return $dome_data;

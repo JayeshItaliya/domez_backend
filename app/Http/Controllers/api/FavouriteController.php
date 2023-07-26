@@ -79,19 +79,18 @@ class FavouriteController extends Controller
                 return response()->json(["status" => 1, "message" => "Successful", 'total_favourite_domes' => $favourite->count(), 'data_list' => $dome_lists], 200);
             }
             if ($request->type == 2) {
-                $favourite = Favourite::where('user_id', $checkuser->id)->where('league_id', '!=', '')->select('league_id')->get();
+                $favourite = Favourite::with('league_info')->where('user_id', $checkuser->id)->where('league_id', '!=', '')->select('id','league_id')->has('league_info')->get();
                 foreach ($favourite as $league) {
-                    $checkleague = League::where('id', $league->league_id)->whereDate('end_date', '>=', date('Y-m-d'))->where('is_deleted', 2)->first();
-                    if (!empty($checkleague)) {
+                    if (!empty($league->league_info)) {
                         $league_lists[] = [
-                            "id" => $checkleague->id,
-                            "league_name" => $checkleague->name,
-                            "dome_name" => $checkleague->dome_info->name,
-                            "image" => $checkleague->league_image == "" ? "" : $checkleague->league_image->image,
-                            "price" => $checkleague->price,
-                            "city" => $checkleague->dome_info->city,
-                            "state" => $checkleague->dome_info->state,
-                            "sports_list" => Helper::get_sports_list($checkleague->sport_id),
+                            "id" => $league->league_info->id,
+                            "league_name" => $league->league_info->name,
+                            "dome_name" => $league->league_info->dome_info->name,
+                            "image" => $league->league_info->league_image == "" ? "" : $league->league_info->league_image->image,
+                            "price" => $league->league_info->price,
+                            "city" => $league->league_info->dome_info->city,
+                            "state" => $league->league_info->dome_info->state,
+                            "sports_list" => Helper::get_sports_list($league->league_info->sport_id),
                         ];
                     }
                 }
