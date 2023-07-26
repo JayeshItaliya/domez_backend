@@ -358,7 +358,7 @@
                     <h1 class="modal-title fs-5" id="exampleModalLabel">{{ trans('labels.edit_working_hours') }}</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form action="{{ route('manage.working.hours') }}" method="post" id="workinghoursform">
+                <form action="{{ URL::to('admin/domes/manage-time') }}" method="post" id="workinghoursform">
                     <input type="hidden" name="id" value="{{ $dome->id }}">
                     <div class="modal-body">
                         <div class="row my-3">
