@@ -286,18 +286,10 @@ class Helper
         $dome_owner = User::where('id', $id)->first();
         $domes = Domes::where('vendor_id', $dome_owner->id)->where('is_deleted', 2)->get();
         foreach ($domes as $dome) {
-            $check_fields = Field::where('dome_id', $dome->id)->get();
-            if (count($check_fields) == 0) {
-                return ['status' => 0];
-            } else {
-                $dome_sports = explode(',', $dome->sport_id);
-                foreach ($dome_sports as $dome_sport) {
-                    $avl_sport_fields = Field::where('dome_id', $dome->id)->where('sport_id', $dome_sport)->get();
-                    if (count($avl_sport_fields) == 0) {
-                        return ['status' => 1, 'dome_name' => $dome->name, 'sport_name' => Sports::find($dome_sport)->name];
-                    } else {
-                        return ['status' => 0];
-                    }
+            foreach (explode(',', $dome->sport_id) as $dome_sport) {
+                $field_cnt = Field::where('dome_id', $dome->id)->where('sport_id', $dome_sport)->where('is_deleted', 2)->count();
+                if ($field_cnt == 0) {
+                    return ['status' => 1, 'dome_name' => $dome->name, 'sport_name' => Sports::find($dome_sport)->name];
                 }
             }
         }
@@ -305,7 +297,7 @@ class Helper
 
     public static function has_bookings($dome_id, $sport_id, $start_date, $end_date)
     {
-        $bookings = Booking::where('dome_id', $dome_id)->whereBetween('start_date',[$start_date,$end_date])->where('sport_id',$sport_id)->count();
+        $bookings = Booking::where('dome_id', $dome_id)->whereBetween('start_date', [$start_date, $end_date])->where('sport_id', $sport_id)->count();
         return $bookings != 0 ? true : false;
     }
 }
