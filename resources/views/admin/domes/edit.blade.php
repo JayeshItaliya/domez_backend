@@ -269,16 +269,19 @@
                             <label class="form-label">{{ trans('labels.select_sports') }}</label>
                             <div class="row">
                                 @php $sport_id = explode(',', $dome->sport_id) @endphp
-                                @foreach ($getsportslist as $data)
+                                @foreach ($getsportslist as $key => $data)
+                                    @php
+                                        $trimmedName = str_replace(' ', '', $data->name);
+                                    @endphp
                                     <div class="col-auto">
                                         <div class="form-check">
-                                            <input type="checkbox" id="{{ $data->name }}" name="sport_id[]"
+                                            <input type="checkbox" id="sp_{{ $key }}" name="sport_id[]"
                                                 class="form-check-input" value="{{ $data->id }}"
-                                                data-sport-name="{{ $data->name }}"
-                                                data-show-input="{{ $data->name . $data->id }}"
+                                                data-sport-name="sp_{{ $key }}"
+                                                data-show-input="{{ $trimmedName . $data->id }}"
                                                 {{ in_array($data->id, $sport_id) ? 'checked' : '' }}>
                                             <label class="form-check-label"
-                                                for="{{ $data->name }}">{{ $data->name }}</label>
+                                                for="sp_{{ $key }}">{{ $data->name }}</label>
                                         </div>
                                     </div>
                                 @endforeach
@@ -292,16 +295,20 @@
                                 class="form-label default-price-title">{{ trans('labels.sport_default_price') }}</label>
                             <div class="row row-cols-md-4" id="sport_prices_input">
                                 @foreach ($getsportslist as $sport)
+                                @php
+                                        $trimmedName = str_replace(' ', '', $sport->name);
+                                    @endphp
                                     @if (in_array($sport->id, $sport_id))
-                                        <div class="col mb-2" id="{{ $sport->name . $sport->id }}">
+                                        <div class="col mb-2" id="{{ $trimmedName . $sport->id }}">
                                         @else
-                                            <div class="col mb-2" id="{{ $sport->name . $sport->id }}"
+                                            <div class="col mb-2" id="{{ $trimmedName . $sport->id }}"
                                                 style="display:none">
                                     @endif
                                     <label class="form-label" for="">{{ $sport->name }}</label>
                                     <div class="input-group">
-                                        <span class="input-group-text" id="basic-addon1"><i
-                                                class="fa fa-dollar"></i></span>
+                                        <span class="input-group-text" id="basic-addon1">
+                                            <i class="fa fa-dollar"></i>
+                                        </span>
                                         <input type="number" class="form-control" name="dome_price[]"
                                             value="{{ Helper::get_dome_price($dome->id, $sport->id) }}"
                                             placeholder="Price" {{ in_array($sport->id, $sport_id) ? '' : 'disabled' }}>
@@ -469,8 +476,10 @@
     <script type="text/javascript">
         $('input[data-sport-name]').click(function() {
             if ($('input[data-sport-name]:checked').length > 0) {
+                
                 $('.default-price-title').show();
             } else {
+                
                 $('.default-price-title').hide();
             }
             if (this.checked) {
@@ -481,6 +490,8 @@
                 $('#' + $(this).attr('data-show-input')).find('input[type=number]').attr('disabled', true);
             }
         });
+
+
 
         function showSubmitButton() {
             $("#submitBtn").show();

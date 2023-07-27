@@ -155,7 +155,7 @@ return [
     '90_minutes' => '90 Minutes',
     'image' => 'Image',
     'sport_name' => 'Sport Name',
-    'sport_default_price' => 'Sports Default Rate',
+    'sport_default_price' => 'Sports Default Rate Per Hour',
     'add_field' => 'Add Field',
     'field_name' => 'Field Name/Number',
     'min_person' => 'Min Players',

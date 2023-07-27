@@ -155,7 +155,7 @@ return [
     '90_minutes' => '90 minutes',
     'image' => 'Image',
     'sport_name' => 'Nom du sport',
-    'sport_default_price' => 'Taux de défaut de sport',
+    'sport_default_price' => 'Taux horaire par défaut pour les sports',
     'add_field' => 'Ajouter un terrain',
     'field_name' => 'Nom/Numéro du terrain',
     'min_person' => 'Nombre minimum de joueurs',
