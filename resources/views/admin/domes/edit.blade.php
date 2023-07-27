@@ -270,14 +270,14 @@
                             <div class="row">
                                 @php $sport_id = explode(',', $dome->sport_id) @endphp
                                 @foreach ($getsportslist as $key => $data)
-                                    @php
+                                @php
                                         $trimmedName = str_replace(' ', '', $data->name);
                                     @endphp
                                     <div class="col-auto">
                                         <div class="form-check">
-                                            <input type="checkbox" id="sp_{{ $key }}" name="sport_id[]"
-                                                class="form-check-input" value="{{ $data->id }}"
-                                                data-sport-name="sp_{{ $key }}"
+                                            <input type="checkbox" id="sp_{{ $key }}"
+                                                name="sport_id[]"class="form-check-input" value="{{ $data->id }}"
+                                                data-sport-name="{{ $data->name }}"
                                                 data-show-input="{{ $trimmedName . $data->id }}"
                                                 {{ in_array($data->id, $sport_id) ? 'checked' : '' }}>
                                             <label class="form-check-label"
@@ -306,9 +306,8 @@
                                     @endif
                                     <label class="form-label" for="">{{ $sport->name }}</label>
                                     <div class="input-group">
-                                        <span class="input-group-text" id="basic-addon1">
-                                            <i class="fa fa-dollar"></i>
-                                        </span>
+                                        <span class="input-group-text" id="basic-addon1"><i
+                                                class="fa fa-dollar"></i></span>
                                         <input type="number" class="form-control" name="dome_price[]"
                                             value="{{ Helper::get_dome_price($dome->id, $sport->id) }}"
                                             placeholder="Price" {{ in_array($sport->id, $sport_id) ? '' : 'disabled' }}>
@@ -384,45 +383,40 @@
                                         class="col-lg-3 col-form-label text-center fw-bold">{{ trans('labels.' . strtolower($time->day)) }}</label>
                                     <input type="hidden" name="day[]" value="{{ $time->id }}">
                                     <div class="col-lg-3">
-                                        <div class="form-group d-grid align-items-end">
-<<<<<<< HEAD
-                                            <label class="d-lg-none d-xl-none d-xxl-none">
+                                        <div class="form-group d-grid align-items-end"><label class="d-lg-none d-xl-none d-xxl-none">
                                                 {{ trans('labels.availability') }}</label>
-=======
-                                            <label class="d-lg-none d-xl-none d-xxl-none">{{ trans('labels.availability') }}</label>
->>>>>>> 87fef402d73ab485d60d60036af71570d2a824b1
-                                            <select class="form-control" name="is_closed[]">
-                                                <option value="2" {{ $time->is_closed == 2 ? 'selected' : '' }}>
-                                                    {{ trans('labels.open') }} </option>
-                                                <option value="1" {{ $time->is_closed == 1 ? 'selected' : '' }}>
-                                                    {{ trans('labels.closed') }} </option>
-                                            </select>
+                                                <label
+                                                    class="d-lg-none d-xl-none d-xxl-none">{{ trans('labels.availability') }}</label>
+                                                <select class="form-control" name="is_closed[]">
+                                                    <option value="2" {{ $time->is_closed == 2 ? 'selected' : '' }}>
+                                                        {{ trans('labels.open') }} </option>
+                                                    <option value="1" {{ $time->is_closed == 1 ? 'selected' : '' }}>
+                                                        {{ trans('labels.closed') }} </option>
+                                                </select>
                                         </div>
                                     </div>
                                     <div class="col-lg-3">
                                         <div class="form-group">
-<<<<<<< HEAD
                                             <label class="d-lg-none d-xl-none d-xxl-none">
                                                 {{ trans('labels.opening_time') }}</label>
-=======
-                                            <label class="d-lg-none d-xl-none d-xxl-none">{{ trans('labels.opening_time') }}</label>
->>>>>>> 87fef402d73ab485d60d60036af71570d2a824b1
-                                            <input type="text" class="form-control time_picker__ time_picker__start"
-                                                placeholder="{{ trans('labels.opening_time') }}" name="open_time[]"
-                                                value="{{ date('H:i', strtotime($time->open_time)) }}">
+                                                
+                                                <label
+                                                    class="d-lg-none d-xl-none d-xxl-none">{{ trans('labels.opening_time') }}</label>
+                                                <input type="text"
+                                                    class="form-control time_picker__ time_picker__start"
+                                                    placeholder="{{ trans('labels.opening_time') }}" name="open_time[]"
+                                                    value="{{ date('H:i', strtotime($time->open_time)) }}">
                                         </div>
                                     </div>
                                     <div class="col-lg-3">
                                         <div class="form-group">
-<<<<<<< HEAD
                                             <label class="d-lg-none d-xl-none d-xxl-none">
-                                                {{ trans('labels.closing_time') }}</label>
-=======
-                                            <label class="d-lg-none d-xl-none d-xxl-none">{{ trans('labels.closing_time') }}</label>
->>>>>>> 87fef402d73ab485d60d60036af71570d2a824b1
-                                            <input type="text" class="form-control time_picker__ time_picker__end"
-                                                placeholder="{{ trans('labels.closing_time') }}" name="close_time[]"
-                                                value="{{ date('H:i', strtotime($time->close_time)) }}">
+                                                {{ trans('labels.closing_time') }}</label>                                                
+                                                <label
+                                                    class="d-lg-none d-xl-none d-xxl-none">{{ trans('labels.closing_time') }}</label>
+                                                <input type="text" class="form-control time_picker__ time_picker__end"
+                                                    placeholder="{{ trans('labels.closing_time') }}" name="close_time[]"
+                                                    value="{{ date('H:i', strtotime($time->close_time)) }}">
                                         </div>
                                     </div>
                                 </div>
@@ -438,42 +432,39 @@
                                         class="col-lg-3 col-form-label text-center fw-bold">{{ trans('labels.' . strtolower($day)) }}</label>
                                     <div class="col-lg-3">
                                         <div class="form-group d-grid align-items-end">
-<<<<<<< HEAD
                                             <label class="d-lg-none d-xl-none d-xxl-none">
                                                 {{ trans('labels.availability') }}</label>
-=======
-                                            <label class="d-lg-none d-xl-none d-xxl-none">{{ trans('labels.availability') }}</label>
->>>>>>> 87fef402d73ab485d60d60036af71570d2a824b1
-                                            <select class="form-control" name="is_closed[]">
-                                                <option value="2" selected> {{ trans('labels.open') }} </option>
-                                                <option value="1"> {{ trans('labels.closed') }} </option>
-                                            </select>
+                                                <label
+                                                    class="d-lg-none d-xl-none d-xxl-none">{{ trans('labels.availability') }}</label>
+                                                <select class="form-control" name="is_closed[]">
+                                                    <option value="2" selected> {{ trans('labels.open') }} </option>
+                                                    <option value="1"> {{ trans('labels.closed') }} </option>
+                                                </select>
                                         </div>
                                     </div>
                                     <div class="col-lg-3">
                                         <div class="form-group d-grid align-items-end">
-<<<<<<< HEAD
                                             <label class="d-lg-none d-xl-none d-xxl-none">
                                                 {{ trans('labels.opening_time') }}</label>
-=======
-                                            <label class="d-lg-none d-xl-none d-xxl-none">{{ trans('labels.opening_time') }}</label>
->>>>>>> 87fef402d73ab485d60d60036af71570d2a824b1
-                                            <input type="text" class="form-control time_picker__ time_picker__start"
-                                                placeholder="{{ trans('labels.opening_time') }}" name="open_time[]"
-                                                @if (old('open_time')) value="{{ old('open_time')[$key] }}" @endif>
+                                                <label
+                                                    class="d-lg-none d-xl-none d-xxl-none">{{ trans('labels.opening_time') }}</label>
+                                                <input type="text"
+                                                    class="form-control time_picker__ time_picker__start"
+                                                    placeholder="{{ trans('labels.opening_time') }}" name="open_time[]"
+                                                    @if (old('open_time')) value="{{ old('open_time')[$key] }}" @endif>
                                         </div>
                                     </div>
                                     <div class="col-lg-3">
                                         <div class="form-group d-grid align-items-end">
-<<<<<<< HEAD
                                             <label class="d-lg-none d-xl-none d-xxl-none">
                                                 {{ trans('labels.closing_time') }}</label>
-=======
-                                            <label class="d-lg-none d-xl-none d-xxl-none">{{ trans('labels.closing_time') }}</label>
->>>>>>> 87fef402d73ab485d60d60036af71570d2a824b1
-                                            <input type="text" class="form-control time_picker__ time_picker__end"
-                                                placeholder="{{ trans('labels.closing_time') }}" name="close_time[]"
-                                                @if (old('close_time')) value="{{ old('close_time')[$key] }}" @endif>
+                                                
+                                                <label
+                                                    class="d-lg-none d-xl-none d-xxl-none">{{ trans('labels.closing_time') }}</label>
+                                                    
+                                                <input type="text" class="form-control time_picker__ time_picker__end"
+                                                    placeholder="{{ trans('labels.closing_time') }}" name="close_time[]"
+                                                    @if (old('close_time')) value="{{ old('close_time')[$key] }}" @endif>
                                         </div>
                                     </div>
                                 </div>
@@ -500,15 +491,8 @@
     <script type="text/javascript">
         $('input[data-sport-name]').click(function() {
             if ($('input[data-sport-name]:checked').length > 0) {
-<<<<<<< HEAD
                 $('.default-price-title').show();
             } else {
-=======
-
-                $('.default-price-title').show();
-            } else {
-
->>>>>>> 87fef402d73ab485d60d60036af71570d2a824b1
                 $('.default-price-title').hide();
             }
             if (this.checked) {
