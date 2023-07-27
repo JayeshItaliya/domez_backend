@@ -256,18 +256,12 @@
                                 @foreach ($getsportslist as $key => $data)
                                     <div class="col-auto">
                                         <div class="form-check">
-<<<<<<< HEAD
                                             <input type="checkbox" id="sport_{{ $key }}" name="sport_id[]"
                                                 class="form-check-input" value="{{ $data->id }}"
                                                 data-sport-name="sport_{{ $key }}" data-sport="{{$data->name}}"
                                                 {{ !empty(old('sport_id')) && in_array($data->id, old('sport_id')) ? 'checked' : '' }}>
                                             <label class="form-check-label"
                                                 for="sport_{{ $key }}">{{ $data->name }}</label>
-=======
-                                            <input type="checkbox" id="sport_{{$key}}" name="sport_id[]" class="form-check-input" value="{{ $data->id }}"
-                                                data-sport-name="{{ $data->name }}" {{ !empty(old('sport_id')) && in_array($data->id, old('sport_id')) ? 'checked' : '' }}>
-                                            <label class="form-check-label" for="sport_{{$key}}">{{ $data->name }}</label>
->>>>>>> c58dad1cdd8a7f6548c2f0c85f2772af2dc6d9db
                                         </div>
                                     </div>
                                 @endforeach
