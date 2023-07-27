@@ -127,7 +127,6 @@ class DomesController extends Controller
             DB::commit();
             return redirect('admin/domes')->with('success', trans('messages.success'));
         } catch (\Throwable $th) {
-            dd($th->getMessage());
             DB::rollback();
             return redirect()->back()->with('error', trans('messages.wrong'));
         }
