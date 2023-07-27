@@ -306,13 +306,9 @@
                                     @endif
                                     <label class="form-label" for="">{{ $sport->name }}</label>
                                     <div class="input-group">
-<<<<<<< HEAD
                                         <span class="input-group-text" id="basic-addon1">
                                             <i class="fa fa-dollar"></i>
                                         </span>
-=======
-                                        <span class="input-group-text" id="basic-addon1"><i class="fa fa-dollar"></i></span>
->>>>>>> 87fef402d73ab485d60d60036af71570d2a824b1
                                         <input type="number" class="form-control" name="dome_price[]"
                                             value="{{ Helper::get_dome_price($dome->id, $sport->id) }}"
                                             placeholder="Price" {{ in_array($sport->id, $sport_id) ? '' : 'disabled' }}>
