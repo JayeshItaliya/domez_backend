@@ -195,7 +195,7 @@ class Helper
             $booking->save();
             return 1;
         } catch (\Throwable $th) {
-            Log::info($th->getMessage());
+            Log::info('Helper Refund Error - '.$th->getMessage());
             return 0;
         }
     }
