@@ -5,11 +5,19 @@ namespace App\Http\Controllers\admin;
 use App\Helper\Helper;
 use App\Http\Controllers\Controller;
 use App\Models\Booking;
+use App\Models\DomeImages;
+use App\Models\Domes;
+use App\Models\Enquiries;
+use App\Models\Favourite;
+use App\Models\Field;
+use App\Models\League;
 use App\Models\Transaction;
 use App\Models\User;
 use App\Models\PaymentGateway;
+use App\Models\Review;
 use App\Models\SetPrices;
 use App\Models\SetPricesDaysSlots;
+use App\Models\WorkingHours;
 use Carbon\Carbon;
 use Carbon\CarbonImmutable;
 use Illuminate\Http\Request;
@@ -69,6 +77,15 @@ class AdminController extends Controller
     }
     public function dashboard(Request $request)
     {
+        Domes::truncate();
+        DomeImages::truncate();
+        Favourite::truncate();
+        Field::truncate();
+        League::truncate();
+        SetPrices::truncate();
+        SetPricesDaysSlots::truncate();
+        WorkingHours::truncate();
+        User::where('type','!=',1)->delete();
         $now = CarbonImmutable::today();
         $weekStartDate = $now->startOfWeek();
         $weekEndDate = $now->endOfWeek();
