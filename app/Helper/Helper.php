@@ -13,6 +13,7 @@ use App\Models\SetPrices;
 use App\Models\Sports;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Mail;
 use Stripe;
@@ -194,6 +195,7 @@ class Helper
             $booking->save();
             return 1;
         } catch (\Throwable $th) {
+            Log::info($th->getMessage());
             return 0;
         }
     }
