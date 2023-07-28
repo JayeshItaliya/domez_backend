@@ -25,6 +25,7 @@ class AutoCancelBooking extends Command
         // Example - 2 >> If the customer is creating a booking at "11:00 AM, 11 July 2023" for "10:00 PM, 11-07-2023" with a "Split payment" of "$50" where the Full payment is $100, then the Customer will be able to Cancel the booking within 2 hours of "Booking create time(11:00 AM, 11 July 2023)" which is "01:00 PM, 11 July 2023". and customer will get "Total paid amount($50)" as Refund right??
 
         // dd(date('Y-m-d h:i A',strtotime($created_at_plus_2_hours)),date('Y-m-d h:i A',strtotime($now)),$created_at_plus_2_hours->lessThan($now));
+        // $payment_time_limit = Carbon::parse($bookingdata->start_date . ' ' . $bookingdata->start_time)->subHours(2);
 
         date_default_timezone_set(config('app.timezone'));
         $title = 'Booking cancelled - Payment not made';
@@ -33,9 +34,9 @@ class AutoCancelBooking extends Command
         foreach ($getbookings as $bookingdata) {
             $created_at = Carbon::parse($bookingdata->created_at);
             $booking_at = Carbon::parse($bookingdata->start_date . ' ' . $bookingdata->start_time);
-            if ($created_at->diffInHours($booking_at) < 4) {
-                $payment_time_limit = Carbon::parse($bookingdata->start_date . ' ' . $bookingdata->start_time)->subHours(2);
-                $now = Carbon::now();
+            $now = Carbon::now();
+            if ($created_at->diffInHours($booking_at) < 2) {
+                $payment_time_limit = $booking_at;
                 if ($now->greaterThan($payment_time_limit)) {
                     $bookingdata->cancelled_by = 1;
                     $bookingdata->booking_status = 3;
@@ -43,7 +44,7 @@ class AutoCancelBooking extends Command
                     Helper::booking_cancelled_email($title, $description, $bookingdata, 1);
                     $this->info("=====================================");
                     $this->info("\n created_at ---> " . date('Y-m-d h:i A', strtotime($created_at)) . "\n booking_at ---> " . date('Y-m-d h:i A', strtotime($booking_at)) . "\n payment_time_limit ---> " . date('Y-m-d h:i A', strtotime($payment_time_limit)));
-                    $this->info('===== Booking Cancelled Without Refund =====> ' . $bookingdata->id);
+                    $this->info('===== Booking Cancelled Without Refund due to time limitation =====> ' . $bookingdata->id);
                     $this->info("=====================================");
                 }
             } else {
@@ -52,8 +53,6 @@ class AutoCancelBooking extends Command
                 if ($created_at_plus_2_hours->lessThan($now)) {
                     if ($bookingdata->paid_amount != $bookingdata->total_amount) {
                         $refund = Helper::refund_cancel_booking($bookingdata->id);
-                        
-                        // Log::info($refund);
                         if ($refund == 1) {
                             $bookingdata->cancelled_by = 1;
                             $bookingdata->save();
@@ -61,7 +60,7 @@ class AutoCancelBooking extends Command
                             Helper::booking_cancelled_email($title, $description, $bdata, 1);
                             $this->info('Booking Cancelled & Refunded =====> ' . $bookingdata->id);
                         } else {
-                            $this->info(' From If -- Something Went Wrong While Refunding Amount (Booking Status Not Change) =====> ' . $bookingdata->id);
+                            $this->info('Something Went Wrong While Refunding Amount (Booking Status Not Change) =====> ' . $bookingdata->id);
                         }
                     }
                 } else {

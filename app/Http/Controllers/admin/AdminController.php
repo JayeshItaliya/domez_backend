@@ -84,6 +84,8 @@ class AdminController extends Controller
         // League::truncate();
         // SetPrices::truncate();
         // SetPricesDaysSlots::truncate();
+        // Booking::truncate();
+        // Transaction::truncate();
         // WorkingHours::truncate();
         // User::where('type','!=',1)->delete();
         $now = CarbonImmutable::today();
