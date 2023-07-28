@@ -2,9 +2,7 @@
 namespace App\Http\Controllers\api;
 use App\Helper\Helper;
 use App\Http\Controllers\Controller;
-use App\Models\Domes;
 use App\Models\Favourite;
-use App\Models\League;
 use App\Models\User;
 use Illuminate\Http\Request;
 class FavouriteController extends Controller
@@ -14,21 +12,14 @@ class FavouriteController extends Controller
         if (in_array($request->user_id,[0,''])) {
             return response()->json(["status" => 0, "message" => 'Please Enter Login User ID'], 200);
         }
-        if ($request->type == "") {
-            return response()->json(["status" => 0, "message" => 'Enter Type'], 200);
-        }
         if (!in_array($request->type, [1, 2])) {
-            return response()->json(["status" => 0, "message" => 'Invalid Type'], 200);
+            return response()->json(["status" => 0, "message" => 'Invalid request!'], 200);
         }
-        if ($request->type == 1) {
-            if ($request->dome_id == "") {
-                return response()->json(["status" => 0, "message" => 'Please Enter Dome ID'], 200);
-            }
+        if ($request->type == 1 && $request->dome_id == "") {
+            return response()->json(["status" => 0, "message" => 'Please Enter Dome ID'], 200);
         }
-        if ($request->type == 2) {
-            if ($request->league_id == "") {
-                return response()->json(["status" => 0, "message" => 'Please Enter League ID'], 200);
-            }
+        if ($request->type == 2 && $request->league_id == "") {
+            return response()->json(["status" => 0, "message" => 'Please Enter League ID'], 200);
         }
         $is_favourite = Favourite::where('user_id', $request->user_id);
         if ($request->type == 1) {
@@ -60,41 +51,40 @@ class FavouriteController extends Controller
         if (!empty($checkuser)) {
             $league_lists = $dome_lists = [];
             if ($request->type == 1) {
-                $favourite = Favourite::where('user_id', $checkuser->id)->where('dome_id', '!=', '')->select('dome_id')->get();
-                foreach ($favourite as $dome) {
-                    $dome_data = Domes::where('id', $dome->dome_id)->where('is_deleted', 2)->first();
-                    if (!empty($dome_data)) {
-                        $dome_lists[] = [
-                            "id" => $dome_data->id,
-                            "league_name" => '',
-                            "dome_name" => $dome_data->name,
-                            "image" => $dome_data->dome_image == "" ? "" : $dome_data->dome_image->image,
-                            "price" => Helper::get_dome_price($dome_data->id, explode(',', $dome_data->sport_id)[0]),
-                            "city" => $dome_data->city,
-                            "state" => $dome_data->state,
-                            "sports_list" => Helper::get_sports_list($dome_data->sport_id),
-                        ];
-                    }
+                $q = Favourite::with('has_dome_info')->where('user_id', $checkuser->id)->where('dome_id', '!=', '')->select('id','dome_id')->has('has_dome_info');
+                $cnt = $q->count();
+                $data = $q->paginate(10);
+                foreach ($data as $fav) {
+                    $dome_lists[] = [
+                        "id" => $fav->has_dome_info->id,
+                        "league_name" => '',
+                        "dome_name" => $fav->has_dome_info->name,
+                        "image" => $fav->has_dome_info->dome_image == "" ? "" : $fav->has_dome_info->dome_image->image,
+                        "price" => Helper::get_dome_price($fav->has_dome_info->id, explode(',', $fav->has_dome_info->sport_id)[0]),
+                        "city" => $fav->has_dome_info->city,
+                        "state" => $fav->has_dome_info->state,
+                        "sports_list" => Helper::get_sports_list($fav->has_dome_info->sport_id),
+                    ];
                 }
-                return response()->json(["status" => 1, "message" => "Successful", 'total_favourite_domes' => $favourite->count(), 'data_list' => $dome_lists], 200);
+                return response()->json(["status" => 1, "message" => "Successful", 'total_favourite' => $cnt, 'data_list' => $dome_lists, "last_page" => $data->toArray()['last_page']], 200);
             }
             if ($request->type == 2) {
-                $favourite = Favourite::with('league_info')->where('user_id', $checkuser->id)->where('league_id', '!=', '')->select('id','league_id')->has('league_info')->get();
-                foreach ($favourite as $league) {
-                    if (!empty($league->league_info)) {
-                        $league_lists[] = [
-                            "id" => $league->league_info->id,
-                            "league_name" => $league->league_info->name,
-                            "dome_name" => $league->league_info->dome_info->name,
-                            "image" => $league->league_info->league_image == "" ? "" : $league->league_info->league_image->image,
-                            "price" => $league->league_info->price,
-                            "city" => $league->league_info->dome_info->city,
-                            "state" => $league->league_info->dome_info->state,
-                            "sports_list" => Helper::get_sports_list($league->league_info->sport_id),
-                        ];
-                    }
+                $q = Favourite::with('has_league_info')->where('user_id', $checkuser->id)->select('id','league_id')->has('has_league_info');
+                $cnt = $q->count();
+                $data = $q->paginate(10);
+                foreach ($data as $fav) {
+                    $league_lists[] = [
+                        "id" => $fav->has_league_info->id,
+                        "league_name" => $fav->has_league_info->name,
+                        "dome_name" => $fav->has_league_info->dome_info->name,
+                        "image" => $fav->has_league_info->league_image == "" ? "" : $fav->has_league_info->league_image->image,
+                        "price" => $fav->has_league_info->price,
+                        "city" => $fav->has_league_info->dome_info->city,
+                        "state" => $fav->has_league_info->dome_info->state,
+                        "sports_list" => Helper::get_sports_list($fav->has_league_info->sport_id),
+                    ];
                 }
-                return response()->json(["status" => 1, "message" => "Successful", 'total_favourite_leagues' => $favourite->count(), 'data_list' => $league_lists], 200);
+                return response()->json(["status" => 1, "message" => "Successful", 'total_favourite' => $cnt, 'data_list' => $league_lists, "last_page" => $data->toArray()['last_page']], 200);
             }
         } else {
             return response()->json(["status" => 0, "message" => 'Invalid User ID'], 200);

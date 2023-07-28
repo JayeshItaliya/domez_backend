@@ -61,15 +61,13 @@ class AuthenticationController extends Controller
         if ($request->email == "") {
             return response()->json(["status" => 0, "message" => "Please Enter Email"], 200);
         }
-        $checkemail = User::where('email', $request->email)->first();
-        if (!empty($checkemail)) {
+        if (User::where('email', $request->email)->exists()) {
             return response()->json(["status" => 0, "message" => "This email is already registered with an existing account"], 200);
         }
         if ($request->phone == "") {
             return response()->json(["status" => 0, "message" => "Please Enter Phone Number"], 200);
         }
-        $checkphone = User::where('phone', $request->phone)->first();
-        if (!empty($checkphone)) {
+        if (User::where('phone', $request->phone)->exists()) {
             return response()->json(["status" => 0, "message" => "This phone number is already registered with an existing account"], 200);
         }
         if ($request->name == "") {
@@ -82,7 +80,7 @@ class AuthenticationController extends Controller
             return response()->json(["status" => 0, "message" => "Please Enter Confirm Password"], 200);
         }
         if ($request->password != $request->cpassword) {
-            return response()->json(["status" => 0, "message" => "Password and Confrim Password do not match"], 200);
+            return response()->json(["status" => 0, "message" => "Password and Confirm Password do not match"], 200);
         }
         $otp = rand(1000, 9999);
         $send_mail = Helper::verificationemail($request->email, $request->name, $otp);
@@ -105,15 +103,17 @@ class AuthenticationController extends Controller
         if ($request->email == "") {
             return response()->json(["status" => 0, "message" => "Please Enter Email"], 200);
         }
-        $checkemail = User::where('email', $request->email)->first();
-        if (!empty($checkemail)) {
+        if (User::where('email', $request->email)->exists()) {
             return response()->json(["status" => 0, "message" => "This email is already registered with an existing account"], 200);
-        }
-        if ($request->name == "") {
-            return response()->json(["status" => 0, "message" => "Please Enter Your Name"], 200);
         }
         if ($request->phone == "") {
             return response()->json(["status" => 0, "message" => "Please Enter Phone Number"], 200);
+        }
+        if (User::where('phone', $request->phone)->exists()) {
+            return response()->json(["status" => 0, "message" => "This phone number is already registered with an existing account"], 200);
+        }
+        if ($request->name == "") {
+            return response()->json(["status" => 0, "message" => "Please Enter Your Name"], 200);
         }
         if ($request->password == "") {
             return response()->json(["status" => 0, "message" => "Please Enter Password"], 200);
@@ -150,10 +150,10 @@ class AuthenticationController extends Controller
     }
     public function forgot_password(Request $request)
     {
-        $checkemail = User::where('email', $request->email)->first();
         if ($request->email == "") {
             return response()->json(["status" => 0, "message" => "Please Enter Email"], 200);
         }
+        $checkemail = User::where('email', $request->email)->first();
         if (empty($checkemail)) {
             return response()->json(["status" => 0, "message" => "Invalid Email Address"], 200);
         }
@@ -202,7 +202,7 @@ class AuthenticationController extends Controller
     }
     public function delete_account(Request $request)
     {
-        if ($request->id == "") {
+        if (in_array($request->id, [0, ''])) {
             return response()->json(["status" => 0, "message" => "Please Enter Login User ID"], 200);
         }
         $checkuser = User::find($request->id);
@@ -343,9 +343,6 @@ class AuthenticationController extends Controller
             $userdata = $this->getuserprofileobject($checkuser->id);
             return response()->json(["status" => 1, "message" => "Succesfully Login", 'userdata' => $userdata], 200);
         }
-        // if ($request->fcm_token == "") {
-        //     return response()->json(["status" => 0, "message" => "Please Enter FCM Token"], 200);
-        // }
         $user = new User();
         $user->type = 3;
         $user->login_type = 3;

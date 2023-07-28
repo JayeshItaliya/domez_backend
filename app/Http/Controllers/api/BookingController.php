@@ -23,59 +23,46 @@ class BookingController extends Controller
 {
     public function booking_list(Request $request)
     {
+        // 'pagination' => $data->toArray()['links']
         if (in_array($request->user_id, [0, ''])) {
             return response()->json(["status" => 0, "message" => "Please Enter User ID"], 200);
         }
         if ($request->is_active == "") {
             return response()->json(["status" => 0, "message" => "Please Enter Booking Type"], 200);
         }
-        $bookings_list = Booking::where('user_id', $request->user_id)->orderByDesc('created_at')->get();
+        $data = Booking::with('league_info','dome_info','dome_info.dome_image')->where('user_id', $request->user_id)->orderByDesc('created_at')->paginate(10);
         $bookinglist = [];
-        foreach ($bookings_list as $booking) {
+        foreach ($data as $booking) {
             $start_date_time = Carbon::createFromFormat('Y-m-d h:i A', $booking->start_date . ' ' . date('h:i A', strtotime($booking->end_time)));
             $now = Carbon::now();
-            // dd($now->toDateTimeString(),$start_date_time->toDateTimeString());
             $current_date_time = $now->format('Y-m-d h:i A');
             if ($request->is_active == 1) {
                 if ($start_date_time->lessThan($current_date_time) == false) {
-                    $dome = Domes::with('dome_image')->where('id', $booking->dome_id)->where('is_deleted', 2)->first();
-                    if ($booking->league_id != '') {
-                        $league = League::find($booking->league_id);
-                    }
-                    $bookinglist[] = [
-                        "booking_id" => $booking->id,
-                        "type" => $booking->type,
-                        "field" => $booking->field_id,
-                        "dome_name" => $dome->name,
-                        "league_name" => $booking->league_id != '' ? $league->name : '',
-                        "date" => $booking->type != 2 ? date('d M', strtotime($booking->start_date)) : date('d M', strtotime($booking->start_date)) . ' To ' . date('d M', strtotime($booking->end_date)),
-                        "price" => $booking->total_amount,
-                        'image' => $dome->dome_image->image,
-                        'payment_type' => $booking->payment_type,
-                        'created_at' => Carbon::parse($booking->created_at)->setTimezone(config('app.timezone'))->toDateTimeString(),
-                    ];
+                    $bookinglist[] = $this->bookinglistobject($booking);
                 }
             } else {
                 if ($start_date_time->lessThan($current_date_time) == true) {
-                    $dome = Domes::with('dome_image')->where('id', $booking->dome_id)->where('is_deleted', 2)->first();
-                    if ($booking->league_id != '') {
-                        $league = League::find($booking->league_id);
-                    }
-                    $bookinglist[] = [
-                        "booking_id" => $booking->id,
-                        "type" => $booking->type,
-                        "field" => $booking->field_id,
-                        "dome_name" => $dome->name,
-                        "league_name" => $booking->league_id != '' ? $league->name : '',
-                        "date" => $booking->type != 2 ? date('d M', strtotime($booking->start_date)) : date('d M', strtotime($booking->start_date)) . ' To ' . date('d M', strtotime($booking->end_date)),
-                        "price" => $booking->total_amount,
-                        'image' => $dome->dome_image->image,
-                        'payment_type' => $booking->payment_type,
-                    ];
+                    $bookinglist[] = $this->bookinglistobject($booking);
                 }
             }
         }
-        return response()->json(["status" => 1, "message" => "Success", 'bookings_list' => $bookinglist], 200);
+        return response()->json(["status" => 1, "message" => "Success", 'bookings_list' => $bookinglist, "last_page" => $data->toArray()['last_page']], 200);
+    }
+    public function bookinglistobject($data)
+    {
+        $arr = [
+            "booking_id" => $data->id,
+            "type" => $data->type,
+            "field" => $data->field_id,
+            "dome_name" => $data->dome_info->name,
+            "league_name" => $data->league_info != '' ? $data->league_info->name : '',
+            "date" => $data->type != 2 ? date('d M', strtotime($data->start_date)) : date('d M', strtotime($data->start_date)) . ' To ' . date('d M', strtotime($data->end_date)),
+            "price" => $data->total_amount,
+            'image' => $data->dome_info->dome_image->image,
+            'payment_type' => $data->payment_type,
+            'created_at' => Carbon::parse($data->created_at)->setTimezone(config('app.timezone'))->toDateTimeString(),
+        ];
+        return $arr;
     }
     public function booking_details(Request $request)
     {
@@ -110,7 +97,6 @@ class BookingController extends Controller
             )->get()->toArray();
 
         $is_ratting_exist = Review::where('dome_id', $booking->dome_id)->where('user_id', $booking->user_id)->first();
-
 
         $now = Carbon::now();
         $current_date_time = $now->format('Y-m-d h:i A');
@@ -205,32 +191,28 @@ class BookingController extends Controller
     }
     public function cancelbooking(Request $request)
     {
-        if ($request->booking_id == "") {
-            return response()->json(["status" => 0, "message" => "Booking ID Required"], 200);
-        }
         $checkbooking = Booking::find($request->booking_id);
-        if (!empty($checkbooking)) {
-            if ($checkbooking->booking_status == 3) {
-                return response()->json(["status" => 0, "message" => "Invalid Request!!"], 200);
-            }
-            try {
-                $refund = Helper::refund_cancel_booking($checkbooking->id);
-                if ($refund == 1) {
-                    $checkbooking->cancelled_by = 3;
-                    $checkbooking->cancellation_reason = $request->cancellation_reason ?? '';
-                    $checkbooking->save();
-                    $title = 'Booking Cancellation Confirmation';
-                    $description = "We're sorry to hear that you have cancelled your booking. Here are the details of your cancellation:";
-                    Helper::booking_cancelled_email($title, $description, $checkbooking, 3);
-                    return response()->json(['status' => 1, 'message' => 'Booking Has Been Successfully Cancelled'], 200);
-                } else {
-                    return response()->json(['status' => 0, 'message' => 'Something Went Wrong..!!'], 200);
-                }
-            } catch (\Throwable $th) {
+        if (empty($checkbooking)) {
+            return response()->json(["status" => 0, "message" => "Booking Not Found"], 200);
+        }
+        if ($checkbooking->booking_status == 3) {
+            return response()->json(["status" => 0, "message" => "Invalid Request!!"], 200);
+        }
+        try {
+            $refund = Helper::refund_cancel_booking($checkbooking->id);
+            if ($refund == 1) {
+                $checkbooking->cancelled_by = 3;
+                $checkbooking->cancellation_reason = $request->cancellation_reason ?? '';
+                $checkbooking->save();
+                $title = 'Booking Cancellation Confirmation';
+                $description = "We're sorry to hear that you have cancelled your booking. Here are the details of your cancellation:";
+                Helper::booking_cancelled_email($title, $description, $checkbooking, 3);
+                return response()->json(['status' => 1, 'message' => 'Booking Has Been Successfully Cancelled'], 200);
+            } else {
                 return response()->json(['status' => 0, 'message' => 'Something Went Wrong..!!'], 200);
             }
-        } else {
-            return response()->json(["status" => 0, "message" => "Booking Not Found"], 200);
+        } catch (\Throwable $th) {
+            return response()->json(['status' => 0, 'message' => 'Something Went Wrong..!!'], 200);
         }
     }
     public function timeslots(Request $request)

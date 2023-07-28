@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Facades\DB;
 
 class Booking extends Model
@@ -57,18 +58,20 @@ class Booking extends Model
     {
         return $this->hasOne('App\Models\League', 'id', 'league_id')->select('id', 'name');
     }
-    public function dome_info()
-    {
-        return $this->hasOne('App\Models\Domes', 'id', 'dome_id')->select('id', 'name', 'sport_id', 'address', 'state', 'city', 'hst');
-    }
     public function transactions()
     {
         return $this->hasMany('App\Models\Transaction', 'booking_id', 'booking_id')->select('transaction_id', 'amount');
     }
     public function fields_name()
     {
-        $fieldIds = explode(',', $this->field_id);
-        $field_names = Field::whereIn('id', $fieldIds)->get()->pluck('name')->toArray();
+        $field_names = Field::whereIn('id', explode(',', $this->field_id))->get()->pluck('name')->toArray();
         return implode(', ', $field_names);
+    }
+
+
+    public function dome_info(): BelongsTo
+    {
+        return $this->belongsTo(Domes::class, 'dome_id');
+        // return $this->hasOne('App\Models\Domes', 'id', 'dome_id')->select('id', 'name', 'sport_id', 'address', 'state', 'city', 'hst');
     }
 }

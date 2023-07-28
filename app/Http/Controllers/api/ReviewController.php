@@ -73,7 +73,7 @@ class ReviewController extends Controller
                     DB::raw('(CASE WHEN reviews.reply_message IS NULL THEN "" ELSE reviews.reply_message END) AS reply_message'),
                     DB::raw('(CASE WHEN reviews.replied_at IS NULL THEN "" ELSE DATE_FORMAT(reviews.replied_at, "%d %M %Y") END) AS replied_at'),
                     DB::raw("CONCAT('" . url('storage/app/public/admin/images/profiles') . "/', users_table.image) AS user_image")
-                )->orderByDesc('reviews.id')->paginate(5);
+                )->orderByDesc('reviews.id')->paginate(10);
             return response()->json(["status" => 1, "message" => "Successful", 'rattinglist' => $rattinglist], 200);
         } else {
             return response()->json(["status" => 0, "message" => 'Dome Not Found'], 200);

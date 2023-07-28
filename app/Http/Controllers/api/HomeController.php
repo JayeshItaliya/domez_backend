@@ -75,9 +75,6 @@ class HomeController extends Controller
     public function filter(Request $request)
     {
         try {
-            if ($request->type == "") {
-                return response()->json(["status" => 0, "message" => "Select Filter Type"], 200);
-            }
             if (!in_array($request->type, [1, 2])) {
                 return response()->json(["status" => 0, "message" => "Invalid Request!!"], 200);
             }
@@ -185,9 +182,6 @@ class HomeController extends Controller
     }
     public function search(Request $request)
     {
-        if ($request->type == "") {
-            return response()->json(["status" => 0, "message" => "Select Search Type"], 200);
-        }
         if (!in_array($request->type, [1, 2])) {
             return response()->json(["status" => 0, "message" => "Invalid Request!!"], 200);
         }

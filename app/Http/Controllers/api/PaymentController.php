@@ -37,14 +37,8 @@ class PaymentController extends Controller
         if ($request->booking_type == "") {
             return response()->json(["status" => 0, "message" => "Please Enter Booking Type"], 200);
         }
-        if (!in_array($request->booking_type, [1, 2])) {
-            return response()->json(["status" => 0, "message" => "Invalid Booking Type"], 200);
-        }
-        if ($request->payment_type == "") {
-            return response()->json(["status" => 0, "message" => "Please Enter Payment Type"], 200);
-        }
-        if (!in_array($request->payment_type, [1, 2])) {
-            return response()->json(["status" => 0, "message" => "Invalid Payment Type"], 200);
+        if (!in_array($request->booking_type, [1, 2]) || !in_array($request->payment_type, [1, 2])) {
+            return response()->json(["status" => 0, "message" => "Invalid request!"], 200);
         }
         if ($request->booking_type == 1) {
             $dome = Domes::where('id', $request->dome_id)->where('is_deleted', 2)->first();
@@ -82,7 +76,7 @@ class PaymentController extends Controller
             foreach (explode(',', $request->slots) as $key => $slot) {
                 $check = SetPricesDaysSlots::where('start_time', date('H:i', strtotime(explode(' - ', $slot)[0])))->where('end_time', date('H:i', strtotime(explode(' - ', $slot)[1])))->where('sport_id', $request->sport_id)->whereDate('date', date('Y-m-d', strtotime($request->start_date)))->where('status', 0)->first();
                 if (!empty($check)) {
-                    return response()->json(["status" => 0, "message" => "Time Slots Has been selected "], 200);
+                    return response()->json(["status" => 0, "message" => "Time Slots Has been selected"], 200);
                 }
             }
         } else {

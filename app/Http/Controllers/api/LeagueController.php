@@ -8,65 +8,98 @@ use App\Models\League;
 use Carbon\Carbon;
 use DateTime;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Pagination\Paginator;
+
 class LeagueController extends Controller
 {
     public function leagues_list(Request $request)
     {
-        if (in_array($request->type, [1, 2, 3])) {
-            $leagues_list = [];
-            //Type = 2 (Most Popular Leagues Data)
-            if ($request->type == 2) {
-                $recentbookings = Booking::where('type', 2)->groupBy('league_id')->get();
-                $ids = [];
-                foreach ($recentbookings as $booking) {
-                    $league = League::where('id', $booking->league_id)->where('sport_id', $request->sport_id)->whereDate('end_date', '>=', date('Y-m-d'))->where('is_deleted', 2)->first();
-                    if (!empty($league)) {
-                        $ids[] = $booking->league_id;
-                        $leagues_list[] = $this->getleaguelistobject($league, $request->user_id);
-                    }
-                }
-                $leagues = League::where('sport_id', $request->sport_id)->whereNotIn('id', $ids)->whereDate('end_date', '>=', date('Y-m-d'))->where('is_deleted', 2)->orderByDesc('id')->get();
-                foreach ($leagues as $league) {
+        if (!in_array($request->type, [1, 2, 3])) {
+            return response()->json(["status" => 0, "message" => 'Invalid Request'], 200);
+        }
+        $leagues_list = [];
+        //Type = 2 (Most Popular Leagues Data)
+        if ($request->type == 2) {
+            $recentbookings = Booking::where('type', 2)->groupBy('league_id')->get();
+            $ids = $leagues_list = [];
+            foreach ($recentbookings as $booking) {
+                $league = League::where('id', $booking->league_id)->where('sport_id', $request->sport_id)->whereDate('end_date', '>=', date('Y-m-d'))->where('is_deleted', 2)->first();
+                if (!empty($league)) {
+                    $ids[] = $booking->league_id;
                     $leagues_list[] = $this->getleaguelistobject($league, $request->user_id);
                 }
             }
-            //Type = 3 (Leagues Around You)
-            if ($request->type == 3) {
-                if ($request->lat == "") {
-                    return response()->json(["status" => 0, "message" => 'Enter Latitude'], 200);
-                }
-                if ($request->lng == "") {
-                    return response()->json(["status" => 0, "message" => 'Enter Longitude'], 200);
-                }
-                $lat = $request->lat;
-                $lng = $request->lng;
-                $getarounddomes = Domes::with('dome_image')->select(
-                    'domes.*',
-                    DB::raw("6371 * acos(cos(radians(" . $lat . "))
-                * cos(radians(lat))
-                * cos(radians(lng) - radians(" . $lng . "))
-                + sin(radians(" . $lat . "))
-                * sin(radians(lat))) AS distance")
-                )->where('domes.is_deleted', 2);
-                $getarounddomes = $getarounddomes->having('distance', '<=', $request->kilometer > 0 ? $request->kilometer : 10000);
-                if ($request->sport_id != "") {
-                    $getarounddomes = $getarounddomes->whereRaw("find_in_set('" . $request->sport_id . "',sport_id)");
-                }
-                if ($request->max_price > 0) {
-                    $getarounddomes = $getarounddomes->whereBetween('price', [$request->min_price, $request->max_price]);
-                }
-                $getarounddomes = $getarounddomes->orderBy('distance')->get();
-                foreach ($getarounddomes as $dome) {
-                    $leagues = League::where('dome_id', $dome->id)->where('sport_id', $request->sport_id)->whereDate('end_date', '>=', date('Y-m-d'))->where('is_deleted', 2)->orderByDesc('id')->get();
-                    foreach ($leagues as $league) {
-                        $leagues_list[] = $this->getleaguelistobject($league, $request->user_id);
-                    }
-                }
+            $leagues = League::where('sport_id', $request->sport_id)->whereNotIn('id', $ids)->whereDate('end_date', '>=', date('Y-m-d'))->where('is_deleted', 2)->orderByDesc('id')->get();
+            foreach ($leagues as $league) {
+                $leagues_list[] = $this->getleaguelistobject($league, $request->user_id);
             }
-            return response()->json(["status" => 1, "message" => "Successful", 'leagues_list' => $leagues_list], 200);
-        } else {
-            return response()->json(["status" => 0, "message" => 'Invalid Request'], 200);
+            // $perPage = 10;
+            // $page = $request->query('page', 1);
+            // $items = collect($leagues_list);
+            // --- $items = $items->values();
+            // $paginator = new LengthAwarePaginator(
+            //     $items->forPage($page, $perPage),$items->count(),$perPage,$page,
+            //     [
+            //         'path' => Paginator::resolveCurrentPath(),
+            //         'pageName' => 'page',
+            //     ]
+            // );
+
+            $perPage = 10;
+            $page = $request->query('page', 1);
+            $items = collect($leagues_list);
+            $paginatedItems = $items->forPage($page, $perPage);
+            $paginator = new LengthAwarePaginator(
+                $paginatedItems,
+                $items->count(),
+                $perPage,
+                $page,
+                [
+                    'path' => Paginator::resolveCurrentPath(),
+                    'pageName' => 'page',
+                ]
+            );
+            $paginator->setCollection($paginatedItems->values());
+            return response()->json(["status" => 1, "message" => "Successful", 'leagues_list' => $paginator->toArray()['data'], "last_page" => $paginator->toArray()['last_page']], 200);
+        }
+        //Type = 3 (Leagues Around You)
+        if ($request->type == 3) {
+            if ($request->lat == "") {
+                return response()->json(["status" => 0, "message" => 'Enter Latitude'], 200);
+            }
+            if ($request->lng == "") {
+                return response()->json(["status" => 0, "message" => 'Enter Longitude'], 200);
+            }
+            $lat = $request->lat;
+            $lng = $request->lng;
+
+            $data = League::with('dome_info.dome_image')
+                ->select(
+                    'leagues.*',
+                    DB::raw("6371 * acos(cos(radians(" . $lat . "))
+                        * cos(radians(domes.lat))
+                        * cos(radians(domes.lng) - radians(" . $lng . "))
+                        + sin(radians(" . $lat . "))
+                        * sin(radians(domes.lat))) AS distance")
+                )
+                ->leftJoin('domes', 'leagues.dome_id', '=', 'domes.id')
+                ->where('leagues.is_deleted', 2)
+                ->where('domes.is_deleted', 2);
+            $data = $data->having('distance', '<=', $request->kilometer > 0 ? $request->kilometer : 10000);
+            if ($request->sport_id != "") {
+                $data = $data->where('leagues.sport_id', $request->sport_id);
+            }
+            if ($request->max_price > 0) {
+                $data = $data->whereBetween('leagues.price', [$request->min_price, $request->max_price]);
+            }
+            $data = $data->whereDate('leagues.end_date', '>=', date('Y-m-d'))->orderBy('distance')->paginate(10);
+            $leagues_list = [];
+            foreach ($data as $league) {
+                $leagues_list[] = $this->getleaguelistobject($league, $request->user_id);
+            }
+            return response()->json(["status" => 1, "message" => "Successful", 'leagues_list' => $leagues_list, "last_page" => $data->toArray()['last_page']], 200);
         }
     }
     public function getleaguelistobject($league, $user_id)

@@ -45,4 +45,17 @@ class Domes extends Model
             ->first();
         return $data;
     }
+
+    public function fields()
+    {
+        return $this->hasMany(Field::class, 'dome_id');
+    }
+    public function getTotalFieldsAttribute()
+    {
+        return $this->fields()->count();
+    }
+    public function scopeHasFields($query)
+    {
+        return $query->whereHas('fields');
+    }
 }
