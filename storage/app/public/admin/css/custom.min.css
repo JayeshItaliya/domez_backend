@@ -833,3 +833,6 @@ header .nav-icons .dropdown-menu .notifications:hover {
 .btn.dropdown-toggle.btn-light:not(.show) {
     border: 1px solid lightgray;
 }
+.ui-menu .ui-menu-item{
+    width: 167.5px !important;
+}
