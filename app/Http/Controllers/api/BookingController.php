@@ -30,18 +30,18 @@ class BookingController extends Controller
         if ($request->is_active == "") {
             return response()->json(["status" => 0, "message" => "Please Enter Booking Type"], 200);
         }
-        $data = Booking::with('league_info','dome_info','dome_info.dome_image')->where('user_id', $request->user_id)->orderByDesc('created_at')->paginate(10);
+        $data = Booking::with('league_info', 'dome_info', 'dome_info.dome_image')->where('user_id', $request->user_id)->orderByDesc('created_at')->paginate(10);
         $bookinglist = [];
         foreach ($data as $booking) {
             $start_date_time = Carbon::createFromFormat('Y-m-d h:i A', $booking->start_date . ' ' . date('h:i A', strtotime($booking->end_time)));
             $now = Carbon::now();
             $current_date_time = $now->format('Y-m-d h:i A');
             if ($request->is_active == 1) {
-                if ($start_date_time->lessThan($current_date_time) == false) {
+                if ($start_date_time->lessThan($current_date_time) == false && $booking->booking_status != 3) {
                     $bookinglist[] = $this->bookinglistobject($booking);
                 }
             } else {
-                if ($start_date_time->lessThan($current_date_time) == true) {
+                if ($start_date_time->lessThan($current_date_time) == true || $booking->booking_status == 3) {
                     $bookinglist[] = $this->bookinglistobject($booking);
                 }
             }
@@ -133,6 +133,7 @@ class BookingController extends Controller
             "start_date" => $booking->start_date ?? "",
             "end_date" => $booking->end_date ?? "",
             "dome_id" => $booking->dome_id,
+            "dome_images" => $dome->dome_images,
             "is_ratting_exist" => !empty($is_ratting_exist) ? 1 : 0,
             "is_active" => $start_date_time->lessThan($current_date_time) == true ? 2 : 1,
         ];
@@ -192,21 +193,32 @@ class BookingController extends Controller
     public function cancelbooking(Request $request)
     {
         $checkbooking = Booking::find($request->booking_id);
+
         if (empty($checkbooking)) {
             return response()->json(["status" => 0, "message" => "Booking Not Found"], 200);
         }
+
         if ($checkbooking->booking_status == 3) {
             return response()->json(["status" => 0, "message" => "Invalid Request!!"], 200);
         }
+
         try {
             $refund = Helper::refund_cancel_booking($checkbooking->id);
+
             if ($refund == 1) {
+                
                 $checkbooking->cancelled_by = 3;
                 $checkbooking->cancellation_reason = $request->cancellation_reason ?? '';
                 $checkbooking->save();
+                foreach (explode(',', $checkbooking->slots) as $key => $slot) {
+                    $start_time = date('H:i', strtotime(explode(' - ', $slot)[0]));
+                    $end_time = date('H:i', strtotime(explode(' - ', $slot)[1]));
+                    SetPricesDaysSlots::where('start_time', $start_time)->where('end_time', $end_time)->where('sport_id', $checkbooking->sport_id)->whereDate('date', date('Y-m-d', strtotime($checkbooking->start_date)))->update(['status' => 1]);
+                }
                 $title = 'Booking Cancellation Confirmation';
                 $description = "We're sorry to hear that you have cancelled your booking. Here are the details of your cancellation:";
                 Helper::booking_cancelled_email($title, $description, $checkbooking, 3);
+
                 return response()->json(['status' => 1, 'message' => 'Booking Has Been Successfully Cancelled'], 200);
             } else {
                 return response()->json(['status' => 0, 'message' => 'Something Went Wrong..!!'], 200);
@@ -256,7 +268,7 @@ class BookingController extends Controller
                 $working_end_time = Carbon::parse($end_time__);
                 $last_slot_end_time = Carbon::parse($data1->end_time);
 
-                if($last_slot_end_time->lt($working_end_time)){
+                if ($last_slot_end_time->lt($working_end_time)) {
                     $new = new SetPricesDaysSlots();
                     $new->dome_id = $getdomedata->id;
                     $new->date = date('Y-m-d', strtotime($request->date));
