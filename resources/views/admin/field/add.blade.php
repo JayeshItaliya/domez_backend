@@ -72,8 +72,7 @@
                             @enderror
                         </div>
                         <div class="col-6">
-                            <select class="form-select" name="max_person" id="max_person"
-                                data-max-players="{{ old('max_person') }}">
+                            <select class="form-select" name="max_person" id="max_person" data-max-players="{{ old('max_person') }}">
                                 <option value="" class="text-capitalize" disabled selected>
                                     {{ trans('labels.max_player') }}
                                 </option>
