@@ -39,16 +39,13 @@ class Domes extends Model
         } else if (Carbon::hasTranslation(strtolower($value), 'en')) {
             $dayname = strtolower($value);
         }
-        $data = WorkingHours::where('dome_id', $this->id)
-            ->where('day', $dayname != '' ? $dayname : date('l'))
-            ->select('id', 'vendor_id', 'dome_id', 'day', 'open_time', 'close_time', 'is_closed')
-            ->first();
+        $data = WorkingHours::where('dome_id', $this->id)->where('day', $dayname != '' ? $dayname : date('l'))->select('id', 'vendor_id', 'dome_id', 'day', 'open_time', 'close_time', 'is_closed')->first();
         return $data;
     }
 
     public function fields()
     {
-        return $this->hasMany(Field::class, 'dome_id');
+        return $this->hasMany(Field::class, 'dome_id')->where('is_available', 1)->where('is_deleted', 2);
     }
     public function getTotalFieldsAttribute()
     {

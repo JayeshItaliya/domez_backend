@@ -179,7 +179,7 @@ class DomesController extends Controller
         if (!empty($dome)) {
             $dome_data = array(
                 'id' => $dome->id,
-                'total_fields' => Field::where('dome_id', $dome->id)->where('is_available', 1)->where('is_deleted', 2)->count(),
+                'total_fields' => $dome->total_fields,
                 'name' => $dome->name,
                 'price' => Helper::get_dome_price($dome->id, explode(',', $dome->sport_id)[0]),
                 'hst' => $dome->hst,

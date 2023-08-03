@@ -53,7 +53,17 @@ function dome_revenue_chart(dome_revenue_labels, dome_revenue_data) {
         dataLabels: {
             enabled: true,
             formatter: function (val) {
-                return val + "$"
+                return "$" + val.toFixed(2);
+            }
+        },
+        tooltip: {
+            x: {
+                show: true
+            },
+            y: {
+                formatter: function (value, series) {
+                    return "$" + value.toFixed(2);
+                }
             }
         },
         colors: [secondary_color],

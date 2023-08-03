@@ -111,7 +111,7 @@ function dome_revenue_chart(dome_revenue_labels, dome_revenue_data) {
         dataLabels: {
             enabled: true,
             formatter: function (val) {
-                return "$" + val
+                return "$" + val.toFixed(2);
             }
         },
         tooltip: {
@@ -120,7 +120,7 @@ function dome_revenue_chart(dome_revenue_labels, dome_revenue_data) {
             },
             y: {
                 formatter: function (value, series) {
-                    return "$" + value;
+                    return "$" + value.toFixed(2);
                 }
             }
         },
