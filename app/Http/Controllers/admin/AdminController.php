@@ -77,17 +77,6 @@ class AdminController extends Controller
     }
     public function dashboard(Request $request)
     {
-        // Domes::truncate();
-        // DomeImages::truncate();
-        // Favourite::truncate();
-        // Field::truncate();
-        // League::truncate();
-        // SetPrices::truncate();
-        // SetPricesDaysSlots::truncate();
-        // Booking::truncate();
-        // Transaction::truncate();
-        // WorkingHours::truncate();
-        // User::where('type','!=',1)->delete();
         $now = CarbonImmutable::today();
         $weekStartDate = $now->startOfWeek();
         $weekEndDate = $now->endOfWeek();

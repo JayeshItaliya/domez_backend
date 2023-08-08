@@ -61,8 +61,9 @@ class BookingController extends Controller
             "price" => $data->total_amount,
             'image' => $data->dome_info->dome_image->image,
             'payment_type' => $data->payment_type,
+            'time' => Carbon::parse($data->start_time)->setTimezone(config('app.timezone'))->format('h:i A') . ' - ' . Carbon::parse($data->end_time)->setTimezone(config('app.timezone'))->format('h:i A'),
             'created_at' => Carbon::parse($data->created_at)->setTimezone(config('app.timezone'))->toDateTimeString(),
-        ];
+        ];        
         return $arr;
     }
     public function booking_details(Request $request)
@@ -244,21 +245,21 @@ class BookingController extends Controller
 
             $arr = [];
             $maintenancefields = Field::where('in_maintenance', 1)
-                    ->whereNotNull('maintenance_date')
-                    ->where('dome_id', $request->dome_id)
-                    ->whereRaw("find_in_set('" . $request->sport_id . "',sport_id)")
-                    ->whereDate('maintenance_date', '=', date('Y-m-d', strtotime($request->date)))
-                    ->pluck('id')->toArray();
+                ->whereNotNull('maintenance_date')
+                ->where('dome_id', $request->dome_id)
+                ->whereRaw("find_in_set('" . $request->sport_id . "',sport_id)")
+                ->whereDate('maintenance_date', '=', date('Y-m-d', strtotime($request->date)))
+                ->pluck('id')->toArray();
             if (count($maintenancefields) > 0) {
                 array_push($arr, $maintenancefields);
             }
 
             $fields_booked = Booking::where('dome_id', $request->dome_id)
-                    ->where('sport_id', $request->sport_id)
-                    ->whereDate('start_date', date('Y-m-d', strtotime($request->date)))
-                    ->whereRaw("find_in_set('" . $new_slot . "',slots)")
-                    ->where('booking_status', '!=', 3)
-                    ->pluck('field_id')->toArray();
+                ->where('sport_id', $request->sport_id)
+                ->whereDate('start_date', date('Y-m-d', strtotime($request->date)))
+                ->whereRaw("find_in_set('" . $new_slot . "',slots)")
+                ->where('booking_status', '!=', 3)
+                ->pluck('field_id')->toArray();
 
             foreach ($fields_booked as $key => $fields) {
                 foreach (explode(',', $fields) as $key => $field_id) {
@@ -267,11 +268,11 @@ class BookingController extends Controller
             }
 
             $total_fields = Field::where('dome_id', $request->dome_id)
-                    ->whereNotIn('id',$arr)
-                    ->whereRaw("find_in_set('" . $request->sport_id . "',sport_id)")
-                    ->where('is_available', 1)
-                    ->where('is_deleted', 2)
-                    ->count();
+                ->whereNotIn('id', $arr)
+                ->whereRaw("find_in_set('" . $request->sport_id . "',sport_id)")
+                ->where('is_available', 1)
+                ->where('is_deleted', 2)
+                ->count();
 
             if ($total_fields <= 0) {
                 $status = 0;
@@ -335,12 +336,12 @@ class BookingController extends Controller
         }
         $maintenancefields = Field::where('in_maintenance', 1)->whereNotNull('maintenance_date')->where('dome_id', $request->dome_id)->whereRaw("find_in_set('" . $request->sport_id . "',sport_id)")->whereDate('maintenance_date', '=', date('Y-m-d', strtotime($request->date)))->get();
         $available_fields = Field::with('sport_data')
-        ->select('id', 'dome_id', 'sport_id', 'name', 'min_person', 'max_person', DB::raw("CONCAT('" . url('storage/app/public/admin/images/fields') . "/',image) AS image"))
-        ->where('dome_id', $request->dome_id)
-        ->whereRaw("find_in_set('" . $request->sport_id . "',sport_id)")
-        ->whereRaw('? BETWEEN min_person AND max_person', [$request->players])
-        ->where('is_available', 1)
-        ->where('is_deleted', 2);
+            ->select('id', 'dome_id', 'sport_id', 'name', 'min_person', 'max_person', DB::raw("CONCAT('" . url('storage/app/public/admin/images/fields') . "/',image) AS image"))
+            ->where('dome_id', $request->dome_id)
+            ->whereRaw("find_in_set('" . $request->sport_id . "',sport_id)")
+            ->whereRaw('? BETWEEN min_person AND max_person', [$request->players])
+            ->where('is_available', 1)
+            ->where('is_deleted', 2);
         if (count($bookedfields) > 0) {
             $available_fields = $available_fields->whereNotIn('id', $bookedfields);
         }
