@@ -172,7 +172,7 @@ class LeagueController extends Controller
             'state' => $league->dome_info->state,
             'lat' => $league->dome_info->lat,
             'lng' => $league->dome_info->lng,
-            'amenities_description' => $league->dome_info->benefits_description,
+            'amenities_description' => $league->dome_info->benefits_description ?? '',
             'league_images' => $league->league_images,
             'amenities' => $benefits,
             "booking_deadline" => Carbon::parse($league->booking_deadline)->setTimezone(config('app.timezone'))->toDateTimeString(),

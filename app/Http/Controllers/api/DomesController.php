@@ -191,7 +191,7 @@ class DomesController extends Controller
                 'description' => $dome->description,
                 'lat' => $dome->lat,
                 'lng' => $dome->lng,
-                'benefits_description' => $dome->benefits_description,
+                'benefits_description' => $dome->benefits_description ?? '',
                 'ratting_data' => $ratting_data,
                 'benefits' => $benefits,
                 'sports_list' => Helper::get_sports_list($dome->sport_id),
