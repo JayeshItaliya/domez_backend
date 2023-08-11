@@ -185,8 +185,8 @@
                                             <div class="form-group">
                                                 <div class="input-group">
                                                     <span class="input-group-text"><i class="fa fa-dollar"></i></span>
-                                                    <input type="number" class="form-control" name="amount"
-                                                        id="amount" placeholder="Enter amount"
+                                                    <input type="text" class="form-control numbers_only"
+                                                        name="amount" id="amount" placeholder="Enter amount"
                                                         value="{{ $checkbooking->min_split_amount > $checkbooking->due_amount ? $checkbooking->due_amount : $checkbooking->min_split_amount }}"
                                                         {{ $checkbooking->min_split_amount > $checkbooking->due_amount ? 'readonly' : '' }}
                                                         min="{{ $checkbooking->min_split_amount > $checkbooking->due_amount ? $checkbooking->due_amount : $checkbooking->min_split_amount }}"
@@ -506,6 +506,17 @@
                 /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
             return emailRegex.test(email);
         }
+        $('.numbers_only').on('keyup', function() {
+            "use strict";
+            var val = $(this).val();
+            if (isNaN(val)) {
+                val = val.replace(/[^0-9\.]/g, '');
+                if (val.split('.').length > 2) {
+                    val = val.replace(/\.+$/, "");
+                }
+            }
+            $(this).val(val);
+        });
     }
 </script>
 

@@ -202,7 +202,7 @@ $(function () {
             dayname + '][]" data-day-name="' + dayname + '" required placeholder="' + start_time_title +
             '" /> <span class="input-group-text bg-transparent border-start-0"><i class="fa-regular fa-clock"></i> </span> </div></div></div><div class="col-md-4"><div class="form-group"><div class="input-group"><input type="text" class="form-control end time_picker border-end-0" name="end_time[' +
             dayname + '][]" data-day-name="' + dayname + '" required placeholder="' + end_time_title +
-            '" /> <span class="input-group-text bg-transparent border-start-0"><i class="fa-regular fa-clock"></i> </span> </div></div></div><div class="col-md-3"><div class="form-group"><div class="input-group"><input type="number" value="" class="form-control border-end-0" name="price[' +
+            '" /> <span class="input-group-text bg-transparent border-start-0"><i class="fa-regular fa-clock"></i> </span> </div></div></div><div class="col-md-3"><div class="form-group"><div class="input-group"><input type="number" class="form-control numbers_only  border-end-0" value="" name="price[' +
             dayname + '][]" required placeholder="' + price +
             '" /> <span class="input-group-text bg-transparent border-start-0"> <i class="fa-solid fa-dollar-sign"></i> </span> </div></div></div><div class="col-md-1"><div class="form-group"><button class="btn btn-sm btn-outline-danger" data-day-name="' + dayname + '" onclick="removeslot(' +
             counter + ',this)"><i class="fa fa-close"></i></button></div></div></div>'

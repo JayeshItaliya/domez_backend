@@ -50,7 +50,7 @@
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <div class="input-group">
-                                                <input type="number" class="form-control border-end-0"
+                                                <input type="text" class="form-control numbers_only  border-end-0"
                                                     name="price[{{ $time->day }}][]"
                                                     placeholder="{{ trans('labels.price') }}">
                                                 <span class="input-group-text bg-transparent border-start-0">

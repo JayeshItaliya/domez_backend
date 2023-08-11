@@ -56,7 +56,7 @@
                             <div class="form-group">
                                 <label class="form-label" for="dome_hst">{{ trans('labels.hst') }}</label>
                                 <div class="input-group">
-                                    <input type="number" id="dome_hst" name="dome_hst" class="form-control"
+                                    <input type="text" class="form-control numbers_only" name="dome_hst" id="dome_hst"
                                         value="{{ old('dome_hst') }}" placeholder="{{ trans('labels.hst') }}">
                                     <span class="input-group-text">%</span>
                                 </div>
@@ -387,7 +387,7 @@
                 let html = '<div class="col mb-2" id="' + $(this).attr("data-sport-name") + '' + $(this).val() +
                     '"><label class="form-label" for="dome_price' + $(this).val() + '">' + $(this).attr(
                         "data-sport") +
-                    '</label><div class="input-group"><span class="input-group-text" id="basic-addon1"><i class="fa fa-dollar"></i></span><input type="number" class="form-control" id="dome_price' +
+                    '</label><div class="input-group"><span class="input-group-text" id="basic-addon1"><i class="fa fa-dollar"></i></span><input type="text" class="form-control numbers_only" id="dome_price' +
                     $(this).val() +
                     '" name="dome_price[]" placeholder="Price" required></div></div>';
                 $('#sport_prices_input').append(html);

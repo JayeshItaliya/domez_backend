@@ -57,7 +57,7 @@
                             <div class="form-group">
                                 <label class="form-label" for="dome_hst">{{ trans('labels.hst') }}</label>
                                 <div class="input-group">
-                                    <input type="number" id="dome_hst" name="dome_hst" class="form-control"
+                                    <input type="text" class="form-control numbers_only" name="dome_hst" id="dome_hst"
                                         placeholder="{{ trans('labels.hst') }}"
                                         value="{{ !empty(old('dome_hst')) ? old('dome_hst') : $dome->hst }}">
                                     <span class="input-group-text">%</span>
@@ -308,7 +308,7 @@
                                     <div class="input-group">
                                         <span class="input-group-text" id="basic-addon1"><i
                                                 class="fa fa-dollar"></i></span>
-                                        <input type="number" class="form-control" name="dome_price[]"
+                                        <input type="text" class="form-control numbers_only" name="dome_price[]"
                                             value="{{ Helper::get_dome_price($dome->id, $sport->id) }}"
                                             placeholder="Price" {{ in_array($sport->id, $sport_id) ? '' : 'disabled' }}>
                                     </div>
@@ -399,7 +399,7 @@
                                         <div class="form-group">
                                             <label class="d-lg-none d-xl-none d-xxl-none">
                                                 {{ trans('labels.opening_time') }}</label>
-                                                
+
                                                 <label
                                                     class="d-lg-none d-xl-none d-xxl-none">{{ trans('labels.opening_time') }}</label>
                                                 <input type="text"
@@ -411,7 +411,7 @@
                                     <div class="col-lg-3">
                                         <div class="form-group">
                                             <label class="d-lg-none d-xl-none d-xxl-none">
-                                                {{ trans('labels.closing_time') }}</label>                                                
+                                                {{ trans('labels.closing_time') }}</label>
                                                 <label
                                                     class="d-lg-none d-xl-none d-xxl-none">{{ trans('labels.closing_time') }}</label>
                                                 <input type="text" class="form-control time_picker__ time_picker__end"
@@ -458,10 +458,10 @@
                                         <div class="form-group d-grid align-items-end">
                                             <label class="d-lg-none d-xl-none d-xxl-none">
                                                 {{ trans('labels.closing_time') }}</label>
-                                                
+
                                                 <label
                                                     class="d-lg-none d-xl-none d-xxl-none">{{ trans('labels.closing_time') }}</label>
-                                                    
+
                                                 <input type="text" class="form-control time_picker__ time_picker__end"
                                                     placeholder="{{ trans('labels.closing_time') }}" name="close_time[]"
                                                     @if (old('close_time')) value="{{ old('close_time')[$key] }}" @endif>

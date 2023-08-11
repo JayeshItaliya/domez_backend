@@ -130,7 +130,7 @@
                                                     <div class="col-md-3">
                                                         <div class="form-group">
                                                             <div class="input-group">
-                                                                <input type="number" class="form-control border-end-0"
+                                                                <input type="text" class="form-control numbers_only  border-end-0"
                                                                     name="price[{{ $dayname['day'] }}][]"
                                                                     value="{{ $slot->price }}"
                                                                     placeholder="{{ trans('labels.price') }}">

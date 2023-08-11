@@ -137,8 +137,7 @@
                                 <p class="text-muted fw-bold show_email"></p>
                                 <input type="hidden" id="show_email">
                                 <div class="input-group">
-                                    <input type="number" class="form-control" placeholder="{{ trans('labels.otp') }}"
-                                        name="otp" id="otp">
+                                    <input type="text" class="form-control numbers_only" placeholder="{{ trans('labels.otp') }}" name="otp" id="otp">
                                     <button class="btn btn-primary btn_verify"
                                         data-next="{{ URL::to('admin/settings/verify-email') }}">{{ trans('labels.verify') }}</button>
                                 </div>

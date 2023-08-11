@@ -202,7 +202,7 @@
                                 <label class="form-label" for="price">{{ trans('labels.price_per_team') }}</label>
                                 <div class="input-group">
                                     <span class="input-group-text" id="basic-addon1"><i class="fa fa-dollar"></i></span>
-                                    <input type="number" required class="form-control" name="price" id="price" value="{{ $getleaguedata->price }}" placeholder="{{ trans('labels.price_per_team') }}">
+                                    <input type="text" class="form-control numbers_only" name="price" id="price" required value="{{ $getleaguedata->price }}" placeholder="{{ trans('labels.price_per_team') }}">
                                 </div>
                                 @error('price') <span class="text-danger"> {{ $message }} </span> @enderror
                             </div>
