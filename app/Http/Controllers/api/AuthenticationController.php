@@ -375,7 +375,7 @@ class AuthenticationController extends Controller
             [
                 'full_name' => request()->fullName ? request()->fullName : 'Apple User',
                 'email' => $socialUser->email,
-                'password' => Str::random(30), // Social users are password-less
+                'password' => Str::random(30),
 
             ]
         );
