@@ -144,13 +144,6 @@
                     <div class="form-group">
                         <label class="form-label" for="days">{{ trans('labels.select_days') }}</label>
                         <select class="form-control" name="days[]" id="days" multiple required>
-                            {{-- <option value="Mon" selected> {{ trans('labels.monday') }} </option>
-                            <option value="Tue" selected> {{ trans('labels.tuesday') }} </option>
-                            <option value="Wed" selected> {{ trans('labels.wednesday') }} </option>
-                            <option value="Thu" selected> {{ trans('labels.thursday') }} </option>
-                            <option value="Fri" selected> {{ trans('labels.friday') }} </option>
-                            <option value="Sat" selected> {{ trans('labels.saturday') }} </option>
-                            <option value="Sun" selected> {{ trans('labels.sunday') }} </option> --}}
                         </select>
                         @error('days')
                             <span class="text-danger"> {{ $message }} </span>

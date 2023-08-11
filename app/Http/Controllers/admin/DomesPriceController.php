@@ -89,9 +89,6 @@ class DomesPriceController extends Controller
             if (!empty($getdomedata)) {
                 $getexists = SetPrices::where('dome_id', $request->id)->where('price_type', 2)->select('sport_id')->get()->toArray();
                 $sports = Sports::whereIn('id', explode(',', $getdomedata->sport_id));
-                // if ($request->has('type') && $request->type == 'add') {
-                //     $sports = $sports->whereNotIn('id', $getexists);
-                // }
                 $sports = $sports->where('is_available', 1)->where('is_deleted', 2)->orderByDesc('id')->get();
                 $dome = $getdomedata['working_hours'];
                 $slotdayshtml = view('admin.set_prices.slot_days', compact('dome'))->render();
@@ -121,18 +118,7 @@ class DomesPriceController extends Controller
     public function edit(Request $request)
     {
         $getslotpricedata = SetPrices::findOrFail($request->id);
-        // $getdomeslist = Domes::where('vendor_id', auth()->user()->type == 2 ? auth()->user()->id : auth()->user()->vendor_id)->where('is_deleted', 2)->orderByDesc('id')->get();
-        // $getslots = SetPricesDaysSlots::where('set_prices_id', $request->id)->select('day')->groupBy(DB::raw('day'))->orderBy('id')->get();
-        // $getdaysslots = [];
-        // foreach ($getslots as $key => $day) {
-        //     $slots = SetPricesDaysSlots::select('id', 'date', 'start_time', 'end_time', 'price')->where('set_prices_id', $request->id)->where('day', $day->day)->orderBy('id')->get();
-        //     $getdaysslots[] = [
-        //         'day' => $day->day,
-        //         'slots' => $slots->toArray(),
-        //     ];
-        // }
         $getdata = SetPricesDaysSlots::where('set_prices_id', $request->id)->groupBy('date')->get();
-        // return view('admin.set_prices.edit', compact('getslotpricedata', 'getdaysslots', 'getdomeslist', 'getdata'));
         return view('admin.set_prices.edit', compact('getslotpricedata','getdata'));
     }
     public function validate_start_end_time(Request $request)
@@ -178,15 +164,6 @@ class DomesPriceController extends Controller
         }
         return response()->json(["status" => 1, "message" => trans('messages.success')], 200);
     }
-    // public function deleteslot(Request $request)
-    // {
-    //     try {
-    //         SetPricesDaysSlots::find($request->id)->delete();
-    //         return response()->json(['status' => 1, 'message' => trans('messages.success')], 200);
-    //     } catch (\Throwable $th) {
-    //         return response()->json(['status' => 0, 'message' => trans('messages.wrong')], 200);
-    //     }
-    // }
     public function deletesetprice(Request $request)
     {
         try {

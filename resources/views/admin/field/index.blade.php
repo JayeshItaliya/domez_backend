@@ -88,7 +88,6 @@
         var save_date = {{ Js::from(trans('labels.save_date')) }};
         var cancel = {{ Js::from(trans('labels.cancel')) }};
         var min_date = {{ Js::from(date('Y-m-d')) }};
-        // var min_date = {{ Js::from(date('Y-m-d', strtotime(date('Y-m-d') . ' +1 days'))) }};
     </script>
     <script src="{{ url('resources/views/admin/field/field.js') }}"></script>
 @endsection

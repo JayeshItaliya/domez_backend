@@ -107,13 +107,6 @@
                     <div class="form-group">
                         <label class="form-label" for="days">{{ trans('labels.select_days') }}</label>
                         <select class="form-control" name="days[]" id="days" multiple required>
-                            {{-- <option value="Mon" {{ in_array('Mon', explode(' | ', $getleaguedata->days)) ? 'selected' : '' }}> {{ trans('labels.monday') }} </option>
-                            <option value="Tue" {{ in_array('Tue', explode(' | ', $getleaguedata->days)) ? 'selected' : '' }}> {{ trans('labels.tuesday') }} </option>
-                            <option value="Wed" {{ in_array('Wed', explode(' | ', $getleaguedata->days)) ? 'selected' : '' }}> {{ trans('labels.wednesday') }} </option>
-                            <option value="Thu" {{ in_array('Thu', explode(' | ', $getleaguedata->days)) ? 'selected' : '' }}> {{ trans('labels.thursday') }} </option>
-                            <option value="Fri" {{ in_array('Fri', explode(' | ', $getleaguedata->days)) ? 'selected' : '' }}> {{ trans('labels.friday') }} </option>
-                            <option value="Sat" {{ in_array('Sat', explode(' | ', $getleaguedata->days)) ? 'selected' : '' }}> {{ trans('labels.saturday') }} </option>
-                            <option value="Sun" {{ in_array('Sun', explode(' | ', $getleaguedata->days)) ? 'selected' : '' }}> {{ trans('labels.sunday') }} </option> --}}
                         </select>
                         @error('days')
                             <span class="text-danger"> {{ $message }} </span>

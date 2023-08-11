@@ -31,13 +31,6 @@ $(function () {
     } else {
         $('.default-price-title').hide();
     }
-    // $('.time_picker__').timepicker({
-    //     interval: 60,
-    //     dynamic: false,
-    //     dropdown: true,
-    //     scrollbar: true,
-    //     timeFormat: 'HH:mm',
-    // });
     $('.total-bookings-picker, .dome-revenue-picker').hide();
     if ($('.total-bookings-picker').length > 0) {
         $('.total-bookings-picker').flatpickr({

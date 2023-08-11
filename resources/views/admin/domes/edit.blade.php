@@ -64,20 +64,6 @@
                                 </div>
                             </div>
                         </div>
-                        {{-- <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="start_time" class="form-label">{{ trans('labels.start_time') }}</label>
-                                <input type="text" class="form-control time_picker" name="start_time" value="{{ $dome->start_time }}" id="start_time" placeholder="{{ trans('labels.start_time') }}" autocomplete="off">
-                                @error('start_time') <span class="text-danger">{{ $message }}</span> @enderror
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="end_time" class="form-label">{{ trans('labels.end_time') }}</label>
-                                <input type="text" class="form-control time_picker" name="end_time" value="{{ $dome->end_time }}" id="end_time" placeholder="{{ trans('labels.end_time') }}" autocomplete="off">
-                                @error('end_time') <span class="text-danger">{{ $message }}</span> @enderror
-                            </div>
-                        </div> --}}
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="slot_duration" class="form-label">{{ trans('labels.slot_duration') }}</label>
@@ -474,7 +460,6 @@
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-outline-success" id="submitBtn"
                             style="display: none;">{{ trans('labels.save') }}</button>
-                        {{-- <button type="button" class="btn btn-outline-success" data-bs-dismiss="modal">{{ trans('labels.save') }}</button> --}}
                     </div>
                 </form>
             </div>
@@ -531,12 +516,6 @@
                     showpreloader();
                 },
                 success: function(response) {
-                    // if (response.errors && Object.keys(response.errors).length > 0) {
-                    // $.each(response.errors, function(key, value) {
-                    //     toastr.error(value);
-                    //     return false;
-                    // });
-                    // }
                     hidepreloader();
                     if (response.status == 0) {
                         toastr.error(response.message);

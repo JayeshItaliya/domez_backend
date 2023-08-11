@@ -35,18 +35,6 @@ class LeagueController extends Controller
             foreach ($leagues as $league) {
                 $leagues_list[] = $this->getleaguelistobject($league, $request->user_id);
             }
-            // $perPage = 10;
-            // $page = $request->query('page', 1);
-            // $items = collect($leagues_list);
-            // --- $items = $items->values();
-            // $paginator = new LengthAwarePaginator(
-            //     $items->forPage($page, $perPage),$items->count(),$perPage,$page,
-            //     [
-            //         'path' => Paginator::resolveCurrentPath(),
-            //         'pageName' => 'page',
-            //     ]
-            // );
-
             $perPage = 10;
             $page = $request->query('page', 1);
             $items = collect($leagues_list);
@@ -144,17 +132,11 @@ class LeagueController extends Controller
         $datetime1 = new DateTime($league->start_date);
         $datetime2 = new DateTime($league->end_date);
         $interval = $datetime1->diff($datetime2);
-        // $startDate2 = new \DateTime(date('m/d'));
-        // $endDate2 = new \DateTime(date('m/d', strtotime("+7 day")));
-        // for ($date = $startDate2; $date < $endDate2; $date->modify('+1 day')) {
-        //     $daylist[] = $date->format('D');
-        // }
         $league_data = array(
             'id' => $league->id,
             'league_name' => $league->name,
             'dome_name' => $league->dome_info->name,
             "fields" => (string)count(explode(',', $league->field_id)),
-            // "days" => implode(' | ', $daylist),
             "days" => $league->days,
             "total_games" => $interval->format('%a'),
             "time" => date('h:i A', strtotime($league->start_time)) . ' To ' . date('h:i A', strtotime($league->end_time)),

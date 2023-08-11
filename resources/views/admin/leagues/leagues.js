@@ -9,12 +9,6 @@ if (document.getElementById('days')) {
 if (document.getElementById('field')) {
     $('#field').selectpicker();
 }
-// $('#field').select2({
-//     theme: "bootstrap-5",
-//     width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
-//     placeholder: $(this).data('placeholder'),
-//     closeOnSelect: false,
-// });
 $(function () {
     "use strict";
     $('.start.time_picker').timepicker({
@@ -184,15 +178,6 @@ function getfields(sport) {
         success: function (response) {
             if (response.status == 1) {
                 append_fields(response.fieldsdata)
-                // $('#field option').remove();
-                // if (response.fieldsdata.length > 0) {
-                //     $.each(response.fieldsdata, function (arrayIndex, elementValue) {
-                //         var selected = $.inArray(elementValue.id, field_selected) !== -1 ? 'selected' : '';
-                //         $('#field').append('<option value="' + elementValue.id + '"  ' + selected + '  >' + elementValue.name + '</option>');
-                //     });
-                // } else {
-                //     $('#field').append('<option value="" selected disabled>' + no_data + '</option>');
-                // }
             } else {
                 toastr.error(response.message);
                 return false;

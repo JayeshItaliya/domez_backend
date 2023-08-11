@@ -98,33 +98,4 @@ function submitdata() {
             return false;
         }
     });
-    // Swal.fire({
-    //     title: 'Enter the price',
-    //     input: 'text',
-    //     inputPlaceholder: 'Enter the price',
-    //     inputAttributes: {
-    //         type: 'number',
-    //         min: 0,
-    //         step: 0.01
-    //     },
-    //     showCancelButton: true,
-    //     confirmButtonText: 'Submit',
-    //     cancelButtonText: 'Cancel',
-    //     allowOutsideClick: false,
-    //     preConfirm: function(price) {
-    //         // You can perform some validation here
-    //         // If the validation fails, return false to prevent the dialog from closing
-    //         // Otherwise, return the validated value
-    //         if (price <= 0) {
-    //             Swal.showValidationMessage('Price must be greater than zero');
-    //             return false;
-    //         }
-    //         return price;
-    //     }
-    // }).then(function(result) {
-    //     if (result.value) {
-    //         // Do something with the validated price value
-    //         console.log(result.value);
-    //     }
-    // });
 }

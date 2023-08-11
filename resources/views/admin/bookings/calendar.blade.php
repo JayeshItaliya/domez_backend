@@ -96,8 +96,6 @@
                     return {
                         html: '<b> {{ trans('labels.booking_id') }} : ' + info.event.title +
                             '</b><br>' + title
-                        // 'Start: ' + info.event.start.toLocaleString() + '<br>' +
-                        // 'End: ' + info.event.end.toLocaleString() + '<br>' +
                     };
                 }
             });

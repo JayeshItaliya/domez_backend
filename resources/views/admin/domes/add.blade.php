@@ -62,20 +62,6 @@
                                 </div>
                             </div>
                         </div>
-                        {{-- <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="start_time" class="form-label">{{ trans('labels.start_time') }}</label>
-                                <input type="text" class="form-control time_picker" name="start_time" value="{{ old('start_time') }}" id="start_time" placeholder="{{ trans('labels.start_time') }}" autocomplete="off">
-                                @error('start_time') <span class="text-danger">{{ $message }}</span> @enderror
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="end_time" class="form-label">{{ trans('labels.end_time') }}</label>
-                                <input type="text" class="form-control time_picker" name="end_time" value="{{ old('end_time') }}" id="end_time" placeholder="{{ trans('labels.end_time') }}" autocomplete="off">
-                                @error('end_time') <span class="text-danger">{{ $message }}</span> @enderror
-                            </div>
-                        </div> --}}
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="slot_duration" class="form-label">{{ trans('labels.slot_duration') }}</label>

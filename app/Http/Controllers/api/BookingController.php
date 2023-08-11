@@ -24,7 +24,6 @@ class BookingController extends Controller
 {
     public function booking_list(Request $request)
     {
-        // 'pagination' => $data->toArray()['links']
         if (in_array($request->user_id, [0, ''])) {
             return response()->json(["status" => 0, "message" => "Please Enter User ID"], 200);
         }

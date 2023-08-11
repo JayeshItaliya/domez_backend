@@ -5,33 +5,8 @@
                 <img src="{{ Helper::image_path('logo_dark.png') }}" width="100" alt="" class="mx-3">
             </a>
         </div>
-        {{-- <button class="toggle-icon-wrapper">
-            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-menu-2" width="20px"
-                height="20px" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none"
-                stroke-linecap="round" stroke-linejoin="round">
-                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                <line x1="4" y1="6" x2="20" y2="6"></line>
-                <line x1="4" y1="12" x2="20" y2="12"></line>
-                <line x1="4" y1="18" x2="20" y2="18"></line>
-            </svg>
-        </button> --}}
     </div>
     <div class="d-flex justify-content-end" style="width: inherit;">
-        {{-- <div class="search-box">
-            <form data-bs-toggle="search" data-bs-display="static" aria-expanded="true">
-                <div class="search-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="20px"
-                        height="20px" viewBox="0 0 24 24" stroke-width="1.5" stroke="var(--bs-secondary)"
-                        fill="none" stroke-linecap="round" stroke-linejoin="round">
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                        <circle cx="10" cy="10" r="7"></circle>
-                        <line x1="21" y1="21" x2="15" y2="15"></line>
-                    </svg>
-                </div>
-                <input type="search" name="search" id="" class="form-control form-control-lg"
-                    placeholder="Search Here...">
-            </form>
-        </div> --}}
         <ul class="nav-icons">
             {{-- Only use for development purpose --}}
             @if (env('APP_ENV') == 'local')
@@ -48,23 +23,6 @@
                 @endif
             @endif
             {{-- Only use for development purpose --}}
-
-            {{-- <li class="dropdown">
-                <a href="#" class="nav-item currency-icon" role="button" data-bs-toggle="dropdown"
-                    aria-expanded="false">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-currency-dollar"
-                        width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5"
-                        stroke="var(--bs-secondary)" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                        <path d="M16.7 8a3 3 0 0 0 -2.7 -2h-4a3 3 0 0 0 0 6h4a3 3 0 0 1 0 6h-4a3 3 0 0 1 -2.7 -2" />
-                        <path d="M12 3v3m0 12v3" />
-                    </svg>
-                </a>
-                <ul class="dropdown-menu box-shadow border-0 my-3">
-                    <li><a class="dropdown-item" href="#">{{ trans('labels.usd') }}</a></li>
-                    <li><a class="dropdown-item" href="#">{{ trans('labels.cad') }}</a></li>
-                </ul>
-            </li> --}}
             <li class="dropdown">
                 <a href="#" class="nav-item language-icon" role="button" data-bs-toggle="dropdown"
                     aria-expanded="false">

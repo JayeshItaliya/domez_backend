@@ -72,16 +72,6 @@ class DomesController extends Controller
             foreach ($popular_domes as $dome) {
                 $domes_list[] = $this->domelistobject($dome, $request->user_id, $request->sport_id);
             }
-            // $perPage = 10;
-            // $page = $request->query('page', 1);
-            // $items = collect($domes_list);
-            // $paginator = new LengthAwarePaginator(
-            //     $items->forPage($page, $perPage),$items->count(),$perPage,$page,
-            //     [
-            //         'path' => Paginator::resolveCurrentPath(),
-            //         'pageName' => 'page',
-            //     ]
-            // );
             $perPage = 10;
             $page = $request->query('page', 1);
             $items = collect($domes_list);

@@ -67,11 +67,8 @@ class Booking extends Model
         $field_names = Field::whereIn('id', explode(',', $this->field_id))->get()->pluck('name')->toArray();
         return implode(', ', $field_names);
     }
-
-
     public function dome_info(): BelongsTo
     {
         return $this->belongsTo(Domes::class, 'dome_id');
-        // return $this->hasOne('App\Models\Domes', 'id', 'dome_id')->select('id', 'name', 'sport_id', 'address', 'state', 'city', 'hst');
     }
 }
