@@ -31,7 +31,7 @@ class PaymentDistribution extends Command
             $getaccountid = PaymentGateway::where('vendor_id', $vendor->id)->first();
             if (empty($getaccountid)) {
                 $this->info(" ===================== $vendor->name is not able to recieve payment due to Incomplete Stripe account details ============================= ");
-            }else{
+            } else {
                 $checkaccount = Account::retrieve($getaccountid->account_id);
                 if ($checkaccount->charges_enabled === false || $checkaccount->payouts_enabled === false) {
                 } else {
@@ -49,20 +49,20 @@ class PaymentDistribution extends Command
 
                             $final_amount = $distribution_amount - $cancellation_charges;
                             Transfer::create([
-                                'amount' => $final_amount,
+                                'amount' => intval($final_amount * 100),
                                 'currency' => 'CAD',
                                 'destination' => $getaccountid->account_id,
                             ]);
                             $b_ids = array_merge($getbookingids, $getbookingids__);
                             Booking::whereIn('id', $b_ids)->update(['is_payment_released' => 1]);
                             $this->info(' ================================================== ');
-                            $this->info(" Amount -->  $final_amount ||| To Account --> $getaccountid->account_id  |||  To (Vendor -->  $vendor->name   |||  Distributed For Booking IDs :-". implode(',', $getbookingids));
+                            $this->info(" Amount -->  $final_amount ||| To Account --> $getaccountid->account_id  |||  To (Vendor -->  $vendor->name   |||  Distributed For Booking IDs :-" . implode(',', $getbookingids));
                         } catch (\Throwable $th) {
                             // $this->info(' Unable To Distribute Amount For Booking IDs :- ' . implode(',', $getbookingids) . ' ||| To Account --> "' . $getaccountid->account_id . '" (Vendor --> ' . $vendor->id . ') ');
                             $this->info(' ================================================== ');
-                            $this->info(' Unable To Distribute Amount For Booking IDs :- ' . implode(',', $getbookingids) . ' (Vendor --> ' . $vendor->id .' - '.$vendor->name. ')  =========== due to =========== '.$th->getMessage().' ');
+                            $this->info(' Unable To Distribute Amount For Booking IDs :- ' . implode(',', $getbookingids) . ' (Vendor --> ' . $vendor->id . ' - ' . $vendor->name . '--' . intval($final_amount * 100) .')  =========== due to =========== ' . $th->getMessage() . ' ');
                         }
-                    }else{
+                    } else {
                         $this->info(" =========================== Bookings not found for ============== $vendor->name ========= ");
                     }
                 }
