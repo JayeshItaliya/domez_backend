@@ -143,10 +143,11 @@ class LeagueController extends Controller
             $league->save();
             if ($request->has('images')) {
                 $request->validate([
-                    'images.*' => 'image|mimes:png,jpg,jpeg,svg',
+                    'images.*' => 'required|image|mimes:png,jpg,jpeg,svg|max:7168',
                 ], [
                     'images.image' => trans('messages.valid_image'),
                     'images.mimes' => trans('messages.valid_image_type'),
+                    'images.max' => trans('messages.valid_image_size'),
                 ]);
                 foreach ($request->file('images') as $img) {
                     $domeimage = new DomeImages();
