@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
+use Illuminate\Http\Request;
 use App\Http\Controllers\api\BookingController;
 use App\Http\Controllers\api\LeagueController;
 use App\Http\Controllers\api\AdminController;
@@ -9,8 +11,7 @@ use App\Http\Controllers\api\FavouriteController;
 use App\Http\Controllers\api\HomeController;
 use App\Http\Controllers\api\PaymentController;
 use App\Http\Controllers\api\ReviewController;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\api\SlotsAndFieldsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,7 +28,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 Route::group(['middleware' => 'SetTimeZoneMiddleware'], function () {
-    
+
     Route::get('optimize', [AdminController::class, 'optimize']);
 
     Route::post('sign-up', [AuthenticationController::class, 'sign_up']);
@@ -66,8 +67,9 @@ Route::group(['middleware' => 'SetTimeZoneMiddleware'], function () {
     Route::post('booking-cancel', [BookingController::class, 'cancelbooking']);
     Route::post('booking-list', [BookingController::class, 'booking_list']);
     Route::post('check-booking', [BookingController::class, 'check_booking']);
-    Route::post('timeslots', [BookingController::class, 'timeslots']);
-    Route::post('available-fields', [BookingController::class, 'avl_fields']);
+
+    Route::post('timeslots', [SlotsAndFieldsController::class, 'timeslots']);
+    Route::post('available-fields', [SlotsAndFieldsController::class, 'avl_fields']);
 
     Route::post('review', [ReviewController::class, 'review']);
     Route::get('avg-ratting-{id}', [ReviewController::class, 'avg_rating']);

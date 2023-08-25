@@ -8,7 +8,7 @@
     </div>
     <div class="d-flex justify-content-end" style="width: inherit;">
         <ul class="nav-icons">
-            {{-- Only use for development purpose --}}
+            {{-- Only use for development purpose -- START --}}
             @if (env('APP_ENV') == 'local')
                 @if (in_array(Auth::user()->type, [1, 2, 4]))
                     <li class="dropdown">
@@ -22,7 +22,7 @@
                     </li>
                 @endif
             @endif
-            {{-- Only use for development purpose --}}
+            {{-- Only use for development purpose --  END  --}}
             <li class="dropdown">
                 <a href="#" class="nav-item language-icon" role="button" data-bs-toggle="dropdown"
                     aria-expanded="false">
