@@ -49,7 +49,7 @@ class PaymentDistribution extends Command
 
                             $final_amount = $distribution_amount - $cancellation_charges;
                             Transfer::create([
-                                'amount' => intval($final_amount * 100),
+                                'amount' => $final_amount * 100,
                                 'currency' => 'CAD',
                                 'destination' => $getaccountid->account_id,
                             ]);
