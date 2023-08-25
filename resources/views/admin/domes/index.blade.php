@@ -81,27 +81,27 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="dome_name" class="form-label">{{ trans('labels.dome_name') }}</label>
-                        <input type="text" class="form-control" name="dome_name" id="dome_name" placeholder="{{ trans('labels.dome_name') }}">
+                        <input type="text" class="form-control" name="dome_name" id="dome_name" placeholder="{{ trans('labels.dome_name') }}" required>
                     </div>
                     <div class="form-group">
                         <label for="dome_address" class="form-label">{{ trans('labels.dome_address') }}</label>
-                        <input type="text" class="form-control" name="dome_address" id="dome_address" placeholder="{{ trans('labels.dome_address') }}">
+                        <input type="text" class="form-control" name="dome_address" id="dome_address" placeholder="{{ trans('labels.dome_address') }}" required>
                     </div>
                     <div class="form-group">
                         <label for="dome_city" class="form-label">{{ trans('labels.dome_city') }}</label>
-                        <input type="text" class="form-control" name="dome_city" id="dome_city" placeholder="{{ trans('labels.dome_city') }}">
+                        <input type="text" class="form-control" name="dome_city" id="dome_city" placeholder="{{ trans('labels.dome_city') }}" required>
                     </div>
                     <div class="form-group">
                         <label for="dome_zipcode" class="form-label">{{ trans('labels.pincode') }}</label>
-                        <input type="text" class="form-control" name="dome_zipcode" id="dome_zipcode" placeholder="{{ trans('labels.pincode') }}">
+                        <input type="text" class="form-control" name="dome_zipcode" id="dome_zipcode" placeholder="{{ trans('labels.pincode') }}" required>
                     </div>
                     <div class="form-group">
                         <label for="dome_state" class="form-label">{{ trans('labels.dome_state') }}</label>
-                        <input type="text" class="form-control" name="dome_state" id="dome_state" placeholder="{{ trans('labels.dome_state') }}">
+                        <input type="text" class="form-control" name="dome_state" id="dome_state" placeholder="{{ trans('labels.dome_state') }}" required>
                     </div>
                     <div class="form-group">
                         <label for="dome_country" class="form-label">{{ trans('labels.dome_country') }}</label>
-                        <input type="text" class="form-control" name="dome_country" id="dome_country" placeholder="{{ trans('labels.dome_country') }}">
+                        <input type="text" class="form-control" name="dome_country" id="dome_country" placeholder="{{ trans('labels.dome_country') }}" required>
                     </div>
                 </div>
                 <div class="modal-footer">

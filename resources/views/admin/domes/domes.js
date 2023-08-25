@@ -1,4 +1,31 @@
+// $(document).ready(function () {
+//     $('.time_picker__start').timepicker({
+//         interval: 60,
+//         timeFormat: 'HH:mm',
+//         minTime: '00:00',
+//         maxTime: '23:59',
+//         scrollbar: true,
+//         dynamic: false,
+//         dropdown: true
+//     });
+//     $('.time_picker__end').timepicker({
+//         timeFormat: 'HH:mm',
+//         interval: 60,
+//         minTime: '00:30',
+//         maxTime: '23:59',
+//         scrollbar: true,
+//         dynamic: false,
+//         dropdown: true
+//     });
+//     $('.time_picker__end').on('focus', function() {
+//         if ($('.ui-timepicker-viewport').find('a:last').html() != '23:59') {
+//             $('.ui-timepicker-viewport').append('<li class="ui-menu-item" style="width: 133.312px;"><a class="ui-corner-all">23:59</a></li>');
+//         }
+//     });
+// });
+
 $(document).ready(function () {
+    // Initialize the time picker for the start time
     $('.time_picker__start').timepicker({
         interval: 60,
         timeFormat: 'HH:mm',
@@ -8,6 +35,8 @@ $(document).ready(function () {
         dynamic: false,
         dropdown: true
     });
+
+    // Initialize the time picker for the end time
     $('.time_picker__end').timepicker({
         timeFormat: 'HH:mm',
         interval: 60,
@@ -17,12 +46,36 @@ $(document).ready(function () {
         dynamic: false,
         dropdown: true
     });
-    $('.time_picker__end').on('focus', function() {
-        if ($('.ui-timepicker-viewport').find('a:last').html() != '23:59') {
+
+    // Attach a focus event handler to the end time picker
+    $('.time_picker__end').on('focus', function () {
+        // Get the selected start time value
+        var startTime = $('.time_picker__start').val();
+
+        // If a start time is selected, update the minimum time for end time accordingly
+        if (startTime !== '') {
+            $('.time_picker__end').timepicker('option', 'minTime', startTime);
+        }
+
+        // Add '23:59' as an option if it's not already in the list
+        if ($('.ui-timepicker-viewport').find('a:last').html() !== '23:59') {
             $('.ui-timepicker-viewport').append('<li class="ui-menu-item" style="width: 133.312px;"><a class="ui-corner-all">23:59</a></li>');
         }
     });
+
+    // Attach a change event handler to the start time picker
+    $('.time_picker__start').on('change', function () {
+        // Get the selected start and end time values
+        var startTime = $(this).val();
+        var endTime = $('.time_picker__end').val();
+
+        // If end time is earlier than the new start time, update the end time value
+        if (endTime !== '' && endTime <= startTime) {
+            $('.time_picker__end').val(startTime);
+        }
+    });
 });
+
 
 $(function () {
     "use strict";
@@ -331,7 +384,7 @@ function getZipCode(lat, lng) {
         type: "GET",
         dataType: 'json',
         async: false,
-        headers:'',
+        headers: '',
         success: function (data) {
             var results = data.results;
             results[0].address_components.forEach(element => {
