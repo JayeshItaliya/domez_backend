@@ -30,7 +30,7 @@
 <body>
     <div class="layout">
         <header class="container header-section-contact">
-            <nav class="navbar navbar-expand-lg navbar-light">
+            <nav class="navbar navbar-expand-lg navbar-light pt-4">
                 <a class="navbar-brand logo-img" href="{{ URL::to('/') }}">
 
                     <img src="{{ url('storage/app/public/admin/images/logo_dark.png') }}">
@@ -83,109 +83,72 @@
         </header>
         <section style="margin:100px 0">
             <div class="container">
-                <div class="row justify-content-center">
+                <div class="row justify-content-center  wow fadeInDown delay-0-4s animated">
                     <div class="col-md-10">
                         <form action="{{ URL::to('dome-request') }}" method="POST" class="contact-us" id="contact_us">
                             @csrf
                             <h1 class="text-center fw-bold text-capitalize mb-3">Get ready to elevate your game.</h1>
                             <div class="row justify-content-center">
                                 <div class="col-lg-6 form-group">
-                                    <label for="name" class="from-label fw-semibold">Name</label>
-                                    <input type="text" id="name" name="name" value="{{ old('name') }}" class="form-control" placeholder="Name" required>
-                                    @error('name')
-                                        <span class="text-danger">{{ $message }}</span>
-                                    @enderror
+                                    <label for="name" class="from-label fw-semibold"> Name* </label>
+                                    <input type="text" id="name" name="name" value="{{ old('name') }}" class="form-control" placeholder="Enter Name" required>
+                                    @error('name') <span class="text-danger">{{ $message }}</span> @enderror
                                 </div>
                                 <div class="col-lg-6 form-group">
-                                    <label for="email" class="from-label fw-semibold">Email</label>
+                                    <label for="email" class="from-label fw-semibold"> Email* </label>
                                     <div class="input-group">
-                                        <input type="email" id="email" name="email" value="{{ old('email') }}" class="form-control" placeholder="Email" required>
+                                        <input type="email" id="email" name="email" value="{{ old('email') }}" class="form-control" placeholder="Enter Email" required>
                                         <button class="btn btn-success dmz-button send_otp" type="button">Verify</button>
                                     </div>
-                                    @error('email')
-                                        <span class="text-danger">{{ $message }}</span>
-                                    @enderror
+                                    @error('email') <span class="text-danger">{{ $message }}</span> @enderror
                                 </div>
                                 <div class="form-group d-none" id="verify_otp">
-                                    <label for="otp" class="from-label fw-semibold">OTP</label>
+                                    <label for="otp" class="from-label fw-semibold"> OTP* </label>
                                     <div class="input-group">
-                                        <input type="otp" id="otp" name="otp" value="{{ old('otp') }}" class="form-control" placeholder="OTP" required>
+                                        <input type="otp" id="otp" name="otp" value="{{ old('otp') }}" class="form-control" placeholder="Enter OTP" required>
                                         <button class="btn btn-success dmz-button verify_otp" type="button" id="button-addon2">Verify</button>
                                     </div>
-                                    @error('otp')
-                                        <span class="text-danger">{{ $message }}</span>
-                                    @enderror
+                                    @error('otp') <span class="text-danger">{{ $message }}</span> @enderror
                                 </div>
                                 <div class="col-lg-6 form-group">
-                                    <label for="phone" class="from-label fw-semibold">Phone Number</label>
+                                    <label for="phone" class="from-label fw-semibold"> Phone Number* </label>
                                     <div class="input-group">
                                         <input type="hidden" name="country" id="country" value="1">
-                                        <input type="tel" id="phone" name="phone" class="form-control"
-                                            placeholder="Phone Number" value="{{ old('phone') }}" required
-                                            style="border-radius: 5px">
+                                        <input type="tel" id="phone" name="phone" class="form-control" placeholder="Enter Phone Number" value="{{ old('phone') }}" required style="border-radius: 5px">
                                     </div>
-                                    @error('phone')
-                                        <span class="text-danger">{{ $message }}</span>
-                                    @enderror
+                                    @error('phone') <span class="text-danger">{{ $message }}</span> @enderror
                                 </div>
                                 <div class="col-lg-6 form-group">
-                                    <label for="dome_name" class="from-label fw-semibold">Dome Name</label>
-                                    <input type="text" id="dome_name" name="dome_name"
-                                        value="{{ old('dome_name') }}" class="form-control" placeholder="Dome Name"
-                                        required>
-                                    @error('dome_name')
-                                        <span class="text-danger">{{ $message }}</span>
-                                    @enderror
+                                    <label for="dome_name" class="from-label fw-semibold"> Dome Name* </label>
+                                    <input type="text" id="dome_name" name="dome_name" value="{{ old('dome_name') }}" class="form-control" placeholder="Enter Dome Name" required>
+                                    @error('dome_name') <span class="text-danger">{{ $message }}</span> @enderror
                                 </div>
                                 <div class="form-group">
-                                    <label for="address" class="from-label fw-semibold">Dome Address</label>
-                                    <input type="text" id="address" name="dome_address"
-                                        value="{{ old('address') }}" class="form-control" placeholder="Address"
-                                        required>
-                                    @error('address')
-                                        <span class="text-danger">{{ $message }}</span>
-                                    @enderror
+                                    <label for="address" class="from-label fw-semibold"> Dome Address* </label>
+                                    <input type="text" id="address" name="dome_address" value="{{ old('address') }}" class="form-control" placeholder="Enter Address" required>
+                                    @error('address') <span class="text-danger">{{ $message }}</span> @enderror
                                 </div>
                                 <div class="col-lg-6 form-group">
-                                    <label for="dome_city" class="from-label fw-semibold">City</label>
-                                    <input type="text" id="dome_city" name="dome_city"
-                                        value="{{ old('dome_city') }}" class="form-control" placeholder="City"
-                                        required>
-                                    @error('dome_city')
-                                        <span class="text-danger">{{ $message }}</span>
-                                    @enderror
+                                    <label for="dome_city" class="from-label fw-semibold"> City* </label>
+                                    <input type="text" id="dome_city" name="dome_city" value="{{ old('dome_city') }}" class="form-control" placeholder="Enter City" required>
+                                    @error('dome_city') <span class="text-danger">{{ $message }}</span> @enderror
                                 </div>
                                 <div class="col-lg-6 form-group">
-                                    <label for="dome_postalcode" class="from-label fw-semibold">Zip / Postal
-                                        Code</label>
-                                    <input type="text" id="dome_postalcode" name="dome_postalcode"
-                                        value="{{ old('dome_postalcode') }}" class="form-control"
-                                        placeholder="Zip / Postal Code" required>
-                                    @error('dome_postalcode')
-                                        <span class="text-danger">{{ $message }}</span>
-                                    @enderror
+                                    <label for="dome_state" class="from-label fw-semibold"> State / Province* </label>
+                                    <input type="text" id="dome_state" name="dome_state" value="{{ old('dome_state') }}" class="form-control" placeholder="Enter State / Province" required>
+                                    @error('dome_state') <span class="text-danger">{{ $message }}</span> @enderror
                                 </div>
                                 <div class="col-lg-6 form-group">
-                                    <label for="dome_state" class="from-label fw-semibold">State /
-                                        Province</label>
-                                    <input type="text" id="dome_state" name="dome_state"
-                                        value="{{ old('dome_state') }}" class="form-control"
-                                        placeholder="State / Province" required>
-                                    @error('dome_state')
-                                        <span class="text-danger">{{ $message }}</span>
-                                    @enderror
+                                    <label for="dome_country" class="from-label fw-semibold"> Country* </label>
+                                    <input type="text" id="dome_country" name="dome_country" value="{{ old('dome_country') }}" class="form-control" placeholder="Enter Country" required>
+                                    @error('dome_country') <span class="text-danger">{{ $message }}</span> @enderror
                                 </div>
                                 <div class="col-lg-6 form-group">
-                                    <label for="dome_country" class="from-label fw-semibold">Country</label>
-                                    <input type="text" id="dome_country" name="dome_country"
-                                        value="{{ old('dome_country') }}" class="form-control" placeholder="Country"
-                                        required>
-                                    @error('dome_country')
-                                        <span class="text-danger">{{ $message }}</span>
-                                    @enderror
+                                    <label for="dome_postalcode" class="from-label fw-semibold"> Zip / Postal Code* </label>
+                                    <input type="text" id="dome_postalcode" name="dome_postalcode" value="{{ old('dome_postalcode') }}" class="form-control" placeholder="Enter Zip / Postal Code" required>
+                                    @error('dome_postalcode') <span class="text-danger">{{ $message }}</span> @enderror
                                 </div>
-                                <button type="submit" id="contact_us_submit"
-                                    class="btn btn-success dmz-button px-4 my-2 my-sm-0 w-auto">Submit</button>
+                                <button type="submit" id="contact_us_submit" class="btn btn-success dmz-button px-4 my-2 my-sm-0 w-auto">Submit</button>
                             </div>
                         </form>
                     </div>
@@ -366,7 +329,13 @@
                         $('#contact_us input:not(#name , #email) ,#contact_us_submit').prop('disabled',
                             false);
                     } else {
+                        toastr.clear();
                         toastr.error(response.message);
+                        $('.verify_otp').attr('disabled', true);
+                        setTimeout(() => {
+                            toastr.clear();
+                            $('.verify_otp').attr('disabled', false);
+                        }, 2000);
                         return false;
                     }
                 },

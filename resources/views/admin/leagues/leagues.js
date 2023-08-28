@@ -20,6 +20,16 @@ $(function () {
         change: function (time) {
             var element = $(this);
             var timepicker = element.timepicker();
+
+            var start_time = timepicker.format(time);
+            var currentDate = new Date();
+            var day = currentDate.getDate();
+            var month = currentDate.getMonth() + 1;
+            var year = currentDate.getFullYear();
+            var dateString = year + "-" + month + "-" + day;
+            start_time = new Date(dateString + " " + start_time);
+            start_time.setMinutes(start_time.getMinutes() + 60);
+
             $('.end.time_picker').val('');
             $('.end.time_picker').timepicker('destroy');
             $('.end.time_picker').timepicker({
@@ -28,8 +38,8 @@ $(function () {
                 dropdown: true,
                 scrollbar: true,
                 timeFormat: 'HH:mm',
-                startTime: timepicker.format(time),
-                minTime: timepicker.format(time),
+                startTime: start_time,
+                minTime: start_time,
             });
         }
     });

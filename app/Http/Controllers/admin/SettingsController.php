@@ -226,4 +226,32 @@ class SettingsController extends Controller
         $cookie = cookie('locale', $request->lang, 60 * 24 * 365);
         return redirect()->back()->withCookie($cookie);
     }
+    public function resetpassword(Request $req)
+    {
+        $validator = Validator::make($req->all(), [
+            'userid' => 'required|exists:users,id',
+            'new_password' => 'required|min:8',
+            'confirm_password' => 'required|same:new_password|min:8',
+        ], [
+            '*.required' => trans('messages.field_required'),
+            'userid.*' => trans('messages.invalid_request'),
+            'new_password.different' => trans('messages.new_password_diffrent'),
+            'confirm_password.same' => trans('messages.confirm_password_same'),
+            '*.min' => trans('messages.password_min_length')
+        ]);
+        if ($validator->fails()) {
+            return response()->json(['status' => 0, 'message' => trans('messages.error'), 'errors' => $validator->getMessageBag()], 200);
+        }
+        $cu = User::where('id', $req->userid)->first();
+        if (empty($cu)) {
+            return response()->json(['status' => 0, 'message' => trans('messages.invalid_request')], 200);
+        }
+        try {
+            $cu->password = Hash::make($req->new_password);
+            $cu->save();
+            return response()->json(['status' => 1, 'message' => trans('messages.success')], 200);
+        } catch (\Throwable $th) {
+            return response()->json(['status' => 0, 'message' => trans('messages.wrong')], 200);
+        }
+    }
 }

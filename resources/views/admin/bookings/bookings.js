@@ -3,7 +3,6 @@ $(function () {
     if ($('body').find('.date-range-picker').length > 0) {
         $('.date-range-picker').flatpickr({
             mode: "range",
-            // maxDate: "today",
             placeHolder: "Select Date",
             dateFormat: "Y-m-d",
             onClose: function (selectedDates, dateStr, instance) {

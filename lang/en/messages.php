@@ -77,4 +77,5 @@ return [
     'warning_part_two' => ', Please add at least one field.',
     "old_password_invalid" => "Old password is invalid",
     "invalid_request" => "Invalid Request!",
+    "field_required" => "This field is required!",
 ];

@@ -20,6 +20,23 @@ class WorkersController extends Controller
     }
     public function store_worker(Request $request)
     {
+        $validator = Validator::make($request->input(), [
+            'name' => 'required',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|min:8',
+        ], [
+            'name.required' => trans('messages.name_required'),
+            'email.required' => trans('messages.email_required'),
+            'email.email' => trans('messages.valid_email'),
+            'email.unique' => trans('messages.email_exist'),
+            'password.required' => trans('messages.password_required'),
+            'password.min' => trans('messages.password_min_length'),
+        ]);
+        if ($validator->fails()) {
+            foreach ($validator->errors()->toArray() as $key => $error) {
+                return redirect()->back()->with('error', $error[0]);
+            }
+        }
         try {
             $data = ['title' => 'Domez Employee Login Credentials', 'email' => $request->email, 'name' => $request->name, 'password' => $request->password];
             Mail::send('email.share_login_details', $data, function ($message) use ($data) {
@@ -63,7 +80,6 @@ class WorkersController extends Controller
             if ($validator->fails()) {
                 foreach ($validator->errors()->toArray() as $key => $error) {
                     return redirect()->back()->with('error', $error[0]);
-                    break;
                 }
             }
             $checkuser->name = $request->name;

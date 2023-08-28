@@ -15,12 +15,11 @@ class EnquiryController extends Controller
 {
     public function dome_requests(Request $request)
     {
-        if (auth()->user()->type == 1) {
-            $enquiries = Enquiries::where('type', 3)->orderByDesc('id')->get();
-        } else {
-            $enquiries = Enquiries::where('type', 3)->where('vendor_id', auth()->user()->type == 2 ? auth()->user()->id : auth()->user()->vendor_id)->orderByDesc('id')->get();
+        $enquiries = Enquiries::whereIn('type', [3, 4]);
+        if (auth()->user()->type != 1) {
+            $enquiries = $enquiries->where('vendor_id', auth()->user()->type == 2 ? auth()->user()->id : auth()->user()->vendor_id);
         }
-
+        $enquiries = $enquiries->latest()->get();
         return view('admin.enquiry.dome_requests', compact('enquiries'));
     }
     public function dome_request_reply(Request $request)

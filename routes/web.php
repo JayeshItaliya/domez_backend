@@ -80,6 +80,7 @@ Route::group(['middleware' => 'SetTimeZoneMiddleware'], function () {
         Route::get('dashboard', [AdminController::class, 'dashboard'])->name('admins.dashboard');
         Route::get('calendar', [BookingController::class, 'calendar']);
         Route::get('change-lang-{lang}', [SettingsController::class, 'change_language']);
+        Route::post('password-reset', [SettingsController::class, 'resetpassword'])->name('password.reset');
         Route::group(['prefix' => 'domes'], function () {
             Route::get('/', [DomesController::class, 'index']);
             Route::get('details-{id}', [DomesController::class, 'dome_details']);

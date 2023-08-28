@@ -282,7 +282,6 @@
                         {
                             title: "#{{ $booking->booking_id }}",
                             start: "{{ $booking->start_date }}",
-                            // end: "{{ $booking->end_date }}",
                             url: "{{ URL::to('admin/bookings/details-' . $booking->booking_id) }}",
                             dome_name: '{{ $booking->dome_name != '' ? Str::limit($booking->dome_name->name, 20) : '' }}',
                             users_name: '{{ $booking->customer_name != '' ? Str::limit($booking->customer_name, 20) : '' }}',

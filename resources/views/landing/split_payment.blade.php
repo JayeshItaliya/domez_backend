@@ -37,7 +37,7 @@
     </style>
     <div class="layout">
         <header class="container header-section-contact">
-            <nav class="navbar navbar-expand-lg navbar-light">
+            <nav class="navbar navbar-expand-lg navbar-light pt-4">
                 <a class="navbar-brand logo-img" href="{{ URL::to('/') }}">
                     <img src="{{ url('storage/app/public/admin/images/logo_dark.png') }}">
                 </a>

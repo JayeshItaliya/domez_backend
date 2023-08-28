@@ -33,7 +33,7 @@
 <body>
     <div class="layout">
         <header class="container header-section">
-            <nav class="navbar navbar-expand-lg navbar-light">
+            <nav class="navbar navbar-expand-lg navbar-light pt-4">
                 <a class="navbar-brand logo-img" href="{{ URL::to('/') }}">
 
                     <img src="{{ url('storage/app/public/admin/images/logo_dark.png') }}">
@@ -211,8 +211,10 @@
                                 their portion since the app
                                 splits the amount among the number of
                                 players equally through shared access to the booking. No more the hassle of paying back
-                                and missed calculations after each match. An option to pay in full is also offered if
+                                and missed calculations after each match.</p>
+                            <p class="text-muted fw-semibold" style="text-align: justify">An option to pay in full is also offered if
                                 one player would like to pay for the whole booking fee.</p>
+
                             <a href="{{ URL::to('contact') }}"
                                 class="btn btn-success dmz-button wow fadeInRight delay-0-2s animated">Get Started</a>
                         </div>
@@ -366,8 +368,8 @@
                 <div class="row  align-items-center">
                     <div class="col-lg-6 pt-sm-5">
                         <div class="game-details-text" data-wow-duration="2s">
-                            <h2 class="wow fadeInDown  delay-0-2s animated">Do you have any questions? We are here to
-                                help!</h2>
+                            <h2 class="wow fadeInDown  delay-0-2s animated mb-0">Do you have any questions?</h2>
+                            <h2 class="wow fadeInDown  delay-0-2s animated">We are here to help!</h2>
                             <form action="{{ URL::to('store-general-enquiries') }}" method="post">
                                 @csrf
                                 <div class="row">
@@ -376,7 +378,7 @@
                                             <label for="name" class="form-label fw-semibold">Name</label>
                                             <input class="form-control" autocomplete="off" type="name"
                                                 name="name" value="{{ old('name') }}" id="name"
-                                                placeholder="Name" required>
+                                                placeholder="Enter Name" required>
                                             @error('name')
                                                 <span class="text-danger">{{ $message }}</span>
                                             @enderror
@@ -384,10 +386,10 @@
                                     </div>
                                     <div class="col-6">
                                         <div class="form-group">
-                                            <label for="email" class="form-label fw-semibold">Email</label>
+                                            <label for="email" class="form-label fw-semibold">Email * </label>
                                             <input class="form-control" autocomplete="off" type="email"
                                                 name="email" value="{{ old('email') }}" id="email"
-                                                placeholder="Email" required>
+                                                placeholder="Enter Email" required>
                                             @error('email')
                                                 <span class="text-danger">{{ $message }}</span>
                                             @enderror
@@ -395,9 +397,9 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="subject" class="form-label fw-semibold">Subject</label>
+                                    <label for="subject" class="form-label fw-semibold">Subject * </label>
                                     <input class="form-control" autocomplete="off" type="subject" name="subject"
-                                        value="{{ old('subject') }}" id="subject" placeholder="Subject" required>
+                                        value="{{ old('subject') }}" id="subject" placeholder="Enter Subject" required>
                                     @error('subject')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
@@ -405,7 +407,7 @@
                                 <div class="form-group">
                                     <label for="message" class="form-label fw-semibold">Message</label>
                                     <textarea class="form-control" autocomplete="off" type="message" name="message" value="{{ old('message') }}"
-                                        id="message" placeholder="Message" rows="5" required></textarea>
+                                        id="message" placeholder="Enter Message" rows="5" required></textarea>
                                     @error('message')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror

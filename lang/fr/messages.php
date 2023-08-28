@@ -9,6 +9,7 @@ return [
     'price_required' => 'Veuillez entrer un prix',
     'name_required' => 'Veuillez entrer un nom',
     'email_exist' => 'Le-mail existe déjà !!',
+    'phone_required' => 'Veuillez entrer le numéro de téléphone',
     'phone_exist' => 'Le téléphone existe déjà !!',
     'field_exist' => 'Le champ existe déjà !!',
     'sport_exist' => 'Le sport existe déjà !!',
@@ -77,4 +78,10 @@ return [
     'warning_part_two' => ', Veuillez ajouter au moins un champ.',
     "old_password_invalid" => "L'ancien mot de passe n'est pas valide",
     "invalid_request" => "Requête invalide!",
+    "dome_zipcode_required" => "Le code postal du Dôme est requis",
+    "dome_city_required" => "La ville du Dôme est requise",
+    "dome_state_required" => "L'état du Dôme est requis",
+    "dome_country_required" => "Le pays du Dôme est requis",
+    "dome_address_required" => "L'adresse du Dôme est requise",
+    "field_required" => "Ce champ est obligatoire !"
 ];

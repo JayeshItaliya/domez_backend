@@ -9,7 +9,7 @@
                 <p class="text-secondary fw-semibold">{{ trans('labels.dome_requests') }}</p>
                 <nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='%236c757d'/%3E%3C/svg%3E&#34;);"
                     aria-label="breadcrumb">
-                    <ol class="breadcrumb m-0">
+                    <ol class="breadcrumb m-0 align-items-center">
                         {!! Helper::breadcrumb_home_li() !!}
                         <li class="breadcrumb-item">{{ trans('labels.dome_requests') }}</li>
                     </ol>
@@ -29,6 +29,7 @@
                             <th>{{ trans('labels.phone_number') }}</th>
                             <th>{{ trans('labels.dome_name') }}</th>
                             <th>{{ trans('labels.country') }}</th>
+                            <th>{{ trans('labels.requested_from') }}</th>
                             <th>{{ trans('labels.status') }}</th>
                             @if (auth()->user()->type == 1)
                                 <th>{{ trans('labels.action') }}</th>
@@ -49,6 +50,8 @@
                                 <td>{{ $enquiry->phone != '' ? '+1' . $enquiry->phone : '' }}</td>
                                 <td>{{ $enquiry->dome_name }}</td>
                                 <td>{{ $enquiry->dome_country }}</td>
+                                <td>{{ $enquiry->type == 3 ? trans('labels.dome_owner_panel') : trans('labels.mobile_application') }}
+                                </td>
                                 <td>
                                     @if ($enquiry->is_accepted == 1)
                                         <span
@@ -82,8 +85,7 @@
                                                             d="M3.25833 3.70833L1.125 6.04167L3.25833 8.375M1.125 6.04167H6.99167C7.55746 6.04167 8.10008 5.79583 8.50016 5.35825C8.90024 4.92066 9.125 4.32717 9.125 3.70833C9.125 3.08949 8.90024 2.496 8.50016 2.05842C8.10008 1.62083 7.55746 1.375 6.99167 1.375H6.45833"
                                                             stroke="#2196F3" stroke-width="1.25" stroke-linecap="round"
                                                             stroke-linejoin="round" />
-                                                    </svg>
-                                                    {{ trans('labels.reply') }}
+                                                    </svg> {{ trans('labels.reply') }}
                                                 </span>
                                             @endif
                                             @if ($enquiry->is_accepted == 2)

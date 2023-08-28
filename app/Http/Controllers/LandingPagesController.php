@@ -8,6 +8,7 @@ use App\Models\Booking;
 use App\Models\Transaction;
 use Illuminate\Support\Facades\URL;
 use App\Helper\Helper;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 
 class LandingPagesController extends Controller
@@ -39,10 +40,9 @@ class LandingPagesController extends Controller
     public function store_general_enquiries(Request $request)
     {
         $request->validate([
-            'name' => 'required',
             'email' => 'required|email',
             'subject' => 'required|max:150',
-            'message' => 'required|max:500',
+            'message' => 'max:500',
         ], [
             'name.required' => 'Name is required.',
             'email.required' => 'Email is required.',
@@ -54,10 +54,10 @@ class LandingPagesController extends Controller
         ]);
         $enquiry = new Enquiries();
         $enquiry->type = 2;
-        $enquiry->name = $request->name;
+        $enquiry->name = $request->name ?? '';
         $enquiry->email = $request->email;
         $enquiry->subject = $request->subject;
-        $enquiry->message = $request->message;
+        $enquiry->message = $request->message ?? '';
         $enquiry->save();
         return redirect()->back()->with('success', trans('messages.success'));
     }
@@ -83,52 +83,59 @@ class LandingPagesController extends Controller
                 return response()->json(['status' => 1, 'message' => "OTP Verification Successfull"], 200);
             }
         }
-        $request->validate([
-            'name' => 'required',
-            'email' => 'required|email|unique:users,email',
-            'phone' => 'required',
-            'dome_name' => 'required',
-            'dome_city' => 'required',
-            'dome_state' => 'required',
-            'dome_country' => 'required',
-            'dome_address' => 'required',
-        ], [
-            'name.required' => 'Name is required.',
-            'email.required' => 'Email is required.',
-            'email.email' => 'Invalid Email Address.',
-            'email.unique' => trans('messages.email_exist'),
-            'phone.required' => 'Phone is required.',
-            'dome_name.required' => 'Dome Name is required.',
-            'dome_zipcode.required' => 'Dome Zipcode is required.',
-            'dome_city.required' => 'Dome City is required.',
-            'dome_state.required' => 'Dome State is required.',
-            'dome_country.required' => 'Dome Country is required.',
-            'dome_address.required' => 'Dome Address is required.',
-        ]);
-        $enquiry = new Enquiries();
-        $enquiry->type = 3;
-        $enquiry->name = $request->name;
-        $enquiry->email = $request->email;
-        $enquiry->phone = $request->phone;
-        $enquiry->dome_name = $request->dome_name;
-        $enquiry->venue_address = $request->dome_address;
-        $enquiry->dome_zipcode = $request->dome_zipcode;
-        $enquiry->dome_city = $request->dome_city;
-        $enquiry->dome_state = $request->dome_state;
-        $enquiry->dome_country = $request->dome_country;
-        $enquiry->venue_address = $request->dome_address;
-        $enquiry->save();
-        $user_data = ['title' => 'New Dome Request', 'admin' => Helper::admin_data()->name, 'enquirydata' => $enquiry];
-        Mail::send('email.request_new_dome', $user_data, function ($message) use ($user_data) {
-            $message->from(config('app.mail_username'))->subject($user_data['title']);
-            $message->to(Helper::admin_data()->email);
-        });
-        $data = ['title' => 'New Dome Request', 'email' => $enquiry->email, 'name' => $enquiry->name];
-        Mail::send('email.new_dome_enquiry', $data, function ($message) use ($data) {
-            $message->from(config('app.mail_username'))->subject($data['title']);
-            $message->to($data['email']);
-        });
-        return redirect('/')->with('success', trans('messages.success'));
+        DB::beginTransaction();
+        try {
+            $request->validate([
+                'name' => 'required',
+                'email' => 'required|email|unique:users,email',
+                'phone' => 'required',
+                'dome_name' => 'required',
+                'dome_city' => 'required',
+                'dome_state' => 'required',
+                'dome_country' => 'required',
+                'dome_address' => 'required',
+            ], [
+                'name.required' => 'Name is required.',
+                'email.required' => 'Email is required.',
+                'email.email' => 'Invalid Email Address.',
+                'email.unique' => 'Email already exists!!',
+                'phone.required' => 'Phone is required.',
+                'dome_name.required' => 'Dome Name is required.',
+                'dome_zipcode.required' => 'Dome Zipcode is required.',
+                'dome_city.required' => 'Dome City is required.',
+                'dome_state.required' => 'Dome State is required.',
+                'dome_country.required' => 'Dome Country is required.',
+                'dome_address.required' => 'Dome Address is required.',
+            ]);
+            $enquiry = new Enquiries();
+            $enquiry->type = 3;
+            $enquiry->name = $request->name;
+            $enquiry->email = $request->email;
+            $enquiry->phone = $request->phone;
+            $enquiry->dome_name = $request->dome_name;
+            $enquiry->venue_address = $request->dome_address;
+            $enquiry->dome_zipcode = $request->dome_zipcode;
+            $enquiry->dome_city = $request->dome_city;
+            $enquiry->dome_state = $request->dome_state;
+            $enquiry->dome_country = $request->dome_country;
+            $enquiry->venue_address = $request->dome_address;
+            $enquiry->save();
+            $user_data = ['title' => 'New Dome Request', 'admin' => Helper::admin_data()->name, 'enquirydata' => $enquiry];
+            Mail::send('email.request_new_dome', $user_data, function ($message) use ($user_data) {
+                $message->from(config('app.mail_username'))->subject($user_data['title']);
+                $message->to(Helper::admin_data()->email);
+            });
+            $data = ['title' => 'New Dome Request', 'email' => $enquiry->email, 'name' => $enquiry->name];
+            Mail::send('email.new_dome_enquiry', $data, function ($message) use ($data) {
+                $message->from(config('app.mail_username'))->subject($data['title']);
+                $message->to($data['email']);
+            });
+            DB::commit();
+            return redirect()->back()->with('success', trans('messages.success'));
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return redirect()->back()->with('error', trans('messages.wrong'));
+        }
     }
     public function split_payment(Request $request)
     {
