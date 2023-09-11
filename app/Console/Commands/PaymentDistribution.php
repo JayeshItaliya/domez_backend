@@ -49,7 +49,7 @@ class PaymentDistribution extends Command
 
                             $final_amount = $distribution_amount - $cancellation_charges;
                             Transfer::create([
-                                'amount' => $final_amount * 100,
+                                'amount' => (int) ($final_amount * 100),
                                 'currency' => 'CAD',
                                 'destination' => $getaccountid->account_id,
                             ]);
@@ -60,7 +60,7 @@ class PaymentDistribution extends Command
                         } catch (\Throwable $th) {
                             // $this->info(' Unable To Distribute Amount For Booking IDs :- ' . implode(',', $getbookingids) . ' ||| To Account --> "' . $getaccountid->account_id . '" (Vendor --> ' . $vendor->id . ') ');
                             $this->info(' ================================================== ');
-                            $this->info(' Unable To Distribute Amount For Booking IDs :- ' . implode(',', $getbookingids) . ' (Vendor --> ' . $vendor->id . ' - ' . $vendor->name . '--' . intval($final_amount * 100) .')  =========== due to =========== ' . $th->getMessage() . ' ');
+                            $this->info(' Unable To Distribute Amount For Booking IDs :- ' . implode(',', $getbookingids) . ' (Vendor --> ' . $vendor->id . ' - ' . $vendor->name . '--' . (int) ($final_amount * 100) .')  =========== due to =========== ' . $th->getMessage() . ' ');
                         }
                     } else {
                         $this->info(" =========================== Bookings not found for ============== $vendor->name ========= ");

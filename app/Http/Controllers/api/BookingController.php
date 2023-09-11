@@ -163,7 +163,8 @@ class BookingController extends Controller
                 }
                 $title = 'Booking Cancellation Confirmation';
                 $description = "We're sorry to hear that you have cancelled your booking. Here are the details of your cancellation:";
-                Helper::booking_cancelled_email($title, $description, $checkbooking, 3);
+                $data = Booking::find($checkbooking->booking_id);
+                Helper::booking_cancelled_email($title, $description, $data, 3);
 
                 return response()->json(['status' => 1, 'message' => 'Booking Has Been Successfully Cancelled'], 200);
             } else {

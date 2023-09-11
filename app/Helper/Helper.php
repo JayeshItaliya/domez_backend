@@ -66,6 +66,7 @@ class Helper
             });
             return 1;
         } catch (\Throwable $th) {
+            Log::info(" =========================== Email: booking_cancelled_email --- " . $bookingdata->id . " ==============" . $th->getMessage() . "========= ");
             return 0;
         }
     }
@@ -79,6 +80,7 @@ class Helper
             });
             return 1;
         } catch (\Throwable $th) {
+            Log::info(" =========================== Email: verificationemail --- " . $email . "==============" . $th->getMessage() . "========= ");
             return 0;
         }
     }
@@ -92,6 +94,7 @@ class Helper
             });
             return 1;
         } catch (\Throwable $th) {
+            Log::info(" =========================== Email: forgotpassword --- " . $email . "==============" . $th->getMessage() . "========= ");
             return 0;
         }
     }
@@ -105,6 +108,7 @@ class Helper
             });
             return 1;
         } catch (\Throwable $th) {
+            Log::info(" =========================== Email: invite_dome --- " . $email . "==============" . $th->getMessage() . "========= ");
             return 0;
         }
     }
@@ -118,6 +122,7 @@ class Helper
             });
             return 1;
         } catch (\Throwable $th) {
+            Log::info(" =========================== Email: booking_confirmation --- " . $bookingdata->id . " ==============" . $th->getMessage() . "========= ");
             return 0;
         }
     }

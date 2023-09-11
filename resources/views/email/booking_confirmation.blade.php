@@ -87,7 +87,7 @@
             </tr>
             <tr>
                 <th>Date </th>
-                <td>{{ $bookingdata->type == 1 ? Helper::date_format($bookingdata->booking_date) : Helper::date_format($bookingdata->start_date) . ' - ' . Helper::date_format($bookingdata->end_date) }}
+                <td>{{ $bookingdata->type == 1 ? Helper::date_format($bookingdata->start_date) : Helper::date_format($bookingdata->start_date) . ' - ' . Helper::date_format($bookingdata->end_date) }}
                 </td>
             </tr>
             <tr>
