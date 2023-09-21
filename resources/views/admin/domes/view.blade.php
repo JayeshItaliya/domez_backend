@@ -24,7 +24,7 @@
     </div>
     <div class="card mb-3">
         <div class="card-body">
-            @if (Auth::user()->type == 1)
+            @if (auth()->user()->type == 1)
                 <p class="mb-2 fw-semibold">{{ trans('labels.dome_owner') }}</p>
                 <div class="d-flex bg-gray">
                     <div class=" col-lg-6 col-md-6">

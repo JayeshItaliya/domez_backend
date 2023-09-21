@@ -31,7 +31,7 @@
                         <input type="text" id="name" name="name" placeholder="{{ trans('labels.name') }}" value="{{ old('name') }}"
                             class="form-control">
                         @error('name')
-                            <span class="text-danger">{{ $message }}</span>
+                            <small class="text-danger">{{ $message }}</small>
                         @enderror
                     </div>
                 </div>
@@ -41,7 +41,7 @@
                         <input type="text" id="email" name="email"
                             placeholder="{{ trans('labels.email_address') }}" class="form-control" value="{{ old('email') }}">
                         @error('email')
-                            <span class="text-danger">{{ $message }}</span>
+                            <small class="text-danger">{{ $message }}</small>
                         @enderror
                     </div>
                 </div>
@@ -51,7 +51,7 @@
                         <input type="password" id="password" name="password" placeholder="{{ trans('labels.password') }}"
                             class="form-control" value="{{ old('password') }}">
                         @error('password')
-                            <span class="text-danger">{{ $message }}</span>
+                            <small class="text-danger">{{ $message }}</small>
                         @enderror
                     </div>
                 </div>
@@ -64,7 +64,7 @@
                                 class="form-control custom-input rounded mb-3" placeholder="{{ trans('labels.phone_number') }}" value="{{ old('phone') }}">
                         </div>
                         @error('phone')
-                            <span class="text-danger">{{ $message }}</span>
+                            <small class="text-danger">{{ $message }}</small>
                         @enderror
                     </div>
                 </div>
@@ -74,7 +74,7 @@
                                 class="fs-8 text-muted">{{ trans('labels.optional') }}</span></label>
                         <input type="file" name="profile" id="profile" class="form-control">
                         @error('profile')
-                            <span class="text-danger">{{ $message }}</span>
+                            <small class="text-danger">{{ $message }}</small>
                         @enderror
                     </div>
                 </div>

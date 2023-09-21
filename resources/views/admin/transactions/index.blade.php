@@ -26,7 +26,7 @@
                             <th>{{ trans('labels.srno') }}</th>
                             <th>{{ trans('labels.payment_id') }}</th>
                             <th>{{ trans('labels.payment_type') }}</th>
-                            @if (Auth::user()->type == 1)
+                            @if (auth()->user()->type == 1)
                                 <th>{{ trans('labels.dome_owners') }}</th>
                             @endif
                             <th>{{ trans('labels.user_name') }}</th>
@@ -44,7 +44,7 @@
                                 <td>{{ $transaction->transaction_id }}</td>
                                 <td>{{ $transaction->payment_method == 1 ? trans('labels.card') : ($transaction->payment_method == 2 ? trans('labels.apple_pay') : trans('labels.google_pay')) }}
                                 </td>
-                                @if (Auth::user()->type == 1)
+                                @if (auth()->user()->type == 1)
                                     <td>{{ $transaction->dome_owner->name }}</td>
                                 @endif
                                 <td>{{ $transaction->user_name->name }}</td>

@@ -17,7 +17,7 @@ class Authenticate
      */
     public function handle(Request $request, Closure $next)
     {
-        if (Auth::user() && in_array(Auth::user()->type, [1, 2, 4, 5])) {
+        if (auth()->user() && in_array(auth()->user()->type, [1, 2, 4, 5])) {
             return $next($request);
         } else {
             return redirect('login');

@@ -114,7 +114,7 @@ return [
     'pending_bookings' => 'Pending Bookings',
     'cancel_bookings' => 'Cancel Bookings',
     'city' => 'City',
-    'pincode' => 'Zip/Postal Code',
+    'pincode' => 'Zip / Postal Code',
     'state' => 'State / Province',
     'country' => 'Country',
     'profile' => 'Profile',
@@ -288,4 +288,21 @@ return [
     'dome_owner_panel' => 'Dome Owner panel',
     'mobile_application' => 'Mobile Application',
     'reset_password' => 'Reset password',
+
+
+
+
+
+
+
+    'dome_settings' => 'Dome Settings',
+    'dome_policy' => 'Dome Policy',
+    'auto_bookings_system' => 'Auto Bookings System',
+    'select_age' => 'Select Age',
+    'selected_age' => 'Selected Age',
+    'below_discount' => 'Below Discount',
+    'above_discount' => 'Above Discount',
+    'max_fields_selection' => 'Max Fields Selection',
+    'multiple_fields_discount' => 'Multiple Fields Discount',
+    'fields_discount' => 'Fields Discount',
 ];

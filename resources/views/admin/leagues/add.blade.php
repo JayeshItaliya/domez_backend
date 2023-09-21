@@ -44,7 +44,7 @@
                                     @endforeach
                                 </select>
                                 @error('dome')
-                                    <span class="text-danger"> {{ $message }} </span>
+                                    <small class="text-danger">{{ $message }}</small>
                                 @enderror
                             </div>
                         </div>
@@ -55,7 +55,7 @@
                                     data-placeholder="{{ trans('labels.select') }}" multiple>
                                 </select>
                                 @error('field')
-                                    <span class="text-danger"> {{ $message }} </span>
+                                    <small class="text-danger">{{ $message }}</small>
                                 @enderror
                             </div>
                         </div>
@@ -69,7 +69,7 @@
                                 <input type="text" required class="form-control" id="name" name="name"
                                     value="{{ old('name') }}" placeholder="{{ trans('labels.league_name') }}">
                                 @error('name')
-                                    <span class="text-danger"> {{ $message }} </span>
+                                    <small class="text-danger">{{ $message }}</small>
                                 @enderror
                             </div>
                         </div>
@@ -81,7 +81,7 @@
                                     name="booking_deadline" value="{{ old('booking_deadline') }}"
                                     min="{{ date('Y-m-d') }}" {{ old('booking_deadline') == '' ? 'disabled' : '' }}>
                                 @error('booking_deadline')
-                                    <span class="text-danger"> {{ $message }} </span>
+                                    <small class="text-danger">{{ $message }}</small>
                                 @enderror
                             </div>
                         </div>
@@ -91,7 +91,7 @@
                     <label for="" class="form-label">{{ trans('labels.select_sports') }}</label>
                     <div class="d-flex radio-editer" data-sport-selected="{{ old('sport') ?? '' }}"></div>
                     @error('sport')
-                        <span class="text-danger"> {{ $message }} </span>
+                        <small class="text-danger">{{ $message }}</small>
                     @enderror
                 </div>
                 <div class="col-md-6">
@@ -102,7 +102,7 @@
                                 <input type="date" required class="form-control" name="start_date" id="start_date"
                                     value="{{ old('start_date') }}" min="{{ date('Y-m-d') }}">
                                 @error('start_date')
-                                    <span class="text-danger"> {{ $message }} </span>
+                                    <small class="text-danger">{{ $message }}</small>
                                 @enderror
                             </div>
                         </div>
@@ -112,7 +112,7 @@
                                 <input type="date" required class="form-control" name="end_date" id="end_date"
                                     value="{{ old('end_date') }}" disabled>
                                 @error('end_date')
-                                    <span class="text-danger"> {{ $message }} </span>
+                                    <small class="text-danger">{{ $message }}</small>
                                 @enderror
                             </div>
                         </div>
@@ -123,7 +123,7 @@
                                     value="{{ old('start_time') }}" placeholder="{{ trans('labels.start_time') }}"
                                     id="start_time">
                                 @error('start_time')
-                                    <span class="text-danger"> {{ $message }} </span>
+                                    <small class="text-danger">{{ $message }}</small>
                                 @enderror
                             </div>
                         </div>
@@ -134,7 +134,7 @@
                                     value="{{ old('end_time') }}" placeholder="{{ trans('labels.end_time') }}"
                                     id="end_time">
                                 @error('end_time')
-                                    <span class="text-danger"> {{ $message }} </span>
+                                    <small class="text-danger">{{ $message }}</small>
                                 @enderror
                             </div>
                         </div>
@@ -146,10 +146,10 @@
                         <select class="form-control" name="days[]" id="days" multiple required>
                         </select>
                         @error('days')
-                            <span class="text-danger"> {{ $message }} </span>
+                            <small class="text-danger">{{ $message }}</small>
                         @enderror
                         @if ($errors->has('days.0'))
-                            <span class="text-danger"> <br> {{ $errors->first('days.0') }} </span>
+                            <small class="text-danger"> <br> {{ $errors->first('days.0') }} </small>
                         @endif
                     </div>
                 </div>
@@ -166,7 +166,7 @@
                                     @endfor
                                 </select>
                                 @error('from_age')
-                                    <span class="text-danger"> {{ $message }} </span>
+                                    <small class="text-danger">{{ $message }}</small>
                                 @enderror
                             </div>
                         </div>
@@ -178,7 +178,7 @@
                                     <option value="" disabled selected>{{ trans('labels.to') }}</option>
                                 </select>
                                 @error('to_age')
-                                    <span class="text-danger"> {{ $message }} </span>
+                                    <small class="text-danger">{{ $message }}</small>
                                 @enderror
                             </div>
                         </div>
@@ -193,7 +193,7 @@
                                     @endfor
                                 </select>
                                 @error('min_player')
-                                    <span class="text-danger"> {{ $message }} </span>
+                                    <small class="text-danger">{{ $message }}</small>
                                 @enderror
                             </div>
                         </div>
@@ -205,7 +205,7 @@
                                     <option value="" disabled selected>{{ trans('labels.max_player') }}</option>
                                 </select>
                                 @error('max_player')
-                                    <span class="text-danger"> {{ $message }} </span>
+                                    <small class="text-danger">{{ $message }}</small>
                                 @enderror
                             </div>
                         </div>
@@ -225,7 +225,7 @@
                                         {{ trans('labels.mixed') }}</option>
                                 </select>
                                 @error('gender')
-                                    <span class="text-danger"> {{ $message }} </span>
+                                    <small class="text-danger">{{ $message }}</small>
                                 @enderror
                             </div>
                         </div>
@@ -239,7 +239,7 @@
                                     @endfor
                                 </select>
                                 @error('team_limit')
-                                    <span class="text-danger"> {{ $message }} </span>
+                                    <small class="text-danger">{{ $message }}</small>
                                 @enderror
                             </div>
                         </div>
@@ -251,7 +251,7 @@
                                     <input type="text" class="form-control numbers_only" name="price" id="price" required value="{{ old('price') }}" placeholder="{{ trans('labels.price_per_team') }}">
                                 </div>
                                 @error('price')
-                                    <span class="text-danger"> {{ $message }} </span>
+                                    <small class="text-danger">{{ $message }}</small>
                                 @enderror
                             </div>
                         </div>
@@ -262,7 +262,7 @@
                         <label class="form-label" for="image">{{ trans('labels.banner_images') }}</label>
                         <input type="file" required class="form-control" name="images[]" id="image">
                         @if ($errors->has('images'))
-                            <span class="text-danger">{{ $errors->first('images') }}</span>
+                            <small class="text-danger">{{ $errors->first('images') }}</small>
                         @endif
                     </div>
                 </div>

@@ -7,7 +7,7 @@
 @endsection
 @section('contents')
     <div class="dashboard">
-        @if (in_array(Auth::user()->type, [1, 2]))
+        @if (in_array(auth()->user()->type, [1, 2]))
             <div class="row mb-3">
                 <div class="col-md-6 mb-3 h-100">
                     <div class="card earning-card">
@@ -149,8 +149,8 @@
                     </div>
                 </div>
             </div>
-            @if (in_array(Auth::user()->type, [1, 2]))
-                <div class="{{ Auth::user()->type == 2 ? 'col-lg-6' : 'col-12' }}">
+            @if (in_array(auth()->user()->type, [1, 2]))
+                <div class="{{ auth()->user()->type == 2 ? 'col-lg-6' : 'col-12' }}">
                     <div class="card revenue-card" style="background: rgba(var(--bs-secondary-rgb),0.1)">
                         <div class="card-body">
                             <div class="d-flex align-items-center justify-content-between mb-3">
@@ -177,8 +177,8 @@
                     </div>
                 </div>
             @endif
-            @if (in_array(Auth::user()->type, [2, 4]))
-                <div class="{{ Auth::user()->type == 2 ? 'col-lg-6' : 'col-lg-12' }}">
+            @if (in_array(auth()->user()->type, [2, 4]))
+                <div class="{{ auth()->user()->type == 2 ? 'col-lg-6' : 'col-lg-12' }}">
                     <div class="card revenue-card" style="background: rgba(var(--bs-secondary-rgb),0.1)">
                         <div class="card-body">
                             <div class="d-flex align-items-center justify-content-between mb-3">
@@ -206,7 +206,7 @@
                 </div>
             @endif
         </div>
-        @if (Auth::user()->type == 1)
+        @if (auth()->user()->type == 1)
             <div class="row mb-3">
                 <div class="col-md-6">
                     <div class="card h-100 users-card">

@@ -53,7 +53,7 @@
                                 value="{{ old('email') }}" placeholder="{{ trans('labels.email_address') }}">
                             <label for="email">{{ trans('labels.email_address') }}</label>
                             @error('email')
-                                <span class="text-danger">{{ $message }}</span>
+                                <small class="text-danger">{{ $message }}</small>
                             @enderror
                         </div>
                         <div class="form-floating">
@@ -61,7 +61,7 @@
                                 value="{{ old('password') }}" placeholder="{{ trans('labels.password') }}">
                             <label for="password">{{ trans('labels.password') }}</label>
                             @error('password')
-                                <span class="text-danger">{{ $message }}</span>
+                                <small class="text-danger">{{ $message }}</small>
                             @enderror
                         </div>
                         <div class="d-flex justify-content-between">

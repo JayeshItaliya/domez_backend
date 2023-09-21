@@ -35,14 +35,14 @@
                                 @endforeach
                             </select>
                             @error('dome')
-                                <span class="text-danger">{{ $message }}</span>
+                                <small class="text-danger">{{ $message }}</small>
                             @enderror
                         </div>
                         <div class="col-sm-6">
                             <label class="form-label" for="sport_id">{{ trans('labels.select_sport') }}</label>
                             <select class="form-select" name="sport_id" id="sport_id"></select>
                             @error('sport_id')
-                                <span class="text-danger">{{ $message }}</span>
+                                <small class="text-danger">{{ $message }}</small>
                             @enderror
                         </div>
                     </div>
@@ -53,7 +53,7 @@
                         class="form-control" placeholder="{{ trans('labels.field_name') }}" max-character-err="{{ trans('messages.max_char_field_name') }}">
                         <small class="text-danger field_error"></small>
                     @error('field_name')
-                        <span class="text-danger">{{ $message }}</span>
+                        <small class="text-danger">{{ $message }}</small>
                     @enderror
                 </div>
                 <div class="mb-4 col-sm-6">
@@ -68,7 +68,7 @@
                                 @endfor
                             </select>
                             @error('min_person')
-                                <span class="text-danger">{{ $message }}</span>
+                                <small class="text-danger">{{ $message }}</small>
                             @enderror
                         </div>
                         <div class="col-6">
@@ -78,7 +78,7 @@
                                 </option>
                             </select>
                             @error('max_person')
-                                <span class="text-danger">{{ $message }}</span>
+                                <small class="text-danger">{{ $message }}</small>
                             @enderror
                         </div>
                     </div>
@@ -92,7 +92,7 @@
                             <span class="input-group-text">{{ trans('labels.sqft') }}</span>
                         </div>
                         @error('field_area')
-                            <span class="text-danger">{{ $message }}</span>
+                            <small class="text-danger">{{ $message }}</small>
                         @enderror
                     </div>
                 </div>
@@ -102,7 +102,7 @@
                         <input type="file" class="form-control" id="field_image" name="field_image"
                             value="{{ old('field_image') }}">
                         @error('field_image')
-                            <span class="text-danger">{{ $message }}</span>
+                            <small class="text-danger">{{ $message }}</small>
                         @enderror
                     </div>
                 </div>

@@ -36,14 +36,14 @@
                                         <option value="{{ $dome->id }}" data-start-time="{{ $dome->start_time }}" data-end-time="{{ $dome->end_time }}" data-slot-duration="{{ $dome->slot_duration }}" {{ $dome->id == $getleaguedata->dome_id ? 'selected' : '' }}> {{ $dome->name }}</option>
                                     @endforeach
                                 </select>
-                                @error('dome') <span class="text-danger"> {{ $message }} </span> @enderror
+                                @error('dome') <small class="text-danger">{{ $message }}</small> @enderror
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label class="form-label" for="field">{{ trans('labels.select_field') }}</label>
                                 <select class="form-control" name="field[]" id="field" data-placeholder="{{ trans('labels.select') }}" multiple required></select>
-                                @error('field') <span class="text-danger"> {{ $message }} </span> @enderror
+                                @error('field') <small class="text-danger">{{ $message }}</small> @enderror
                             </div>
                         </div>
                     </div>
@@ -54,14 +54,14 @@
                             <div class="form-group">
                                 <label for="name" class="form-label">{{ trans('labels.league_name') }}</label>
                                 <input type="text" class="form-control" id="name" name="name" value="{{ !empty(old('name')) ? old('name') : $getleaguedata->name }}" placeholder="{{ trans('labels.league_name') }}" required>
-                                @error('name') <span class="text-danger"> {{ $message }} </span> @enderror
+                                @error('name') <small class="text-danger">{{ $message }}</small> @enderror
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="name" class="form-label">{{ trans('labels.last_date_registration') }}</label>
                                 <input type="date" required class="form-control" id="booking_deadline" name="booking_deadline" value="{{ $getleaguedata->booking_deadline }}" max="{{ $getleaguedata->start_date }}">
-                                @error('booking_deadline') <span class="text-danger"> {{ $message }} </span> @enderror
+                                @error('booking_deadline') <small class="text-danger">{{ $message }}</small> @enderror
                             </div>
                         </div>
                     </div>
@@ -69,7 +69,7 @@
                 <div class="col-md-6">
                     <label for="" class="form-label">{{ trans('labels.select_sports') }}</label>
                     <div class="d-flex radio-editer"></div>
-                    @error('sport') <span class="text-danger"> {{ $message }} </span> @enderror
+                    @error('sport') <small class="text-danger">{{ $message }}</small> @enderror
                 </div>
                 <div class="col-md-6">
                     <div class="row">
@@ -77,28 +77,28 @@
                             <div class="form-group">
                                 <label for="start_date" class="form-label">{{ trans('labels.start_date') }}</label>
                                 <input type="date" required class="form-control" name="start_date" value="{{ $getleaguedata->start_date }}" id="start_date" min="{{ $getleaguedata->start_date }}">
-                                @error('start_date') <span class="text-danger"> {{ $message }} </span> @enderror
+                                @error('start_date') <small class="text-danger">{{ $message }}</small> @enderror
                             </div>
                         </div>
                         <div class="col-lg-3 col-md-6">
                             <div class="form-group">
                                 <label for="end_date" class="form-label">{{ trans('labels.end_date') }}</label>
                                 <input type="date" required class="form-control" name="end_date" value="{{ $getleaguedata->end_date }}" id="end_date" disabled>
-                                @error('end_date') <span class="text-danger"> {{ $message }} </span> @enderror
+                                @error('end_date') <small class="text-danger">{{ $message }}</small> @enderror
                             </div>
                         </div>
                         <div class="col-lg-3 col-md-6">
                             <div class="form-group">
                                 <label class="form-label" for="start_time">{{ trans('labels.start_time') }}</label>
                                 <input type="text" required class="form-control start time_picker" name="start_time" value="{{ $getleaguedata->start_time }}" placeholder="{{ trans('labels.start_time') }}" id="start_time">
-                                @error('start_time') <span class="text-danger"> {{ $message }} </span> @enderror
+                                @error('start_time') <small class="text-danger">{{ $message }}</small> @enderror
                             </div>
                         </div>
                         <div class="col-lg-3 col-md-6">
                             <div class="form-group">
                                 <label class="form-label" for="end_time">{{ trans('labels.end_time') }}</label>
                                 <input type="text" required class="form-control end time_picker" name="end_time" value="{{ $getleaguedata->end_time }}" placeholder="{{ trans('labels.end_time') }}" id="end_time">
-                                @error('end_time') <span class="text-danger"> {{ $message }} </span> @enderror
+                                @error('end_time') <small class="text-danger">{{ $message }}</small> @enderror
                             </div>
                         </div>
                     </div>
@@ -109,10 +109,10 @@
                         <select class="form-control" name="days[]" id="days" multiple required>
                         </select>
                         @error('days')
-                            <span class="text-danger"> {{ $message }} </span>
+                            <small class="text-danger">{{ $message }}</small>
                         @enderror
                         @if ($errors->has('days.0'))
-                            <span class="text-danger"> <br> {{ $errors->first('days.0') }} </span>
+                            <small class="text-danger"> <br> {{ $errors->first('days.0') }} </small>
                         @endif
                     </div>
                 </div>
@@ -127,7 +127,7 @@
                                         <option value="{{ $i }}" {{ $i == $getleaguedata->from_age ? 'selected' : '' }}>{{ $i }} </option>
                                     @endfor
                                 </select>
-                                @error('from_age') <span class="text-danger"> {{ $message }} </span> @enderror
+                                @error('from_age') <small class="text-danger">{{ $message }}</small> @enderror
                             </div>
                         </div>
                         <div class="col-md-3">
@@ -136,7 +136,7 @@
                                 <select class="form-select" required id="to_age" name="to_age" data-to-age="{{ $getleaguedata->to_age }}">
                                     <option value="" disabled selected>{{ trans('labels.to') }}</option>
                                 </select>
-                                @error('to_age') <span class="text-danger"> {{ $message }} </span> @enderror
+                                @error('to_age') <small class="text-danger">{{ $message }}</small> @enderror
                             </div>
                         </div>
                         <div class="col-md-3">
@@ -150,7 +150,7 @@
                                         </option>
                                     @endfor
                                 </select>
-                                @error('min_player') <span class="text-danger"> {{ $message }} </span> @enderror
+                                @error('min_player') <small class="text-danger">{{ $message }}</small> @enderror
                             </div>
                         </div>
                         <div class="col-md-3">
@@ -159,7 +159,7 @@
                                 <select class="form-select" required id="max_player" name="max_player" data-max-players="{{ $getleaguedata->max_player }}">
                                     <option value="" disabled selected>{{ trans('labels.max_player') }}</option>
                                 </select>
-                                @error('max_player') <span class="text-danger"> {{ $message }} </span> @enderror
+                                @error('max_player') <small class="text-danger">{{ $message }}</small> @enderror
                             </div>
                         </div>
                     </div>
@@ -174,7 +174,7 @@
                                     <option value="2" {{ $getleaguedata->gender == 2 ? 'selected' : '' }}> {{ trans('labels.women') }}</option>
                                     <option value="3" {{ $getleaguedata->gender == 3 ? 'selected' : '' }}> {{ trans('labels.mixed') }}</option>
                                 </select>
-                                @error('gender') <span class="text-danger"> {{ $message }} </span> @enderror
+                                @error('gender') <small class="text-danger">{{ $message }}</small> @enderror
                             </div>
                         </div>
                         <div class="col-lg-4 col-md-6">
@@ -187,7 +187,7 @@
                                         </option>
                                     @endfor
                                 </select>
-                                @error('team_limit') <span class="text-danger"> {{ $message }} </span> @enderror
+                                @error('team_limit') <small class="text-danger">{{ $message }}</small> @enderror
                             </div>
                         </div>
                         <div class="col-lg-4 col-md-6">
@@ -197,7 +197,7 @@
                                     <span class="input-group-text" id="basic-addon1"><i class="fa fa-dollar"></i></span>
                                     <input type="text" class="form-control numbers_only" name="price" id="price" required value="{{ $getleaguedata->price }}" placeholder="{{ trans('labels.price_per_team') }}">
                                 </div>
-                                @error('price') <span class="text-danger"> {{ $message }} </span> @enderror
+                                @error('price') <small class="text-danger">{{ $message }}</small> @enderror
                             </div>
                         </div>
                     </div>
@@ -207,7 +207,7 @@
                         <label class="form-label" for="image">{{ trans('labels.banner_images') }}</label>
                         <input type="file" class="form-control" name="images[]" id="image">
                         @if ($errors->has('images'))
-                            <span class="text-danger">{{ $errors->first('images') }}</span>
+                            <small class="text-danger">{{ $errors->first('images') }}</small>
                         @endif
                     </div>
                 </div>

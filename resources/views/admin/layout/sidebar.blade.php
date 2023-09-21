@@ -1,7 +1,7 @@
 <nav class="navbar navbar-light navbar-vertical navbar-expand-xl">
     <div class="navbar-wrapper">
         <ul class="navbar-nav d-block">
-            @if (Auth::user()->type != 5)
+            @if (auth()->user()->type != 5)
                 <a href="{{ URL::to('admin/dashboard') }}"
                     class="nav-item {{ request()->is('admin/dashboard') ? 'active' : '' }}">
                     <i
@@ -9,7 +9,7 @@
                     <span class="mx-3">{{ trans('labels.dashboard') }}</span>
                 </a>
             @endif
-            @if (Auth::user()->type == 2)
+            @if (auth()->user()->type == 2)
                 <a href="{{ URL::to('admin/workers') }}"
                     class="nav-item {{ request()->is('admin/workers*') ? 'active' : '' }}">
                     <i
@@ -23,7 +23,7 @@
                     <span class="mx-3">{{ trans('labels.providers') }}</span>
                 </a>
             @endif
-            @if (Auth::user()->type == 1)
+            @if (auth()->user()->type == 1)
                 <a href="{{ URL::to('admin/vendors') }}"
                     class="nav-item {{ request()->is('admin/vendors*') ? 'active' : '' }}">
                     <i
@@ -43,7 +43,7 @@
                     <span class="mx-3">{{ trans('labels.sports') }}</span>
                 </a>
             @endif
-            @if (Auth::user()->type != 5)
+            @if (auth()->user()->type != 5)
                 <a href="#domesmanagement"
                     class="nav-item {{ request()->is('admin/domes*') || request()->is('admin/field*') || request()->is('admin/set-prices*') ? 'active' : '' }}"
                     data-bs-toggle="collapse" role="button"
@@ -69,16 +69,22 @@
                             <span
                                 class="nav-link {{ request()->is('admin/domes*') ? 'active' : '' }}">{{ trans('labels.domes') }}</span>
                         </a>
-                        @if (Auth::user()->type == 2)
+                        @if (auth()->user()->type == 2)
                             <a href="{{ URL::to('admin/fields') }}" class="nav-item">
                                 <span
                                     class="nav-link {{ request()->is('admin/field*') ? 'active' : '' }}">{{ trans('labels.fields') }}</span>
                             </a>
                         @endif
-                        @if (in_array(Auth::user()->type, [2, 4]))
-                            <a href="{{ URL::to('admin/set-prices') }}" class="nav-item">
+                        @if (in_array(auth()->user()->type, [2, 4]))
+                        <a href="{{ URL::to('admin/set-prices') }}" class="nav-item">
+                            <span
+                            class="nav-link {{ request()->is('admin/set-prices*') ? 'active' : '' }}">{{ trans('labels.set_prices') }}</span>
+                        </a>
+                        @endif
+                        @if (auth()->user()->type == 2)
+                            <a href="{{ URL::to('admin/dome-settings') }}" class="nav-item">
                                 <span
-                                    class="nav-link {{ request()->is('admin/set-prices*') ? 'active' : '' }}">{{ trans('labels.set_prices') }}</span>
+                                    class="nav-link {{ request()->is('admin/dome-settings*') ? 'active' : '' }}">{{ trans('labels.dome_settings') }}</span>
                             </a>
                         @endif
                     </ul>
@@ -96,7 +102,7 @@
                     class="fa-regular fa-calendar-circle-plus {{ request()->is('admin/bookings*') ? 'text-secondary' : '' }}"></i>
                 <span class="mx-3">{{ trans('labels.bookings') }}</span>
             </a>
-            @if (in_array(Auth::user()->type, [1, 2]))
+            @if (in_array(auth()->user()->type, [1, 2]))
                 <a href="{{ URL::to('admin/transactions') }}"
                     class="nav-item {{ request()->is('admin/transactions*') ? 'active' : '' }}">
                     <i
@@ -104,7 +110,7 @@
                     <span class="mx-3">{{ trans('labels.transactions') }}</span>
                 </a>
             @endif
-            @if (Auth::user()->type != 5)
+            @if (auth()->user()->type != 5)
                 <a href="{{ URL::to('admin/calendar') }}"
                     class="nav-item {{ request()->is('admin/calendar*') ? 'active' : '' }}">
                     <i
@@ -112,14 +118,14 @@
                     <span class="mx-3">{{ trans('labels.calendar') }}</span>
                 </a>
             @endif
-            @if (in_array(Auth::user()->type, [2, 4]))
+            @if (in_array(auth()->user()->type, [2, 4]))
                 <a href="{{ URL::to('admin/reviews') }}"
                     class="nav-item {{ request()->is('admin/reviews*') ? 'active' : '' }}">
                     <i
                         class="fa-regular fa-star-exclamation {{ request()->is('admin/reviews*') ? 'text-secondary' : '' }}"></i>
                     <span class="mx-3">{{ trans('labels.reviews') }}</span>
                 </a>
-                @if (Auth::user()->type == 2)
+                @if (auth()->user()->type == 2)
                     <a href="{{ URL::to('admin/enquiries/dome-requests') }}"
                         class="nav-item {{ request()->is('admin/enquiries/dome-requests*') ? 'active' : '' }}">
                         <i class="fa-regular fa-comments-question {{ request()->is('admin/enquiries*') ? 'text-secondary' : '' }}"></i>
@@ -127,7 +133,7 @@
                     </a>
                 @endif
             @endif
-            @if (Auth::user()->type == 1)
+            @if (auth()->user()->type == 1)
                 <a href="#enquiry" class="nav-item {{ request()->is('admin/enquiries*') ? 'active' : '' }}"
                     data-bs-toggle="collapse" role="button"
                     aria-expanded="{{ request()->is('admin/enquiries*') ? 'true' : 'false' }}" aria-controls="enquiry">
@@ -236,13 +242,13 @@
                         <span
                             class="nav-link {{ request()->is('admin/settings/edit-profile') ? 'active' : '' }}">{{ trans('labels.edit_profile') }}</span>
                     </a>
-                    @if (in_array(Auth::user()->type, [1, 2]))
+                    @if (in_array(auth()->user()->type, [1, 2]))
                         <a href="{{ URL::to('admin/settings/stripe-setting') }}" class="nav-item">
                             <span
                                 class="nav-link {{ request()->is('admin/settings/stripe-setting') ? 'active' : '' }}">{{ trans('labels.stripe_settings') }}</span>
                         </a>
                     @endif
-                    @if (Auth::user()->type == 1)
+                    @if (auth()->user()->type == 1)
                         <a href="{{ URL::to('admin/settings/email-setting') }}" class="nav-item">
                             <span
                                 class="nav-link {{ request()->is('admin/settings/email-setting') ? 'active' : '' }}">{{ trans('labels.email_settings') }}</span>
@@ -250,7 +256,7 @@
                     @endif
                 </ul>
             </div>
-            @if (Auth::user()->type != 5)
+            @if (auth()->user()->type != 5)
                 <a href="{{ URL::to('admin/supports') }}"
                     class="nav-item {{ request()->is('admin/supports*') ? 'active' : '' }}">
                     <i class="fa-regular fa-circle-question"

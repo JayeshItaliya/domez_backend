@@ -34,7 +34,7 @@
                                 <input type="text" class="form-control" name="name" id="name"
                                     value="{{ !empty(old('name')) ? old('name') : $user->name }}" placeholder="{{ trans('labels.name') }}">
                                 @error('name')
-                                    <span class="text-danger">{{ $message }}</span>
+                                    <small class="text-danger">{{ $message }}</small>
                                 @enderror
                             </div>
                         </div>
@@ -44,7 +44,7 @@
                                 <input type="email" class="form-control" id="email_address" name="email_address"
                                     value="{{ !empty(old('email_address')) ? old('email_address') : $user->email }}" placeholder="{{ trans('labels.email_address') }}">
                                 @error('email_address')
-                                    <span class="text-danger">{{ $message }}</span>
+                                    <small class="text-danger">{{ $message }}</small>
                                 @enderror
                             </div>
                         </div>
@@ -58,7 +58,7 @@
                                         placeholder="{{ trans('labels.phone_number') }}" value="{{ !empty(old('country')) ? old('country') : $user->phone }}">
                                 </div>
                                 @error('phone_number')
-                                    <span class="text-danger">{{ $message }}</span>
+                                    <small class="text-danger">{{ $message }}</small>
                                 @enderror
                             </div>
                         </div>
@@ -68,7 +68,7 @@
                                 <input type="file" class="form-control mt-2 mb-4" id="profile_image"
                                     name="profile_image">
                                 @error('profile_image')
-                                    <span class="text-danger">{{ $message }}</span>
+                                    <small class="text-danger">{{ $message }}</small>
                                 @enderror
                                 <div class="add-league-img mt-2">
                                     <img src="{{ Helper::image_path($user->image) }}" width="70" height="70"

@@ -23,7 +23,7 @@
                 <thead>
                     <tr>
                         <th>{{ trans('labels.srno') }}</th>
-                        @if (Auth::user()->type == 1)
+                        @if (auth()->user()->type == 1)
                             <th>{{ trans('labels.dome_owners') }}</th>
                         @endif
                         <th>{{ trans('labels.league_name') }}</th>
@@ -41,7 +41,7 @@
                     @foreach ($leaguesdata as $league)
                         <tr>
                             <td>{{ $i++ }}</td>
-                            @if (Auth::user()->type == 1)
+                            @if (auth()->user()->type == 1)
                                 <td>{{ $league->dome_owner->name }}</td>
                             @endif
                             <td>{{ $league->name }}</td>
@@ -59,11 +59,11 @@
                                     href="{{ URL::to('admin/leagues/details-' . $league->id) }}">
                                     {!! Helper::get_svg(1) !!}
                                 </a>
-                                @if (in_array(Auth::user()->type, [2, 4, 5]))
+                                @if (in_array(auth()->user()->type, [2, 4, 5]))
                                     <a class="cursor-pointer me-2"
                                         href="{{ URL::to('admin/leagues/edit-' . $league->id) }}"> {!! Helper::get_svg(2) !!}
                                     </a>
-                                    @if (Auth::user()->type == 2)
+                                    @if (auth()->user()->type == 2)
                                         <a class="cursor-pointer me-2"
                                             onclick="deletedata('{{ $league->id }}','{{ URL::to('admin/leagues/delete') }}')"
                                             class="mx-2"> {!! Helper::get_svg(3) !!} </a>

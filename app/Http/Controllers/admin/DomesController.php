@@ -17,6 +17,7 @@ use Carbon\Carbon;
 use Carbon\CarbonImmutable;
 use Illuminate\Support\Facades\DB;
 use App\Helper\Helper;
+use App\Models\DomeSettings;
 use App\Models\WorkingHours;
 use Illuminate\Support\Facades\Mail;
 
@@ -36,15 +37,16 @@ class DomesController extends Controller
     }
     public function add(Request $request)
     {
-        if (Domes::where('vendor_id', auth()->user()->vendor_id)->count() < auth()->user()->dome_limit) {
+        if (Domes::where('vendor_id', auth()->user()->id)->count() < auth()->user()->dome_limit) {
             $getsportslist = Sports::where('is_available', 1)->where('is_deleted', 2)->get();
             return view('admin.domes.add', compact('getsportslist'));
         } else {
-            return redirect('admin/domes');
+            return redirect('admin/domes')->with('error', trans('messages.invalid_request'));
         }
     }
     public function store(Request $request)
     {
+
         $request->validate([
             'sport_id' => 'required',
             'dome_name' => 'required',
@@ -54,6 +56,7 @@ class DomesController extends Controller
             'address' => 'required',
             'benefits' => 'array',
             'benefits.*' => 'in:Free Wifi,Changing Room,Parking,Pool,Others',
+            'dome_images' => 'required',
         ], [
             'sport_id.required' => trans('messages.select_sport'),
             'dome_name.required' => trans('messages.name_required'),
@@ -61,6 +64,7 @@ class DomesController extends Controller
             'dome_price.required' => trans('messages.price_required'),
             'description.required' => trans('messages.description_required'),
             'address.required' => trans('messages.address_required'),
+            'dome_images.required' => trans('messages.image_required'),
         ]);
         DB::beginTransaction();
         try {
@@ -94,9 +98,8 @@ class DomesController extends Controller
             }
             if ($request->has('dome_images')) {
                 $request->validate([
-                    'dome_images.*' => 'required|image|mimes:png,jpg,jpeg,svg|max:7168',
+                    'dome_images.*' => 'image|mimes:png,jpg,jpeg,svg|max:7168',
                 ], [
-                    'dome_images.required' => trans('messages.image_required'),
                     'dome_images.image' => trans('messages.valid_image'),
                     'dome_images.mimes' => trans('messages.valid_image_type'),
                     'dome_images.max' => trans('messages.valid_image_size'),
@@ -124,6 +127,16 @@ class DomesController extends Controller
                 $checksportexist->end_date = null;
                 $checksportexist->save();
             }
+            $dome_settings = new DomeSettings;
+            $dome_settings->dome_id = $dome->id;
+            $dome_settings->accept_decline_bookings = $request->has('auto_bookings_system') && $request->auto_bookings_system == "on" ?? 1;
+            $dome_settings->age = $request->age;
+            $dome_settings->age_below_discount = $request->age == 0 ? 0 : $request->age_below_discount;
+            $dome_settings->age_above_discount = $request->age == 0 ? 0 : $request->age_above_discount;
+            $dome_settings->max_fields = $request->max_fields_selection;
+            $dome_settings->fields_discount = $dome_settings->max_fields == 0 ? 0 : $request->multiple_fields_discount;
+            $dome_settings->policy = $request->dome_policy;
+            $dome_settings->save();
             DB::commit();
             return redirect('admin/domes')->with('success', trans('messages.success'));
         } catch (\Throwable $th) {
@@ -266,7 +279,7 @@ class DomesController extends Controller
     }
     public function edit(Request $request)
     {
-        $dome = Domes::with('dome_images')->find($request->id);
+        $dome = Domes::with(['dome_images', 'dome_setting'])->find($request->id);
         $getsportslist = Sports::where('is_available', 1)->where('is_deleted', 2)->get();
         return view('admin.domes.edit', compact('dome', 'getsportslist'));
     }
@@ -337,6 +350,15 @@ class DomesController extends Controller
                 $checksportexist->price = $request->dome_price[$key];
                 $checksportexist->save();
             }
+            $dome_settings = DomeSettings::where('dome_id', $dome->id)->first();
+            $dome_settings->accept_decline_bookings = $request->has('auto_bookings_system') && $request->auto_bookings_system == "on" ? 1 : 2;
+            $dome_settings->age = $request->age;
+            $dome_settings->age_below_discount = $request->age == 0 ? 0 : $request->age_below_discount;
+            $dome_settings->age_above_discount = $request->age == 0 ? 0 : $request->age_above_discount;
+            $dome_settings->max_fields = $request->max_fields_selection;
+            $dome_settings->fields_discount = $dome_settings->max_fields == 0 ? 0 : $request->multiple_fields_discount;
+            $dome_settings->policy = $request->dome_policy;
+            $dome_settings->save();
             DB::commit();
             return redirect('admin/domes')->with('success', trans('messages.success'));
         } catch (\Throwable $th) {
@@ -354,6 +376,7 @@ class DomesController extends Controller
                 Favourite::where('dome_id', $checkdome->id)->delete();
                 League::where('dome_id', $checkdome->id)->update(['is_deleted' => 1]);
                 Field::where('dome_id', $checkdome->id)->update(['is_available' => 2, 'is_deleted' => 1]);
+                DomeSettings::where('dome_id', $checkdome->id)->delete();
                 return response()->json(['status' => 1, 'message' => trans('messages.success')], 200);
             }
             return response()->json(['status' => 0, 'message' => trans('messages.invalid_dome')], 200);
@@ -394,9 +417,9 @@ class DomesController extends Controller
                     $wh = WorkingHours::find($dayname);
                     if ($request->is_closed[$key] == 1) {
                         $dayy = Carbon::parse($wh->day);
-                        $checkleague = League::where('dome_id', $dome->id)->whereRaw("FIND_IN_SET(?, REPLACE(days, ' | ', ','))", [$dayy->format('D')])->whereDate('end_date','>',date('Y-m-d'))->first();
+                        $checkleague = League::where('dome_id', $dome->id)->whereRaw("FIND_IN_SET(?, REPLACE(days, ' | ', ','))", [$dayy->format('D')])->whereDate('end_date', '>', date('Y-m-d'))->first();
                         if (!empty($checkleague)) {
-                            if($request->update_ != 1){
+                            if ($request->update_ != 1) {
                                 return response()->json(['status' => 2, 'message' => 'League is running on some days. Are you sure to update working hours!'], 200);
                             }
                         }

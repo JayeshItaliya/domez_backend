@@ -20,8 +20,8 @@ return new class extends Migration
             $table->integer('sport_id');
             $table->date('start_date')->nullable();
             $table->date('end_date')->nullable();
-            $table->tinyInteger('price_type')->default(1)->comment('1=Default,2=Daywise');
-            $table->double('price', 8, 2);
+            $table->integer('price_type')->default(1)->comment('1=default,2=daywise');
+            $table->double('price', 8, 2)->default(0);
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent();
         });

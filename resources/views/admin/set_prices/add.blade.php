@@ -43,7 +43,7 @@
                                         @endforeach
                                     </select>
                                     @error('dome')
-                                        <span class="text-danger"> {{ $message }} </span>
+                                        <small class="text-danger">{{ $message }}</small>
                                     @enderror
                                 </div>
                             </div>
@@ -52,7 +52,7 @@
                                     <label class="form-label">{{ trans('labels.select_sports') }}</label>
                                     <select class="form-select" name="sport" id="sport"></select>
                                     @error('sport')
-                                        <span class="text-danger"> {{ $message }} </span>
+                                        <small class="text-danger">{{ $message }}</small>
                                     @enderror
                                 </div>
                             </div>
@@ -62,7 +62,7 @@
                                     <input type="date" class="form-control" name="start_date" id="start_date"
                                         min="{{ date('Y-m-d') }}" value="{{ old('start_date') }}">
                                     @error('start_date')
-                                        <span class="text-danger"> {{ $message }} </span>
+                                        <small class="text-danger">{{ $message }}</small>
                                     @enderror
                                 </div>
                             </div>
@@ -71,7 +71,7 @@
                                     <label for="end_date" class="form-label">{{ trans('labels.end_date') }}</label>
                                     <input type="date" class="form-control" name="end_date" id="end_date" disabled>
                                     @error('end_date')
-                                        <span class="text-danger"> {{ $message }} </span>
+                                        <small class="text-danger">{{ $message }}</small>
                                     @enderror
                                 </div>
                             </div>

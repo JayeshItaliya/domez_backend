@@ -23,7 +23,7 @@
                 <thead>
                     <tr>
                         <th>{{ trans('labels.srno') }}</th>
-                        @if (Auth::user()->type == 1)
+                        @if (auth()->user()->type == 1)
                             <th>{{ trans('labels.dome_owners') }}</th>
                         @endif
                         <th>{{ trans('labels.dome_name') }}</th>
@@ -40,7 +40,7 @@
                     @foreach ($domes as $dome)
                         <tr>
                             <td>{{ $i++ }}</td>
-                            @if (Auth::user()->type == 1)
+                            @if (auth()->user()->type == 1)
                                 <td>{{ $dome->dome_owner->name }}</td>
                             @endif
                             <td>{{ $dome->name }}</td>
@@ -58,7 +58,7 @@
                             <td>{{ $dome->day_working_hours('') != '' ? date('h:i A', strtotime($dome->day_working_hours('')->close_time)) : '-' }}</td>
                             <td>
                                 <a class="cursor-pointer me-2" href="{{ URL::to('admin/domes/details-' . $dome->id) }}"> {!! Helper::get_svg(1) !!} </a>
-                                @if (Auth::user()->type == 2)
+                                @if (auth()->user()->type == 2)
                                     <a class="cursor-pointer me-2" href="{{ URL::to('admin/domes/edit-' . $dome->id) }}"> {!! Helper::get_svg(2) !!} </a>
                                     <a class="cursor-pointer me-2" onclick="deletedata('{{ $dome->id }}','{{ URL::to('admin/domes/delete') }}')" class="mx-2"> {!! Helper::get_svg(3) !!} </a>
                                 @endif
@@ -117,7 +117,7 @@
         $(function() {
             if (is_vendor) {
                 let html = '';
-                if ({{ Js::from($domes_count) }} < {{ Js::from(Auth::user()->dome_limit) }}) {
+                if ({{ Js::from($domes_count) }} < {{ Js::from(auth()->user()->dome_limit) }}) {
                     html += '<a href="' + window.location.href.replace(window.location.search, '') + '/add" class="btn-custom-primary">' + plus_svg_icon + '</a>';
                 } else {
                     html += '<a href="javascript:;" data-bs-toggle="modal" data-bs-target="#new_dome_request" class="btn-custom-primary">' + plus_svg_icon + '</a>';

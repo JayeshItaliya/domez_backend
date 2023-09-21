@@ -34,17 +34,6 @@ use Illuminate\Support\Facades\Hash;
 |
 */
 
-if (count(User::get()) == 0) {
-    $user = new User;
-    $user->type = 1;
-    $user->login_type = 1;
-    $user->name = 'Admin';
-    $user->email = 'admin@gmail.com';
-    $user->password = Hash::make(12345678);
-    $user->is_verified = 1;
-    $user->save();
-}
-
 Route::get('/connects', [AdminController::class, 'connects']);
 
 Route::group(['middleware' => 'SetTimeZoneMiddleware'], function () {

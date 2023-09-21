@@ -56,7 +56,7 @@
                                 <label for="email">{{ trans('labels.email_address') }}</label>
                             </div>
                             @error('email')
-                                <span class="text-danger">{{ $message }}</span>
+                                <small class="text-danger">{{ $message }}</small>
                             @enderror
                         </div>
                         <button type="submit"

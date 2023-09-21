@@ -15,11 +15,11 @@ return new class extends Migration
     {
         Schema::create('reviews', function (Blueprint $table) {
             $table->id();
-            $table->integer('vendor_id');
-            $table->integer('dome_id');
-            $table->integer('user_id');
-            $table->integer('ratting');
-            $table->string('comment')->nullable();
+            $table->unsignedBigInteger('vendor_id');
+            $table->unsignedBigInteger('dome_id');
+            $table->unsignedBigInteger('user_id');
+            $table->integer('rating');
+            $table->string('comment', 255)->nullable();
             $table->text('reply_message')->nullable();
             $table->date('replied_at')->nullable();
             $table->timestamp('created_at')->useCurrent();

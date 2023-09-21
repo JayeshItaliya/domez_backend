@@ -5,6 +5,8 @@ namespace App\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Facades\DB;
 
 class Domes extends Model
@@ -54,5 +56,9 @@ class Domes extends Model
     public function scopeHasFields($query)
     {
         return $query->whereHas('fields');
+    }
+    public function dome_setting(): HasOne
+    {
+        return $this->hasOne(DomeSettings::class, 'dome_id');
     }
 }

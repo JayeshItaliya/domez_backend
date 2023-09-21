@@ -70,11 +70,11 @@
             }
         </style>
         <div class="container-fluid px-0">
-            @if (!empty(Auth::user()))
+            @if (!empty(auth()->user()))
                 @include('admin.layout.header')
             @endif
             <div class="d-flex">
-                @if (!empty(Auth::user()))
+                @if (!empty(auth()->user()))
                     @include('admin.layout.sidebar')
                 @endif
                 <div class="content-wrapper me-3">
@@ -185,9 +185,9 @@
         let wrong = {{ Js::from(trans('messages.wrong')) }};
         let oops = {{ Js::from(trans('messages.oops')) }};
         let no_data = {{ Js::from(trans('messages.no_data')) }};
-        let is_vendor = {{ Js::from(Auth::user()->type == 2 ? true : false) }};
-        let is_employee = {{ Js::from(Auth::user()->type == 4 ? true : false) }};
-        let is_provider = {{ Js::from(Auth::user()->type == 5 ? true : false) }};
+        let is_vendor = {{ Js::from(auth()->user()->type == 2 ? true : false) }};
+        let is_employee = {{ Js::from(auth()->user()->type == 4 ? true : false) }};
+        let is_provider = {{ Js::from(auth()->user()->type == 5 ? true : false) }};
         let plus_svg_icon =
             '<svg xmlns="http://www.w3.org/2000/svg" class="icon-tabler icon-tabler-plus" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="var(--bs-primary)" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" /></svg>';
         let primary_color = $('#primaryColor').css('color');

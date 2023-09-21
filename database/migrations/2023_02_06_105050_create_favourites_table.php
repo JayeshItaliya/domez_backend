@@ -15,9 +15,9 @@ return new class extends Migration
     {
         Schema::create('favourites', function (Blueprint $table) {
             $table->id();
-            $table->integer('user_id');
-            $table->integer('dome_id')->nullable();
-            $table->integer('league_id')->nullable();
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('dome_id')->nullable();
+            $table->unsignedBigInteger('league_id')->nullable();
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent();
         });

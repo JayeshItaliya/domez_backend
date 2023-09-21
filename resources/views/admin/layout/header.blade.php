@@ -10,13 +10,13 @@
         <ul class="nav-icons">
             {{-- Only use for development purpose -- START --}}
             @if (env('APP_ENV') == 'local')
-                @if (in_array(Auth::user()->type, [1, 2, 4]))
+                @if (in_array(auth()->user()->type, [1, 2, 4]))
                     <li class="dropdown">
                         <a href="{{ URL::to('admin/login-dev') }}"
-                            class="btn btn-primary">{{ Auth::user()->type == 1 ? 'Login as Dome Owner' : 'Login as Admin' }}</a>
+                            class="btn btn-primary">{{ auth()->user()->type == 1 ? 'Login as Dome Owner' : 'Login as Admin' }}</a>
                     </li>
                 @endif
-                @if (Auth::user()->type == 2)
+                @if (auth()->user()->type == 2)
                     <li class="dropdown ms-3">
                         <a href="{{ URL::to('admin/login-emp') }}" class="btn btn-primary">Login as Employee</a>
                     </li>
@@ -135,20 +135,20 @@
             <li class="dropdown">
                 <a href="#" class="nav-item profile-icon py-2" role="button" data-bs-toggle="dropdown"
                     aria-expanded="false">
-                    <img src="{{ Helper::image_path(Auth::user()->image) }}">
+                    <img src="{{ Helper::image_path(auth()->user()->image) }}">
                 </a>
                 <ul class="dropdown-menu box-shadow border-0 my-3">
                     <li class="white-space-nowrap px-3">
                         <p class="text-capitalize"><strong>{{ trans('labels.hello') }}</strong>
-                            {{ Auth::user()->name }}</p>
+                            {{ auth()->user()->name }}</p>
                         <small class="text-muted">
-                            @if (Auth::user()->type == 1)
+                            @if (auth()->user()->type == 1)
                                 {{ trans('labels.admin') }}
-                            @elseif (Auth::user()->type == 2)
+                            @elseif (auth()->user()->type == 2)
                                 {{ trans('labels.dome_owner') }}
-                            @elseif (Auth::user()->type == 4)
+                            @elseif (auth()->user()->type == 4)
                                 {{ trans('labels.employee') }}
-                            @elseif (Auth::user()->type == 5)
+                            @elseif (auth()->user()->type == 5)
                                 {{ trans('labels.provider') }}
                             @endif
                         </small>

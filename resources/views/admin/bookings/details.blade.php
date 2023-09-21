@@ -25,7 +25,7 @@
                 <div class="d-flex justify-content-between my-4">
                     <h4 class="fw-semibold">{{ trans('labels.booking_id') }} - {{ $bookingdata->booking_id }}</h4>
                     @if (
-                        (Auth::user()->type == 2 || Auth::user()->type == 4) &&
+                        (auth()->user()->type == 2 || auth()->user()->type == 4) &&
                             date('Y-m-d') == date('Y-m-d', strtotime($bookingdata->start_date)) &&
                             $bookingdata->league_id == '')
                         <a href="javascript:;" class="btn btn-outline-primary extend-time" data-bs-toggle="modal"

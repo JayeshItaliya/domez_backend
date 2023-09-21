@@ -17,7 +17,7 @@ class EmployeeMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        if (Auth::user()->type == 4) {
+        if (auth()->user()->type == 4) {
             return $next($request);
         } else {
             return redirect()->back();

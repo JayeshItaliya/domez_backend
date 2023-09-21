@@ -30,7 +30,7 @@
                         <input type="text" id="name" name="name" placeholder="{{ trans('labels.name') }}"
                             class="form-control" value="{{ !empty(old('name')) ? old('name') : $user->name }}">
                         @error('name')
-                            <span class="text-danger">{{ $message }}</span>
+                            <small class="text-danger">{{ $message }}</small>
                         @enderror
                     </div>
                 </div>
@@ -40,7 +40,7 @@
                         <input type="text" id="email" name="email" placeholder="{{ trans('labels.email') }}"
                             class="form-control" value="{{ !empty(old('email')) ? old('email') : $user->email }}">
                         @error('email')
-                            <span class="text-danger">{{ $message }}</span>
+                            <small class="text-danger">{{ $message }}</small>
                         @enderror
                     </div>
                 </div>
@@ -54,7 +54,7 @@
                                 placeholder="{{ trans('labels.phone_number') }}" value="{{ !empty(old('country')) ? old('country') : $user->phone }}">
                         </div>
                         @error('phone')
-                            <span class="text-danger">{{ $message }}</span>
+                            <small class="text-danger">{{ $message }}</small>
                         @enderror
                     </div>
                 </div>
@@ -64,7 +64,7 @@
                                 class="fs-8 text-muted">{{ trans('labels.optional') }}</span></label>
                         <input type="file" name="profile" id="profile" class="form-control">
                         @error('profile')
-                            <span class="text-danger">{{ $message }}</span>
+                            <small class="text-danger">{{ $message }}</small>
                         @enderror
                     </div>
                 </div>

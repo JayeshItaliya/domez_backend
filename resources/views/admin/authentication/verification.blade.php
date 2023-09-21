@@ -60,7 +60,7 @@
                             <input class="otp form-control" name="otp[]" type="text"
                                 oninput='digitValidate(this)'onkeyup='tabChange(4)'maxlength=1>
                             @error('otp')
-                                <span class="text-danger">{{ $message }}</span>
+                                <small class="text-danger">{{ $message }}</small>
                             @enderror
                         </div>
                         <button type="submit"

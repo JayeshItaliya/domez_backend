@@ -17,7 +17,7 @@ class ProviderMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        if (Auth::user()->type == 5) {
+        if (auth()->user()->type == 5) {
             return $next($request);
         } else {
             return redirect()->back();

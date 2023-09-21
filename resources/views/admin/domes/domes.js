@@ -115,8 +115,8 @@ $("#adddome, #editdome").on("submit", function () {
         }
     });
     if (check == 0) {
-        if ($("#exampleModal").is(":hidden")) {
-            $("#exampleModal").modal("show");
+        if ($("#add_working_hours").is(":hidden")) {
+            $("#add_working_hours").modal("show");
         }
         return false;
     }

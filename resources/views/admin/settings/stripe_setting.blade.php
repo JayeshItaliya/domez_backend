@@ -51,7 +51,7 @@
             <div class="card">
                 <div class="card-body">
                     <div class="row">
-                        @if (Auth::user()->type == 1)
+                        @if (auth()->user()->type == 1)
                             <form action="{{ URL::to('admin/payment-gateway/store-stripe') }}" method="POST">
                                 @csrf
                                 <div class="col-md-12">
@@ -61,7 +61,7 @@
                                             placeholder="{{ trans('labels.public_key') }}"
                                             value="{{ !empty($stripe->public_key) ? $stripe->public_key : old('public_key') }}">
                                         @error('public_key')
-                                            <span class="text-danger">{{ $message }}</span>
+                                            <small class="text-danger">{{ $message }}</small>
                                         @enderror
                                     </div>
                                 </div>
@@ -71,7 +71,7 @@
                                         <input type="text" class="form-control" id="secret_key"
                                             name="secret_key"placeholder="{{ trans('labels.secret_key') }}"value="{{ !empty($stripe->secret_key) ? $stripe->secret_key : old('secret_key') }}">
                                         @error('secret_key')
-                                            <span class="text-danger">{{ $message }}</span>
+                                            <small class="text-danger">{{ $message }}</small>
                                         @enderror
                                     </div>
                                 </div>
@@ -87,7 +87,7 @@
                                         name="account_id"placeholder="{{ trans('labels.account_id') }}"value="{{ !empty($stripe->account_id) ? $stripe->account_id : old('account_id') }}"
                                         aria-describedby="account_idHelp" disabled>
                                     @error('account_id')
-                                        <span class="text-danger">{{ $message }}</span>
+                                        <small class="text-danger">{{ $message }}</small>
                                     @enderror
                                 </div>
                             </div>

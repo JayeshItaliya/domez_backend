@@ -108,7 +108,7 @@ class SettingsController extends Controller
     }
     public function stripe_setting(Request $request)
     {
-        $stripe = PaymentGateway::where('type', 1)->where('vendor_id', Auth::user()->id)->first();
+        $stripe = PaymentGateway::where('type', 1)->where('vendor_id', auth()->user()->id)->first();
         return view('admin.settings.stripe_setting', compact('stripe'));
     }
     public function show_profile(Request $request)

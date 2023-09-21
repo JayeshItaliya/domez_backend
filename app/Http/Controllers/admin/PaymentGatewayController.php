@@ -27,7 +27,7 @@ class PaymentGatewayController extends Controller
             ]);
         }
 
-        $data = PaymentGateway::where('type', 1)->where('vendor_id', Auth::user()->id)->first();
+        $data = PaymentGateway::where('type', 1)->where('vendor_id', auth()->user()->id)->first();
         if (!empty($data)) {
             if ($request->has('account_id')) {
                 $data->account_id = $request->account_id;
@@ -39,7 +39,7 @@ class PaymentGatewayController extends Controller
         } else {
             $payment_gateway = new PaymentGateway();
             $payment_gateway->type = 1;
-            $payment_gateway->vendor_id = Auth::user()->id;
+            $payment_gateway->vendor_id = auth()->user()->id;
             if ($request->has('account_id')) {
                 $payment_gateway->account_id = $request->account_id;
             } else {

@@ -119,7 +119,7 @@
                             </td>
                             <td>
                                 <a class="cursor-pointer me-2" href="{{ URL::to('admin/bookings/details-' . $bookingdata->booking_id) }}"> {!! Helper::get_svg(1) !!} </a>
-                                @if (in_array(Auth::user()->type, [2, 4]) && $bookingdata->booking_status == 2)
+                                @if (in_array(auth()->user()->type, [2, 4]) && $bookingdata->booking_status == 2)
                                     <a class="cursor-pointer me-2" href="javascript:void(0)"
                                         onclick="deletedata('{{ $bookingdata->id }}','{{ URL::to('admin/bookings/cancel') }}')">
                                         <svg width="18" height="18" viewBox="0 0 18 18" fill="none"

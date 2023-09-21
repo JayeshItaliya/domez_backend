@@ -24,7 +24,7 @@
                     <tr>
                         <th>{{ trans('labels.srno') }}</th>
                         <th>{{ trans('labels.image') }}</th>
-                        @if (Auth::user()->type == 1)
+                        @if (auth()->user()->type == 1)
                             <th>{{ trans('labels.dome_owner') }}</th>
                             <th>{{ trans('labels.dome_name') }}</th>
                         @endif
@@ -33,7 +33,7 @@
                         <th>{{ trans('labels.min_person') }}</th>
                         <th>{{ trans('labels.max_person') }}</th>
                         <th>{{ trans('labels.maintenance') }}</th>
-                        @if (Auth::user()->type == 2)
+                        @if (auth()->user()->type == 2)
                             <th>{{ trans('labels.action') }}</th>
                         @endif
                     </tr>
@@ -45,7 +45,7 @@
                             <td>{{ $i++ }}</td>
                             <td> <img src="{{ Helper::image_path($data->image) }}" width="100" height="60"
                                     class="rounded"> </td>
-                            @if (Auth::user()->type == 1)
+                            @if (auth()->user()->type == 1)
                                 <td>{{ $data->dome_owner->name }}</td>
                                 <td>{{ $data->dome_name->name }}</td>
                             @endif
@@ -65,7 +65,7 @@
                                         onclick="fieldinactive('{{ $data->id }}','{{ $data->in_maintenance }}','{{ URL::to('admin/fields/maintenance') }}')">Active</span>
                                 @endif
                             </td>
-                            @if (Auth::user()->type == 2)
+                            @if (auth()->user()->type == 2)
                                 <td>
                                     <a href="{{ URL::to('admin/fields/edit-') . $data->id }}"
                                         class="text-secondary me-2 fs-3" data-bs-toggle="tooltip" data-bs-placement="bottom"

@@ -15,15 +15,15 @@ return new class extends Migration
     {
         Schema::create('fields', function (Blueprint $table) {
             $table->id();
-            $table->integer('vendor_id');
-            $table->integer('dome_id');
-            $table->string('sport_id');
+            $table->unsignedBigInteger('vendor_id');
+            $table->unsignedBigInteger('dome_id');
+            $table->unsignedBigInteger('sport_id');
             $table->string('name');
             $table->double('area', 8, 2)->default(0.00);
             $table->integer('min_person');
             $table->integer('max_person');
             $table->string('image');
-            $table->date('maintenance_date')->nullable()->comment('1=Yes, 2=No');
+            $table->date('maintenance_date')->nullable();
             $table->tinyInteger('in_maintenance')->default(2)->comment('1=Yes, 2=No');
             $table->tinyInteger('is_available')->default(1)->comment('1=Yes, 2=No');
             $table->tinyInteger('is_deleted')->default(2)->comment('1=Yes, 2=No');

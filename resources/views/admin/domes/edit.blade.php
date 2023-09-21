@@ -36,8 +36,10 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="form-group text-end">
-                        <button type="button" class="btn btn-outline-info" data-bs-toggle="modal"
-                            data-bs-target="#exampleModal">{{ trans('labels.edit_working_hours') }}</button>
+                        <button type="button" class="btn btn-outline-primary me-2" data-bs-toggle="modal"
+                            data-bs-target="#add_working_hours">{{ trans('labels.add_working_hours') }}</button>
+                        <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal"
+                            data-bs-target="#dome_settings">{{ trans('labels.settings') }}</button>
                     </div>
                 </div>
                 <div class="col-md-6">
@@ -49,7 +51,7 @@
                                     value="{{ !empty(old('dome_name')) ? old('dome_name') : $dome->name }}"
                                     class="form-control" placeholder="Please Enter Dome Name">
                                 @error('dome_name')
-                                    <span class="text-danger">{{ $message }}</span>
+                                    <small class="text-danger">{{ $message }}</small>
                                 @enderror
                             </div>
                         </div>
@@ -84,7 +86,7 @@
                                     </div>
                                 </div>
                                 @error('slot_duration')
-                                    <span class="text-danger">{{ $message }}</span>
+                                    <small class="text-danger">{{ $message }}</small>
                                 @enderror
                             </div>
                         </div>
@@ -154,7 +156,7 @@
                                 <textarea class="form-control" name="benefits_description" id="benefits_description" rows="4"
                                     placeholder="Please Enter Benefits Description">{{ !empty(old('benefits_description')) ? old('benefits_description') : $dome->benefits_description }}</textarea>
                                 @error('benefits_description')
-                                    <span class="text-danger">{{ $message }}</span>
+                                    <small class="text-danger">{{ $message }}</small>
                                 @enderror
                             </div>
                         </div>
@@ -171,7 +173,7 @@
                                     value="{{ !empty(old('address')) ? old('address') : $dome->address }}" id="address"
                                     placeholder="{{ trans('labels.dome_address') }}">
                                 @error('address')
-                                    <span class="text-danger">{{ $message }}</span>
+                                    <small class="text-danger">{{ $message }}</small>
                                 @enderror
                             </div>
                         </div>
@@ -182,7 +184,7 @@
                                     value="{{ !empty(old('pin_code')) ? old('pin_code') : $dome->pin_code }}"
                                     placeholder="{{ trans('labels.pincode') }}" readonly>
                                 @error('pin_code')
-                                    <span class="text-danger">{{ $message }}</span>
+                                    <small class="text-danger">{{ $message }}</small>
                                 @enderror
                             </div>
                         </div>
@@ -193,7 +195,7 @@
                                     value="{{ !empty(old('city')) ? old('city') : $dome->city }}"
                                     placeholder="{{ trans('labels.city') }}" readonly>
                                 @error('city')
-                                    <span class="text-danger">{{ $message }}</span>
+                                    <small class="text-danger">{{ $message }}</small>
                                 @enderror
                             </div>
                         </div>
@@ -204,7 +206,7 @@
                                     value="{{ !empty(old('state')) ? old('state') : $dome->state }}"
                                     placeholder="{{ trans('labels.state') }}" readonly>
                                 @error('state')
-                                    <span class="text-danger">{{ $message }}</span>
+                                    <small class="text-danger">{{ $message }}</small>
                                 @enderror
                             </div>
                         </div>
@@ -215,7 +217,7 @@
                                     value="{{ !empty(old('country')) ? old('country') : $dome->country }}"
                                     placeholder="{{ trans('labels.country') }}" readonly>
                                 @error('country')
-                                    <span class="text-danger">{{ $message }}</span>
+                                    <small class="text-danger">{{ $message }}</small>
                                 @enderror
                             </div>
                         </div>
@@ -225,10 +227,10 @@
                     <input type="hidden" name="lng" id="textLng"
                         value="{{ !empty(old('lng')) ? old('lng') : $dome->lng }}">
                     @error('lat')
-                        <span class="text-danger">{{ $message }}</span>
+                        <small class="text-danger">{{ $message }}</small>
                     @enderror
                     @error('lng')
-                        <span class="text-danger">{{ $message }}</span>
+                        <small class="text-danger">{{ $message }}</small>
                     @enderror
                 </div>
                 <div class="col-md-6">
@@ -244,10 +246,10 @@
                                 <input type="file" class="form-control" id="dome_images" name="dome_images[]"
                                     multiple>
                                 @error('dome_images')
-                                    <span class="text-danger">{{ $message }}</span>
+                                    <small class="text-danger">{{ $message }}</small>
                                 @enderror
                                 @foreach ($errors->get('dome_images') as $key => $err)
-                                    <span class="text-danger">{{ $errors->get('dome_images')[$key] }}</span>
+                                    <small class="text-danger">{{ $errors->get('dome_images')[$key] }}</small>
                                 @endforeach
                             </div>
                         </div>
@@ -273,7 +275,7 @@
                                 @endforeach
                             </div>
                             @error('sport_id')
-                                <span class="text-danger">{{ $message }}</span>
+                                <small class="text-danger">{{ $message }}</small>
                             @enderror
                         </div>
                         <div class="col-md-12 mb-3">
@@ -312,7 +314,7 @@
                             <textarea class="form-control" name="description" @required(true) id="description" rows="5"
                                 placeholder="{{ trans('labels.dome_description') }}">{{ !empty(old('dome_description')) ? old('dome_description') : $dome->description }}</textarea>
                             @error(' description')
-                                <span class="text-danger">{{ $message }}</span>
+                                <small class="text-danger">{{ $message }}</small>
                             @enderror
                         </div>
                     </div>
@@ -335,6 +337,229 @@
                 </div>
             @endforeach
         </div>
+        <!-- Edit Working Hours Modal -->
+        <div class="modal fade" id="add_working_hours" tabindex="-1" aria-labelledby="add_working_hoursLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="add_working_hoursLabel">{{ trans('labels.edit_working_hours') }}
+                        </h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form action="{{ URL::to('admin/domes/manage-time') }}" method="post" id="workinghoursform">
+                        <input type="hidden" name="id" value="{{ $dome->id }}">
+                        <div class="modal-body">
+                            <div class="row my-3">
+                                <label class="col-lg-3 col-form-label"></label>
+                                <label class="col-lg-3 text-center mb-0 d-none d-lg-block d-xl-block d-xxl-block fw-bold">
+                                    {{ trans('labels.availability') }} </label>
+                                <label class="col-lg-3 text-center mb-0 d-none d-lg-block d-xl-block d-xxl-block fw-bold">
+                                    {{ trans('labels.opening_time') }} </label>
+                                <label class="col-lg-3 text-center mb-0 d-none d-lg-block d-xl-block d-xxl-block fw-bold">
+                                    {{ trans('labels.closing_time') }} </label>
+                            </div>
+                            @if (count($dome['working_hours']) > 0)
+                                @foreach ($dome['working_hours'] as $key => $time)
+                                    <div class="row">
+                                        <label
+                                            class="col-lg-3 col-form-label text-center fw-bold">{{ trans('labels.' . strtolower($time->day)) }}</label>
+                                        <input type="hidden" name="day[]" value="{{ $time->id }}">
+                                        <div class="col-lg-3">
+                                            <div class="form-group d-grid align-items-end"><label
+                                                    class="d-lg-none d-xl-none d-xxl-none">
+                                                    {{ trans('labels.availability') }}</label>
+                                                <label
+                                                    class="d-lg-none d-xl-none d-xxl-none">{{ trans('labels.availability') }}</label>
+                                                <select class="form-control" name="is_closed[]">
+                                                    <option value="2" {{ $time->is_closed == 2 ? 'selected' : '' }}>
+                                                        {{ trans('labels.open') }} </option>
+                                                    <option value="1" {{ $time->is_closed == 1 ? 'selected' : '' }}>
+                                                        {{ trans('labels.closed') }} </option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3">
+                                            <div class="form-group">
+                                                <label class="d-lg-none d-xl-none d-xxl-none">
+                                                    {{ trans('labels.opening_time') }}</label>
+
+                                                <label
+                                                    class="d-lg-none d-xl-none d-xxl-none">{{ trans('labels.opening_time') }}</label>
+                                                <input type="text"
+                                                    class="form-control time_picker__ time_picker__start"
+                                                    placeholder="{{ trans('labels.opening_time') }}" name="open_time[]"
+                                                    value="{{ date('H:i', strtotime($time->open_time)) }}">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3">
+                                            <div class="form-group">
+                                                <label class="d-lg-none d-xl-none d-xxl-none">
+                                                    {{ trans('labels.closing_time') }}</label>
+                                                <label
+                                                    class="d-lg-none d-xl-none d-xxl-none">{{ trans('labels.closing_time') }}</label>
+                                                <input type="text" class="form-control time_picker__ time_picker__end"
+                                                    placeholder="{{ trans('labels.closing_time') }}" name="close_time[]"
+                                                    value="{{ date('H:i', strtotime($time->close_time)) }}">
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            @else
+                                @php
+                                    $days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
+                                @endphp
+                                @foreach ($days as $key => $day)
+                                    <div class="row">
+                                        <input type="hidden" name="day[]" value="{{ strtolower($day) }}">
+                                        <label
+                                            class="col-lg-3 col-form-label text-center fw-bold">{{ trans('labels.' . strtolower($day)) }}</label>
+                                        <div class="col-lg-3">
+                                            <div class="form-group d-grid align-items-end">
+                                                <label class="d-lg-none d-xl-none d-xxl-none">
+                                                    {{ trans('labels.availability') }}</label>
+                                                <label
+                                                    class="d-lg-none d-xl-none d-xxl-none">{{ trans('labels.availability') }}</label>
+                                                <select class="form-control" name="is_closed[]">
+                                                    <option value="2" selected> {{ trans('labels.open') }} </option>
+                                                    <option value="1"> {{ trans('labels.closed') }} </option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3">
+                                            <div class="form-group d-grid align-items-end">
+                                                <label class="d-lg-none d-xl-none d-xxl-none">
+                                                    {{ trans('labels.opening_time') }}</label>
+                                                <label
+                                                    class="d-lg-none d-xl-none d-xxl-none">{{ trans('labels.opening_time') }}</label>
+                                                <input type="text"
+                                                    class="form-control time_picker__ time_picker__start"
+                                                    placeholder="{{ trans('labels.opening_time') }}" name="open_time[]"
+                                                    @if (old('open_time')) value="{{ old('open_time')[$key] }}" @endif>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3">
+                                            <div class="form-group d-grid align-items-end">
+                                                <label class="d-lg-none d-xl-none d-xxl-none">
+                                                    {{ trans('labels.closing_time') }}</label>
+
+                                                <label
+                                                    class="d-lg-none d-xl-none d-xxl-none">{{ trans('labels.closing_time') }}</label>
+
+                                                <input type="text" class="form-control time_picker__ time_picker__end"
+                                                    placeholder="{{ trans('labels.closing_time') }}" name="close_time[]"
+                                                    @if (old('close_time')) value="{{ old('close_time')[$key] }}" @endif>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            @endif
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-outline-success" id="submitBtn"
+                                style="display: none;">{{ trans('labels.save') }}</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- Edit Dome Settings Modal -->
+        <div class="modal fade" id="dome_settings" tabindex="-1" aria-labelledby="dome_settingsLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="dome_settingsLabel">{{ trans('labels.dome_settings') }}</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div
+                                    class="form-check form-switch form-check-reverse text-start px-0 d-flex align-items-center justify-content-between flex-row-reverse">
+                                    <input class="form-check-input mx-0" type="checkbox" role="switch"
+                                        style="width: 3em; height: 1.5em" id="auto_bookings_system"
+                                        name="auto_bookings_system"
+                                        {{ $dome->dome_setting->accept_decline_bookings == 1 ? 'checked' : '' }}>
+                                    <label class="form-check-label"
+                                        for="auto_bookings_system">{{ trans('labels.auto_bookings_system') }}</label>
+                                </div>
+                                <div class="form-group col-5 mb-4">
+                                    <label for="age" class="form-label">{{ trans('labels.age') }}</label>
+                                    <select class="form-select" id="age" name="age">
+                                        <option selected value="0">0</option>
+                                        @for ($i = 1; $i <= 90; $i++)
+                                            <option value="{{ $i }}"
+                                                {{ $dome->dome_setting->age == $i ? 'selected' : '' }}>
+                                                {{ $i }}</option>
+                                        @endfor
+                                    </select>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label for="age"
+                                            class="form-label">{{ trans('labels.age') . ' ' . trans('labels.below_discount') }}</label>
+                                        <div class="input-group mb-3">
+                                            <input type="number" class="form-control" name="age_below_discount"
+                                                value="{{ old('age_below_discount') == '' ? $dome->dome_setting->age_below_discount : old('age_below_discount') }}"
+                                                placeholder="{{ trans('labels.below_discount') }}">
+                                            <span class="input-group-text">%</span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="age"
+                                            class="form-label">{{ trans('labels.age') . ' ' . trans('labels.above_discount') }}</label>
+                                        <div class="input-group mb-3">
+                                            <input type="number" class="form-control" name="age_above_discount"
+                                                value="{{ old('age_above_discount') == '' ? $dome->dome_setting->age_above_discount : old('age_above_discount') }}"
+                                                placeholder="{{ trans('labels.above_discount') }}">
+                                            <span class="input-group-text">%</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label for="max_fields_selection"
+                                            class="form-label">{{ trans('labels.max_fields_selection') }}</label>
+                                        <select class="form-select" id="max_fields_selection"
+                                            name="max_fields_selection">
+                                            <option selected value="0">0</option>
+                                            @for ($i = 1; $i <= 10; $i++)
+                                                <option value="{{ $i }}"
+                                                    {{ $dome->dome_setting->max_fields == $i ? 'selected' : '' }}>
+                                                    {{ $i }}</option>
+                                            @endfor
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="multiple_fields_discount"
+                                            class="form-label">{{ trans('labels.multiple_fields_discount') }}</label>
+                                        <div class="input-group mb-3">
+                                            <input type="number" class="form-control" name="multiple_fields_discount"
+                                                value="{{ old('multiple_fields_discount') == '' ? $dome->dome_setting->fields_discount : old('multiple_fields_discount') }}"
+                                                placeholder="{{ trans('labels.fields_discount') }}">
+                                            <span class="input-group-text">%</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label"
+                                        for="dome_policy">{{ trans('labels.dome_policy') }}</label>
+                                    <textarea class="form-control" name="dome_policy" id="dome_policy" rows="10"
+                                        placeholder="{{ trans('messages.dome_policy') }}" autocomplete="off">{{ old('dome_policy') == '' ? $dome->dome_setting->policy : old('dome_policy') }}</textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-success"
+                            data-bs-dismiss="modal">{{ trans('labels.save') }}</button>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="row">
             <div class="col-12">
                 <button type="submit" class="btn btn-primary me-3">{{ trans('labels.submit') }}</button>
@@ -343,127 +568,6 @@
         </div>
         </div>
     </form>
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">{{ trans('labels.edit_working_hours') }}</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <form action="{{ URL::to('admin/domes/manage-time') }}" method="post" id="workinghoursform">
-                    <input type="hidden" name="id" value="{{ $dome->id }}">
-                    <div class="modal-body">
-                        <div class="row my-3">
-                            <label class="col-lg-3 col-form-label"></label>
-                            <label class="col-lg-3 text-center mb-0 d-none d-lg-block d-xl-block d-xxl-block fw-bold">
-                                {{ trans('labels.availability') }} </label>
-                            <label class="col-lg-3 text-center mb-0 d-none d-lg-block d-xl-block d-xxl-block fw-bold">
-                                {{ trans('labels.opening_time') }} </label>
-                            <label class="col-lg-3 text-center mb-0 d-none d-lg-block d-xl-block d-xxl-block fw-bold">
-                                {{ trans('labels.closing_time') }} </label>
-                        </div>
-                        @if (count($dome['working_hours']) > 0)
-                            @foreach ($dome['working_hours'] as $key => $time)
-                                <div class="row">
-                                    <label
-                                        class="col-lg-3 col-form-label text-center fw-bold">{{ trans('labels.' . strtolower($time->day)) }}</label>
-                                    <input type="hidden" name="day[]" value="{{ $time->id }}">
-                                    <div class="col-lg-3">
-                                        <div class="form-group d-grid align-items-end"><label
-                                                class="d-lg-none d-xl-none d-xxl-none">
-                                                {{ trans('labels.availability') }}</label>
-                                            <label
-                                                class="d-lg-none d-xl-none d-xxl-none">{{ trans('labels.availability') }}</label>
-                                            <select class="form-control" name="is_closed[]">
-                                                <option value="2" {{ $time->is_closed == 2 ? 'selected' : '' }}>
-                                                    {{ trans('labels.open') }} </option>
-                                                <option value="1" {{ $time->is_closed == 1 ? 'selected' : '' }}>
-                                                    {{ trans('labels.closed') }} </option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-3">
-                                        <div class="form-group">
-                                            <label class="d-lg-none d-xl-none d-xxl-none">
-                                                {{ trans('labels.opening_time') }}</label>
-
-                                            <label
-                                                class="d-lg-none d-xl-none d-xxl-none">{{ trans('labels.opening_time') }}</label>
-                                            <input type="text" class="form-control time_picker__ time_picker__start"
-                                                placeholder="{{ trans('labels.opening_time') }}" name="open_time[]"
-                                                value="{{ date('H:i', strtotime($time->open_time)) }}">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-3">
-                                        <div class="form-group">
-                                            <label class="d-lg-none d-xl-none d-xxl-none">
-                                                {{ trans('labels.closing_time') }}</label>
-                                            <label
-                                                class="d-lg-none d-xl-none d-xxl-none">{{ trans('labels.closing_time') }}</label>
-                                            <input type="text" class="form-control time_picker__ time_picker__end"
-                                                placeholder="{{ trans('labels.closing_time') }}" name="close_time[]"
-                                                value="{{ date('H:i', strtotime($time->close_time)) }}">
-                                        </div>
-                                    </div>
-                                </div>
-                            @endforeach
-                        @else
-                            @php
-                                $days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
-                            @endphp
-                            @foreach ($days as $key => $day)
-                                <div class="row">
-                                    <input type="hidden" name="day[]" value="{{ strtolower($day) }}">
-                                    <label
-                                        class="col-lg-3 col-form-label text-center fw-bold">{{ trans('labels.' . strtolower($day)) }}</label>
-                                    <div class="col-lg-3">
-                                        <div class="form-group d-grid align-items-end">
-                                            <label class="d-lg-none d-xl-none d-xxl-none">
-                                                {{ trans('labels.availability') }}</label>
-                                            <label
-                                                class="d-lg-none d-xl-none d-xxl-none">{{ trans('labels.availability') }}</label>
-                                            <select class="form-control" name="is_closed[]">
-                                                <option value="2" selected> {{ trans('labels.open') }} </option>
-                                                <option value="1"> {{ trans('labels.closed') }} </option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-3">
-                                        <div class="form-group d-grid align-items-end">
-                                            <label class="d-lg-none d-xl-none d-xxl-none">
-                                                {{ trans('labels.opening_time') }}</label>
-                                            <label
-                                                class="d-lg-none d-xl-none d-xxl-none">{{ trans('labels.opening_time') }}</label>
-                                            <input type="text" class="form-control time_picker__ time_picker__start"
-                                                placeholder="{{ trans('labels.opening_time') }}" name="open_time[]"
-                                                @if (old('open_time')) value="{{ old('open_time')[$key] }}" @endif>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-3">
-                                        <div class="form-group d-grid align-items-end">
-                                            <label class="d-lg-none d-xl-none d-xxl-none">
-                                                {{ trans('labels.closing_time') }}</label>
-
-                                            <label
-                                                class="d-lg-none d-xl-none d-xxl-none">{{ trans('labels.closing_time') }}</label>
-
-                                            <input type="text" class="form-control time_picker__ time_picker__end"
-                                                placeholder="{{ trans('labels.closing_time') }}" name="close_time[]"
-                                                @if (old('close_time')) value="{{ old('close_time')[$key] }}" @endif>
-                                        </div>
-                                    </div>
-                                </div>
-                            @endforeach
-                        @endif
-                    </div>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-outline-success" id="submitBtn"
-                            style="display: none;">{{ trans('labels.save') }}</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
 @endsection
 @section('scripts')
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
@@ -499,7 +603,7 @@
         function hideSubmitButton() {
             $("#submitBtn").hide();
         }
-        $("#exampleModal input, #exampleModal select").on("change", showSubmitButton);
+        $("#add_working_hours input, #add_working_hours select").on("change", showSubmitButton);
         var update_ = 0;
         $('#workinghoursform').on('submit', function(event) {
             "use strict";
@@ -528,7 +632,7 @@
                         toastr.success(response.message);
                         Swal.close();
                         hideSubmitButton();
-                        $('#exampleModal').modal('hide');
+                        $('#add_working_hours').modal('hide');
                     }
                 },
                 error: function(xhr, status, error) {

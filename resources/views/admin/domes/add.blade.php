@@ -36,8 +36,10 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="form-group text-end">
-                        <button type="button" class="btn btn-outline-info" data-bs-toggle="modal"
-                            data-bs-target="#exampleModal">{{ trans('labels.add_working_hours') }}</button>
+                        <button type="button" class="btn btn-outline-primary me-2" data-bs-toggle="modal"
+                            data-bs-target="#add_working_hours">{{ trans('labels.add_working_hours') }}</button>
+                        <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal"
+                            data-bs-target="#dome_settings">{{ trans('labels.settings') }}</button>
                     </div>
                 </div>
                 <div class="col-md-6">
@@ -48,7 +50,7 @@
                                 <input type="text" id="dome_name" name="dome_name" value="{{ old('dome_name') }}"
                                     class="form-control" placeholder="{{ trans('labels.dome_name') }}">
                                 @error('dome_name')
-                                    <span class="text-danger">{{ $message }}</span>
+                                    <small class="text-danger">{{ $message }}</small>
                                 @enderror
                             </div>
                         </div>
@@ -60,6 +62,9 @@
                                         value="{{ old('dome_hst') }}" placeholder="{{ trans('labels.hst') }}">
                                     <span class="input-group-text">%</span>
                                 </div>
+                                @error('dome_hst')
+                                    <small class="text-danger">{{ $message }}</small>
+                                @enderror
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -80,7 +85,7 @@
                                     </div>
                                 </div>
                                 @error('slot_duration')
-                                    <span class="text-danger">{{ $message }}</span>
+                                    <small class="text-danger">{{ $message }}</small>
                                 @enderror
                             </div>
                         </div>
@@ -149,7 +154,7 @@
                                 <textarea class="form-control" name="benefits_description" value="{{ old('benefits_description') }}"
                                     id="benefits_description" rows="4" placeholder="Please Enter Benefits Description">{{ old('benefits_description') }}</textarea>
                                 @error('benefits_description')
-                                    <span class="text-danger">{{ $message }}</span>
+                                    <small class="text-danger">{{ $message }}</small>
                                 @enderror
                             </div>
                         </div>
@@ -165,7 +170,7 @@
                                 <input type="text" class="form-control" name="address" value="{{ old('address') }}"
                                     id="address" placeholder="{{ trans('labels.dome_address') }}">
                                 @error('address')
-                                    <span class="text-danger">{{ $message }}</span>
+                                    <small class="text-danger">{{ $message }}</small>
                                 @enderror
                             </div>
                         </div>
@@ -175,7 +180,7 @@
                                 <input type="text" class="form-control" name="pin_code" id="pin_code"
                                     value="{{ old('pin_code') }}" placeholder="{{ trans('labels.pincode') }}" readonly>
                                 @error('pin_code')
-                                    <span class="text-danger">{{ $message }}</span>
+                                    <small class="text-danger">{{ $message }}</small>
                                 @enderror
                             </div>
                         </div>
@@ -185,7 +190,7 @@
                                 <input type="text" class="form-control" name="city" id="city"
                                     value="{{ old('city') }}" placeholder="{{ trans('labels.city') }}" readonly>
                                 @error('city')
-                                    <span class="text-danger">{{ $message }}</span>
+                                    <small class="text-danger">{{ $message }}</small>
                                 @enderror
                             </div>
                         </div>
@@ -195,7 +200,7 @@
                                 <input type="text" class="form-control" name="state" id="state"
                                     value="{{ old('state') }}" placeholder="{{ trans('labels.state') }}" readonly>
                                 @error('state')
-                                    <span class="text-danger">{{ $message }}</span>
+                                    <small class="text-danger">{{ $message }}</small>
                                 @enderror
                             </div>
                         </div>
@@ -205,7 +210,7 @@
                                 <input type="text" class="form-control" name="country" id="country"
                                     value="{{ old('country') }}" placeholder="{{ trans('labels.country') }}" readonly>
                                 @error('country')
-                                    <span class="text-danger">{{ $message }}</span>
+                                    <small class="text-danger">{{ $message }}</small>
                                 @enderror
                             </div>
                         </div>
@@ -213,10 +218,10 @@
                     <input type="hidden" name="lat" id="textLat" value="{{ old('lat') }}">
                     <input type="hidden" name="lng" id="textLng" value="{{ old('lng') }}">
                     @error('lat')
-                        <span class="text-danger">{{ $message }}</span>
+                        <small class="text-danger">{{ $message }}</small>
                     @enderror
                     @error('lng')
-                        <span class="text-danger">{{ $message }}</span>
+                        <small class="text-danger">{{ $message }}</small>
                     @enderror
                 </div>
                 <div class="col-md-6">
@@ -232,7 +237,7 @@
                                 <input type="file" class="form-control" id="dome_images" name="dome_images[]"
                                     multiple>
                                 @error('dome_images')
-                                    <span class="text-danger">{{ $message }}</span>
+                                    <small class="text-danger">{{ $message }}</small>
                                 @enderror
                             </div>
                         </div>
@@ -244,7 +249,8 @@
                                         <div class="form-check">
                                             <input type="checkbox" id="sport_{{ $key }}" name="sport_id[]"
                                                 class="form-check-input" value="{{ $data->id }}"
-                                                data-sport-name="sport_{{ $key }}" data-sport="{{$data->name}}"
+                                                data-sport-name="sport_{{ $key }}"
+                                                data-sport="{{ $data->name }}"
                                                 {{ !empty(old('sport_id')) && in_array($data->id, old('sport_id')) ? 'checked' : '' }}>
                                             <label class="form-check-label"
                                                 for="sport_{{ $key }}">{{ $data->name }}</label>
@@ -253,7 +259,7 @@
                                 @endforeach
                             </div>
                             @error('sport_id')
-                                <span class="text-danger">{{ $message }}</span>
+                                <small class="text-danger">{{ $message }}</small>
                             @enderror
                         </div>
                         <div class="col-md-12">
@@ -272,19 +278,21 @@
                                 <textarea class="form-control" name="description" id="description" rows="5"
                                     placeholder="{{ trans('labels.dome_description') }}">{{ old('description') }}</textarea>
                                 @error('description')
-                                    <span class="text-danger">{{ $message }}</span>
+                                    <small class="text-danger">{{ $message }}</small>
                                 @enderror
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+            <!-- Add Working Hours Modal -->
+            <div class="modal fade" id="add_working_hours" tabindex="-1" aria-labelledby="add_working_hoursLabel"
                 aria-hidden="true">
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h1 class="modal-title fs-5" id="exampleModalLabel">{{ trans('labels.add_working_hours') }}
+                            <h1 class="modal-title fs-5" id="add_working_hoursLabel">
+                                {{ trans('labels.add_working_hours') }}
                             </h1>
                             <button type="button" class="btn-close" data-bs-dismiss="modal"
                                 aria-label="Close"></button>
@@ -345,6 +353,105 @@
                     </div>
                 </div>
             </div>
+            <!-- Add Dome Settings Modal -->
+            <div class="modal fade" id="dome_settings" tabindex="-1" aria-labelledby="dome_settingsLabel"
+                aria-hidden="true">
+                <div class="modal-dialog modal-xl">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="dome_settingsLabel">{{ trans('labels.dome_settings') }}</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div
+                                        class="form-check form-switch form-check-reverse text-start px-0 d-flex align-items-center justify-content-between flex-row-reverse">
+                                        <input class="form-check-input mx-0" type="checkbox" role="switch"
+                                            style="width: 3em; height: 1.5em" id="auto_bookings_system"
+                                            name="auto_bookings_system"
+                                            {{ old('auto_bookings_system') == 'on' ? 'checked' : '' }}>
+                                        <label class="form-check-label"
+                                            for="auto_bookings_system">{{ trans('labels.auto_bookings_system') }}</label>
+                                    </div>
+                                    <div class="form-group col-5 mb-4">
+                                        <label for="age" class="form-label">{{ trans('labels.age') }}</label>
+                                        <select class="form-select" id="age" name="age">
+                                            <option selected value="0">0</option>
+                                            @for ($i = 1; $i <= 90; $i++)
+                                                <option value="{{ $i }}"
+                                                    {{ old('max_fields_selection') == $i ? 'selected' : '' }}>
+                                                    {{ $i }}</option>
+                                            @endfor
+                                        </select>
+                                    </div>
+                                    <div class="row">
+                                        <div class="form-group col-md-6">
+                                            <label for="age"
+                                                class="form-label">{{ trans('labels.age') . ' ' . trans('labels.below_discount') }}</label>
+                                            <div class="input-group mb-3">
+                                                <input type="number" class="form-control" name="age_below_discount"
+                                                    value="{{ old('age_below_discount') }}"
+                                                    placeholder="{{ trans('labels.below_discount') }}">
+                                                <span class="input-group-text">%</span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="age"
+                                                class="form-label">{{ trans('labels.age') . ' ' . trans('labels.above_discount') }}</label>
+                                            <div class="input-group mb-3">
+                                                <input type="number" class="form-control" name="age_above_discount"
+                                                    value="{{ old('age_above_discount') }}"
+                                                    placeholder="{{ trans('labels.above_discount') }}">
+                                                <span class="input-group-text">%</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="form-group col-md-6">
+                                            <label for="max_fields_selection"
+                                                class="form-label">{{ trans('labels.max_fields_selection') }}</label>
+                                            <select class="form-select" id="max_fields_selection"
+                                                name="max_fields_selection">
+                                                <option selected value="0">0</option>
+                                                @for ($i = 1; $i <= 10; $i++)
+                                                    <option value="{{ $i }}"
+                                                        {{ old('max_fields_selection') == $i ? 'selected' : '' }}>
+                                                        {{ $i }}</option>
+                                                @endfor
+                                            </select>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="multiple_fields_discount"
+                                                class="form-label">{{ trans('labels.multiple_fields_discount') }}</label>
+                                            <div class="input-group mb-3">
+                                                <input type="number" class="form-control"
+                                                    name="multiple_fields_discount"
+                                                    value="{{ old('multiple_fields_discount') }}"
+                                                    placeholder="{{ trans('labels.fields_discount') }}">
+                                                <span class="input-group-text">%</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label"
+                                            for="dome_policy">{{ trans('labels.dome_policy') }}</label>
+                                        <textarea class="form-control" name="dome_policy" id="dome_policy" rows="10"
+                                            placeholder="{{ trans('messages.dome_policy') }}" autocomplete="off">{{ old('dome_policy') }}</textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-outline-success"
+                                data-bs-dismiss="modal">{{ trans('labels.save') }}</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="row">
                 <div class="col-auto">
                     <button type="submit" class="btn btn-primary me-3">{{ trans('labels.submit') }}</button>
@@ -373,7 +480,7 @@
                 let html = '<div class="col mb-2" id="' + $(this).attr("data-sport-name") + '' + $(this).val() +
                     '"><label class="form-label" for="dome_price' + $(this).val() + '">' + $(this).attr(
                         "data-sport") +
-                    '</label><div class="input-group"><span class="input-group-text" id="basic-addon1"><i class="fa fa-dollar"></i></span><input type="text" class="form-control numbers_only" id="dome_price' +
+                    '</label><div class="input-group"><span class="input-group-text"><i class="fa fa-dollar"></i></span><input type="text" class="form-control numbers_only" id="dome_price' +
                     $(this).val() +
                     '" name="dome_price[]" placeholder="Price" required></div></div>';
                 $('#sport_prices_input').append(html);

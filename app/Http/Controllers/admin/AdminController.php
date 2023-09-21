@@ -5,27 +5,14 @@ namespace App\Http\Controllers\admin;
 use App\Helper\Helper;
 use App\Http\Controllers\Controller;
 use App\Models\Booking;
-use App\Models\DomeImages;
-use App\Models\Domes;
-use App\Models\Enquiries;
-use App\Models\Favourite;
-use App\Models\Field;
-use App\Models\League;
 use App\Models\Transaction;
 use App\Models\User;
 use App\Models\PaymentGateway;
-use App\Models\Review;
-use App\Models\SetPrices;
-use App\Models\SetPricesDaysSlots;
-use App\Models\WorkingHours;
 use Carbon\Carbon;
 use Carbon\CarbonImmutable;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Stripe\Account;
-use Stripe\BankAccount;
-use Stripe\Charge;
 use Stripe\Stripe;
 use Stripe\OAuth;
 
@@ -33,7 +20,7 @@ class AdminController extends Controller
 {
     public function login_dev(Request $request)
     {
-        if (Auth::user()->type == 1) {
+        if (auth()->user()->type == 1) {
             $uid = @User::where('type', 2)->first()->id;
             if ($uid) {
                 Auth::loginUsingId($uid);
@@ -55,12 +42,12 @@ class AdminController extends Controller
                     'client_secret' => Helper::stripe_data()->secret_key,
                 ]);
                 $connectedAccountId = $token->stripe_user_id;
-                $stripe = PaymentGateway::where('type', 1)->where('vendor_id', Auth::user()->id)->first();
+                $stripe = PaymentGateway::where('type', 1)->where('vendor_id', auth()->user()->id)->first();
                 if (empty($stripe)) {
                     $stripe = new PaymentGateway();
                     $stripe->type = 1;
                 }
-                $stripe->vendor_id = Auth::user()->id;
+                $stripe->vendor_id = auth()->user()->id;
                 $stripe->account_id = $connectedAccountId;
                 $stripe->save();
                 return redirect('admin/settings/stripe-setting')->with('success', trans('messages.success'));
@@ -72,8 +59,12 @@ class AdminController extends Controller
     }
     public function login_emp(Request $request)
     {
-        Auth::login(User::where('type', 4)->where('is_available', 1)->where('is_deleted', 2)->first());
-        return redirect('admin/dashboard')->with('success', trans('messages.success'));
+        try {
+            Auth::login(User::where('type', 4)->where('is_available', 1)->where('is_deleted', 2)->first());
+            return redirect('admin/dashboard')->with('success', trans('messages.success'));
+        } catch (\Throwable $th) {
+            return redirect()->back()->with('error', 'Employee not available');
+        }
     }
     public function dashboard(Request $request)
     {

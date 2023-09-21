@@ -33,7 +33,7 @@
                                     <input type="text" id="cat_name" name="name" class="form-control"
                                         value="{{ old('name') }}" placeholder="{{ trans('labels.sports_name') }}">
                                     @error('name')
-                                        <span class="text-danger">{{ $message }}</span>
+                                        <small class="text-danger">{{ $message }}</small>
                                     @enderror
                                 </div>
                             </div>
@@ -42,7 +42,7 @@
                                     <label class="form-label" for="image">{{ trans('labels.image') }}</label>
                                     <input type="file" id="image" name="image" class="form-control">
                                     @error('image')
-                                        <span class="text-danger">{{ $message }}</span>
+                                        <small class="text-danger">{{ $message }}</small>
                                     @enderror
                                 </div>
                             </div>

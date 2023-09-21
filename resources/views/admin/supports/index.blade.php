@@ -23,13 +23,13 @@
                 <thead>
                     <tr>
                         <th> {{ trans('labels.srno') }} </th>
-                        @if (Auth::user()->type == 1)
+                        @if (auth()->user()->type == 1)
                             <th> {{ trans('labels.dome_owner') }} </th>
                             <th> {{ trans('labels.email') }} </th>
                         @endif
                         <th> {{ trans('labels.subject') }} </th>
                         <th> {{ trans('labels.message') }} </th>
-                        @if (Auth::user()->type == 1)
+                        @if (auth()->user()->type == 1)
                             <th> {{ trans('labels.action') }} </th>
                         @else
                             <th class="text-center"> {{ trans('labels.status') }} </th>
@@ -41,14 +41,14 @@
                     @foreach ($getsupportslist as $support)
                         <tr>
                             <td>{{ $i++ }}</td>
-                            @if (Auth::user()->type == 1)
+                            @if (auth()->user()->type == 1)
                                 <td>{{ $support['dome_owner']->name }}</td>
                                 <td>{{ $support['dome_owner']->email }}</td>
                             @endif
                             <td>{{ $support->subject }}</td>
                             <td>{{ $support->message }}</td>
                             <td>
-                                @if (Auth::user()->type == 1)
+                                @if (auth()->user()->type == 1)
                                     <span class="badge rounded-pill cursor-pointer partial-pill me-4 reply_support"
                                         data-subject="{{ $support->subject }}"
                                         data-user-name="{{ $support['dome_owner']->name }}"

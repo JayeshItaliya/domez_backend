@@ -380,7 +380,7 @@
                                                 name="name" value="{{ old('name') }}" id="name"
                                                 placeholder="Enter Name" required>
                                             @error('name')
-                                                <span class="text-danger">{{ $message }}</span>
+                                                <small class="text-danger">{{ $message }}</small>
                                             @enderror
                                         </div>
                                     </div>
@@ -391,7 +391,7 @@
                                                 name="email" value="{{ old('email') }}" id="email"
                                                 placeholder="Enter Email" required>
                                             @error('email')
-                                                <span class="text-danger">{{ $message }}</span>
+                                                <small class="text-danger">{{ $message }}</small>
                                             @enderror
                                         </div>
                                     </div>
@@ -401,7 +401,7 @@
                                     <input class="form-control" autocomplete="off" type="subject" name="subject"
                                         value="{{ old('subject') }}" id="subject" placeholder="Enter Subject" required>
                                     @error('subject')
-                                        <span class="text-danger">{{ $message }}</span>
+                                        <small class="text-danger">{{ $message }}</small>
                                     @enderror
                                 </div>
                                 <div class="form-group">
@@ -409,7 +409,7 @@
                                     <textarea class="form-control" autocomplete="off" type="message" name="message" value="{{ old('message') }}"
                                         id="message" placeholder="Enter Message" rows="5" required></textarea>
                                     @error('message')
-                                        <span class="text-danger">{{ $message }}</span>
+                                        <small class="text-danger">{{ $message }}</small>
                                     @enderror
                                 </div>
                                 <button type="submit"

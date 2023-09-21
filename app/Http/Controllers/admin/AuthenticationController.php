@@ -29,11 +29,11 @@ class AuthenticationController extends Controller
             'password.min' => trans('messages.password_min_length'),
         ]);
         if (Auth::attempt($request->only('email', 'password'))) {
-            if (in_array(Auth::user()->type, [1, 2, 4, 5])) {
-                if (Auth::user()->is_verified == 1) {
-                    if (Auth::user()->is_available == 1) {
-                        if (Auth::user()->is_deleted == 2) {
-                            if (Auth::user()->type == 5) {
+            if (in_array(auth()->user()->type, [1, 2, 4, 5])) {
+                if (auth()->user()->is_verified == 1) {
+                    if (auth()->user()->is_available == 1) {
+                        if (auth()->user()->is_deleted == 2) {
+                            if (auth()->user()->type == 5) {
                                 return redirect('admin/leagues')->with('success', trans('messages.success'));
                             } else {
                                 return redirect('admin/dashboard')->with('success', trans('messages.success'));
@@ -48,11 +48,11 @@ class AuthenticationController extends Controller
                     }
                 } else {
                     $otp = rand(1000, 9999);
-                    $user = User::where('email', Auth::user()->email)->first();
+                    $user = User::where('email', auth()->user()->email)->first();
                     $user->otp = $otp;
                     $user->save();
                     $send_mail = Helper::verificationemail($user->email, $user->name, $otp);
-                    session()->put('verification_email', Auth::user()->email);
+                    session()->put('verification_email', auth()->user()->email);
                     Auth::logout();
                     if ($send_mail == 1) {
                         return redirect('verification')->with('success', trans('messages.email_sent'));
@@ -110,11 +110,11 @@ class AuthenticationController extends Controller
     public function resend(Request $request)
     {
         $otp = rand(1000, 9999);
-        $user = User::where('email', Auth::user()->email)->first();
+        $user = User::where('email', auth()->user()->email)->first();
         $user->otp = $otp;
         $user->save();
         $send_mail = Helper::verificationemail($user->email, $user->name, $otp);
-        session()->put('verification_email', Auth::user()->email);
+        session()->put('verification_email', auth()->user()->email);
         if ($send_mail == 1) {
             return redirect()->back()->with('success', trans('messages.email_sent'));
         } else {
