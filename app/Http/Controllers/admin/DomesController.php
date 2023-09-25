@@ -467,4 +467,8 @@ class DomesController extends Controller
             return redirect()->back()->with('error', trans('messages.wrong'));
         }
     }
+    public function dome_settings()
+    {
+        return view('admin.dome_settings.index');
+    }
 }

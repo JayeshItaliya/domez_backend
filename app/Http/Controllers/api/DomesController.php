@@ -6,7 +6,6 @@ use App\Helper\Helper;
 use App\Http\Controllers\Controller;
 use App\Models\Booking;
 use App\Models\Domes;
-use App\Models\Field;
 use App\Models\Review;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -155,7 +154,7 @@ class DomesController extends Controller
                 'benefit_image' => '',
             ];
         }
-        $review = Review::where('dome_id', $dome->id)->selectRaw('SUM(ratting)/COUNT(user_id) AS avg_rating')->first()->avg_rating;
+        $review = Review::where('dome_id', $dome->id)->selectRaw('SUM(rating)/COUNT(user_id) AS avg_rating')->first()->avg_rating;
         $images = Review::where('reviews.dome_id', $dome->id)
             ->join('users AS users_table', function ($query) {
                 $query->on('reviews.user_id', '=', 'users_table.id')->where('users_table.type', 3);
