@@ -46,7 +46,6 @@ class DomesController extends Controller
     }
     public function store(Request $request)
     {
-        dd($request->input());
         $request->validate([
             'sport_id' => 'required',
             'dome_name' => 'required',
@@ -85,6 +84,11 @@ class DomesController extends Controller
             $dome->slot_duration = $request->slot_duration;
             $dome->benefits = $request->benefits != '' ? implode("|", $request->benefits) : '';
             $dome->benefits_description = $request->benefits_description;
+            $dome->multiple_fields_selection = $request->max_fields_selection;
+            $dome->fields_discount = $request->field_discount;
+            $dome->fields_discount_tpye = $request->field_discount_type;
+            $dome->booking_mode = $request->auto_bookings_system ?? 1;
+            $dome->policies_rules = $request->dome_policy;
             $dome->save();
             foreach ($request->day as $key => $dayname) {
                 $wh = new WorkingHours();
@@ -127,16 +131,15 @@ class DomesController extends Controller
                 $checksportexist->end_date = null;
                 $checksportexist->save();
             }
-            $dome_settings = new DomeDiscounts;
-            $dome_settings->dome_id = $dome->id;
-            $dome_settings->accept_decline_bookings = $request->has('auto_bookings_system') && $request->auto_bookings_system == "on" ?? 1;
-            $dome_settings->age = $request->age;
-            $dome_settings->age_below_discount = $request->age == 0 ? 0 : $request->age_below_discount;
-            $dome_settings->age_above_discount = $request->age == 0 ? 0 : $request->age_above_discount;
-            $dome_settings->max_fields = $request->max_fields_selection;
-            $dome_settings->fields_discount = $dome_settings->max_fields == 0 ? 0 : $request->multiple_fields_discount;
-            $dome_settings->policy = $request->dome_policy;
-            $dome_settings->save();
+            foreach ($request->from_age as $key => $from_age) {
+                $dome_discounts = new DomeDiscounts;
+                $dome_discounts->dome_id = $dome->id;
+                $dome_discounts->from_age = $from_age;
+                $dome_discounts->to_age = $request->to_age[$key];
+                $dome_discounts->age_discounts = $request->age_discount[$key];
+                $dome_discounts->discount_type = $request->discount_type[$key];
+                $dome_discounts->save();
+            }
             DB::commit();
             return redirect('admin/domes')->with('success', trans('messages.success'));
         } catch (\Throwable $th) {
@@ -279,7 +282,7 @@ class DomesController extends Controller
     }
     public function edit(Request $request)
     {
-        $dome = Domes::with(['dome_images', 'dome_setting'])->find($request->id);
+        $dome = Domes::with(['dome_images', 'dome_discounts'])->find($request->id);
         $getsportslist = Sports::where('is_available', 1)->where('is_deleted', 2)->get();
         return view('admin.domes.edit', compact('dome', 'getsportslist'));
     }

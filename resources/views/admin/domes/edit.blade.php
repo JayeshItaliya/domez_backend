@@ -33,15 +33,36 @@
         enctype="multipart/form-data" id="editdome">
         @csrf
         <div class="card-body">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="form-group text-end">
+            <div class="row align-items-center mb-3">
+                <div class="col-md-auto">
+                    <div class="text-start">
                         <button type="button" class="btn btn-outline-primary me-2" data-bs-toggle="modal"
                             data-bs-target="#add_working_hours">{{ trans('labels.add_working_hours') }}</button>
-                        <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal"
+                        <button type="button" class="btn btn-outline-secondary me-2" data-bs-toggle="modal"
                             data-bs-target="#dome_settings">{{ trans('labels.add_discounts') }}</button>
+                        <button type="button" class="btn btn-outline-info" data-bs-toggle="modal"
+                            data-bs-target="#policies_rules">{{ trans('labels.policies_rules') }}</button>
                     </div>
                 </div>
+                <div class="col-md-auto h-fit-content pe-0">
+                    <p data-bs-toggle="popover" data-bs-placement="top" data-bs-custom-class="custom-popover"
+                        data-bs-trigger="hover focus" data-bs-content="Default Tooltip">{{ trans('labels.system_mode') }}<i
+                            class="fa-regular fa-circle-info fa-beat-fade ps-2"></i></p>
+                </div>
+                <div class="col-md-auto">
+                    <label class="system-mode-switch">
+                        <input type="checkbox" class="d-none cursor-pointer" name="auto_bookings_system" value="1"
+                            id="auto_bookings_system">
+                        <div class="slider round">
+                            <span class="slider_text">
+                                <span class="text-primary fs-7 off">{{ trans('labels.automatic') }}</span>
+                                <span class="text-primary fs-7 on">{{ trans('labels.mannual') }}</span>
+                            </span>
+                        </div>
+                    </label>
+                </div>
+            </div>
+            <div class="row">
                 <div class="col-md-6">
                     <div class="row">
                         <div class="col-md-12">
