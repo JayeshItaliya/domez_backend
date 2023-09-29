@@ -31,6 +31,9 @@ return new class extends Migration
             $table->string('lng');
             $table->string('benefits');
             $table->longText('benefits_description')->nullable();
+            $table->integer('multiple_fields_selection')->default(0)->comment('For Multiple Fields Selection Discount');
+            $table->double('fields_discount')->default(0);
+            $table->longText('policies_rules')->nullable();
             $table->tinyInteger('is_deleted')->default(2)->comment('1=Yes,2=No');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent();

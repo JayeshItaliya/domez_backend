@@ -57,8 +57,4 @@ class Domes extends Model
     {
         return $query->whereHas('fields');
     }
-    public function dome_setting(): HasOne
-    {
-        return $this->hasOne(DomeSettings::class, 'dome_id');
-    }
 }

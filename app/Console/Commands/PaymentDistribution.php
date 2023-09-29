@@ -14,10 +14,6 @@ use Stripe\Account;
 
 class PaymentDistribution extends Command
 {
-    // $balance = Balance::retrieve();
-    // $availableBalance = $balance->available[0]->amount;
-    // $pendingBalance = $balance->pending[0]->amount;
-
     // $redirectUri = 'http://192.168.0.121/domez_backend/connects';
     // $authorizeUrl = 'https://connect.stripe.com/oauth/authorize' . '?response_type=code' . '&client_id=' . env('STRIPE_CLIENT_ID') . '&scope=read_write' .'&redirect_uri=' . urlencode($redirectUri);
 
@@ -60,7 +56,7 @@ class PaymentDistribution extends Command
                         } catch (\Throwable $th) {
                             // $this->info(' Unable To Distribute Amount For Booking IDs :- ' . implode(',', $getbookingids) . ' ||| To Account --> "' . $getaccountid->account_id . '" (Vendor --> ' . $vendor->id . ') ');
                             $this->info(' ================================================== ');
-                            $this->info(' Unable To Distribute Amount For Booking IDs :- ' . implode(',', $getbookingids) . ' (Vendor --> ' . $vendor->id . ' - ' . $vendor->name . '--' . (int) ($final_amount * 100) .')  =========== due to =========== ' . $th->getMessage() . ' ');
+                            $this->info(' Unable To Distribute Amount For Booking IDs :- ' . implode(',', $getbookingids) . ' (Vendor --> ' . $vendor->id . ' - ' . $vendor->name . '--' . (int) ($final_amount * 100) . ')  =========== due to =========== ' . $th->getMessage() . ' ');
                         }
                     } else {
                         $this->info(" =========================== Bookings not found for ============== $vendor->name ========= ");

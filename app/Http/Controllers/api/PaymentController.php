@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
 class PaymentController extends Controller
@@ -102,7 +103,7 @@ class PaymentController extends Controller
                 $user->save();
                 $data = ['title' => 'Domez App Login Credential', 'email' => $user->email, 'name' => $request->name ?? '', 'password' => $password];
                 Mail::send('email.share_login_details', $data, function ($message) use ($data) {
-                    $message->from(config('app.mail_username'))->subject($data['title']);
+                    $message->from(env('MAIL_USERNAME'))->subject($data['title']);
                     $message->to($data['email']);
                 });
             } else {
@@ -176,7 +177,7 @@ class PaymentController extends Controller
             $booking->total_amount = $request->total_amount;
             $booking->paid_amount = $request->paid_amount;
             $booking->due_amount = $request->due_amount;
-            $booking->min_split_amount = $request->min_split_amount;
+            $booking->min_split_amount = $request->min_split_amount ?? 0;
             $booking->payment_type = $request->payment_type;
             $booking->payment_status = $booking->due_amount == 0 ? 1 : 2;
             $booking->booking_status = $booking->payment_status == 1 ? 1 : 2;
@@ -212,9 +213,10 @@ class PaymentController extends Controller
             }
             Helper::booking_confirmation($booking);
             DB::commit();
-            return response()->json(['status' => 1,"message" => "Successful","transaction_id" => $transaction_id,"booking_id" => $booking->id,"payment_link" => URL::to('/payment/' . $booking->token),"booking_created_at" => Carbon::parse($booking->created_at)->setTimezone(config('app.timezone'))->toDateTimeString(),"current_time" => Carbon::now()->setTimezone(config('app.timezone'))->toDateTimeString(),],200);
+            return response()->json(['status' => 1, "message" => "Successful", "transaction_id" => $transaction_id, "booking_id" => $booking->id, "payment_link" => URL::to('/payment/' . $booking->token), "booking_created_at" => Carbon::parse($booking->created_at)->setTimezone(env('SET_TIMEZONE'))->toDateTimeString(), "current_time" => Carbon::now()->setTimezone(env('SET_TIMEZONE'))->toDateTimeString(),], 200);
         } catch (\Throwable $th) {
             DB::rollback();
+            Log::channel('api')->info("Payment API Error ==> " . $th->getMessage());
             return response()->json(['status' => 0, "message" => 'Something went wrong..'], 200);
         }
     }

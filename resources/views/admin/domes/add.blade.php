@@ -33,15 +33,36 @@
         id="adddome">
         @csrf
         <div class="card-body">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="form-group text-end">
+            <div class="row align-items-center mb-3">
+                <div class="col-md-auto">
+                    <div class="text-start">
                         <button type="button" class="btn btn-outline-primary me-2" data-bs-toggle="modal"
                             data-bs-target="#add_working_hours">{{ trans('labels.add_working_hours') }}</button>
-                        <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal"
-                            data-bs-target="#dome_settings">{{ trans('labels.settings') }}</button>
+                        <button type="button" class="btn btn-outline-secondary me-2" data-bs-toggle="modal"
+                            data-bs-target="#dome_settings">{{ trans('labels.add_discounts') }}</button>
+                        <button type="button" class="btn btn-outline-info" data-bs-toggle="modal"
+                            data-bs-target="#policies_rules">{{ trans('labels.policies_rules') }}</button>
                     </div>
                 </div>
+                <div class="col-md-auto h-fit-content pe-0">
+                    <p data-bs-toggle="popover" data-bs-placement="top" data-bs-custom-class="custom-popover"
+                        data-bs-trigger="hover focus" data-bs-content="Default Tooltip">{{ trans('labels.system_mode') }}<i
+                            class="fa-regular fa-circle-info fa-beat-fade ps-2"></i></p>
+                </div>
+                <div class="col-md-auto">
+                    <label class="system-mode-switch">
+                        <input type="checkbox" class="d-none cursor-pointer" name="auto_bookings_system" value="1"
+                            id="auto_bookings_system">
+                        <div class="slider round">
+                            <span class="slider_text">
+                                <span class="text-primary fs-7 off">{{ trans('labels.automatic') }}</span>
+                                <span class="text-primary fs-7 on">{{ trans('labels.mannual') }}</span>
+                            </span>
+                        </div>
+                    </label>
+                </div>
+            </div>
+            <div class="row">
                 <div class="col-md-6">
                     <div class="row">
                         <div class="col-md-12">
@@ -285,7 +306,7 @@
                     </div>
                 </div>
             </div>
-            <!-- Add Working Hours Modal -->
+            <!-- Add Operational Hours Modal -->
             <div class="modal fade" id="add_working_hours" tabindex="-1" aria-labelledby="add_working_hoursLabel"
                 aria-hidden="true">
                 <div class="modal-dialog modal-lg">
@@ -353,95 +374,130 @@
                     </div>
                 </div>
             </div>
-            <!-- Add Dome Settings Modal -->
+            <!-- Add Discount Modal -->
             <div class="modal fade" id="dome_settings" tabindex="-1" aria-labelledby="dome_settingsLabel"
                 aria-hidden="true">
-                <div class="modal-dialog modal-xl">
+                <div class="modal-dialog modal-lg">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h1 class="modal-title fs-5" id="dome_settingsLabel">{{ trans('labels.dome_settings') }}</h1>
+                            <h1 class="modal-title fs-5" id="dome_settingsLabel">{{ trans('labels.add_discounts') }}</h1>
                             <button type="button" class="btn-close" data-bs-dismiss="modal"
                                 aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
                             <div class="row">
-                                <div class="col-md-6">
-                                    <div
-                                        class="form-check form-switch form-check-reverse text-start px-0 d-flex align-items-center justify-content-between flex-row-reverse">
-                                        <input class="form-check-input mx-0" type="checkbox" role="switch"
-                                            style="width: 3em; height: 1.5em" id="auto_bookings_system"
-                                            name="auto_bookings_system"
-                                            {{ old('auto_bookings_system') == 'on' ? 'checked' : '' }}>
-                                        <label class="form-check-label"
-                                            for="auto_bookings_system">{{ trans('labels.auto_bookings_system') }}</label>
-                                    </div>
-                                    <div class="form-group col-5 mb-4">
-                                        <label for="age" class="form-label">{{ trans('labels.age') }}</label>
-                                        <select class="form-select" id="age" name="age">
-                                            <option selected value="0">0</option>
-                                            @for ($i = 1; $i <= 90; $i++)
-                                                <option value="{{ $i }}"
-                                                    {{ old('max_fields_selection') == $i ? 'selected' : '' }}>
-                                                    {{ $i }}</option>
-                                            @endfor
-                                        </select>
-                                    </div>
-                                    <div class="row">
-                                        <div class="form-group col-md-6">
-                                            <label for="age"
-                                                class="form-label">{{ trans('labels.age') . ' ' . trans('labels.below_discount') }}</label>
-                                            <div class="input-group mb-3">
-                                                <input type="number" class="form-control" name="age_below_discount"
-                                                    value="{{ old('age_below_discount') }}"
-                                                    placeholder="{{ trans('labels.below_discount') }}">
-                                                <span class="input-group-text">%</span>
-                                            </div>
-                                        </div>
-                                        <div class="form-group col-md-6">
-                                            <label for="age"
-                                                class="form-label">{{ trans('labels.age') . ' ' . trans('labels.above_discount') }}</label>
-                                            <div class="input-group mb-3">
-                                                <input type="number" class="form-control" name="age_above_discount"
-                                                    value="{{ old('age_above_discount') }}"
-                                                    placeholder="{{ trans('labels.above_discount') }}">
-                                                <span class="input-group-text">%</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="form-group col-md-6">
-                                            <label for="max_fields_selection"
-                                                class="form-label">{{ trans('labels.max_fields_selection') }}</label>
-                                            <select class="form-select" id="max_fields_selection"
-                                                name="max_fields_selection">
-                                                <option selected value="0">0</option>
-                                                @for ($i = 1; $i <= 10; $i++)
-                                                    <option value="{{ $i }}"
-                                                        {{ old('max_fields_selection') == $i ? 'selected' : '' }}>
-                                                        {{ $i }}</option>
+                                <div class="form-group col-md-4">
+                                    <label for="max_fields_selection"
+                                        class="form-label">{{ trans('labels.max_fields_selection') }}</label>
+                                    <select class="form-select" id="max_fields_selection" name="max_fields_selection">
+                                        <option selected value="0">0</option>
+                                        @for ($i = 1; $i <= 10; $i++)
+                                            <option value="{{ $i }}"
+                                                {{ old('max_fields_selection') == $i ? 'selected' : '' }}>
+                                                {{ $i }}</option>
+                                        @endfor
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="field_discount"
+                                        class="form-label">{{ trans('labels.discount') }}</label>
+                                    <input type="number" class="form-control" name="field_discount" id="field_discount"
+                                        value="0">
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="age_discount"
+                                        class="form-label">{{ trans('labels.discount_type') }}</label>
+                                    <select class="form-select" required="" id="field_discount_type"
+                                        name="field_discount_type">
+                                        <option value="1" selected>{{ trans('labels.in_percentage') }}
+                                        </option>
+                                        <option value="2">{{ trans('labels.fixed') }}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <hr>
+                            <div id="AddAgeDiscount">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label class="form-label" for="from_age">{{ trans('labels.age') }}</label>
+                                            <select class="form-select" required="" id="from_age" name="from_age[]">
+                                                <option value="0" selected="">
+                                                    {{ trans('labels.from_age') }}</option>
+                                                @for ($i = 1; $i <= 90; $i++)
+                                                    <option value="{{ $i }}">{{ $i }}</option>
                                                 @endfor
                                             </select>
                                         </div>
-                                        <div class="form-group col-md-6">
-                                            <label for="multiple_fields_discount"
-                                                class="form-label">{{ trans('labels.multiple_fields_discount') }}</label>
-                                            <div class="input-group mb-3">
-                                                <input type="number" class="form-control"
-                                                    name="multiple_fields_discount"
-                                                    value="{{ old('multiple_fields_discount') }}"
-                                                    placeholder="{{ trans('labels.fields_discount') }}">
-                                                <span class="input-group-text">%</span>
-                                            </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="" class="form-label">&nbsp;</label>
+                                            <select class="form-select" required="" id="to_age" name="to_age[]">
+                                                <option value="0" selected="">
+                                                    {{ trans('labels.to') }}</option>
+                                                @for ($i = 1; $i <= 90; $i++)
+                                                    <option value="{{ $i }}">{{ $i }}</option>
+                                                @endfor
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label for="age_discount"
+                                                class="form-label">{{ trans('labels.discount') }}</label>
+                                            <input type="number" class="form-control" name="age_discount[]"
+                                                id="age_discount" value="0">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="age_discount"
+                                                class="form-label">{{ trans('labels.discount_type') }}</label>
+                                            <select class="form-select" required="" id="discount_type"
+                                                name="discount_type[]">
+                                                <option value="1" selected>{{ trans('labels.in_percentage') }}
+                                                </option>
+                                                <option value="2">{{ trans('labels.fixed') }}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-1 d-flex align-items-end">
+                                        <div class="form-group">
+                                            <button type="button" class="btn btn-sm btn-outline-primary appendbtn">
+                                                <i class="fa fa-plus"></i>
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label class="form-label"
-                                            for="dome_policy">{{ trans('labels.dome_policy') }}</label>
-                                        <textarea class="form-control" name="dome_policy" id="dome_policy" rows="10"
-                                            placeholder="{{ trans('messages.dome_policy') }}" autocomplete="off">{{ old('dome_policy') }}</textarea>
-                                    </div>
+                            </div>
+                            <div id="AgeDiscountFields"></div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-outline-success"
+                                data-bs-dismiss="modal">{{ trans('labels.save') }}</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Add Policies & Rules Modal -->
+            <div class="modal fade" id="policies_rules" tabindex="-1" aria-labelledby="policies_rulesLabel"
+                aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="policies_rulesLabel">{{ trans('labels.policies_rules') }}
+                            </h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="form-group">
+                                    <label class="form-label"
+                                        for="dome_policy">{{ trans('labels.dome_policy') }}</label>
+                                    <textarea class="form-control" name="dome_policy" id="dome_policy" rows="10"
+                                        placeholder="{{ trans('messages.dome_policy') }}" autocomplete="off">{{ old('dome_policy') }}</textarea>
                                 </div>
                             </div>
                         </div>
@@ -487,6 +543,61 @@
             } else {
                 $('#' + $(this).attr("data-sport-name") + '' + $(this).val()).remove();
             }
+        });
+        $('#AddAgeDiscount .appendbtn').click(function(e) {
+            e.preventDefault();
+            var check = 1;
+            $('#AddAgeDiscount select, #AddAgeDiscount input, #AgeDiscountFields select, #AgeDiscountFields input')
+                .each(function(index, element) {
+                    if ($.trim($(element).val()) == "") {
+                        $(element).addClass('is-invalid');
+                        check = 0;
+                        return false
+                    } else {
+                        $(element).removeClass('is-invalid');
+                    }
+                    if (check == 0) {
+                        return false;
+                    }
+                });
+            if (check == 0) {
+                return false;
+            }
+
+            var temp = Math.floor(Math.random() * 100);
+            var clonedCode = $(
+                '<div class="row"><div class="col-md-3"><div class="form-group"><label class="form-label" for="from_age">' +
+                {{ Js::from(trans('labels.age')) }} +
+                '</label><select class="form-select" required="" id="from_age" name="from_age[]"><option value="0" selected="">' +
+                {{ Js::from(trans('labels.from_age')) }} +
+                '</option>endfor</select></div></div><div class="col-md-3"><div class="form-group"><label for="" class="form-label">&nbsp;</label><select class="form-select" required="" id="to_age" name="to_age[]"><option value="0" selected="">' +
+                {{ Js::from(trans('labels.to')) }} +
+                '</option></select></div></div><div class="col-md-2"><div class="form-group"><label for="age_discount"class="form-label">' +
+                {{ Js::from(trans('labels.discount')) }} +
+                '</label><input type="number" class="form-control" name="age_discount[]"id="age_discount" value="0"></div></div><div class="col-md-3"><div class="form-group"><label for="age_discount" class="form-label">' +
+                {{ Js::from(trans('labels.discount_type')) }} +
+                '</label><select class="form-select" required="" id="discount_type" name="discount_type[]"><option value="1" selected>' +
+                {{ Js::from(trans('labels.in_percentage')) }} + '</option><option value="2">' +
+                {{ Js::from(trans('labels.fixed')) }} +
+                '</option></select></div></div><div class="col-md-1 d-flex align-items-end"><div class="form-group"><button type="button" class="btn btn-sm btn-outline-danger deletebtn"><i class="fa fa-close"></i> </button></div></div></div>'
+            );
+            var selectFromAge = clonedCode.find("#from_age");
+            var selectToAge = clonedCode.find("#to_age");
+            for (var i = 1; i <= 90; i++) {
+                selectFromAge.append($('<option>', {
+                    value: i,
+                    text: i
+                }));
+
+                selectToAge.append($('<option>', {
+                    value: i,
+                    text: i
+                }));
+            }
+            $("#AgeDiscountFields").append(clonedCode);
+        });
+        $("#AgeDiscountFields").on("click", ".deletebtn", function() {
+            $(this).closest(".row").remove();
         });
     </script>
     <script src="{{ url('resources/views/admin/domes/domes.js') }}"></script>

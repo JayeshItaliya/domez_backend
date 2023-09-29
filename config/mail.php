@@ -35,12 +35,12 @@ return [
 
     'mailers' => [
         'smtp' => [
-            'transport' => config('app.mail_mailer'),
-            'host' => config('app.mail_host'),
-            'port' => config('app.mail_port'),
-            'encryption' => config('app.mail_encryption'),
-            'username' => config('app.mail_username'),
-            'password' => config('app.mail_password'),
+            'transport' => env('MAIL_MAILER'),
+            'host' => env('MAIL_HOST'),
+            'port' => env('MAIL_PORT'),
+            'encryption' => env('MAIL_ENCRYPTION'),
+            'username' => env('MAIL_USERNAME'),
+            'password' => env('MAIL_PASSWORD'),
             'timeout' => null,
             'local_domain' => env('MAIL_EHLO_DOMAIN'),
         ],

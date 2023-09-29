@@ -119,9 +119,9 @@ return [
         ],
 
 
-        'custom_log' => [
+        'api' => [
             'driver' => 'single',
-            'path' => storage_path('logs/custom_logs.log'),
+            'path' => storage_path('logs/apis.log'),
             'level' => 'debug',
         ],
     ],

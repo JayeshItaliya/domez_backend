@@ -157,9 +157,9 @@ class LeagueController extends Controller
             'amenities_description' => $league->dome_info->benefits_description ?? '',
             'league_images' => $league->league_images,
             'amenities' => $benefits,
-            "booking_deadline" => Carbon::parse($league->booking_deadline)->setTimezone(config('app.timezone'))->toDateTimeString(),
+            "booking_deadline" => Carbon::parse($league->booking_deadline)->setTimezone(env('SET_TIMEZONE'))->toDateTimeString(),
             "is_fav" => Helper::is_fav($user_id, '', $league->id),
-            'current_time' => Carbon::now()->setTimezone(config('app.timezone'))->toDateTimeString(),
+            'current_time' => Carbon::now()->setTimezone(env('SET_TIMEZONE'))->toDateTimeString(),
         );
         return $league_data;
     }

@@ -1,9 +1,12 @@
 <?php
+
 namespace App\Http\Controllers\admin;
+
 use App\Http\Controllers\Controller;
 use App\Models\Booking;
 use Illuminate\Http\Request;
 use App\Models\User;
+
 class UserController extends Controller
 {
     public function index(Request $request)
@@ -14,7 +17,7 @@ class UserController extends Controller
     public function edit(Request $request)
     {
         $user = User::find($request->id);
-        abort_if(empty  ($user),404);
+        abort_if(empty($user), 404);
         return view('admin.users.edit', compact('user'));
     }
     public function update(Request $request)
@@ -30,9 +33,11 @@ class UserController extends Controller
             'email_address.unique' => trans('messages.email_exist'),
         ]);
         if ($request->has('profile_image')) {
-            $request->validate([
+            $request->validate(
+                [
                     'profile_image' => 'mimes:png,jpg,jpeg,svg|max:7168'
-                ],[
+                ],
+                [
                     'profile_image.mimes' => trans('messages.valid_image_type'),
                     'profile_image.max' => trans('messages.valid_image_size'),
                 ]
@@ -56,8 +61,19 @@ class UserController extends Controller
     public function user_details(Request $request)
     {
         $user = User::find($request->id);
-        abort_if(empty($user),404);
+        abort_if(empty($user), 404);
         $bookings = Booking::where('user_id', $user->id)->get();
         return view('admin.users.view', compact('user', 'bookings'));
+    }
+    public function change_status(Request $request)
+    {
+        try {
+            $user = User::find($request->id);
+            $user->is_available = $request->status;
+            $user->save();
+            return 1;
+        } catch (\Throwable $th) {
+            return 0;
+        }
     }
 }

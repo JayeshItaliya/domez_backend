@@ -39,7 +39,7 @@
                         <button type="button" class="btn btn-outline-primary me-2" data-bs-toggle="modal"
                             data-bs-target="#add_working_hours">{{ trans('labels.add_working_hours') }}</button>
                         <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal"
-                            data-bs-target="#dome_settings">{{ trans('labels.settings') }}</button>
+                            data-bs-target="#dome_settings">{{ trans('labels.add_discounts') }}</button>
                     </div>
                 </div>
                 <div class="col-md-6">

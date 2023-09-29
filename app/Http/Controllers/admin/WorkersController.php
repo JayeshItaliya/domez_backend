@@ -40,7 +40,7 @@ class WorkersController extends Controller
         try {
             $data = ['title' => 'Domez Employee Login Credentials', 'email' => $request->email, 'name' => $request->name, 'password' => $request->password];
             Mail::send('email.share_login_details', $data, function ($message) use ($data) {
-                $message->from(config('app.mail_username'))->subject($data['title']);
+                $message->from(env('MAIL_USERNAME'))->subject($data['title']);
                 $message->to($data['email']);
             });
         } catch (Exception $ex) {

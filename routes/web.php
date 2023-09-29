@@ -230,14 +230,9 @@ Route::group(['middleware' => 'SetTimeZoneMiddleware'], function () {
                 Route::get('sports-fields', [LeagueController::class, 'getsportsandfields']);
             });
         });
-        Route::group(['prefix' => 'dome-settings'], function () {
-            Route::get('/', [DomesController::class, 'dome_settings']);
-        });
     });
 
-    Route::group(['prefix' => 'new'], function () {
-        Route::get('/', function () {
-            return view('admin.dashboard.index');
-        });
+    Route::get('email', function () {
+        return view('email');
     });
 });

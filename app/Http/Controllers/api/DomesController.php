@@ -6,6 +6,7 @@ use App\Helper\Helper;
 use App\Http\Controllers\Controller;
 use App\Models\Booking;
 use App\Models\Domes;
+use App\Models\DomeSettings;
 use App\Models\Review;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -27,7 +28,7 @@ class DomesController extends Controller
             if (in_array($request->user_id, [0, ''])) {
                 return response()->json(["status" => 0, "message" => 'Enter Login User ID'], 200);
             }
-            if (empty(User::where('id',$request->user_id)->where('is_available',1)->where('is_deleted',2)->first())) {
+            if (empty(User::where('id', $request->user_id)->where('is_available', 1)->where('is_deleted', 2)->first())) {
                 return response()->json(["status" => 0, "message" => 'Invalid User ID'], 200);
             }
             $data = Booking::where('user_id', $request->user_id)->where('type', 1)->orderByDesc('created_at')->paginate(10);
@@ -143,7 +144,7 @@ class DomesController extends Controller
     }
     public function domes_details(Request $request)
     {
-        $dome = Domes::with(['dome_images','working_hours'])->where('id', $request->id)->where('is_deleted', 2)->first();
+        $dome = Domes::with(['dome_images', 'working_hours'])->where('id', $request->id)->where('is_deleted', 2)->first();
         if (empty($dome)) {
             return response()->json(["status" => 0, "message" => 'Dome Not Found'], 200);
         }
@@ -175,8 +176,8 @@ class DomesController extends Controller
                 'address' => $dome->address,
                 'city' => $dome->city,
                 'state' => $dome->state,
-                'start_time' => date('h:i A',strtotime($dome->day_working_hours('')->open_time)),
-                'end_time' => date('h:i A',strtotime($dome->day_working_hours('')->close_time)),
+                'start_time' => date('h:i A', strtotime($dome->day_working_hours('')->open_time)),
+                'end_time' => date('h:i A', strtotime($dome->day_working_hours('')->close_time)),
                 'description' => $dome->description,
                 'lat' => $dome->lat,
                 'lng' => $dome->lng,
@@ -185,10 +186,18 @@ class DomesController extends Controller
                 'benefits' => $benefits,
                 'sports_list' => Helper::get_sports_list($dome->sport_id),
                 'dome_images' => $dome->dome_images,
-                "current_time" => Carbon::now()->setTimezone(config('app.timezone'))->toDateTimeString(),
+                "current_time" => Carbon::now()->setTimezone(env('SET_TIMEZONE'))->toDateTimeString(),
                 'closed_days' => $dome->working_hours->pluck('is_closed'),
             );
         }
         return response()->json(["status" => 1, "message" => "Successful", 'dome_details' => $dome_data], 200);
+    }
+    public function domes_settings(Request $request)
+    {
+        $dome_setting = DomeSettings::where('dome_id', $request->dome_id)->first();
+        if (!empty($dome_setting)) {
+            return response()->json(["status" => 1, "message" => "Successful", 'dome_setting' => $dome_setting], 200);
+        }
+        return response()->json(["status" => 0, "message" => 'Invalid Dome ID'], 200);
     }
 }

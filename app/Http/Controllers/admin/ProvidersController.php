@@ -24,7 +24,7 @@ class ProvidersController extends Controller
             try {
                 $data = ['title' => 'Domez Providers Login Credentials', 'email' => $request->email, 'name' => $request->name, 'password' => $request->password];
                 Mail::send('email.share_login_details', $data, function ($message) use ($data) {
-                    $message->from(config('app.mail_username'))->subject($data['title']);
+                    $message->from(env('MAIL_USERNAME'))->subject($data['title']);
                     $message->to($data['email']);
                 });
                 try {

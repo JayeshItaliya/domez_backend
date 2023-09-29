@@ -98,12 +98,12 @@ class SettingsController extends Controller
             'encryption.required' => trans('messages.required'),
         ]);
         $envFile = base_path('.env');
-        file_put_contents($envFile, str_replace('MAIL_MAILER=' . config('app.mail_mailer'), 'MAIL_MAILER=' . $request->mailer, file_get_contents($envFile)));
-        file_put_contents($envFile, str_replace('MAIL_HOST=' . config('app.mail_host'), 'MAIL_HOST=' . $request->host, file_get_contents($envFile)));
-        file_put_contents($envFile, str_replace('MAIL_PORT=' . config('app.mail_port'), 'MAIL_PORT=' . $request->port, file_get_contents($envFile)));
-        file_put_contents($envFile, str_replace('MAIL_USERNAME=' . config('app.mail_username'), 'MAIL_USERNAME=' . $request->username, file_get_contents($envFile)));
-        file_put_contents($envFile, str_replace('MAIL_PASSWORD=' . config('app.mail_password'), 'MAIL_PASSWORD=' . $request->password, file_get_contents($envFile)));
-        file_put_contents($envFile, str_replace('MAIL_ENCRYPTION=' . config('app.mail_encryption'), 'MAIL_ENCRYPTION=' . $request->encryption, file_get_contents($envFile)));
+        file_put_contents($envFile, str_replace('MAIL_MAILER=' . env('MAIL_MAILER'), 'MAIL_MAILER=' . $request->mailer, file_get_contents($envFile)));
+        file_put_contents($envFile, str_replace('MAIL_HOST=' . env('MAIL_HOST'), 'MAIL_HOST=' . $request->host, file_get_contents($envFile)));
+        file_put_contents($envFile, str_replace('MAIL_PORT=' . env('MAIL_PORT'), 'MAIL_PORT=' . $request->port, file_get_contents($envFile)));
+        file_put_contents($envFile, str_replace('MAIL_USERNAME=' . env('MAIL_USERNAME'), 'MAIL_USERNAME=' . $request->username, file_get_contents($envFile)));
+        file_put_contents($envFile, str_replace('MAIL_PASSWORD=' . env('MAIL_PASSWORD'), 'MAIL_PASSWORD=' . $request->password, file_get_contents($envFile)));
+        file_put_contents($envFile, str_replace('MAIL_ENCRYPTION=' . env('MAIL_ENCRYPTION'), 'MAIL_ENCRYPTION=' . $request->encryption, file_get_contents($envFile)));
         return redirect()->back()->with('success', trans('messages.success'));
     }
     public function stripe_setting(Request $request)
@@ -213,7 +213,7 @@ class SettingsController extends Controller
             User::where('id', auth()->user()->id)->update(['password' => Hash::make($request->new_password)]);
             $data = ['title' => 'Password Updated', 'email' => auth()->user()->email];
             Mail::send('email.change_password', $data, function ($message) use ($data) {
-                $message->from(config('app.mail_username'))->subject($data['title']);
+                $message->from(env('MAIL_USERNAME'))->subject($data['title']);
                 $message->to($data['email']);
             });
             return redirect()->back()->with('success', trans('messages.success'));

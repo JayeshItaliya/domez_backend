@@ -146,7 +146,7 @@ class SlotsAndFieldsController extends Controller
                 'slot' => $new_slot,
                 'price' => $slot->price,
                 'status' => $status,
-                'current_time' => Carbon::now()->setTimezone(config('app.timezone'))->toDateTimeString(),
+                'current_time' => Carbon::now()->setTimezone(env('SET_TIMEZONE'))->toDateTimeString(),
             ];
         }
         return response()->json(["status" => 1, "message" => "Successful", 'data' => $slots], 200);

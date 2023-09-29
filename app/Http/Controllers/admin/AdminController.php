@@ -38,7 +38,7 @@ class AdminController extends Controller
                 $token = OAuth::token([
                     'grant_type' => 'authorization_code',
                     'code' => $request->code,
-                    'client_id' => config('app.stripe_client_id'),
+                    'client_id' => env('STRIPE_CLIENT_ID'),
                     'client_secret' => Helper::stripe_data()->secret_key,
                 ]);
                 $connectedAccountId = $token->stripe_user_id;

@@ -81,6 +81,9 @@ return new class extends Migration
         Schema::table('users', function (Blueprint $table) {
             $table->foreign('vendor_id')->references('id')->on('users')->where('type', 2)->onDelete('cascade')->onUpdate('cascade');
         });
+        Schema::table('dome_discounts', function (Blueprint $table) {
+            $table->foreign('dome_id')->references('id')->on('domes')->onDelete('cascade')->onUpdate('cascade');
+        });
         if (count(User::get()) == 0) {
             $user = new User;
             $user->type = 1;
@@ -165,6 +168,9 @@ return new class extends Migration
         });
         Schema::table('users', function (Blueprint $table) {
             $table->dropForeign(['vendor_id']);
+        });
+        Schema::table('dome_discounts', function (Blueprint $table) {
+            $table->dropForeign(['dome_id']);
         });
     }
 };

@@ -17,7 +17,7 @@ use Carbon\Carbon;
 use Carbon\CarbonImmutable;
 use Illuminate\Support\Facades\DB;
 use App\Helper\Helper;
-use App\Models\DomeSettings;
+use App\Models\DomeDiscounts;
 use App\Models\WorkingHours;
 use Illuminate\Support\Facades\Mail;
 
@@ -46,7 +46,7 @@ class DomesController extends Controller
     }
     public function store(Request $request)
     {
-
+        dd($request->input());
         $request->validate([
             'sport_id' => 'required',
             'dome_name' => 'required',
@@ -127,7 +127,7 @@ class DomesController extends Controller
                 $checksportexist->end_date = null;
                 $checksportexist->save();
             }
-            $dome_settings = new DomeSettings;
+            $dome_settings = new DomeDiscounts;
             $dome_settings->dome_id = $dome->id;
             $dome_settings->accept_decline_bookings = $request->has('auto_bookings_system') && $request->auto_bookings_system == "on" ?? 1;
             $dome_settings->age = $request->age;
@@ -350,7 +350,7 @@ class DomesController extends Controller
                 $checksportexist->price = $request->dome_price[$key];
                 $checksportexist->save();
             }
-            $dome_settings = DomeSettings::where('dome_id', $dome->id)->first();
+            $dome_settings = DomeDiscounts::where('dome_id', $dome->id)->first();
             $dome_settings->accept_decline_bookings = $request->has('auto_bookings_system') && $request->auto_bookings_system == "on" ? 1 : 2;
             $dome_settings->age = $request->age;
             $dome_settings->age_below_discount = $request->age == 0 ? 0 : $request->age_below_discount;
@@ -376,7 +376,7 @@ class DomesController extends Controller
                 Favourite::where('dome_id', $checkdome->id)->delete();
                 League::where('dome_id', $checkdome->id)->update(['is_deleted' => 1]);
                 Field::where('dome_id', $checkdome->id)->update(['is_available' => 2, 'is_deleted' => 1]);
-                DomeSettings::where('dome_id', $checkdome->id)->delete();
+                DomeDiscounts::where('dome_id', $checkdome->id)->delete();
                 return response()->json(['status' => 1, 'message' => trans('messages.success')], 200);
             }
             return response()->json(['status' => 0, 'message' => trans('messages.invalid_dome')], 200);
@@ -454,12 +454,12 @@ class DomesController extends Controller
             $enquiry->save();
             $user_data = ['title' => 'New Dome Request', 'admin' => Helper::admin_data()->name, 'enquirydata' => $enquiry];
             Mail::send('email.request_new_dome', $user_data, function ($message) use ($user_data) {
-                $message->from(config('app.mail_username'))->subject($user_data['title']);
+                $message->from(env('MAIL_USERNAME'))->subject($user_data['title']);
                 $message->to(Helper::admin_data()->email);
             });
             $data = ['title' => 'New Dome Request', 'email' => $enquiry->email, 'name' => $enquiry->name];
             Mail::send('email.new_dome_enquiry', $data, function ($message) use ($data) {
-                $message->from(config('app.mail_username'))->subject($data['title']);
+                $message->from(env('MAIL_USERNAME'))->subject($data['title']);
                 $message->to($data['email']);
             });
             return redirect()->back()->with('success', trans('messages.success'));
@@ -471,4 +471,5 @@ class DomesController extends Controller
     {
         return view('admin.dome_settings.index');
     }
+
 }

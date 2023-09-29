@@ -270,9 +270,9 @@ return [
     'sunday' => 'Sunday',
     'opening_time' => 'Opening Time',
     'closing_time' => 'Closing Time',
-    'add_working_hours' => 'Add working Hours',
-    'edit_working_hours' => 'Edit working Hours',
-    'view_working_hours' => 'View working Hours',
+    'add_working_hours' => 'Add Operational Hours',
+    'edit_working_hours' => 'Edit Operational Hours',
+    'view_working_hours' => 'View Operational Hours',
     'close' => 'Close',
     'exist' => 'Existing',
     'new' => 'New',
@@ -295,6 +295,11 @@ return [
 
 
 
+    'add_discounts' => 'Add Discounts',
+    'policies_rules' => 'Add Your Policies & Rules',
+    'automatic' => 'Automatic',
+    'mannual' => 'Mannual',
+    'system_mode' => 'System Mode',
     'dome_settings' => 'Dome Settings',
     'dome_policy' => 'Dome Policy',
     'auto_bookings_system' => 'Auto Bookings System',
@@ -305,4 +310,8 @@ return [
     'max_fields_selection' => 'Max Fields Selection',
     'multiple_fields_discount' => 'Multiple Fields Discount',
     'fields_discount' => 'Fields Discount',
+    'in_percentage' => 'In Percentage',
+    'fixed' => 'Fixed',
+    'discount' => 'Discount',
+    'discount_type' => 'Discount Type',
 ];

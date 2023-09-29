@@ -151,10 +151,10 @@ return [
     'mail_encryption' => env('MAIL_ENCRYPTION'),
     'mail_from_address' => env('MAIL_FROM_ADDRESS'),
     'mail_from_name' => env('MAIL_FROM_NAME'),
-    
+
     'stripe_client_id' => env('STRIPE_CLIENT_ID'),
 
-
+    'firebase_key' => env('FIREBASE_KEY'),
 
 
 

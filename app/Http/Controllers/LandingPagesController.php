@@ -122,12 +122,12 @@ class LandingPagesController extends Controller
             $enquiry->save();
             $user_data = ['title' => 'New Dome Request', 'admin' => Helper::admin_data()->name, 'enquirydata' => $enquiry];
             Mail::send('email.request_new_dome', $user_data, function ($message) use ($user_data) {
-                $message->from(config('app.mail_username'))->subject($user_data['title']);
+                $message->from(env('MAIL_USERNAME'))->subject($user_data['title']);
                 $message->to(Helper::admin_data()->email);
             });
             $data = ['title' => 'New Dome Request', 'email' => $enquiry->email, 'name' => $enquiry->name];
             Mail::send('email.new_dome_enquiry', $data, function ($message) use ($data) {
-                $message->from(config('app.mail_username'))->subject($data['title']);
+                $message->from(env('MAIL_USERNAME'))->subject($data['title']);
                 $message->to($data['email']);
             });
             DB::commit();

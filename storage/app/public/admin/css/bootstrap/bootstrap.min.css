@@ -74,7 +74,11 @@
     --bs-link-color: var(--bs-primary);
     --bs-link-hover-color: rgba(var(--bs-primary-rgb), 0.8);
     --bs-code-color: #d63384;
-    --bs-highlight-bg: #fff3cd
+    --bs-highlight-bg: #fff3cd;
+    --bs-box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    --bs-box-shadow-sm: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    --bs-box-shadow-lg: 0 1rem 3rem rgba(0, 0, 0, 0.175);
+    --bs-box-shadow-inset: inset 0 1px 2px rgba(0, 0, 0, 0.075);
 }
 
 *,
@@ -6339,7 +6343,7 @@ fieldset:disabled .btn {
     --bs-tooltip-zindex: 1080;
     --bs-tooltip-max-width: 200px;
     --bs-tooltip-padding-x: 0.5rem;
-    --bs-tooltip-padding-y: 0.25rem;
+    --bs-tooltip-padding-y: 0.10rem;
     --bs-tooltip-font-size: 0.875rem;
     --bs-tooltip-color: #fff;
     --bs-tooltip-bg: #000;
@@ -6351,10 +6355,9 @@ fieldset:disabled .btn {
     display: block;
     padding: var(--bs-tooltip-arrow-height);
     margin: var(--bs-tooltip-margin);
-    font-family: var(--bs-font-sans-serif);
     font-style: normal;
     font-weight: 400;
-    line-height: 1.5;
+    /* line-height: 1.5; */
     text-align: left;
     text-align: start;
     text-decoration: none;
@@ -6463,7 +6466,7 @@ fieldset:disabled .btn {
     --bs-popover-header-font-size: 1rem;
     --bs-popover-header-bg: #f0f0f0;
     --bs-popover-body-padding-x: 1rem;
-    --bs-popover-body-padding-y: 1rem;
+    --bs-popover-body-padding-y: 0.5rem;
     --bs-popover-body-color: #212529;
     --bs-popover-arrow-width: 1rem;
     --bs-popover-arrow-height: 0.5rem;

@@ -52,6 +52,7 @@ Route::group(['middleware' => 'SetTimeZoneMiddleware'], function () {
 
     Route::post('domes-list', [DomesController::class, 'domes_list']);
     Route::get('dome-details-{id}', [DomesController::class, 'domes_details']);
+    Route::get('dome-settings-{dome_id}', [DomesController::class, 'domes_settings']);
 
     Route::post('leagues-list', [LeagueController::class, 'leagues_list']);
     Route::get('league-details-{id}', [LeagueController::class, 'league_details']);

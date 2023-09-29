@@ -81,12 +81,6 @@
                             class="nav-link {{ request()->is('admin/set-prices*') ? 'active' : '' }}">{{ trans('labels.set_prices') }}</span>
                         </a>
                         @endif
-                        @if (auth()->user()->type == 2)
-                            <a href="{{ URL::to('admin/dome-settings') }}" class="nav-item">
-                                <span
-                                    class="nav-link {{ request()->is('admin/dome-settings*') ? 'active' : '' }}">{{ trans('labels.dome_settings') }}</span>
-                            </a>
-                        @endif
                     </ul>
                 </div>
             @endif

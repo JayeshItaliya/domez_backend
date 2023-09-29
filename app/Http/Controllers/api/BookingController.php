@@ -56,8 +56,8 @@ class BookingController extends Controller
             "price" => $data->total_amount,
             'image' => $data->dome_info->dome_image->image,
             'payment_type' => $data->payment_type,
-            'time' => Carbon::parse($data->start_time)->setTimezone(config('app.timezone'))->format('h:i A') . ' - ' . Carbon::parse($data->end_time)->setTimezone(config('app.timezone'))->format('h:i A'),
-            'created_at' => Carbon::parse($data->created_at)->setTimezone(config('app.timezone'))->toDateTimeString(),
+            'time' => Carbon::parse($data->start_time)->setTimezone(env('SET_TIMEZONE'))->format('h:i A') . ' - ' . Carbon::parse($data->end_time)->setTimezone(env('SET_TIMEZONE'))->format('h:i A'),
+            'created_at' => Carbon::parse($data->created_at)->setTimezone(env('SET_TIMEZONE'))->toDateTimeString(),
         ];
         return $arr;
     }
@@ -100,7 +100,7 @@ class BookingController extends Controller
         $start_date_time = Carbon::createFromFormat('Y-m-d h:i A', $booking->start_date . ' ' . date('h:i A', strtotime($booking->end_time)));
 
         $booking_details = [
-            "id" => $booking->id,
+            "id" => intval($booking->id),
             "type" => $booking->type,
             "field" => $booking->fields_name(),
             "dome_name" => $dome->name,
@@ -122,8 +122,8 @@ class BookingController extends Controller
             "booking_status" => $booking->booking_status == 3 ? 'Cancelled' : '',
             "image" => $dome->dome_image->image,
             "payment_status" => $booking->payment_status == 1 ? 'Paid' : 'In Progress',
-            "booking_created_at" => Carbon::parse($booking->created_at)->setTimezone(config('app.timezone'))->toDateTimeString(),
-            "current_time" => Carbon::now()->setTimezone(config('app.timezone'))->toDateTimeString(),
+            "booking_created_at" => Carbon::parse($booking->created_at)->setTimezone(env('SET_TIMEZONE'))->toDateTimeString(),
+            "current_time" => Carbon::now()->setTimezone(env('SET_TIMEZONE'))->toDateTimeString(),
             "user_info" => $booking->user_info,
             "payment_link" => URL::to('/payment/' . $booking->token),
             "other_contributors" => $gettransaction,

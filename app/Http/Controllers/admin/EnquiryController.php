@@ -28,7 +28,7 @@ class EnquiryController extends Controller
             $enquiry_data = Enquiries::find($request->id);
             $data = ['title' => 'Reply: Inquiry about Dome Registration', 'type' => $enquiry_data->type, 'email' => $enquiry_data->email, 'name' => $enquiry_data->name, 'reply' => $request->reply];
             Mail::send('email.reply_enquiries', $data, function ($message) use ($data) {
-                $message->from(config('app.mail_username'))->subject($data['title']);
+                $message->from(env('MAIL_USERNAME'))->subject($data['title']);
                 $message->to($data['email']);
             });
             $enquiry_data->is_replied = 1;
@@ -45,7 +45,7 @@ class EnquiryController extends Controller
             $enquiry_data = Enquiries::find($request->id);
             $data = ['title' => 'Reply: Dome Request Accepted', 'email' => $enquiry_data->email, 'name' => $enquiry_data->name, 'password' => $password, 'is_exist' => $enquiry_data->is_exist];
             Mail::send('email.accept_dome_request', $data, function ($message) use ($data) {
-                $message->from(config('app.mail_username'))->subject($data['title']);
+                $message->from(env('MAIL_USERNAME'))->subject($data['title']);
                 $message->to($data['email']);
             });
             // Find the user with the given email and type = 2
@@ -89,7 +89,7 @@ class EnquiryController extends Controller
             $enquiry = Enquiries::find($request->id);
             $data = ['title' => 'Reply: Dome Request Declined', 'email' => $enquiry->email, 'name' => $enquiry->name];
             Mail::send('email.decline_dome_request', $data, function ($message) use ($data) {
-                $message->from(config('app.mail_username'))->subject($data['title']);
+                $message->from(env('MAIL_USERNAME'))->subject($data['title']);
                 $message->to($data['email']);
             });
             return response()->json(['status' => 1], 200);
@@ -108,7 +108,7 @@ class EnquiryController extends Controller
             $enquiry_data = Enquiries::find($request->id);
             $data = ['title' => 'Reply to Enquiry - Domez', 'type' => $enquiry_data->type, 'email' => $enquiry_data->email, 'name' => $enquiry_data->name, 'subject' => $enquiry_data->subject, 'reply' => $request->reply];
             Mail::send('email.reply_enquiries', $data, function ($message) use ($data) {
-                $message->from(config('app.mail_username'))->subject($data['title']);
+                $message->from(env('MAIL_USERNAME'))->subject($data['title']);
                 $message->to($data['email']);
             });
             $enquiry_data->is_replied = 1;
@@ -129,7 +129,7 @@ class EnquiryController extends Controller
             $enquiry_data = Enquiries::find($request->id);
             $data = ['title' => 'Reply to Enquiry - Domez App', 'type' => $enquiry_data->type, 'email' => $enquiry_data->email, 'name' => $enquiry_data->user_info->name, 'subject' => $enquiry_data->subject, 'reply' => $request->reply];
             Mail::send('email.reply_enquiries', $data, function ($message) use ($data) {
-                $message->from(config('app.mail_username'))->subject($data['title']);
+                $message->from(env('MAIL_USERNAME'))->subject($data['title']);
                 $message->to($data['email']);
             });
             $enquiry_data->is_replied = 1;
@@ -169,7 +169,7 @@ class EnquiryController extends Controller
             $enquiry_data = Enquiries::find($request->id);
             $data = ['title' => 'Reply to Ticket - Domez Owner', 'type' => $enquiry_data->type, 'email' => $enquiry_data->email, 'name' => $enquiry_data->user_info->name, 'subject' => $enquiry_data->subject, 'reply' => $request->reply];
             Mail::send('email.reply_enquiries', $data, function ($message) use ($data) {
-                $message->from(config('app.mail_username'))->subject($data['title']);
+                $message->from(env('MAIL_USERNAME'))->subject($data['title']);
                 $message->to($data['email']);
             });
             $enquiry_data->is_replied = 1;
