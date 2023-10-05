@@ -816,12 +816,12 @@ header .nav-icons .dropdown-menu .notifications:hover {
     }
 }
 .main-slots:checked + label,
-.main-slots:hover + label {
+.main-slots:not(:disabled):hover + label {
     color: #fff !important;
     background-color: var(--bs-primary) !important;
 }
 .new-slot-radio:checked + label,
-.new-slot-radio:hover + label {
+.new-slot-radio:not(:disabled):hover + label {
     border: 2px solid var(--bs-secondary) !important;
 }
 .new-slot-radio + label {

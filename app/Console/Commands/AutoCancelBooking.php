@@ -14,16 +14,11 @@ use Illuminate\Support\Facades\Log;
 class AutoCancelBooking extends Command
 {
     protected $signature = 'bookings:cancel';
-
     protected $description = 'Command description';
-
     public function handle()
     {
-
         // Example - 1 >> If the customer is creating a booking at "11:00 AM, 11 July 2023" for "10:00 PM, 11-07-2023" with "Full payment" of "$100" then, the Customer will be able to Cancel the booking within 2 hours of "Booking create time(11:00 AM, 11 July 2023)" which is "01:00 PM, 11 July 2023". and customer will get "Full amount($100)" as Refund Right??
-
         // Example - 2 >> If the customer is creating a booking at "11:00 AM, 11 July 2023" for "10:00 PM, 11-07-2023" with a "Split payment" of "$50" where the Full payment is $100, then the Customer will be able to Cancel the booking within 2 hours of "Booking create time(11:00 AM, 11 July 2023)" which is "01:00 PM, 11 July 2023". and customer will get "Total paid amount($50)" as Refund right??
-
         // dd(date('Y-m-d h:i A',strtotime($created_at_plus_2_hours)),date('Y-m-d h:i A',strtotime($now)),$created_at_plus_2_hours->lessThan($now));
         // $payment_time_limit = Carbon::parse($bookingdata->start_date . ' ' . $bookingdata->start_time)->subHours(2);
 

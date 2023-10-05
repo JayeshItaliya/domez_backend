@@ -78,12 +78,6 @@ return [
     "old_password_invalid" => "Old password is invalid",
     "invalid_request" => "Invalid Request!",
     "field_required" => "This field is required!",
-
-
-
-
-
-
-
     'dome_policy'=>'Please Enter Dome Policy',
+    'some_slots_recent_blocked'=>'Some Slots has been recently blocked',
 ];

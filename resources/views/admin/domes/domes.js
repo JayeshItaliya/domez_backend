@@ -18,29 +18,33 @@ $(document).ready(function () {
             var dateString = year + "-" + month + "-" + day;
             start_time = new Date(dateString + " " + start_time);
             start_time.setMinutes(start_time.getMinutes() + 30);
-            var end_time_element = $(this).parent().parent().next().find(".time_picker__end");
+            var end_time_element = $(this)
+                .parent()
+                .parent()
+                .next()
+                .find(".time_picker__end");
             end_time_element.val("");
             end_time_element.timepicker("destroy");
             end_time_element.timepicker({
-                    interval: 30,
-                    dynamic: false,
-                    dropdown: true,
-                    scrollbar: true,
-                    timeFormat: "HH:mm",
-                    startTime: start_time,
-                    minTime: start_time,
-                    maxTime: "23:59",
-                });
+                interval: 30,
+                dynamic: false,
+                dropdown: true,
+                scrollbar: true,
+                timeFormat: "HH:mm",
+                startTime: start_time,
+                minTime: start_time,
+                maxTime: "23:59",
+            });
             end_time_element.on("focus", function () {
-                    if (
-                        $(".ui-timepicker-viewport").find("a:last").html() !=
-                        "23:59"
-                    ) {
-                        $(".ui-timepicker-viewport").append(
-                            '<li class="ui-menu-item" style="width: 133.312px;"><a class="ui-corner-all">23:59</a></li>'
-                        );
-                    }
-                });
+                if (
+                    $(".ui-timepicker-viewport").find("a:last").html() !=
+                    "23:59"
+                ) {
+                    $(".ui-timepicker-viewport").append(
+                        '<li class="ui-menu-item" style="width: 133.312px;"><a class="ui-corner-all">23:59</a></li>'
+                    );
+                }
+            });
         },
     });
 });
@@ -101,7 +105,8 @@ $(function () {
     initMap();
 });
 
-$("#adddome, #editdome").on("submit", function () {
+$("#adddome, #editdome").on("submit", function (event) {
+    event.preventDefault();
     var check = 1;
     $(".time_picker__").each(function () {
         if ($.trim($(this).val()) == "") {
@@ -120,6 +125,35 @@ $("#adddome, #editdome").on("submit", function () {
         }
         return false;
     }
+    var formData = new FormData(this);
+    $.ajax({
+        url: $(this).attr("action"),
+        type: "POST",
+        data: formData,
+        dataType: "json",
+        contentType: false,
+        processData: false,
+        beforeSend: function () {
+            showpreloader();
+        },
+        success: function (response) {
+            hidepreloader();
+            if (response.status == 1) {
+                toastr.success(response.message);
+                if(response.url){
+                    location.href = response.url;
+                }
+            } else {
+                toastr.error(response.message);
+            }
+            return false;
+        },
+        error: function (e) {
+            hidepreloader();
+            toastr.error(wrong);
+            return false;
+        },
+    });
 });
 
 function dome_revenue_chart(dome_revenue_labels, dome_revenue_data) {
@@ -410,3 +444,41 @@ function getZipCode(lat, lng) {
     });
     return zipcode;
 }
+
+
+
+
+
+$('#AddAgeDiscount .appendbtn').click(function(e) {
+    e.preventDefault();
+    var check = 1;
+    $('#AddAgeDiscount select, #AddAgeDiscount input, #AgeDiscountFields select, #AgeDiscountFields input')
+        .each(function(index, element) {
+            if ($.trim($(element).val()) == "") {
+                $(element).addClass('is-invalid');
+                check = 0;
+                return false
+            } else {
+                $(element).removeClass('is-invalid');
+            }
+            if (check == 0) {
+                return false;
+            }
+        });
+    if (check == 0) {
+        return false;
+    }
+
+    var selectoptions = '';
+    for (var i = 1; i <= 90; i++) {
+        selectoptions += '<option value="'+i+'">'+i+'</option>';
+    }
+
+    var temp = Math.floor(Math.random() * 100);
+    var clonedCode = $(
+        '<div class="row"><div class="col-md-3"><div class="form-group"><label class="form-label" for="">' + label_age + '</label><select class="form-select" name="from_age[]"><option value="" selected="">' + label_from_age + '</option>'+selectoptions+'</select></div></div><div class="col-md-3"><div class="form-group"><label for="" class="form-label">&nbsp;</label><select class="form-select" name="to_age[]"><option value="" selected="">' + label_to + '</option>'+selectoptions+'</select></div></div><div class="col-md-2"><div class="form-group"><label for="age_discount_' + temp + '"class="form-label">' + label_discount + '</label><input type="number" max="100" min="0" class="form-control" name="age_discounts[]" id="age_discount_' + temp + '" placeholder="'+label_discount+'"></div></div><div class="col-md-3"><div class="form-group"><label for="discount_type_' + temp + '" class="form-label">' + label_discount_type + '</label><select class="form-select" id="discount_type_' + temp + '" name="discount_type[]"><option value="" selected>' + label_select + '</option><option value="1">' + label_in_percentage + '</option><option value="2">' + label_fixed + '</option></select></div></div><div class="col-md-1 d-flex align-items-end"><div class="form-group"><button type="button" class="btn btn-sm btn-outline-danger deletebtn"><i class="fa fa-close"></i> </button></div></div></div>');
+    $("#AgeDiscountFields").append(clonedCode);
+});
+$("#AgeDiscountFields").on("click", ".deletebtn", function() {
+    $(this).closest(".row").remove();
+});

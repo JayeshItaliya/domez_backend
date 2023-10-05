@@ -98,3 +98,50 @@ function submitdata() {
         }
     });
 }
+
+function managedata(i, u){
+    "use strict";
+    swalWithBootstrapButtons
+        .fire({
+            icon: "warning",
+            title: are_you_sure,
+            showCancelButton: !0,
+            allowOutsideClick: !1,
+            allowEscapeKey: !1,
+            confirmButtonText: yes,
+            cancelButtonText: no,
+            reverseButtons: !0,
+            showLoaderOnConfirm: !0,
+            preConfirm: function () {
+                return new Promise(function (o, n) {
+                    $.ajax({
+                        type: "POST",
+                        url: u,
+                        data: {
+                            id: i,
+                        },
+                        dataType: "json",
+                        success: function (t) {
+                            if (1 != t.status) return swal_cancelled(wrong), !1;
+                            toastr.success(t.message);
+                            location.reload();
+                        },
+                        error: function (t) {
+                            return swal_cancelled(wrong), !1;
+                        },
+                    });
+                });
+            },
+        })
+        .then((t) => {
+            t.isConfirmed || (t.dismiss, Swal.DismissReason.cancel);
+        });
+}
+function cancelbookingrequest(i, u) {
+    "use strict";
+    managedata(i, u)
+}
+function acceptbookingrequest(i, u) {
+    "use strict";
+    managedata(i, u)
+}

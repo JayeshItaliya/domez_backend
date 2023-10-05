@@ -144,60 +144,76 @@ class DomesController extends Controller
     }
     public function domes_details(Request $request)
     {
-        $dome = Domes::with(['dome_images', 'working_hours'])->where('id', $request->id)->where('is_deleted', 2)->first();
+        $dome = Domes::with(['dome_images', 'working_hours', 'dome_discounts'])->where('id', $request->id)->where('is_deleted', 2)->first();
         if (empty($dome)) {
             return response()->json(["status" => 0, "message" => 'Dome Not Found'], 200);
         }
-        $benefits = [];
-        foreach (explode('|', $dome->benefits) as $benefit) {
-            $benefits[] = [
-                'benefit' => $benefit,
-                'benefit_image' => '',
+        try {
+            $benefits = [];
+            foreach (explode('|', $dome->benefits) as $benefit) {
+                $benefits[] = [
+                    'benefit' => $benefit,
+                    'benefit_image' => '',
+                ];
+            }
+            $review = Review::where('dome_id', $dome->id)->selectRaw('SUM(rating)/COUNT(user_id) AS avg_rating')->first()->avg_rating;
+            $images = Review::where('reviews.dome_id', $dome->id)
+                ->join('users AS users_table', function ($query) {
+                    $query->on('reviews.user_id', '=', 'users_table.id')->where('users_table.type', 3);
+                })->select(DB::raw("CONCAT('" . url('storage/app/public/admin/images/profiles') . "/', users_table.image) AS image"))->get()->take(5)->pluck('image');
+            $total_reviews = Review::where('dome_id', $dome->id)->get();
+            $ratting_data = [
+                'avg_rating' => ($review) ? $review : "0",
+                'total_review' => $total_reviews->count() > 100 ? '100+' : $total_reviews->count(),
+                'images' => $images,
             ];
+            if (!empty($dome)) {
+                $dome_data = array(
+                    'id' => $dome->id,
+                    'total_fields' => $dome->total_fields,
+                    'name' => $dome->name,
+                    'price' => Helper::get_dome_price($dome->id, explode(',', $dome->sport_id)[0]),
+                    'hst' => $dome->hst,
+                    'address' => $dome->address,
+                    'city' => $dome->city,
+                    'state' => $dome->state,
+                    'start_time' => date('h:i A', strtotime($dome->day_working_hours('')->open_time)),
+                    'end_time' => date('h:i A', strtotime($dome->day_working_hours('')->close_time)),
+                    'description' => $dome->description,
+                    'lat' => $dome->lat,
+                    'lng' => $dome->lng,
+                    'benefits_description' => $dome->benefits_description ?? '',
+                    'ratting_data' => $ratting_data,
+                    'benefits' => $benefits,
+                    'sports_list' => Helper::get_sports_list($dome->sport_id),
+                    'dome_images' => $dome->dome_images,
+                    "current_time" => Carbon::now()->setTimezone(env('SET_TIMEZONE'))->toDateTimeString(),
+                    'closed_days' => $dome->working_hours->pluck('is_closed'),
+                );
+            }
+            return response()->json(["status" => 1, "message" => "Successful", 'dome_details' => $dome_data], 200);
+        } catch (\Throwable $th) {
+            return response()->json(["status" => 0, "message" => "Something Went Wrong!"], 200);
         }
-        $review = Review::where('dome_id', $dome->id)->selectRaw('SUM(rating)/COUNT(user_id) AS avg_rating')->first()->avg_rating;
-        $images = Review::where('reviews.dome_id', $dome->id)
-            ->join('users AS users_table', function ($query) {
-                $query->on('reviews.user_id', '=', 'users_table.id')->where('users_table.type', 3);
-            })->select(DB::raw("CONCAT('" . url('storage/app/public/admin/images/profiles') . "/', users_table.image) AS image"))->get()->take(5)->pluck('image');
-        $total_reviews = Review::where('dome_id', $dome->id)->get();
-        $ratting_data = [
-            'avg_rating' => ($review) ? $review : "0",
-            'total_review' => $total_reviews->count() > 100 ? '100+' : $total_reviews->count(),
-            'images' => $images,
-        ];
-        if (!empty($dome)) {
-            $dome_data = array(
-                'id' => $dome->id,
-                'total_fields' => $dome->total_fields,
-                'name' => $dome->name,
-                'price' => Helper::get_dome_price($dome->id, explode(',', $dome->sport_id)[0]),
-                'hst' => $dome->hst,
-                'address' => $dome->address,
-                'city' => $dome->city,
-                'state' => $dome->state,
-                'start_time' => date('h:i A', strtotime($dome->day_working_hours('')->open_time)),
-                'end_time' => date('h:i A', strtotime($dome->day_working_hours('')->close_time)),
-                'description' => $dome->description,
-                'lat' => $dome->lat,
-                'lng' => $dome->lng,
-                'benefits_description' => $dome->benefits_description ?? '',
-                'ratting_data' => $ratting_data,
-                'benefits' => $benefits,
-                'sports_list' => Helper::get_sports_list($dome->sport_id),
-                'dome_images' => $dome->dome_images,
-                "current_time" => Carbon::now()->setTimezone(env('SET_TIMEZONE'))->toDateTimeString(),
-                'closed_days' => $dome->working_hours->pluck('is_closed'),
-            );
-        }
-        return response()->json(["status" => 1, "message" => "Successful", 'dome_details' => $dome_data], 200);
     }
     public function domes_settings(Request $request)
     {
-        $dome_setting = DomeSettings::where('dome_id', $request->dome_id)->first();
-        if (!empty($dome_setting)) {
-            return response()->json(["status" => 1, "message" => "Successful", 'dome_setting' => $dome_setting], 200);
+        try {
+            $dome = Domes::with(['dome_discounts'])->where('id', $request->dome_id)->where('is_deleted', 2)->first();
+            if (empty($dome)) {
+                return response()->json(["status" => 0, "message" => 'Dome Not Found'], 200);
+            }
+            $data = array(
+                'multiple_fields_selection' => $dome->multiple_fields_selection,
+                'fields_discount' => $dome->fields_discount,
+                'fields_discount_type' => $dome->fields_discount_type,
+                'dome_discounts' => $dome->dome_discounts->makeHidden(['created_at', 'updated_at']),
+                'booking_mode' => $dome->booking_mode,
+                'policies_rules' => $dome->policies_rules,
+            );
+            return response()->json(["status" => 1, "message" => "Successful", 'dome_setting' => $data], 200);
+        } catch (\Throwable $th) {
+            return response()->json(["status" => 0, "message" => "Something Went Wrong!"], 200);
         }
-        return response()->json(["status" => 0, "message" => 'Invalid Dome ID'], 200);
     }
 }

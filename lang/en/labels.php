@@ -288,13 +288,6 @@ return [
     'dome_owner_panel' => 'Dome Owner panel',
     'mobile_application' => 'Mobile Application',
     'reset_password' => 'Reset password',
-
-
-
-
-
-
-
     'add_discounts' => 'Add Discounts',
     'policies_rules' => 'Add Your Policies & Rules',
     'automatic' => 'Automatic',
@@ -314,4 +307,14 @@ return [
     'fixed' => 'Fixed',
     'discount' => 'Discount',
     'discount_type' => 'Discount Type',
+    'add_more_discounts' => 'Add More Discounts',
+    'autometic-bookings' => 'Autometic Bookings',
+    'bookings-requests' => 'Bookings Requests',
+    'blocked-timeslots' => 'Blocked Timeslots',
+    'fetch' => 'Fetch',
+    'block_selected_slots' => 'Block Selected Slots',
+    'block_timeslots' => 'Block Timeslots',
+    'all_slots' => 'All Slots',
+    'available' => 'Available',
+    'blocked' => 'Blocked',
 ];

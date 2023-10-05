@@ -5,11 +5,15 @@ namespace App\Http\Controllers\admin;
 use App\Helper\Helper;
 use App\Http\Controllers\Controller;
 use App\Models\Booking;
+use App\Models\Domes;
 use App\Models\SetPricesDaysSlots;
+use App\Models\Sports;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Carbon\CarbonImmutable;
 use Carbon\CarbonPeriod;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\URL;
@@ -18,15 +22,23 @@ class BookingController extends Controller
 {
     public function index(Request $request)
     {
+        $bname = basename(request()->url());
         $now = CarbonImmutable::today();
         $weekStartDate = $now->startOfWeek();
         $weekEndDate = $now->endOfWeek();
         $getbookingslist = Booking::select('*');
-        if (in_array(auth()->user()->type, [2, 4])) {
-            $getbookingslist = $getbookingslist->where('vendor_id', auth()->user()->type == 2 ? auth()->user()->id : auth()->user()->vendor_id);
+        if ($bname == 'autometic-bookings') {
+            $getbookingslist = $getbookingslist->where('booking_mode', 1);
         }
-        if (auth()->user()->type == 5) {
-            $getbookingslist = $getbookingslist->where('provider_id', auth()->user()->id);
+        if ($bname == 'bookings-requests') {
+            $getbookingslist = $getbookingslist->where('booking_mode', 2);
+        }
+        $authuser = auth()->user();
+        if (in_array($authuser->type, [2, 4])) {
+            $getbookingslist = $getbookingslist->where('vendor_id', $authuser->type == 2 ? $authuser->id : $authuser->vendor_id);
+        }
+        if ($authuser->type == 5) {
+            $getbookingslist = $getbookingslist->where('provider_id', $authuser->id);
         }
         if ($request->has('type') && in_array($request->type, ['domes', 'leagues'])) {
             if ($request->type == 'domes') {
@@ -58,10 +70,10 @@ class BookingController extends Controller
     }
     public function calendar(Request $request)
     {
-        if (auth()->user()->type == 1) {
-            $getbookingslist = Booking::orderByDesc('id')->get();
-        } else {
-            $getbookingslist = Booking::where('vendor_id', auth()->user()->type == 2 ? auth()->user()->id : auth()->user()->vendor_id)->orderByDesc('id')->get();
+        $getbookingslist = Booking::orderByDesc('id');
+        $authuser = auth()->user();
+        if ($authuser->type = 1) {
+            $getbookingslist = Booking::where('vendor_id', $authuser->type == 2 ? $authuser->id : $authuser->vendor_id)->get();
         }
         return view('admin.bookings.calendar', compact('getbookingslist'));
     }
@@ -186,6 +198,141 @@ class BookingController extends Controller
             return response()->json(['status' => 1, 'message' => trans('messages.success')], 200);
         } else {
             return response()->json(['status' => 0, 'message' => trans('messages.error')], 200);
+        }
+    }
+    function cancelmsg($booking_id)
+    {
+        return "We regret to inform you that your booking request <b>#" . $booking_id . "</b> has been cancelled by The Dome Owner.<br><br>
+        We understand that this news may cause inconvenience to you, and we apologize for any inconvenience this request cancellation may have caused. We assure you that our team has taken necessary steps to ensure that such an incident does not happen in the future.<br><br>
+        In case you need any further assistance, please do not hesitate to contact our customer support team. We would be more than happy to help you in any way we can.<br><br>
+        Thank you for your understanding.<br><br>
+        Best regards.<br><br>";
+    }
+    public function cancel_booking_request(Request $request)
+    {
+        $checkbooking = Booking::find($request->id);
+        if ($checkbooking->booking_status == 3) {
+            return response()->json(['status' => 0, 'message' => trans('messages.already_cancelled')], 200);
+        }
+        try {
+            $checkbooking->booking_status = 3;
+            $checkbooking->cancelled_by = 2;
+            $checkbooking->save();
+            $title = 'Booking Request Cancellation';
+            $description = $this->cancelmsg($checkbooking->booking_id);
+            Helper::booking_request_email($title, $description, $checkbooking);
+            $body = "We regret to inform you that your booking request has been cancelled by The Dome Owner";
+            $u = User::find($checkbooking->user_id);
+            $tokens = [$u->fcm_token];
+            Helper::send_notification($title, $body, 7, $checkbooking->id, $checkbooking->league_id ?? "", $tokens);
+            return response()->json(['status' => 1, 'message' => trans('messages.success')], 200);
+        } catch (\Throwable $th) {
+            return response()->json(['status' => 0, 'message' => trans('messages.error')], 200);
+        }
+    }
+    public function manage_booking_request(Request $request)
+    {
+        $checkbooking = Booking::find($request->id);
+        if ($checkbooking->booking_status == 3) {
+            return response()->json(['status' => 0, 'message' => trans('messages.already_cancelled')], 200);
+        }
+        try {
+            date_default_timezone_set(env('SET_TIMEZONE'));
+            $checkbooking->booking_status = 2;
+            $checkbooking->booking_accepted_at = Carbon::now();
+            $checkbooking->save();
+
+            $title = 'Booking Request Cancellation';
+            $description = $this->cancelmsg($checkbooking->booking_id);
+            $body = "We regret to inform you that your booking request has been cancelled by The Dome Owner";
+            foreach (explode(',', $checkbooking->slots) as $key => $slot) {
+                $booking = Booking::where('id', '!=', $checkbooking->id)->whereDate('start_date', $checkbooking->start_date)->whereRaw("find_in_set('" . $slot . "',slots)")->where('booking_mode', 2)->where('booking_status', 4)->update(['booking_status' => 3, 'cancelled_by' => 2]);
+                Helper::booking_request_email($title, $description, $checkbooking);
+
+                $u = User::find($booking->user_id);
+                $tokens = [$u->fcm_token];
+                Helper::send_notification($title, $body, 7, $booking->id, $league_id = "", $tokens);
+            }
+
+            $title = 'Booking Request Accepted';
+            $description = "Great news! Your booking request <b>#{$checkbooking->booking_id}</b> has been accepted by The Dome Owner! You can now proceed with the payment directly through the application.<br><br>
+            We're excited to have you and hope you have a wonderful experience. If you have any further questions or need assistance, feel free to reach out to our customer support team. We're here to help you in any way we can.<br><br>
+            Thank you for choosing us for your booking!<br><br>";
+            Helper::booking_request_email($title, $description, $checkbooking);
+
+            $body = "Great news! Your booking request <b>#{$checkbooking->booking_id}</b> has been accepted by The Dome Owner!";
+            $u = User::find($checkbooking->user_id);
+            $tokens = [$u->fcm_token];
+            Helper::send_notification($title, $body, 7, $checkbooking->id, $league_id = "", $tokens);
+
+            return response()->json(['status' => 1, 'message' => trans('messages.success')], 200);
+        } catch (\Throwable $th) {
+            return response()->json(['status' => 0, 'message' => trans('messages.error')], 200);
+        }
+    }
+
+    function blocked_timeslots(Request $request)
+    {
+        $domelist = Domes::where('is_deleted', 2);
+        if (auth()->user()->type != 1) {
+            $domelist = $domelist->where('vendor_id', auth()->user()->type == 2 ? auth()->user()->id : auth()->user()->vendor_id);
+        }
+        $domelist = $domelist->get();
+        return view('admin.slots.index', compact('domelist'));
+    }
+    function getdomesports(Request $request)
+    {
+        try {
+            $getdomedata = Domes::where('id', $request->id)->where('vendor_id', auth()->user()->type == 2 ? auth()->user()->id : auth()->user()->vendor_id)->where('is_deleted', 2)->first();
+            if (!empty($getdomedata)) {
+                $sports = Sports::whereIn('id', explode(',', $getdomedata->sport_id))->where('is_available', 1)->where('is_deleted', 2)->orderByDesc('id')->get();
+                return response()->json(['status' => 1, 'message' => trans('messages.success'), 'sportsdata' => $sports], 200);
+            }
+            return response()->json(['status' => 0, 'message' => trans('messages.invalid_dome')], 200);
+        } catch (\Throwable $th) {
+            return response()->json(['status' => 0, 'message' => trans('messages.wrong')], 200);
+        }
+    }
+    function blocked_timeslots_fetch(Request $request)
+    {
+        if ($request->dome == "") {
+            return response()->json(['status' => 0, 'message' => 'Dome selection is required',], 200);
+        }
+        if ($request->sport == "") {
+            return response()->json(['status' => 0, 'message' => 'Sport selection is required',], 200);
+        }
+        if ($request->date_range == "") {
+            return response()->json(['status' => 0, 'message' => 'Date selectionis required',], 200);
+        }
+        try {
+            $startdate = date('Y-m-d', strtotime(explode(' to ', $request->date_range)[0]));
+            $enddate = date('Y-m-d', strtotime(explode(' to ', $request->date_range)[1]));
+            $getslotslist = SetPricesDaysSlots::where('dome_id', $request->dome)->where('sport_id', $request->sport)->whereBetween('date', [$startdate, $enddate]);
+            if ($request->filled('slot_type')) {
+                $getslotslist = $getslotslist->where('status', $request->slot_type == "available" ? 1 : 0);
+            }
+            $getslotslist = $getslotslist->orderBy('date')->get();
+            $slotshtml = view('admin.slots.content', compact('getslotslist'))->render();
+            return response()->json(['status' => 1, 'message' => trans('messages.success'), 'slotshtml' => $slotshtml], 200);
+        } catch (\Throwable $th) {
+            return response()->json(['status' => 0, 'message' => trans('messages.wrong')], 200);
+        }
+    }
+    function blockslots(Request $request)
+    {
+        if ($request->ids == "") {
+            return response()->json(['status' => 0, 'message' => 'Slots selection is required',], 200);
+        }
+        try {
+            $ids = explode(',', $request->ids);
+            $cnt = SetPricesDaysSlots::whereIn('id', $ids)->where('status', 1)->count();
+            if (count($ids) == $cnt) {
+                SetPricesDaysSlots::whereIn('id', $ids)->update(['status' => 0]);
+                return response()->json(['status' => 1, 'message' => trans('messages.success')], 200);
+            }
+            return response()->json(['status' => 2, 'message' => trans('messages.some_slots_recent_blocked')], 200);
+        } catch (\Throwable $th) {
+            return response()->json(['status' => 0, 'message' => trans('messages.wrong')], 200);
         }
     }
 }

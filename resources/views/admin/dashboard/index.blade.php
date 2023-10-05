@@ -15,8 +15,7 @@
                             <div class="row justify-content-between">
                                 <div class="col-auto mb-3">
                                     <div class="earning-icon">
-                                        <svg xmlns="http://www.w3.org/2000/svg"
-                                            class="icon icon-tabler icon-tabler-briefcase" width="25" height="25"
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-briefcase" width="25" height="25"
                                             viewBox="0 0 24 24" stroke-width="1.5" stroke="white" fill="none"
                                             stroke-linecap="round" stroke-linejoin="round">
                                             <path stroke="none" d="M0 0h24v24H0z" fill="none" />
@@ -30,8 +29,7 @@
                                 </div>
                                 <div class="col-auto mb-3" style="z-index:9;">
                                     <div class="d-flex">
-                                        <input type="text"
-                                            class="form-control me-2 bg-transparent date-range-picker text-white"
+                                        <input type="text" class="form-control me-2 bg-transparent date-range-picker text-white"
                                             placeholder="{{ trans('labels.select_date') }}">
                                         <select class="form-select income-filter"
                                             data-next="{{ URL::to('admin/dashboard') }}">
@@ -62,28 +60,13 @@
                             <div class="row justify-content-between">
                                 <div class="col-auto mb-3">
                                     <div class="confirm-booking-icon">
-                                        <svg xmlns="http://www.w3.org/2000/svg"
-                                            class="icon icon-tabler icon-tabler-calendar-stats" width="25"
-                                            height="25" viewBox="0 0 24 24" stroke-width="1.5" stroke="white"
-                                            fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                            <path
-                                                d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
-                                            <path d="M18 14v4h4" />
-                                            <circle cx="18" cy="18" r="4" />
-                                            <path d="M15 3v4" />
-                                            <path d="M7 3v4" />
-                                            <path d="M3 11h16" />
-                                        </svg>
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-stats" width="25" height="25" viewBox="0 0 24 24" stroke-width="1.5" stroke="white" fill="none" stroke-linecap="round" stroke-linejoin="round"> <path stroke="none" d="M0 0h24v24H0z" fill="none" /> <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" /> <path d="M18 14v4h4" /> <circle cx="18" cy="18" r="4" /> <path d="M15 3v4" /> <path d="M7 3v4" /> <path d="M3 11h16" /> </svg>
                                     </div>
                                 </div>
                                 <div class="col-auto mb-3" style="z-index:9;">
                                     <div class="d-flex">
-                                        <input type="text"
-                                            class="form-control me-2 bg-transparent bookings-chart-date-range-picker text-white"
-                                            placeholder="{{ trans('labels.select_date') }}">
-                                        <select class="form-select booking-filter"
-                                            data-next="{{ URL::to('admin/dashboard') }}">
+                                        <input type="text" class="form-control me-2 bg-transparent bookings-chart-date-range-picker text-white" placeholder="{{ trans('labels.select_date') }}">
+                                        <select class="form-select booking-filter" data-next="{{ URL::to('admin/dashboard') }}">
                                             <option value="this_week" selected>{{ trans('labels.this_week') }}</option>
                                             <option value="this_month">{{ trans('labels.this_month') }}</option>
                                             <option value="this_year">{{ trans('labels.this_year') }}</option>
@@ -107,6 +90,26 @@
             </div>
         @endif
         <div class="row mb-3">
+
+            @if (in_array(auth()->user()->type, [2, 4]))
+            <div class="col-12 mb-4">
+                <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#exampleModal"> {{ trans('labels.block_timeslots') }} </button>
+                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-xl">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="exampleModalLabel"> {{ trans('labels.block_timeslots') }} </h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                @include('admin.slots.fetchform')
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @endif
+
             <style>
                 :root {
                     --fc-event-bg-color: var(--bs-primary);
@@ -262,6 +265,7 @@
 @endsection
 @section('scripts')
     <script src={{ url('storage/app/public/admin/plugins/flatpickr/flatpickr.js') }}></script>
+    <script src="{{ url('resources/views/admin/slots/slots.js') }}"></script>
     <script src="{{ url('storage/app/public/admin/js/charts/apexchart/apexcharts.js') }}"></script>
     <script src={{ url('storage/app/public/admin/plugins/fullcalendar/index.global.min.js') }}></script>
     <script>

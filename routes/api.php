@@ -49,6 +49,8 @@ Route::group(['middleware' => 'SetTimeZoneMiddleware'], function () {
     Route::get('stripe-key', [PaymentController::class, 'stripe_key']);
     Route::post('payment', [PaymentController::class, 'payment']);
     Route::post('split-payment', [PaymentController::class, 'split_payment_process']);
+    Route::post('cancel-booking-request', [PaymentController::class, 'cancel_booking_request']);
+    Route::post('send-booking-request', [PaymentController::class, 'send_booking_request']);
 
     Route::post('domes-list', [DomesController::class, 'domes_list']);
     Route::get('dome-details-{id}', [DomesController::class, 'domes_details']);

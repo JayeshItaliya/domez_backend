@@ -91,13 +91,17 @@ Route::group(['middleware' => 'SetTimeZoneMiddleware'], function () {
             Route::post('store-ticket', [EnquiryController::class, 'store_ticket']);
             Route::post('ticket-reply', [EnquiryController::class, 'ticket_reply']);
         });
+
         Route::group(['prefix' => 'bookings'], function () {
-            Route::get('/', [BookingController::class, 'index']);
-            Route::get('/filter-data', [BookingController::class, 'index']);
+            // Route::get('/', [BookingController::class, 'index']);
+            // Route::get('/filter-data', [BookingController::class, 'index']);
             Route::get('details-{booking_id}', [BookingController::class, 'details']);
             Route::get('delete', [BookingController::class, 'deletedata']);
             Route::get('cancel', [BookingController::class, 'cancel_booking']);
+            Route::post('cancelrequest', [BookingController::class, 'cancel_booking_request']);
+            Route::post('managerequest', [BookingController::class, 'manage_booking_request']);
         });
+
         Route::group(['prefix' => 'enquiries'], function () {
             Route::get('dome-requests', [EnquiryController::class, 'dome_requests']);
             Route::get('dome-request-status', [EnquiryController::class, 'dome_request_status']);
@@ -138,7 +142,6 @@ Route::group(['middleware' => 'SetTimeZoneMiddleware'], function () {
                 Route::get('delete', [VendorController::class, 'delete']);
                 Route::get('change_status', [VendorController::class, 'change_status']);
             });
-            // Users
             Route::group(['prefix' => 'users'], function () {
                 Route::get('/', [UserController::class, 'index']);
                 Route::get('edit-{id}', [UserController::class, 'edit']);
@@ -147,7 +150,6 @@ Route::group(['middleware' => 'SetTimeZoneMiddleware'], function () {
                 Route::get('delete', [UserController::class, 'delete']);
                 Route::get('change_status', [UserController::class, 'change_status']);
             });
-            //  Sports
             Route::group(['prefix' => 'sports'], function () {
                 Route::get('/', [SportsController::class, 'index']);
                 Route::get('add', [SportsController::class, 'add']);
@@ -159,7 +161,6 @@ Route::group(['middleware' => 'SetTimeZoneMiddleware'], function () {
             });
         });
         Route::group(['middleware' => 'VendorMiddleware'], function () {
-            //  Workers
             Route::group(['prefix' => 'workers'], function () {
                 Route::get('/', [WorkersController::class, 'index']);
                 Route::post('store-worker', [WorkersController::class, 'store_worker']);
@@ -167,7 +168,6 @@ Route::group(['middleware' => 'SetTimeZoneMiddleware'], function () {
                 Route::get('delete', [WorkersController::class, 'delete']);
                 Route::post('edit', [WorkersController::class, 'edit_worker']);
             });
-            //  Providers
             Route::group(['prefix' => 'providers'], function () {
                 Route::get('/', [ProvidersController::class, 'index']);
                 Route::post('store-worker', [ProvidersController::class, 'store_worker']);
@@ -175,12 +175,10 @@ Route::group(['middleware' => 'SetTimeZoneMiddleware'], function () {
                 Route::get('delete', [ProvidersController::class, 'delete']);
                 Route::post('edit', [ProvidersController::class, 'edit_provider']);
             });
-            //  Leagues
             Route::group(['prefix' => 'leagues'], function () {
                 Route::get('delete', [LeagueController::class, 'delete']);
                 Route::get('change_status', [LeagueController::class, 'change_status']);
             });
-            //  Domes
             Route::group(['prefix' => 'domes'], function () {
                 Route::get('add', [DomesController::class, 'add']);
                 Route::post('store', [DomesController::class, 'store']);
@@ -191,7 +189,7 @@ Route::group(['middleware' => 'SetTimeZoneMiddleware'], function () {
                 Route::get('new-request', [DomesController::class, 'new_request']);
                 Route::post('manage-time', [DomesController::class, 'managetime']);
             });
-            //  Field
+            Route::get('deletediscount', [DomesController::class, 'discount_delete']);
             Route::group(['prefix' => 'fields'], function () {
                 Route::get('/', [FieldController::class, 'index']);
                 Route::get('add', [FieldController::class, 'add']);
@@ -219,6 +217,12 @@ Route::group(['middleware' => 'SetTimeZoneMiddleware'], function () {
                 Route::get('', [ReviewController::class, 'index']);
                 Route::post('reply', [ReviewController::class, 'replymessage']);
             });
+            Route::get('/autometic-bookings', [BookingController::class, 'index']);
+            Route::get('/bookings-requests', [BookingController::class, 'index']);
+            Route::get('/blocked-timeslots', [BookingController::class, 'blocked_timeslots']);
+            Route::post('/fetch-slots', [BookingController::class, 'blocked_timeslots_fetch'])->name('fetch.blocked.slots');
+            Route::post('/block-slots', [BookingController::class, 'blockslots'])->name('block.slots');
+            Route::post('/dome-sports', [BookingController::class, 'getdomesports']);
         });
         Route::group(['middleware' => 'VEPMiddleware'], function () {
             Route::group(['prefix' => 'leagues'], function () {

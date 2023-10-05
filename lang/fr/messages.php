@@ -83,5 +83,7 @@ return [
     "dome_state_required" => "L'état du Dôme est requis",
     "dome_country_required" => "Le pays du Dôme est requis",
     "dome_address_required" => "L'adresse du Dôme est requise",
-    "field_required" => "Ce champ est obligatoire !"
+    "field_required" => "Ce champ est obligatoire !",
+    'dome_policy'=>'Veuillez entrer la politique du dôme',
+    'some_slots_recent_blocked'=>'Certains créneaux ont été récemment bloqués',
 ];

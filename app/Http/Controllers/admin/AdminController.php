@@ -5,6 +5,7 @@ namespace App\Http\Controllers\admin;
 use App\Helper\Helper;
 use App\Http\Controllers\Controller;
 use App\Models\Booking;
+use App\Models\Domes;
 use App\Models\Transaction;
 use App\Models\User;
 use App\Models\PaymentGateway;
@@ -72,6 +73,13 @@ class AdminController extends Controller
         $weekStartDate = $now->startOfWeek();
         $weekEndDate = $now->endOfWeek();
         $percentage = auth()->user()->type == 1 ? 12 : 88;
+
+        $domelist = Domes::where('is_deleted', 2)
+            ->when(auth()->user()->type != 1, function ($query) {
+                return $query->where('vendor_id', auth()->user()->type == 2 ? auth()->user()->id : auth()->user()->vendor_id);
+            })
+            ->get();
+
         $bookings = Booking::whereDate('start_date', '>=', $now)->orderByDesc('id');
         $total_income_data = Transaction::where('type', 1)->orderBy('created_at');
         $total_revenue_data = Booking::where('booking_status', 1)->orderBy('created_at');
@@ -219,7 +227,7 @@ class AdminController extends Controller
         if ($request->ajax()) {
             return response()->json(['total_income_data_sum' => Helper::currency_format($total_revenue_data_sum), 'income_labels' => $income_labels, 'income_data' => $income_data, 'total_bookings_count' => $total_bookings_count, 'booking_labels' => $booking_labels, 'booking_data' => $booking_data, 'total_revenue_data_sum' => Helper::currency_format($total_revenue_data_sum), 'revenue_labels' => $revenue_labels, 'revenue_data' => $revenue_data, 'total_users_data_sum' => $total_users_data_sum, 'users_labels' => $users_labels, 'users_data' => $users_data, 'total_dome_owners_data_sum' => $total_dome_owners_data_sum, 'dome_owners_labels' => $dome_owners_labels, 'dome_owners_data' => $dome_owners_data, 'total_bookings_overview' => $total_bookings_overview, 'bookings_overview_labels' => $bookings_overview_labels, 'bookings_overview_data' => $bookings_overview_data, 'bookings_data_colors' => $bookings_data_colors]);
         } else {
-            return view('admin.dashboard.index', compact('getbookingslist', 'total_income_data_sum', 'income_labels', 'income_data', 'total_bookings_count', 'booking_labels', 'booking_data', 'total_revenue_data_sum', 'revenue_labels', 'revenue_data', 'total_users_data_sum', 'users_labels', 'users_data', 'total_dome_owners_data_sum', 'dome_owners_labels', 'dome_owners_data', 'total_bookings_overview', 'bookings_overview_labels', 'bookings_overview_data', 'bookings_data_colors'));
+            return view('admin.dashboard.index', compact('domelist','getbookingslist', 'total_income_data_sum', 'income_labels', 'income_data', 'total_bookings_count', 'booking_labels', 'booking_data', 'total_revenue_data_sum', 'revenue_labels', 'revenue_data', 'total_users_data_sum', 'users_labels', 'users_data', 'total_dome_owners_data_sum', 'dome_owners_labels', 'dome_owners_data', 'total_bookings_overview', 'bookings_overview_labels', 'bookings_overview_data', 'bookings_data_colors'));
         }
     }
 }

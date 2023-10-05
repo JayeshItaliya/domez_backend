@@ -29,6 +29,11 @@ return new class extends Migration
             $table->date('end_date')->nullable()->comment('For Leagues Booking Only');
             $table->time('start_time');
             $table->time('end_time');
+
+            $table->tinyInteger('booking_mode')->default(1)->comment('1=Automatic, 2=Manual');
+            $table->double('age_discount_amount')->default(0)->comment('Total amount of Age Discount Amount');
+            $table->double('fields_discount_amount')->default(0)->comment('Total amount of Fields Discount Amount');
+
             $table->double('sub_total')->default(0);
             $table->double('service_fee')->default(0);
             $table->double('hst')->default(0);
@@ -38,9 +43,12 @@ return new class extends Migration
             $table->double('min_split_amount')->default(0)->comment('Minimum Split Payment amount');
             $table->double('refunded_amount')->default(0);
             $table->integer('payment_mode')->default(1)->comment('1=Online, 2=Offline');
-            $table->integer('payment_type')->default(1)->comment('1=Full Amount, 2=Split Amount');
-            $table->integer('payment_status')->default(1)->comment('1=Complete, 2=Partial');
-            $table->integer('booking_status')->default(1)->comment('1=Confirmed, 2=Pending, 3=Cancelled');
+            $table->integer('payment_type')->default(1)->comment('0=WhenBookingIsRequested(BookingModeManual),1=Full Amount, 2=Split Amount');
+            $table->integer('payment_status')->default(1)->comment('0=WhenBookingIsRequested(BookingModeManual),1=Complete, 2=Partial');
+            $table->integer('booking_status')->default(1)->comment('1=Confirmed, 2=Pending, 3=Cancelled, 4=WaitingApproval');
+
+            $table->dateTime('booking_accepted_at')->nullable()->comment('When Booking Mode is 2 and Dome Owner Accepts the request');
+
             $table->text('token')->nullable();
             $table->integer('players');
             $table->string('customer_name')->nullable();

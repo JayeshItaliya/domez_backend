@@ -179,6 +179,7 @@
     <script src="{{ url('storage/app/public/admin/js/timepicker/jquery.timepicker.min.js') }}" defer=""></script>
     <script src="{{ url('storage/app/public/admin/plugins/bootstrap_table/bootstrap-table.min.js') }}"></script>
     <script>
+        let msg_success = {{ Js::from(trans('messages.success')) }};
         let are_you_sure = {{ Js::from(trans('messages.are_you_sure')) }};
         let yes = {{ Js::from(trans('messages.yes')) }};
         let no = {{ Js::from(trans('messages.no')) }};

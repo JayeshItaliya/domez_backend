@@ -7,6 +7,9 @@
 @endsection
 @section('contents')
     <div class="card mb-3">
+        @php
+            $basename = basename(request()->url());
+        @endphp
         <div class="card-body py-2">
             <div class="d-flex align-items-center justify-content-between">
                 <p class="text-secondary fw-semibold">{{ trans('labels.bookings') }}</p>
@@ -14,7 +17,7 @@
                     aria-label="breadcrumb">
                     <ol class="breadcrumb m-0 align-items-center">
                         {!! Helper::breadcrumb_home_li() !!}
-                        <li class="breadcrumb-item">{{ trans('labels.bookings') }}</li>
+                        <li class="breadcrumb-item">{{ trans('labels.'.$basename) }}</li>
                     </ol>
                 </nav>
             </div>
@@ -30,39 +33,24 @@
                         $dates = request()->get('dates') != '' ? request()->get('dates') : '';
                     @endphp
                     <div class="col-auto">
-                        <select class="form-select" name="type" id="type"
-                            onchange="location.href=$(this).find(':selected').attr('data-url')">
+                        <select class="form-select" name="type" id="type" onchange="location.href=$(this).find(':selected').attr('data-url')">
                             <option value="" selected disabled>{{ trans('labels.select') }}</option>
-                            <option data-url="{{ URL::to('admin/bookings?type=all&filter=' . $filter) }}" value="all"
-                                {{ $type == 'all' || $type == '' ? 'selected' : '' }}>{{ trans('labels.all') }}</option>
-                            <option data-url="{{ URL::to('admin/bookings?type=domes&filter=' . $filter) }}" value="domes"
-                                {{ $type == 'domes' ? 'selected' : '' }}>{{ trans('labels.domes') }}</option>
-                            <option data-url="{{ URL::to('admin/bookings?type=leagues&filter=' . $filter) }}"
-                                value="leagues" {{ $type == 'leagues' ? 'selected' : '' }}>{{ trans('labels.leagues') }}
+                            <option data-url="{{ URL::to('admin/'.$basename.'?type=all&filter=' . $filter) }}" value="all" {{ $type == 'all' || $type == '' ? 'selected' : '' }}>{{ trans('labels.all') }}</option>
+                            <option data-url="{{ URL::to('admin/'.$basename.'?type=domes&filter=' . $filter) }}" value="domes" {{ $type == 'domes' ? 'selected' : '' }}>{{ trans('labels.domes') }}</option>
+                            <option data-url="{{ URL::to('admin/'.$basename.'?type=leagues&filter=' . $filter) }}" value="leagues" {{ $type == 'leagues' ? 'selected' : '' }}>{{ trans('labels.leagues') }}
                             </option>
                         </select>
                     </div>
                     <div class="col-auto">
-                        <select class="form-select" name="filter" id="filter"
-                            onchange="$(this).val() != 'custom-date' ? location.href=$(this).find(':selected').attr('data-url') : $('.date-range-picker').show() ">
-                            <option data-url="{{ URL::to('admin/bookings?type=' . $type . '&filter=this-week') }}"
-                                value="this-week" {{ $filter == 'this-week' || $filter == '' ? 'selected' : '' }}>
-                                {{ trans('labels.this_week') }}</option>
-                            <option data-url="{{ URL::to('admin/bookings?type=' . $type . '&filter=this-month') }}"
-                                value="this-month" {{ $filter == 'this-month' ? 'selected' : '' }}>
-                                {{ trans('labels.this_month') }}</option>
-                            <option data-url="{{ URL::to('admin/bookings?type=' . $type . '&filter=this-year') }}"
-                                value="this-year" {{ $filter == 'this-year' ? 'selected' : '' }}>
-                                {{ trans('labels.this_year') }}</option>
-                            <option data-url="{{ URL::to('admin/bookings?type=' . $type . '&filter=custom-date') }}"
-                                value="custom-date" {{ $filter == 'custom-date' ? 'selected' : '' }}>
-                                {{ trans('labels.custom_date') }}</option>
+                        <select class="form-select" name="filter" id="filter" onchange="$(this).val() != 'custom-date' ? location.href=$(this).find(':selected').attr('data-url') : $('.date-range-picker').show() ">
+                            <option data-url="{{ URL::to('admin/'.$basename.'?type=' . $type . '&filter=this-week') }}" value="this-week" {{ $filter == 'this-week' || $filter == '' ? 'selected' : '' }}> {{ trans('labels.this_week') }}</option>
+                            <option data-url="{{ URL::to('admin/'.$basename.'?type=' . $type . '&filter=this-month') }}" value="this-month" {{ $filter == 'this-month' ? 'selected' : '' }}> {{ trans('labels.this_month') }}</option>
+                            <option data-url="{{ URL::to('admin/'.$basename.'?type=' . $type . '&filter=this-year') }}" value="this-year" {{ $filter == 'this-year' ? 'selected' : '' }}> {{ trans('labels.this_year') }}</option>
+                            <option data-url="{{ URL::to('admin/'.$basename.'?type=' . $type . '&filter=custom-date') }}" value="custom-date" {{ $filter == 'custom-date' ? 'selected' : '' }}> {{ trans('labels.custom_date') }}</option>
                         </select>
                     </div>
                     <div class="col-auto">
-                        <input type="text" class="form-control date-range-picker" value="{{ $dates }}"
-                            placeholder="{{ trans('labels.select_date') }}"
-                            style="{{ $filter == 'custom-date' ? 'display:block;' : 'display:none;' }}">
+                        <input type="text" class="form-control date-range-picker" value="{{ $dates }}" placeholder="{{ trans('labels.select_date') }}" style="{{ $filter == 'custom-date' ? 'display:block;' : 'display:none;' }}">
                     </div>
                 </div>
             </div>
@@ -85,14 +73,13 @@
                     @php $i = 1; @endphp
                     @foreach ($getbookingslist as $bookingdata)
                         <tr>
-                            <td>{{ $i++ }}</td>
-                            <td>{{ $bookingdata->booking_id }}</td>
-                            <td>{{ $bookingdata['dome_owner']->name }}</td>
-                            <td>{{ $bookingdata['dome_name']->name }}</td>
-                            <td>{{ Helper::date_format($bookingdata->start_date) }}</td>
-                            <td>{{ Helper::time_format($bookingdata->start_time) }} -
-                                {{ Helper::time_format($bookingdata->end_time) }}</td>
-                            <td>{{ Helper::currency_format($bookingdata->total_amount) }}</td>
+                            <td> {{ $i++ }} </td>
+                            <td> {{ $bookingdata->booking_id }} </td>
+                            <td> {{ $bookingdata['dome_owner']->name }} </td>
+                            <td> {{ $bookingdata['dome_name']->name }} </td>
+                            <td> {{ Helper::date_format($bookingdata->start_date) }} </td>
+                            <td> {{ Helper::time_format($bookingdata->start_time) }} - {{ Helper::time_format($bookingdata->end_time) }} </td>
+                            <td> {{ Helper::currency_format($bookingdata->total_amount) }} </td>
                             <td>
                                 @if ($bookingdata->payment_status == 1)
                                     <span
@@ -118,9 +105,18 @@
                                 @endif
                             </td>
                             <td>
-                                <a class="cursor-pointer me-2"
-                                    href="{{ URL::to('admin/bookings/details-' . $bookingdata->booking_id) }}">
-                                    {!! Helper::get_svg(1) !!} </a>
+                                <a class="cursor-pointer me-2" href="{{ URL::to('admin/bookings/details-' . $bookingdata->booking_id) }}"> {!! Helper::get_svg(1) !!} </a>
+                                @if (in_array(auth()->user()->type, [2, 4]) && $bookingdata->booking_mode == 2)
+                                    @if ($bookingdata->booking_status == 4)
+                                    <a class="cursor-pointer me-2 text-success" href="javascript:void(0)" onclick="acceptbookingrequest('{{ $bookingdata->id }}','{{ URL::to('admin/bookings/managerequest') }}')">
+                                        <i class="fa fa-check"></i>
+                                    </a>
+                                        <a class="cursor-pointer me-2 text-danger" href="javascript:void(0)" onclick="cancelbookingrequest('{{ $bookingdata->id }}','{{ URL::to('admin/bookings/cancelrequest') }}')">
+                                            <i class="fa fa-close"></i>
+                                        </a>
+                                    @endif
+                                @endif
+
                                 @if (in_array(auth()->user()->type, [2, 4]) && $bookingdata->booking_status == 2)
                                     <a class="cursor-pointer me-2" href="javascript:void(0)"
                                         onclick="deletedata('{{ $bookingdata->id }}','{{ URL::to('admin/bookings/cancel') }}')">

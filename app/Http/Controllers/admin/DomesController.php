@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
+use App\Helper\Helper;
 use App\Models\Booking;
 use App\Models\Sports;
 use Illuminate\Http\Request;
@@ -15,11 +16,12 @@ use App\Models\League;
 use App\Models\SetPrices;
 use Carbon\Carbon;
 use Carbon\CarbonImmutable;
-use Illuminate\Support\Facades\DB;
-use App\Helper\Helper;
 use App\Models\DomeDiscounts;
 use App\Models\WorkingHours;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Validator;
 
 class DomesController extends Controller
 {
@@ -46,7 +48,7 @@ class DomesController extends Controller
     }
     public function store(Request $request)
     {
-        $request->validate([
+        $validator = Validator::make($request->input(), [
             'sport_id' => 'required',
             'dome_name' => 'required',
             'dome_hst' => 'required',
@@ -55,7 +57,6 @@ class DomesController extends Controller
             'address' => 'required',
             'benefits' => 'array',
             'benefits.*' => 'in:Free Wifi,Changing Room,Parking,Pool,Others',
-            'dome_images' => 'required',
         ], [
             'sport_id.required' => trans('messages.select_sport'),
             'dome_name.required' => trans('messages.name_required'),
@@ -63,8 +64,12 @@ class DomesController extends Controller
             'dome_price.required' => trans('messages.price_required'),
             'description.required' => trans('messages.description_required'),
             'address.required' => trans('messages.address_required'),
-            'dome_images.required' => trans('messages.image_required'),
         ]);
+        foreach ($validator->errors()->toArray() as $key => $error) {
+            return response()->json(["status" => 0, "message" => $error[0]], 200);
+            if ($key == 0)
+                break;
+        }
         DB::beginTransaction();
         try {
             $dome = new Domes();
@@ -84,11 +89,11 @@ class DomesController extends Controller
             $dome->slot_duration = $request->slot_duration;
             $dome->benefits = $request->benefits != '' ? implode("|", $request->benefits) : '';
             $dome->benefits_description = $request->benefits_description;
-            $dome->multiple_fields_selection = $request->max_fields_selection;
-            $dome->fields_discount = $request->field_discount;
-            $dome->fields_discount_tpye = $request->field_discount_type;
-            $dome->booking_mode = $request->auto_bookings_system ?? 1;
-            $dome->policies_rules = $request->dome_policy;
+            $dome->multiple_fields_selection = $request->multiple_fields_selection;
+            $dome->fields_discount = $request->fields_discount;
+            $dome->fields_discount_type = $request->fields_discount_type;
+            $dome->booking_mode = $request->booking_mode ?? 2;
+            $dome->policies_rules = $request->policies_rules;
             $dome->save();
             foreach ($request->day as $key => $dayname) {
                 $wh = new WorkingHours();
@@ -101,13 +106,18 @@ class DomesController extends Controller
                 $wh->save();
             }
             if ($request->has('dome_images')) {
-                $request->validate([
-                    'dome_images.*' => 'image|mimes:png,jpg,jpeg,svg|max:7168',
+                $validator = Validator::make($request->input(), [
+                    'dome_images.*' => 'mimes:png,jpg,jpeg,svg|max:7168',
                 ], [
                     'dome_images.image' => trans('messages.valid_image'),
                     'dome_images.mimes' => trans('messages.valid_image_type'),
                     'dome_images.max' => trans('messages.valid_image_size'),
                 ]);
+                foreach ($validator->errors()->toArray() as $key => $error) {
+                    return response()->json(["status" => 0, "message" => $error[0]], 200);
+                    if ($key == 0)
+                        break;
+                }
                 foreach ($request->file('dome_images') as $img) {
                     $domeimage = new DomeImages();
                     $image = 'dome-' . uniqid() . '.' . $img->getClientOriginalExtension();
@@ -132,19 +142,21 @@ class DomesController extends Controller
                 $checksportexist->save();
             }
             foreach ($request->from_age as $key => $from_age) {
-                $dome_discounts = new DomeDiscounts;
-                $dome_discounts->dome_id = $dome->id;
-                $dome_discounts->from_age = $from_age;
-                $dome_discounts->to_age = $request->to_age[$key];
-                $dome_discounts->age_discounts = $request->age_discount[$key];
-                $dome_discounts->discount_type = $request->discount_type[$key];
-                $dome_discounts->save();
+                if ((isset($request->to_age[$key]) && !empty($request->to_age[$key]))  &&  (isset($request->age_discounts[$key]) && !empty($request->age_discounts[$key]))  &&  (isset($request->discount_type[$key]) && !empty($request->discount_type[$key]))) {
+                    $dome_discounts = new DomeDiscounts;
+                    $dome_discounts->dome_id = $dome->id;
+                    $dome_discounts->from_age = $from_age;
+                    $dome_discounts->to_age = $request->to_age[$key];
+                    $dome_discounts->age_discounts = $request->age_discounts[$key];
+                    $dome_discounts->discount_type = $request->discount_type[$key];
+                    $dome_discounts->save();
+                }
             }
             DB::commit();
-            return redirect('admin/domes')->with('success', trans('messages.success'));
+            return response()->json(['status' => 1, 'message' => trans('messages.success'), 'url' => URL::to('admin/domes')], 200);
         } catch (\Throwable $th) {
             DB::rollback();
-            return redirect()->back()->with('error', trans('messages.wrong'));
+            return response()->json(['status' => 0, 'message' => trans('messages.wrong'),], 200);
         }
     }
     public function dome_details(Request $request)
@@ -158,11 +170,11 @@ class DomesController extends Controller
         $cancelled_bookings = trans('labels.cancelled_bookings');
         if ($request->filtertype == "this_month") {
             // For Dome Revenue Chart
-            $dome_revenue = Booking::where('dome_id', $getdomedata->id)->where('booking_status', 1)->orderBy('created_at')->whereMonth('created_at', Carbon::now()->month)->sum('paid_amount') * 88 / 100;
-            $dome_revenue_data = Booking::where('dome_id', $getdomedata->id)->where('booking_status', 1)->orderBy('created_at')->whereMonth('created_at', Carbon::now()->month)->select(DB::raw('MONTHNAME(created_at) as titles'), DB::raw('SUM(paid_amount*88/100) as amount'))->groupBy('titles')->pluck('titles', 'amount');
+            $dome_revenue = Booking::where('dome_id', @$getdomedata->id)->where('booking_status', 1)->orderBy('created_at')->whereMonth('created_at', Carbon::now()->month)->sum('paid_amount') * 88 / 100;
+            $dome_revenue_data = Booking::where('dome_id', @$getdomedata->id)->where('booking_status', 1)->orderBy('created_at')->whereMonth('created_at', Carbon::now()->month)->select(DB::raw('MONTHNAME(created_at) as titles'), DB::raw('SUM(paid_amount*88/100) as amount'))->groupBy('titles')->pluck('titles', 'amount');
             // For Bookings Overview Chart
-            $total_bookings = Booking::where('dome_id', $getdomedata->id)->whereMonth('created_at', Carbon::now()->month)->count();
-            $total_bookings_data = Booking::where('dome_id', $getdomedata->id)->selectRaw("
+            $total_bookings = Booking::where('dome_id', @$getdomedata->id)->whereMonth('created_at', Carbon::now()->month)->count();
+            $total_bookings_data = Booking::where('dome_id', @$getdomedata->id)->selectRaw("
             CASE
                 WHEN booking_status = '1' THEN '{$confirmed_bookings}'
                 WHEN booking_status = '2' THEN '{$pending_bookings}'
@@ -184,11 +196,11 @@ class DomesController extends Controller
             }
         } elseif ($request->filtertype == "this_year") {
             // For Dome Revenue Chart
-            $dome_revenue = Booking::where('dome_id', $getdomedata->id)->where('booking_status', 1)->orderBy('created_at')->whereYear('created_at', Carbon::now()->year)->sum('paid_amount') * 88 / 100;
-            $dome_revenue_data = Booking::where('dome_id', $getdomedata->id)->where('booking_status', 1)->orderBy('created_at')->whereYear('created_at', Carbon::now()->year)->select(DB::raw("MONTHNAME(created_at) as titles"), DB::raw('SUM(paid_amount*88/100) as amount'))->groupBy('titles')->pluck('titles', 'amount');
+            $dome_revenue = Booking::where('dome_id', @$getdomedata->id)->where('booking_status', 1)->orderBy('created_at')->whereYear('created_at', Carbon::now()->year)->sum('paid_amount') * 88 / 100;
+            $dome_revenue_data = Booking::where('dome_id', @$getdomedata->id)->where('booking_status', 1)->orderBy('created_at')->whereYear('created_at', Carbon::now()->year)->select(DB::raw("MONTHNAME(created_at) as titles"), DB::raw('SUM(paid_amount*88/100) as amount'))->groupBy('titles')->pluck('titles', 'amount');
             // For Bookings Overview Chart
-            $total_bookings = Booking::where('dome_id', $getdomedata->id)->whereYear('created_at', Carbon::now()->year)->count();
-            $total_bookings_data = Booking::where('dome_id', $getdomedata->id)->selectRaw("
+            $total_bookings = Booking::where('dome_id', @$getdomedata->id)->whereYear('created_at', Carbon::now()->year)->count();
+            $total_bookings_data = Booking::where('dome_id', @$getdomedata->id)->selectRaw("
             CASE
                 WHEN booking_status = '1' THEN '{$confirmed_bookings}'
                 WHEN booking_status = '2' THEN '{$pending_bookings}'
@@ -212,11 +224,11 @@ class DomesController extends Controller
             $weekStartDate = explode(' to ', $request->filterdates)[0];
             $weekEndDate = explode(' to ', $request->filterdates)[1];
             // For Dome Revenue Chart
-            $dome_revenue = Booking::where('dome_id', $getdomedata->id)->where('booking_status', 1)->orderBy('created_at')->whereBetween('created_at', [$weekStartDate, $weekEndDate])->sum('paid_amount') * 88 / 100;
-            $dome_revenue_data = Booking::where('dome_id', $getdomedata->id)->where('booking_status', 1)->orderBy('created_at')->whereBetween('created_at', [$weekStartDate, $weekEndDate])->select(DB::raw('DATE_FORMAT(created_at, "%d-%m-%Y") as titles'), DB::raw('SUM(paid_amount*88/100) as amount'))->groupBy('titles')->pluck('titles', 'amount');
+            $dome_revenue = Booking::where('dome_id', @$getdomedata->id)->where('booking_status', 1)->orderBy('created_at')->whereBetween('created_at', [$weekStartDate, $weekEndDate])->sum('paid_amount') * 88 / 100;
+            $dome_revenue_data = Booking::where('dome_id', @$getdomedata->id)->where('booking_status', 1)->orderBy('created_at')->whereBetween('created_at', [$weekStartDate, $weekEndDate])->select(DB::raw('DATE_FORMAT(created_at, "%d-%m-%Y") as titles'), DB::raw('SUM(paid_amount*88/100) as amount'))->groupBy('titles')->pluck('titles', 'amount');
             // For Bookings Overview Chart
-            $total_bookings = Booking::where('dome_id', $getdomedata->id)->whereBetween('created_at', [$weekStartDate, $weekEndDate])->count();
-            $total_bookings_data = Booking::where('dome_id', $getdomedata->id)->selectRaw("
+            $total_bookings = Booking::where('dome_id', @$getdomedata->id)->whereBetween('created_at', [$weekStartDate, $weekEndDate])->count();
+            $total_bookings_data = Booking::where('dome_id', @$getdomedata->id)->selectRaw("
             CASE
                 WHEN booking_status = '1' THEN '{$confirmed_bookings}'
                 WHEN booking_status = '2' THEN '{$pending_bookings}'
@@ -238,12 +250,12 @@ class DomesController extends Controller
             }
         } else {
             // For Dome Revenue Chart
-            $dome_revenue = Booking::where('dome_id', $getdomedata->id)->where('booking_status', 1)->orderBy('created_at')->whereBetween('created_at', [$weekStartDate, $weekEndDate])->sum('paid_amount') * 88 / 100;
-            $dome_revenue_data = Booking::where('dome_id', $getdomedata->id)->where('booking_status', 1)->orderBy('created_at')->whereBetween('created_at', [$weekStartDate, $weekEndDate])->select(DB::raw('DATE_FORMAT(created_at, "%d-%m-%Y") as titles'), DB::raw('SUM(paid_amount*88/100) as amount'))->groupBy('titles')->pluck('amount', 'titles');
+            $dome_revenue = Booking::where('dome_id', @$getdomedata->id)->where('booking_status', 1)->orderBy('created_at')->whereBetween('created_at', [$weekStartDate, $weekEndDate])->sum('paid_amount') * 88 / 100;
+            $dome_revenue_data = Booking::where('dome_id', @$getdomedata->id)->where('booking_status', 1)->orderBy('created_at')->whereBetween('created_at', [$weekStartDate, $weekEndDate])->select(DB::raw('DATE_FORMAT(created_at, "%d-%m-%Y") as titles'), DB::raw('SUM(paid_amount*88/100) as amount'))->groupBy('titles')->pluck('amount', 'titles');
 
             // For Bookings Overview Chart
-            $total_bookings = Booking::where('dome_id', $getdomedata->id)->whereBetween('created_at', [$weekStartDate, $weekEndDate])->count();
-            $total_bookings_data = Booking::where('dome_id', $getdomedata->id)->selectRaw("
+            $total_bookings = Booking::where('dome_id', @$getdomedata->id)->whereBetween('created_at', [$weekStartDate, $weekEndDate])->count();
+            $total_bookings_data = Booking::where('dome_id', @$getdomedata->id)->selectRaw("
             CASE
                 WHEN booking_status = '1' THEN '{$confirmed_bookings}'
                 WHEN booking_status = '2' THEN '{$pending_bookings}'
@@ -274,7 +286,7 @@ class DomesController extends Controller
             if ($request->ajax()) {
                 return response()->json(['total_bookings' => $total_bookings, 'bookings_labels' => $bookings_labels, 'bookings_data' => $bookings_data, 'bookings_data_colors' => $bookings_data_colors, 'dome_revenue' => Helper::currency_format($dome_revenue), 'dome_revenue_labels' => $dome_revenue_labels, 'dome_revenue_data' => $dome_revenue_data]);
             } else {
-                $getsportslist = Sports::whereIn('id', explode(',', $getdomedata->sport_id))->where('is_available', 1)->where('is_deleted', 2)->get();
+                $getsportslist = Sports::whereIn('id', explode(',', @$getdomedata->sport_id))->where('is_available', 1)->where('is_deleted', 2)->get();
                 return view('admin.domes.view', compact('getdomedata', 'getsportslist', 'total_bookings', 'bookings_labels', 'bookings_data', 'bookings_data_colors', 'dome_revenue', 'dome_revenue_labels', 'dome_revenue_data'));
             }
         }
@@ -288,7 +300,7 @@ class DomesController extends Controller
     }
     public function update(Request $request)
     {
-        $request->validate([
+        $validator = Validator::make($request->input(), [
             'sport_id' => 'required',
             'dome_name' => 'required',
             'dome_hst' => 'required',
@@ -303,6 +315,11 @@ class DomesController extends Controller
             'description.required' => trans('messages.description_required'),
             'address.required' => trans('messages.address_required'),
         ]);
+        foreach ($validator->errors()->toArray() as $key => $error) {
+            return response()->json(["status" => 0, "message" => $error[0]], 200);
+            if ($key == 0)
+                break;
+        }
         DB::beginTransaction();
         try {
             $dome = Domes::find($request->id);
@@ -321,15 +338,25 @@ class DomesController extends Controller
             $dome->lng = $request->lng;
             $dome->benefits = $request->benefits != '' ? implode("|", $request->benefits) : '';
             $dome->benefits_description = $request->benefits_description;
+            $dome->multiple_fields_selection = $request->multiple_fields_selection ?? 0;
+            $dome->fields_discount = $request->fields_discount ?? 0;
+            $dome->fields_discount_type = $request->fields_discount_type;
+            $dome->booking_mode = $request->booking_mode ?? 2;
+            $dome->policies_rules = $request->policies_rules;
             $dome->save();
             if ($request->has('dome_images')) {
-                $request->validate([
-                    'dome_images.*' => 'image|mimes:png,jpg,jpeg,svg|max:7168',
+                $validator = Validator::make($request->input(), [
+                    'dome_images.*' => 'mimes:png,jpg,jpeg,svg|max:7168',
                 ], [
                     'dome_images.image' => trans('messages.valid_image'),
                     'dome_images.mimes' => trans('messages.valid_image_type'),
                     'dome_images.max' => trans('messages.valid_image_size'),
                 ]);
+                foreach ($validator->errors()->toArray() as $key => $error) {
+                    return response()->json(["status" => 0, "message" => $error[0]], 200);
+                    if ($key == 0)
+                        break;
+                }
                 foreach ($request->file('dome_images') as $img) {
                     $domeimage = new DomeImages();
                     $image = 'dome-' . uniqid() . '.' . $img->getClientOriginalExtension();
@@ -353,20 +380,38 @@ class DomesController extends Controller
                 $checksportexist->price = $request->dome_price[$key];
                 $checksportexist->save();
             }
-            $dome_settings = DomeDiscounts::where('dome_id', $dome->id)->first();
-            $dome_settings->accept_decline_bookings = $request->has('auto_bookings_system') && $request->auto_bookings_system == "on" ? 1 : 2;
-            $dome_settings->age = $request->age;
-            $dome_settings->age_below_discount = $request->age == 0 ? 0 : $request->age_below_discount;
-            $dome_settings->age_above_discount = $request->age == 0 ? 0 : $request->age_above_discount;
-            $dome_settings->max_fields = $request->max_fields_selection;
-            $dome_settings->fields_discount = $dome_settings->max_fields == 0 ? 0 : $request->multiple_fields_discount;
-            $dome_settings->policy = $request->dome_policy;
-            $dome_settings->save();
+
+            foreach ($request->edit_discounts as $key => $did) {
+                if ((isset($request->edit_to_age[$key]) && !empty($request->edit_to_age[$key]))  &&  (isset($request->edit_age_discounts[$key]) && !empty($request->edit_age_discounts[$key]))  &&  (isset($request->edit_discount_type[$key]) && !empty($request->edit_discount_type[$key]))) {
+                    $dome_discounts = DomeDiscounts::find($did);
+                    if (!empty($dome_discounts)) {
+                        $dome_discounts->from_age = $request->edit_from_age[$key];
+                        $dome_discounts->to_age = $request->edit_to_age[$key];
+                        $dome_discounts->age_discounts = $request->edit_age_discounts[$key];
+                        $dome_discounts->discount_type = $request->edit_discount_type[$key];
+                        $dome_discounts->save();
+                    }
+                }
+            }
+
+            if (isset($request->from_age)) {
+                foreach ($request->from_age as $key => $from_age) {
+                    if ((isset($request->to_age[$key]) && !empty($request->to_age[$key]))  &&  (isset($request->age_discounts[$key]) && !empty($request->age_discounts[$key]))  &&  (isset($request->discount_type[$key]) && !empty($request->discount_type[$key]))) {
+                        $dome_discounts = new DomeDiscounts;
+                        $dome_discounts->dome_id = $dome->id;
+                        $dome_discounts->from_age = $from_age;
+                        $dome_discounts->to_age = $request->to_age[$key];
+                        $dome_discounts->age_discounts = $request->age_discounts[$key];
+                        $dome_discounts->discount_type = $request->discount_type[$key];
+                        $dome_discounts->save();
+                    }
+                }
+            }
             DB::commit();
-            return redirect('admin/domes')->with('success', trans('messages.success'));
+            return response()->json(['status' => 1, 'message' => trans('messages.success'), 'url' => URL::to('admin/domes')], 200);
         } catch (\Throwable $th) {
             DB::rollback();
-            return redirect()->back()->with('error', trans('messages.wrong'));
+            return response()->json(['status' => 0, 'message' => trans('messages.wrong'),], 200);
         }
     }
     public function delete(Request $request)
@@ -395,6 +440,15 @@ class DomesController extends Controller
                 unlink('storage/app/public/admin/images/domes/' . $image->images);
             }
             $image->delete();
+            return response()->json(['status' => 1, 'message' => trans('messages.success')], 200);
+        } catch (\Throwable $th) {
+            return response()->json(['status' => 0, 'message' => trans('messages.wrong')], 200);
+        }
+    }
+    public function discount_delete(Request $request)
+    {
+        try {
+            DomeDiscounts::where('id', $request->id)->delete();
             return response()->json(['status' => 1, 'message' => trans('messages.success')], 200);
         } catch (\Throwable $th) {
             return response()->json(['status' => 0, 'message' => trans('messages.wrong')], 200);
@@ -474,5 +528,4 @@ class DomesController extends Controller
     {
         return view('admin.dome_settings.index');
     }
-
 }

@@ -70,6 +70,20 @@ class Helper
             return 0;
         }
     }
+    public static function booking_request_email($title, $description, $bookingdata)
+    {
+        try {
+            $data = ['title' => $title, 'email' => $bookingdata->customer_email, 'description' => $description, 'bookingdata' => $bookingdata];
+            Mail::send('email.booking_request_reply_email', $data, function ($message) use ($data) {
+                $message->from(env('MAIL_USERNAME'))->subject($data['title']);
+                $message->to($data['email']);
+            });
+            return 1;
+        } catch (\Throwable $th) {
+            Log::info(" =========================== Email: booking_request_email --- " . $bookingdata->id . " ==============" . $th->getMessage() . "========= ");
+            return 0;
+        }
+    }
     public static function verificationemail($email, $name, $otp)
     {
         $data = ['title' => 'Email Verification', 'email' => $email, 'name' => $name, 'otp' => $otp];
@@ -206,12 +220,13 @@ class Helper
     }
     public static function send_notification($title, $body, $type, $booking_id, $league_id, $tokens)
     {
-        // TYPE  =  1  ->  MANUAL ---  Aftre Create Booking --> in case of split payment --> Notify to complete payment in 2 hours to confirm the booking
-        // TYPE  =  2  ->  AUTO   ---  Send Notitification One Day Before to League Booked Users To Notify That League Is going To Start Tomorrow
-        // TYPE  =  3  ->  AUTO   ---  Send Notification to User to notify to add the review When User has not added The Review On Booking End time
-        // TYPE  =  5  ->  MANUAL ---  DOME BOOKING IS CONFIRMED (booking_id)
-        // TYPE  =  6  ->  MANUAL ---  LEAGUE BOOKING IS CONFIRMED (booking_id)
-        // TYPE  =  4  ->  MANUAL ---  NEW LEAGUE IS ADDED BY DOME OWNER (only those users who've been favourited that dome) (league_id)
+        // TYPE  ===  1  --->  MANUAL ---  Aftre Create Booking --> in case of split payment --> Notify to complete payment in 2 hours to confirm the booking
+        // TYPE  ===  2  --->  AUTO   ---  Send Notitification One Day Before to League Booked Users To Notify That League Is going To Start Tomorrow
+        // TYPE  ===  3  --->  AUTO   ---  Send Notification to User to notify to add the review When User has not added The Review On Booking End time
+        // TYPE  ===  5  --->  MANUAL ---  DOME BOOKING IS CONFIRMED (booking_id)
+        // TYPE  ===  6  --->  MANUAL ---  LEAGUE BOOKING IS CONFIRMED (booking_id)
+        // TYPE  ===  4  --->  MANUAL ---  NEW LEAGUE IS ADDED BY DOME OWNER (only those users who've been favourited that dome) (league_id)
+        // TYPE  ===  7  --->  MANUAL ---  Booking Request Accepted OR Rejected (booking_id)
         try {
             is_array($tokens) ? $gettokens = $tokens : $gettokens[] = $tokens;
             $title = $title == "" ? "Domez Notification" : $title;
