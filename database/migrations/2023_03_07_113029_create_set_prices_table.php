@@ -15,9 +15,9 @@ return new class extends Migration
     {
         Schema::create('set_prices', function (Blueprint $table) {
             $table->id();
-            $table->integer('vendor_id');
-            $table->integer('dome_id');
-            $table->integer('sport_id');
+            $table->unsignedBigInteger('vendor_id');
+            $table->unsignedBigInteger('dome_id');
+            $table->unsignedBigInteger('sport_id');
             $table->date('start_date')->nullable();
             $table->date('end_date')->nullable();
             $table->integer('price_type')->default(1)->comment('1=default,2=daywise');

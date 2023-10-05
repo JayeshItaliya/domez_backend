@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->integer('type')->comment('1=Admin, 2=Dome Owner, 3=User, 4=Employee, 5=Provider	');
-            $table->integer('login_type')->default(1)->comment('1=Email, 2=Google, 3=Apple, 4=Facebook	');
+            $table->integer('type')->comment('1=Admin, 2=Dome Owner, 3=User, 4=Employee, 5=Provider');
+            $table->integer('login_type')->default(1)->comment('1=Email, 2=Google, 3=Apple, 4=Facebook');
             $table->unsignedBigInteger('vendor_id')->nullable()->comment('For Workers use only');
             $table->tinyInteger('dome_limit')->nullable()->comment('Only For Dome Owner');
             $table->string('name')->nullable();
