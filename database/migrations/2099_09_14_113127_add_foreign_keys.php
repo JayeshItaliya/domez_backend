@@ -43,12 +43,11 @@ return new class extends Migration
             $table->foreign('dome_id')->references('id')->on('domes')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('league_id')->references('id')->on('leagues')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('user_id')->references('id')->on('users')->where('type', 3)->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('booking_id')->references('booking_id')->on('bookings')->onDelete('cascade')->onUpdate('cascade');
         });
         Schema::table('reviews', function (Blueprint $table) {
             $table->foreign('vendor_id')->references('id')->on('users')->where('type', 2)->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('dome_id')->references('id')->on('domes')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('vendor_id')->references('id')->on('users')->where('type', 3)->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->where('type', 3)->onDelete('cascade')->onUpdate('cascade');
         });
         Schema::table('payment_gateways', function (Blueprint $table) {
             $table->foreign('vendor_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
@@ -131,7 +130,6 @@ return new class extends Migration
             $table->dropForeign(['dome_id']);
             $table->dropForeign(['league_id']);
             $table->dropForeign(['user_id']);
-            $table->dropForeign(['booking_id']);
         });
         Schema::table('set_prices', function (Blueprint $table) {
             $table->dropForeign(['vendor_id']);
