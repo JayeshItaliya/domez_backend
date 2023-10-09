@@ -58,7 +58,7 @@ class BookingController extends Controller
             'payment_type' => $data->payment_type,
             'booking_status' => $data->booking_status,
             'time' => Carbon::parse($data->start_time)->setTimezone(env('SET_TIMEZONE'))->format('h:i A') . ' - ' . Carbon::parse($data->end_time)->setTimezone(env('SET_TIMEZONE'))->format('h:i A'),
-            'created_at' => Carbon::parse($data->created_at)->setTimezone(env('SET_TIMEZONE'))->toDateTimeString(),
+            'created_at' => Carbon::parse($data->booking_mode == 1 ? $data->created_at : ($data->booking_accepted_at != "" ? $data->booking_accepted_at :$data->created_at))->setTimezone(env('SET_TIMEZONE'))->toDateTimeString(),
         ];
         return $arr;
     }
