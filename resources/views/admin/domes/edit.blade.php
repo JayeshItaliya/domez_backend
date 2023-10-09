@@ -48,7 +48,6 @@
                     <p data-bs-toggle="popover" data-bs-placement="top" data-bs-custom-class="custom-popover" data-bs-trigger="hover focus" data-bs-content="Default Tooltip">{{ trans('labels.system_mode') }}<i class="fa-regular fa-circle-info fa-beat-fade ps-2"></i></p>
                 </div>
                 <div class="col-md-auto">
-                    @dump($dome->booking_mode)
                     <label class="system-mode-switch">
                         <input type="checkbox" class="d-none cursor-pointer" name="booking_mode" value="2" id="booking_mode" {{ $dome->booking_mode == 2 ? 'checked' : '' }}>
                         <div class="slider round">
