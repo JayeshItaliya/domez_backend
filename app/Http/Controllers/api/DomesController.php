@@ -209,7 +209,7 @@ class DomesController extends Controller
                 'fields_discount_type' => $dome->fields_discount_type,
                 'dome_discounts' => $dome->dome_discounts->makeHidden(['created_at', 'updated_at']),
                 'booking_mode' => $dome->booking_mode,
-                'policies_rules' => $dome->policies_rules,
+                'policies_rules' => $dome->policies_rules ?? "",
             );
             return response()->json(["status" => 1, "message" => "Successful", 'dome_setting' => $data], 200);
         } catch (\Throwable $th) {
