@@ -92,7 +92,7 @@ class DomesController extends Controller
             $dome->multiple_fields_selection = $request->multiple_fields_selection;
             $dome->fields_discount = $request->fields_discount;
             $dome->fields_discount_type = $request->fields_discount_type;
-            $dome->booking_mode = $request->booking_mode ?? 2;
+            $dome->booking_mode = $request->booking_mode ?? 1;
             $dome->policies_rules = $request->policies_rules;
             $dome->save();
             foreach ($request->day as $key => $dayname) {
@@ -341,7 +341,7 @@ class DomesController extends Controller
             $dome->multiple_fields_selection = $request->multiple_fields_selection ?? 0;
             $dome->fields_discount = $request->fields_discount ?? 0;
             $dome->fields_discount_type = $request->fields_discount_type;
-            $dome->booking_mode = $request->booking_mode ?? 2;
+            $dome->booking_mode = $request->booking_mode ?? 1;
             $dome->policies_rules = $request->policies_rules;
             $dome->save();
             if ($request->has('dome_images')) {

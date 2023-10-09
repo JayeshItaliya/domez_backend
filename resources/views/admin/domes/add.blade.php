@@ -51,8 +51,7 @@
                 </div>
                 <div class="col-md-auto">
                     <label class="system-mode-switch">
-                        <input type="checkbox" class="d-none cursor-pointer" name="booking_mode" value="1"
-                            id="booking_mode">
+                        <input type="checkbox" class="d-none cursor-pointer" name="booking_mode" value="2" id="booking_mode" {{ old('booking_mode') == 2 ? 'checked' : '' }}>
                         <div class="slider round">
                             <span class="slider_text">
                                 <span class="text-primary fs-7 off">{{ trans('labels.automatic') }}</span>
