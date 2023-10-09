@@ -384,6 +384,14 @@ class PaymentController extends Controller
             $booking->payment_type = $request->payment_type;
             $booking->payment_status = $booking->due_amount == 0 ? 1 : 2;
             $booking->booking_status = $booking->payment_status == 1 ? 1 : 2;
+
+
+
+            $booking->booking_accepted_at = Carbon::now();
+
+
+
+            
             $booking->token = str_replace(['$', '/', '.', '|'], '', Hash::make($booking_id));
             $booking->save();
 

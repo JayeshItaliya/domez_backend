@@ -236,22 +236,29 @@ class BookingController extends Controller
         if ($checkbooking->booking_status == 3) {
             return response()->json(['status' => 0, 'message' => trans('messages.already_cancelled')], 200);
         }
+        DB::beginTransaction();
         try {
             date_default_timezone_set(env('SET_TIMEZONE'));
             $checkbooking->booking_status = 2;
             $checkbooking->booking_accepted_at = Carbon::now();
             $checkbooking->save();
 
+            $checkbooking = Booking::find($request->id);
+
             $title = 'Booking Request Cancellation';
             $description = $this->cancelmsg($checkbooking->booking_id);
             $body = "We regret to inform you that your booking request has been cancelled by The Dome Owner";
             foreach (explode(',', $checkbooking->slots) as $key => $slot) {
-                $booking = Booking::where('id', '!=', $checkbooking->id)->whereDate('start_date', $checkbooking->start_date)->whereRaw("find_in_set('" . $slot . "',slots)")->where('booking_mode', 2)->where('booking_status', 4)->update(['booking_status' => 3, 'cancelled_by' => 2]);
-                Helper::booking_request_email($title, $description, $checkbooking);
-
-                $u = User::find($booking->user_id);
-                $tokens = [$u->fcm_token];
-                Helper::send_notification($title, $body, 7, $booking->id, $league_id = "", $tokens);
+                $getbookings = Booking::where('id', '!=', $checkbooking->id)->whereDate('start_date', $checkbooking->start_date)->whereRaw("find_in_set('" . $slot . "',slots)")->where('booking_mode', 2)->where('booking_status', 4)->get();
+                foreach ($getbookings as $key => $booking) {
+                    $booking->booking_status = 3;
+                    $booking->cancelled_by = 2;
+                    $booking->save();
+                    Helper::booking_request_email($title, $description, $checkbooking);
+                    $u = User::find($booking->user_id);
+                    $tokens = [$u->fcm_token];
+                    Helper::send_notification($title, $body, 7, $booking->id, $league_id = "", $tokens);
+                }
             }
 
             $title = 'Booking Request Accepted';
@@ -264,10 +271,11 @@ class BookingController extends Controller
             $u = User::find($checkbooking->user_id);
             $tokens = [$u->fcm_token];
             Helper::send_notification($title, $body, 7, $checkbooking->id, $league_id = "", $tokens);
-
+            DB::commit();
             return response()->json(['status' => 1, 'message' => trans('messages.success')], 200);
         } catch (\Throwable $th) {
-            return response()->json(['status' => 0, 'message' => trans('messages.error')], 200);
+            DB::rollback();
+            return response()->json(['status' => 0, 'message' => trans('messages.wrong'),'error' =>$th->getMessage()], 200);
         }
     }
 
