@@ -49,7 +49,6 @@ class DomesController extends Controller
     }
     public function store(Request $request)
     {
-        // dd($request->input());
         if (Domes::where('vendor_id', auth()->user()->id)->count() >= auth()->user()->dome_limit) {
             return response()->json(['status' => 0, 'message' => trans('messages.dome_limit_exceeded'),], 200);
         }
@@ -471,7 +470,6 @@ class DomesController extends Controller
             return response()->json(['status' => 1, 'message' => trans('messages.success'), 'url' => URL::to('admin/domes')], 200);
         } catch (\Throwable $th) {
             DB::rollback();
-            dd($th);
             return response()->json(['status' => 0, 'message' => trans('messages.wrong'),], 200);
         }
     }
