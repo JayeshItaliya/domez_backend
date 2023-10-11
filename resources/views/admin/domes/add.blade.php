@@ -376,59 +376,81 @@
             <!-- Add Discount Modal -->
             <div class="modal fade" id="dome_settings" tabindex="-1" aria-labelledby="dome_settingsLabel"
                 aria-hidden="true">
-                <div class="modal-dialog modal-lg">
+                <div class="modal-dialog modal-xl">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h1 class="modal-title fs-5" id="dome_settingsLabel">{{ trans('labels.add_discounts') }}</h1>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                aria-label="Close"></button>
+                            <h1 class="modal-title fs-5" id="dome_settingsLabel">{{ trans('labels.discounts') }}</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <div class="row">
-                                <div class="form-group col-md-4">
-                                    <label for="multiple_fields_selection"
-                                        class="form-label">{{ trans('labels.max_fields_selection') }}</label>
-                                    <select class="form-select" id="multiple_fields_selection"
-                                        name="multiple_fields_selection">
-                                        <option selected value="0">0</option>
-                                        @for ($i = 1; $i <= 10; $i++)
-                                            <option value="{{ $i }}"
-                                                {{ old('multiple_fields_selection') == $i ? 'selected' : '' }}>
-                                                {{ $i }}</option>
-                                        @endfor
-                                    </select>
+                            <div id="field_discounts">
+                                <h6>{{ trans('labels.multi_field_discount') }}</h6>
+                                <hr>
+                                <div class="row">
+                                    <div class="form-group col-lg-3">
+                                        <label class="form-label">{{ trans('labels.sports') }}</label>
+                                        <select class="form-select" name="discount_sport[]">
+                                            <option value="" selected>{{ trans('labels.select') }}</option>
+                                            @foreach ($getsportslist as $sport)
+                                                <option value="{{ $sport->id }}" {{ old('discount_sport') == $sport->id ? 'selected' : '' }}> {{ $sport->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-lg-3">
+                                        <label class="form-label">{{ trans('labels.number_of_fields') }}</label>
+                                        <select class="form-select" name="number_of_fields[]">
+                                            <option selected value="0">0</option>
+                                            @for ($i = 1; $i <= 10; $i++)
+                                                <option value="{{ $i }}" {{ old('number_of_fields') == $i ? 'selected' : '' }}> {{ $i }}</option>
+                                            @endfor
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-lg-2">
+                                        <label class="form-label">{{ trans('labels.discount_type') }}</label>
+                                        <select class="form-select" name="fields_discount_type[]">
+                                            <option value="" selected>{{ trans('labels.select') }}</option>
+                                            <option value="1">{{ trans('labels.in_percentage') }} </option>
+                                            <option value="2">{{ trans('labels.fixed') }}</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-lg-3">
+                                        <label class="form-label">{{ trans('labels.discount') }}</label>
+                                        <input type="number" class="form-control" name="fields_discount[]" placeholder="{{ trans('labels.discount') }}">
+                                    </div>
+                                    <div class="col-md-1 d-flex align-items-end">
+                                        <div class="form-group">
+                                            <button type="button" class="btn btn-sm btn-outline-primary appendfielddicountbtn"> <i class="fa fa-plus"></i> </button>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="form-group col-md-4">
-                                    <label for="field_discount"
-                                        class="form-label">{{ trans('labels.discount') }}</label>
-                                    <input type="number" class="form-control" name="fields_discount"
-                                        id="field_discount" value="0">
-                                </div>
-                                <div class="form-group col-md-4">
-                                    <label for="age_discount"
-                                        class="form-label">{{ trans('labels.discount_type') }}</label>
-                                    <select class="form-select" id="field_discount_type" name="fields_discount_type">
-                                        <option value="1" selected>{{ trans('labels.in_percentage') }} </option>
-                                        <option value="2">{{ trans('labels.fixed') }}</option>
-                                    </select>
-                                </div>
+                                <div class="append-field-discounts"></div>
                             </div>
                             <hr>
                             <div id="AddAgeDiscount">
                                 <div class="row">
-                                    <div class="col-md-3">
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label class="form-label">{{ trans('labels.sports') }}</label>
+                                            <select class="form-select" name="age_sport[]">
+                                                <option value="" selected>{{ trans('labels.select') }}</option>
+                                                @foreach ($getsportslist as $sport)
+                                                    <option value="{{ $sport->id }}" {{ old('age_sport') == $sport->id ? 'selected' : '' }}> {{ $sport->name }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
                                         <div class="form-group">
                                             <label class="form-label" >{{ trans('labels.age') }}</label>
                                             <select class="form-select" name="from_age[]">
-                                                <option value="" selected=""> {{ trans('labels.from_age') }}
-                                                </option>
+                                                <option value="" selected=""> {{ trans('labels.from_age') }} </option>
                                                 @for ($i = 1; $i <= 90; $i++)
                                                     <option value="{{ $i }}">{{ $i }}</option>
                                                 @endfor
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-md-3">
+                                    <div class="col-md-2">
                                         <div class="form-group">
                                             <label for="" class="form-label">&nbsp;</label>
                                             <select class="form-select" name="to_age[]">
@@ -442,14 +464,6 @@
                                     <div class="col-md-2">
                                         <div class="form-group">
                                             <label for="age_discount"
-                                                class="form-label">{{ trans('labels.discount') }}</label>
-                                            <input type="number" max="100" min="0" class="form-control"
-                                                name="age_discounts[]" placeholder="{{ trans('labels.discount') }}">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-                                            <label for="age_discount"
                                                 class="form-label">{{ trans('labels.discount_type') }}</label>
                                             <select class="form-select" name="discount_type[]">
                                                 <option value="" selected>{{ trans('labels.select') }}</option>
@@ -458,7 +472,15 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-md-1 d-flex align-items-end">
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label for="age_discount"
+                                                class="form-label">{{ trans('labels.discount') }}</label>
+                                            <input type="number" max="100" min="0" class="form-control"
+                                                name="age_discounts[]" placeholder="{{ trans('labels.discount') }}">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2 d-flex align-items-end">
                                         <div class="form-group">
                                             <button type="button" class="btn btn-sm btn-outline-primary appendbtn"> <i
                                                     class="fa fa-plus"></i> </button>
@@ -512,6 +534,22 @@
             </div>
         </div>
     </form>
+    <div class="sport-element d-none">
+        <select class="form-select" name="discount_sport[]">
+            <option value="" selected>{{ trans('labels.select') }}</option>
+            @foreach ($getsportslist as $sport)
+                <option value="{{ $sport->id }}"> {{ $sport->name }}</option>
+            @endforeach
+        </select>
+    </div>
+    <div class="age-sport-element d-none">
+        <select class="form-select" name="age_sport[]">
+            <option value="" selected>{{ trans('labels.select') }}</option>
+            @foreach ($getsportslist as $sport)
+                <option value="{{ $sport->id }}"> {{ $sport->name }}</option>
+            @endforeach
+        </select>
+    </div>
 @endsection
 @section('scripts')
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
@@ -529,6 +567,12 @@
         var label_to = {{ Js::from(trans('labels.to')) }};
         var label_discount_type = {{ Js::from(trans('labels.discount_type')) }};
         var label_select = {{ Js::from(trans('labels.select')) }};
+
+        var label_sports = {{ Js::from(trans('labels.sports')) }};
+        var sport_select_element = $('.sport-element').html();
+        var label_number_of_fields = {{ Js::from(trans('labels.number_of_fields')) }};
+        var age_sport_select_element = $('.age-sport-element').html();
+
         $('input[data-sport-name]').click(function() {
             if ($('input[data-sport-name]:checked').length > 0) {
                 $('.default-price-title').show();

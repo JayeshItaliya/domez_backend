@@ -15,7 +15,7 @@ class WorkersController extends Controller
 {
     public function index(Request $request)
     {
-        $workers = User::where('vendor_id', auth()->user()->id)->where('type', 4)->where('is_deleted', 2)->orderBy('id', 'desc')->get();
+        $workers = User::where('vendor_id', auth()->user()->id)->where('type', 4)->NotDeleted()->orderBy('id', 'desc')->get();
         return view('admin.workers.index', compact('workers'));
     }
     public function store_worker(Request $request)

@@ -13,6 +13,10 @@ use Illuminate\Support\Facades\DB;
 class Domes extends Model
 {
     use HasFactory;
+    public function scopeNotDeleted($query)
+    {
+        return $query->where('is_deleted', 2);
+    }
     public function dome_image()
     {
         return $this->hasOne('App\Models\DomeImages', 'dome_id', 'id')->select('*', DB::raw("CONCAT('" . url('storage/app/public/admin/images/domes') . "/', images) AS image"));
@@ -61,5 +65,9 @@ class Domes extends Model
     public function dome_discounts(): HasMany
     {
         return $this->hasMany(DomeDiscounts::class, 'dome_id');
+    }
+    public function dome_field_discounts(): HasMany
+    {
+        return $this->hasMany(DomeFieldDiscounts::class, 'dome_id');
     }
 }

@@ -55,6 +55,7 @@
                 class="nav-item {{ request()->is('admin/leagues*') ? 'active' : '' }}"> <i class="fa-regular fa-ranking-star {{ request()->is('admin/leagues*') ? 'text-secondary' : '' }}"></i>
                 <span class="mx-3">{{ trans('labels.leagues') }}</span> </a>
             {{-- <a href="{{ URL::to('admin/bookings') }}" class="nav-item {{ request()->is('admin/autometic-bookings*') || request()->is('admin/bookings-requests*') || request()->is('admin/blocked-timeslots*') ? 'active' : '' }}"> <i class="fa-regular fa-calendar-circle-plus {{ request()->is('admin/autometic-bookings*') || request()->is('admin/bookings-requests*') || request()->is('admin/blocked-timeslots*') ? 'text-secondary' : '' }}"></i> <span class="mx-3">{{ trans('labels.bookings') }}</span> </a> --}}
+            @if (in_array(auth()->user()->type, [1, 2,4]))
             <a href="#bookingsmeeting"
                 class="nav-item {{ request()->is('admin/autometic-bookings*') || request()->is('admin/bookings-requests*') || request()->is('admin/blocked-timeslots*') ? 'active' : '' }}"
                 data-bs-toggle="collapse" role="button"
@@ -62,7 +63,16 @@
                 aria-controls="bookingsmeeting">
                 <i class="fa-regular fa-calendar-circle-plus {{ request()->is('admin/autometic-bookings*') || request()->is('admin/bookings-requests*') || request()->is('admin/blocked-timeslots*') ? 'text-secondary' : '' }}"></i>
                 <div class="ms-3 d-flex align-items-center justify-content-between w-100">
-                    <span> {{ trans('labels.bookings') }} </span>
+
+                    {{-- <span> {{ trans('labels.bookings') }} </span> --}}
+                    <span class="position-relative">{{ trans('labels.bookings') }}
+                        @if (Helper::pending_booking_request_count(1) > 0)
+                            <small class="position-absolute translate-middle border border-light rounded-circle badge bg-primary p-1"
+                                style="top: 20%; left:115%; background-color:#FE3B30 !important;">
+                            </small>
+                        @endif
+                    </span>
+
                     <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-down"
                         width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5"
                         stroke="{{ request()->is('admin/autometic-bookings*') || request()->is('admin/bookings-requests*') || request()->is('admin/blocked-timeslots*') ? 'var(--bs-secondary)' : '#2c3e50' }}"
@@ -82,6 +92,7 @@
                     @endif
                 </ul>
             </div>
+            @endif
             @if (in_array(auth()->user()->type, [1, 2]))
                 <a href="{{ URL::to('admin/transactions') }}" class="nav-item {{ request()->is('admin/transactions*') ? 'active' : '' }}"> <i class="fa-regular fa-money-from-bracket {{ request()->is('admin/transactions*') ? 'text-secondary' : '' }}"></i> <span class="mx-3">{{ trans('labels.transactions') }}</span> </a>
             @endif
@@ -91,7 +102,14 @@
             @if (in_array(auth()->user()->type, [2, 4]))
                 <a href="{{ URL::to('admin/reviews') }}" class="nav-item {{ request()->is('admin/reviews*') ? 'active' : '' }}"> <i class="fa-regular fa-star-exclamation {{ request()->is('admin/reviews*') ? 'text-secondary' : '' }}"></i> <span class="mx-3">{{ trans('labels.reviews') }}</span> </a>
                 @if (auth()->user()->type == 2)
-                    <a href="{{ URL::to('admin/enquiries/dome-requests') }}" class="nav-item {{ request()->is('admin/enquiries/dome-requests*') ? 'active' : '' }}"> <i class="fa-regular fa-comments-question {{ request()->is('admin/enquiries*') ? 'text-secondary' : '' }}"></i> <span class="mx-3">{{ trans('labels.dome_requests') }}</span> </a>
+                    <a href="{{ URL::to('admin/enquiries/dome-requests') }}" class="nav-item {{ request()->is('admin/enquiries/dome-requests*') ? 'active' : '' }}"> <i class="fa-regular fa-comments-question {{ request()->is('admin/enquiries*') ? 'text-secondary' : '' }}"></i> <span class="mx-3">{{ trans('labels.dome_requests') }}</span>
+
+                        @if (Helper::get_noti_count(3) > 0)
+                            <small class="badge bg-danger rounded-pill"
+                                style="font-size: 10px;height:fit-content;background-color:#FE3B30 !important;">{{ Helper::get_noti_count(3) }}</small>
+                        @endif
+
+                </a>
                 @endif
             @endif
             @if (auth()->user()->type == 1)
@@ -99,7 +117,8 @@
                     data-bs-toggle="collapse" role="button"
                     aria-expanded="{{ request()->is('admin/enquiries*') ? 'true' : 'false' }}"
                     aria-controls="enquiry"> <i class="fa-regular fa-comments-question {{ request()->is('admin/enquiries*') ? 'text-secondary' : '' }}"></i>
-                    <div class="ms-3 d-flex align-items-center justify-content-between w-100"> <span class="position-relative">{{ trans('labels.enquiry') }}
+                    <div class="ms-3 d-flex align-items-center justify-content-between w-100">
+                        <span class="position-relative">{{ trans('labels.enquiry') }}
                             @if (Helper::get_noti_count(1) > 0 || Helper::get_noti_count(2) > 0 || Helper::get_noti_count(3) > 0)
                                 <small class="position-absolute translate-middle border border-light rounded-circle badge bg-primary p-1"
                                     style="top: 20%; left:115%; background-color:#FE3B30 !important;">

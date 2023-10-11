@@ -10,6 +10,11 @@ class League extends Model
 {
     use HasFactory;
 
+    public function scopeNotDeleted($query)
+    {
+        return $query->where('is_deleted', 2);
+    }
+
     public function league_image()
     {
         return $this->hasOne('App\Models\DomeImages', 'league_id', 'id')->select('*', DB::raw("CONCAT('" . url('storage/app/public/admin/images/league') . "/', images) AS image"));

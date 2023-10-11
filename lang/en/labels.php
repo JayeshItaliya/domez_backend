@@ -303,8 +303,8 @@ return [
     'max_fields_selection' => 'Max Fields Selection',
     'multiple_fields_discount' => 'Multiple Fields Discount',
     'fields_discount' => 'Fields Discount',
-    'in_percentage' => 'In Percentage',
-    'fixed' => 'Fixed',
+    'in_percentage' => '%',
+    'fixed' => '$',
     'discount' => 'Discount',
     'discount_type' => 'Discount Type',
     'add_more_discounts' => 'Add More Discounts',
@@ -317,4 +317,8 @@ return [
     'all_slots' => 'All Slots',
     'available' => 'Available',
     'blocked' => 'Blocked',
+
+    'discounts' => 'Discounts',
+    'multi_field_discount' => 'Multi-field Discount',
+    'number_of_fields' => 'Number of Fields',
 ];

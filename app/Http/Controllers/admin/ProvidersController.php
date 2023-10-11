@@ -15,7 +15,7 @@ class ProvidersController extends Controller
 {
     public function index(Request $request)
     {
-        $providers = User::where('vendor_id', auth()->user()->id)->where('type', 5)->where('is_deleted', 2)->orderBy('created_at', 'desc')->get();
+        $providers = User::where('vendor_id', auth()->user()->id)->where('type', 5)->NotDeleted()->orderBy('created_at', 'desc')->get();
         return view('admin.providers.index', compact('providers'));
     }
     public function store_worker(Request $request)

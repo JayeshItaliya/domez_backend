@@ -49,31 +49,31 @@ class EnquiryController extends Controller
                 $message->to($data['email']);
             });
             // Find the user with the given email and type = 2
-            $user = User::where('type', 2)->where('email', $enquiry_data->email)->first();
+            // $user = User::DomeOwner()->where('email', $enquiry_data->email)->first();
 
-            if (!empty($user)) {
-                if ($user->dome_limit == 0) {
-                    // If the dome_limit is 0, update it to 1
-                    $user->update(['dome_limit' => 1]);
-                } else {
-                    // If the dome_limit is not 0, increment it by 1
-                    $user->increment('dome_limit');
-                }
-            } else {
-                // If the user doesn't exist, create a new one
-                $user = new User();
-                $user->type = 2;
-                $user->login_type = 1;
-                $user->dome_limit = 1;
-                $user->name = $enquiry_data->name;
-                $user->email = $enquiry_data->email;
-                $user->password = Hash::make($password);
-                $user->phone = $enquiry_data->phone;
-                $user->is_verified = 1;
-                $user->save();
-            }
+            // if (!empty($user)) {
+            //     if ($user->dome_limit == 0) {
+            //         // If the dome_limit is 0, update it to 1
+            //         $user->update(['dome_limit' => 1]);
+            //     } else {
+            //         // If the dome_limit is not 0, increment it by 1
+            //         $user->increment('dome_limit');
+            //     }
+            // } else {
+            //     // If the user doesn't exist, create a new one
+            //     $user = new User();
+            //     $user->type = 2;
+            //     $user->login_type = 1;
+            //     $user->dome_limit = 1;
+            //     $user->name = $enquiry_data->name;
+            //     $user->email = $enquiry_data->email;
+            //     $user->password = Hash::make($password);
+            //     $user->phone = $enquiry_data->phone;
+            //     $user->is_verified = 1;
+            //     $user->save();
+            // }
 
-            $enquiry_data->vendor_id = $user->id;
+            // $enquiry_data->vendor_id = $user->id;
             $enquiry_data->is_accepted = 1;
             $enquiry_data->is_replied = 1;
             $enquiry_data->save();
@@ -99,7 +99,7 @@ class EnquiryController extends Controller
     }
     public function general_enquiry(Request $request)
     {
-        $enquiries = Enquiries::where('type', 2)->where('is_replied', 2)->where('is_accepted', 2)->where('is_deleted', 2)->orderByDesc('id')->get();
+        $enquiries = Enquiries::where('type', 2)->where('is_replied', 2)->where('is_accepted', 2)->NotDeleted()->orderByDesc('id')->get();
         return view('admin.enquiry.general_enquiry', compact('enquiries'));
     }
     public function general_enquiry_reply(Request $request)
@@ -120,7 +120,7 @@ class EnquiryController extends Controller
     }
     public function help_support(Request $request)
     {
-        $enquiries = Enquiries::where('type', 1)->where('is_replied', 2)->where('is_accepted', 2)->where('is_deleted', 2)->orderByDesc('id')->get();
+        $enquiries = Enquiries::where('type', 1)->where('is_replied', 2)->where('is_accepted', 2)->NotDeleted()->orderByDesc('id')->get();
         return view('admin.enquiry.help_support', compact('enquiries'));
     }
     public function help_support_reply(Request $request)

@@ -17,6 +17,7 @@ use App\Models\SetPrices;
 use Carbon\Carbon;
 use Carbon\CarbonImmutable;
 use App\Models\DomeDiscounts;
+use App\Models\DomeFieldDiscounts;
 use App\Models\WorkingHours;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\URL;
@@ -28,19 +29,19 @@ class DomesController extends Controller
     public function index(Request $request)
     {
         if (auth()->user()->type == 1) {
-            $domes = Domes::with('dome_image', 'dome_owner')->where('is_deleted', 2)->get();
+            $domes = Domes::with('dome_image', 'dome_owner')->NotDeleted()->get();
             $domes_count = 0;
         } else {
-            $domes = Domes::with('dome_image')->where('vendor_id', auth()->user()->type == 2 ? auth()->user()->id : auth()->user()->vendor_id)->where('is_deleted', 2)->get();
+            $domes = Domes::with('dome_image')->where('vendor_id', auth()->user()->type == 2 ? auth()->user()->id : auth()->user()->vendor_id)->NotDeleted()->get();
             $domes_count = Domes::where('vendor_id', auth()->user()->type == 2 ? auth()->user()->id : auth()->user()->vendor_id)->count();
         }
-        $sports = Sports::where('is_available', 1)->where('is_deleted', 2)->get();
+        $sports = Sports::Available()->NotDeleted()->get();
         return view('admin.domes.index', compact('domes', 'sports', 'domes_count'));
     }
     public function add(Request $request)
     {
         if (Domes::where('vendor_id', auth()->user()->id)->count() < auth()->user()->dome_limit) {
-            $getsportslist = Sports::where('is_available', 1)->where('is_deleted', 2)->get();
+            $getsportslist = Sports::Available()->NotDeleted()->get();
             return view('admin.domes.add', compact('getsportslist'));
         } else {
             return redirect('admin/domes')->with('error', trans('messages.invalid_request'));
@@ -48,6 +49,11 @@ class DomesController extends Controller
     }
     public function store(Request $request)
     {
+        // dd($request->input());
+        if (Domes::where('vendor_id', auth()->user()->id)->count() >= auth()->user()->dome_limit) {
+            return response()->json(['status' => 0, 'message' => trans('messages.dome_limit_exceeded'),], 200);
+        }
+
         $validator = Validator::make($request->input(), [
             'sport_id' => 'required',
             'dome_name' => 'required',
@@ -89,9 +95,11 @@ class DomesController extends Controller
             $dome->slot_duration = $request->slot_duration;
             $dome->benefits = $request->benefits != '' ? implode("|", $request->benefits) : '';
             $dome->benefits_description = $request->benefits_description;
-            $dome->multiple_fields_selection = $request->multiple_fields_selection;
-            $dome->fields_discount = $request->fields_discount;
-            $dome->fields_discount_type = $request->fields_discount_type;
+
+            // $dome->multiple_fields_selection = $request->multiple_fields_selection;
+            // $dome->fields_discount = $request->fields_discount;
+            // $dome->fields_discount_type = $request->fields_discount_type;
+
             $dome->booking_mode = $request->booking_mode ?? 1;
             $dome->policies_rules = $request->policies_rules;
             $dome->save();
@@ -141,10 +149,24 @@ class DomesController extends Controller
                 $checksportexist->end_date = null;
                 $checksportexist->save();
             }
+
+            foreach ($request->discount_sport as $key => $sport) {
+                if ((isset($request->number_of_fields[$key]) && $request->number_of_fields[$key] != "") && (isset($request->fields_discount[$key]) && $request->fields_discount[$key] != "") && (isset($request->fields_discount_type[$key]) && $request->fields_discount_type[$key] != "")) {
+                    $dfd = new DomeFieldDiscounts();
+                    $dfd->dome_id = $dome->id;
+                    $dfd->sport_id = $sport;
+                    $dfd->number_of_fields = $request->number_of_fields[$key];
+                    $dfd->discount = $request->fields_discount[$key];
+                    $dfd->discount_type = $request->fields_discount_type[$key];
+                    $dfd->save();
+                }
+            }
+
             foreach ($request->from_age as $key => $from_age) {
-                if ((isset($request->to_age[$key]) && !empty($request->to_age[$key]))  &&  (isset($request->age_discounts[$key]) && !empty($request->age_discounts[$key]))  &&  (isset($request->discount_type[$key]) && !empty($request->discount_type[$key]))) {
-                    $dome_discounts = new DomeDiscounts;
+                if ((isset($request->age_sport[$key]) && !empty($request->age_sport[$key])) && (isset($request->to_age[$key]) && !empty($request->to_age[$key]))  &&  (isset($request->age_discounts[$key]) && !empty($request->age_discounts[$key]))  &&  (isset($request->discount_type[$key]) && !empty($request->discount_type[$key]))) {
+                    $dome_discounts = new DomeDiscounts();
                     $dome_discounts->dome_id = $dome->id;
+                    $dome_discounts->sport_id = $request->age_sport[$key];
                     $dome_discounts->from_age = $from_age;
                     $dome_discounts->to_age = $request->to_age[$key];
                     $dome_discounts->age_discounts = $request->age_discounts[$key];
@@ -286,7 +308,7 @@ class DomesController extends Controller
             if ($request->ajax()) {
                 return response()->json(['total_bookings' => $total_bookings, 'bookings_labels' => $bookings_labels, 'bookings_data' => $bookings_data, 'bookings_data_colors' => $bookings_data_colors, 'dome_revenue' => Helper::currency_format($dome_revenue), 'dome_revenue_labels' => $dome_revenue_labels, 'dome_revenue_data' => $dome_revenue_data]);
             } else {
-                $getsportslist = Sports::whereIn('id', explode(',', @$getdomedata->sport_id))->where('is_available', 1)->where('is_deleted', 2)->get();
+                $getsportslist = Sports::whereIn('id', explode(',', @$getdomedata->sport_id))->Available()->NotDeleted()->get();
                 return view('admin.domes.view', compact('getdomedata', 'getsportslist', 'total_bookings', 'bookings_labels', 'bookings_data', 'bookings_data_colors', 'dome_revenue', 'dome_revenue_labels', 'dome_revenue_data'));
             }
         }
@@ -294,8 +316,9 @@ class DomesController extends Controller
     }
     public function edit(Request $request)
     {
-        $dome = Domes::with(['dome_images', 'dome_discounts'])->find($request->id);
-        $getsportslist = Sports::where('is_available', 1)->where('is_deleted', 2)->get();
+        $dome = Domes::with(['dome_images', 'dome_discounts', 'dome_field_discounts'])->find($request->id);
+        abort_if(empty($dome), 404);
+        $getsportslist = Sports::Available()->NotDeleted()->get();
         return view('admin.domes.edit', compact('dome', 'getsportslist'));
     }
     public function update(Request $request)
@@ -338,9 +361,11 @@ class DomesController extends Controller
             $dome->lng = $request->lng;
             $dome->benefits = $request->benefits != '' ? implode("|", $request->benefits) : '';
             $dome->benefits_description = $request->benefits_description;
-            $dome->multiple_fields_selection = $request->multiple_fields_selection ?? 0;
-            $dome->fields_discount = $request->fields_discount ?? 0;
-            $dome->fields_discount_type = $request->fields_discount_type;
+
+            // $dome->multiple_fields_selection = $request->multiple_fields_selection ?? 0;
+            // $dome->fields_discount = $request->fields_discount ?? 0;
+            // $dome->fields_discount_type = $request->fields_discount_type;
+
             $dome->booking_mode = $request->booking_mode ?? 1;
             $dome->policies_rules = $request->policies_rules;
             $dome->save();
@@ -381,24 +406,59 @@ class DomesController extends Controller
                 $checksportexist->save();
             }
 
-            foreach ($request->edit_discounts as $key => $did) {
-                if ((isset($request->edit_to_age[$key]) && !empty($request->edit_to_age[$key]))  &&  (isset($request->edit_age_discounts[$key]) && !empty($request->edit_age_discounts[$key]))  &&  (isset($request->edit_discount_type[$key]) && !empty($request->edit_discount_type[$key]))) {
-                    $dome_discounts = DomeDiscounts::find($did);
-                    if (!empty($dome_discounts)) {
-                        $dome_discounts->from_age = $request->edit_from_age[$key];
-                        $dome_discounts->to_age = $request->edit_to_age[$key];
-                        $dome_discounts->age_discounts = $request->edit_age_discounts[$key];
-                        $dome_discounts->discount_type = $request->edit_discount_type[$key];
-                        $dome_discounts->save();
+
+            if (isset($request->edit_discount_fields)) {
+                foreach ($request->edit_discount_fields as $key => $did) {
+                    if ((isset($request->edit_discount_sport[$key]) && $request->edit_discount_sport[$key] != "") && (isset($request->edit_number_of_fields[$key]) && $request->edit_number_of_fields[$key] != "") && (isset($request->edit_fields_discount[$key]) && $request->edit_fields_discount[$key] != "") && (isset($request->edit_fields_discount_type[$key]) && $request->edit_fields_discount_type[$key] != "")) {
+                        $dfd = DomeFieldDiscounts::find($did);
+                        if (!empty($dfd)) {
+                            $dfd->sport_id = $request->edit_discount_sport[$key];
+                            $dfd->number_of_fields = $request->edit_number_of_fields[$key];
+                            $dfd->discount = $request->edit_fields_discount[$key];
+                            $dfd->discount_type = $request->edit_fields_discount_type[$key];
+                            $dfd->save();
+                        }
+                    }
+                }
+            }
+
+            if (isset($request->discount_sport) && $request->filled('discount_sport')) {
+                foreach ($request->discount_sport as $key => $sport) {
+                    if ((isset($request->number_of_fields[$key]) && $request->number_of_fields[$key] != "") && (isset($request->fields_discount[$key]) && $request->fields_discount[$key] != "") && (isset($request->fields_discount_type[$key]) && $request->fields_discount_type[$key] != "")) {
+                        $dfd = new DomeFieldDiscounts();
+                        $dfd->dome_id = $dome->id;
+                        $dfd->sport_id = $sport;
+                        $dfd->number_of_fields = $request->number_of_fields[$key];
+                        $dfd->discount = $request->fields_discount[$key];
+                        $dfd->discount_type = $request->fields_discount_type[$key];
+                        $dfd->save();
+                    }
+                }
+            }
+
+
+            if (isset($request->edit_discounts)) {
+                foreach ($request->edit_discounts as $key => $did) {
+                    if ((isset($request->edit_age_sport[$key]) && !empty($request->edit_age_sport[$key])) && (isset($request->edit_to_age[$key]) && !empty($request->edit_to_age[$key]))  &&  (isset($request->edit_age_discounts[$key]) && !empty($request->edit_age_discounts[$key]))  &&  (isset($request->edit_discount_type[$key]) && !empty($request->edit_discount_type[$key]))) {
+                        $dome_discounts = DomeDiscounts::find($did);
+                        if (!empty($dome_discounts)) {
+                            $dome_discounts->from_age = $request->edit_from_age[$key];
+                            $dome_discounts->sport_id = $request->edit_age_sport[$key];
+                            $dome_discounts->to_age = $request->edit_to_age[$key];
+                            $dome_discounts->age_discounts = $request->edit_age_discounts[$key];
+                            $dome_discounts->discount_type = $request->edit_discount_type[$key];
+                            $dome_discounts->save();
+                        }
                     }
                 }
             }
 
             if (isset($request->from_age)) {
                 foreach ($request->from_age as $key => $from_age) {
-                    if ((isset($request->to_age[$key]) && !empty($request->to_age[$key]))  &&  (isset($request->age_discounts[$key]) && !empty($request->age_discounts[$key]))  &&  (isset($request->discount_type[$key]) && !empty($request->discount_type[$key]))) {
+                    if ((isset($request->age_sport[$key]) && !empty($request->age_sport[$key])) && (isset($request->to_age[$key]) && !empty($request->to_age[$key]))  &&  (isset($request->age_discounts[$key]) && !empty($request->age_discounts[$key]))  &&  (isset($request->discount_type[$key]) && !empty($request->discount_type[$key]))) {
                         $dome_discounts = new DomeDiscounts;
                         $dome_discounts->dome_id = $dome->id;
+                        $dome_discounts->sport_id = $request->age_sport[$key];
                         $dome_discounts->from_age = $from_age;
                         $dome_discounts->to_age = $request->to_age[$key];
                         $dome_discounts->age_discounts = $request->age_discounts[$key];
@@ -411,6 +471,7 @@ class DomesController extends Controller
             return response()->json(['status' => 1, 'message' => trans('messages.success'), 'url' => URL::to('admin/domes')], 200);
         } catch (\Throwable $th) {
             DB::rollback();
+            dd($th);
             return response()->json(['status' => 0, 'message' => trans('messages.wrong'),], 200);
         }
     }
@@ -449,6 +510,15 @@ class DomesController extends Controller
     {
         try {
             DomeDiscounts::where('id', $request->id)->delete();
+            return response()->json(['status' => 1, 'message' => trans('messages.success')], 200);
+        } catch (\Throwable $th) {
+            return response()->json(['status' => 0, 'message' => trans('messages.wrong')], 200);
+        }
+    }
+    public function fdiscount_delete(Request $request)
+    {
+        try {
+            DomeFieldDiscounts::where('id', $request->id)->delete();
             return response()->json(['status' => 1, 'message' => trans('messages.success')], 200);
         } catch (\Throwable $th) {
             return response()->json(['status' => 0, 'message' => trans('messages.wrong')], 200);

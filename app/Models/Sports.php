@@ -14,4 +14,13 @@ class Sports extends Model
         'created_at',
         'updated_at',
     ];
+    public function scopeAvailable($query)
+    {
+        return $query->where('is_available', 1);
+    }
+
+    public function scopeNotDeleted($query)
+    {
+        return $query->where('is_deleted', 2);
+    }
 }

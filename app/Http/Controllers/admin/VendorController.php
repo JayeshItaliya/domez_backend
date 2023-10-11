@@ -18,7 +18,7 @@ class VendorController extends Controller
 {
     public function index(Request $request)
     {
-        $vendors = User::where('type', 2)->where('is_deleted', 2)->orderBy('id', 'desc')->get();
+        $vendors = User::DomeOwner()->NotDeleted()->latest()->get();
         return view('admin.vendors.index', compact('vendors'));
     }
     public function add(Request $request)
@@ -58,6 +58,8 @@ class VendorController extends Controller
         $vendor->login_type = 1;
         $vendor->name = $request->name;
         $vendor->email = $request->email;
+        $vendor->phone = $request->phone;
+        $vendor->dome_limit = 1;
         $vendor->password = Hash::make($request->password);
         if ($request->has('profile')) {
             $vendor->image = $new_name;
@@ -70,7 +72,7 @@ class VendorController extends Controller
         $dome_owner = User::find($request->id);
         abort_if(empty($dome_owner), 404);
         $domes = Domes::with('dome_images')->where('vendor_id', $dome_owner->id)->get();
-        $sports = Sports::where('is_available', 1)->where('is_deleted', 2)->get();
+        $sports = Sports::Available()->NotDeleted()->get();
 
         $now = CarbonImmutable::today();
         $weekStartDate = $now->startOfWeek();

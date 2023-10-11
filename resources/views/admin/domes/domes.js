@@ -106,6 +106,7 @@ $(function () {
 });
 
 $("#adddome, #editdome").on("submit", function (event) {
+    "use strict";
     event.preventDefault();
     var check = 1;
     $(".time_picker__").each(function () {
@@ -140,7 +141,7 @@ $("#adddome, #editdome").on("submit", function (event) {
             hidepreloader();
             if (response.status == 1) {
                 toastr.success(response.message);
-                if(response.url){
+                if (response.url) {
                     location.href = response.url;
                 }
             } else {
@@ -157,13 +158,12 @@ $("#adddome, #editdome").on("submit", function (event) {
 });
 
 function dome_revenue_chart(dome_revenue_labels, dome_revenue_data) {
+    "use strict";
     var options = {
-        series: [
-            {
-                name: revenue,
-                data: dome_revenue_data,
-            },
-        ],
+        series: [{
+            name: revenue,
+            data: dome_revenue_data,
+        },],
         chart: {
             height: 400,
             type: "line",
@@ -226,6 +226,7 @@ function dome_revenue_chart(dome_revenue_labels, dome_revenue_data) {
     }
 }
 $(".dome-revenue-filter").on("change", function () {
+    "use strict";
     if ($(this).val() == "custom_date") {
         $(".dome-revenue-picker").show();
         return false;
@@ -236,6 +237,7 @@ $(".dome-revenue-filter").on("change", function () {
 });
 
 function domerevenuefilter(dates) {
+    "use strict";
     $.ajax({
         url: $(this).attr("data-next"),
         data: {
@@ -263,6 +265,7 @@ function domerevenuefilter(dates) {
 }
 
 function bookings_chart(bookings_labels, bookings_data, arr) {
+    "use strict";
     var bookings_data_colors = $.map(arr, function (val, i) {
         if (val == "primary_color") {
             return primary_color;
@@ -282,20 +285,18 @@ function bookings_chart(bookings_labels, bookings_data, arr) {
         },
         labels: bookings_labels,
         colors: bookings_data_colors,
-        responsive: [
-            {
-                breakpoint: 480,
-                options: {
-                    chart: {
-                        width: 200,
-                    },
-                    legend: {
-                        show: false,
-                        position: "bottom",
-                    },
+        responsive: [{
+            breakpoint: 480,
+            options: {
+                chart: {
+                    width: 200,
+                },
+                legend: {
+                    show: false,
+                    position: "bottom",
                 },
             },
-        ],
+        },],
     };
     $("#bookings_chart .apexcharts-canvas").remove();
     if (document.getElementById("bookings_chart")) {
@@ -307,6 +308,7 @@ function bookings_chart(bookings_labels, bookings_data, arr) {
     }
 }
 $(".total-bookings-filter").on("change", function () {
+    "use strict";
     if ($(this).val() == "custom_date") {
         $(".total-bookings-picker").show();
         return false;
@@ -317,6 +319,7 @@ $(".total-bookings-filter").on("change", function () {
 });
 
 function totalbookingsfilter(dates) {
+    "use strict";
     $.ajax({
         url: $(this).attr("data-next"),
         data: {
@@ -353,6 +356,7 @@ if (document.getElementById("textLat") && $("#textLat").val() != "") {
 }
 
 function initMap() {
+    "use strict";
     if (!document.getElementById("map_canvas")) {
         return false;
     }
@@ -421,10 +425,10 @@ function initMap() {
 }
 
 function getZipCode(lat, lng) {
+    "use strict";
     var zipcode = "";
     $.ajax({
-        url:
-            "https://maps.googleapis.com/maps/api/geocode/json?latlng=" +
+        url: "https://maps.googleapis.com/maps/api/geocode/json?latlng=" +
             lat +
             "," +
             lng +
@@ -449,11 +453,12 @@ function getZipCode(lat, lng) {
 
 
 
-$('#AddAgeDiscount .appendbtn').click(function(e) {
+$('#AddAgeDiscount .appendbtn').click(function (e) {
+    "use strict";
     e.preventDefault();
     var check = 1;
     $('#AddAgeDiscount select, #AddAgeDiscount input, #AgeDiscountFields select, #AgeDiscountFields input')
-        .each(function(index, element) {
+        .each(function (index, element) {
             if ($.trim($(element).val()) == "") {
                 $(element).addClass('is-invalid');
                 check = 0;
@@ -471,14 +476,49 @@ $('#AddAgeDiscount .appendbtn').click(function(e) {
 
     var selectoptions = '';
     for (var i = 1; i <= 90; i++) {
-        selectoptions += '<option value="'+i+'">'+i+'</option>';
+        selectoptions += '<option value="' + i + '">' + i + '</option>';
     }
 
     var temp = Math.floor(Math.random() * 100);
     var clonedCode = $(
-        '<div class="row"><div class="col-md-3"><div class="form-group"><label class="form-label" for="">' + label_age + '</label><select class="form-select" name="from_age[]"><option value="" selected="">' + label_from_age + '</option>'+selectoptions+'</select></div></div><div class="col-md-3"><div class="form-group"><label for="" class="form-label">&nbsp;</label><select class="form-select" name="to_age[]"><option value="" selected="">' + label_to + '</option>'+selectoptions+'</select></div></div><div class="col-md-2"><div class="form-group"><label for="age_discount_' + temp + '"class="form-label">' + label_discount + '</label><input type="number" max="100" min="0" class="form-control" name="age_discounts[]" id="age_discount_' + temp + '" placeholder="'+label_discount+'"></div></div><div class="col-md-3"><div class="form-group"><label for="discount_type_' + temp + '" class="form-label">' + label_discount_type + '</label><select class="form-select" id="discount_type_' + temp + '" name="discount_type[]"><option value="" selected>' + label_select + '</option><option value="1">' + label_in_percentage + '</option><option value="2">' + label_fixed + '</option></select></div></div><div class="col-md-1 d-flex align-items-end"><div class="form-group"><button type="button" class="btn btn-sm btn-outline-danger deletebtn"><i class="fa fa-close"></i> </button></div></div></div>');
+        '<div class="row"><div class="col-md-2"><div class="form-group"><label class="form-label">'+label_sports+'</label>'+age_sport_select_element+'</div></div><div class="col-md-2"><div class="form-group"><label class="form-label" for="">' + label_age + '</label><select class="form-select" name="from_age[]"><option value="" selected="">' + label_from_age + '</option>' + selectoptions + '</select></div></div><div class="col-md-2"><div class="form-group"><label for="" class="form-label">&nbsp;</label><select class="form-select" name="to_age[]"><option value="" selected="">' + label_to + '</option>' + selectoptions + '</select></div></div><div class="col-md-2"><div class="form-group"><label for="discount_type_' + temp + '" class="form-label">' + label_discount_type + '</label><select class="form-select" id="discount_type_' + temp + '" name="discount_type[]"><option value="" selected>' + label_select + '</option><option value="1">' + label_in_percentage + '</option><option value="2">' + label_fixed + '</option></select></div></div><div class="col-md-2"><div class="form-group"><label for="age_discount_' + temp + '"class="form-label">' + label_discount + '</label><input type="number" max="100" min="0" class="form-control" name="age_discounts[]" id="age_discount_' + temp + '" placeholder="' + label_discount + '"></div></div><div class="col-md-2 d-flex align-items-end"><div class="form-group"><button type="button" class="btn btn-sm btn-outline-danger deletebtn"><i class="fa fa-close"></i> </button></div></div></div>');
     $("#AgeDiscountFields").append(clonedCode);
 });
-$("#AgeDiscountFields").on("click", ".deletebtn", function() {
+$("#AgeDiscountFields").on("click", ".deletebtn", function () {
+    "use strict";
     $(this).closest(".row").remove();
 });
+
+$('#field_discounts .appendfielddicountbtn').click(function (e) {
+    "use strict";
+    e.preventDefault();
+    var check = 1;
+    $('#field_discounts select, #field_discounts input').each(function (index, element) {
+        if ($.trim($(element).val()) == "") {
+            $(element).addClass('is-invalid');
+            check = 0;
+            return false
+        } else {
+            $(element).removeClass('is-invalid');
+        }
+        if (check == 0) {
+            return false;
+        }
+    });
+    if (check == 0) {
+        return false;
+    }
+
+    var selectoptions = '';
+    for (var i = 1; i <= 10; i++) {
+        selectoptions += '<option value="' + i + '">' + i + '</option>';
+    }
+
+    var temp = Math.floor(Math.random() * 100);
+    var html = $('<div class="row remove'+temp+'"><div class="form-group col-lg-3"><label class="form-label">'+label_sports+'</label>'+sport_select_element+'</div><div class="form-group col-lg-3"><label class="form-label">'+label_number_of_fields+'</label><select class="form-select" name="number_of_fields[]"><option selected value="0">0</option>'+selectoptions+'</select></div><div class="form-group col-lg-2"><label class="form-label">'+label_discount_type+'</label><select class="form-select" name="fields_discount_type[]"><option value="" selected>' + label_select + '</option><option value="1">'+label_in_percentage+'</option><option value="2">'+label_fixed+'</option></select></div><div class="form-group col-lg-3"><label class="form-label">'+label_discount+'</label><input type="number" class="form-control" name="fields_discount[]" placeholder="'+label_discount+'"></div><div class="col-md-1 d-flex align-items-end"><div class="form-group"><button type="button" class="btn btn-sm btn-outline-danger" onclick="deleterow('+temp+')"> <i class="fa fa-close"></i> </button> </div></div></div>');
+    $(".append-field-discounts").append(html);
+});
+function deleterow(param) {
+    "use strict";
+    $('.remove'+param).remove();
+}

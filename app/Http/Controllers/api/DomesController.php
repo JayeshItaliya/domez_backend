@@ -199,16 +199,17 @@ class DomesController extends Controller
     public function domes_settings(Request $request)
     {
         try {
-            $dome = Domes::with(['dome_discounts'])->where('id', $request->dome_id)->where('is_deleted', 2)->first();
+            $dome = Domes::with(['dome_discounts', 'dome_field_discounts'])->where('id', $request->dome_id)->where('is_deleted', 2)->first();
             if (empty($dome)) {
                 return response()->json(["status" => 0, "message" => 'Dome Not Found'], 200);
             }
             $data = array(
-                'multiple_fields_selection' => $dome->multiple_fields_selection,
-                'fields_discount' => $dome->fields_discount,
-                'fields_discount_type' => $dome->fields_discount_type,
-                'dome_discounts' => $dome->dome_discounts->makeHidden(['created_at', 'updated_at']),
+                // 'multiple_fields_selection' => $dome->multiple_fields_selection,
+                // 'fields_discount' => $dome->fields_discount,
+                // 'fields_discount_type' => $dome->fields_discount_type,
                 'booking_mode' => $dome->booking_mode,
+                'age_discounts' => $dome->dome_discounts->makeHidden(['created_at', 'updated_at']),
+                'field_discounts' => $dome->dome_field_discounts->makeHidden(['created_at', 'updated_at']),
                 'policies_rules' => $dome->policies_rules ?? "",
             );
             return response()->json(["status" => 1, "message" => "Successful", 'dome_setting' => $data], 200);

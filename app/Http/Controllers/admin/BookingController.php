@@ -220,7 +220,7 @@ class BookingController extends Controller
             $checkbooking->save();
             $title = 'Booking Request Cancellation';
             $description = $this->cancelmsg($checkbooking->booking_id);
-            Helper::booking_request_email($title, $description, $checkbooking);
+            Helper::booking_request_reply_email($title, $description, $checkbooking);
             $body = "We regret to inform you that your booking request has been cancelled by The Dome Owner";
             $u = User::find($checkbooking->user_id);
             $tokens = [$u->fcm_token];
@@ -254,7 +254,7 @@ class BookingController extends Controller
                     $booking->booking_status = 3;
                     $booking->cancelled_by = 2;
                     $booking->save();
-                    Helper::booking_request_email($title, $description, $checkbooking);
+                    Helper::booking_request_reply_email($title, $description, $checkbooking);
                     $u = User::find($booking->user_id);
                     $tokens = [$u->fcm_token];
                     Helper::send_notification($title, $body, 7, $booking->id, $league_id = "", $tokens);
@@ -265,7 +265,7 @@ class BookingController extends Controller
             $description = "Great news! Your booking request <b>#{$checkbooking->booking_id}</b> has been accepted by The Dome Owner! You can now proceed with the payment directly through the application.<br><br>
             We're excited to have you and hope you have a wonderful experience. If you have any further questions or need assistance, feel free to reach out to our customer support team. We're here to help you in any way we can.<br><br>
             Thank you for choosing us for your booking!<br><br>";
-            Helper::booking_request_email($title, $description, $checkbooking);
+            Helper::booking_request_reply_email($title, $description, $checkbooking);
 
             $body = "Great news! Your booking request <b>#{$checkbooking->booking_id}</b> has been accepted by The Dome Owner!";
             $u = User::find($checkbooking->user_id);
@@ -281,7 +281,7 @@ class BookingController extends Controller
 
     function blocked_timeslots(Request $request)
     {
-        $domelist = Domes::where('is_deleted', 2);
+        $domelist = Domes::NotDeleted();
         if (auth()->user()->type != 1) {
             $domelist = $domelist->where('vendor_id', auth()->user()->type == 2 ? auth()->user()->id : auth()->user()->vendor_id);
         }
@@ -291,12 +291,17 @@ class BookingController extends Controller
     function getdomesports(Request $request)
     {
         try {
-            $getdomedata = Domes::where('id', $request->id)->where('vendor_id', auth()->user()->type == 2 ? auth()->user()->id : auth()->user()->vendor_id)->where('is_deleted', 2)->first();
-            if (!empty($getdomedata)) {
-                $sports = Sports::whereIn('id', explode(',', $getdomedata->sport_id))->where('is_available', 1)->where('is_deleted', 2)->orderByDesc('id')->get();
+            if($request->filled('id')){
+                $getdomedata = Domes::where('id', $request->id)->where('vendor_id', auth()->user()->type == 2 ? auth()->user()->id : auth()->user()->vendor_id)->NotDeleted()->first();
+                if (!empty($getdomedata)) {
+                    $sports = Sports::whereIn('id', explode(',', $getdomedata->sport_id))->Available()->NotDeleted()->orderByDesc('id')->get();
+                    return response()->json(['status' => 1, 'message' => trans('messages.success'), 'sportsdata' => $sports], 200);
+                }
+                return response()->json(['status' => 0, 'message' => trans('messages.invalid_dome')], 200);
+            }else{
+                $sports = Sports::Available()->NotDeleted()->orderByDesc('id')->get();
                 return response()->json(['status' => 1, 'message' => trans('messages.success'), 'sportsdata' => $sports], 200);
             }
-            return response()->json(['status' => 0, 'message' => trans('messages.invalid_dome')], 200);
         } catch (\Throwable $th) {
             return response()->json(['status' => 0, 'message' => trans('messages.wrong')], 200);
         }

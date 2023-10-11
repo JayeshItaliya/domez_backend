@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('dome_discounts', function (Blueprint $table) {
+        Schema::create('dome_field_discounts', function (Blueprint $table) {
             $table->id();
 
             $table->unsignedBigInteger('dome_id');
@@ -20,9 +20,8 @@ return new class extends Migration
             $table->unsignedBigInteger('sport_id');
             $table->foreign('sport_id')->references('id')->on('sports')->onDelete('cascade')->onUpdate('cascade');
 
-            $table->integer('from_age')->default(0);
-            $table->integer('to_age')->default(0);
-            $table->double('age_discounts')->default(0);
+            $table->integer('number_of_fields')->default(0);
+            $table->double('discount')->default(1)->comment('1=In Percentage, 2=Fixed');
             $table->tinyInteger('discount_type')->default(1)->comment('1=In Percentage, 2=Fixed');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent();
@@ -34,6 +33,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('dome_discounts');
+        Schema::dropIfExists('dome_field_discounts');
     }
 };

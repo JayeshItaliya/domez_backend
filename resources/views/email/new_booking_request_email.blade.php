@@ -52,8 +52,6 @@
     <div class="container" style="margin-bottom: 1rem">
         <h1>{{ $title }}</h1>
         <p>{!! $description !!}</p>
-        <p>Here are your booking request overview</p>
-        <a href="{{ URL::to('/') }}" class="button"> Visit our Website </a>
         <div class="container">
             <table>
                 <tr>
@@ -62,11 +60,11 @@
                 </tr>
                 <tr>
                     <th>Name</th>
-                    <td>{{ $bookingdata->customer_name ?? "-" }}</td>
+                    <td>{{ $bookingdata->customer_name ?? '-' }}</td>
                 </tr>
                 <tr>
                     <th>Email</th>
-                    <td>{{ $bookingdata->customer_email ?? "-" }}</td>
+                    <td>{{ $bookingdata->customer_email ?? '-' }}</td>
                 </tr>
                 <tr>
                     <th>Date</th>
@@ -98,8 +96,6 @@
                 </tr>
             </table>
         </div>
-        <p class="footer">If you have any questions or concerns, please don't hesitate to contact us.</p>
-        <p style="font-size:0.9em;">Regards,<br />Domez Team</p>
     </div>
 </body>
 

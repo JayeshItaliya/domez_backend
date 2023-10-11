@@ -41,4 +41,18 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+
+    public function scopeAvailable($query)
+    {
+        return $query->where('is_available', 1);
+    }
+    public function scopeNotDeleted($query)
+    {
+        return $query->where('is_deleted', 2);
+    }
+    public function scopeDomeOwner($query)
+    {
+        return $query->where('type', 2);
+    }
 }

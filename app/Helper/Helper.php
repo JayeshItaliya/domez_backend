@@ -70,7 +70,7 @@ class Helper
             return 0;
         }
     }
-    public static function booking_request_email($title, $description, $bookingdata)
+    public static function booking_request_reply_email($title, $description, $bookingdata)
     {
         try {
             $data = ['title' => $title, 'email' => $bookingdata->customer_email, 'description' => $description, 'bookingdata' => $bookingdata];
@@ -80,7 +80,21 @@ class Helper
             });
             return 1;
         } catch (\Throwable $th) {
-            Log::info(" =========================== Email: booking_request_email --- " . $bookingdata->id . " ==============" . $th->getMessage() . "========= ");
+            Log::info(" =========================== Email: booking_request_reply_email --- " . $bookingdata->id . " ==============" . $th->getMessage() . "========= ");
+            return 0;
+        }
+    }
+    public static function new_booking_request_email($title, $description, $bookingdata)
+    {
+        try {
+            $data = ['title' => $title, 'email' => $bookingdata->customer_email, 'description' => $description, 'bookingdata' => $bookingdata];
+            Mail::send('email.new_booking_request_email', $data, function ($message) use ($data) {
+                $message->from(env('MAIL_USERNAME'))->subject($data['title']);
+                $message->to($data['email']);
+            });
+            return 1;
+        } catch (\Throwable $th) {
+            Log::info(" =========================== Email: new_booking_request_email --- " . $bookingdata->id . " ==============" . $th->getMessage() . "========= ");
             return 0;
         }
     }
@@ -265,6 +279,14 @@ class Helper
     }
 
     // Used For Admins Only
+    public static function pending_booking_request_count($type)
+    {
+        $getcount = Enquiries::where('type', $type)->where('is_replied', 2)->count();
+        if ($type == 5 && auth()->user()->type != 1) {
+            $getcount = Enquiries::where('type', $type)->where('vendor_id', auth()->user()->type == 2 ? auth()->user()->id : auth()->user()->vendor_id)->where('is_replied', 2)->count();
+        }
+        return $getcount;
+    }
     public static function get_noti_count($type)
     {
         $getcount = Enquiries::where('type', $type)->where('is_replied', 2)->count();

@@ -45,11 +45,14 @@
                     </div>
                 </div>
                 <div class="col-md-auto h-fit-content pe-0">
-                    <p data-bs-toggle="popover" data-bs-placement="top" data-bs-custom-class="custom-popover" data-bs-trigger="hover focus" data-bs-content="Default Tooltip">{{ trans('labels.system_mode') }}<i class="fa-regular fa-circle-info fa-beat-fade ps-2"></i></p>
+                    <p data-bs-toggle="popover" data-bs-placement="top" data-bs-custom-class="custom-popover"
+                        data-bs-trigger="hover focus" data-bs-content="Default Tooltip">{{ trans('labels.system_mode') }}<i
+                            class="fa-regular fa-circle-info fa-beat-fade ps-2"></i></p>
                 </div>
                 <div class="col-md-auto">
                     <label class="system-mode-switch">
-                        <input type="checkbox" class="d-none cursor-pointer" name="booking_mode" value="2" id="booking_mode" {{ $dome->booking_mode == 2 ? 'checked' : '' }}>
+                        <input type="checkbox" class="d-none cursor-pointer" name="booking_mode" value="2"
+                            id="booking_mode" {{ $dome->booking_mode == 2 ? 'checked' : '' }}>
                         <div class="slider round">
                             <span class="slider_text">
                                 <span class="text-primary fs-7 off">{{ trans('labels.automatic') }}</span>
@@ -355,227 +358,225 @@
                 </div>
             @endforeach
         </div>
-        <!-- Edit Working Hours Modal -->
-        <div class="modal fade" id="add_working_hours" tabindex="-1" aria-labelledby="add_working_hoursLabel"
-            aria-hidden="true">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="add_working_hoursLabel">{{ trans('labels.edit_working_hours') }}
-                        </h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <form action="{{ URL::to('admin/domes/manage-time') }}" method="post" id="workinghoursform">
-                        <input type="hidden" name="id" value="{{ $dome->id }}">
-                        <div class="modal-body">
-                            <div class="row my-3">
-                                <label class="col-lg-3 col-form-label"></label>
-                                <label class="col-lg-3 text-center mb-0 d-none d-lg-block d-xl-block d-xxl-block fw-bold">
-                                    {{ trans('labels.availability') }} </label>
-                                <label class="col-lg-3 text-center mb-0 d-none d-lg-block d-xl-block d-xxl-block fw-bold">
-                                    {{ trans('labels.opening_time') }} </label>
-                                <label class="col-lg-3 text-center mb-0 d-none d-lg-block d-xl-block d-xxl-block fw-bold">
-                                    {{ trans('labels.closing_time') }} </label>
-                            </div>
-                            @if (count($dome['working_hours']) > 0)
-                                @foreach ($dome['working_hours'] as $key => $time)
-                                    <div class="row">
-                                        <label
-                                            class="col-lg-3 col-form-label text-center fw-bold">{{ trans('labels.' . strtolower($time->day)) }}</label>
-                                        <input type="hidden" name="day[]" value="{{ $time->id }}">
-                                        <div class="col-lg-3">
-                                            <div class="form-group d-grid align-items-end"><label
-                                                    class="d-lg-none d-xl-none d-xxl-none">
-                                                    {{ trans('labels.availability') }}</label>
-                                                <label
-                                                    class="d-lg-none d-xl-none d-xxl-none">{{ trans('labels.availability') }}</label>
-                                                <select class="form-control" name="is_closed[]">
-                                                    <option value="2" {{ $time->is_closed == 2 ? 'selected' : '' }}>
-                                                        {{ trans('labels.open') }} </option>
-                                                    <option value="1" {{ $time->is_closed == 1 ? 'selected' : '' }}>
-                                                        {{ trans('labels.closed') }} </option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-3">
-                                            <div class="form-group">
-                                                <label class="d-lg-none d-xl-none d-xxl-none">
-                                                    {{ trans('labels.opening_time') }}</label>
-
-                                                <label
-                                                    class="d-lg-none d-xl-none d-xxl-none">{{ trans('labels.opening_time') }}</label>
-                                                <input type="text"
-                                                    class="form-control time_picker__ time_picker__start"
-                                                    placeholder="{{ trans('labels.opening_time') }}" name="open_time[]"
-                                                    value="{{ date('H:i', strtotime($time->open_time)) }}">
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-3">
-                                            <div class="form-group">
-                                                <label class="d-lg-none d-xl-none d-xxl-none">
-                                                    {{ trans('labels.closing_time') }}</label>
-                                                <label
-                                                    class="d-lg-none d-xl-none d-xxl-none">{{ trans('labels.closing_time') }}</label>
-                                                <input type="text" class="form-control time_picker__ time_picker__end"
-                                                    placeholder="{{ trans('labels.closing_time') }}" name="close_time[]"
-                                                    value="{{ date('H:i', strtotime($time->close_time)) }}">
-                                            </div>
-                                        </div>
-                                    </div>
-                                @endforeach
-                            @else
-                                @php
-                                    $days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
-                                @endphp
-                                @foreach ($days as $key => $day)
-                                    <div class="row">
-                                        <input type="hidden" name="day[]" value="{{ strtolower($day) }}">
-                                        <label
-                                            class="col-lg-3 col-form-label text-center fw-bold">{{ trans('labels.' . strtolower($day)) }}</label>
-                                        <div class="col-lg-3">
-                                            <div class="form-group d-grid align-items-end">
-                                                <label class="d-lg-none d-xl-none d-xxl-none">
-                                                    {{ trans('labels.availability') }}</label>
-                                                <label
-                                                    class="d-lg-none d-xl-none d-xxl-none">{{ trans('labels.availability') }}</label>
-                                                <select class="form-control" name="is_closed[]">
-                                                    <option value="2" selected> {{ trans('labels.open') }} </option>
-                                                    <option value="1"> {{ trans('labels.closed') }} </option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-3">
-                                            <div class="form-group d-grid align-items-end">
-                                                <label class="d-lg-none d-xl-none d-xxl-none">
-                                                    {{ trans('labels.opening_time') }}</label>
-                                                <label
-                                                    class="d-lg-none d-xl-none d-xxl-none">{{ trans('labels.opening_time') }}</label>
-                                                <input type="text"
-                                                    class="form-control time_picker__ time_picker__start"
-                                                    placeholder="{{ trans('labels.opening_time') }}" name="open_time[]"
-                                                    @if (old('open_time')) value="{{ old('open_time')[$key] }}" @endif>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-3">
-                                            <div class="form-group d-grid align-items-end">
-                                                <label class="d-lg-none d-xl-none d-xxl-none">
-                                                    {{ trans('labels.closing_time') }}</label>
-
-                                                <label
-                                                    class="d-lg-none d-xl-none d-xxl-none">{{ trans('labels.closing_time') }}</label>
-
-                                                <input type="text" class="form-control time_picker__ time_picker__end"
-                                                    placeholder="{{ trans('labels.closing_time') }}" name="close_time[]"
-                                                    @if (old('close_time')) value="{{ old('close_time')[$key] }}" @endif>
-                                            </div>
-                                        </div>
-                                    </div>
-                                @endforeach
-                            @endif
-                        </div>
-                        <div class="modal-footer">
-                            <button type="submit" class="btn btn-outline-success" id="submitBtn"
-                                style="display: none;">{{ trans('labels.save') }}</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
         <!-- Edit Dome Settings Modal -->
         <div class="modal fade" id="dome_settings" tabindex="-1" aria-labelledby="dome_settingsLabel"
             aria-hidden="true">
-            <div class="modal-dialog modal-lg">
+            <div class="modal-dialog modal-xl">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h1 class="modal-title fs-5" id="dome_settingsLabel">{{ trans('labels.dome_settings') }}</h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <div class="row">
-                            <div class="form-group col-md-4">
-                                <label for="max_fields_selection" class="form-label">{{ trans('labels.max_fields_selection') }}</label>
-                                <select class="form-select" id="max_fields_selection" name="multiple_fields_selection">
-                                    <option selected value="0">0</option>
-                                    @for ($i = 1; $i <= 10; $i++)
-                                        <option value="{{ $i }}" {{ $dome->multiple_fields_selection == $i ? 'selected' : '' }}> {{ $i }}</option>
-                                    @endfor
-                                </select>
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label for="field_discount" class="form-label">{{ trans('labels.discount') }}</label>
-                                <input type="number" class="form-control" name="fields_discount" id="field_discount" value="{{ $dome->fields_discount }}">
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label for="age_discount" class="form-label">{{ trans('labels.discount_type') }}</label>
-                                <select class="form-select" id="field_discount_type" name="fields_discount_type">
-                                    <option value="1" {{ $dome->fields_discount_type == 1 ? 'selected' : '' }} >{{ trans('labels.in_percentage') }} </option>
-                                    <option value="2" {{ $dome->fields_discount_type == 2 ? 'selected' : '' }} >{{ trans('labels.fixed') }}</option>
-                                </select>
-                            </div>
+
+                        <div id="field_discounts">
+                            <h6>{{ trans('labels.multi_field_discount') }}</h6>
+                            <hr>
+                            @forelse ($dome->dome_field_discounts as $fdiscount)
+                                <input type="hidden" name="edit_discount_fields[]" value="{{ $fdiscount->id }}">
+                                <div class="row">
+                                    <div class="form-group col-lg-3">
+                                        <label class="form-label">{{ trans('labels.sports') }}</label>
+                                        <select class="form-select" name="edit_discount_sport[]">
+                                            <option value="" selected>{{ trans('labels.select') }}</option>
+                                            @foreach ($getsportslist as $sport)
+                                                <option value="{{ $sport->id }}"
+                                                    {{ $fdiscount->sport_id == $sport->id ? 'selected' : '' }}>
+                                                    {{ $sport->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-lg-3">
+                                        <label class="form-label">{{ trans('labels.number_of_fields') }}</label>
+                                        <select class="form-select" name="edit_number_of_fields[]">
+                                            <option selected value="0">0</option>
+                                            @for ($i = 1; $i <= 10; $i++)
+                                                <option value="{{ $i }}"
+                                                    {{ $fdiscount->number_of_fields == $i ? 'selected' : '' }}>
+                                                    {{ $i }}</option>
+                                            @endfor
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-lg-2">
+                                        <label class="form-label">{{ trans('labels.discount_type') }}</label>
+                                        <select class="form-select" name="edit_fields_discount_type[]">
+                                            <option value="" selected>{{ trans('labels.select') }}</option>
+                                            <option value="1"
+                                                {{ $fdiscount->discount_type == 1 ? 'selected' : '' }}>
+                                                {{ trans('labels.in_percentage') }} </option>
+                                            <option value="2"
+                                                {{ $fdiscount->discount_type == 2 ? 'selected' : '' }}>
+                                                {{ trans('labels.fixed') }}</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-lg-3">
+                                        <label class="form-label">{{ trans('labels.discount') }}</label>
+                                        <input type="number" class="form-control" name="edit_fields_discount[]"
+                                            value="{{ $fdiscount->discount }}"
+                                            placeholder="{{ trans('labels.discount') }}">
+                                    </div>
+                                    <div class="col-md-1 d-flex align-items-end">
+                                        <div class="form-group">
+                                            <button type="button" class="btn btn-sm btn-outline-danger"
+                                                onclick="deletedata('{{ $fdiscount->id }}','{{ URL::to('admin/deletefdiscount') }}')">
+                                                <i class="fa fa-trash"></i> </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            @empty
+                                <div class="row">
+                                    <div class="form-group col-lg-3">
+                                        <label class="form-label">{{ trans('labels.sports') }}</label>
+                                        <select class="form-select" name="discount_sport[]">
+                                            <option value="" selected>{{ trans('labels.select') }}</option>
+                                            @foreach ($getsportslist as $sport)
+                                                <option value="{{ $sport->id }}"
+                                                    {{ old('discount_sport') == $sport->id ? 'selected' : '' }}>
+                                                    {{ $sport->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-lg-3">
+                                        <label class="form-label">{{ trans('labels.number_of_fields') }}</label>
+                                        <select class="form-select" name="number_of_fields[]">
+                                            <option selected value="0">0</option>
+                                            @for ($i = 1; $i <= 10; $i++)
+                                                <option value="{{ $i }}"
+                                                    {{ old('number_of_fields') == $i ? 'selected' : '' }}>
+                                                    {{ $i }}</option>
+                                            @endfor
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-lg-2">
+                                        <label class="form-label">{{ trans('labels.discount_type') }}</label>
+                                        <select class="form-select" name="fields_discount_type[]">
+                                            <option value="" selected>{{ trans('labels.select') }}</option>
+                                            <option value="1">{{ trans('labels.in_percentage') }} </option>
+                                            <option value="2">{{ trans('labels.fixed') }}</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-lg-3">
+                                        <label class="form-label">{{ trans('labels.discount') }}</label>
+                                        <input type="number" class="form-control" name="fields_discount[]"
+                                            placeholder="{{ trans('labels.discount') }}">
+                                    </div>
+                                    <div class="col-md-1 d-flex align-items-end">
+                                        <div class="form-group">
+                                            <button type="button" class="btn btn-sm btn-outline-primary appendfielddicountbtn"> <i
+                                                    class="fa fa-plus"></i> </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforelse
+                            @if (count($dome->dome_field_discounts) > 0)
+                                <button type="button" class="btn btn-sm btn-outline-primary appendfielddicountbtn my-2">
+                                    <i class="fa fa-plus"></i> {{ trans('labels.add_more_discounts') }} </button>
+                            @endif
+                            <div class="append-field-discounts"></div>
                         </div>
                         <hr>
+
+
                         <div id="AddAgeDiscount">
                             @forelse ($dome->dome_discounts as $key => $discount)
-                                <input type="hidden" name="edit_discounts[]" value="{{$discount->id}}">
+                                <input type="hidden" name="edit_discounts[]" value="{{ $discount->id }}">
                                 <div class="row">
-                                    <div class="col-md-3">
+                                    <div class="col-md-2">
                                         <div class="form-group">
-                                            <label class="form-label" for="from_age">{{ trans('labels.age') }}</label>
-                                            <select class="form-select" name="edit_from_age[]">
-                                                <option value="" selected=""> {{ trans('labels.from_age') }}</option>
-                                                @for ($i = 1; $i <= 90; $i++)
-                                                    <option value="{{ $i }}" {{ $discount->from_age == $i ? 'selected' : '' }} >{{ $i }}</option>
-                                                @endfor
+                                            <label class="form-label">{{ trans('labels.sports') }}</label>
+                                            <select class="form-select" name="age_sport[]">
+                                                <option value="" selected>{{ trans('labels.select') }}</option>
+                                                @foreach ($getsportslist as $sport)
+                                                    <option value="{{ $sport->id }}" {{ $discount->sport_id == $sport->id ? 'selected' : '' }}> {{ $sport->name }}</option>
+                                                @endforeach
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-md-3">
+                                    <div class="col-md-2">
                                         <div class="form-group">
-                                            <label for="" class="form-label">&nbsp;</label>
-                                            <select class="form-select" name="edit_to_age[]">
-                                                <option value="" selected=""> {{ trans('labels.to') }}</option>
+                                            <label class="form-label" for="from_age">{{ trans('labels.age') }}</label>
+                                            <select class="form-select" name="edit_from_age[]">
+                                                <option value="" selected=""> {{ trans('labels.from_age') }}
+                                                </option>
                                                 @for ($i = 1; $i <= 90; $i++)
-                                                    <option value="{{ $i }}" {{ $discount->to_age == $i ? 'selected' : '' }} >{{ $i }}</option>
+                                                    <option value="{{ $i }}"
+                                                        {{ $discount->from_age == $i ? 'selected' : '' }}>
+                                                        {{ $i }}</option>
                                                 @endfor
                                             </select>
                                         </div>
                                     </div>
                                     <div class="col-md-2">
                                         <div class="form-group">
-                                            <label for="age_discount" class="form-label">{{ trans('labels.discount') }}</label>
-                                            <input type="number" max="100" min="0" class="form-control" name="edit_age_discounts[]" value="{{$discount->age_discounts}}" placeholder="{{ trans('labels.discount') }}">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-                                            <label for="age_discount" class="form-label">{{ trans('labels.discount_type') }}</label>
-                                            <select class="form-select" name="edit_discount_type[]">
-                                                <option value="" selected>{{ trans('labels.select') }}</option>
-                                                <option value="1" {{ $discount->discount_type == "1" ? 'selected' : '' }} >{{ trans('labels.in_percentage') }}</option>
-                                                <option value="2" {{ $discount->discount_type == "2" ? 'selected' : '' }} >{{ trans('labels.fixed') }}</option>
+                                            <label for="" class="form-label">&nbsp;</label>
+                                            <select class="form-select" name="edit_to_age[]">
+                                                <option value="" selected=""> {{ trans('labels.to') }}</option>
+                                                @for ($i = 1; $i <= 90; $i++)
+                                                    <option value="{{ $i }}"
+                                                        {{ $discount->to_age == $i ? 'selected' : '' }}>
+                                                        {{ $i }}</option>
+                                                @endfor
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-md-1 d-flex align-items-end">
+                                    <div class="col-md-2">
                                         <div class="form-group">
-                                            <button type="button" class="btn btn-sm btn-outline-danger" onclick="deletedata('{{ $discount->id }}','{{ URL::to('admin/deletediscount') }}')"> <i class="fa fa-trash"></i> </button>
+                                            <label for="age_discount"
+                                                class="form-label">{{ trans('labels.discount_type') }}</label>
+                                            <select class="form-select" name="edit_discount_type[]">
+                                                <option value="" selected>{{ trans('labels.select') }}</option>
+                                                <option value="1"
+                                                    {{ $discount->discount_type == '1' ? 'selected' : '' }}>
+                                                    {{ trans('labels.in_percentage') }}</option>
+                                                <option value="2"
+                                                    {{ $discount->discount_type == '2' ? 'selected' : '' }}>
+                                                    {{ trans('labels.fixed') }}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label for="age_discount"
+                                                class="form-label">{{ trans('labels.discount') }}</label>
+                                            <input type="number" max="100" min="0" class="form-control"
+                                                name="edit_age_discounts[]" value="{{ $discount->age_discounts }}"
+                                                placeholder="{{ trans('labels.discount') }}">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2 d-flex align-items-end">
+                                        <div class="form-group">
+                                            <button type="button" class="btn btn-sm btn-outline-danger"
+                                                onclick="deletedata('{{ $discount->id }}','{{ URL::to('admin/deletediscount') }}')">
+                                                <i class="fa fa-trash"></i> </button>
                                         </div>
                                     </div>
                                 </div>
                             @empty
                                 <div class="row">
-                                    <div class="col-md-3">
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label class="form-label">{{ trans('labels.sports') }}</label>
+                                            <select class="form-select" name="age_sport[]">
+                                                <option value="" selected>{{ trans('labels.select') }}</option>
+                                                @foreach ($getsportslist as $sport)
+                                                    <option value="{{ $sport->id }}" {{ old('age_sport') == $sport->id ? 'selected' : '' }}> {{ $sport->name }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
                                         <div class="form-group">
                                             <label class="form-label">{{ trans('labels.age') }}</label>
                                             <select class="form-select" name="from_age[]">
-                                                <option value="" selected=""> {{ trans('labels.from_age') }}</option>
+                                                <option value="" selected=""> {{ trans('labels.from_age') }}
+                                                </option>
                                                 @for ($i = 1; $i <= 90; $i++)
                                                     <option value="{{ $i }}">{{ $i }}</option>
                                                 @endfor
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-md-3">
+                                    <div class="col-md-2">
                                         <div class="form-group">
                                             <label class="form-label">&nbsp;</label>
                                             <select class="form-select" name="to_age[]">
@@ -588,12 +589,6 @@
                                     </div>
                                     <div class="col-md-2">
                                         <div class="form-group">
-                                            <label class="form-label">{{ trans('labels.discount') }}</label>
-                                            <input type="number" max="100" min="0" class="form-control" name="age_discounts[]" placeholder="{{ trans('labels.discount') }}">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="form-group">
                                             <label class="form-label">{{ trans('labels.discount_type') }}</label>
                                             <select class="form-select" name="discount_type[]">
                                                 <option value="" selected>{{ trans('labels.select') }}</option>
@@ -602,15 +597,24 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-md-1 d-flex align-items-end">
+                                    <div class="col-md-2">
                                         <div class="form-group">
-                                            <button type="button" class="btn btn-sm btn-outline-primary appendbtn"> <i class="fa fa-plus"></i> </button>
+                                            <label class="form-label">{{ trans('labels.discount') }}</label>
+                                            <input type="number" max="100" min="0" class="form-control"
+                                                name="age_discounts[]" placeholder="{{ trans('labels.discount') }}">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2 d-flex align-items-end">
+                                        <div class="form-group">
+                                            <button type="button" class="btn btn-sm btn-outline-primary appendbtn"> <i
+                                                    class="fa fa-plus"></i> </button>
                                         </div>
                                     </div>
                                 </div>
                             @endforelse
                             @if (count($dome->dome_discounts) > 0)
-                                <button type="button" class="btn btn-sm btn-outline-primary appendbtn my-2"> <i class="fa fa-plus"></i> {{ trans('labels.add_more_discounts') }} </button>
+                                <button type="button" class="btn btn-sm btn-outline-primary appendbtn my-2"> <i
+                                        class="fa fa-plus"></i> {{ trans('labels.add_more_discounts') }} </button>
                             @endif
                         </div>
                         <div id="AgeDiscountFields"></div>
@@ -623,14 +627,14 @@
             </div>
         </div>
         <!-- Add Policies & Rules Modal -->
-        <div class="modal fade" id="policies_rules" tabindex="-1" aria-labelledby="policies_rulesLabel" aria-hidden="true">
+        <div class="modal fade" id="policies_rules" tabindex="-1" aria-labelledby="policies_rulesLabel"
+            aria-hidden="true">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h1 class="modal-title fs-5" id="policies_rulesLabel">{{ trans('labels.policies_rules') }}
                         </h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                            aria-label="Close"></button>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <div class="row">
@@ -649,14 +653,154 @@
                 </div>
             </div>
         </div>
-            <div class="row">
-                <div class="col-12">
-                    <button type="submit" class="btn btn-primary me-3">{{ trans('labels.submit') }}</button>
-                    <a href="{{ URL::to('admin/domes') }}" class="btn btn-outline-danger">{{ trans('labels.cancel') }}</a>
-                </div>
+        <div class="row">
+            <div class="col-12">
+                <button type="submit" class="btn btn-primary me-3">{{ trans('labels.submit') }}</button>
+                <a href="{{ URL::to('admin/domes') }}" class="btn btn-outline-danger">{{ trans('labels.cancel') }}</a>
             </div>
         </div>
+        </div>
     </form>
+    <!-- Edit Working Hours Modal -->
+    <div class="modal fade" id="add_working_hours" tabindex="-1" aria-labelledby="add_working_hoursLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="add_working_hoursLabel">{{ trans('labels.edit_working_hours') }}
+                    </h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="{{ URL::to('admin/domes/manage-time') }}" method="post" id="workinghoursform">
+                    <input type="hidden" name="id" value="{{ $dome->id }}">
+                    <div class="modal-body">
+                        <div class="row my-3">
+                            <label class="col-lg-3 col-form-label"></label>
+                            <label class="col-lg-3 text-center mb-0 d-none d-lg-block d-xl-block d-xxl-block fw-bold">
+                                {{ trans('labels.availability') }} </label>
+                            <label class="col-lg-3 text-center mb-0 d-none d-lg-block d-xl-block d-xxl-block fw-bold">
+                                {{ trans('labels.opening_time') }} </label>
+                            <label class="col-lg-3 text-center mb-0 d-none d-lg-block d-xl-block d-xxl-block fw-bold">
+                                {{ trans('labels.closing_time') }} </label>
+                        </div>
+                        @if (count($dome['working_hours']) > 0)
+                            @foreach ($dome['working_hours'] as $key => $time)
+                                <div class="row">
+                                    <label
+                                        class="col-lg-3 col-form-label text-center fw-bold">{{ trans('labels.' . strtolower($time->day)) }}</label>
+                                    <input type="hidden" name="day[]" value="{{ $time->id }}">
+                                    <div class="col-lg-3">
+                                        <div class="form-group d-grid align-items-end"><label
+                                                class="d-lg-none d-xl-none d-xxl-none">
+                                                {{ trans('labels.availability') }}</label>
+                                            <label
+                                                class="d-lg-none d-xl-none d-xxl-none">{{ trans('labels.availability') }}</label>
+                                            <select class="form-control" name="is_closed[]">
+                                                <option value="2" {{ $time->is_closed == 2 ? 'selected' : '' }}>
+                                                    {{ trans('labels.open') }} </option>
+                                                <option value="1" {{ $time->is_closed == 1 ? 'selected' : '' }}>
+                                                    {{ trans('labels.closed') }} </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="form-group">
+                                            <label class="d-lg-none d-xl-none d-xxl-none">
+                                                {{ trans('labels.opening_time') }}</label>
+
+                                            <label
+                                                class="d-lg-none d-xl-none d-xxl-none">{{ trans('labels.opening_time') }}</label>
+                                            <input type="text" class="form-control time_picker__ time_picker__start"
+                                                placeholder="{{ trans('labels.opening_time') }}" name="open_time[]"
+                                                value="{{ date('H:i', strtotime($time->open_time)) }}">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="form-group">
+                                            <label class="d-lg-none d-xl-none d-xxl-none">
+                                                {{ trans('labels.closing_time') }}</label>
+                                            <label
+                                                class="d-lg-none d-xl-none d-xxl-none">{{ trans('labels.closing_time') }}</label>
+                                            <input type="text" class="form-control time_picker__ time_picker__end"
+                                                placeholder="{{ trans('labels.closing_time') }}" name="close_time[]"
+                                                value="{{ date('H:i', strtotime($time->close_time)) }}">
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        @else
+                            @php
+                                $days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
+                            @endphp
+                            @foreach ($days as $key => $day)
+                                <div class="row">
+                                    <input type="hidden" name="day[]" value="{{ strtolower($day) }}">
+                                    <label
+                                        class="col-lg-3 col-form-label text-center fw-bold">{{ trans('labels.' . strtolower($day)) }}</label>
+                                    <div class="col-lg-3">
+                                        <div class="form-group d-grid align-items-end">
+                                            <label class="d-lg-none d-xl-none d-xxl-none">
+                                                {{ trans('labels.availability') }}</label>
+                                            <label
+                                                class="d-lg-none d-xl-none d-xxl-none">{{ trans('labels.availability') }}</label>
+                                            <select class="form-control" name="is_closed[]">
+                                                <option value="2" selected> {{ trans('labels.open') }} </option>
+                                                <option value="1"> {{ trans('labels.closed') }} </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="form-group d-grid align-items-end">
+                                            <label class="d-lg-none d-xl-none d-xxl-none">
+                                                {{ trans('labels.opening_time') }}</label>
+                                            <label
+                                                class="d-lg-none d-xl-none d-xxl-none">{{ trans('labels.opening_time') }}</label>
+                                            <input type="text" class="form-control time_picker__ time_picker__start"
+                                                placeholder="{{ trans('labels.opening_time') }}" name="open_time[]"
+                                                @if (old('open_time')) value="{{ old('open_time')[$key] }}" @endif>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="form-group d-grid align-items-end">
+                                            <label class="d-lg-none d-xl-none d-xxl-none">
+                                                {{ trans('labels.closing_time') }}</label>
+
+                                            <label
+                                                class="d-lg-none d-xl-none d-xxl-none">{{ trans('labels.closing_time') }}</label>
+
+                                            <input type="text" class="form-control time_picker__ time_picker__end"
+                                                placeholder="{{ trans('labels.closing_time') }}" name="close_time[]"
+                                                @if (old('close_time')) value="{{ old('close_time')[$key] }}" @endif>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        @endif
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-outline-success" id="submitBtn"
+                            style="display: none;">{{ trans('labels.save') }}</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="sport-element d-none">
+        <select class="form-select" name="discount_sport[]">
+            <option value="" selected>{{ trans('labels.select') }}</option>
+            @foreach ($getsportslist as $sport)
+                <option value="{{ $sport->id }}"> {{ $sport->name }}</option>
+            @endforeach
+        </select>
+    </div>
+    <div class="age-sport-element d-none">
+        <select class="form-select" name="age_sport[]">
+            <option value="" selected>{{ trans('labels.select') }}</option>
+            @foreach ($getsportslist as $sport)
+                <option value="{{ $sport->id }}"> {{ $sport->name }}</option>
+            @endforeach
+        </select>
+    </div>
 @endsection
 @section('scripts')
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
@@ -666,7 +810,6 @@
         src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places&key=AIzaSyCvlZaKvRSMouyH9pDgGC6pMGADfytOrsA">
     </script>
     <script type="text/javascript">
-
         var label_fixed = {{ Js::from(trans('labels.fixed')) }};
         var label_in_percentage = {{ Js::from(trans('labels.in_percentage')) }};
         var label_discount = {{ Js::from(trans('labels.discount')) }};
@@ -675,6 +818,11 @@
         var label_to = {{ Js::from(trans('labels.to')) }};
         var label_discount_type = {{ Js::from(trans('labels.discount_type')) }};
         var label_select = {{ Js::from(trans('labels.select')) }};
+
+        var label_sports = {{ Js::from(trans('labels.sports')) }};
+        var sport_select_element = $('.sport-element').html();
+        var label_number_of_fields = {{ Js::from(trans('labels.number_of_fields')) }};
+        var age_sport_select_element = $('.age-sport-element').html();
 
 
         $('input[data-sport-name]').click(function() {

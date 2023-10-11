@@ -190,6 +190,7 @@ Route::group(['middleware' => 'SetTimeZoneMiddleware'], function () {
                 Route::post('manage-time', [DomesController::class, 'managetime']);
             });
             Route::get('deletediscount', [DomesController::class, 'discount_delete']);
+            Route::get('deletefdiscount', [DomesController::class, 'fdiscount_delete']);
             Route::group(['prefix' => 'fields'], function () {
                 Route::get('/', [FieldController::class, 'index']);
                 Route::get('add', [FieldController::class, 'add']);

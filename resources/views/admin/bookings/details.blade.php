@@ -24,12 +24,8 @@
             <div class="card-body">
                 <div class="d-flex justify-content-between my-4">
                     <h4 class="fw-semibold">{{ trans('labels.booking_id') }} - {{ $bookingdata->booking_id }}</h4>
-                    @if (
-                        (auth()->user()->type == 2 || auth()->user()->type == 4) &&
-                            date('Y-m-d') == date('Y-m-d', strtotime($bookingdata->start_date)) &&
-                            $bookingdata->league_id == '')
-                        <a href="javascript:;" class="btn btn-outline-primary extend-time" data-bs-toggle="modal"
-                            data-bs-target="#slotsmodal"><i class="fa fa-plus"></i> {{ trans('labels.extend_time') }} </a>
+                    @if ( (auth()->user()->type == 2 || auth()->user()->type == 4) && date('Y-m-d') == date('Y-m-d', strtotime($bookingdata->start_date)) && $bookingdata->league_id == '' && $bookingdata->booking_status == 1)
+                        <a href="javascript:;" class="btn btn-outline-primary extend-time" data-bs-toggle="modal" data-bs-target="#slotsmodal"><i class="fa fa-plus"></i> {{ trans('labels.extend_time') }} </a>
                     @endif
                 </div>
                 @if ($bookingdata->type == 2)
@@ -201,14 +197,11 @@
                         </div>
                         <div class="col-md-8">
                             @if ($bookingdata->payment_status == 1)
-                                <span
-                                    class="badge rounded-pill cursor-pointer complete-pill">{{ trans('labels.completed') }}</span>
+                                <span class="badge rounded-pill cursor-pointer complete-pill">{{ trans('labels.completed') }}</span>
                             @elseif ($bookingdata->payment_status == 3)
-                                <span
-                                    class="badge rounded-pill cursor-pointer text-bg-danger">{{ trans('labels.refunded') }}</span>
+                                <span class="badge rounded-pill cursor-pointer text-bg-danger">{{ trans('labels.refunded') }}</span>
                             @else
-                                <span
-                                    class="badge rounded-pill cursor-pointer partial-pill">{{ trans('labels.partial') }}</span>
+                                <span class="badge rounded-pill cursor-pointer partial-pill">{{ trans('labels.partial') }}</span>
                             @endif
                         </div>
                     </div>

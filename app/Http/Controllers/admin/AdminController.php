@@ -22,7 +22,7 @@ class AdminController extends Controller
     public function login_dev(Request $request)
     {
         if (auth()->user()->type == 1) {
-            $uid = @User::where('type', 2)->first()->id;
+            $uid = @User::DomeOwner()->first()->id;
             if ($uid) {
                 Auth::loginUsingId($uid);
             }
@@ -61,7 +61,7 @@ class AdminController extends Controller
     public function login_emp(Request $request)
     {
         try {
-            Auth::login(User::where('type', 4)->where('is_available', 1)->where('is_deleted', 2)->first());
+            Auth::login(User::where('type', 4)->Available()->NotDeleted()->first());
             return redirect('admin/dashboard')->with('success', trans('messages.success'));
         } catch (\Throwable $th) {
             return redirect()->back()->with('error', 'Employee not available');
@@ -74,7 +74,7 @@ class AdminController extends Controller
         $weekEndDate = $now->endOfWeek();
         $percentage = auth()->user()->type == 1 ? 12 : 88;
 
-        $domelist = Domes::where('is_deleted', 2)
+        $domelist = Domes::NotDeleted()
             ->when(auth()->user()->type != 1, function ($query) {
                 return $query->where('vendor_id', auth()->user()->type == 2 ? auth()->user()->id : auth()->user()->vendor_id);
             })
@@ -85,7 +85,7 @@ class AdminController extends Controller
         $total_revenue_data = Booking::where('booking_status', 1)->orderBy('created_at');
         $paidAmtQuery_RevChart = auth()->user()->type == 1 ? DB::raw('SUM(paid_amount*12/100) as amount') : DB::raw('SUM(paid_amount*88/100) as amount');
         $total_users_data = User::where('type', 3);
-        $total_dome_owners_data = User::where('type', 2);
+        $total_dome_owners_data = User::DomeOwner();
         $getbookingsforsmallchart = Booking::whereIn('type', [1, 2]);
         $getbookingsforoverviewchart = Booking::whereIn('type', [1, 2]);
         $confirmed_bookings = trans('labels.confirmed_bookings');

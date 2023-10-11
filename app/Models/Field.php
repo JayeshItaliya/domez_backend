@@ -9,6 +9,14 @@ use Illuminate\Support\Facades\DB;
 class Field extends Model
 {
     use HasFactory;
+    public function scopeAvailable($query)
+    {
+        return $query->where('is_available', 1);
+    }
+    public function scopeNotDeleted($query)
+    {
+        return $query->where('is_deleted', 2);
+    }
     public function dome_owner()
     {
         return $this->hasOne('App\Models\User', 'id', 'vendor_id')->select('id','name');

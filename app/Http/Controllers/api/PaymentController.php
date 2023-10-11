@@ -178,6 +178,11 @@ class PaymentController extends Controller
             $booking->booking_status = 4;
             $booking->token = str_replace(['$', '/', '.', '|'], '', Hash::make($booking_id));
             $booking->save();
+
+            $title = "New Booking Request";
+            $description = "We are excited to inform you about a new booking request that has just come in. Here are the details:";
+            Helper::new_booking_request_email($title, $description, $booking);
+
             DB::commit();
             return response()->json(['status' => 1, "message" => "Successful", "booking_id" => $booking->id], 200);
         } catch (\Throwable $th) {
@@ -189,7 +194,6 @@ class PaymentController extends Controller
     public function payment(Request $request)
     {
         if($request->filled('is_booking_request_accepted') && $request->is_booking_request_accepted == 1){
-
             // Booking Request is Accepted (First Payment)
             if ($request->booking_id == "") {
                 return response()->json(["status" => 0, "message" => "Booking ID is required"], 200);

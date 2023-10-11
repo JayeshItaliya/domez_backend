@@ -131,7 +131,7 @@ class AuthenticationController extends Controller
         if (!empty($user)) {
             if ($user->otp == $otp) {
                 session()->forget('verification_email');
-                $user->otp = 0;
+                $user->otp = null;
                 $user->is_verified = 1;
                 $user->save();
                 Auth::login($user);
