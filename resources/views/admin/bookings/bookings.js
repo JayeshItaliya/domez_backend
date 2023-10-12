@@ -38,7 +38,6 @@ $('.main-slots').on('change', function () {
             return false;
         },
         error: function (e) {
-            console.log(e);
             toastr.error(wrong);
             return false;
         }

@@ -22,8 +22,6 @@
                 data-slot="{{ date('h:i A', strtotime($slot->start_time)) }} - {{ date('h:i A', strtotime($slot->end_time)) }}"
                 >
                 <label class="form-check-label d-grid p-2 rounded text-center cursor-pointer w-100 {{ $labelcolor }}" for="check{{ $key }}">
-                    {{-- @dump($slot->id)
-                    @dump($slot->status) --}}
                     <h4>{{ date('j ',strtotime($slot->date)) }} <small class="fs-7">{{ date('F, Y',strtotime($slot->date)) }}</small> </h4>
                     <span>{{ date('h:i A', strtotime($slot->start_time)) }} - {{ date('h:i A', strtotime($slot->end_time)) }}</span>
                     <b>{{ Helper::currency_format($slot->price) }}</b>
@@ -39,8 +37,6 @@
                 data-slot="{{ date('h:i A', strtotime($slot->start_time)) }} - {{ date('h:i A', strtotime($slot->end_time)) }}"
                 >
                 <label class="form-check-label d-grid p-2 rounded text-center cursor-pointer w-100 {{ $labelcolor }}" for="check{{ $key }}">
-                    {{-- @dump($slot->id)
-                    @dump($slot->status) --}}
                     <h4>{{ date('j ',strtotime($slot->date)) }} <small class="fs-7">{{ date('F, Y',strtotime($slot->date)) }}</small> </h4>
                     <span>{{ date('h:i A', strtotime($slot->start_time)) }} - {{ date('h:i A', strtotime($slot->end_time)) }}</span>
                     <b>{{ Helper::currency_format($slot->price) }}</b>
@@ -55,8 +51,6 @@
                 data-slot="{{ date('h:i A', strtotime($slot->start_time)) }} - {{ date('h:i A', strtotime($slot->end_time)) }}"
                 >
                 <label class="form-check-label d-grid p-2 rounded text-center cursor-pointer w-100 {{ $labelcolor }}" for="check{{ $key }}">
-                    {{-- @dump($slot->id)
-                    @dump($slot->status) --}}
                     <h4>{{ date('j ',strtotime($slot->date)) }} <small class="fs-7">{{ date('F, Y',strtotime($slot->date)) }}</small> </h4>
                     <span>{{ date('h:i A', strtotime($slot->start_time)) }} - {{ date('h:i A', strtotime($slot->end_time)) }}</span>
                     <b>{{ Helper::currency_format($slot->price) }}</b>
