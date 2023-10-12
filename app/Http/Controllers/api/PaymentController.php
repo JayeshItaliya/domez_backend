@@ -203,7 +203,8 @@ class PaymentController extends Controller
             $booking->due_amount = $request->due_amount;
             $booking->min_split_amount = $request->min_split_amount ?? 0;
             $booking->payment_type = $request->payment_type;
-            $booking->payment_status = $booking->due_amount == 0 ? 1 : 2;
+            $booking->payment_status = 0;
+            // $booking->payment_status = $booking->due_amount == 0 ? 1 : 2;
             $booking->booking_status = 4;
             $booking->token = str_replace(['$', '/', '.', '|'], '', Hash::make($booking_id));
             $booking->save();

@@ -249,6 +249,11 @@ class BookingController extends Controller
             $description = $this->cancelmsg($checkbooking->booking_id);
             $body = "We regret to inform you that your booking request has been cancelled by The Dome Owner";
             foreach (explode(',', $checkbooking->slots) as $key => $slot) {
+
+                $start_time = date('H:i', strtotime(explode(' - ', $slot)[0]));
+                $end_time = date('H:i', strtotime(explode(' - ', $slot)[1]));
+                SetPricesDaysSlots::where('dome_id', $checkbooking->dome_id)->whereDate('date', date('Y-m-d', strtotime($checkbooking->date)))->where('sport_id', $checkbooking->sport_id)->where('start_time', $start_time)->where('end_time', $end_time)->where('status', 1)->update(['status' => 0]);
+
                 $getbookings = Booking::where('id', '!=', $checkbooking->id)->whereDate('start_date', $checkbooking->start_date)->whereRaw("find_in_set('" . $slot . "',slots)")->where('booking_mode', 2)->where('booking_status', 4)->get();
                 foreach ($getbookings as $key => $booking) {
                     $booking->booking_status = 3;
