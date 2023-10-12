@@ -37,10 +37,14 @@
             :root {
                 --bs-font-sans-serif: 'Roboto', sans-serif;
                 --border-radius: 6px;
-                --bs-primary: #468F72;
+                /* --bs-primary: #468F72;
                 --bs-secondary: #57A700;
                 --bs-primary-rgb: 70, 143, 114;
-                --bs-secondary-rgb: 87, 167, 0;
+                --bs-secondary-rgb: 87, 167, 0; */
+                --bs-primary: #82CD47;
+                --bs-secondary: #9472DF;
+                --bs-primary-rgb: 130, 205, 71;
+                --bs-secondary-rgb: 148, 114, 223;
                 --border-default: 1px solid rgba(var(--bs-primary-rgb), 0.25);
             }
 
