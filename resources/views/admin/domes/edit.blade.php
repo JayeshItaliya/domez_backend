@@ -2,10 +2,16 @@
 @section('styles')
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-timepicker/1.10.0/jquery.timepicker.min.css">
-
     <style>
         .ui-timepicker-container {
             z-index: 9999 !important;
+        }
+        .custom-tooltip {
+            background: white;
+            backdrop-filter: blur(5px);
+            border-radius: 15px;
+            box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.3);
+            border: none;
         }
     </style>
 @endsection
@@ -42,7 +48,7 @@
                     </div>
                 </div>
                 <div class="col-md-auto h-fit-content pe-0">
-                    <p data-bs-toggle="popover" data-bs-placement="top" data-bs-custom-class="custom-popover" data-bs-trigger="hover focus" data-bs-content="Default Tooltip">{{ trans('labels.system_mode') }}<i class="fa-regular fa-circle-info fa-beat-fade ps-2"></i></p>
+                    <p data-bs-toggle="popover" data-bs-placement="bottom" data-bs-custom-class="custom-tooltip" data-bs-trigger="hover focus" data-bs-html="true" data-bs-title="<b>Automatic Mode:</b> Customers can book automatically and directly from the app without the need to approve or decline them.<br><br> <b>Manual Mode:</b> Customers send booking requests to be approved or declined from your side before they proceed to make the payment">{{ trans('labels.system_mode') }}<i class="fa-regular fa-circle-info fa-beat-fade ps-2"></i></p>
                 </div>
                 <div class="col-md-auto">
                     <label class="system-mode-switch">
