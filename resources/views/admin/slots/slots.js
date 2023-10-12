@@ -5,20 +5,34 @@ $(function () {
         altInput: true,
         altFormat: "j F, Y",
         dateFormat: "Y-m-d",
+        change: function (time) {
+            $('.slot-content').html('');
+            $('.btn-block-slots').hide();
+            $('.btn-unblock-slots').hide();
+        }
     });
     manageselection();
 });
-$(document).on("change", ".d-none.main-slots", function () {
+$(document).on("change", ".d-none.blockable-slots, .d-none.unblockable-slots", function () {
     manageselection();
 });
 function manageselection() {
-    if ($(".d-none.main-slots:checked").length > 0) {
+    if ($(".d-none.blockable-slots:checked").length > 0) {
         $(".btn-block-slots").attr("disabled", false).show();
     } else {
         $(".btn-block-slots").attr("disabled", true).hide();
     }
+    if ($(".d-none.unblockable-slots:checked").length > 0) {
+        $(".btn-unblock-slots").attr("disabled", false).show();
+    } else {
+        $(".btn-unblock-slots").attr("disabled", true).hide();
+    }
 }
 
+$(document).on("change","#fetchslotsform #dome, #fetchslotsform #sport, #fetchslotsform #slot_type", function () {
+    $('.slot-content').html('');
+    $('.btn-block-slots').hide();
+});
 $("#dome").on("change", function () {
     "use strict";
     if ($.trim($(this).val()) == "") {
@@ -52,9 +66,30 @@ $("#dome").on("change", function () {
     });
 });
 
+$(".btn-unblock-slots").on("click", function (event) {
+    "use strict";
+    var selectedslots = $(".slot-content .d-none.unblockable-slots:checked").map(function () {
+            return $(this).data("slot-id");
+        }).get().join(",");
+    if ($.trim(selectedslots) == "") {
+        $(".btn-unblock-slots").attr("disabled", true).hide();
+        return false;
+    }
+    var sum = 0;
+    $(".slot-content .d-none.unblockable-slots:checked").each(function () {
+        sum += parseFloat($(this).attr("data-slot-price"));
+    });
+    var aurl = $(this).attr("data-action");
+    var dome_name = $("#fetchslotsform #dome").find(':selected').attr("data-dome-name");
+    var total_slots = $(".slot-content .d-none.unblockable-slots:checked").length;
+    var selected_slots = $(".slot-content .d-none.unblockable-slots:checked").map(function () {
+            return $(this).data("slot");
+        }).get().join(",");
+        callajax(selectedslots,sum,aurl,dome_name,total_slots,selected_slots);
+});
 $(".btn-block-slots").on("click", function (event) {
     "use strict";
-    var selectedslots = $(".slot-content .d-none.main-slots:checked").map(function () {
+    var selectedslots = $(".slot-content .d-none.blockable-slots:checked").map(function () {
             return $(this).data("slot-id");
         }).get().join(",");
     if ($.trim(selectedslots) == "") {
@@ -62,15 +97,18 @@ $(".btn-block-slots").on("click", function (event) {
         return false;
     }
     var sum = 0;
-    $(".slot-content .d-none.main-slots:checked").each(function () {
+    $(".slot-content .d-none.blockable-slots:checked").each(function () {
         sum += parseFloat($(this).attr("data-slot-price"));
     });
     var aurl = $(this).attr("data-action");
     var dome_name = $("#fetchslotsform #dome").find(':selected').attr("data-dome-name");
-    var total_slots = $(".slot-content .d-none.main-slots:checked").length;
-    var selected_slots = $(".slot-content .d-none.main-slots:checked").map(function () {
+    var total_slots = $(".slot-content .d-none.blockable-slots:checked").length;
+    var selected_slots = $(".slot-content .d-none.blockable-slots:checked").map(function () {
             return $(this).data("slot");
         }).get().join(",");
+    callajax(selectedslots,sum,aurl,dome_name,total_slots,selected_slots);
+});
+function callajax(selectedslots,sum,aurl,dome_name,total_slots,selected_slots){
     swalWithBootstrapButtons
         .fire({
             icon: "warning",
@@ -83,7 +121,7 @@ $(".btn-block-slots").on("click", function (event) {
             reverseButtons: !0,
             showLoaderOnConfirm: !0,
             html:
-                '<ul class="list-group list-group-flush text-start"><li class="list-group-item"> <b> Dome Name: </b>' + dome_name + '</li><li class="list-group-item"> <b> Selected Slots('+total_slots+'): </b>' + selected_slots + '<li class="list-group-item"> <b> Total Payment </b> : <b>$' + sum + '</b></li></ul>',
+                '<ul class="list-group list-group-flush text-start"><li class="list-group-item"> <b> Dome Name: </b>' + dome_name + '</li><li class="list-group-item"> <b> Selected Slots('+total_slots+'): </b>' + selected_slots + '<li class="list-group-item"> <b> Total Amount </b> : <b>$' + sum + '</b></li></ul>',
             preConfirm: function () {
                 return new Promise(function (o, n) {
                     $.ajax({
@@ -99,8 +137,8 @@ $(".btn-block-slots").on("click", function (event) {
                                 swal_cancelled(response.message);
                                 $("#fetchslotsform").submit();
                             } else {
+                                $(".btn-block-slots, .btn-unblock-slots").attr("disabled", true).hide();
                                 Swal.close();
-                                $(".btn-block-slots").attr("disabled", true).hide();
                                 toastr.success(response.message);
                                 $("#fetchslotsform").submit();
                             }
@@ -117,7 +155,7 @@ $(".btn-block-slots").on("click", function (event) {
         .then((t) => {
             t.isConfirmed || (t.dismiss, Swal.DismissReason.cancel);
         });
-});
+}
 $("#fetchslotsform").on("submit", function (event) {
     "use strict";
     event.preventDefault();

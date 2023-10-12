@@ -223,6 +223,7 @@ Route::group(['middleware' => 'SetTimeZoneMiddleware'], function () {
             Route::get('/blocked-timeslots', [BookingController::class, 'blocked_timeslots']);
             Route::post('/fetch-slots', [BookingController::class, 'blocked_timeslots_fetch'])->name('fetch.blocked.slots');
             Route::post('/block-slots', [BookingController::class, 'blockslots'])->name('block.slots');
+            Route::post('/unblock-slots', [BookingController::class, 'unblockslots'])->name('unblock.slots');
             Route::post('/dome-sports', [BookingController::class, 'getdomesports']);
         });
         Route::group(['middleware' => 'VEPMiddleware'], function () {

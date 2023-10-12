@@ -23,7 +23,7 @@ return new class extends Migration
             $table->time('end_time');
             $table->string('day');
             $table->double('price', 15, 2);
-            $table->integer('status');
+            $table->integer('status')->comment('0=BlockedFromApp,1=Available,2=AdminBLocked');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent();
         });

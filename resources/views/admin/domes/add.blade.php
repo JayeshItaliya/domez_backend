@@ -36,18 +36,13 @@
             <div class="row align-items-center mb-3">
                 <div class="col-md-auto">
                     <div class="text-start">
-                        <button type="button" class="btn btn-outline-primary me-2" data-bs-toggle="modal"
-                            data-bs-target="#add_working_hours">{{ trans('labels.add_working_hours') }}</button>
-                        <button type="button" class="btn btn-outline-secondary me-2" data-bs-toggle="modal"
-                            data-bs-target="#dome_settings">{{ trans('labels.add_discounts') }}</button>
-                        <button type="button" class="btn btn-outline-info" data-bs-toggle="modal"
-                            data-bs-target="#policies_rules">{{ trans('labels.policies_rules') }}</button>
+                        <button type="button" class="btn btn-outline-primary me-2" data-bs-toggle="modal" data-bs-target="#add_working_hours">{{ trans('labels.add_working_hours') }}</button>
+                        <button type="button" class="btn btn-outline-secondary me-2" data-bs-toggle="modal" data-bs-target="#dome_settings">{{ trans('labels.add_discounts') }}</button>
+                        <button type="button" class="btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#policies_rules">{{ trans('labels.policies_rules') }}</button>
                     </div>
                 </div>
                 <div class="col-md-auto h-fit-content pe-0">
-                    <p data-bs-toggle="popover" data-bs-placement="top" data-bs-custom-class="custom-popover"
-                        data-bs-trigger="hover focus" data-bs-content="Default Tooltip">{{ trans('labels.system_mode') }}<i
-                            class="fa-regular fa-circle-info fa-beat-fade ps-2"></i></p>
+                    <p data-bs-toggle="popover" data-bs-placement="top" data-bs-custom-class="custom-popover" data-bs-trigger="hover focus" data-bs-content="Default Tooltip">{{ trans('labels.system_mode') }}<i class="fa-regular fa-circle-info fa-beat-fade ps-2"></i></p>
                 </div>
                 <div class="col-md-auto">
                     <label class="system-mode-switch">
@@ -389,7 +384,7 @@
                                 <div class="row">
                                     <div class="form-group col-lg-3">
                                         <label class="form-label">{{ trans('labels.sports') }}</label>
-                                        <select class="form-select" name="discount_sport[]">
+                                        <select class="form-select sport_el" name="discount_sport[]">
                                             <option value="" selected>{{ trans('labels.select') }}</option>
                                             @foreach ($getsportslist as $sport)
                                                 <option value="{{ $sport->id }}" {{ old('discount_sport') == $sport->id ? 'selected' : '' }}> {{ $sport->name }}</option>
@@ -431,7 +426,7 @@
                                     <div class="col-md-2">
                                         <div class="form-group">
                                             <label class="form-label">{{ trans('labels.sports') }}</label>
-                                            <select class="form-select" name="age_sport[]">
+                                            <select class="form-select age_sport_el" name="age_sport[]">
                                                 <option value="" selected>{{ trans('labels.select') }}</option>
                                                 @foreach ($getsportslist as $sport)
                                                     <option value="{{ $sport->id }}" {{ old('age_sport') == $sport->id ? 'selected' : '' }}> {{ $sport->name }}</option>
@@ -442,7 +437,7 @@
                                     <div class="col-md-2">
                                         <div class="form-group">
                                             <label class="form-label" >{{ trans('labels.age') }}</label>
-                                            <select class="form-select" name="from_age[]">
+                                            <select class="form-select select_from_age" name="from_age[]">
                                                 <option value="" selected=""> {{ trans('labels.from_age') }} </option>
                                                 @for ($i = 1; $i <= 90; $i++)
                                                     <option value="{{ $i }}">{{ $i }}</option>
@@ -453,11 +448,11 @@
                                     <div class="col-md-2">
                                         <div class="form-group">
                                             <label for="" class="form-label">&nbsp;</label>
-                                            <select class="form-select" name="to_age[]">
+                                            <select class="form-select select_to_age" name="to_age[]">
                                                 <option value="" selected=""> {{ trans('labels.to') }}</option>
-                                                @for ($i = 1; $i <= 90; $i++)
+                                                {{-- @for ($i = 1; $i <= 90; $i++)
                                                     <option value="{{ $i }}">{{ $i }}</option>
-                                                @endfor
+                                                @endfor --}}
                                             </select>
                                         </div>
                                     </div>
@@ -472,7 +467,7 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-md-2">
+                                    <div class="col-md-3">
                                         <div class="form-group">
                                             <label for="age_discount"
                                                 class="form-label">{{ trans('labels.discount') }}</label>
@@ -480,7 +475,7 @@
                                                 name="age_discounts[]" placeholder="{{ trans('labels.discount') }}">
                                         </div>
                                     </div>
-                                    <div class="col-md-2 d-flex align-items-end">
+                                    <div class="col-md-1 d-flex align-items-end">
                                         <div class="form-group">
                                             <button type="button" class="btn btn-sm btn-outline-primary appendbtn"> <i
                                                     class="fa fa-plus"></i> </button>
@@ -535,7 +530,7 @@
         </div>
     </form>
     <div class="sport-element d-none">
-        <select class="form-select" name="discount_sport[]">
+        <select class="form-select sport_el" name="discount_sport[]">
             <option value="" selected>{{ trans('labels.select') }}</option>
             @foreach ($getsportslist as $sport)
                 <option value="{{ $sport->id }}"> {{ $sport->name }}</option>
@@ -543,7 +538,7 @@
         </select>
     </div>
     <div class="age-sport-element d-none">
-        <select class="form-select" name="age_sport[]">
+        <select class="form-select age_sport_el" name="age_sport[]">
             <option value="" selected>{{ trans('labels.select') }}</option>
             @foreach ($getsportslist as $sport)
                 <option value="{{ $sport->id }}"> {{ $sport->name }}</option>
@@ -559,6 +554,7 @@
         src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places&key=AIzaSyCvlZaKvRSMouyH9pDgGC6pMGADfytOrsA">
     </script>
     <script type="text/javascript">
+
         var label_fixed = {{ Js::from(trans('labels.fixed')) }};
         var label_in_percentage = {{ Js::from(trans('labels.in_percentage')) }};
         var label_discount = {{ Js::from(trans('labels.discount')) }};

@@ -44,7 +44,7 @@ return new class extends Migration
             $table->double('refunded_amount')->default(0);
             $table->integer('payment_mode')->default(1)->comment('1=Online, 2=Offline');
             $table->integer('payment_type')->default(1)->comment('0=WhenBookingIsRequested(BookingModeManual),1=Full Amount, 2=Split Amount');
-            $table->integer('payment_status')->default(1)->comment('0=WhenBookingIsRequested(BookingModeManual),1=Complete, 2=Partial');
+            $table->integer('payment_status')->default(1)->comment('0=WhenBookingIsRequested(BookingModeManual),1=Complete, 2=Partial, 3=Refunded');
             $table->integer('booking_status')->default(1)->comment('1=Confirmed, 2=Pending, 3=Cancelled, 4=WaitingApproval');
 
             $table->dateTime('booking_accepted_at')->nullable()->comment('When Booking Mode is 2 and Dome Owner Accepts the request');

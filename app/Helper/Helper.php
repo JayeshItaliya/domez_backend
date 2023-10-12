@@ -279,12 +279,14 @@ class Helper
     }
 
     // Used For Admins Only
-    public static function pending_booking_request_count($type)
+    public static function pending_booking_request_count()
     {
-        $getcount = Enquiries::where('type', $type)->where('is_replied', 2)->count();
-        if ($type == 5 && auth()->user()->type != 1) {
-            $getcount = Enquiries::where('type', $type)->where('vendor_id', auth()->user()->type == 2 ? auth()->user()->id : auth()->user()->vendor_id)->where('is_replied', 2)->count();
+        $authuser = auth()->user();
+        $getcount = Booking::where('booking_mode', 2)->where('booking_status', 4);
+        if (in_array($authuser->type, [2, 4])) {
+            $getcount = $getcount->where('vendor_id', $authuser->type == 2 ? $authuser->id : $authuser->vendor_id);
         }
+        $getcount = $getcount->count();
         return $getcount;
     }
     public static function get_noti_count($type)

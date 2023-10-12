@@ -116,58 +116,60 @@ $('#min_player').on('change', function () {
     }
     $('#max_player option:first').attr('disabled', true);
 }).change();
-$('#dome').on('change', function () {
-    "use strict";
-    min_time = $(this).find(':selected').attr('data-start-time');
-    max_time = $(this).find(':selected').attr('data-end-time');
-    if (start_time == '') {
-        start_time = $(this).find(':selected').attr('data-start-time');
-    }
-    my_interval = $.trim($(this).find(':selected').attr('data-slot-duration')) == 2 ? 90 : 60;
-    $.ajax({
-        url: $(this).attr('data-next'),
-        data: {
-            id: $(this).val(),
-        },
-        method: 'GET',
-        success: function (response) {
-            $('.radio-editer').parent().show();
-            if (response.status == 1) {
-                var html = '';
-                $('.radio-editer').html('');
+setTimeout(() => {
+    $('#dome').on('change', function () {
+        "use strict";
+        min_time = $(this).find(':selected').attr('data-start-time');
+        max_time = $(this).find(':selected').attr('data-end-time');
+        if (start_time == '') {
+            start_time = $(this).find(':selected').attr('data-start-time');
+        }
+        my_interval = $.trim($(this).find(':selected').attr('data-slot-duration')) == 2 ? 90 : 60;
+        $.ajax({
+            url: $(this).attr('data-next'),
+            data: {
+                id: $(this).val(),
+            },
+            method: 'GET',
+            success: function (response) {
+                $('.radio-editer').parent().show();
+                if (response.status == 1) {
+                    var html = '';
+                    $('.radio-editer').html('');
 
-                if (response.sportsdata.length > 0) {
-                    $.each(response.sportsdata, function (arrayIndex, elementValue) {
-                        if ($.trim(sport_selected) != '') {
-                            var checked = elementValue.id == sport_selected ? 'checked' : '';
-                        } else {
-                            var checked = arrayIndex == 0 ? 'checked' : '';
-                        }
-                        html +=
-                            '<div class="form-check pe-3"><input type="radio" name="sport" class="form-check-input" value="' +
-                            elementValue.id + '" id="radio' + arrayIndex + '" ' +
-                            checked +
-                            ' ><label class="form-check-label" for="radio' +
-                            arrayIndex +
-                            '">' + elementValue.name + '</label></div>';
-                    });
-                    $('.radio-editer').html(html);
-                    getfields('');
+                    if (response.sportsdata.length > 0) {
+                        $.each(response.sportsdata, function (arrayIndex, elementValue) {
+                            if ($.trim(sport_selected) != '') {
+                                var checked = elementValue.id == sport_selected ? 'checked' : '';
+                            } else {
+                                var checked = arrayIndex == 0 ? 'checked' : '';
+                            }
+                            html +=
+                                '<div class="form-check pe-3"><input type="radio" name="sport" class="form-check-input" value="' +
+                                elementValue.id + '" id="radio' + arrayIndex + '" ' +
+                                checked +
+                                ' ><label class="form-check-label" for="radio' +
+                                arrayIndex +
+                                '">' + elementValue.name + '</label></div>';
+                        });
+                        $('.radio-editer').html(html);
+                        getfields('');
+                    } else {
+                        $('.radio-editer').html(no_data);
+                    }
+                    append_days(response.working_days)
                 } else {
-                    $('.radio-editer').html(no_data);
+                    toastr.error(response.message);
+                    return false;
                 }
-                append_days(response.working_days)
-            } else {
-                toastr.error(response.message);
+            },
+            error: function (e) {
+                toastr.error(wrong);
                 return false;
             }
-        },
-        error: function (e) {
-            toastr.error(wrong);
-            return false;
-        }
-    });
-}).change();
+        });
+    }).change();
+}, 1000);
 $('body').on('change', '.radio-editer input[type=radio]', function () {
     "use strict";
     getfields($(this).val());

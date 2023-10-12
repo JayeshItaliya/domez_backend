@@ -275,7 +275,7 @@ class BookingController extends Controller
             return response()->json(['status' => 1, 'message' => trans('messages.success')], 200);
         } catch (\Throwable $th) {
             DB::rollback();
-            return response()->json(['status' => 0, 'message' => trans('messages.wrong'),'error' =>$th->getMessage()], 200);
+            return response()->json(['status' => 0, 'message' => trans('messages.wrong'), 'error' => $th->getMessage()], 200);
         }
     }
 
@@ -291,14 +291,14 @@ class BookingController extends Controller
     function getdomesports(Request $request)
     {
         try {
-            if($request->filled('id')){
+            if ($request->filled('id')) {
                 $getdomedata = Domes::where('id', $request->id)->where('vendor_id', auth()->user()->type == 2 ? auth()->user()->id : auth()->user()->vendor_id)->NotDeleted()->first();
                 if (!empty($getdomedata)) {
                     $sports = Sports::whereIn('id', explode(',', $getdomedata->sport_id))->Available()->NotDeleted()->orderByDesc('id')->get();
                     return response()->json(['status' => 1, 'message' => trans('messages.success'), 'sportsdata' => $sports], 200);
                 }
                 return response()->json(['status' => 0, 'message' => trans('messages.invalid_dome')], 200);
-            }else{
+            } else {
                 $sports = Sports::Available()->NotDeleted()->orderByDesc('id')->get();
                 return response()->json(['status' => 1, 'message' => trans('messages.success'), 'sportsdata' => $sports], 200);
             }
@@ -321,11 +321,10 @@ class BookingController extends Controller
             $startdate = date('Y-m-d', strtotime(explode(' to ', $request->date_range)[0]));
             $enddate = date('Y-m-d', strtotime(explode(' to ', $request->date_range)[1]));
             $getslotslist = SetPricesDaysSlots::where('dome_id', $request->dome)->where('sport_id', $request->sport)->whereBetween('date', [$startdate, $enddate]);
-            if ($request->filled('slot_type')) {
-                $getslotslist = $getslotslist->where('status', $request->slot_type == "available" ? 1 : 0);
-            }
-            $getslotslist = $getslotslist->orderBy('date')->get();
-            $slotshtml = view('admin.slots.content', compact('getslotslist'))->render();
+            $getslotslist = $getslotslist->whereIn('status', [1, 2]);
+            $getslotslist = $getslotslist->orderBy('date')->orderBy('start_time')->get();
+            $requestdata = $request->input();
+            $slotshtml = view('admin.slots.content', compact('getslotslist', 'requestdata'))->render();
             return response()->json(['status' => 1, 'message' => trans('messages.success'), 'slotshtml' => $slotshtml], 200);
         } catch (\Throwable $th) {
             return response()->json(['status' => 0, 'message' => trans('messages.wrong')], 200);
@@ -340,10 +339,22 @@ class BookingController extends Controller
             $ids = explode(',', $request->ids);
             $cnt = SetPricesDaysSlots::whereIn('id', $ids)->where('status', 1)->count();
             if (count($ids) == $cnt) {
-                SetPricesDaysSlots::whereIn('id', $ids)->update(['status' => 0]);
+                SetPricesDaysSlots::whereIn('id', $ids)->update(['status' => 2]);
                 return response()->json(['status' => 1, 'message' => trans('messages.success')], 200);
             }
             return response()->json(['status' => 2, 'message' => trans('messages.some_slots_recent_blocked')], 200);
+        } catch (\Throwable $th) {
+            return response()->json(['status' => 0, 'message' => trans('messages.wrong')], 200);
+        }
+    }
+    function unblockslots(Request $request)
+    {
+        if ($request->ids == "") {
+            return response()->json(['status' => 0, 'message' => 'Slots selection is required',], 200);
+        }
+        try {
+            SetPricesDaysSlots::whereIn('id', explode(',', $request->ids))->update(['status' => 1]);
+            return response()->json(['status' => 1, 'message' => trans('messages.success')], 200);
         } catch (\Throwable $th) {
             return response()->json(['status' => 0, 'message' => trans('messages.wrong')], 200);
         }

@@ -82,26 +82,24 @@
                             <td> {{ Helper::currency_format($bookingdata->total_amount) }} </td>
                             <td>
                                 @if ($bookingdata->payment_status == 1)
-                                    <span
-                                        class="badge rounded-pill cursor-pointer complete-pill">{{ trans('labels.completed') }}</span>
+                                    <span class="badge rounded-pill cursor-pointer complete-pill">{{ trans('labels.completed') }}</span>
+                                @elseif ($bookingdata->payment_status == 2)
+                                    <span class="badge rounded-pill cursor-pointer partial-pill">{{ trans('labels.partial') }}</span>
                                 @elseif ($bookingdata->payment_status == 3)
-                                    <span
-                                        class="badge rounded-pill cursor-pointer text-bg-danger">{{ trans('labels.refunded') }}</span>
+                                    <span class="badge rounded-pill cursor-pointer text-bg-danger">{{ trans('labels.refunded') }}</span>
                                 @else
-                                    <span
-                                        class="badge rounded-pill cursor-pointer partial-pill">{{ trans('labels.partial') }}</span>
+                                    <span class="badge rounded-pill cursor-pointer partial-pill">{{ trans('labels.pending') }}</span>
                                 @endif
                             </td>
                             <td>
                                 @if ($bookingdata->booking_status == 1)
-                                    <span
-                                        class="badge rounded-pill cursor-pointer text-bg-success">{{ trans('labels.confirmed') }}</span>
+                                    <span class="badge rounded-pill cursor-pointer text-bg-success">{{ trans('labels.confirmed') }}</span>
                                 @elseif ($bookingdata->booking_status == 2)
-                                    <span
-                                        class="badge rounded-pill cursor-pointer text-bg-warning">{{ trans('labels.pending') }}</span>
+                                    <span class="badge rounded-pill cursor-pointer text-bg-warning">{{ trans('labels.in_progress') }}</span>
+                                @elseif($bookingdata->booking_status == 3)
+                                    <span class="badge rounded-pill cursor-pointer text-bg-danger">{{ trans('labels.cancelled') }}</span>
                                 @else
-                                    <span
-                                        class="badge rounded-pill cursor-pointer text-bg-danger">{{ trans('labels.cancelled') }}</span>
+                                    <span class="badge rounded-pill cursor-pointer text-bg-info">{{ trans('labels.pending') }}</span>
                                 @endif
                             </td>
                             <td>

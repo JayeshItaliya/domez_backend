@@ -208,8 +208,8 @@ class DomesController extends Controller
                 // 'fields_discount' => $dome->fields_discount,
                 // 'fields_discount_type' => $dome->fields_discount_type,
                 'booking_mode' => $dome->booking_mode,
-                'age_discounts' => $dome->dome_discounts->makeHidden(['created_at', 'updated_at']),
-                'field_discounts' => $dome->dome_field_discounts->makeHidden(['created_at', 'updated_at']),
+                'age_discounts' => collect($dome->dome_discounts->makeHidden(['created_at', 'updated_at']))->where('sport_id',$request->sport_id)->values()->all(),
+                'field_discounts' => collect($dome->dome_field_discounts->makeHidden(['created_at', 'updated_at']))->where('sport_id',$request->sport_id)->values()->all(),
                 'policies_rules' => $dome->policies_rules ?? "",
             );
             return response()->json(["status" => 1, "message" => "Successful", 'dome_setting' => $data], 200);

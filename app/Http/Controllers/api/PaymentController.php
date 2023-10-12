@@ -25,6 +25,35 @@ class PaymentController extends Controller
     {
         return response()->json(["status" => 1, "message" => "Successfull", 'data' => Helper::stripe_data()], 200);
     }
+    public function check_slots(Request $request)
+    {
+        if (!$request->filled('dome_id')) {
+            return response()->json(["status" => 0, "message" => "Dome Required"], 200);
+        }
+        if (!$request->filled('date')) {
+            return response()->json(["status" => 0, "message" => "Date Required"], 200);
+        }
+        if (!$request->filled('sport_id')) {
+            return response()->json(["status" => 0, "message" => "Sport Required"], 200);
+        }
+        if (!$request->filled('slots')) {
+            return response()->json(["status" => 0, "message" => "Slots Required"], 200);
+        }
+        try {
+            foreach (explode(',', $request->slots) as $slot) {
+                $start_time = date('H:i', strtotime(explode(' - ', $slot)[0]));
+                $end_time = date('H:i', strtotime(explode(' - ', $slot)[1]));
+                $checkslot = SetPricesDaysSlots::where('dome_id', $request->dome_id)->whereDate('date', date('Y-m-d', strtotime($request->date)))->where('sport_id', $request->sport_id)->where('status', 1)->where('start_time', $start_time)->where('end_time', $end_time)->first();
+                if (empty($checkslot)) {
+                    return response()->json(["status" => 2, "message" => "Time slot has been already booked!",], 200);
+                }
+            }
+            return response()->json(["status" => 1, "message" => "Successfull",], 200);
+        } catch (\Throwable $th) {
+            Log::channel('api')->info("Check TIme Slots Available API Error ==> " . $th->getMessage());
+            return response()->json(['status' => 0, "message" => 'Something went wrong..'], 200);
+        }
+    }
     public function send_booking_request(Request $request)
     {
         if (in_array($request->user_id, [0, ''])) {
@@ -193,13 +222,13 @@ class PaymentController extends Controller
     }
     public function payment(Request $request)
     {
-        if($request->filled('is_booking_request_accepted') && $request->is_booking_request_accepted == 1){
+        if ($request->filled('is_booking_request_accepted') && $request->is_booking_request_accepted == 1) {
             // Booking Request is Accepted (First Payment)
             if ($request->booking_id == "") {
                 return response()->json(["status" => 0, "message" => "Booking ID is required"], 200);
             }
             $booking = Booking::find($request->booking_id);
-            if(empty($booking)){
+            if (empty($booking)) {
                 return response()->json(["status" => 0, "message" => "invalid Booking"], 200);
             }
             if (!in_array($request->payment_type, [1, 2])) {
@@ -214,16 +243,14 @@ class PaymentController extends Controller
             $field_id = $booking->field_id;
             $team_name = '';
             $booking_type = $booking->type;
-            if($booking_type == 2){
+            if ($booking_type == 2) {
                 $league = League::where('id', $booking->league_id)->first();
                 $sport_id = $league->sport_id;
                 $field_id = $league->field_id;
             }
 
             $user = $checkuser = User::find($request->user_id);
-
-
-        }else{
+        } else {
             if (in_array($request->user_id, [0, ''])) {
                 if ($request->customer_email == "") {
                     return response()->json(["status" => 0, "message" => "Please Enter Customer Email"], 200);
@@ -338,7 +365,7 @@ class PaymentController extends Controller
         DB::beginTransaction();
         $transaction_id = $request->transaction_id;
         try {
-            if(!$request->filled('is_booking_request_accepted') || $request->is_booking_request_accepted != 1){
+            if (!$request->filled('is_booking_request_accepted') || $request->is_booking_request_accepted != 1) {
 
                 $booking = new Booking();
                 $booking->vendor_id = $dome->vendor_id;
@@ -423,7 +450,7 @@ class PaymentController extends Controller
             }
             Helper::booking_confirmation($booking);
             DB::commit();
-            return response()->json(['status' => 1, "message" => "Successful", "transaction_id" => $transaction_id, "booking_id" => $booking->id, "payment_link" => URL::to('/payment/' . $booking->token), "booking_created_at" => Carbon::parse($booking->booking_accepted_at	)->setTimezone(env('SET_TIMEZONE'))->toDateTimeString(), "current_time" => Carbon::now()->setTimezone(env('SET_TIMEZONE'))->toDateTimeString(),], 200);
+            return response()->json(['status' => 1, "message" => "Successful", "transaction_id" => $transaction_id, "booking_id" => $booking->id, "payment_link" => URL::to('/payment/' . $booking->token), "booking_created_at" => Carbon::parse($booking->booking_accepted_at)->setTimezone(env('SET_TIMEZONE'))->toDateTimeString(), "current_time" => Carbon::now()->setTimezone(env('SET_TIMEZONE'))->toDateTimeString(),], 200);
         } catch (\Throwable $th) {
             DB::rollback();
             Log::channel('api')->info("Payment API Error ==> " . $th->getMessage());

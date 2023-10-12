@@ -63,16 +63,14 @@
                 aria-controls="bookingsmeeting">
                 <i class="fa-regular fa-calendar-circle-plus {{ request()->is('admin/autometic-bookings*') || request()->is('admin/bookings-requests*') || request()->is('admin/blocked-timeslots*') ? 'text-secondary' : '' }}"></i>
                 <div class="ms-3 d-flex align-items-center justify-content-between w-100">
-
                     {{-- <span> {{ trans('labels.bookings') }} </span> --}}
                     <span class="position-relative">{{ trans('labels.bookings') }}
-                        @if (Helper::pending_booking_request_count(1) > 0)
+                        @if (Helper::pending_booking_request_count() > 0)
                             <small class="position-absolute translate-middle border border-light rounded-circle badge bg-primary p-1"
                                 style="top: 20%; left:115%; background-color:#FE3B30 !important;">
                             </small>
                         @endif
                     </span>
-
                     <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-down"
                         width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5"
                         stroke="{{ request()->is('admin/autometic-bookings*') || request()->is('admin/bookings-requests*') || request()->is('admin/blocked-timeslots*') ? 'var(--bs-secondary)' : '#2c3e50' }}"
@@ -82,11 +80,14 @@
                     </svg>
                 </div>
             </a>
-            <div class="collapse {{ request()->is('admin/autometic-bookings*') || request()->is('admin/bookings-requests*') || request()->is('admin/blocked-timeslots*') ? 'show' : '' }}"
-                id="bookingsmeeting">
+            <div class="collapse {{ request()->is('admin/autometic-bookings*') || request()->is('admin/bookings-requests*') || request()->is('admin/blocked-timeslots*') ? 'show' : '' }}" id="bookingsmeeting">
                 <ul class="nav d-grid">
                     <a href="{{ URL::to('admin/autometic-bookings') }}" class="nav-item fs-6"> <span class="nav-link {{ request()->is('admin/autometic-bookings*') ? 'active' : '' }}"> {{ trans('labels.autometic-bookings') }} </span> </a>
-                    <a href="{{ URL::to('admin/bookings-requests') }}" class="nav-item fs-6"> <span class="nav-link {{ request()->is('admin/bookings-requests*') ? 'active' : '' }}"> {{ trans('labels.bookings-requests') }} </span> </a>
+                    <a href="{{ URL::to('admin/bookings-requests') }}" class="nav-item fs-6 d-flex justify-contewnt-between"> <span class="nav-link w-100 {{ request()->is('admin/bookings-requests*') ? 'active' : '' }}"> {{ trans('labels.bookings-requests') }} </span>
+                        @if (Helper::pending_booking_request_count() > 0)
+                            <small class="badge bg-danger rounded-pill" style="font-size: 10px;height:fit-content;background-color:#FE3B30 !important;">{{ Helper::pending_booking_request_count() }}</small>
+                        @endif
+                    </a>
                     @if (in_array(auth()->user()->type, [2, 4]))
                         <a href="{{ URL::to('admin/blocked-timeslots') }}" class="nav-item fs-6"> <span class="nav-link {{ request()->is('admin/blocked-timeslots*') ? 'active' : '' }}"> {{ trans('labels.blocked-timeslots') }} </span> </a>
                     @endif

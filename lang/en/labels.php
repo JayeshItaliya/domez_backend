@@ -321,4 +321,9 @@ return [
     'discounts' => 'Discounts',
     'multi_field_discount' => 'Multi-field Discount',
     'number_of_fields' => 'Number of Fields',
+    'get_timeslots' => 'Get Timeslots',
+    'unblock_selected_slots' => 'Unblock Selected Slots',
+    'edit_discounts' => 'Edit Discounts',
+    'edit_policies_rules' => 'Edit Your Policies & Rules',
+    'in_progress' => 'In Progress',
 ];

@@ -94,8 +94,7 @@ $('#dome').on('change', function () {
                         $('#sport_id').append('<option value="' + elementValue.id + '"  ' + selected + ' >' + elementValue.name + '</option>');
                     });
                 } else {
-                    $('#sport_id').append('<option value="" selected disabled>' + no_data +
-                        '</option>');
+                    $('#sport_id').append('<option value="" selected disabled>' + no_data + '</option>');
                 }
             } else {
                 toastr.error(response.message);

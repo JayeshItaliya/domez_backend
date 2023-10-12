@@ -233,7 +233,7 @@
                             <div class="form-group">
                                 <label class="form-label">{{ trans('labels.team_limit') }}</label>
                                 <select class="form-select" required id="team_limit" name="team_limit">
-                                    @for ($i = 5; $i <= 20; $i++)
+                                    @for ($i = 1; $i <= 50; $i++)
                                         <option value="{{ $i }}"
                                             {{ $i == old('team_limit') ? 'selected' : '' }}>{{ $i }}</option>
                                     @endfor

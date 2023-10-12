@@ -49,6 +49,7 @@ class DomesController extends Controller
     }
     public function store(Request $request)
     {
+        dd(111);
         if (Domes::where('vendor_id', auth()->user()->id)->count() >= auth()->user()->dome_limit) {
             return response()->json(['status' => 0, 'message' => trans('messages.dome_limit_exceeded'),], 200);
         }

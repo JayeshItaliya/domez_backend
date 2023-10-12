@@ -40,7 +40,9 @@
                         </div>
                         <div class="col-sm-6">
                             <label class="form-label" for="sport_id">{{ trans('labels.select_sport') }}</label>
-                            <select class="form-select" name="sport_id" id="sport_id" data-sport-selected="{{ $field->sport_id }}"></select>
+                            <select class="form-select" name="sport_id" id="sport_id" data-sport-selected="{{ $field->sport_id }}">
+                                <option value="" selected>{{ trans('labels.select') }}</option>
+                            </select>
                             @error('sport_id')
                                 <small class="text-danger">{{ $message }}</small>
                             @enderror

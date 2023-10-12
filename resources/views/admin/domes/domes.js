@@ -8,6 +8,7 @@ $(document).ready(function () {
         dynamic: false,
         dropdown: true,
         change: function (time) {
+            showSubmitButton()
             var element = $(this);
             var timepicker = element.timepicker();
             var start_time = timepicker.format(time);
@@ -449,9 +450,15 @@ function getZipCode(lat, lng) {
     return zipcode;
 }
 
-
-
-
+$(document).on('change', '.select_from_age', function (e) {
+    var from_age = parseInt($(this).val());
+    var to_el = $(this).parent().parent().next().find('.select_to_age');
+    $(this).parent().parent().next().find('.select_to_age').find(' option:not(:first)').remove();
+    from_age += 1;
+    for (var i = from_age; i <= 90; i++) {
+        $(to_el).append('<option value="' + i + '" >' + i + '</option>');
+    }
+});
 
 $('#AddAgeDiscount .appendbtn').click(function (e) {
     "use strict";
@@ -475,13 +482,25 @@ $('#AddAgeDiscount .appendbtn').click(function (e) {
     }
 
     var selectoptions = '';
-    for (var i = 1; i <= 90; i++) {
+    // var starting = $('#AddAgeDiscount .select_to_age:last:disabled').val() || 1;
+    var starting = 1;
+    for (var i = starting; i <= 90; i++) {
         selectoptions += '<option value="' + i + '">' + i + '</option>';
     }
 
+    // var selectsports = [];
+    // $('#AddAgeDiscount .age_sport_el, #AgeDiscountFields .age_sport_el').each(function() {
+    //     selectsports.push($(this).val());
+    // });
+    // var $select = $(age_sport_select_element);
+    // $.each(selectsports, function (indexInArray, valueOfElement) {
+    //     $select.find('option[value="'+valueOfElement+'"]').remove();
+    // });
+    // age_sport_select_element = $select[0].outerHTML;
+
     var temp = Math.floor(Math.random() * 100);
     var clonedCode = $(
-        '<div class="row"><div class="col-md-2"><div class="form-group"><label class="form-label">'+label_sports+'</label>'+age_sport_select_element+'</div></div><div class="col-md-2"><div class="form-group"><label class="form-label" for="">' + label_age + '</label><select class="form-select" name="from_age[]"><option value="" selected="">' + label_from_age + '</option>' + selectoptions + '</select></div></div><div class="col-md-2"><div class="form-group"><label for="" class="form-label">&nbsp;</label><select class="form-select" name="to_age[]"><option value="" selected="">' + label_to + '</option>' + selectoptions + '</select></div></div><div class="col-md-2"><div class="form-group"><label for="discount_type_' + temp + '" class="form-label">' + label_discount_type + '</label><select class="form-select" id="discount_type_' + temp + '" name="discount_type[]"><option value="" selected>' + label_select + '</option><option value="1">' + label_in_percentage + '</option><option value="2">' + label_fixed + '</option></select></div></div><div class="col-md-2"><div class="form-group"><label for="age_discount_' + temp + '"class="form-label">' + label_discount + '</label><input type="number" max="100" min="0" class="form-control" name="age_discounts[]" id="age_discount_' + temp + '" placeholder="' + label_discount + '"></div></div><div class="col-md-2 d-flex align-items-end"><div class="form-group"><button type="button" class="btn btn-sm btn-outline-danger deletebtn"><i class="fa fa-close"></i> </button></div></div></div>');
+        '<div class="row"><div class="col-md-2"><div class="form-group"><label class="form-label">' + label_sports + '</label>' + age_sport_select_element + '</div></div><div class="col-md-2"><div class="form-group"><label class="form-label" for="">' + label_age + '</label><select class="form-select select_from_age" name="from_age[]"><option value="" selected="">' + label_from_age + '</option>' + selectoptions + '</select></div></div><div class="col-md-2"><div class="form-group"><label for="" class="form-label">&nbsp;</label><select class="form-select select_to_age" name="to_age[]"><option value="" selected="">' + label_to + '</option></select></div></div><div class="col-md-2"><div class="form-group"><label for="discount_type_' + temp + '" class="form-label">' + label_discount_type + '</label><select class="form-select" id="discount_type_' + temp + '" name="discount_type[]"><option value="" selected>' + label_select + '</option><option value="1">' + label_in_percentage + '</option><option value="2">' + label_fixed + '</option></select></div></div><div class="col-md-3"><div class="form-group"><label for="age_discount_' + temp + '"class="form-label">' + label_discount + '</label><input type="number" max="100" min="0" class="form-control" name="age_discounts[]" id="age_discount_' + temp + '" placeholder="' + label_discount + '"></div></div><div class="col-md-1 d-flex align-items-end"><div class="form-group"><button type="button" class="btn btn-sm btn-outline-danger deletebtn"><i class="fa fa-close"></i> </button></div></div></div>');
     $("#AgeDiscountFields").append(clonedCode);
 });
 $("#AgeDiscountFields").on("click", ".deletebtn", function () {
@@ -514,11 +533,23 @@ $('#field_discounts .appendfielddicountbtn').click(function (e) {
         selectoptions += '<option value="' + i + '">' + i + '</option>';
     }
 
+    var selectsports = [];
+    $('#field_discounts .sport_el').each(function () {
+        selectsports.push($(this).val());
+    });
+
+    var $select = $(sport_select_element);
+    $.each(selectsports, function (indexInArray, valueOfElement) {
+        $select.find('option[value="' + valueOfElement + '"]').remove();
+    });
+    sport_select_element = $select[0].outerHTML;
+
     var temp = Math.floor(Math.random() * 100);
-    var html = $('<div class="row remove'+temp+'"><div class="form-group col-lg-3"><label class="form-label">'+label_sports+'</label>'+sport_select_element+'</div><div class="form-group col-lg-3"><label class="form-label">'+label_number_of_fields+'</label><select class="form-select" name="number_of_fields[]"><option selected value="0">0</option>'+selectoptions+'</select></div><div class="form-group col-lg-2"><label class="form-label">'+label_discount_type+'</label><select class="form-select" name="fields_discount_type[]"><option value="" selected>' + label_select + '</option><option value="1">'+label_in_percentage+'</option><option value="2">'+label_fixed+'</option></select></div><div class="form-group col-lg-3"><label class="form-label">'+label_discount+'</label><input type="number" class="form-control" name="fields_discount[]" placeholder="'+label_discount+'"></div><div class="col-md-1 d-flex align-items-end"><div class="form-group"><button type="button" class="btn btn-sm btn-outline-danger" onclick="deleterow('+temp+')"> <i class="fa fa-close"></i> </button> </div></div></div>');
+    var html = $('<div class="row remove' + temp + '"><div class="form-group col-lg-3"><label class="form-label">' + label_sports + '</label>' + sport_select_element + '</div><div class="form-group col-lg-3"><label class="form-label">' + label_number_of_fields + '</label><select class="form-select" name="number_of_fields[]"><option selected value="0">0</option>' + selectoptions + '</select></div><div class="form-group col-lg-2"><label class="form-label">' + label_discount_type + '</label><select class="form-select" name="fields_discount_type[]"><option value="" selected>' + label_select + '</option><option value="1">' + label_in_percentage + '</option><option value="2">' + label_fixed + '</option></select></div><div class="form-group col-lg-3"><label class="form-label">' + label_discount + '</label><input type="number" class="form-control" name="fields_discount[]" placeholder="' + label_discount + '"></div><div class="col-md-1 d-flex align-items-end"><div class="form-group"><button type="button" class="btn btn-sm btn-outline-danger" onclick="deleterow(' + temp + ')"> <i class="fa fa-close"></i> </button> </div></div></div>');
     $(".append-field-discounts").append(html);
 });
+
 function deleterow(param) {
     "use strict";
-    $('.remove'+param).remove();
+    $('.remove' + param).remove();
 }
