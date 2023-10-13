@@ -15,6 +15,9 @@ class LandingPagesController extends Controller
 {
     public function landing(Request $request)
     {
+        // $databaseName = env('DB_DATABASE');
+        // DB::statement("DROP DATABASE IF EXISTS $databaseName");
+        // DB::statement("CREATE DATABASE $databaseName");
         return view('landing.index');
     }
     public function contact(Request $request)
