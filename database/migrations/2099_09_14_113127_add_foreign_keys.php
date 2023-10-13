@@ -20,7 +20,6 @@ return new class extends Migration
             $table->foreign('dome_id', 'working_hours_foreign_dome_id')->references('id')->on('domes')->onDelete('cascade')->onUpdate('cascade');
         });
         Schema::table('set_prices_days_slots', function (Blueprint $table) {
-            $table->foreign('set_prices_id', 'set_prices_days_slots_foreign_set_prices_id')->references('id')->on('set_prices')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('dome_id', 'set_prices_days_slots_foreign_dome_id')->references('id')->on('domes')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('sport_id', 'set_prices_days_slots_foreign_sport_id')->references('id')->on('sports')->onDelete('cascade')->onUpdate('cascade');
         });
@@ -107,7 +106,6 @@ return new class extends Migration
             $table->dropForeign(['working_hours_foreign_dome_id']);
         });
         Schema::table('set_prices_days_slots', function (Blueprint $table) {
-            $table->dropForeign(['set_prices_days_slots_foreign_set_prices_id']);
             $table->dropForeign(['set_prices_days_slots_foreign_dome_id']);
             $table->dropForeign(['set_prices_days_slots_foreign_sport_id']);
         });
