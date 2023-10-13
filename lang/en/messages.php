@@ -80,7 +80,11 @@ return [
     "field_required" => "This field is required!",
     'dome_policy' => 'Please Enter Dome Policy',
     'some_slots_recent_blocked' => 'Some Slots has been recently blocked',
-
-
     'dome_limit_exceeded' => 'Maximim dome Limit has beed exceeded',
+    "dome_zipcode_required" => "Le code postal du Dôme est requis",
+    "dome_city_required" => "La ville du Dôme est requise",
+    "dome_state_required" => "L'état du Dôme est requis",
+    "dome_country_required" => "Le pays du Dôme est requis",
+    "dome_address_required" => "L'adresse du Dôme est requise",
+    'phone_required' => 'Veuillez entrer le numéro de téléphone',
 ];

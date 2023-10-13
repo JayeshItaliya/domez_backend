@@ -317,4 +317,12 @@ return [
     'all_slots' => 'Toutes les machines à sous',
     'available' => 'Disponible',
     'blocked' => 'Bloquée',
+    'discounts' => 'Remises',
+    'multi_field_discount' => 'Remise Multi-champs',
+    'number_of_fields' => 'Nombre de Champs',
+    'get_timeslots' => 'Obtenir les Plages Horaires',
+    'unblock_selected_slots' => 'Débloquer les Plages Sélectionnées',
+    'edit_discounts' => 'Modifier les Remises',
+    'edit_policies_rules' => 'Modifier Vos Politiques et Règles',
+    'in_progress' => 'En Cours',
 ];

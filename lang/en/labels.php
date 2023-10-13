@@ -317,7 +317,6 @@ return [
     'all_slots' => 'All Slots',
     'available' => 'Available',
     'blocked' => 'Blocked',
-
     'discounts' => 'Discounts',
     'multi_field_discount' => 'Multi-field Discount',
     'number_of_fields' => 'Number of Fields',
