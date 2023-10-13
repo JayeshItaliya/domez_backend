@@ -203,6 +203,8 @@ Route::group(['middleware' => 'SetTimeZoneMiddleware'], function () {
                 Route::get('getsports', [FieldController::class, 'getsportslist']);
             });
         });
+        Route::get('/autometic-bookings', [BookingController::class, 'index']);
+            Route::get('/bookings-requests', [BookingController::class, 'index']);
         Route::group(['middleware' => 'VendorAndEmployeeMiddleware'], function () {
             Route::group(['prefix' => 'set-prices'], function () {
                 Route::get('/', [DomesPriceController::class, 'index']);
@@ -218,8 +220,6 @@ Route::group(['middleware' => 'SetTimeZoneMiddleware'], function () {
                 Route::get('', [ReviewController::class, 'index']);
                 Route::post('reply', [ReviewController::class, 'replymessage']);
             });
-            Route::get('/autometic-bookings', [BookingController::class, 'index']);
-            Route::get('/bookings-requests', [BookingController::class, 'index']);
             Route::get('/blocked-timeslots', [BookingController::class, 'blocked_timeslots']);
             Route::post('/fetch-slots', [BookingController::class, 'blocked_timeslots_fetch'])->name('fetch.blocked.slots');
             Route::post('/block-slots', [BookingController::class, 'blockslots'])->name('block.slots');

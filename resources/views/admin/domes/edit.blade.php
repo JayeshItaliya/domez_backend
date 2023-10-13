@@ -814,15 +814,6 @@
             }
         });
 
-
-        function showSubmitButton() {
-            $("#submitBtn").show();
-        }
-
-        function hideSubmitButton() {
-            $("#submitBtn").hide();
-        }
-        // $("#edit_working_hours input, #edit_working_hours select").on("change", showSubmitButton);
         $(document).ready(function() {
             $("#edit_working_hours select").on("change",function () {
                 showSubmitButton()

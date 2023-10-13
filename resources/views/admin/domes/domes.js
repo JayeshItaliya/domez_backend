@@ -49,6 +49,13 @@ $(document).ready(function () {
         },
     });
 });
+function showSubmitButton() {
+    $("#submitBtn").show();
+}
+
+function hideSubmitButton() {
+    $("#submitBtn").hide();
+}
 // $(document).ready(function () {
 //     $('.time_picker__start').timepicker({
 //         interval: 60,

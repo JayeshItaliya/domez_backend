@@ -294,6 +294,8 @@ class Helper
         $getcount = Enquiries::where('type', $type)->where('is_replied', 2)->count();
         if ($type == 5 && auth()->user()->type != 1) {
             $getcount = Enquiries::where('type', $type)->where('vendor_id', auth()->user()->type == 2 ? auth()->user()->id : auth()->user()->vendor_id)->where('is_replied', 2)->count();
+        } elseif ($type == 3 && in_array(auth()->user()->type, [2, 4])) {
+            $getcount = Enquiries::where('type', $type)->where('vendor_id', auth()->user()->type == 2 ? auth()->user()->id : auth()->user()->vendor_id)->where('is_replied', 2)->count();
         }
         return $getcount;
     }

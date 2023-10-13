@@ -43,37 +43,34 @@ class EnquiryController extends Controller
         try {
             $password = Str::random(8);
             $enquiry_data = Enquiries::find($request->id);
-            $data = ['title' => 'Reply: Dome Request Accepted', 'email' => $enquiry_data->email, 'name' => $enquiry_data->name, 'password' => $password, 'is_exist' => $enquiry_data->is_exist];
+
+            $send_login_data = 2;
+
+            if ($enquiry_data->type == 3) {
+                $user = User::DomeOwner()->where('email', $enquiry_data->email)->first();
+                if (!empty($user)) {
+                    $user->dome_limit += 1;
+                    $user->save();
+                } else {
+                    $user = new User();
+                    $user->type = 2;
+                    $user->login_type = 1;
+                    $user->dome_limit = 1;
+                    $user->name = $enquiry_data->name;
+                    $user->email = $enquiry_data->email;
+                    $user->password = Hash::make($password);
+                    $user->phone = $enquiry_data->phone;
+                    $user->is_verified = 1;
+                    $user->save();
+                    $send_login_data = 1;
+                }
+                $enquiry_data->vendor_id = $user->id;
+            }
+            $data = ['title' => 'Reply: Dome Request Accepted', 'email' => $enquiry_data->email, 'name' => $enquiry_data->name, 'password' => $password, 'is_exist' => $enquiry_data->is_exist,'send_login_data' =>$send_login_data];
             Mail::send('email.accept_dome_request', $data, function ($message) use ($data) {
                 $message->from(env('MAIL_USERNAME'))->subject($data['title']);
                 $message->to($data['email']);
             });
-            // Find the user with the given email and type = 2
-            // $user = User::DomeOwner()->where('email', $enquiry_data->email)->first();
-
-            // if (!empty($user)) {
-            //     if ($user->dome_limit == 0) {
-            //         // If the dome_limit is 0, update it to 1
-            //         $user->update(['dome_limit' => 1]);
-            //     } else {
-            //         // If the dome_limit is not 0, increment it by 1
-            //         $user->increment('dome_limit');
-            //     }
-            // } else {
-            //     // If the user doesn't exist, create a new one
-            //     $user = new User();
-            //     $user->type = 2;
-            //     $user->login_type = 1;
-            //     $user->dome_limit = 1;
-            //     $user->name = $enquiry_data->name;
-            //     $user->email = $enquiry_data->email;
-            //     $user->password = Hash::make($password);
-            //     $user->phone = $enquiry_data->phone;
-            //     $user->is_verified = 1;
-            //     $user->save();
-            // }
-
-            // $enquiry_data->vendor_id = $user->id;
             $enquiry_data->is_accepted = 1;
             $enquiry_data->is_replied = 1;
             $enquiry_data->save();
