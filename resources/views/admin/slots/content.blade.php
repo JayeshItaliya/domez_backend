@@ -35,7 +35,6 @@
                 }
             }
         @endphp
-        {{-- @dump($slot) --}}
         @if ($requestdata['slot_type'] == 'available')
             @if (
                 ($inputattr != 'disabled' && $slot->status == 1) ||
