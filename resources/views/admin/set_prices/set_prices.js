@@ -33,10 +33,10 @@ $('#dome').on('change', function () {
         method: 'GET',
         beforeSend: function (response) {
             $('.slot-days').html(bs_spinner);
+            $('#sport option:not(:first)').remove();
         },
         success: function (response) {
             if (response.status == 1) {
-                $('#sport option:not(:first)').remove();
                 if (response.sportsdata.length > 0) {
                     $.each(response.sportsdata, function (arrayIndex, elementValue) {
                         let selected = $.trim($('#sport').attr('data-sport-selected')) == elementValue.id ? 'selected' : '';
@@ -58,8 +58,9 @@ $('#dome').on('change', function () {
         }
     });
 }).change();
-$('#storesetprices').on('submit', function () {
+$('#storesetprices').on('submit', function (event) {
     "use strict";
+    event.preventDefault();
     var check = 1;
     $.each($('#storesetprices select, #storesetprices input'), function (indexInArray, valueOfElement) {
         if ($.trim(valueOfElement.value) == '') {
@@ -84,6 +85,36 @@ $('#storesetprices').on('submit', function () {
     if (check == 0) {
         return false;
     }
+    var formData = new FormData(this);
+    $.ajax({
+        url: $(this).attr("action"),
+        type: "POST",
+        data: formData,
+        dataType: "json",
+        contentType: false,
+        processData: false,
+        beforeSend: function () {
+            showpreloader();
+        },
+        success: function (response) {
+            hidepreloader();
+            if (response.status == 1) {
+                toastr.success(response.message);
+                if (response.url) {
+                    location.href = response.url;
+                }
+                $('#storesetprices').trigger("reset");
+            } else {
+                toastr.error(response.message);
+            }
+            return false;
+        },
+        error: function (e) {
+            hidepreloader();
+            toastr.error(wrong);
+            return false;
+        },
+    });
 });
 $(document).on('click', ".accordion-header", function () {
     var st = $(lastOpenedAccordion + ' .card-body .extra_fields').find('.start.time_picker:last').val();

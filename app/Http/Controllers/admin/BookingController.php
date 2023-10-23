@@ -16,6 +16,7 @@ use Carbon\CarbonPeriod;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\URL;
 
 class BookingController extends Controller
@@ -70,10 +71,10 @@ class BookingController extends Controller
     }
     public function calendar(Request $request)
     {
-        $getbookingslist = Booking::orderByDesc('id');
+        $getbookingslist = Booking::orderByDesc('id')->get();
         $authuser = auth()->user();
-        if ($authuser->type = 1) {
-            $getbookingslist = Booking::where('vendor_id', $authuser->type == 2 ? $authuser->id : $authuser->vendor_id)->get();
+        if ($authuser->type == 1) {
+            $getbookingslist = Booking::where('vendor_id', $authuser->type == 2 ? $authuser->id : $authuser->vendor_id)->orderByDesc('id')->get();
         }
         return view('admin.bookings.calendar', compact('getbookingslist'));
     }
@@ -162,7 +163,8 @@ class BookingController extends Controller
                     return response()->json(['status' => 1, 'message' => trans('messages.success'), 'slots' => $html], 200);
                 }
             } catch (\Throwable $th) {
-                return response()->json(['status' => 0, 'message' => trans('messages.wrong')], 200);
+                Log::channel('bookings_logs')->error("=====> " . __FUNCTION__ . " error :- " . $th->getMessage() . " =====> At :- " . date('j F, Y | h:i A', strtotime(now())));
+                return response()->json(['status' => 0, 'message' => trans('messages.wrong'), 'err_msg' => $th->getMessage()], 200);
             }
         }
         $slots = SetPricesDaysSlots::where('sport_id', $bookingdata->sport_id)->whereDate('date', date('Y-m-d', strtotime($bookingdata->start_date)))->get();
@@ -176,7 +178,8 @@ class BookingController extends Controller
             $checkbooking->save();
             return response()->json(['status' => 1, 'message' => trans('messages.success')], 200);
         } catch (\Throwable $th) {
-            return response()->json(['status' => 0, 'message' => trans('messages.wrong')], 200);
+            Log::channel('bookings_logs')->error("=====> " . __FUNCTION__ . " error :- " . $th->getMessage() . " =====> At :- " . date('j F, Y | h:i A', strtotime(now())));
+            return response()->json(['status' => 0, 'message' => trans('messages.wrong'), 'err_msg' => $th->getMessage()], 200);
         }
     }
     public function cancel_booking(Request $request)
@@ -308,7 +311,8 @@ class BookingController extends Controller
                 return response()->json(['status' => 1, 'message' => trans('messages.success'), 'sportsdata' => $sports], 200);
             }
         } catch (\Throwable $th) {
-            return response()->json(['status' => 0, 'message' => trans('messages.wrong')], 200);
+            Log::channel('bookings_logs')->error("=====> " . __FUNCTION__ . " error :- " . $th->getMessage() . " =====> At :- " . date('j F, Y | h:i A', strtotime(now())));
+            return response()->json(['status' => 0, 'message' => trans('messages.wrong'), 'err_msg' => $th->getMessage()], 200);
         }
     }
     function blocked_timeslots_fetch(Request $request)
@@ -329,10 +333,15 @@ class BookingController extends Controller
             $getslotslist = $getslotslist->whereIn('status', [1, 2]);
             $getslotslist = $getslotslist->orderBy('date')->orderBy('start_time')->get();
             $requestdata = $request->input();
-            $slotshtml = view('admin.slots.content', compact('getslotslist', 'requestdata'))->render();
+
+            $dome = Domes::with(['working_hours'])->where('id', $request->dome)->first();
+            $closedays = $dome->working_hours->where('is_closed', 1)->pluck('day')->toArray();
+
+            $slotshtml = view('admin.slots.content', compact('getslotslist', 'requestdata', 'closedays'))->render();
             return response()->json(['status' => 1, 'message' => trans('messages.success'), 'slotshtml' => $slotshtml], 200);
         } catch (\Throwable $th) {
-            return response()->json(['status' => 0, 'message' => trans('messages.wrong')], 200);
+            Log::channel('bookings_logs')->error("=====> " . __FUNCTION__ . " error :- " . $th->getMessage() . " =====> At :- " . date('j F, Y | h:i A', strtotime(now())));
+            return response()->json(['status' => 0, 'message' => trans('messages.wrong'), 'err_msg' => $th->getMessage()], 200);
         }
     }
     function blockslots(Request $request)
@@ -349,7 +358,8 @@ class BookingController extends Controller
             }
             return response()->json(['status' => 2, 'message' => trans('messages.some_slots_recent_blocked')], 200);
         } catch (\Throwable $th) {
-            return response()->json(['status' => 0, 'message' => trans('messages.wrong')], 200);
+            Log::channel('bookings_logs')->error("=====> " . __FUNCTION__ . " error :- " . $th->getMessage() . " =====> At :- " . date('j F, Y | h:i A', strtotime(now())));
+            return response()->json(['status' => 0, 'message' => trans('messages.wrong'), 'err_msg' => $th->getMessage()], 200);
         }
     }
     function unblockslots(Request $request)
@@ -361,7 +371,8 @@ class BookingController extends Controller
             SetPricesDaysSlots::whereIn('id', explode(',', $request->ids))->update(['status' => 1]);
             return response()->json(['status' => 1, 'message' => trans('messages.success')], 200);
         } catch (\Throwable $th) {
-            return response()->json(['status' => 0, 'message' => trans('messages.wrong')], 200);
+            Log::channel('bookings_logs')->error("=====> " . __FUNCTION__ . " error :- " . $th->getMessage() . " =====> At :- " . date('j F, Y | h:i A', strtotime(now())));
+            return response()->json(['status' => 0, 'message' => trans('messages.wrong'), 'err_msg' => $th->getMessage()], 200);
         }
     }
 }

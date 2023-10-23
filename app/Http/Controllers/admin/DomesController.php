@@ -19,6 +19,7 @@ use Carbon\CarbonImmutable;
 use App\Models\DomeDiscounts;
 use App\Models\DomeFieldDiscounts;
 use App\Models\WorkingHours;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Mail;
@@ -28,19 +29,21 @@ class DomesController extends Controller
 {
     public function index(Request $request)
     {
-        if (auth()->user()->type == 1) {
+        $authuser = auth()->user();
+        if ($authuser->type == 1) {
             $domes = Domes::with('dome_image', 'dome_owner')->NotDeleted()->get();
             $domes_count = 0;
         } else {
-            $domes = Domes::with('dome_image')->where('vendor_id', auth()->user()->type == 2 ? auth()->user()->id : auth()->user()->vendor_id)->NotDeleted()->get();
-            $domes_count = Domes::where('vendor_id', auth()->user()->type == 2 ? auth()->user()->id : auth()->user()->vendor_id)->count();
+            $domes = Domes::with('dome_image')->where('vendor_id', $authuser->type == 2 ? $authuser->id : $authuser->vendor_id)->NotDeleted()->get();
+            $domes_count = Domes::where('vendor_id', $authuser->type == 2 ? $authuser->id : $authuser->vendor_id)->count();
         }
         $sports = Sports::Available()->NotDeleted()->get();
         return view('admin.domes.index', compact('domes', 'sports', 'domes_count'));
     }
     public function add(Request $request)
     {
-        if (Domes::where('vendor_id', auth()->user()->id)->count() < auth()->user()->dome_limit) {
+        $authuser = auth()->user();
+        if (Domes::where('vendor_id', $authuser->id)->count() < $authuser->dome_limit) {
             $getsportslist = Sports::Available()->NotDeleted()->get();
             return view('admin.domes.add', compact('getsportslist'));
         } else {
@@ -49,7 +52,8 @@ class DomesController extends Controller
     }
     public function store(Request $request)
     {
-        if (Domes::where('vendor_id', auth()->user()->id)->count() >= auth()->user()->dome_limit) {
+        $authuser = auth()->user();
+        if (Domes::where('vendor_id', $authuser->id)->count() >= $authuser->dome_limit) {
             return response()->json(['status' => 0, 'message' => trans('messages.dome_limit_exceeded'),], 200);
         }
         $validator = Validator::make($request->input(), [
@@ -77,7 +81,7 @@ class DomesController extends Controller
         DB::beginTransaction();
         try {
             $dome = new Domes();
-            $dome->vendor_id = auth()->user()->id;
+            $dome->vendor_id = $authuser->id;
             $dome->sport_id = implode(",", $request->sport_id);
             $dome->name = $request->dome_name;
             $dome->hst = $request->dome_hst;
@@ -103,7 +107,7 @@ class DomesController extends Controller
             $dome->save();
             foreach ($request->day as $key => $dayname) {
                 $wh = new WorkingHours();
-                $wh->vendor_id = auth()->user()->id;
+                $wh->vendor_id = $authuser->id;
                 $wh->dome_id = $dome->id;
                 $wh->day = strtolower($dayname);
                 $wh->open_time = $request->open_time[$key];
@@ -137,7 +141,7 @@ class DomesController extends Controller
                 $checksportexist =  SetPrices::where('dome_id', $dome->id)->where('sport_id', $sport)->where('price_type', 1)->first();
                 if (empty($checksportexist)) {
                     $checksportexist = new SetPrices();
-                    $checksportexist->vendor_id = auth()->user()->id;
+                    $checksportexist->vendor_id = $authuser->id;
                     $checksportexist->price_type = 1;
                 }
                 $checksportexist->price = $request->dome_price[$key];
@@ -176,7 +180,8 @@ class DomesController extends Controller
             return response()->json(['status' => 1, 'message' => trans('messages.success'), 'url' => URL::to('admin/domes')], 200);
         } catch (\Throwable $th) {
             DB::rollback();
-            return response()->json(['status' => 0, 'message' => trans('messages.wrong'),], 200);
+            Log::channel('domes_logs')->error("=====> ".__FUNCTION__." error :- ".$th->getMessage()." =====> At :- ".date('j F, Y | h:i A', strtotime(now())));
+            return response()->json(['status' => 0, 'message' => trans('messages.wrong'), 'err_msg' => $th->getMessage()], 200);
         }
     }
     public function dome_details(Request $request)
@@ -469,7 +474,8 @@ class DomesController extends Controller
             return response()->json(['status' => 1, 'message' => trans('messages.success'), 'url' => URL::to('admin/domes')], 200);
         } catch (\Throwable $th) {
             DB::rollback();
-            return response()->json(['status' => 0, 'message' => trans('messages.wrong'),], 200);
+            Log::channel('domes_logs')->error("=====> ".__FUNCTION__." error :- ".$th->getMessage()." =====> At :- ".date('j F, Y | h:i A', strtotime(now())));
+            return response()->json(['status' => 0, 'message' => trans('messages.wrong'), 'err_msg' => $th->getMessage()], 200);
         }
     }
     public function delete(Request $request)
@@ -487,7 +493,8 @@ class DomesController extends Controller
             }
             return response()->json(['status' => 0, 'message' => trans('messages.invalid_dome')], 200);
         } catch (\Throwable $th) {
-            return response()->json(['status' => 0, 'message' => trans('messages.wrong')], 200);
+            Log::channel('domes_logs')->error("=====> ".__FUNCTION__." error :- ".$th->getMessage()." =====> At :- ".date('j F, Y | h:i A', strtotime(now())));
+            return response()->json(['status' => 0, 'message' => trans('messages.wrong'), 'err_msg' => $th->getMessage()], 200);
         }
     }
     public function image_delete(Request $request)
@@ -500,7 +507,8 @@ class DomesController extends Controller
             $image->delete();
             return response()->json(['status' => 1, 'message' => trans('messages.success')], 200);
         } catch (\Throwable $th) {
-            return response()->json(['status' => 0, 'message' => trans('messages.wrong')], 200);
+            Log::channel('domes_logs')->error("=====> ".__FUNCTION__." error :- ".$th->getMessage()." =====> At :- ".date('j F, Y | h:i A', strtotime(now())));
+            return response()->json(['status' => 0, 'message' => trans('messages.wrong'), 'err_msg' => $th->getMessage()], 200);
         }
     }
     public function discount_delete(Request $request)
@@ -509,7 +517,8 @@ class DomesController extends Controller
             DomeDiscounts::where('id', $request->id)->delete();
             return response()->json(['status' => 1, 'message' => trans('messages.success')], 200);
         } catch (\Throwable $th) {
-            return response()->json(['status' => 0, 'message' => trans('messages.wrong')], 200);
+            Log::channel('domes_logs')->error("=====> ".__FUNCTION__." error :- ".$th->getMessage()." =====> At :- ".date('j F, Y | h:i A', strtotime(now())));
+            return response()->json(['status' => 0, 'message' => trans('messages.wrong'), 'err_msg' => $th->getMessage()], 200);
         }
     }
     public function fdiscount_delete(Request $request)
@@ -518,7 +527,8 @@ class DomesController extends Controller
             DomeFieldDiscounts::where('id', $request->id)->delete();
             return response()->json(['status' => 1, 'message' => trans('messages.success')], 200);
         } catch (\Throwable $th) {
-            return response()->json(['status' => 0, 'message' => trans('messages.wrong')], 200);
+            Log::channel('domes_logs')->error("=====> ".__FUNCTION__." error :- ".$th->getMessage()." =====> At :- ".date('j F, Y | h:i A', strtotime(now())));
+            return response()->json(['status' => 0, 'message' => trans('messages.wrong'), 'err_msg' => $th->getMessage()], 200);
         }
     }
     public function managetime(Request $request)
@@ -556,7 +566,8 @@ class DomesController extends Controller
             }
             return response()->json(['status' => 1, 'message' => trans('messages.success')], 200);
         } catch (\Throwable $th) {
-            return response()->json(['status' => 0, 'message' => trans('messages.wrong')], 200);
+            Log::channel('domes_logs')->error("=====> ".__FUNCTION__." error :- ".$th->getMessage()." =====> At :- ".date('j F, Y | h:i A', strtotime(now())));
+            return response()->json(['status' => 0, 'message' => trans('messages.wrong'), 'err_msg' => $th->getMessage()], 200);
         }
     }
     public function new_request(Request $request)

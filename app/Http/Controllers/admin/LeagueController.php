@@ -13,6 +13,7 @@ use App\Models\Sports;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
 
 class LeagueController extends Controller
 {
@@ -52,11 +53,12 @@ class LeagueController extends Controller
                     $fields = $fields->where('sport_id', $request->sport);
                 }
                 $fields = $fields->orderByDesc('id')->get();
-                return response()->json(['status' => 1, 'message' => trans('messages.success'), 'sportsdata' => $sports, 'fieldsdata' => $fields,'working_days'=>$working_days], 200);
+                return response()->json(['status' => 1, 'message' => trans('messages.success'), 'sportsdata' => $sports, 'fieldsdata' => $fields, 'working_days' => $working_days], 200);
             }
             return response()->json(['status' => 0, 'message' => trans('messages.invalid_dome')], 200);
         } catch (\Throwable $th) {
-            return response()->json(['status' => 0, 'message' => trans('messages.wrong')], 200);
+            Log::channel('leagues_logs')->error("=====> " . __FUNCTION__ . " error :- " . $th->getMessage() . " =====> At :- " . date('j F, Y | h:i A', strtotime(now())));
+            return response()->json(['status' => 0, 'message' => trans('messages.wrong'), 'err_msg' => $th->getMessage()], 200);
         }
     }
     public function store(Request $request)
@@ -132,7 +134,7 @@ class LeagueController extends Controller
             $league->end_date = $request->end_date;
             $league->start_time = $request->start_time;
             $league->end_time = $request->end_time;
-            $league->days = implode(' | ',$request->days);
+            $league->days = implode(' | ', $request->days);
             $league->from_age = $request->from_age;
             $league->to_age = $request->to_age;
             $league->gender = $request->gender;
@@ -174,12 +176,12 @@ class LeagueController extends Controller
     }
     public function edit(Request $request)
     {
-        $getleaguedata = League::where('id',$request->id)->where('vendor_id', auth()->user()->type == 2 ? auth()->user()->id : auth()->user()->vendor_id);
+        $getleaguedata = League::where('id', $request->id)->where('vendor_id', auth()->user()->type == 2 ? auth()->user()->id : auth()->user()->vendor_id);
         if (auth()->user()->type == 5) {
             $getleaguedata = $getleaguedata->where('provider_id', auth()->user()->id);
         }
         $getleaguedata = $getleaguedata->first();
-        abort_if(empty($getleaguedata),404);
+        abort_if(empty($getleaguedata), 404);
         $vendor_id = auth()->user()->type == 2 ? auth()->user()->id : auth()->user()->vendor_id;
         $getdomedata = Domes::where('id', $getleaguedata->dome_id)->where('vendor_id', $vendor_id)->NotDeleted()->first();
         $sports = Sports::whereIn('id', explode(',', $getdomedata->sport_id))->Available()->NotDeleted()->orderByDesc('id')->get();
@@ -200,7 +202,8 @@ class LeagueController extends Controller
             $field->save();
             return response()->json(['status' => 1, 'message' => trans('messages.success')], 200);
         } catch (\Throwable $th) {
-            return response()->json(['status' => 0, 'message' => trans('messages.wrong')], 200);
+            Log::channel('leagues_logs')->error("=====> " . __FUNCTION__ . " error :- " . $th->getMessage() . " =====> At :- " . date('j F, Y | h:i A', strtotime(now())));
+            return response()->json(['status' => 0, 'message' => trans('messages.wrong'), 'err_msg' => $th->getMessage()], 200);
         }
     }
     public function image_delete(Request $request)
@@ -213,7 +216,8 @@ class LeagueController extends Controller
             $image->delete();
             return response()->json(['status' => 1, 'message' => trans('messages.success')], 200);
         } catch (\Throwable $th) {
-            return response()->json(['status' => 0, 'message' => trans('messages.wrong')], 200);
+            Log::channel('leagues_logs')->error("=====> " . __FUNCTION__ . " error :- " . $th->getMessage() . " =====> At :- " . date('j F, Y | h:i A', strtotime(now())));
+            return response()->json(['status' => 0, 'message' => trans('messages.wrong'), 'err_msg' => $th->getMessage()], 200);
         }
     }
 }

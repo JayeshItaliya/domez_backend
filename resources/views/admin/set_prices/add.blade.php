@@ -50,7 +50,9 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label class="form-label">{{ trans('labels.select_sports') }}</label>
-                                    <select class="form-select" name="sport" id="sport"></select>
+                                    <select class="form-select" name="sport" id="sport">
+                                        <option value="" selected>{{ trans('labels.select') }}</option>
+                                    </select>
                                     @error('sport')
                                         <small class="text-danger">{{ $message }}</small>
                                     @enderror

@@ -121,7 +121,29 @@ return [
 
         'api' => [
             'driver' => 'single',
-            'path' => storage_path('logs/apis.log'),
+            'path' => storage_path('logs/custom/apis.log'),
+            'level' => 'debug',
+        ],
+
+        'domes_logs' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/custom/domes_logs.log'),
+            'level' => 'debug',
+        ],
+
+        'domes_setprice_logs' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/custom/domes_setprice_logs.log'),
+            'level' => 'debug',
+        ],
+        'bookings_logs' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/custom/bookings_logs.log'),
+            'level' => 'debug',
+        ],
+        'leagues_logs' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/custom/leagues_logs.log'),
             'level' => 'debug',
         ],
     ],

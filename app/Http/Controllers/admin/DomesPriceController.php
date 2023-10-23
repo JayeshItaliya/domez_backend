@@ -11,14 +11,15 @@ use App\Models\SetPricesDaysSlots;
 use App\Models\Sports;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Validator;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
 
 class DomesPriceController extends Controller
 {
     public function index(Request $request)
     {
-
         $getsetpriceslist = SetPrices::where('vendor_id', auth()->user()->type == 2 ? auth()->user()->id : auth()->user()->vendor_id)->where('price_type', 2)->orderByDesc('id')->get();
         return view('admin.set_prices.index', compact('getsetpriceslist'));
     }
@@ -77,9 +78,10 @@ class DomesPriceController extends Controller
                     }
                 }
             }
-            return redirect('admin/set-prices')->with('success', trans('messages.success'));
+            return response()->json(['status' => 1, 'message' => trans('messages.success'), 'url' => URL::to('admin/set-prices')], 200);
         } catch (\Throwable $th) {
-            return redirect()->back()->with('error', trans('messages.wrong'));
+            Log::channel('domes_setprice_logs')->error("=====> " . __FUNCTION__ . " error :- " . $th->getMessage() . " =====> At :- " . date('j F, Y | h:i A', strtotime(now())));
+            return response()->json(['status' => 0, 'message' => trans('messages.wrong'), 'err_msg' => $th->getMessage()], 200);
         }
     }
     public function getsportslist(Request $request)
@@ -96,7 +98,8 @@ class DomesPriceController extends Controller
             }
             return response()->json(['status' => 0, 'message' => trans('messages.invalid_dome')], 200);
         } catch (\Throwable $th) {
-            return response()->json(['status' => 0, 'message' => trans('messages.wrong')], 200);
+            Log::channel('domes_setprice_logs')->error("=====> " . __FUNCTION__ . " error :- " . $th->getMessage() . " =====> At :- " . date('j F, Y | h:i A', strtotime(now())));
+            return response()->json(['status' => 0, 'message' => trans('messages.wrong'), 'err_msg' => $th->getMessage()], 200);
         }
     }
     public function show(Request $request)
@@ -119,7 +122,7 @@ class DomesPriceController extends Controller
     {
         $getslotpricedata = SetPrices::findOrFail($request->id);
         $getdata = SetPricesDaysSlots::where('set_prices_id', $request->id)->groupBy('date')->get();
-        return view('admin.set_prices.edit', compact('getslotpricedata','getdata'));
+        return view('admin.set_prices.edit', compact('getslotpricedata', 'getdata'));
     }
     public function validate_start_end_time(Request $request)
     {
@@ -159,10 +162,10 @@ class DomesPriceController extends Controller
                         break;
                 }
             }
+            return response()->json(["status" => 1, "message" => trans('messages.success')], 200);
         } else {
             return response()->json(["status" => 0, "message" => trans('messages.invalid_dome')], 200);
         }
-        return response()->json(["status" => 1, "message" => trans('messages.success')], 200);
     }
     public function deletesetprice(Request $request)
     {
@@ -171,7 +174,8 @@ class DomesPriceController extends Controller
             SetPricesDaysSlots::where('set_prices_id', $request->id)->delete();
             return response()->json(['status' => 1, 'message' => trans('messages.success')], 200);
         } catch (\Throwable $th) {
-            return response()->json(['status' => 0, 'message' => trans('messages.wrong')], 200);
+            Log::channel('domes_setprice_logs')->error("=====> " . __FUNCTION__ . " error :- " . $th->getMessage() . " =====> At :- " . date('j F, Y | h:i A', strtotime(now())));
+            return response()->json(['status' => 0, 'message' => trans('messages.wrong'), 'err_msg' => $th->getMessage()], 200);
         }
     }
     public function updateslot(Request $request)
@@ -186,16 +190,18 @@ class DomesPriceController extends Controller
                 return response()->json(['status' => 0, 'message' => trans('messages.invalid_request')], 200);
             }
         } catch (\Throwable $th) {
-            return response()->json(['status' => 0, 'message' => trans('messages.wrong')], 200);
+            Log::channel('domes_setprice_logs')->error("=====> " . __FUNCTION__ . " error :- " . $th->getMessage() . " =====> At :- " . date('j F, Y | h:i A', strtotime(now())));
+            return response()->json(['status' => 0, 'message' => trans('messages.wrong'), 'err_msg' => $th->getMessage()], 200);
         }
     }
     public function deleteslot(Request $request)
     {
         try {
-            SetPricesDaysSlots::where('dome_id',$request->dome)->where('sport_id',$request->sport)->where('date',$request->date)->delete();
+            SetPricesDaysSlots::where('dome_id', $request->dome)->where('sport_id', $request->sport)->where('date', $request->date)->delete();
             return response()->json(['status' => 1, 'message' => trans('messages.success')], 200);
         } catch (\Throwable $th) {
-            return response()->json(['status' => 0, 'message' => trans('messages.wrong')], 200);
+            Log::channel('domes_setprice_logs')->error("=====> " . __FUNCTION__ . " error :- " . $th->getMessage() . " =====> At :- " . date('j F, Y | h:i A', strtotime(now())));
+            return response()->json(['status' => 0, 'message' => trans('messages.wrong'), 'err_msg' => $th->getMessage()], 200);
         }
     }
 }
