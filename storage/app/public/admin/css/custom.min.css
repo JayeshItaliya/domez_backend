@@ -323,10 +323,10 @@ form span.text-danger {
 }
 .auth-bg .auth-wrapper form .otp-input {
     display: flex;
-    gap: 15px;
+    gap: 10px;
 }
 .auth-bg .auth-wrapper form input.otp {
-    width: 90px;
+    /* width: 84px; */
     height: 38px;
     text-align: center;
 }

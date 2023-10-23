@@ -25,13 +25,12 @@
             <p>Email: <strong>{{ $email }}</strong></p>
             <p>Password: <strong>{{ $password }}</strong></p>
             <p>Thank you for choosing Domez. We look forward to continuing our partnership with you.</p>
+
+            <a style="display: inline-block; background-color: #000000; color: #ffffff !important; text-decoration: none; padding: 10px 20px; border-radius: 5px; margin-top: 20px;"
+                class="btn" href="{{ URL::to('login') }}">Login</a>
         @else
             <p>Thank you for your interest in Domez. We are pleased to inform you that your application has been accepted and we look forward to welcoming you to Domez.</p>
         @endif
-
-
-        <a style="display: inline-block; background-color: #000000; color: #ffffff !important; text-decoration: none; padding: 10px 20px; border-radius: 5px; margin-top: 20px;"
-            class="btn" href="{{ URL::to('login') }}">Login</a>
 
         <p style="font-size:0.9em;">Regards,<br />Domez Team</p>
     </div>
